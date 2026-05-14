@@ -1,0 +1,91 @@
+# intent_to_family.yaml
+# Brief intent → candidate chain families.
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+title: Brief intent → chain-family mapping
+description: CEO agent uses this to narrow chain selection from the 23 TF families down to a candidate subset before per-chain
+  scoring. Multi-intent briefs union the candidate sets.
+intents:
+  product_hero_launch:
+    primary_families:
+    - TF01
+    - TF02
+    - TF06
+    - TF21
+    secondary_families:
+    - TF03
+    - TF11
+    - TF22
+    notes: Static and motion product reveals; TF01 silhouette/hero, TF02 dynamic splash, TF06 studio reveal, TF21 launch motion.
+  lifestyle_storytelling:
+    primary_families:
+    - TF04
+    - TF13
+    - TF23
+    secondary_families:
+    - TF05
+    - TF09
+    notes: Environmental scenes (TF04, TF13) + Saudi cultural lifestyle scenes (TF23).
+  occasion_ramadan:
+    primary_families:
+    - TF16
+    - TF22
+    secondary_families:
+    - TF04
+    - TF23
+    notes: TF16 Iftar/occasion-specific, TF22 occasion motion. Sector overrides apply.
+  occasion_eid_or_national:
+    primary_families:
+    - TF16
+    - TF22
+    - TF23
+    secondary_families:
+    - TF04
+    notes: Occasion greeting + cultural lifestyle scenes. Heritage tier elevates TF23.
+  promotion_offer:
+    primary_families:
+    - TF15
+    - TF21
+    secondary_families:
+    - TF01
+    notes: Discount/offer chains; tone-aligned per brand DNA (no aggressive sales for premium brands).
+  brand_announcement_milestone:
+    primary_families:
+    - TF21
+    - TF22
+    secondary_families:
+    - TF06
+    - TF16
+    notes: Manifesto + announcement chains. CEO routes to human-gate for first-ever campaigns.
+  behind_the_scenes_authenticity:
+    primary_families:
+    - TF13
+    - TF23
+    secondary_families:
+    - TF04
+    - TF09
+    notes: BTS + cultural scenes. Authenticity Detective brain often wins on these.
+  crisis_response:
+    primary_families: []
+    secondary_families: []
+    notes: ALWAYS routes to human gate. CEO classifies and holds; no automatic chain.
+    force_human_gate: true
+  evergreen_brand_voice:
+    primary_families:
+    - TF01
+    - TF04
+    - TF23
+    secondary_families:
+    - TF06
+    - TF11
+    - TF13
+    notes: Default rotation when no specific intent or occasion drives the brief.
+provenance:
+  source: research_corpus_synthesis + chain_INDEX.json + agent_prompts/CEO
+  date_added: '2026-05-14T15:22:40Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

@@ -1,0 +1,53 @@
+# conflict_rules.yaml
+# Precedence ordering when rules conflict.
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+title: Conflict resolution — when rules contradict, who wins
+description: Deterministic precedence ordering when two or more rules point in different directions. CEO and CCO apply these
+  in order.
+precedence_order:
+- level: 1
+  name: universal_forbidden_lists
+  rationale: Hard-blocks are non-negotiable. No brand or sector override.
+- level: 2
+  name: saudi_compliance_rules
+  rationale: Saudi law and regulatory rules supersede brand preference.
+- level: 3
+  name: brand_explicit_rejection
+  rationale: Brand has explicitly forbidden a tone/visual/topic at onboarding or via correction — respect it.
+- level: 4
+  name: cultural_advisor_verdict
+  rationale: Human cultural reviewer's call beats automated heuristics.
+- level: 5
+  name: brand_fingerprint
+  rationale: Brand's chosen voice/visual/tone wins over sector default.
+- level: 6
+  name: occasion_active_overrides
+  rationale: Active occasion guidance overrides standard sector default.
+- level: 7
+  name: sector_baseline
+  rationale: Sector default is the fallback when no brand or occasion specific guidance applies.
+- level: 8
+  name: cd_brain_methodology
+  rationale: Within remaining latitude, the assigned CD brain's preferred constructions win.
+- level: 9
+  name: platform_default
+  rationale: Last-resort fallback to platform-wide defaults.
+conflict_examples:
+- scenario: Brand fingerprint says 'modern-permissive modesty' but occasion is Ramadan with strict register
+  resolution: Occasion override (level 6) wins for that period. Revert to brand default after occasion window closes.
+- scenario: CD brain suggests humor; brand's tone_anti_attribute_ids excludes humor
+  resolution: Brand explicit rejection (level 3) wins. CD brain works within remaining latitude.
+- scenario: Healthcare sector compliance vs. Paradox Hunter (CD-05) contrarian register
+  resolution: Sector compliance (level 5) + sector_safety_lock excludes CD-05 from healthcare routing entirely (set in cd_brain_router_rules.yaml).
+- scenario: Cultural Advisor approves a brave-route caption; CCO scored it 55 (soft hold)
+  resolution: Cultural Advisor verdict (level 4) overrides CCO score; content publishes with verdict logged.
+provenance:
+  source: research_corpus_synthesis + ADRs + agent prompts
+  date_added: '2026-05-14T15:22:40Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

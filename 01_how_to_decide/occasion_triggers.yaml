@@ -1,0 +1,77 @@
+# occasion_triggers.yaml
+# Occasion auto-triggers and chain boosts/demotions.
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+title: Occasion auto-triggers — which chains fire when
+description: CEO agent reads this when an occasion is active. Each occasion may elevate certain chains AND force-include others
+  regardless of brand preference (e.g. occasion greeting for the 5 major occasions).
+occasions:
+  ramadan:
+    force_include_chains:
+    - tf16_01
+    - tf22_01
+    boost_chains:
+      tf04_02: 1.3
+      tf23_09: 1.25
+      tf16_02: 1.2
+      tf22_04: 1.2
+      tf12_03: 1.15
+    demote_chains_below: 0.4
+    demote_reason: Aggressive promotional chains discouraged in weeks 1-2
+    demote_chain_ids:
+    - tf15_*
+    active_window_days_before: 21
+    active_window_days_after: 0
+  eid_al_fitr:
+    force_include_chains:
+    - tf16_02
+    boost_chains:
+      tf22_04: 1.2
+      tf22_05: 1.15
+      tf21_02: 1.15
+      tf23_09: 1.15
+      tf04_03: 1.1
+    active_window_days_before: 14
+    active_window_days_after: 3
+  eid_al_adha:
+    force_include_chains:
+    - tf16_02
+    boost_chains:
+      tf22_04: 1.15
+      tf04_02: 1.15
+      tf23_09: 1.1
+      tf23_10: 1.15
+    blackout_sectors:
+    - entertainment
+    active_window_days_before: 14
+    active_window_days_after: 4
+  saudi_national_day:
+    force_include_chains:
+    - tf16_02
+    - tf22_04
+    boost_chains:
+      tf23_10: 1.3
+      tf23_08: 1.2
+      tf21_02: 1.15
+      tf22_05: 1.15
+    active_window_days_before: 21
+    active_window_days_after: 1
+  saudi_founding_day:
+    force_include_chains:
+    - tf16_02
+    - tf22_04
+    boost_chains:
+      tf23_10: 1.35
+      tf04_05: 1.2
+      tf06_03: 1.15
+    active_window_days_before: 14
+    active_window_days_after: 1
+provenance:
+  source: 06_saudi_calendar/*.yaml + chain INDEX
+  date_added: '2026-05-14T15:22:40Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

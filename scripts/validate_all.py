@@ -39,6 +39,9 @@ FOLDER_TO_SCHEMA: dict[str, tuple[str, str | None, str]] = {
     # Day 3 cultural specs are added below when written:
     "15_cultural_specs":  ("sector_defaults/*.yaml", "cultural_spec_v1.schema.json", "yaml"),
     "15_cultural_specs/forbidden_lists":  ("*.yaml",  None,                          "yaml"),
+    "11_who_to_learn_from/accounts":      ("**/*.json", "benchmark_account_v1.schema.json", "json"),
+    "11_who_to_learn_from/patterns":      ("**/*.json", "account_pattern_v1.schema.json",   "json"),
+    "01_how_to_decide":                   ("*.yaml",  None,                          "yaml"),
 }
 
 

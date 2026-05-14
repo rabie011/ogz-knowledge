@@ -13,12 +13,7 @@ This repository uses semantic versioning at the **knowledge-base level**:
 
 ---
 
-## [Unreleased — Day 4 onward]
-
-### Planned — Day 4 (Brand Fingerprint + Routing + Benchmarks)
-- `14_brand_fingerprint/`: 6-layer specs + intake forms + distinctiveness scoring
-- `01_how_to_decide/`: 6 routing YAMLs
-- `11_who_to_learn_from/`: ~100 benchmark accounts + ~300 patterns
+## [Unreleased — Day 5]
 
 ### Planned — Day 5 (Archive + Org + Database + Ops)
 - `21_campaign_archive/`: 38 anonymized campaign records
@@ -38,6 +33,56 @@ This repository uses semantic versioning at the **knowledge-base level**:
 - 6 craft-role agent prompts (Copywriter, Art Director, Cinematographer, Producer, Editor, Strategist)
 - Stage 2 routing logic
 - Cross-brand pattern anonymization rules
+
+---
+
+## [v1.0.0-day4] — 2026-05-14 — Brand Fingerprint + Routing + Benchmarks
+
+### Added
+
+**Brand Fingerprint (`14_brand_fingerprint/`)** — 13 spec docs across 6 layers + onboarding + distinctiveness:
+- 5 layer specs (Strategy / Voice / Visual / Cinematography / Look & Feel / Production)
+- 2 voice companion docs (per-sector examples + color extension rules)
+- 4 enhanced-onboarding docs (Pipeline A 15-Q + Pipeline B 60-Q + flows for each)
+- 2 distinctiveness-scoring docs (score spec + anti-convergence monitor)
+- `README.md` — folder index
+
+**Routing (`01_how_to_decide/`)** — 6 YAML configs:
+- `intent_to_family.yaml` — brief intent → candidate TF chain families
+- `sector_to_chains.yaml` — per-sector chain eligibility (references sector baselines)
+- `occasion_triggers.yaml` — occasion auto-fires + boosts/demotions + blackout sectors
+- `compliance_gates.yaml` — which CCO checks run per chain × sector × brand
+- `quality_tier_map.yaml` — tier → chain access + human review level
+- `conflict_rules.yaml` — precedence when rules contradict
+- `README.md`
+
+**Benchmarks (`11_who_to_learn_from/`)** — 149 files:
+- `accounts/f_and_b/` — 37 anonymized accounts (handles → `OGZ-F-AND-B-Reference-NNN`)
+- `accounts/retail/` — 40 anonymized accounts
+- `accounts/beauty/` — 31 anonymized accounts
+- `patterns/visual_compositions/` — 10 patterns
+- `patterns/voice_techniques/` — 10 patterns
+- `patterns/content_types/` — 10 patterns
+- `patterns/occasion_plays/` — 10 patterns
+- `INDEX.json` — full lookup
+- `README.md`
+
+**Generator scripts (`scripts/`)** — saved for reproducibility:
+- `generate_routing.py`
+- `generate_brand_fingerprint.py`
+- `generate_benchmarks.py`
+- `validate_all.py` extended with 4 new folder mappings (`01_how_to_decide`, `11_who_to_learn_from/accounts`, `11_who_to_learn_from/patterns`, `15_cultural_specs/forbidden_lists`)
+
+### Validation
+
+`validate_all.py` → **275/275 records valid** across all Days 1–4.
+
+### Notes
+
+- **Pattern count: 40, not 300.** The original target of ~300 was aspirational. Honest delivery is 40 substantive cross-account patterns (10 per category × 4 categories) — quality over count per Mohamed's "do not cut corners." Expand in v1.1.0 as real-brand operations surface additional patterns.
+- All benchmark accounts marked `confidence: experimental` pending Cultural Advisor validation.
+- Account handles anonymized to category codes (`OGZ-<SECTOR>-Reference-NNN`) for system-design discipline. Internal handles preserved in `account_handle_internal` (never client-surfaced).
+- All routing YAMLs are short configs without dedicated schemas; provenance enforced.
 
 ---
 

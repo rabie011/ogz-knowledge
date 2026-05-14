@@ -1,0 +1,38 @@
+# sector_to_chains.yaml
+# Per-sector chain eligibility (refers to sector baselines).
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+title: Sector → recommended-chain scoring
+description: Per-sector chain eligibility derived from chain `sectors_allowed` and sector-baseline `default_eligible_chains`.
+  CEO scoring multiplies these with brand fingerprint cd_routing_weights and brain.sector_affinity.
+sectors:
+  f_and_b:
+    baseline_file: 05_sector_defaults/f_and_b.yaml
+    see: default_eligible_chains in sector baseline
+  retail:
+    baseline_file: 05_sector_defaults/retail.yaml
+    see: default_eligible_chains in sector baseline
+  beauty:
+    baseline_file: 05_sector_defaults/beauty.yaml
+    see: default_eligible_chains in sector baseline
+  real_estate:
+    baseline_file: 05_sector_defaults/real_estate.yaml
+    see: default_eligible_chains in sector baseline
+  healthcare_wellness:
+    baseline_file: 05_sector_defaults/healthcare_wellness.yaml
+    see: default_eligible_chains in sector baseline
+scoring_rules:
+- Each chain has `sectors_allowed` (wildcard '*' or specific sector slugs) — chains with non-matching `sectors_allowed` are
+  excluded.
+- Eligible chains are scored by the sector baseline's `default_eligible_chains` (0–1).
+- Brand can override sector-baseline weights at onboarding; per-brand overrides win.
+- 'Cost: `cost_estimate_usd` factors into Starter-tier filtering (CEO cost-gate may exclude expensive chains for Starter).'
+provenance:
+  source: 02_what_to_build/INDEX.json + 05_sector_defaults/*.yaml
+  date_added: '2026-05-14T15:22:40Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

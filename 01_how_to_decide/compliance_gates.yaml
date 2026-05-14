@@ -1,0 +1,75 @@
+# compliance_gates.yaml
+# Which compliance checks run per chain × sector × brand.
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+title: Compliance gates — which checks run per chain × sector × brand
+description: 'CCO and CEO agents read this to decide which gates evaluate each piece of generated content. Gates compose:
+  a chain × sector × brand combination may trigger multiple gates.'
+gates:
+  universal_forbidden_lists:
+    applies_to: all chains, all sectors, all brands
+    checks:
+    - gestures
+    - props
+    - behaviors
+    - visuals
+    source_files:
+    - 15_cultural_specs/forbidden_lists/universal_gestures_forbidden.yaml
+    - 15_cultural_specs/forbidden_lists/universal_props_forbidden.yaml
+    - 15_cultural_specs/forbidden_lists/universal_behaviors_forbidden.yaml
+    - 15_cultural_specs/forbidden_lists/universal_visuals_forbidden.yaml
+    violation_outcome: HARD_BLOCK; score floored to 0
+  arabic_quality:
+    applies_to: every caption-bearing chain
+    checks:
+    - dialect_match
+    - translation_smell
+    - ligature_correctness
+    - register
+    source_files:
+    - 04_saudi_rules/arabic_text_rules.yaml
+    violation_outcome: Score reduced; severe issues flag for human review
+  gender_rules:
+    applies_to: all chains depicting humans
+    checks:
+    - mixed_gender_rule_per_brand
+    - modesty_threshold
+    - cross_gender_distance
+    source_files:
+    - 04_saudi_rules/gender_rules.yaml
+    - 15_cultural_specs/sector_defaults/*.yaml
+    violation_outcome: soft_flag → human review; hard violation → HARD_BLOCK
+  occasion_alignment:
+    applies_to: content scheduled during occasion active windows
+    checks:
+    - content_dos compliance
+    - content_donts violations
+    - anti_pattern_warnings
+    source_files:
+    - 06_saudi_calendar/*.yaml
+    violation_outcome: soft_flag with rewrite suggestion
+  sector_specific_compliance:
+    applies_to: by sector
+    by_sector:
+      healthcare_wellness: SFDA / MoH health-claim verification; no patient identifiers; PDPL strict
+      real_estate: no guaranteed-return language; no unverifiable comparisons; no race/nationality-targeted pricing
+      f_and_b: no alcohol/pork; no misleading health claims; halal-status accuracy
+      retail: no false pricing claims; no exaggerated discount language; competitor-name exclusion
+      beauty: no medical/treatment claims; no skin-tone hierarchy; no weight-loss timelines
+    violation_outcome: STRONG_WARN to HARD_BLOCK depending on severity
+  saudi_flag_rule:
+    applies_to: any content using Saudi flag
+    checks:
+    - upright orientation
+    - no overlay on faces or disposables
+    - respect of shahada
+    violation_outcome: HARD_BLOCK
+provenance:
+  source: research_corpus_synthesis + 04_saudi_rules + 15_cultural_specs + agent prompts
+  date_added: '2026-05-14T15:22:40Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

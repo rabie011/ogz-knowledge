@@ -1,0 +1,48 @@
+# quality_tier_map.yaml
+# Pricing tier → chain access + human review level.
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+title: Pricing tier → access map
+description: Tier-based access to chains, frequency, human review, and quality floors. CEO checks this at routing time.
+tiers:
+  starter:
+    monthly_posts_default: 8
+    chains_allowed_count_max: 12
+    chains_allowed_quality_filter: quality_tiers_allowed contains 'starter'
+    chains_excluded_pattern_filter: cost_estimate_usd > 0.07 (cost-gate)
+    human_review: first-ever campaign only; subsequent auto-approve if confidence ≥ 75
+    watermark_required_below_confidence: 75
+    cultural_advisor_review: spot-check 1 in 20 posts
+    confidence_floor_min: 0.6
+    monthly_price_sar_default: 2500
+    characterization: Self-service automated content for Saudi SMEs
+  growth:
+    monthly_posts_default: 20
+    chains_allowed_count_max: 25
+    chains_allowed_quality_filter: quality_tiers_allowed contains 'growth' OR 'starter'
+    human_review: first campaign + monthly hero post; otherwise auto-approve if confidence ≥ 75
+    watermark_required_below_confidence: 75
+    cultural_advisor_review: all hero content + religious occasion content
+    confidence_floor_min: 0.65
+    strategist_involved: true
+    characterization: Managed services for growing Saudi brands
+  enterprise:
+    monthly_posts_default: 40
+    chains_allowed_count_max: all 88
+    chains_allowed_quality_filter: all
+    human_review: all hero content; auto-approve only standard cadence
+    watermark_required_below_confidence: 50
+    cultural_advisor_review: all content; CD lead involved in monthly planning
+    confidence_floor_min: 0.7
+    strategist_involved: true
+    cd_lead_involved: true
+    characterization: AI-C-Suite managed services for larger Saudi brands and government
+provenance:
+  source: research_corpus/OGzAI_Business_Model_V5_Final.docx + agent prompts
+  date_added: '2026-05-14T15:22:40Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

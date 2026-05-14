@@ -27,16 +27,18 @@ def build_registry() -> Registry:
 
 
 # folder_path → (glob_pattern, schema_filename_or_None, format)
-#   format: 'json' or 'yaml'
+#   format: 'json' / 'yaml' / 'md_frontmatter'
 #   schema_filename of None = no formal schema; we run a lightweight provenance check instead
 FOLDER_TO_SCHEMA: dict[str, tuple[str, str | None, str]] = {
     "02_what_to_build":   ("tf*.json", "chain_v1.schema.json",           "json"),
     "05_sector_defaults": ("*.yaml",   "sector_baseline_v1.schema.json", "yaml"),
     "06_saudi_calendar":  ("*.yaml",   "occasion_v1.schema.json",        "yaml"),
     "04_saudi_rules":     ("*.yaml",   None,                             "yaml"),
-    # Day 3+ folders will be added when files exist:
-    # "20_cd_brains":       ("cd_*.md",  "cd_brain_v1.schema.json",      "md_frontmatter"),
-    # "15_cultural_specs":  ("*.yaml",   "cultural_spec_v1.schema.json", "yaml"),
+    "10_agent_brains":    ("*.yaml",   None,                             "yaml"),
+    "20_cd_brains":       ("cd_0*.md", "cd_brain_v1.schema.json",        "md_frontmatter"),
+    # Day 3 cultural specs are added below when written:
+    "15_cultural_specs":  ("sector_defaults/*.yaml", "cultural_spec_v1.schema.json", "yaml"),
+    "15_cultural_specs/forbidden_lists":  ("*.yaml",  None,                          "yaml"),
 }
 
 
@@ -48,6 +50,14 @@ def load_record(path: Path, fmt: str):
     elif fmt == "yaml":
         with open(path) as f:
             data = yaml.safe_load(f)
+    elif fmt == "md_frontmatter":
+        text = path.read_text()
+        if not text.startswith("---\n"):
+            raise ValueError(f"missing YAML front-matter (no leading '---')")
+        end = text.find("\n---\n", 4)
+        if end < 0:
+            raise ValueError("unterminated YAML front-matter (no closing '---')")
+        data = yaml.safe_load(text[4:end])
     else:
         raise ValueError(f"unsupported format: {fmt}")
     if isinstance(data, dict):

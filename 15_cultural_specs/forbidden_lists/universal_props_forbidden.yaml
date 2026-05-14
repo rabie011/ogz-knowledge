@@ -1,0 +1,54 @@
+# universal_props_forbidden.yaml
+# Universal hard-block list — read by CCO agent at QC time.
+# Enforcement: hard_block
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+list_kind: props
+enforcement_level: hard_block
+title: Universal forbidden props — never appear in any branded content
+rationale: These props are religiously, legally, or tonally incompatible with any Saudi branded content. Hard-block at generation
+  time.
+entries:
+- id: 01KRKH1N30DJFV5Q4Y3GWZJ9FY
+  name: alcohol_product
+  description: Alcohol product imagery (any brand, any visibility level).
+  severity: severe
+  rationale: Prohibited under Saudi law; brand association invalidates campaign.
+  detection_hints:
+  - bottle silhouettes, glasses with amber liquid in social contexts
+- id: 01KRKH1N30DJFV5Q4Y3GWZJ9FZ
+  name: pork_product
+  description: Pork product imagery — bacon, ham, pork chops, etc.
+  severity: severe
+  rationale: Religiously prohibited; brand association invalidates campaign.
+  detection_hints:
+  - meat in F&B context — verify category
+- id: 01KRKH1N30DJFV5Q4Y3GWZJ9G0
+  name: gambling_imagery
+  description: Gambling references — casino chips, dice, playing-card suits used in betting context, slot machines.
+  severity: severe
+  rationale: Religiously prohibited.
+  detection_hints: []
+- id: 01KRKH1N30DJFV5Q4Y3GWZJ9G1
+  name: other_faith_religious_symbols
+  description: Religious symbols of other faiths used decoratively (cross, star of David, Buddha statue, etc.).
+  severity: moderate
+  rationale: Tonally wrong; reads as either disrespect to the symbol or proselytism.
+  detection_hints:
+  - decoration in interior scenes
+- id: 01KRKH1N30DJFV5Q4Y3GWZJ9G2
+  name: quranic_overlay_commercial
+  description: Quranic verses overlaid on commercial / promotional imagery.
+  severity: severe
+  rationale: Religious-text reverence violated by commercial frame.
+  detection_hints:
+  - typography over product shots
+provenance:
+  source: research_corpus/CCO_Environment_v2.docx + Saudi_cultural_knowledge + universal_compliance
+  date_added: '2026-05-14T15:17:54Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

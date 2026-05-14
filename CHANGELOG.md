@@ -13,12 +13,7 @@ This repository uses semantic versioning at the **knowledge-base level**:
 
 ---
 
-## [Unreleased — Day 3 onward]
-
-### Planned — Day 3 (Agents + CD Brains + Cultural Specs)
-- `10_agent_brains/`: 3 system prompts (CEO, COO, CCO) + CD-brain router rules
-- `20_cd_brains/`: 5 CD-brain methodologies restructured from research corpus + router
-- `15_cultural_specs/`: 8 sector-default cultural specs + 4 forbidden lists + advisor playbook
+## [Unreleased — Day 4 onward]
 
 ### Planned — Day 4 (Brand Fingerprint + Routing + Benchmarks)
 - `14_brand_fingerprint/`: 6-layer specs + intake forms + distinctiveness scoring
@@ -43,6 +38,68 @@ This repository uses semantic versioning at the **knowledge-base level**:
 - 6 craft-role agent prompts (Copywriter, Art Director, Cinematographer, Producer, Editor, Strategist)
 - Stage 2 routing logic
 - Cross-brand pattern anonymization rules
+
+---
+
+## [v1.0.0-day3] — 2026-05-14 — Agents + CD Brains + Cultural Specs
+
+### Added
+
+**Agent Prompts (`10_agent_brains/`)** — verbatim corpus bodies with YAML front-matter, IP-preserved:
+- `ceo_system_prompt_v1.md` — Claude Sonnet 4.6 · 8-step routing protocol · 11 human-gate triggers · JSON-only output
+- `coo_system_prompt_v1.md` — Claude Haiku 4.5 · 3 jobs (build_branddna / compile_caption_context / score_confidence) · confidence formula 0.40/0.30/0.15/0.15
+- `cco_system_prompt_v1.md` — GPT-5 · Arabic QC gate · per-post 0–100 score + dialect/negpat/cultural/brave flags
+- `cd_brain_router_rules.yaml` — deterministic CD-brain routing logic (Two-CD Diagnostic gate, occasion overrides, sector safety locks)
+- `README.md` — folder index + cross-references
+
+**CD Brains (`20_cd_brains/`)** — 5 methodology profiles restructured from research corpus, anonymized:
+- `cd_01_firaasa_architect.md` — Why-Before-What cultural-contract diagnosis
+- `cd_02_metaphor_architect.md` — System-to-Human full metaphor architecture
+- `cd_03_authenticity_detective.md` — Performance/Reality two-scene contrast (parallel-original bilingual)
+- `cd_04_heritage_decoder.md` — Classical-Arabic Inversion via double-meaning word
+- `cd_05_paradox_hunter.md` — Counterintuitive flip + Product-as-Mechanism
+- `cd_router.md` — narrative companion to `cd_brain_router_rules.yaml`
+- `README.md` — folder index + voice anchors
+
+All 5 brains validate against `cd_brain_v1.schema.json`. All marked `confidence: experimental`, `status: seed_v1`. Human names from corpus replaced with methodology codenames; "Habbar" replaced with `{PLATFORM_NAME}` placeholder; client names anonymized to category labels (stc → telecom-flagship-A, etc.).
+
+**Cultural Specs (`15_cultural_specs/`)** — the moat layer:
+- `sector_defaults/` — 8 YAMLs validating against the 80-field `cultural_spec_v1.schema.json`:
+  - F&B: Najdi + Hejazi
+  - Retail: modern + heritage
+  - Beauty: modern + heritage
+  - Real Estate: modern Najdi
+  - Healthcare: modern
+- `forbidden_lists/` — 4 universal hard-block YAMLs (gestures · props · behaviors · visuals)
+- `advisor_playbook/` — 3 markdown docs (README · escalation procedures · review checklist)
+- `README.md` — folder index + 80-field category map
+
+All marked `confidence: experimental` pending Cultural Advisor review.
+
+**Generator scripts (`scripts/`)** — saved for reproducibility:
+- `generate_agent_prompts.py`
+- `generate_cd_brains.py` (with anonymization regex table)
+- `generate_cultural_specs.py` (base spec + overlay pattern)
+- `validate_all.py` — extended with `md_frontmatter` format + 4 new folder mappings
+
+### Validation
+
+`validate_all.py` → **121/121 records valid** across all Days 1–3:
+- 88 chains
+- 5 sector baselines
+- 5 Saudi occasions
+- 5 Saudi rules
+- 1 CD-brain router rules YAML
+- 5 CD-brain methodology MDs (front-matter)
+- 8 cultural-spec sector defaults (80 fields each)
+- 4 universal forbidden lists
+
+### Notes
+
+- Agent prompt bodies are intellectual property — preserved verbatim from corpus. Only YAML front-matter was added.
+- CD-brain methodology content is preserved (diagnostic question, signature technique, anti-patterns, voice register, sector/occasion affinity, inversion test). Biographical and Cluster-portfolio sections were stripped per the anonymization rules.
+- Cultural specs cover the most common Saudi sector × region combinations. Eastern Province and Southern (Asiri) regions are NOT yet specced — planned for v1.1.0.
+- Forbidden lists are universal; brand-specific NegativePatterns layer on top.
 
 ---
 

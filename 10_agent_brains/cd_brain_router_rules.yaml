@@ -1,0 +1,118 @@
+# cd_brain_router_rules.yaml
+# Deterministic routing rules — read by CD-Brain Router (not an LLM).
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+title: CD-Brain Router Rules
+owner_agent: CD-Brain Router (deterministic, not LLM)
+description: Selects 1 or 2 CD-brain methodologies per brief. Reads the brand's cd_routing_weights from brand_fingerprint.l1_strategy
+  plus the brief's sector and occasion, scores each of the 5 brains, and returns primary (and optional secondary for the Two-CD
+  Diagnostic anti-sameness gate).
+input_contract:
+  brief:
+    brand_id: ULID — brand whose fingerprint feeds the routing weights
+    sector_slug: one of the slugs in 05_sector_defaults/
+    occasion_slugs: 0..N slugs from 06_saudi_calendar/ (empty list = no occasion)
+    request_type: see ceo_system_prompt_v1.md request_type enum
+  brand_fingerprint:
+    l1_strategy.cd_routing_weights: object with cd_01..cd_05 weights summing to 1.0
+    l1_strategy.primary_cd_brain: optional brand lock (cd_0X slug) — wins all ties
+scoring_formula:
+  definition: score(brain) = cd_routing_weights[brain] × brain.sector_affinity[sector_slug] × occasion_factor(brain, occasion_slugs)
+  occasion_factor_rule: 'if occasion_slugs is empty: 1.0. else: max(brain.occasion_affinity[slug] for slug in occasion_slugs).
+    missing affinity entries default to 0.5 (neutral).'
+  tie_break_priority:
+  - 1. brand_fingerprint.l1_strategy.primary_cd_brain wins all ties
+  - 2. higher cd_routing_weights value wins
+  - 3. lower cd_brain_slug alphabetical wins (cd_01 < cd_02 < ...)
+selection_rules:
+  primary_selection: highest-scoring brain becomes primary
+  two_cd_diagnostic_gate:
+    trigger: second-highest score is within 0.15 of the primary score
+    behavior: include both brains as 'two-cd diagnostic'. The brief generates two parallel direction candidates; brand-side
+      strategist or human reviewer picks the stronger.
+    rationale: Anti-sameness — prevents the formula from collapsing into one default brain that overfits a sector.
+  minimum_score_floor:
+    threshold: 0.1
+    behavior: if no brain scores above 0.10, route to human review with reason 'cd_routing_no_signal'. Brief is likely under-specified.
+occasion_overrides:
+  ramadan:
+    boost_brains:
+    - cd_03_authenticity_detective
+    - cd_04_heritage_decoder
+    boost_factor: 1.2
+    reason: Authenticity + heritage register lands hardest in Ramadan content.
+  eid_al_fitr:
+    boost_brains:
+    - cd_01_firaasa_architect
+    - cd_03_authenticity_detective
+    boost_factor: 1.15
+    reason: Eid joy is communal and family-rooted — Firaasa (cultural insight) + Authenticity fit.
+  eid_al_adha:
+    boost_brains:
+    - cd_04_heritage_decoder
+    - cd_03_authenticity_detective
+    boost_factor: 1.15
+    reason: Reverent, family-hospitality register favors heritage + authenticity.
+  saudi_national_day:
+    boost_brains:
+    - cd_04_heritage_decoder
+    - cd_02_metaphor_architect
+    boost_factor: 1.2
+    reason: National pride wants heritage anchoring AND fresh metaphor — both, together.
+  saudi_founding_day:
+    boost_brains:
+    - cd_04_heritage_decoder
+    boost_factor: 1.3
+    reason: Founding Day is heritage-deep; the Heritage Decoder leads strongly.
+sector_safety_locks:
+  healthcare_wellness:
+    forbidden_brains:
+    - cd_05_paradox_hunter
+    reason: Paradox + contrarian register is wrong tonal posture for healthcare credibility.
+  real_estate:
+    forbidden_brains: []
+    preferred_brains:
+    - cd_01_firaasa_architect
+    - cd_04_heritage_decoder
+output_contract:
+  primary: cd_0X slug
+  secondary: cd_0Y slug or null
+  two_cd_diagnostic: boolean
+  scores_by_brain: object cd_0X → numeric score (for audit trail)
+  trigger_reason: string explaining why this combination was chosen
+  occasion_overrides_applied: array of occasion slugs that boosted the result
+examples:
+- scenario: F&B Ramadan campaign for a heritage-anchored Riyadh brand
+  input:
+    sector_slug: f_and_b
+    occasion_slugs:
+    - ramadan
+    cd_routing_weights:
+      cd_01: 0.3
+      cd_02: 0.1
+      cd_03: 0.3
+      cd_04: 0.25
+      cd_05: 0.05
+  expected_primary: cd_03_authenticity_detective
+  expected_secondary: cd_04_heritage_decoder (Two-CD Diagnostic likely fires)
+- scenario: Retail launch for a Vision-2030 modern brand
+  input:
+    sector_slug: retail
+    occasion_slugs: []
+    cd_routing_weights:
+      cd_01: 0.2
+      cd_02: 0.3
+      cd_03: 0.15
+      cd_04: 0.1
+      cd_05: 0.25
+  expected_primary: cd_02_metaphor_architect
+  expected_secondary: cd_05_paradox_hunter (within 0.15 — Two-CD Diagnostic fires)
+provenance:
+  source: spec:MASTER_PROMPT_FOR_CLAUDE_CODE.md§3.2 + cd_brain_v1.schema.json + occasion files
+  date_added: '2026-05-14T15:08:26Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

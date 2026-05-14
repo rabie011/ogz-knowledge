@@ -1,0 +1,53 @@
+# universal_visuals_forbidden.yaml
+# Universal hard-block list — read by CCO agent at QC time.
+# Enforcement: hard_block
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+list_kind: visuals
+enforcement_level: hard_block
+title: Universal forbidden visuals — never composed in any branded content
+rationale: These visuals carry political, religious, or sovereignty-sensitive weight that cannot be navigated at the generation
+  layer alone. Hard-block at generation time.
+entries:
+- id: 01KRKH1N32556H57SCDK12N6G2
+  name: saudi_flag_misuse
+  description: Saudi flag used as disposable decoration, on disposable items, upside-down, overlaid on faces, or in any disrespectful
+    framing.
+  severity: severe
+  rationale: Flag carries the Quranic shahada; misuse is legally and culturally severe.
+  detection_hints:
+  - flag placement audit on all national-day content
+- id: 01KRKH1N32556H57SCDK12N6G3
+  name: political_imagery_competitive
+  description: Imagery competitively contrasting with neighbouring states (flags, leaders, territories).
+  severity: severe
+  rationale: Diplomatic risk; brand exposure to political-positioning controversy.
+  detection_hints: []
+- id: 01KRKH1N32556H57SCDK12N6G4
+  name: sectarian_iconography
+  description: Sectarian or denominational religious iconography in commercial framing.
+  severity: severe
+  rationale: Sects represent religious sensitivity in pluralistic Saudi audience.
+  detection_hints: []
+- id: 01KRKH1N32556H57SCDK12N6G5
+  name: kaaba_or_mecca_as_backdrop
+  description: Kaaba, Mecca crowds, or Hajj imagery used as commercial backdrop for non-Hajj brand.
+  severity: severe
+  rationale: Reverent contexts, not stages.
+  detection_hints:
+  - Hajj-period content QC
+- id: 01KRKH1N32556H57SCDK12N6G6
+  name: named_historical_royal_unauthorized
+  description: Named historical royal figures depicted without official endorsement.
+  severity: moderate
+  rationale: Sovereignty-sensitive; requires explicit clearance.
+  detection_hints: []
+provenance:
+  source: research_corpus/CCO_Environment_v2.docx + Saudi_cultural_knowledge + universal_compliance
+  date_added: '2026-05-14T15:17:54Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

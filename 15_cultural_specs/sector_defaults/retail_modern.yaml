@@ -1,0 +1,180 @@
+# retail_modern.yaml
+# Schema: 12_data_shapes/cultural_spec_v1.schema.json (80 fields)
+# Confidence: experimental — Cultural Advisor review required before production
+# Scope: sector:retail+region:retail_modern
+
+---
+cultural_spec_ulid: 01KRKH1N298M65654XVY35X8KR
+schema_version: 1
+scope_label: Retail sector — modern (Vision 2030 contemporary) default
+characters:
+  ethnic_regional_look: general-saudi
+  age_distribution:
+    child: 0.1
+    teen: 0.1
+    young_adult: 0.35
+    mid_age: 0.35
+    elder: 0.1
+  gender_presentation_rule: single-gender-per-scene
+  face_visibility_women_rule: contextual
+  hijab_style_preference: contextual
+  mixed_gender_scene_rule: family-only-mixing
+  class_signaling: youth-aspirational
+  talent_consistency_model: rotating-core-cast
+  facial_features_archetype: natural Saudi features, lightly directed
+  expression_default: confident, casual, contemporary
+wardrobe:
+  mens_traditional_cut: modern-tapered
+  mens_thobe_color: white default; navy/cream for formal evening
+  mens_thobe_collar: button-cleric
+  mens_head_covering_color: white shemagh or red-white for traditional context
+  mens_head_covering_style: free-flowing
+  mens_outer_layering: contextual
+  womens_abaya_style: modern-fitted
+  womens_abaya_color: black default; navy or muted earth tones acceptable
+  womens_embroidery_level: subtle
+  womens_head_covering_type: contextual
+  children_wardrobe_register: casual contemporary with traditional accessories on occasions
+  cultural_mixing_rule: modern-with-heritage-cues
+body_language:
+  sitting_position_default: seated upright on majlis cushions or modern furniture; never with crossed-leg-showing-sole
+  sitting_positions_allowed:
+  - upright on cushion
+  - legs tucked
+  - chair-seated upright
+  standing_posture_default: shoulders square, weight even, hands at sides or holding objects with right hand
+  walking_style_default: measured, unhurried, dignified
+  greeting_forms_allowed:
+  - handshake (same gender)
+  - shoulder touch (same gender, close acquaintance)
+  - hand-on-heart (cross-gender, mahram-distance)
+  - verbal-only greeting with slight bow (cross-gender, strangers/professional)
+  eye_contact_rule: respectful sustained with same-gender; brief and respectful cross-gender; downward with elders during
+    direct correction
+  cross_gender_distance_rule: professional distance minimum 50cm; family contexts allow less
+  physical_contact_same_gender_rule: warm and natural — shoulder touches, hand-holding-while-walking culturally normal
+gestures:
+  forbidden_universal_list:
+  - left-hand serving food, drink, or gifts
+  - palm-up-and-curling beckoning gesture (Western style)
+  - pointing index finger directly at a person
+  - soles of feet visible toward another person
+  - shoes placed on or above seating surfaces
+  - thumbs-up directed at religious or elder figures
+  - the Western 'OK' circle gesture (offensive in some Gulf contexts)
+  brand_allowed_list: []
+  greeting_gestures_default: right hand to heart, then slight bow head
+  hospitality_gestures_signature:
+  - right-hand offer of coffee dallah
+  - open-palm gesture inviting to sit
+  - right-hand placement of dates
+  authority_gestures_for_elders:
+  - slight bow head
+  - hand placed on elder's hand briefly
+  - stepping aside to let elder enter first
+  counting_convention_starts_with_little_finger: true
+  beckoning_convention: palm-down-fingers-clawing
+  emotional_expression_repertoire:
+  - restrained warmth
+  - smile-with-eyes
+  - hand on heart for sincere acknowledgement
+  patience_gesture_thumb_forefinger_middle: true
+  prayer_gesture_visibility_rule: shown only when authentic and respectful; never as performative backdrop
+settings_architecture:
+  primary_regional_architecture: modern-riyadh
+  secondary_architectures_allowed:
+  - vision-2030-futurism
+  modern_vs_heritage_ratio: 90:10 modern
+  specific_motifs_allowed:
+  - palm trees
+  - Najd mud-brick arches
+  - rawasheen wooden lattice (Hijaz)
+  - contemporary glass-and-steel skyline
+  material_palette:
+  - clean concrete
+  - brushed metal
+  - pale timber
+  - matte glass
+  interior_setting_default: minimal retail floor — natural light, neutral palette, hero product staging
+  urban_vs_rural_orientation: urban-primary
+  desert_scenes_allowed: true
+  religious_setting_treatment: off-camera-implied
+  cityscape_visibility_rule: Riyadh modern skyline acceptable; never used as casual backdrop for unrelated content
+props_objects:
+  coffee_service_props:
+  - traditional dallah (coffee pot)
+  - fenjan cups (small handle-less)
+  - saucer-tray for serving
+  tea_service_props:
+  - istikana glasses
+  - shaped tea pot (often gold-rim)
+  - small wooden tray
+  date_variety_preference:
+  - sukkari
+  - khlas
+  - ajwa for premium contexts
+  frankincense_props:
+  - mabkhara (incense burner)
+  - oud chips
+  prayer_props_visibility: prayer beads acceptable in respectful contexts; never as decorative-only
+  modern_tech_props:
+  - smartphones
+  - laptops in workplace context
+  - tablets in retail/F&B context
+  heritage_props_recurring:
+  - dallah
+  - fenjan
+  - mabkhara
+  - sadu weavings
+  - majlis cushions
+  food_specific_props: []
+  forbidden_props_universal:
+  - alcohol product imagery (any brand)
+  - pork product imagery
+  - religious symbols of other faiths used decoratively
+  - gambling references (cards, dice, casino chips)
+  - Quranic verses overlaid on commercial imagery
+  brand_signature_hero_prop: brand-overridden at onboarding
+behaviors_rituals:
+  coffee_serving_order_rule: elder first; then right-to-left of the host; never left-to-right
+  food_eating_practice_default: right hand only; communal sharing from central platter acceptable
+  bismillah_gesture_visibility: implied — never staged for camera
+  date_before_water_iftar_rule: true
+  prayer_treatment_rule: shown-respectfully
+  friday_prayer_treatment: respect the timing — no commercial promotion 12:00–13:30 AST Fridays
+  family_hierarchy_serving_order: eldest first, then by age descending; women and men served separately in formal contexts
+  elder_greeted_first_rule: true
+  ramadan_specific_behaviors_required:
+  - iftar gathering with multi-generational family
+  - date and water at iftar (date first)
+  - post-iftar tea/coffee
+  - charity / zakat al-fitr reference acceptable in last 10 days
+  eid_specific_behaviors_required:
+  - new clothes for Eid day 1
+  - Eidiya (cash gift in envelope, not wrapped box) to children
+  - extended-family visits days 2-3
+  - Eid prayer + post-prayer greeting
+  hajj_specific_treatment: reverent — never as marketing backdrop unless Hajj-services brand
+  generational_silence_in_elder_presence_rule: younger speakers wait their turn; never interrupt elders
+social_dynamics:
+  mixed_gender_workplace_rule: modern-natural-mixing
+  mixed_gender_family_rule: natural — multi-generational family scenes are central to Saudi content
+  mixed_gender_public_rule: modern-natural-mixing
+  physical_distance_minimum_cross_gender: professional 50cm; family contexts no minimum
+  modesty_threshold: modern-permissive
+  religious_authority_visual_treatment: respectful, never trivialized
+  family_authority_central_staging_rule: elder centered, gathered family around — never elder isolated in commercial framing
+  modern_professional_authority_treatment: balanced — Saudi female professionals shown competently in business contexts when
+    sector permits
+regional_orientation: general-saudi
+heritage_gravity: present-anchored
+religious_sensitivity: medium
+generational_orientation: multi-gen
+notes: Sector + region default. Brand inherits this spec and overrides ~10 fields at onboarding (modesty threshold, face_visibility,
+  mixed_gender rules, brand_signature_hero_prop, and a handful of others). Marked experimental pending Cultural Advisor validation.
+provenance:
+  source: inference:sector_baselines+chain_cultural_constraints+Saudi_cultural_synthesis_2026; spec:cultural_spec_v1_80_fields
+  date_added: '2026-05-14T15:17:54Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: sector:retail+region:retail_modern

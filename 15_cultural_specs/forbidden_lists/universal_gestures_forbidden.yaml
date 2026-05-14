@@ -1,0 +1,67 @@
+# universal_gestures_forbidden.yaml
+# Universal hard-block list — read by CCO agent at QC time.
+# Enforcement: hard_block
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+list_kind: gestures
+enforcement_level: hard_block
+title: Universal forbidden gestures — never appear in any branded content
+rationale: Saudi and broader Gulf social norms treat these gestures as rude or culturally offensive. The CCO agent flags any
+  caption or imagery referencing them as HARD_BLOCK.
+entries:
+- id: 01KRKH1N2YF8H7F60EGJYQS3EW
+  name: left_hand_serving
+  description: Left hand used as primary hand for serving food, drink, or gifts.
+  severity: severe
+  rationale: Culturally offensive across Saudi/Gulf contexts.
+  detection_hints:
+  - check hand-handedness in human-frame chains
+- id: 01KRKH1N2YF8H7F60EGJYQS3EX
+  name: western_palm_up_beckon
+  description: Palm-up curling-finger beckoning (Western style).
+  severity: moderate
+  rationale: Reads as 'come here, animal' in regional context; offensive when applied to people.
+  detection_hints:
+  - check gesture orientation in interactive scenes
+- id: 01KRKH1N2YF8H7F60EGJYQS3EY
+  name: pointing_finger_at_person
+  description: Pointing index finger directly at another person.
+  severity: moderate
+  rationale: Disrespectful, especially toward elders or in authority context.
+  detection_hints:
+  - scenes with direct-address gesture toward talent
+- id: 01KRKH1N2YF8H7F60EGJYQS3EZ
+  name: sole_of_foot_visible
+  description: Soles of feet or shoes visible toward another person.
+  severity: severe
+  rationale: Sole-of-foot toward a person is a recognized insult.
+  detection_hints:
+  - check seated postures, cross-leg positions
+- id: 01KRKH1N2YF8H7F60EGJYQS3F0
+  name: shoes_on_seating
+  description: Shoes placed on or above seating surfaces or majlis cushions.
+  severity: severe
+  rationale: Profanes hospitality space.
+  detection_hints:
+  - majlis interior chains
+- id: 01KRKH1N2YF8H7F60EGJYQS3F1
+  name: thumbs_up_to_elder_or_religious
+  description: Thumbs-up directed at religious authorities or elders.
+  severity: moderate
+  rationale: Tonal mismatch; in some Gulf interpretations, vulgar.
+  detection_hints: []
+- id: 01KRKH1N2YF8H7F60EGJYQS3F2
+  name: ok_circle_gesture
+  description: Western 'OK' circle hand gesture.
+  severity: moderate
+  rationale: Has acquired multiple offensive readings; avoid as a general rule.
+  detection_hints: []
+provenance:
+  source: research_corpus/CCO_Environment_v2.docx + Saudi_cultural_knowledge + universal_compliance
+  date_added: '2026-05-14T15:17:54Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

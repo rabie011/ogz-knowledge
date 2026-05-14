@@ -1,0 +1,47 @@
+# universal_behaviors_forbidden.yaml
+# Universal hard-block list — read by CCO agent at QC time.
+# Enforcement: hard_block
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+list_kind: behaviors
+enforcement_level: hard_block
+title: Universal forbidden behaviors — never depicted in branded content
+rationale: These behaviors violate religious, cultural, or tonal norms and are blocked at generation time regardless of brand
+  or sector.
+entries:
+- id: 01KRKH1N31EKKHA1ADW2W9GGXV
+  name: eating_during_ramadan_daylight
+  description: Eating or drinking visible during Ramadan daylight hours (between Fajr and Maghreb).
+  severity: severe
+  rationale: Fast-respect violation; visually inappropriate even in stylized form during Ramadan.
+  detection_hints:
+  - F&B captions and imagery during Ramadan dates only
+- id: 01KRKH1N31EKKHA1ADW2W9GGXW
+  name: cross_gender_physical_contact_non_mahram
+  description: Physical contact between non-mahrams of different genders (handshake, embrace, casual touch).
+  severity: severe
+  rationale: Cultural and religious norm.
+  detection_hints:
+  - mixed-gender scene QC
+- id: 01KRKH1N31EKKHA1ADW2W9GGXX
+  name: smoking_family_context
+  description: Smoking depicted in family-context content.
+  severity: moderate
+  rationale: Family-friendly content discipline; smoking signals reads as opposite intent.
+  detection_hints: []
+- id: 01KRKH1N31EKKHA1ADW2W9GGXY
+  name: prayer_as_commercial_backdrop
+  description: Prayer or supplication shown as commercial backdrop or trivialized for promotional effect.
+  severity: severe
+  rationale: Religious-act reverence violated.
+  detection_hints:
+  - religious-imagery scene QC
+provenance:
+  source: research_corpus/CCO_Environment_v2.docx + Saudi_cultural_knowledge + universal_compliance
+  date_added: '2026-05-14T15:17:54Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

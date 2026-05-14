@@ -1,0 +1,58 @@
+# gender_rules.yaml
+# Short config — depiction rules. Defaults conservative, brand-unlockable at onboarding.
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+title: Gender depiction rules in Saudi visual content
+description: Rules for how gender is depicted, mixed, or kept separate in generated content. Defaults are conservative; brand
+  can unlock specific patterns at onboarding with explicit permission.
+default_posture: conservative — when in doubt, choose the more modest framing
+patterns:
+  same_gender_groups:
+    rule: Always allowed. Default visual register for personal-care, beauty, fitness, and wellness contexts.
+    level: allowed
+  mixed_family_groups:
+    rule: Allowed across all sectors. Multi-generational scenes (grandparents + parents + children) preferred for occasion
+      content (Ramadan iftar, Eid family gatherings, National Day outings).
+    level: allowed
+  mixed_strangers_public_context:
+    rule: Allowed in clearly public-business contexts (café, retail floor, office reception, conference). Both genders fully
+      covered; no proximity or implied intimacy.
+    level: allowed_with_framing
+  mixed_strangers_intimate_context:
+    rule: 'Soft-flagged. Requires brand-level permission. Default refusal: agent reshapes to same-gender or family framing.'
+    level: soft_flag
+  single_woman_face_visible:
+    rule: Soft-flagged at default; brand can unlock at onboarding with explicit face-visible permission. When permission granted,
+      no hierarchy implications (no woman-served-by-man visual framings).
+    level: soft_flag_brand_unlockable
+  single_man_face_visible:
+    rule: Generally allowed across sectors. Cultural framing per sector (e.g., F&B founder shots, retail floor staff).
+    level: allowed
+  cross_gender_physical_contact:
+    rule: Hard-blocked outside family-frame. Even in family-frame, depicts as warmth not intimacy.
+    level: hard_block_outside_family
+  shorts_sleeveless_revealing_wardrobe:
+    rule: Soft-flagged. Allowed only with brand permission and contextual justification (e.g., fitness sector with same-gender
+      framing).
+    level: soft_flag
+sector_overrides:
+  beauty: Default modesty HIGH. Hands/product preferred; face-visible only with brand permission. Same-gender personal-care
+    contexts.
+  healthcare_wellness: Same-gender depiction default for personal-care; mixed allowed in family/general-clinic context.
+  f_and_b: Mixed family context allowed; mixed strangers allowed in public dining context with full coverage.
+  retail: Both genders shoppable. Mixed allowed in public-retail context.
+  real_estate: Family scenes preferred. Mixed allowed in public-architecture context.
+  fitness: Same-gender default. Mixed only with explicit brand permission and same-gender preferred for personal/gym content.
+regional_notes:
+  najdi: Slightly more conservative on mixed-stranger interaction than Hijazi context.
+  hijazi: Hijaz culture is slightly more relaxed on mixed-public context; default still respects modesty.
+  eastern: Mid-range; follow brand stated posture.
+provenance:
+  source: research_corpus/CCO_Environment_v2.docx + Saudi_cultural_norms_2026 + Vision_2030_social_evolution
+  date_added: '2026-05-14T14:50:29Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

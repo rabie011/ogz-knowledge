@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ogz-knowledge/schemas/motion_v1.schema.json",
+  "title": "Motion v1",
+  "description": "A single observed video (campaign, benchmark, brand reference). Captures camera, pacing, and motion observations.",
+  "type": "object",
+  "required": [
+    "motion_ulid",
+    "schema_version",
+    "source_kind",
+    "duration_seconds",
+    "camera_grammar",
+    "pacing_register",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "motion_ulid": {"type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"},
+    "schema_version": {"type": "integer", "const": 1},
+    "source_kind": {
+      "type": "string",
+      "enum": ["campaign_archive", "benchmark_account", "brand_reference", "stock_reference", "generated_output"]
+    },
+    "source_uri": {"type": "string"},
+    "duration_seconds": {"type": "number", "minimum": 0},
+    "camera_grammar": {
+      "type": "object",
+      "properties": {
+        "primary_movement": {"type": "string", "enum": ["static", "handheld", "gimbal", "dolly", "drone", "mixed"]},
+        "movement_speed": {"type": "string", "enum": ["glacial", "slow", "normal", "snappy", "frantic"]},
+        "subject_motion_choreography": {"type": "string"},
+        "signature_move_present": {"type": "boolean"}
+      }
+    },
+    "pacing_register": {
+      "type": "string",
+      "enum": ["slow-luxury-4to6s", "medium-cinematic-2to4s", "fast-tiktok-1to2s", "frantic-sub-1s"]
+    },
+    "average_shot_length_seconds": {"type": "number"},
+    "first_frame_kind": {"type": "string"},
+    "last_frame_kind": {"type": "string"},
+    "color_grade_observed": {"type": "string"},
+    "sound_design_kind": {"type": "string"},
+    "voiceover_present": {"type": "boolean"},
+    "text_overlay_present": {"type": "boolean"},
+    "arabic_text_present": {"type": "boolean"},
+    "cultural_correctness_notes": {"type": "string"},
+    "provenance": {"$ref": "provenance_mixin_v1.schema.json"}
+  }
+}

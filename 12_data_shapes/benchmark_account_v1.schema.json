@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ogz-knowledge/schemas/benchmark_account_v1.schema.json",
+  "title": "Benchmark Account v1",
+  "description": "A curated Saudi Instagram account used as reference benchmark. The system has ~100 such accounts across F&B, Retail, and Beauty.",
+  "type": "object",
+  "required": [
+    "account_ulid",
+    "account_handle_normalized",
+    "sector",
+    "schema_version",
+    "profile",
+    "content_patterns_observed",
+    "high_engagement_themes",
+    "distinctive_visual_traits",
+    "distinctive_voice_traits",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "account_ulid": {"type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"},
+    "account_handle_normalized": {
+      "type": "string",
+      "description": "External-facing anonymized label, e.g., 'OGZ-Reference-Account-001'"
+    },
+    "account_handle_internal": {
+      "type": "string",
+      "description": "Internal only — never exposed in client-facing surfaces"
+    },
+    "sector": {"type": "string"},
+    "sub_sector": {"type": "string"},
+    "schema_version": {"type": "integer", "const": 1},
+    "profile": {
+      "type": "object",
+      "properties": {
+        "follower_count_bucket": {"type": "string", "enum": ["<10k", "10k-50k", "50k-100k", "100k-500k", "500k-1m", ">1m"]},
+        "bio_voice_summary": {"type": "string"},
+        "region_orientation": {"type": "string"}
+      }
+    },
+    "content_patterns_observed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["pattern_name", "frequency"],
+        "properties": {
+          "pattern_ulid": {"type": "string"},
+          "pattern_name": {"type": "string"},
+          "frequency": {"type": "string", "enum": ["daily", "weekly", "biweekly", "monthly", "occasional"]},
+          "avg_engagement_multiplier": {"type": "string"},
+          "observed_chains_analog": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "high_engagement_themes": {"type": "array", "items": {"type": "string"}},
+    "low_engagement_themes": {"type": "array", "items": {"type": "string"}},
+    "distinctive_visual_traits": {"type": "array", "items": {"type": "string"}},
+    "distinctive_voice_traits": {"type": "array", "items": {"type": "string"}},
+    "anti_patterns_observed": {"type": "array", "items": {"type": "string"}},
+    "provenance": {"$ref": "provenance_mixin_v1.schema.json"}
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ogz-knowledge/schemas/sector_baseline_v1.schema.json",
+  "title": "Sector Baseline v1",
+  "description": "Per-sector defaults: voice, visual, cinematography, cultural-spec defaults, eligible chains, recommended occasions. Brands inherit from one of these baselines, then override 10–15 fields.",
+  "type": "object",
+  "required": [
+    "sector_baseline_ulid",
+    "sector_slug",
+    "sector_name_en",
+    "sector_name_ar",
+    "schema_version",
+    "default_voice",
+    "default_visual",
+    "default_cinematography",
+    "default_cultural_spec",
+    "default_eligible_chains",
+    "default_occasions_priority",
+    "default_kpis_focus",
+    "forbidden_topics_sector_specific",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "sector_baseline_ulid": {"type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"},
+    "sector_slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "sector_name_en": {"type": "string"},
+    "sector_name_ar": {"type": "string"},
+    "schema_version": {"type": "integer", "const": 1},
+    "default_voice": {
+      "type": "object",
+      "required": ["register", "formality", "dialect_default", "msa_tolerance", "english_codeswitching_tolerance"],
+      "properties": {
+        "register": {"type": "string"},
+        "formality": {"type": "string"},
+        "dialect_default": {"type": "string"},
+        "msa_tolerance": {"type": "string", "enum": ["none", "low", "moderate", "high"]},
+        "english_codeswitching_tolerance": {"type": "string", "enum": ["none", "low", "moderate", "high"]}
+      }
+    },
+    "default_visual": {
+      "type": "object",
+      "required": ["primary_palette", "lighting_default", "composition_default", "texture_default"],
+      "properties": {
+        "primary_palette": {"type": "array", "items": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"}, "minItems": 1},
+        "secondary_accents": {"type": "array", "items": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"}},
+        "lighting_default": {"type": "string"},
+        "composition_default": {"type": "string"},
+        "texture_default": {"type": "string"}
+      }
+    },
+    "default_cinematography": {
+      "type": "object",
+      "properties": {
+        "lens_default": {"type": "string"},
+        "depth_of_field": {"type": "string"},
+        "camera_height": {"type": "string"},
+        "motion_grammar": {"type": "string"}
+      }
+    },
+    "default_cultural_spec": {
+      "type": "object",
+      "description": "References the 80-field cultural spec. Sector baseline pre-fills ~70 fields; brand onboarding overrides ~10.",
+      "additionalProperties": true
+    },
+    "default_eligible_chains": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["chain_ulid", "score"],
+        "properties": {
+          "chain_ulid": {"type": "string"},
+          "chain_id_short": {"type": "string"},
+          "score": {"type": "number", "minimum": 0, "maximum": 1}
+        }
+      }
+    },
+    "default_occasions_priority": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["occasion_slug", "priority"],
+        "properties": {
+          "occasion_slug": {"type": "string"},
+          "priority": {"type": "number", "minimum": 0, "maximum": 1}
+        }
+      }
+    },
+    "default_kpis_focus": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Which KPIs matter most for this sector"
+    },
+    "forbidden_topics_sector_specific": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "default_cd_brain_routing_bias": {
+      "type": "object",
+      "description": "Sector-level bias for which CD brains to weight higher. Brand overrides take precedence.",
+      "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+    },
+    "notes": {"type": "string"},
+    "provenance": {"$ref": "provenance_mixin_v1.schema.json"}
+  }
+}

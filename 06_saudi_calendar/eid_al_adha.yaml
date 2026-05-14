@@ -1,0 +1,81 @@
+# eid_al_adha.yaml
+# Schema: 12_data_shapes/occasion_v1.schema.json
+# Confidence: experimental
+# Scope: occasion:eid_al_adha
+
+---
+occasion_ulid: 01KRKFFEEC3YRAD8P0X2EDB6C8
+occasion_slug: eid_al_adha
+name_en: Eid Al-Adha
+name_ar: عيد الأضحى
+schema_version: 1
+date_recurrence:
+  type: hijri
+  hijri_month: 12
+  hijri_days: 10-13
+  duration_days: '4'
+  varies_by_moonsighting: false
+cultural_significance:
+  religious_weight: highest
+  family_centrality: high
+  hospitality_intensity: high
+  commercial_activity: moderate — F&B (meat, hospitality) high; retail moderate; entertainment blacked out
+  patriotic_weight: low
+  heritage_weight: high
+content_focus_themes:
+- Hajj reverence and pilgrimage imagery (respectful, never staged)
+- the story of Ibrahim — sacrifice, faith, family
+- qurban (sacrifice) meat sharing with neighbors and the needy
+- generosity and giving
+- extended family hosting
+content_dos:
+- frame the meat-sharing ritual (qurban) as community giving, not as a meal aesthetic
+- show Hajj-aligned reverence (Mecca/Kaaba imagery only when authentic and respectful, never as backdrop)
+- lean on extended-family hospitality scenes
+- use a respectful, less-celebratory tone than Eid Al-Fitr — Adha is reflective-generous, not party-joyful
+- Arabic-primary copy; MSA acceptable here given religious weight
+content_donts:
+- do NOT show graphic slaughter or animal distress imagery — never; auto-block
+- do NOT use Hajj imagery as a marketing backdrop (Kaaba, Mecca, pilgrim crowds) — these are reverent contexts, not stages
+- do NOT depict alcohol, gambling, or entertainment — entire entertainment sector is blacked out from posting during Eid Al-Adha
+- do NOT recycle Eid Al-Fitr creative — different occasion, different tone
+- do NOT trivialize the sacrifice narrative with puns or wordplay
+- do NOT push aggressive sales — this is a religious-reflective period
+day_specific_variations:
+  day_1_arafat_qurban:
+    focus: reverence, qurban, family
+    emotion: reflective, generous, solemn-joyful
+    content_emphasis: no commercial promo; brand-as-presence, charity, hospitality
+  days_2_3_4_extended:
+    focus: family gatherings, hosting, generosity continues
+    emotion: warm, communal, hospitable
+    content_emphasis: soft commercial OK from day 2; hosting/F&B content strong
+recommended_chains:
+- chain_ulid: 7X8BD9YG90R4GHA4M3CBHMJ74W
+  chain_id_short: tf16_02
+  reason: Occasion Greeting — respectful Eid Al-Adha greeting
+- chain_ulid: 3433M3041NZGE0HW7NDPYPVCYN
+  chain_id_short: tf22_04
+  reason: Occasion Announcement Video
+- chain_ulid: 2C5FMJNXB4DHNQJ7M01GR32ECF
+  chain_id_short: tf23_09
+  reason: Saudi Mother & Daughter Moment — family hospitality
+- chain_ulid: 0NB2K0F4CTVCESSACPD937RX1K
+  chain_id_short: tf04_02
+  reason: Kitchen Window Morning — preparation-aesthetic
+- chain_ulid: 6NEHXTQ94ZWWP864RTNSB730E3
+  chain_id_short: tf23_10
+  reason: Saudi Outdoor Lifestyle — Heritage Setting
+anti_pattern_warnings:
+- 'AVOID: any imagery suggesting animal suffering or graphic slaughter — auto-block, no exceptions'
+- 'AVOID: Hajj-related imagery for non-Hajj brands — too reverent for promotional context unless brand is a Hajj-services
+  provider'
+- 'AVOID: entertainment-sector content during Adha — entertainment is in the blackout list'
+- 'AVOID: collapsing Adha with Fitr — they are tonally and theologically distinct'
+preparation_lead_days: 14
+provenance:
+  source: internal_research_corpus/OGz_OpenClaw_Prompt_Requirements.xlsx#Saudi_Occasions+Saudi_calendar_2027
+  date_added: '2026-05-14T14:50:29Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: occasion:eid_al_adha

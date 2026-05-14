@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ogz-knowledge/schemas/cultural_spec_v1.schema.json",
+  "title": "Cultural Spec v1 — 80 Fields",
+  "description": "The 80-field Saudi cultural specification. Each brand inherits sector defaults; ~10 fields are overridden at onboarding. This is the moat — the deepest layer of brand authenticity.",
+  "type": "object",
+  "required": [
+    "cultural_spec_ulid",
+    "schema_version",
+    "characters",
+    "wardrobe",
+    "body_language",
+    "gestures",
+    "settings_architecture",
+    "props_objects",
+    "behaviors_rituals",
+    "social_dynamics",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "cultural_spec_ulid": {"type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"},
+    "schema_version": {"type": "integer", "const": 1},
+    "scope_label": {"type": "string", "description": "Free-text label of what this spec applies to (e.g., 'F&B Najdi default')"},
+
+    "characters": {
+      "type": "object",
+      "description": "Category 1 — Characters & Demographics (10 fields)",
+      "required": [
+        "ethnic_regional_look",
+        "age_distribution",
+        "gender_presentation_rule",
+        "face_visibility_women_rule",
+        "hijab_style_preference",
+        "mixed_gender_scene_rule",
+        "class_signaling",
+        "talent_consistency_model",
+        "facial_features_archetype",
+        "expression_default"
+      ],
+      "properties": {
+        "ethnic_regional_look": {
+          "type": "string",
+          "enum": ["najdi-classical", "hejazi-coastal", "eastern-province", "southern-asiri", "general-saudi", "mixed-modern"]
+        },
+        "age_distribution": {
+          "type": "object",
+          "description": "Approximate proportions (must sum to ~1.0)",
+          "properties": {
+            "child": {"type": "number", "minimum": 0, "maximum": 1},
+            "teen": {"type": "number", "minimum": 0, "maximum": 1},
+            "young_adult": {"type": "number", "minimum": 0, "maximum": 1},
+            "mid_age": {"type": "number", "minimum": 0, "maximum": 1},
+            "elder": {"type": "number", "minimum": 0, "maximum": 1}
+          }
+        },
+        "gender_presentation_rule": {
+          "type": "string",
+          "enum": ["all-male", "all-female", "single-gender-per-scene", "mixed-with-distance", "mixed-natural"]
+        },
+        "face_visibility_women_rule": {
+          "type": "string",
+          "enum": ["full", "partial", "never", "contextual"]
+        },
+        "hijab_style_preference": {
+          "type": "string",
+          "enum": ["niqab", "shayla", "hijab-tarha", "headscarf-modern", "none", "contextual"]
+        },
+        "mixed_gender_scene_rule": {
+          "type": "string",
+          "enum": ["strict-segregation", "family-only-mixing", "professional-mixing", "modern-natural-mixing", "contextual"]
+        },
+        "class_signaling": {
+          "type": "string",
+          "enum": ["royal-elite", "merchant-affluent", "professional-middle", "traditional-comfortable", "working-class-warm", "youth-aspirational"]
+        },
+        "talent_consistency_model": {
+          "type": "string",
+          "enum": ["same-person-always", "rotating-core-cast", "anonymous-generic", "archetypal-character", "animated-character"]
+        },
+        "facial_features_archetype": {"type": "string"},
+        "expression_default": {"type": "string"}
+      }
+    },
+
+    "wardrobe": {
+      "type": "object",
+      "description": "Category 2 — Clothing & Wardrobe (12 fields)",
+      "properties": {
+        "mens_traditional_cut": {"type": "string", "enum": ["saudi-traditional", "modern-tapered", "gulf-style", "hejazi-style", "not-applicable"]},
+        "mens_thobe_color": {"type": "string"},
+        "mens_thobe_collar": {"type": "string", "enum": ["cleric-style", "button-cleric", "mao-collar", "open", "not-applicable"]},
+        "mens_head_covering_color": {"type": "string"},
+        "mens_head_covering_style": {"type": "string", "enum": ["egal-secured", "free-flowing", "tucked", "unworn", "contextual"]},
+        "mens_outer_layering": {"type": "string", "enum": ["none", "bisht", "farwa", "contextual"]},
+        "womens_abaya_style": {"type": "string", "enum": ["classic-black", "modern-fitted", "kaftan-style", "embroidered-heritage", "open-abaya", "not-applicable"]},
+        "womens_abaya_color": {"type": "string"},
+        "womens_embroidery_level": {"type": "string", "enum": ["none", "subtle", "ornate", "regional-pattern"]},
+        "womens_head_covering_type": {"type": "string", "enum": ["niqab", "shayla", "hijab-tarha", "headscarf-modern", "none", "contextual"]},
+        "children_wardrobe_register": {"type": "string"},
+        "cultural_mixing_rule": {"type": "string", "enum": ["purely-traditional", "traditional-with-modern-accessories", "modern-with-heritage-cues", "purely-modern", "contextual"]}
+      }
+    },
+
+    "body_language": {
+      "type": "object",
+      "description": "Category 3 — Body Language & Posture (8 fields)",
+      "properties": {
+        "sitting_position_default": {"type": "string"},
+        "sitting_positions_allowed": {"type": "array", "items": {"type": "string"}},
+        "standing_posture_default": {"type": "string"},
+        "walking_style_default": {"type": "string"},
+        "greeting_forms_allowed": {"type": "array", "items": {"type": "string"}},
+        "eye_contact_rule": {"type": "string"},
+        "cross_gender_distance_rule": {"type": "string"},
+        "physical_contact_same_gender_rule": {"type": "string"}
+      }
+    },
+
+    "gestures": {
+      "type": "object",
+      "description": "Category 4 — Hand Gestures & Movements (10 fields)",
+      "properties": {
+        "forbidden_universal_list": {"type": "array", "items": {"type": "string"}, "description": "Immutable; inherited from universal forbidden list"},
+        "brand_allowed_list": {"type": "array", "items": {"type": "string"}},
+        "greeting_gestures_default": {"type": "string"},
+        "hospitality_gestures_signature": {"type": "array", "items": {"type": "string"}},
+        "authority_gestures_for_elders": {"type": "array", "items": {"type": "string"}},
+        "counting_convention_starts_with_little_finger": {"type": "boolean", "const": true, "description": "Always true; immutable universal"},
+        "beckoning_convention": {"type": "string", "enum": ["palm-down-fingers-clawing", "western-palm-up", "verbal-only"]},
+        "emotional_expression_repertoire": {"type": "array", "items": {"type": "string"}},
+        "patience_gesture_thumb_forefinger_middle": {"type": "boolean"},
+        "prayer_gesture_visibility_rule": {"type": "string"}
+      }
+    },
+
+    "settings_architecture": {
+      "type": "object",
+      "description": "Category 5 — Settings & Architecture (10 fields)",
+      "properties": {
+        "primary_regional_architecture": {"type": "string", "enum": ["najdi", "hejazi", "asir", "eastern-gulf", "modern-riyadh", "vision-2030-futurism", "contextual"]},
+        "secondary_architectures_allowed": {"type": "array", "items": {"type": "string"}},
+        "modern_vs_heritage_ratio": {"type": "string"},
+        "specific_motifs_allowed": {"type": "array", "items": {"type": "string"}},
+        "material_palette": {"type": "array", "items": {"type": "string"}},
+        "interior_setting_default": {"type": "string"},
+        "urban_vs_rural_orientation": {"type": "string"},
+        "desert_scenes_allowed": {"type": "boolean"},
+        "religious_setting_treatment": {"type": "string"},
+        "cityscape_visibility_rule": {"type": "string"}
+      }
+    },
+
+    "props_objects": {
+      "type": "object",
+      "description": "Category 6 — Props & Objects (10 fields)",
+      "properties": {
+        "coffee_service_props": {"type": "array", "items": {"type": "string"}},
+        "tea_service_props": {"type": "array", "items": {"type": "string"}},
+        "date_variety_preference": {"type": "array", "items": {"type": "string"}},
+        "frankincense_props": {"type": "array", "items": {"type": "string"}},
+        "prayer_props_visibility": {"type": "string"},
+        "modern_tech_props": {"type": "array", "items": {"type": "string"}},
+        "heritage_props_recurring": {"type": "array", "items": {"type": "string"}},
+        "food_specific_props": {"type": "array", "items": {"type": "string"}},
+        "forbidden_props_universal": {"type": "array", "items": {"type": "string"}},
+        "brand_signature_hero_prop": {"type": "string"}
+      }
+    },
+
+    "behaviors_rituals": {
+      "type": "object",
+      "description": "Category 7 — Behaviors & Rituals (12 fields)",
+      "properties": {
+        "coffee_serving_order_rule": {"type": "string"},
+        "food_eating_practice_default": {"type": "string"},
+        "bismillah_gesture_visibility": {"type": "string"},
+        "date_before_water_iftar_rule": {"type": "boolean"},
+        "prayer_treatment_rule": {"type": "string", "enum": ["never-trivialize", "shown-respectfully", "off-camera-implied", "not-shown"]},
+        "friday_prayer_treatment": {"type": "string"},
+        "family_hierarchy_serving_order": {"type": "string"},
+        "elder_greeted_first_rule": {"type": "boolean", "const": true, "description": "Always true; immutable universal"},
+        "ramadan_specific_behaviors_required": {"type": "array", "items": {"type": "string"}},
+        "eid_specific_behaviors_required": {"type": "array", "items": {"type": "string"}},
+        "hajj_specific_treatment": {"type": "string"},
+        "generational_silence_in_elder_presence_rule": {"type": "string"}
+      }
+    },
+
+    "social_dynamics": {
+      "type": "object",
+      "description": "Category 8 — Social Dynamics (8 fields)",
+      "properties": {
+        "mixed_gender_workplace_rule": {"type": "string"},
+        "mixed_gender_family_rule": {"type": "string"},
+        "mixed_gender_public_rule": {"type": "string"},
+        "physical_distance_minimum_cross_gender": {"type": "string"},
+        "modesty_threshold": {"type": "string", "enum": ["strict", "moderate", "modern-permissive"]},
+        "religious_authority_visual_treatment": {"type": "string"},
+        "family_authority_central_staging_rule": {"type": "string"},
+        "modern_professional_authority_treatment": {"type": "string"}
+      }
+    },
+
+    "regional_orientation": {
+      "type": "string",
+      "enum": ["najdi-primary", "hejazi-primary", "eastern-primary", "southern-primary", "general-saudi", "gulf", "international"]
+    },
+    "heritage_gravity": {
+      "type": "string",
+      "enum": ["past-anchored", "present-anchored", "future-anchored", "timeless"]
+    },
+    "religious_sensitivity": {
+      "type": "string",
+      "enum": ["high", "medium", "low"]
+    },
+    "generational_orientation": {
+      "type": "string",
+      "enum": ["youth-skewed", "multi-gen", "elder-skewed"]
+    },
+
+    "notes": {"type": "string"},
+    "provenance": {"$ref": "provenance_mixin_v1.schema.json"}
+  }
+}

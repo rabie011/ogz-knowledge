@@ -1,0 +1,134 @@
+# beauty.yaml
+# Schema: 12_data_shapes/sector_baseline_v1.schema.json
+# Confidence: experimental
+# Scope: sector:beauty
+
+---
+sector_baseline_ulid: 01KRKFFECNNE1DV985GJ1N7X15
+sector_slug: beauty
+sector_name_en: Beauty & Personal Care
+sector_name_ar: العناية والجمال
+schema_version: 1
+default_voice:
+  register: nurturing-confident
+  formality: casual
+  dialect_default: najdi
+  msa_tolerance: low
+  english_codeswitching_tolerance: moderate
+default_visual:
+  primary_palette:
+  - '#F5BEB7'
+  - '#E8D6A0'
+  - '#FFFFFF'
+  - '#2A2520'
+  secondary_accents:
+  - '#C09F6F'
+  - '#28D9A8'
+  lighting_default: soft diffused window light, ring light for product, pastel mood
+  composition_default: people-centered or product-as-still-life, calm rhythm
+  texture_default: soft pastel, satin finish, fabric softness, water beads
+default_cinematography:
+  lens_default: 85mm portrait or 100mm macro
+  depth_of_field: shallow for beauty close-up; medium for routine flow
+  camera_height: slight elevation or eye-level for talent
+  motion_grammar: slow zoom · soft glide · application reveal
+default_cultural_spec:
+  bilingual_ratio: Arabic-primary 80/20
+  humor_tolerance: minimal
+  religious_sensitivity: medium
+  modesty_level: high
+  modesty_threshold_note: 'Default: hands/product only or fully-covered talent. Brand can override at onboarding for face-visible
+    content with explicit permission.'
+  tone_attributes:
+  - nurturing
+  - empowering
+  - inspirational
+  tone_anti_attributes:
+  - aggressive
+  - formal
+  visual_style:
+  - people-centered
+  - soft pastel
+  visual_anti_style:
+  - bold graphic
+  ramadan_relevance: medium
+  eid_fitr_relevance: high
+  eid_adha_relevance: low
+  national_day_relevance: high
+  founding_day_relevance: medium
+  summer_shift_intensity: minor
+  posting_frequency_default: 4x per week
+  posting_time_weekday_default: 20:00 AST
+  posting_time_ramadan_default: 21:00 AST
+  content_mix:
+    awareness_pct: 45
+    engagement_pct: 35
+    conversion_pct: 20
+  confidence_floor: 0.6
+default_eligible_chains:
+- chain_ulid: 17EHBTDP50D0BSKRT7FT0TN0MD
+  chain_id_short: tf03_03
+  score: 0.92
+- chain_ulid: 2V5YCB0VVCP3N2N0HR6AZKP748
+  chain_id_short: tf04_01
+  score: 0.9
+- chain_ulid: 0D3ZHKPR19SS3AT5M72TM9C2KB
+  chain_id_short: tf04_03
+  score: 0.88
+- chain_ulid: 4ZEHDE0EYDTFXSYK51TXJ813W6
+  chain_id_short: tf06_01
+  score: 0.85
+- chain_ulid: 6QXDS0T85T6QV2AVK25QZFNNW3
+  chain_id_short: tf23_01
+  score: 0.85
+- chain_ulid: 2K41C8NRAP93TXWSDZK4PNNMFB
+  chain_id_short: tf01_01
+  score: 0.82
+- chain_ulid: 30XQYD6BNP5PQFWXV5HG79T3EW
+  chain_id_short: tf02_01
+  score: 0.8
+- chain_ulid: 42BNRA395QD0641YYS1MNTNEW6
+  chain_id_short: tf22_03
+  score: 0.78
+- chain_ulid: 281SWRZY96S2MS8D0C86CXDPZZ
+  chain_id_short: tf21_02
+  score: 0.75
+- chain_ulid: 16H37RYDMDGDHFTQZ6DFC6J5JW
+  chain_id_short: tf22_05
+  score: 0.72
+default_occasions_priority:
+- occasion_slug: eid_al_fitr
+  priority: 0.9
+- occasion_slug: saudi_national_day
+  priority: 0.8
+- occasion_slug: ramadan
+  priority: 0.65
+- occasion_slug: saudi_founding_day
+  priority: 0.55
+- occasion_slug: eid_al_adha
+  priority: 0.4
+default_kpis_focus:
+- saves_per_post
+- engagement_rate
+- online_sales_conversion
+- ugc_reshare_rate
+forbidden_topics_sector_specific:
+- medical / treatment claims without clearance
+- prescription drug references
+- before/after with implied permanence
+- skin-tone hierarchy
+- weight-loss promises
+default_cd_brain_routing_bias:
+  cd_01_firaasa: 0.65
+  cd_02_metaphor: 0.8
+  cd_03_authenticity: 0.85
+  cd_04_heritage: 0.55
+  cd_05_paradox: 0.5
+notes: Modesty defaults are HIGH — face-visible talent requires explicit brand permission at onboarding. Beauty is people-led
+  but the default storyboard centers hands, product, and product-in-use; brand override unlocks face-visible flows.
+provenance:
+  source: internal_research_corpus/OGz_OpenClaw_Prompt_Requirements.xlsx#Sector_Baselines
+  date_added: '2026-05-14T14:50:29Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: sector:beauty

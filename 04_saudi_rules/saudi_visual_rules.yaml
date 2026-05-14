@@ -1,0 +1,55 @@
+# saudi_visual_rules.yaml
+# Short config — read by COO (generation) + CCO (QC).
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+title: Saudi visual compliance rules
+description: Color, motif, and composition rules specific to Saudi visual context. Enforced by the COO agent at generation
+  time and the CCO agent at QC time.
+color_semantics:
+  saudi_green_official:
+    hex: '#006C35'
+    rule: Reserved for National Day, Founding Day, and explicitly patriotic content. Do not use as a generic accent. When
+      used, full strength — never tinted or pastel-softened.
+  religious_palette:
+    rule: Avoid deep gold + green combinations that read as religious-flag imagery in non-religious commercial context.
+  color_combinations_to_avoid:
+  - any combination that visually evokes a foreign nation's flag in patriotic content
+  - red-on-green in iftar context (reads as Christmas-style; foreign palette)
+  - pure black-on-pure-white with no warmth in F&B context (reads as funerary)
+motif_rules:
+  approved_when_authentic:
+  - Najdi mud-brick architecture (Dir'iyah, At-Turaif, traditional homes)
+  - Hijazi rawasheen (latticed wooden windows)
+  - sadu weaving patterns (geometric, primary-color, woven texture)
+  - falcon (national symbol; use respectfully, never as background prop)
+  - palm tree and date palm in heritage contexts
+  - Arabic calligraphy when designed by a calligrapher (not auto-generated)
+  - thobe, ghutra, igal, mishlah for men; abaya, hijab in cultural framing for women
+  do_not_use_without_brand_clearance:
+  - Kaaba imagery (reserved for Hajj-services brands or religious-content authority)
+  - Quranic verses overlaid on commercial imagery
+  - named historical figures (founders, royals) without official endorsement
+  - tribal markers (specific tribe symbols) — divisive in pan-Saudi context
+  do_not_use:
+  - cheaply-rendered AI calligraphy that gibberishes the Arabic letterforms
+  - Saudi flag as decorative element on disposables, party items, or face overlays
+  - stock-feeling 'desert + camel + sunset' cliché unless intentionally subverted
+  - borrowed regional motifs falsely presented as Saudi (e.g., Emirati architecture, Egyptian symbols)
+photography_conventions:
+  lighting_register: Saudi premium register favors warm natural daylight (golden hour) and clean diffuse studio. Avoid harsh-shadow
+    editorial-fashion lighting for general SME content.
+  modesty_default: Talent fully covered unless brand has explicit face-visible permission at onboarding. Same-gender depiction
+    preferred for personal-care contexts.
+  regional_specificity: Najdi, Hijazi, Eastern, and Southern visual contexts differ meaningfully (architecture, dress nuance,
+    palette). Default per brand's stated region; never collapse to a generic 'Saudi'.
+  talent_realism: Real-talent lightly-directed is preferred over heavy posed studio work. Avoid stock-feeling smiles and over-rendered
+    faces.
+provenance:
+  source: research_corpus/CCO_Environment_v2.docx + Saudi_visual_culture_synthesis_2026
+  date_added: '2026-05-14T14:50:29Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

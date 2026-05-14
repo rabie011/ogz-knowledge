@@ -1,0 +1,95 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "6NEHXTQ94ZWWP864RTNSB730E3",
+  "chain_id_short": "tf23_10",
+  "family": "TF23",
+  "schema_version": 1,
+  "name_en": "Saudi Outdoor Lifestyle — Heritage Setting",
+  "name_ar": "Saudi Outdoor Lifestyle — Heritage Setting — S10",
+  "purpose": "Saudi subject in heritage outdoor setting (Diriyah, AlUla, Najdi architecture, palm groves). Cultural pride.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1-ultra",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/seedance-2.0",
+      "role": "image_to_image_edit"
+    }
+  ],
+  "input_schema": {
+    "subject_description": {
+      "type": "string",
+      "description": "The subject (product, person, scene) to be rendered",
+      "required": true,
+      "min_length": 10
+    },
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 5
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    }
+  },
+  "prompt_template": "Cinematic authentic photograph of a Saudi {subject} in their early thirties standing in traditional Najdi heritage setting with mudbrick architecture or palm grove visible in background suggesting Diriyah or Najd region at golden hour just before sunset, {dress_specification}, holding or interacting with {brand_product} naturally, warm directional golden-hour light from low angle casting long shadows, real skin texture with natural complexion showing slight desert tan, candid contemplative expression looking off-frame, authentic cultural setting non-staged composition, hyper-realistic textures on traditional architecture and natural Saudi landscape elements, shot on 50mm at f/2.8 with soft bokeh in background, no tourist framing {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "retail",
+      "f_and_b",
+      "beauty"
+    ],
+    "occasions_allowed": [
+      "national_day",
+      "founding_day"
+    ],
+    "quality_tiers_allowed": [
+      "growth"
+    ],
+    "min_brand_maturity_days": 14
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": true,
+    "requires_gesture_check": true,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "starter"
+  },
+  "cost_estimate_usd": 0.07,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": [
+    "cd_01",
+    "cd_03",
+    "cd_04"
+  ],
+  "anti_patterns": [
+    "Avoid in output: tourist photograph aesthetic",
+    "Avoid in output: model fashion shoot",
+    "Avoid in output: oversaturated colors",
+    "Avoid in output: AI face failures",
+    "Never present non-Saudi talent or generic Middle-Eastern look — Saudi specificity is the point",
+    "Avoid tourist-photography aesthetic; this is lived-in lifestyle, not destination shoot"
+  ],
+  "notes": "Intents: launch, defend. Source code in research corpus: S10. Saudi adaptation guidance: Most culturally weighted UGC chain. Heritage settings (Najdi mudbrick from Diriyah, AlUla sandstone, palm groves of Al-Ahsa) signal authentic Saudi-ness. Critical: Najdi architecture is mudbrick with distinct geometric patterns and triangular details, NOT Egyptian sandstone, NOT Moroccan zellige, NOT Levantine arches. Auto-triggers during National Day (Sep 23) and Founding Day (Feb 22). Reference image: Required. Recommended frequency: 1-2 per month, daily during national occasions. Compliance level: elevated.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx#TF23#S10",
+    "date_added": "2026-05-13T15:30:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

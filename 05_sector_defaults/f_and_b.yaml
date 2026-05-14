@@ -1,0 +1,134 @@
+# f_and_b.yaml
+# Schema: 12_data_shapes/sector_baseline_v1.schema.json
+# Confidence: experimental
+# Scope: sector:f_and_b
+
+---
+sector_baseline_ulid: 01KRKFFECNNE1DV985GJ1N7X13
+sector_slug: f_and_b
+sector_name_en: Food & Beverage
+sector_name_ar: الأطعمة والمشروبات
+schema_version: 1
+default_voice:
+  register: warm-conversational
+  formality: casual
+  dialect_default: najdi
+  msa_tolerance: low
+  english_codeswitching_tolerance: moderate
+default_visual:
+  primary_palette:
+  - '#C9472B'
+  - '#E8D5B4'
+  - '#1F2A2E'
+  - '#F2A359'
+  secondary_accents:
+  - '#FFD500'
+  - '#28D9A8'
+  lighting_default: warm natural daylight, late afternoon golden hour for hero shots
+  composition_default: lifestyle photography, hand-held framing, food centered with environmental context
+  texture_default: tactile food texture, condensation on glassware, steam on hot dishes
+default_cinematography:
+  lens_default: 50mm prime · shallow depth
+  depth_of_field: shallow (subject sharp, background creamy)
+  camera_height: eye-level or slight overhead for tabletop
+  motion_grammar: slow pour · short hold · cut on action; no whip-pans
+default_cultural_spec:
+  bilingual_ratio: Arabic-primary 80/20
+  humor_tolerance: minimal
+  religious_sensitivity: medium
+  modesty_level: moderate
+  tone_attributes:
+  - warm
+  - family-focused
+  - community
+  tone_anti_attributes:
+  - aggressive
+  - formal
+  visual_style:
+  - lifestyle photography
+  - warm tones
+  visual_anti_style:
+  - dark moody
+  - documentary
+  ramadan_relevance: critical
+  eid_fitr_relevance: critical
+  eid_adha_relevance: high
+  national_day_relevance: high
+  founding_day_relevance: medium
+  summer_shift_intensity: major
+  posting_frequency_default: 5x per week
+  posting_time_weekday_default: 19:00 AST
+  posting_time_ramadan_default: 20:30 AST (post-iftar)
+  content_mix:
+    awareness_pct: 40
+    engagement_pct: 35
+    conversion_pct: 25
+  confidence_floor: 0.6
+default_eligible_chains:
+- chain_ulid: 1TM197RN00KG3EY4WZRZJR0S2T
+  chain_id_short: tf16_01
+  score: 1.0
+- chain_ulid: 3QR7JTJEMSM90JPBXVE3ZXW9H7
+  chain_id_short: tf02_02
+  score: 0.95
+- chain_ulid: 2532CRS8WS12K0SWK148JNNDS3
+  chain_id_short: tf02_03
+  score: 0.92
+- chain_ulid: 0NB2K0F4CTVCESSACPD937RX1K
+  chain_id_short: tf04_02
+  score: 0.9
+- chain_ulid: 6ZAR8QBP7SRB6TEEXBBJ8PD1Y2
+  chain_id_short: tf04_04
+  score: 0.88
+- chain_ulid: 283HTW9SQAJTE4ESSBTQPKPFTX
+  chain_id_short: tf11_03
+  score: 0.85
+- chain_ulid: 3EXE4J6N9TC9Y3KQM52GGC2VHC
+  chain_id_short: tf12_03
+  score: 0.85
+- chain_ulid: 6QXDS0T85T6QV2AVK25QZFNNW3
+  chain_id_short: tf23_01
+  score: 0.83
+- chain_ulid: 1G5BHDQAS0SPHPP8RGYZ7TEQYB
+  chain_id_short: tf01_03
+  score: 0.8
+- chain_ulid: 3433M3041NZGE0HW7NDPYPVCYN
+  chain_id_short: tf22_04
+  score: 0.78
+default_occasions_priority:
+- occasion_slug: ramadan
+  priority: 1.0
+- occasion_slug: eid_al_fitr
+  priority: 0.95
+- occasion_slug: eid_al_adha
+  priority: 0.8
+- occasion_slug: saudi_national_day
+  priority: 0.75
+- occasion_slug: saudi_founding_day
+  priority: 0.55
+default_kpis_focus:
+- footfall
+- delivery_orders
+- saves_per_post
+- story_completion_rate
+- share_rate
+forbidden_topics_sector_specific:
+- alcohol references
+- pork references
+- misleading health claims
+- competitor disparagement
+- non-halal certification implied
+default_cd_brain_routing_bias:
+  cd_01_firaasa: 0.7
+  cd_02_metaphor: 0.55
+  cd_03_authenticity: 0.9
+  cd_04_heritage: 0.75
+  cd_05_paradox: 0.45
+notes: Anchored in OGz 3-year content history. Najdi dialect default reflects Riyadh SME mix; brands targeting Hijaz override
+  at onboarding. Ramadan tier is critical — schedule lead time 21+ days.
+provenance:
+  source: internal_research_corpus/OGz_OpenClaw_Prompt_Requirements.xlsx#Sector_Baselines
+  date_added: '2026-05-14T14:50:29Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: sector:f_and_b

@@ -1,0 +1,57 @@
+# compliance_levels.yaml
+# Short config — no formal schema. Read by CCO agent + compliance gate evaluator.
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+title: Saudi compliance enforcement levels
+description: Three-tier enforcement model used by the CCO agent and compliance gates. Every rule, forbidden item, or cultural
+  caution belongs to one of these levels.
+levels:
+  hard_block:
+    description: System refuses to generate or publish. Not negotiable. No override path without a documented exception process
+      plus dual approval.
+    agent_behavior: Generate an alternative draft and log the deflection. Notify the user that the request was reshaped, with
+      a brief reason.
+    examples:
+    - alcohol product imagery or naming in promotional context
+    - pork product imagery or naming in promotional context
+    - gambling content (lotteries, betting, casino imagery)
+    - graphic religious-imagery used as commercial backdrop (Kaaba, Mecca crowds for non-Hajj brand)
+    - left-hand-serving-food in any framed scene (universal cultural rule)
+    - depiction of fasting violation during Ramadan daylight hours
+    - graphic slaughter imagery on Eid Al-Adha
+    - Saudi flag misuse (upside-down, on disposable items, overlay on faces)
+    - depiction of identifiable patients without consent (healthcare sector)
+  soft_flag:
+    description: Flagged for human review before publication. Can be released with explicit override by a human reviewer (brand
+      owner or compliance reviewer).
+    agent_behavior: Generate as requested but route to human review queue. Include the flag reason in the side panel.
+    examples:
+    - mixed-gender groups in non-family non-public context
+    - shorts, sleeveless tops, or revealing wardrobe in branded content
+    - promotional content during Ramadan weeks 1-2 with discount-heavy language
+    - comparison with competitors by name (regulator-sensitive in some sectors)
+    - before/after imagery in beauty/healthcare (potential treatment-claim implication)
+    - use of religious terminology in commercial context outside designated occasions
+  advisory:
+    description: Informational note attached to the output. No enforcement. Surfaces in the side panel as 'consider this'.
+    agent_behavior: Publish normally. Surface the advisory note in the side panel and in the next-week insights.
+    examples:
+    - palette deviates from sector default (may be intentional brand choice)
+    - non-standard typography pairing
+    - Arabic copy uses MSA where dialect would typically perform better for the audience
+    - post timing falls within a non-optimal engagement window per benchmark data
+    - the same chain has been used twice in the same week
+escalation:
+  hard_block_override: Requires written approval from Mohamed AND a Cultural Advisor. Logged as an exception event in the
+    audit trail.
+  soft_flag_release: Single human reviewer (brand owner or compliance reviewer). Logged.
+  advisory_acknowledge: No formal action; tracked in metrics for pattern detection.
+provenance:
+  source: CONVENTIONS.md§11 + research_corpus/CCO_Environment_v2.docx + Saudi_cultural_norms
+  date_added: '2026-05-14T14:50:29Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

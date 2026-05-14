@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ogz-knowledge/schemas/generation_event_v1.schema.json",
+  "title": "Generation Event v1",
+  "description": "Append-only event recording a single content generation. Written by the Spine after each fal.ai call. Never updated; corrections happen as subsequent events.",
+  "type": "object",
+  "required": [
+    "event_ulid",
+    "event_type",
+    "timestamp",
+    "brand_ulid",
+    "chain_ulid",
+    "schema_version",
+    "input_brief",
+    "composed_prompt",
+    "output_uri",
+    "cost_usd",
+    "latency_seconds",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "event_ulid": {"type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"},
+    "event_type": {"type": "string", "const": "generation_executed"},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "brand_ulid": {"type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"},
+    "chain_ulid": {"type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"},
+    "chain_id_short": {"type": "string"},
+    "schema_version": {"type": "integer", "const": 1},
+    "brief_ulid": {"type": "string"},
+    "input_brief": {"type": "string"},
+    "composed_prompt": {"type": "string", "description": "The actual prompt sent to fal, after all composition (brand fingerprint + cultural spec + brief)"},
+    "fal_request_id": {"type": "string"},
+    "output_uri": {"type": "string", "description": "Object storage URI"},
+    "cost_usd": {"type": "number", "minimum": 0},
+    "latency_seconds": {"type": "number", "minimum": 0},
+    "cd_brain_used": {"type": "string"},
+    "compliance_gate_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "gate_name": {"type": "string"},
+          "result": {"type": "string", "enum": ["pass", "flag", "block"]},
+          "details": {"type": "string"}
+        }
+      }
+    },
+    "retry_count": {"type": "integer", "minimum": 0},
+    "watermarked": {"type": "boolean"},
+    "provenance": {"$ref": "provenance_mixin_v1.schema.json"}
+  }
+}

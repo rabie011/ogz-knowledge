@@ -1,0 +1,90 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "1HKQTHZY0E2XPS1TG6W413RPXV",
+  "chain_id_short": "tf08_01",
+  "family": "TF08",
+  "schema_version": 1,
+  "name_en": "Rain-Slick Neon Street",
+  "name_ar": "Rain-Slick Neon Street — T28",
+  "purpose": "Product on rain-slick urban street at night with neon reflections. Cyberpunk noir.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1-ultra",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/seedance-2.0",
+      "role": "image_to_image_edit"
+    }
+  ],
+  "input_schema": {
+    "subject_description": {
+      "type": "string",
+      "description": "The subject (product, person, scene) to be rendered",
+      "required": true,
+      "min_length": 10
+    },
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 5
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    }
+  },
+  "prompt_template": "Cinematic urban photography of {product_descriptor} on rain-slick black asphalt street at night, vivid neon signs in pink and blue reflecting in puddles around product, atmospheric drizzle catching neon light, blurred urban silhouettes in distant background, deep moody contrast, shot on 35mm at f/2 with cinematic bokeh, no text, no watermark, no clear figures {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "retail",
+      "beauty"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.07,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": [
+    "cd_02",
+    "cd_03"
+  ],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: clear human figures",
+    "Avoid in output: distorted reflections"
+  ],
+  "notes": "Intents: launch, grow. Source code in research corpus: T28. Saudi adaptation guidance: Saudi youth urban brands targeting Riyadh/Jeddah young male. Carefully avoids alcohol references common in Western noir. Reference image: Required. Recommended frequency: 1 per month.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx#TF08#T28",
+    "date_added": "2026-05-13T15:30:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

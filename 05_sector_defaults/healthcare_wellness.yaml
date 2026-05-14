@@ -1,0 +1,138 @@
+# healthcare_wellness.yaml
+# Schema: 12_data_shapes/sector_baseline_v1.schema.json
+# Confidence: experimental
+# Scope: sector:healthcare_wellness
+
+---
+sector_baseline_ulid: 01KRKFFECNNE1DV985GJ1N7X17
+sector_slug: healthcare_wellness
+sector_name_en: Healthcare & Wellness
+sector_name_ar: الرعاية الصحية والعافية
+schema_version: 1
+default_voice:
+  register: calm-reassuring
+  formality: neutral
+  dialect_default: msa_with_dialect_layer
+  msa_tolerance: high
+  english_codeswitching_tolerance: low
+default_visual:
+  primary_palette:
+  - '#FFFFFF'
+  - '#E8F0F4'
+  - '#1FBDFF'
+  - '#1F2A2E'
+  secondary_accents:
+  - '#28D9A8'
+  - '#F5BEB7'
+  lighting_default: clean diffuse fill, no harsh shadows, clinical-but-warm
+  composition_default: centered subject, ample whitespace, calm symmetry
+  texture_default: smooth surfaces, gentle gradients, minimal pattern
+default_cinematography:
+  lens_default: 35-50mm; controlled handheld OK
+  depth_of_field: medium (subject prominent, environment present)
+  camera_height: eye-level; never below subject
+  motion_grammar: slow push · steady-cam · no jolt cuts
+default_cultural_spec:
+  bilingual_ratio: Arabic-primary 70/30
+  humor_tolerance: none
+  religious_sensitivity: high
+  modesty_level: high
+  modesty_threshold_note: Same-gender depiction default for personal-care contexts. Mixed-gender allowed only in family or
+    general-clinic contexts.
+  tone_attributes:
+  - reassuring
+  - credible
+  - respectful
+  tone_anti_attributes:
+  - alarmist
+  - humorous
+  - sales-pressured
+  visual_style:
+  - clean clinical
+  - human-warmth-balanced
+  visual_anti_style:
+  - bold graphic
+  - documentary realism
+  ramadan_relevance: low
+  eid_fitr_relevance: low
+  eid_adha_relevance: low
+  national_day_relevance: medium
+  founding_day_relevance: low
+  summer_shift_intensity: minor
+  posting_frequency_default: 3x per week
+  posting_time_weekday_default: 10:00 AST
+  posting_time_ramadan_default: 11:00 AST
+  content_mix:
+    awareness_pct: 60
+    engagement_pct: 25
+    conversion_pct: 15
+  confidence_floor: 0.7
+default_eligible_chains:
+- chain_ulid: 2V5YCB0VVCP3N2N0HR6AZKP748
+  chain_id_short: tf04_01
+  score: 0.85
+- chain_ulid: 6QXDS0T85T6QV2AVK25QZFNNW3
+  chain_id_short: tf23_01
+  score: 0.82
+- chain_ulid: 2C5FMJNXB4DHNQJ7M01GR32ECF
+  chain_id_short: tf23_09
+  score: 0.8
+- chain_ulid: 17EHBTDP50D0BSKRT7FT0TN0MD
+  chain_id_short: tf03_03
+  score: 0.78
+- chain_ulid: 4ZEHDE0EYDTFXSYK51TXJ813W6
+  chain_id_short: tf06_01
+  score: 0.75
+- chain_ulid: 1G5BHDQAS0SPHPP8RGYZ7TEQYB
+  chain_id_short: tf01_03
+  score: 0.72
+- chain_ulid: 7X8BD9YG90R4GHA4M3CBHMJ74W
+  chain_id_short: tf16_02
+  score: 0.7
+- chain_ulid: 3433M3041NZGE0HW7NDPYPVCYN
+  chain_id_short: tf22_04
+  score: 0.68
+- chain_ulid: 281SWRZY96S2MS8D0C86CXDPZZ
+  chain_id_short: tf21_02
+  score: 0.65
+- chain_ulid: 1GQX8TYRVH95HVR3KT37YF0WWZ
+  chain_id_short: tf23_04
+  score: 0.62
+default_occasions_priority:
+- occasion_slug: saudi_national_day
+  priority: 0.6
+- occasion_slug: saudi_founding_day
+  priority: 0.4
+- occasion_slug: ramadan
+  priority: 0.5
+- occasion_slug: eid_al_fitr
+  priority: 0.4
+- occasion_slug: eid_al_adha
+  priority: 0.3
+default_kpis_focus:
+- appointment_bookings
+- qualified_inquiry_volume
+- trust_indicators
+- long_form_engagement
+forbidden_topics_sector_specific:
+- medical claims without SFDA / MoH clearance
+- prescription drug references in promotional context
+- before/after with implied medical outcomes
+- weight-loss promises with timelines
+- fear-based messaging on diagnoses
+- patient identifiable information
+default_cd_brain_routing_bias:
+  cd_01_firaasa: 0.8
+  cd_02_metaphor: 0.55
+  cd_03_authenticity: 0.9
+  cd_04_heritage: 0.45
+  cd_05_paradox: 0.35
+notes: EXTRAPOLATED — source xlsx did not cover Healthcare/Wellness. Values inferred from beauty/wellness chain overlap +
+  Saudi SFDA + MoH regulatory environment + Vision 2030 health-sector growth. Confidence floor raised to 0.7 due to regulatory
+  risk. MUST be validated by Cultural Advisor and a healthcare-marketing compliance reviewer before production use.
+provenance:
+  source: inference:beauty_sector_overlap + Saudi_health_regulatory_2026
+  date_added: '2026-05-14T14:50:29Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: sector:healthcare_wellness

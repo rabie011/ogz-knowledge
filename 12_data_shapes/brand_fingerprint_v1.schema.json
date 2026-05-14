@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ogz-knowledge/schemas/brand_fingerprint_v1.schema.json",
+  "title": "Brand Fingerprint v1",
+  "description": "Aggregate brand fingerprint across all 6 layers: Strategy, Voice, Visual, Cinematography, Look & Feel, Production. Composed from per-brand records in the runtime database; never in this repo.",
+  "type": "object",
+  "required": [
+    "brand_ulid",
+    "schema_version",
+    "sector",
+    "l1_strategy",
+    "l2_voice",
+    "l3_visual",
+    "l4_cinematography",
+    "l5_look_and_feel",
+    "l6_production",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "brand_ulid": {"type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"},
+    "brand_name_normalized": {"type": "string"},
+    "schema_version": {"type": "integer", "const": 1},
+    "sector": {"type": "string"},
+    "quality_tier": {"type": "string", "enum": ["starter", "growth", "enterprise"]},
+
+    "l1_strategy": {
+      "type": "object",
+      "required": ["primary_cd_brain", "cd_routing_weights"],
+      "properties": {
+        "primary_cd_brain": {"type": "string", "enum": ["cd_01", "cd_02", "cd_03", "cd_04", "cd_05"]},
+        "secondary_cd_brain": {"type": "string", "enum": ["cd_01", "cd_02", "cd_03", "cd_04", "cd_05"]},
+        "cd_routing_weights": {
+          "type": "object",
+          "properties": {
+            "cd_01_firaasa": {"type": "number", "minimum": 0, "maximum": 1},
+            "cd_02_metaphor": {"type": "number", "minimum": 0, "maximum": 1},
+            "cd_03_authenticity": {"type": "number", "minimum": 0, "maximum": 1},
+            "cd_04_heritage": {"type": "number", "minimum": 0, "maximum": 1},
+            "cd_05_paradox": {"type": "number", "minimum": 0, "maximum": 1}
+          }
+        },
+        "contrarian_belief": {"type": "string", "description": "What this brand believes that 90% of competitors don't"},
+        "single_word_positioning": {"type": "string", "enum": ["Authentic", "Innovative", "Heritage", "Disruptive", "Refined"]}
+      }
+    },
+
+    "l2_voice": {
+      "type": "object",
+      "properties": {
+        "voice_triangle": {
+          "type": "object",
+          "properties": {
+            "formal_colloquial": {"type": "number", "minimum": 0, "maximum": 1},
+            "warm_cold": {"type": "number", "minimum": 0, "maximum": 1},
+            "confident_humble": {"type": "number", "minimum": 0, "maximum": 1}
+          }
+        },
+        "three_love_lines": {"type": "array", "items": {"type": "string"}, "minItems": 3, "maxItems": 3},
+        "three_hate_lines": {"type": "array", "items": {"type": "string"}, "minItems": 3, "maxItems": 3},
+        "dialect": {"type": "string"},
+        "msa_tolerance": {"type": "string"},
+        "emoji_density": {"type": "string", "enum": ["zero", "sparse", "moderate", "heavy"]},
+        "hashtag_style": {"type": "string"},
+        "codeswitch_tolerance": {"type": "string"},
+        "anti_vocabulary": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+
+    "l3_visual": {
+      "type": "object",
+      "properties": {
+        "primary_color": {
+          "type": "object",
+          "properties": {
+            "hex": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+            "philosophy": {"type": "string"},
+            "extension_rule": {"type": "string"},
+            "usage_pct": {"type": "integer", "minimum": 0, "maximum": 100},
+            "temperature_lock": {"type": "string"},
+            "saturation_lock": {"type": "string"},
+            "forbidden_pairings": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "secondary_color": {"type": "object"},
+        "typography": {"type": "object"},
+        "composition": {"type": "object"},
+        "logo_behavior": {"type": "object"},
+        "seed_range": {"type": "array", "items": {"type": "integer"}, "minItems": 2, "maxItems": 2},
+        "reference_locks": {"type": "array", "items": {"type": "object"}}
+      }
+    },
+
+    "l4_cinematography": {
+      "type": "object",
+      "properties": {
+        "lighting_style": {"type": "string"},
+        "lighting_direction": {"type": "string"},
+        "key_fill_ratio": {"type": "string"},
+        "focal_length": {"type": "string"},
+        "depth_of_field": {"type": "string"},
+        "camera_height": {"type": "string"},
+        "camera_angle": {"type": "string"},
+        "sensor_look": {"type": "string"},
+        "motion_grammar": {"type": "object"},
+        "signature_camera_move": {"type": "string"},
+        "color_grade_lock": {"type": "string"},
+        "first_frame_category": {"type": "string"},
+        "last_frame_category": {"type": "string"}
+      }
+    },
+
+    "l5_look_and_feel": {
+      "type": "object",
+      "properties": {
+        "mood_lexicon": {"type": "array", "items": {"type": "string"}, "minItems": 10, "maxItems": 20},
+        "reference_brand_anchors": {"type": "array", "items": {"type": "object"}},
+        "audience_emotional_state_lock": {"type": "string"},
+        "cultural_resonance": {"type": "object"}
+      }
+    },
+
+    "l6_production": {
+      "type": "object",
+      "properties": {
+        "talent_profile": {"type": "object"},
+        "location_profile": {"type": "object"},
+        "prop_signature": {"type": "object"},
+        "wardrobe_palette": {"type": "array"},
+        "signature_ritual": {"type": "string"}
+      }
+    },
+
+    "distinctiveness": {
+      "type": "object",
+      "properties": {
+        "current_score": {"type": "number", "minimum": 0, "maximum": 1},
+        "sector_average": {"type": "number"},
+        "last_computed": {"type": "string", "format": "date-time"}
+      }
+    },
+
+    "lora_models": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "lora_ulid": {"type": "string"},
+          "kind": {"type": "string", "enum": ["style", "character", "occasion"]},
+          "version": {"type": "integer"},
+          "weights_uri": {"type": "string"},
+          "trained_on_count": {"type": "integer"},
+          "current_weight": {"type": "number"}
+        }
+      }
+    },
+
+    "provenance": {"$ref": "provenance_mixin_v1.schema.json"}
+  }
+}

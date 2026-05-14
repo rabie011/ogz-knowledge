@@ -1,0 +1,65 @@
+# arabic_text_rules.yaml
+# Short config — read by COO + CCO. Arabic-text quality + dialect routing.
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+title: Arabic text rendering and writing rules
+description: How the system writes, renders, and validates Arabic text. Applied at generation time (COO) and QC time (CCO).
+rendering:
+  direction: 'RTL by default for Arabic text blocks. Numerals: Indo-Arabic (٠١٢٣٤٥٦٧٨٩) preferred for native feel; Western
+    Arabic (0123456789) acceptable in commercial-tech contexts.'
+  font_pairing: 'Pair Arabic font with English Latin font at equal optical weight. Recommended: Neue Frutiger Arabic family
+    with Modern Era (English). Never use machine-defaulted system fonts where licensing allows the brand pair.'
+  ligatures: Use full Arabic ligatures (initial / medial / final / isolated). Never produce 'broken Arabic' where letters
+    render as disconnected glyphs.
+  diacritics: Tashkeel (vowel diacritics) are optional. Use only when meaning would otherwise be ambiguous. Avoid over-vocalized
+    text — it feels textbook-formal.
+dialect_default:
+  primary: najdi (Riyadh-default for Saudi-domestic content)
+  regional_overrides:
+    hijazi: for Jeddah, Makkah, Madinah, Western region brands
+    eastern: for Eastern Province brands (oil-sector cities)
+    southern: for Asir, Najran, Jazan brands
+  gulf_neutral: khaleeji_neutral — for brands targeting GCC across borders
+msa_usage:
+  rule: 'Modern Standard Arabic (MSA) is used only when context demands: government, religious occasions (Ramadan, Eid Al-Adha),
+    official announcements, or brands that explicitly request MSA at onboarding.'
+  avoid_msa_for:
+  - casual social posts
+  - F&B and beauty content (sounds textbook-stiff)
+  - youth-targeted retail
+  - humor or warm-conversational content (MSA cannot do warmth)
+codeswitching:
+  rule: Brand-controlled. Default tolerance per sector baseline.
+  approved_patterns:
+  - Brand name in Latin script when registered that way (e.g., STC, Almarai)
+  - Tech/product terms with no native Arabic equivalent (e.g., podcast, Wi-Fi, app)
+  - Quoted English from an external source, kept in English for accuracy
+  avoid:
+  - showing off bilingual capability where it interrupts flow
+  - translating words that have natural Arabic equivalents (e.g., 'time' → use الوقت, not 'time')
+  - more than 30% English in an Arabic-primary post
+translation_smell:
+  description: Indicators that Arabic copy was machine-translated from English rather than written native. CCO flags these.
+  indicators:
+  - English sentence structure preserved (verb-final or verb-first English patterns rendered awkwardly in Arabic)
+  - literal idiom translation ('break a leg' → كسر ساق)
+  - uniform tashkeel pattern that mimics translation-tool default
+  - stiff MSA where dialect would naturally flow
+  - absence of natural Arabic rhetorical devices (saj', repetition, parallel structure)
+  - inappropriate formal address (using حضرتك where dialect would say أنت)
+writing_conventions:
+  voice_anchor: Arabic is a SIBLING to English, never a SUBTITLE. Each language carries its own resonance.
+  headline_rule: When English headline is bold/declarative, Arabic headline mirrors at equal weight — not smaller, not below.
+  punctuation: Arabic punctuation marks (؟ ، ؛) preferred. ASCII punctuation acceptable in mixed-script lines.
+  emoji_rules: One emoji maximum per caption, or none. Emoji never replaces an Arabic word that conveys the meaning.
+  no_machine_translation: Caption text must be authentically composed Arabic, not Google-translated English. CCO scores translation-smell
+    as a quality dock.
+provenance:
+  source: research_corpus/CCO_Environment_v2.docx + saudi_dialect_synthesis + bilingual_voice_principles
+  date_added: '2026-05-14T14:50:29Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

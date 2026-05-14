@@ -1,0 +1,85 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "2C7BYK60107M62SZV4PVKGWTAA",
+  "chain_id_short": "tf20_02",
+  "family": "TF20",
+  "schema_version": 1,
+  "name_en": "Fragrance / Oud Showcase",
+  "name_ar": "Fragrance / Oud Showcase — R05",
+  "purpose": "Premium fragrance bottle hero shot with luxury staging. Saudi oud market specialty.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1-ultra",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/seedance-2.0",
+      "role": "image_to_image_edit"
+    }
+  ],
+  "input_schema": {
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 5
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    }
+  },
+  "prompt_template": "Luxury fragrance photography of {fragrance_descriptor} bottle staged on dark wooden surface with traditional oud wood chips visible, soft warm amber lighting from upper right, brass and gold details in surroundings, hyper-realistic glass bottle reflections and oud wood texture, shot on 100mm macro at f/8, premium luxury Saudi aesthetic, no text, no watermark, no people {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "retail",
+      "beauty"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": true,
+    "requires_gesture_check": true,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.07,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": [
+    "cd_01",
+    "cd_03",
+    "cd_04"
+  ],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: person",
+    "Avoid in output: harsh lighting"
+  ],
+  "notes": "Intents: launch, defend. Source code in research corpus: R05. Saudi adaptation guidance: Most culturally specific fragrance chain for Saudi market. Oud wood chips essential prop signaling traditional Saudi fragrance heritage. Reference image: Required. Recommended frequency: 1-2 per month luxury fragrance.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx#TF20#R05",
+    "date_added": "2026-05-13T15:30:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

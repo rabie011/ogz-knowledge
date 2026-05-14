@@ -1,0 +1,91 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "2ZXWPSBBSEJRGCPTZ4WVPS5B03",
+  "chain_id_short": "tf04_05",
+  "family": "TF04",
+  "schema_version": 1,
+  "name_en": "Retail Boutique Interior",
+  "name_ar": "Retail Boutique Interior — T16",
+  "purpose": "Product staged inside high-end retail boutique. Aspirational context.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video",
+      "role": "image_to_image_edit"
+    }
+  ],
+  "input_schema": {
+    "subject_description": {
+      "type": "string",
+      "description": "The subject (product, person, scene) to be rendered",
+      "required": true,
+      "min_length": 10
+    },
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 5
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    }
+  },
+  "prompt_template": "Aspirational retail photography of {product_descriptor} on reflective black-and-gold counter inside luxury department store interior, deep amber lighting throughout, mirrored reflection at base, blurred premium store fixtures and gold trim visible, shot on 50mm at f/4, no text, no watermark, no shoppers {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "retail",
+      "beauty"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.05,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": [
+    "cd_01",
+    "cd_03"
+  ],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: person",
+    "Avoid in output: shoppers"
+  ],
+  "notes": "Intents: launch, grow. Source code in research corpus: T16. Saudi adaptation guidance: For brands implying scale and premium retail. NOT appropriate for indie or homegrown — feels inauthentic. Reference image: Required. Recommended frequency: 1 per month.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx#TF04#T16",
+    "date_added": "2026-05-13T15:30:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

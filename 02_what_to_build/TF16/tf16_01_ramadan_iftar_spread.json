@@ -1,0 +1,83 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "1TM197RN00KG3EY4WZRZJR0S2T",
+  "chain_id_short": "tf16_01",
+  "family": "TF16",
+  "schema_version": 1,
+  "name_en": "Ramadan Iftar Spread",
+  "name_ar": "Ramadan Iftar Spread — F03",
+  "purpose": "Full iftar table spread with dates, water, traditional and modern Saudi dishes. Auto-triggers during Ramadan.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/seedance-2.0",
+      "role": "image_to_image_edit"
+    }
+  ],
+  "input_schema": {
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 5
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    }
+  },
+  "prompt_template": "Warm Ramadan iftar table photography showing traditional Saudi iftar spread with dates and water cups at center, vimto in glasses, samosas, harees, kabsa with lamb, {featured_dish}, traditional brass dallah coffee pot, warm tungsten ambient interior lighting, soft golden-hour quality suggesting just-after-sunset, no people, top-down or 45-degree angle, hyper-realistic food and brassware detail, shot on 35mm at f/5.6, no text, no watermark {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b"
+    ],
+    "occasions_allowed": [
+      "ramadan_(high)"
+    ],
+    "quality_tiers_allowed": [
+      "growth"
+    ],
+    "min_brand_maturity_days": 14
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": true,
+    "requires_gesture_check": true,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": true,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "starter"
+  },
+  "cost_estimate_usd": 0.05,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": [
+    "cd_03",
+    "cd_04"
+  ],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: alcohol",
+    "Avoid in output: pork"
+  ],
+  "notes": "Intents: all. Source code in research corpus: F03. Saudi adaptation guidance: Critical: just-after-sunset lighting essential (pre-sunset suggests breaking fast early — religiously incorrect). Featured dish varies by brand region. Auto-triggers during ramadan_active. Reference image: Optional. Recommended frequency: 2-3 per week during Ramadan. Compliance level: elevated.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx#TF16#F03",
+    "date_added": "2026-05-13T15:30:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

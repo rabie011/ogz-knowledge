@@ -1,0 +1,76 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "237C1NCWC3SE9VYNMNTYS6RPER",
+  "chain_id_short": "tf22_01",
+  "family": "TF22",
+  "schema_version": 1,
+  "name_en": "Ramadan Atmosphere Clip",
+  "name_ar": "Ramadan Atmosphere Clip — V01",
+  "purpose": "Native Ramadan atmosphere video — lantern, dates, iftar prep sequence.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "—",
+      "role": "primary_video_generation"
+    }
+  ],
+  "input_schema": {
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 10
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    }
+  },
+  "prompt_template": "(Native text-to-video — no image generation step) {cultural_constraints_injection} | Motion: Ramadan atmosphere video: traditional fanous lantern slowly illuminates in foreground, warm tungsten glow gradually intensifies, table with dates and water cups becomes visible, ambient golden-hour just-after-sunset light, peaceful contemplative atmosphere, no people, no text, ambient Ramadan sound, 10 seconds",
+  "output_type": "video",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1920,
+    "aspect_ratio_label": "9:16",
+    "duration_seconds": 10
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b"
+    ],
+    "occasions_allowed": [
+      "ramadan"
+    ],
+    "quality_tiers_allowed": [
+      "growth"
+    ],
+    "min_brand_maturity_days": 14
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.05,
+  "latency_estimate_seconds": 60,
+  "best_for_cd_brains": [
+    "cd_01",
+    "cd_03"
+  ],
+  "anti_patterns": [
+    "Avoid trying to substitute with image-to-video fallback chain — native generation is the point"
+  ],
+  "notes": "Intents: all. Source code in research corpus: V01. Saudi adaptation guidance: Auto-triggered during ramadan_active. Top Ramadan content for F&B. Reference image: Not required. Recommended frequency: 1 per week during Ramadan.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx#TF22#V01",
+    "date_added": "2026-05-13T15:30:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

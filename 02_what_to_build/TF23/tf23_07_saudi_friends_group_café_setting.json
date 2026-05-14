@@ -1,0 +1,86 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "2QFF2V2SYW6TK5WQWJE0VZBCYG",
+  "chain_id_short": "tf23_07",
+  "family": "TF23",
+  "schema_version": 1,
+  "name_en": "Saudi Friends Group — Café Setting",
+  "name_ar": "Saudi Friends Group — Café Setting — S07",
+  "purpose": "Three or four Saudi friends in modern Saudi café, social moment, product on table. Single-gender groups only.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video",
+      "role": "image_to_image_edit"
+    }
+  ],
+  "input_schema": {
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 5
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    }
+  },
+  "prompt_template": "Authentic candid photograph of {group_gender} Saudi friends in their twenties seated together in modern Saudi café with warm wood and beige interior, modest casual fashion appropriate to gender ({fashion_details}), products from {brand_descriptor} on table between them including coffee cups and small dessert plates, three or four people in frame, candid expressions of laughter and conversation, some looking at each other rather than camera, natural daylight from large café window, real skin textures on all visible faces, shot from across-the-table angle suggesting phone documenting moment, authentic non-staged composition, slight grain texture, single-gender group composition {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "home_lifestyle"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": true,
+    "requires_gesture_check": true,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "starter"
+  },
+  "cost_estimate_usd": 0.05,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": [
+    "cd_03"
+  ],
+  "anti_patterns": [
+    "Avoid in output: mixed-gender intimate framing",
+    "Avoid in output: posed group photo",
+    "Avoid in output: fashion model expressions",
+    "Avoid in output: smooth plastic skin",
+    "Never present non-Saudi talent or generic Middle-Eastern look — Saudi specificity is the point",
+    "Avoid tourist-photography aesthetic; this is lived-in lifestyle, not destination shoot"
+  ],
+  "notes": "Intents: grow, defend. Source code in research corpus: S07. Saudi adaptation guidance: Saudi single-gender social groups cultural norm. Mixed-gender friend groups read as family or romantic which is non-compliant. Saudi cafés have distinct interior aesthetic — warm wood, beige tones, neutral palette. Reference image: Not required. Recommended frequency: 2 per week for café/lifestyle brands. Compliance level: elevated (single-gender groups only).",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx#TF23#S07",
+    "date_added": "2026-05-13T15:30:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

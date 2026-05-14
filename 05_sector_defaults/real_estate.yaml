@@ -1,0 +1,132 @@
+# real_estate.yaml
+# Schema: 12_data_shapes/sector_baseline_v1.schema.json
+# Confidence: experimental
+# Scope: sector:real_estate
+
+---
+sector_baseline_ulid: 01KRKFFECNNE1DV985GJ1N7X16
+sector_slug: real_estate
+sector_name_en: Real Estate
+sector_name_ar: العقارات
+schema_version: 1
+default_voice:
+  register: authoritative-aspirational
+  formality: neutral
+  dialect_default: mixed_najdi_msa
+  msa_tolerance: high
+  english_codeswitching_tolerance: moderate
+default_visual:
+  primary_palette:
+  - '#1F2A2E'
+  - '#C09F6F'
+  - '#E8D5B4'
+  - '#FFFFFF'
+  secondary_accents:
+  - '#3349EB'
+  lighting_default: golden-hour exterior · architectural backlight · controlled interior key
+  composition_default: wide architectural with strong leading lines; symmetry for hero shots
+  texture_default: marble · brushed metal · linen · stone; minimal decorative clutter
+default_cinematography:
+  lens_default: 16-35mm wide for interiors · 24-70mm exteriors
+  depth_of_field: deep (everything sharp); shallow only on accent shots
+  camera_height: eye-level for human-scale rooms; slightly elevated for masterplans
+  motion_grammar: slow gimbal walk-through · push-in · top-down drone for masterplans
+default_cultural_spec:
+  bilingual_ratio: balanced 50/50
+  humor_tolerance: none
+  religious_sensitivity: medium
+  modesty_level: moderate
+  tone_attributes:
+  - aspirational
+  - trustworthy
+  - premium
+  tone_anti_attributes:
+  - casual
+  - humorous
+  visual_style:
+  - architectural photography
+  - wide environmental
+  visual_anti_style:
+  - documentary
+  - candid lifestyle
+  ramadan_relevance: medium
+  eid_fitr_relevance: medium
+  eid_adha_relevance: low
+  national_day_relevance: high
+  founding_day_relevance: high
+  summer_shift_intensity: minor
+  posting_frequency_default: 3x per week
+  posting_time_weekday_default: 20:00 AST
+  posting_time_ramadan_default: 21:30 AST
+  content_mix:
+    awareness_pct: 50
+    engagement_pct: 25
+    conversion_pct: 25
+  confidence_floor: 0.6
+default_eligible_chains:
+- chain_ulid: 2ZXWPSBBSEJRGCPTZ4WVPS5B03
+  chain_id_short: tf04_05
+  score: 0.92
+- chain_ulid: 2V5YCB0VVCP3N2N0HR6AZKP748
+  chain_id_short: tf04_01
+  score: 0.9
+- chain_ulid: 0NB2K0F4CTVCESSACPD937RX1K
+  chain_id_short: tf04_02
+  score: 0.88
+- chain_ulid: 0D3ZHKPR19SS3AT5M72TM9C2KB
+  chain_id_short: tf04_03
+  score: 0.85
+- chain_ulid: 4Y0FZDD2WAFS05SXFC2QBM9A0S
+  chain_id_short: tf06_03
+  score: 0.83
+- chain_ulid: 559Q5DN1XQ5NNJRENNHHDD9B96
+  chain_id_short: tf13_04
+  score: 0.8
+- chain_ulid: 6NYRYC8BAK04D7J6QS4GNEH91Z
+  chain_id_short: tf23_08
+  score: 0.78
+- chain_ulid: 6NEHXTQ94ZWWP864RTNSB730E3
+  chain_id_short: tf23_10
+  score: 0.75
+- chain_ulid: 281SWRZY96S2MS8D0C86CXDPZZ
+  chain_id_short: tf21_02
+  score: 0.72
+- chain_ulid: 3433M3041NZGE0HW7NDPYPVCYN
+  chain_id_short: tf22_04
+  score: 0.7
+default_occasions_priority:
+- occasion_slug: saudi_national_day
+  priority: 0.9
+- occasion_slug: saudi_founding_day
+  priority: 0.85
+- occasion_slug: eid_al_fitr
+  priority: 0.55
+- occasion_slug: ramadan
+  priority: 0.5
+- occasion_slug: eid_al_adha
+  priority: 0.3
+default_kpis_focus:
+- qualified_lead_volume
+- viewing_bookings
+- brand_lift
+- long_form_engagement
+forbidden_topics_sector_specific:
+- guaranteed-return language (regulator-sensitive)
+- unverifiable comparison claims
+- race / nationality-targeted pricing implication
+- exact financing terms without licensed-broker disclosure
+default_cd_brain_routing_bias:
+  cd_01_firaasa: 0.85
+  cd_02_metaphor: 0.7
+  cd_03_authenticity: 0.65
+  cd_04_heritage: 0.9
+  cd_05_paradox: 0.55
+notes: EXTRAPOLATED — source xlsx did not cover Real Estate. Values inferred from chain sectors_allowed:home + Saudi market
+  patterns (Vision 2030 mega-projects, Najdi/Hijazi interior preferences, founding-day patriotism strong for real estate brands).
+  MUST be validated by Cultural Advisor before production use.
+provenance:
+  source: inference:chain_sectors_allowed_home + Saudi_market_knowledge_2026
+  date_added: '2026-05-14T14:50:29Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: sector:real_estate

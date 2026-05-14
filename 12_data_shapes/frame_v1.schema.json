@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ogz-knowledge/schemas/frame_v1.schema.json",
+  "title": "Frame v1",
+  "description": "A single observed image (from a campaign archive, a benchmark account post, or a brand's reference). Captures structural observations.",
+  "type": "object",
+  "required": [
+    "frame_ulid",
+    "schema_version",
+    "source_kind",
+    "composition",
+    "subject",
+    "wardrobe_observed",
+    "setting_observed",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "frame_ulid": {"type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"},
+    "schema_version": {"type": "integer", "const": 1},
+    "source_kind": {
+      "type": "string",
+      "enum": ["campaign_archive", "benchmark_account", "brand_reference", "stock_reference", "generated_output"]
+    },
+    "source_uri": {"type": "string"},
+    "composition": {
+      "type": "object",
+      "properties": {
+        "aspect_ratio": {"type": "string"},
+        "subject_position": {"type": "string"},
+        "negative_space": {"type": "string"},
+        "crop": {"type": "string"},
+        "rule_followed": {"type": "string"}
+      }
+    },
+    "subject": {
+      "type": "object",
+      "properties": {
+        "human_count": {"type": "integer"},
+        "human_demographics": {"type": "string"},
+        "non_human_subjects": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "wardrobe_observed": {"type": "array", "items": {"type": "string"}},
+    "setting_observed": {"type": "string"},
+    "props_observed": {"type": "array", "items": {"type": "string"}},
+    "gestures_observed": {"type": "array", "items": {"type": "string"}},
+    "lighting_observed": {"type": "string"},
+    "color_palette_observed": {"type": "array", "items": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"}},
+    "text_overlay_observed": {"type": "string"},
+    "arabic_text_present": {"type": "boolean"},
+    "cultural_correctness_notes": {"type": "string"},
+    "provenance": {"$ref": "provenance_mixin_v1.schema.json"}
+  }
+}

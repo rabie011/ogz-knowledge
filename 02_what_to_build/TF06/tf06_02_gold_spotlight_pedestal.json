@@ -1,0 +1,90 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "6KGD6HRSKF0DDKGQPHGW1TGGY4",
+  "chain_id_short": "tf06_02",
+  "family": "TF06",
+  "schema_version": 1,
+  "name_en": "Gold Spotlight Pedestal",
+  "name_ar": "Gold Spotlight Pedestal — T22",
+  "purpose": "Product on reflective gold pedestal with warm directional spotlight.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1-ultra",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video",
+      "role": "image_to_image_edit"
+    }
+  ],
+  "input_schema": {
+    "subject_description": {
+      "type": "string",
+      "description": "The subject (product, person, scene) to be rendered",
+      "required": true,
+      "min_length": 10
+    },
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 5
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    }
+  },
+  "prompt_template": "Luxury commercial photography of {product_descriptor} on reflective polished gold cylindrical pedestal, single warm directional spotlight from upper left at 45 degrees casting dramatic light pool, deep cream gradient background, atmospheric haze, gold pedestal mirrors product base, shot on 85mm at f/5.6, no text, no watermark {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "retail",
+      "beauty"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.07,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": [
+    "cd_02",
+    "cd_03"
+  ],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: multiple lights",
+    "Avoid in output: cluttered"
+  ],
+  "notes": "Intents: launch, defend. Source code in research corpus: T22. Saudi adaptation guidance: Canonical visual for Saudi luxury watch and jewelry launches. Reference image: Required. Recommended frequency: 1 per quarter.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx#TF06#T22",
+    "date_added": "2026-05-13T15:30:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

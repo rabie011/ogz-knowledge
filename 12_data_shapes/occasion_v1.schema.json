@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ogz-knowledge/schemas/occasion_v1.schema.json",
+  "title": "Occasion v1",
+  "description": "A culturally significant occasion in the Saudi calendar. Each occasion declares its date range, cultural weight, content do's/don'ts, recommended chains, and anti-patterns.",
+  "type": "object",
+  "required": [
+    "occasion_ulid",
+    "occasion_slug",
+    "name_en",
+    "name_ar",
+    "schema_version",
+    "date_recurrence",
+    "cultural_significance",
+    "content_focus_themes",
+    "content_dos",
+    "content_donts",
+    "recommended_chains",
+    "anti_pattern_warnings",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "occasion_ulid": {"type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"},
+    "occasion_slug": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+    "name_en": {"type": "string"},
+    "name_ar": {"type": "string"},
+    "schema_version": {"type": "integer", "const": 1},
+    "date_recurrence": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {"type": "string", "enum": ["hijri", "gregorian", "hybrid"]},
+        "hijri_month": {"type": "integer", "minimum": 1, "maximum": 12},
+        "hijri_days": {"type": "string"},
+        "gregorian_month": {"type": "integer", "minimum": 1, "maximum": 12},
+        "gregorian_day": {"type": "integer", "minimum": 1, "maximum": 31},
+        "duration_days": {"type": "string"},
+        "varies_by_moonsighting": {"type": "boolean"}
+      }
+    },
+    "cultural_significance": {
+      "type": "object",
+      "properties": {
+        "religious_weight": {"type": "string", "enum": ["none", "low", "medium", "high", "highest"]},
+        "family_centrality": {"type": "string", "enum": ["low", "medium", "high", "highest"]},
+        "hospitality_intensity": {"type": "string", "enum": ["low", "medium", "high", "highest"]},
+        "commercial_activity": {"type": "string"},
+        "patriotic_weight": {"type": "string", "enum": ["none", "low", "medium", "high", "highest"]},
+        "heritage_weight": {"type": "string", "enum": ["none", "low", "medium", "high", "highest"]}
+      }
+    },
+    "content_focus_themes": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 1
+    },
+    "content_dos": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 3
+    },
+    "content_donts": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 3
+    },
+    "day_specific_variations": {
+      "type": "object",
+      "description": "Optional. Different phases within the occasion (e.g., first 3 days vs middle 10 vs last 10 of Ramadan)",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "focus": {"type": "string"},
+          "emotion": {"type": "string"},
+          "content_emphasis": {"type": "string"}
+        }
+      }
+    },
+    "recommended_chains": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["chain_id_short", "reason"],
+        "properties": {
+          "chain_ulid": {"type": "string"},
+          "chain_id_short": {"type": "string"},
+          "reason": {"type": "string"}
+        }
+      }
+    },
+    "reference_campaigns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "campaign_ulid": {"type": "string"},
+          "note": {"type": "string"}
+        }
+      }
+    },
+    "anti_pattern_warnings": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 1
+    },
+    "preparation_lead_days": {
+      "type": "integer",
+      "description": "How many days before the occasion brands should start related content"
+    },
+    "provenance": {"$ref": "provenance_mixin_v1.schema.json"}
+  }
+}

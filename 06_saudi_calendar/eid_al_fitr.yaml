@@ -1,0 +1,87 @@
+# eid_al_fitr.yaml
+# Schema: 12_data_shapes/occasion_v1.schema.json
+# Confidence: experimental
+# Scope: occasion:eid_al_fitr
+
+---
+occasion_ulid: 01KRKFFEEC3YRAD8P0X2EDB6C7
+occasion_slug: eid_al_fitr
+name_en: Eid Al-Fitr
+name_ar: عيد الفطر
+schema_version: 1
+date_recurrence:
+  type: hijri
+  hijri_month: 10
+  hijri_days: 1-3
+  duration_days: '3'
+  varies_by_moonsighting: true
+cultural_significance:
+  religious_weight: high
+  family_centrality: highest
+  hospitality_intensity: highest
+  commercial_activity: peak retail moment — Eid clothes, gifts, gift-card spend
+  patriotic_weight: low
+  heritage_weight: high
+content_focus_themes:
+- joy and celebration after the fast
+- Eid clothes (new outfits, traditional thobes/abayas)
+- family gatherings and hospitality (kahwa, dates, ma'amoul, ka'ak)
+- gift-giving (Eidiya — cash gifts to children)
+- community Eid prayers and post-prayer gatherings
+- children's joy and intergenerational moments
+content_dos:
+- lead with celebratory warmth — bright, joyful, family-centered framing
+- show traditional Eid sweets (ma'amoul, ka'ak, basbousa) with Arabic naming
+- feature multigenerational family scenes — grandparents, parents, children together
+- use Eid Mubarak / كل عام وأنتم بخير openers respectfully and varied — don't repeat one phrase
+- highlight new clothes and gift-giving genuinely; Eid clothes are a cultural ritual not just a sale
+- 'show community: Eid prayer, post-prayer hugs, neighbor visits'
+content_donts:
+- do NOT use 'sale ends in 2 hours' urgency on Eid Day 1 — Eid Day 1 is family, not transactional
+- do NOT depict alcohol, gambling, or any prohibited imagery (perennial; especially visible on Eid)
+- do NOT show isolated celebration — Eid is communal; lone scenes feel off
+- do NOT mix Eid Al-Fitr and Eid Al-Adha in the same creative without distinction — they are different events
+- do NOT use 'Eid Mubarak' as the only caption text — bilingual sibling expected
+- do NOT recycle Ramadan creative — Eid voice is celebratory-bright; Ramadan was contemplative-warm
+day_specific_variations:
+  day_1_family_first:
+    focus: family gathering, Eid prayer, gift-giving
+    emotion: joyful, family-centered, hospitable
+    content_emphasis: non-transactional — brand as presence in the family moment, no aggressive promo
+  days_2_and_3_extended_celebration:
+    focus: extended family visits, outings, ongoing celebration
+    emotion: festive, social, generous
+    content_emphasis: commercial content acceptable; gift-giving narratives strong; outdoor/social scenes
+recommended_chains:
+- chain_ulid: 7X8BD9YG90R4GHA4M3CBHMJ74W
+  chain_id_short: tf16_02
+  reason: Occasion Greeting — direct Eid Mubarak greeting format
+- chain_ulid: 3433M3041NZGE0HW7NDPYPVCYN
+  chain_id_short: tf22_04
+  reason: Occasion Announcement Video
+- chain_ulid: 2C5FMJNXB4DHNQJ7M01GR32ECF
+  chain_id_short: tf23_09
+  reason: Saudi Mother & Daughter Moment — generational Eid scene
+- chain_ulid: 16H37RYDMDGDHFTQZ6DFC6J5JW
+  chain_id_short: tf22_05
+  reason: New Arrival Reveal Video — Eid product/collection launch
+- chain_ulid: 281SWRZY96S2MS8D0C86CXDPZZ
+  chain_id_short: tf21_02
+  reason: New Arrival / Launch — Eid collection drop
+- chain_ulid: 0D3ZHKPR19SS3AT5M72TM9C2KB
+  chain_id_short: tf04_03
+  reason: Bedroom Side Table Morning — Eidiya/gift placement
+anti_pattern_warnings:
+- 'AVOID: ''Eid Sale 70% OFF'' as the day-1 hero — wrong day; runs on day 2-3'
+- 'AVOID: generic stock-feeling smiles — Saudi Eid scenes have specific cues (thobes, kahwa, kids running)'
+- 'AVOID: assuming Eid Al-Fitr and Eid Al-Adha share creative — they are tonally different (Fitr is joy-after-fast; Adha is
+  sacrificial-reflective)'
+- 'AVOID: foreign cultural imagery (e.g., Western Christmas-style gift wrapping) for Eidiya — Eidiya is cash in envelopes,
+  not wrapped boxes'
+preparation_lead_days: 14
+provenance:
+  source: internal_research_corpus/OGz_OpenClaw_Prompt_Requirements.xlsx#Saudi_Occasions+Saudi_calendar_2027
+  date_added: '2026-05-14T14:50:29Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: occasion:eid_al_fitr

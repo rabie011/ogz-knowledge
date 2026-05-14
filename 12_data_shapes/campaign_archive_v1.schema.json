@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ogz-knowledge/schemas/campaign_archive_v1.schema.json",
+  "title": "Campaign Archive v1",
+  "description": "An anonymized campaign record used as reference material for agents. Each record captures a campaign's brief, CD brain applied, insight, execution, outcomes, what made it work, and what would NOT transplant.",
+  "type": "object",
+  "required": [
+    "campaign_ulid",
+    "campaign_code_anonymized",
+    "sector",
+    "schema_version",
+    "brief_summary_anonymized",
+    "cd_brain_used",
+    "strategic_insight",
+    "execution_summary",
+    "chains_used",
+    "outcomes",
+    "what_made_it_work",
+    "what_would_NOT_transplant",
+    "retrieval_keywords",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "campaign_ulid": {"type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"},
+    "campaign_code_anonymized": {"type": "string"},
+    "sector": {"type": "string"},
+    "year": {"type": "integer", "minimum": 2018, "maximum": 2030},
+    "schema_version": {"type": "integer", "const": 1},
+    "occasion_context": {"type": "string"},
+    "brief_summary_anonymized": {"type": "string", "minLength": 50},
+    "cd_brain_used": {"type": "string", "enum": ["cd_01", "cd_02", "cd_03", "cd_04", "cd_05"]},
+    "cd_brain_used_secondary": {"type": "string"},
+    "strategic_insight": {"type": "string", "minLength": 30},
+    "execution_summary": {"type": "string", "minLength": 30},
+    "chains_used": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 1
+    },
+    "outcomes": {
+      "type": "object",
+      "properties": {
+        "award": {"type": "string"},
+        "engagement_lift": {"type": "string"},
+        "brand_lift_internal": {"type": "string"},
+        "client_renewal": {"type": "string"}
+      }
+    },
+    "what_made_it_work": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 2
+    },
+    "what_would_NOT_transplant": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 1,
+      "description": "Critical. Prevents this campaign from being used as a copy-paste template."
+    },
+    "retrieval_keywords": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 3
+    },
+    "provenance": {"$ref": "provenance_mixin_v1.schema.json"}
+  }
+}

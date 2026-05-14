@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ogz-knowledge/schemas/account_pattern_v1.schema.json",
+  "title": "Account Pattern v1",
+  "description": "An extracted pattern observed across one or more Saudi IG benchmark accounts. Patterns are reusable inspiration material; never copied verbatim.",
+  "type": "object",
+  "required": [
+    "pattern_ulid",
+    "pattern_name",
+    "pattern_slug",
+    "schema_version",
+    "description",
+    "observed_in_sectors",
+    "observed_in_account_count",
+    "structural_recipe",
+    "why_it_works",
+    "transplantation_caveats",
+    "applicable_chains",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "pattern_ulid": {"type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"},
+    "pattern_name": {"type": "string"},
+    "pattern_slug": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+    "schema_version": {"type": "integer", "const": 1},
+    "description": {"type": "string", "minLength": 30},
+    "observed_in_sectors": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "observed_in_account_count": {"type": "integer", "minimum": 1},
+    "structural_recipe": {
+      "type": "string",
+      "description": "What the pattern actually is, in structural terms (not specific content)"
+    },
+    "why_it_works": {
+      "type": "string",
+      "minLength": 20
+    },
+    "transplantation_caveats": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Where this pattern fails or backfires"
+    },
+    "applicable_chains": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Chain IDs short that can execute this pattern"
+    },
+    "avg_engagement_multiplier_observed": {"type": "string"},
+    "cultural_constraints": {"type": "array", "items": {"type": "string"}},
+    "provenance": {"$ref": "provenance_mixin_v1.schema.json"}
+  }
+}

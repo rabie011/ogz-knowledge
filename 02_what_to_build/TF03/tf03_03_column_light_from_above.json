@@ -1,0 +1,89 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "17EHBTDP50D0BSKRT7FT0TN0MD",
+  "chain_id_short": "tf03_03",
+  "family": "TF03",
+  "schema_version": 1,
+  "name_en": "Column Light From Above",
+  "name_ar": "Column Light From Above — T10",
+  "purpose": "Vertical column of light descending onto product. Sharp atmospheric beam.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/seedance-2.0",
+      "role": "image_to_image_edit"
+    }
+  ],
+  "input_schema": {
+    "subject_description": {
+      "type": "string",
+      "description": "The subject (product, person, scene) to be rendered",
+      "required": true,
+      "min_length": 10
+    },
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 5
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    }
+  },
+  "prompt_template": "Monumental product photography of {product_descriptor} at base of vertical column of light descending from upper frame at slight angle, sharp atmospheric beam with visible dust particles and god rays, complete darkness surrounding, ceremonial monolithic composition, shot on 85mm at f/8, no text, no watermark, no human figure {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "beauty",
+      "retail"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": true,
+    "requires_gesture_check": true,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.05,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": [
+    "cd_03"
+  ],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: multiple lights",
+    "Avoid in output: flat lighting"
+  ],
+  "notes": "Intents: launch, defend. Source code in research corpus: T10. Saudi adaptation guidance: Ceremonial register for luxury Saudi launches. Carefully avoids religious symbolism — negative explicitly excludes. Reference image: Required. Recommended frequency: 1 per quarter.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx#TF03#T10",
+    "date_added": "2026-05-13T15:30:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

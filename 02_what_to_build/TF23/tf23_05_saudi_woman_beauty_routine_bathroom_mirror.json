@@ -1,0 +1,86 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "0ZDV4SGVX87YCWX9ST44Y7G5KV",
+  "chain_id_short": "tf23_05",
+  "family": "TF23",
+  "schema_version": 1,
+  "name_en": "Saudi Woman Beauty Routine — Bathroom Mirror",
+  "name_ar": "Saudi Woman Beauty Routine — Bathroom Mirror — S05",
+  "purpose": "Saudi woman applying skincare in front of bathroom mirror, modest at-home framing. Hijab off in private home context (compliant).",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video",
+      "role": "image_to_image_edit"
+    }
+  ],
+  "input_schema": {
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 5
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    }
+  },
+  "prompt_template": "Authentic at-home morning routine photograph of a Saudi woman in her mid-twenties applying {product_type} in front of softly lit bathroom mirror, hair pulled back in casual loose bun, modest sleeveless or short-sleeve home top with shoulder coverage, focus on her hands applying product to her face, real visible skin texture with natural pores and subtle imperfections in mirror reflection, candid expression of concentration, warm bathroom interior lighting, slightly out-of-focus bathroom surroundings, shot as if from phone propped on counter, slight angle from below, authentic morning routine non-staged composition, no excessive makeup, no model-perfect features {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "beauty",
+      "home_lifestyle"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": true,
+    "requires_gesture_check": true,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "starter"
+  },
+  "cost_estimate_usd": 0.05,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": [
+    "cd_03"
+  ],
+  "anti_patterns": [
+    "Avoid in output: smooth plastic skin",
+    "Avoid in output: model perfect features",
+    "Avoid in output: heavy makeup",
+    "Avoid in output: glamour lighting",
+    "Never present non-Saudi talent or generic Middle-Eastern look — Saudi specificity is the point",
+    "Avoid tourist-photography aesthetic; this is lived-in lifestyle, not destination shoot"
+  ],
+  "notes": "Intents: grow, harvest. Source code in research corpus: S05. Saudi adaptation guidance: At-home women's content is canonical Saudi beauty UGC category. Compliance: chain frames woman from chest-up only. Hair-down permitted because context is unambiguously private home space. Reference image: Recommended. Recommended frequency: 2 per week for beauty brands. Compliance level: elevated (at-home women's content).",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx#TF23#S05",
+    "date_added": "2026-05-13T15:30:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

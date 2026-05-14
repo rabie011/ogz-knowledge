@@ -1,0 +1,97 @@
+# ramadan.yaml
+# Schema: 12_data_shapes/occasion_v1.schema.json
+# Confidence: experimental
+# Scope: occasion:ramadan
+
+---
+occasion_ulid: 01KRKFFEEC3YRAD8P0X2EDB6C6
+occasion_slug: ramadan
+name_en: Ramadan
+name_ar: رمضان
+schema_version: 1
+date_recurrence:
+  type: hijri
+  hijri_month: 9
+  hijri_days: 1-30 (29 or 30 by moon sighting)
+  duration_days: 29-30
+  varies_by_moonsighting: true
+cultural_significance:
+  religious_weight: highest
+  family_centrality: highest
+  hospitality_intensity: highest
+  commercial_activity: peak — F&B and retail spike 2-3x baseline
+  patriotic_weight: low
+  heritage_weight: high
+content_focus_themes:
+- family iftar gatherings (multi-generational)
+- charity and giving (zakat al-fitr)
+- post-iftar community moments
+- Suhoor and pre-dawn preparation
+- spiritual reflection and reading
+- preparation rituals (table-setting, hospitality)
+- Eid anticipation in the last 10 nights
+content_dos:
+- show iftar gatherings with families of multiple generations together
+- feature genuine traditional dishes (dates, qatayef, sambousa, harees) with Arabic naming
+- depict charity (zakat, gifting, food distribution) without exploiting the recipient
+- use warm golden-hour lighting and lantern-warm color palette in weeks 1-2
+- shift to celebratory-anticipatory tone in last 10 nights
+- 'respect prayer times: no posting during Maghreb prayer window (auto-quiet 18:00-18:30 AST during Ramadan)'
+- use Arabic-primary copy (80/20 minimum); English is sibling, not subtitle
+content_donts:
+- do NOT show food or drink consumption during fasting hours (daylight)
+- do NOT use aggressive promotional discount language in weeks 1-2 (commercial weight builds in last 10 days)
+- do NOT feature inappropriate clothing or mixed-gender intimate proximity
+- do NOT trivialize religious practices (no jokes about fasting, prayer, Quran recitation)
+- do NOT use 'Happy Ramadan' as the standalone caption — Ramadan is contemplative-first, celebratory in phase 3 only
+- do NOT depict charity recipients in identifiable or pitying framing
+- do NOT post timed promotions during iftar window without explicit family-friendly framing
+day_specific_variations:
+  first_10_days_contemplative:
+    focus: spiritual awakening, gentle anticipation, family preparation
+    emotion: contemplative, calm, reverent
+    content_emphasis: no aggressive sales; brand-as-presence; community welcome
+  middle_10_days_charity:
+    focus: giving, charity, community ritual
+    emotion: generous, warm, communal
+    content_emphasis: highlight giving programs, partner with charities, share customer stories of generosity
+  last_10_days_anticipation:
+    focus: Layla al-Qadr, Eid preparation, gift-giving ramp
+    emotion: anticipatory, celebratory-edge, joyful
+    content_emphasis: Eid product reveals OK from day 21; gift-giving content peaks; commercial activity legitimate
+recommended_chains:
+- chain_ulid: 1TM197RN00KG3EY4WZRZJR0S2T
+  chain_id_short: tf16_01
+  reason: Ramadan Iftar Spread — anchor chain for iftar table imagery
+- chain_ulid: 237C1NCWC3SE9VYNMNTYS6RPER
+  chain_id_short: tf22_01
+  reason: Ramadan Atmosphere Clip — mood-piece video format
+- chain_ulid: 3433M3041NZGE0HW7NDPYPVCYN
+  chain_id_short: tf22_04
+  reason: Occasion Announcement Video — kickoff and milestone moments
+- chain_ulid: 2C5FMJNXB4DHNQJ7M01GR32ECF
+  chain_id_short: tf23_09
+  reason: Saudi Mother & Daughter Moment — generational family scene
+- chain_ulid: 0NB2K0F4CTVCESSACPD937RX1K
+  chain_id_short: tf04_02
+  reason: Kitchen Window Morning — Suhoor preparation aesthetic
+- chain_ulid: 3EXE4J6N9TC9Y3KQM52GGC2VHC
+  chain_id_short: tf12_03
+  reason: Beverage Pour Stream — water/laban for iftar opening
+anti_pattern_warnings:
+- 'AVOID: ''Limited Time Ramadan Offer 50% OFF'' aggressive language in weeks 1-2 — reads as commercializing the holy month'
+- 'AVOID: showing characters eating during daylight hours, even in stylized form — auto-block at content gate'
+- 'AVOID: collapsing all 30 days into one tonal register — the month has 3 phases; treating it as one piece is the most common
+  failure mode'
+- 'AVOID: mixed-gender iftar scenes without family-context framing (extended family OK; cross-gender strangers eating together
+  is off)'
+- 'AVOID: comedic/punchline humor — Ramadan voice is warm but not jokey; jokes age badly here'
+- 'AVOID: lone-individual iftar scenes that imply isolation — Ramadan is family-centric; lone scenes need explicit narrative
+  framing'
+preparation_lead_days: 21
+provenance:
+  source: internal_research_corpus/OGz_OpenClaw_Prompt_Requirements.xlsx#Saudi_Occasions+Saudi_calendar_2027
+  date_added: '2026-05-14T14:50:29Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: occasion:ramadan

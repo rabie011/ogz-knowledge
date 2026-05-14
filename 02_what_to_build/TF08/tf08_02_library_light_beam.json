@@ -1,0 +1,91 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "7S1A2K76H4DC5G5348WHSJ05K1",
+  "chain_id_short": "tf08_02",
+  "family": "TF08",
+  "schema_version": 1,
+  "name_en": "Library Light Beam",
+  "name_ar": "Library Light Beam — T29",
+  "purpose": "Product on dark wooden table with dramatic light beam in old library.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1-ultra",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/seedance-2.0",
+      "role": "image_to_image_edit"
+    }
+  ],
+  "input_schema": {
+    "subject_description": {
+      "type": "string",
+      "description": "The subject (product, person, scene) to be rendered",
+      "required": true,
+      "min_length": 10
+    },
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 5
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    }
+  },
+  "prompt_template": "Atmospheric heritage photography of {product_descriptor} on weathered dark wood table in dimly lit old library setting, dramatic single beam of golden light streaming through unseen window catching dust particles, blurred bookshelves with leather-bound volumes in background, vintage globe slightly visible, shot on 50mm at f/4 with shallow depth, no text, no watermark, no people {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "retail",
+      "beauty"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.07,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": [
+    "cd_03",
+    "cd_04"
+  ],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: person",
+    "Avoid in output: bright modern lighting"
+  ],
+  "notes": "Intents: launch, defend. Source code in research corpus: T29. Saudi adaptation guidance: Library can be reinterpreted as traditional Saudi majlis with traditional manuscripts to localize. Reference image: Required. Recommended frequency: 1 per quarter.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx#TF08#T29",
+    "date_added": "2026-05-13T15:30:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

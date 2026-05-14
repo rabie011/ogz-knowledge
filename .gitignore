@@ -1,0 +1,64 @@
+# Secrets — never commit
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*_secret*
+*_credentials*
+service_role*
+secrets/
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor metadata
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.cursor/
+
+# Python build artifacts (if any scripts here)
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+venv/
+.venv/
+env/
+
+# Node (if any tooling)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Build & temp
+build/
+dist/
+*.log
+*.tmp
+*.bak
+.tmp/
+
+# Large media files — these belong in object storage with LFS pointers if needed
+*.mp4
+*.mov
+*.psd
+*.ai
+*.safetensors
+*.ckpt
+# Exception: small reference thumbnails are allowed
+!16_character_library/**/*.jpg
+!16_character_library/**/*.png
+
+# Git LFS metadata (kept) but ignore local LFS cache
+.git/lfs/

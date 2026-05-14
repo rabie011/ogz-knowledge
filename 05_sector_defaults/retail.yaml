@@ -1,0 +1,131 @@
+# retail.yaml
+# Schema: 12_data_shapes/sector_baseline_v1.schema.json
+# Confidence: experimental
+# Scope: sector:retail
+
+---
+sector_baseline_ulid: 01KRKFFECNNE1DV985GJ1N7X14
+sector_slug: retail
+sector_name_en: Retail
+sector_name_ar: التجزئة
+schema_version: 1
+default_voice:
+  register: practical-direct
+  formality: neutral
+  dialect_default: mixed_najdi_msa
+  msa_tolerance: moderate
+  english_codeswitching_tolerance: moderate
+default_visual:
+  primary_palette:
+  - '#1A1A1A'
+  - '#FFFFFF'
+  - '#C09F6F'
+  - '#E5E5E5'
+  secondary_accents:
+  - '#3349EB'
+  - '#E602BB'
+  lighting_default: clean studio with controlled key + fill, soft shadows
+  composition_default: product-focused, minimal background, ample negative space
+  texture_default: clean minimal, hard surfaces, fabric texture for soft goods
+default_cinematography:
+  lens_default: 85mm prime or 24-70mm zoom
+  depth_of_field: controlled (medium); product fully resolved
+  camera_height: product eye-level
+  motion_grammar: still hero · 360 rotation · pack-shot reveal
+default_cultural_spec:
+  bilingual_ratio: balanced 50/50
+  humor_tolerance: none
+  religious_sensitivity: medium
+  modesty_level: moderate
+  tone_attributes:
+  - practical
+  - trustworthy
+  - direct
+  tone_anti_attributes:
+  - flashy
+  - exclusive
+  visual_style:
+  - product-focused
+  - clean minimal
+  visual_anti_style:
+  - documentary
+  ramadan_relevance: high
+  eid_fitr_relevance: critical
+  eid_adha_relevance: medium
+  national_day_relevance: high
+  founding_day_relevance: medium
+  summer_shift_intensity: minor
+  posting_frequency_default: 4x per week
+  posting_time_weekday_default: 18:00 AST
+  posting_time_ramadan_default: 21:00 AST
+  content_mix:
+    awareness_pct: 35
+    engagement_pct: 35
+    conversion_pct: 30
+  confidence_floor: 0.6
+default_eligible_chains:
+- chain_ulid: 1G5BHDQAS0SPHPP8RGYZ7TEQYB
+  chain_id_short: tf01_03
+  score: 0.95
+- chain_ulid: 2ZXWPSBBSEJRGCPTZ4WVPS5B03
+  chain_id_short: tf04_05
+  score: 0.92
+- chain_ulid: 78MV506NW9B9FNAHKSNV26447Q
+  chain_id_short: tf03_01
+  score: 0.9
+- chain_ulid: 1MFHXS03M34FYZ9DA82PN3TRQB
+  chain_id_short: tf03_02
+  score: 0.88
+- chain_ulid: 3JFDM01909GAAEYBZD8G4T87D1
+  chain_id_short: tf05_01
+  score: 0.85
+- chain_ulid: 1QWC4TYD96DK25ZFBAQKPBHTDN
+  chain_id_short: tf02_05
+  score: 0.82
+- chain_ulid: 281SWRZY96S2MS8D0C86CXDPZZ
+  chain_id_short: tf21_02
+  score: 0.8
+- chain_ulid: 42BNRA395QD0641YYS1MNTNEW6
+  chain_id_short: tf22_03
+  score: 0.78
+- chain_ulid: 16H37RYDMDGDHFTQZ6DFC6J5JW
+  chain_id_short: tf22_05
+  score: 0.75
+- chain_ulid: 1GQX8TYRVH95HVR3KT37YF0WWZ
+  chain_id_short: tf23_04
+  score: 0.72
+default_occasions_priority:
+- occasion_slug: eid_al_fitr
+  priority: 1.0
+- occasion_slug: ramadan
+  priority: 0.9
+- occasion_slug: saudi_national_day
+  priority: 0.85
+- occasion_slug: eid_al_adha
+  priority: 0.75
+- occasion_slug: saudi_founding_day
+  priority: 0.55
+default_kpis_focus:
+- online_sales_conversion
+- click_through_rate
+- average_order_value
+- return_customer_rate
+forbidden_topics_sector_specific:
+- prohibited product imagery (alcohol/pork/gambling)
+- false pricing claims
+- exaggerated discount language
+- competitor disparagement
+default_cd_brain_routing_bias:
+  cd_01_firaasa: 0.75
+  cd_02_metaphor: 0.65
+  cd_03_authenticity: 0.8
+  cd_04_heritage: 0.6
+  cd_05_paradox: 0.7
+notes: Retail dialect blend (Najdi/MSA) reflects nationwide reach. Eid Al-Fitr is the single biggest commercial moment — 21+
+  day lead. Discount language must be tone-aligned, not aggressive.
+provenance:
+  source: internal_research_corpus/OGz_OpenClaw_Prompt_Requirements.xlsx#Sector_Baselines
+  date_added: '2026-05-14T14:50:29Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: sector:retail

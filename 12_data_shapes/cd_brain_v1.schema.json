@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ogz-knowledge/schemas/cd_brain_v1.schema.json",
+  "title": "CD Brain v1",
+  "description": "A Creative Director strategic-thinking methodology. The system has 5 brains; each is a distinct way of approaching a creative brief. CD brain files are markdown with this YAML front-matter.",
+  "type": "object",
+  "required": [
+    "cd_brain_ulid",
+    "cd_brain_slug",
+    "name_internal",
+    "name_external",
+    "schema_version",
+    "diagnostic_question",
+    "voice_register",
+    "signature_technique",
+    "best_fits",
+    "less_good_fits",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "cd_brain_ulid": {"type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"},
+    "cd_brain_slug": {
+      "type": "string",
+      "pattern": "^cd_0[1-9]_[a-z0-9_]+$"
+    },
+    "name_internal": {
+      "type": "string",
+      "description": "Internal codename"
+    },
+    "name_external": {
+      "type": "string",
+      "description": "Client-facing name (less colorful, more professional)"
+    },
+    "schema_version": {"type": "integer", "const": 1},
+    "diagnostic_question": {
+      "type": "string",
+      "description": "The single question this brain asks of every brief"
+    },
+    "voice_register": {
+      "type": "object",
+      "required": ["register_descriptor", "arabic_register"],
+      "properties": {
+        "register_descriptor": {"type": "string"},
+        "arabic_register": {"type": "string"},
+        "msa_tolerance": {"type": "string", "enum": ["none", "low", "moderate", "high"]},
+        "forbidden_vocabulary": {"type": "array", "items": {"type": "string"}},
+        "preferred_constructions": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "signature_technique": {
+      "type": "object",
+      "required": ["name", "description", "failure_mode"],
+      "properties": {
+        "name": {"type": "string"},
+        "description": {"type": "string"},
+        "failure_mode": {
+          "type": "string",
+          "description": "How the signature technique can become formula. Critical for the Inversion Test gate."
+        }
+      }
+    },
+    "anti_patterns": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "What this brain refuses to do"
+    },
+    "best_fits": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Brand types and contexts where this brain excels"
+    },
+    "less_good_fits": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Where this brain is the wrong choice"
+    },
+    "sector_affinity": {
+      "type": "object",
+      "description": "Per-sector affinity score 0–1",
+      "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+    },
+    "occasion_affinity": {
+      "type": "object",
+      "description": "Per-occasion affinity score 0–1",
+      "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+    },
+    "sub_branddna_hooks": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "What happens to a brand's fingerprint when this brain becomes its lead"
+    },
+    "reference_campaigns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "campaign_ulid": {"type": "string"},
+          "note": {"type": "string"}
+        }
+      }
+    },
+    "inversion_test_definition": {
+      "type": "string",
+      "description": "The specific question used to validate that output is real CD work, not formula in costume"
+    },
+    "human_inspiration_anonymized": {
+      "type": "string",
+      "description": "Origin note (e.g., 'research corpus methodology'). Never personal identifiers."
+    },
+    "provenance": {"$ref": "provenance_mixin_v1.schema.json"}
+  }
+}

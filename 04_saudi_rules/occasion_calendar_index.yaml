@@ -1,0 +1,77 @@
+# occasion_calendar_index.yaml
+# Cross-reference index over occasion YAMLs in 06_saudi_calendar/. Used by CEO routing.
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+title: Saudi occasion calendar — quick lookup
+description: Cross-reference of recurring occasions with Hijri and Gregorian dates. Reference year 2027 for Hijri-aligned
+  events; verify annually via moon-sighting calendar before each cycle.
+reference_year_gregorian: 2027
+reference_year_hijri: 1448 — 1449
+occasions:
+- slug: ramadan
+  name_en: Ramadan
+  name_ar: رمضان
+  type: hijri
+  hijri_month: 9
+  hijri_days: 1-30
+  approx_gregorian_2027: Feb 18 – Mar 19, 2027
+  duration_days: 29
+  lead_days_for_content: 21
+  occasion_file: 06_saudi_calendar/ramadan.yaml
+- slug: eid_al_fitr
+  name_en: Eid Al-Fitr
+  name_ar: عيد الفطر
+  type: hijri
+  hijri_month: 10
+  hijri_days: 1-3
+  approx_gregorian_2027: Mar 20 – Mar 22, 2027
+  duration_days: 3
+  lead_days_for_content: 14
+  occasion_file: 06_saudi_calendar/eid_al_fitr.yaml
+- slug: eid_al_adha
+  name_en: Eid Al-Adha
+  name_ar: عيد الأضحى
+  type: hijri
+  hijri_month: 12
+  hijri_days: 10-13
+  approx_gregorian_2027: May 26 – May 29, 2027
+  duration_days: 4
+  lead_days_for_content: 14
+  occasion_file: 06_saudi_calendar/eid_al_adha.yaml
+- slug: saudi_national_day
+  name_en: Saudi National Day
+  name_ar: اليوم الوطني السعودي
+  type: gregorian
+  gregorian_month: 9
+  gregorian_day: 23
+  approx_gregorian_2027: Sep 23, 2027
+  duration_days: 1
+  lead_days_for_content: 21
+  occasion_file: 06_saudi_calendar/saudi_national_day.yaml
+- slug: saudi_founding_day
+  name_en: Saudi Founding Day
+  name_ar: يوم التأسيس
+  type: gregorian
+  gregorian_month: 2
+  gregorian_day: 22
+  approx_gregorian_2027: Feb 22, 2027
+  duration_days: 1
+  lead_days_for_content: 14
+  occasion_file: 06_saudi_calendar/saudi_founding_day.yaml
+auto_quiet_periods:
+  ramadan_iftar_window_AST: 18:00-18:30 (auto-quiet for promo posts, configurable per brand)
+  ramadan_taraweeh_window_AST: 20:30-22:00 (advisory only; some brands post during this window)
+  friday_prayer_window_AST: 12:00-13:30 (auto-quiet for promo posts on Fridays)
+notes:
+- Hijri dates derive from official moon-sighting; verify against Saudi Supreme Court announcement each cycle before scheduling.
+- 'Gregorian dates for fixed national days are stable: Sep 23 (National), Feb 22 (Founding).'
+- Lead times shown are recommended content-preparation windows, not posting windows.
+provenance:
+  source: internal_research_corpus/Saudi_calendar_synthesis_2027 + occasion_files
+  date_added: '2026-05-14T14:50:29Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

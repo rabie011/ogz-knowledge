@@ -1,0 +1,85 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "39TXBZN3W0K3JAKN9YS02QD4PG",
+  "chain_id_short": "tf15_02",
+  "family": "TF15",
+  "schema_version": 1,
+  "name_en": "Price Tag Reveal",
+  "name_ar": "Price Tag Reveal — R03",
+  "purpose": "Retail price tag with product, dramatic reveal aesthetic.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/gpt-image-2",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "Not supported",
+      "role": "image_to_image_edit"
+    }
+  ],
+  "input_schema": {
+    "subject_description": {
+      "type": "string",
+      "description": "The subject (product, person, scene) to be rendered",
+      "required": true,
+      "min_length": 10
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    }
+  },
+  "prompt_template": "Retail price tag display featuring {product_descriptor} with elegant price tag prominently showing SAR price in Arabic and English, brand color palette, premium retail aesthetic, soft directional light, no text errors {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "retail"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.1,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": [
+    "cd_01",
+    "cd_03",
+    "cd_05"
+  ],
+  "anti_patterns": [
+    "Avoid in output: text errors",
+    "Avoid in output: distorted typography",
+    "Avoid in output: low quality",
+    "Avoid in output: watermark"
+  ],
+  "notes": "Intents: harvest. Source code in research corpus: R03. Saudi adaptation guidance: SAR currency required. Saudi retail conventions: original price crossed out if on sale, current price prominent. Luxury tags subtle. Reference image: Required. Recommended frequency: 1-2 per week.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx#TF15#R03",
+    "date_added": "2026-05-13T15:30:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

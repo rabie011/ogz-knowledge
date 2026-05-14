@@ -1,0 +1,92 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "7X8BD9YG90R4GHA4M3CBHMJ74W",
+  "chain_id_short": "tf16_02",
+  "family": "TF16",
+  "schema_version": 1,
+  "name_en": "Occasion Greeting",
+  "name_ar": "Occasion Greeting — U03",
+  "purpose": "National holidays, Islamic occasions, seasonal moments. Auto-triggered by occasion layer.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux/dev",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/seedance-2.0",
+      "role": "image_to_image_edit"
+    }
+  ],
+  "input_schema": {
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 5
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    }
+  },
+  "prompt_template": "{occasion_visual_motif}, {brand_color_palette}, {occasion_atmosphere}, {sector_appropriate_setting}, elegant composition, no text in image (composed post-gen), no people facing camera, no watermark {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "retail",
+      "beauty",
+      "home",
+      "fitness"
+    ],
+    "occasions_allowed": [
+      "ramadan",
+      "eid",
+      "national_day",
+      "founding_day"
+    ],
+    "quality_tiers_allowed": [
+      "starter",
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 14
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.025,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": [
+    "cd_03",
+    "cd_04"
+  ],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: faces",
+    "Avoid in output: cross"
+  ],
+  "notes": "Intents: all. Source code in research corpus: U03. Saudi adaptation guidance: Auto-triggered by BrandDNA.E.calendar.occasion_active. Each occasion has specific motif: Ramadan = crescent moons and lanterns / Eid = floral and gold / National Day = Saudi green + dates + palm / Founding Day = traditional Najdi mudbrick. Reference image: Not required. Recommended frequency: 1 per active occasion. Compliance level: elevated.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx#TF16#U03",
+    "date_added": "2026-05-13T15:30:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

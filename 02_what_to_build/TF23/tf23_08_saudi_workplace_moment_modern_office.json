@@ -1,0 +1,86 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "6NYRYC8BAK04D7J6QS4GNEH91Z",
+  "chain_id_short": "tf23_08",
+  "family": "TF23",
+  "schema_version": 1,
+  "name_en": "Saudi Workplace Moment — Modern Office",
+  "name_ar": "Saudi Workplace Moment — Modern Office — S08",
+  "purpose": "Saudi professional in modern Saudi corporate office, Vision-2030 era aesthetic.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video",
+      "role": "image_to_image_edit"
+    }
+  ],
+  "input_schema": {
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 5
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    }
+  },
+  "prompt_template": "Authentic professional photograph of a Saudi {subject_gender} in their late twenties to mid-thirties working at modern open-plan office desk in Riyadh corporate setting, {dress_specification}, laptop open showing slight screen glow, {brand_product} positioned naturally on desk beside laptop, focused expression looking at screen, real skin texture visible, natural office lighting with mix of window daylight and ambient LED, modern minimalist office interior visible slightly out of focus, shot from slightly elevated angle suggesting candid colleague phone capture, authentic non-staged composition, contemporary Saudi business aesthetic {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "retail",
+      "home"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": true,
+    "requires_gesture_check": true,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "starter"
+  },
+  "cost_estimate_usd": 0.05,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": [
+    "cd_03"
+  ],
+  "anti_patterns": [
+    "Avoid in output: Western business suit fashion model",
+    "Avoid in output: glamour lighting",
+    "Avoid in output: oversaturated",
+    "Avoid in output: posed corporate stock photo",
+    "Never present non-Saudi talent or generic Middle-Eastern look — Saudi specificity is the point",
+    "Avoid tourist-photography aesthetic; this is lived-in lifestyle, not destination shoot"
+  ],
+  "notes": "Intents: grow, harvest. Source code in research corpus: S08. Saudi adaptation guidance: Vision 2030 Saudi professional reality. Men can wear thobe (canonical) or modern business casual. Women in professional context wear modest hijab with conservative business attire. Office aesthetic modern minimalist Saudi (NEOM-adjacent), not 1990s American corporate. Reference image: Recommended. Recommended frequency: 1-2 per week B2B-leaning brands.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx#TF23#S08",
+    "date_added": "2026-05-13T15:30:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

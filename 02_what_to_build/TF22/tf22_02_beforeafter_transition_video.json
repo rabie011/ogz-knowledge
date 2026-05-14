@@ -1,0 +1,75 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "70G1NMMTJBV3KCDKYR054JMV86",
+  "chain_id_short": "tf22_02",
+  "family": "TF22",
+  "schema_version": 1,
+  "name_en": "Before/After Transition Video",
+  "name_ar": "Before/After Transition Video — V02",
+  "purpose": "Beauty service before/after as native video transition.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "—",
+      "role": "primary_video_generation"
+    }
+  ],
+  "input_schema": {
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 7
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    }
+  },
+  "prompt_template": "— {cultural_constraints_injection} | Motion: Smooth before-and-after transition for {service_descriptor}: starts on before state, wipe transition reveals after state, both states clearly visible, modest framing throughout, professional reveal pace, 7 seconds",
+  "output_type": "video",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1920,
+    "aspect_ratio_label": "9:16",
+    "duration_seconds": 7
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "beauty"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth"
+    ],
+    "min_brand_maturity_days": 14
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": false,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.05,
+  "latency_estimate_seconds": 60,
+  "best_for_cd_brains": [
+    "cd_05"
+  ],
+  "anti_patterns": [
+    "Avoid trying to substitute with image-to-video fallback chain — native generation is the point"
+  ],
+  "notes": "Intents: grow, harvest. Source code in research corpus: V02. Saudi adaptation guidance: Modest framing throughout — see B01 compliance notes. Reference image: Required. Recommended frequency: 1-2 per week beauty services. Compliance level: elevated.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx#TF22#V02",
+    "date_added": "2026-05-13T15:30:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

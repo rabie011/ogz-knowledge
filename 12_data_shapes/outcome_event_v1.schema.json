@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ogz-knowledge/schemas/outcome_event_v1.schema.json",
+  "title": "Outcome Event v1",
+  "description": "Append-only event recording client/operator action on a generation: approval, rejection, edit, or performance metric. Never updated.",
+  "type": "object",
+  "required": [
+    "event_ulid",
+    "event_type",
+    "timestamp",
+    "brand_ulid",
+    "subject_generation_ulid",
+    "schema_version",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "event_ulid": {"type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"},
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "client_approved",
+        "client_rejected",
+        "client_edited",
+        "client_revoked_approval",
+        "metric_recorded",
+        "published",
+        "removed_post_publication"
+      ]
+    },
+    "timestamp": {"type": "string", "format": "date-time"},
+    "brand_ulid": {"type": "string"},
+    "subject_generation_ulid": {"type": "string"},
+    "schema_version": {"type": "integer", "const": 1},
+    "rejection_reason": {
+      "type": "string",
+      "enum": [
+        "too_generic",
+        "too_translated",
+        "wrong_dialect",
+        "off_cultural_fit",
+        "too_salesy",
+        "too_safe",
+        "too_risky",
+        "weak_hook",
+        "wrong_platform_behavior",
+        "weak_offer_logic",
+        "visual_mismatch",
+        "compliance_risk",
+        "other"
+      ]
+    },
+    "rejection_severity": {"type": "string", "enum": ["minor", "moderate", "severe"]},
+    "client_notes": {"type": "string"},
+    "edit_diff_uri": {"type": "string", "description": "If client edited; URI to diff or edited content"},
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "engagement_rate": {"type": "number"},
+        "save_rate": {"type": "number"},
+        "share_rate": {"type": "number"},
+        "comment_quality_score": {"type": "number"},
+        "reach": {"type": "integer"},
+        "impressions": {"type": "integer"},
+        "platform": {"type": "string"}
+      }
+    },
+    "actor": {"type": "string", "description": "Who took the action: client / operator / agent / system"},
+    "provenance": {"$ref": "provenance_mixin_v1.schema.json"}
+  }
+}

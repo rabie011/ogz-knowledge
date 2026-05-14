@@ -1,0 +1,37 @@
+# communication_rules.yaml
+# Internal communication rules + first-message + send rules.
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+title: Internal communication rules
+channels:
+  decisions: Mohamed (architect) chat + checkpoint events in audit log
+  operations: n8n workflow logs + Memory Controller events
+  ad_hoc_questions: Telegram via Mira bot (notification layer)
+  deep_async_thinking: Markdown PR comments on this repo
+rituals:
+  sunday_learning_cycle:
+    when: Sundays 02:00 Riyadh
+    owner: Learning Agent
+    deliverable: proposed pattern-library + cd_routing_weight updates
+  monthly_kpi_review:
+    when: first of month
+    owner: CGO+COO
+    attendees: leadership
+  weekly_account_status:
+    when: Tuesdays
+    owner: Client Services Director per cluster
+  morning_briefing:
+    when: daily 08:15 Riyadh
+    owner: Abraham operator script
+first_message_rule: 'Every new session opens with status one-liner: date, last session summary, still-open items. Then stop
+  and wait.'
+send_rule: No external email / proposal / communication sent without explicit Mohamed approval in chat first.
+provenance:
+  source: research_corpus/ogz_ingestion_log.md + Abraham operator rules
+  date_added: '2026-05-14T15:39:29Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

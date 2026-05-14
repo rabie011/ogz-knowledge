@@ -1,0 +1,39 @@
+# operational_rituals.yaml
+# Sunday Learning Cycle + weekly + monthly + quarterly + annual rituals.
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+title: Operational rituals
+rituals:
+- name: Sunday Learning Cycle
+  when: Sundays 02:00 Riyadh
+  owner: Learning Agent (Claude Sonnet 4.6)
+  inputs:
+  - past-week outcome events
+  - past-week generation events
+  - current patterns library
+  outputs: nominated pattern updates + cd_routing_weight nudges (PR proposals, human-approved before merge)
+- name: Weekly account review
+  when: Tuesdays 11:00 Riyadh per cluster
+  owner: Client Services Director
+  purpose: Surface accounts at risk, celebrate wins, escalate to CGO+COO if needed
+- name: Monthly KPI review
+  when: First Tuesday of each month
+  owner: CGO+COO
+  purpose: Review revenue / margin / distinctiveness-score / award-pipeline KPIs
+- name: Quarterly board review
+  when: First month of each quarter
+  owner: Chairman + Vice Chairman
+  purpose: Strategic priorities, succession planning, governance
+- name: Annual Athar/Cannes submission cycle
+  when: April-September
+  owner: CCO + Awards Strategist
+  purpose: Identify campaigns with festival potential; craft submission narratives
+provenance:
+  source: research_corpus/ogz_org_and_kpis.md + ogz_ingestion_log.md
+  date_added: '2026-05-14T15:39:29Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

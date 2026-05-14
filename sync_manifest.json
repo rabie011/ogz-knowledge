@@ -1,0 +1,91 @@
+{
+  "generated_at": "2026-05-14T15:42:08.429548+00:00",
+  "mode": "dry_run",
+  "target_supabase": {
+    "url": "(not set \u2014 required for --execute)",
+    "region_intent": "me-central-1 (Bahrain)"
+  },
+  "tables": {
+    "chains": {
+      "records_seen": 88,
+      "sample_pks": [
+        "45C37JTBFQ\u2026",
+        "0V4FP9J0E1\u2026",
+        "5VSHWJQ7W2\u2026"
+      ],
+      "file_glob": "02_what_to_build/TF*/tf*.json",
+      "format": "json"
+    },
+    "sector_baselines": {
+      "records_seen": 5,
+      "sample_pks": [
+        "01KRKFFECN\u2026",
+        "01KRKFFECN\u2026",
+        "01KRKFFECN\u2026"
+      ],
+      "file_glob": "05_sector_defaults/*.yaml",
+      "format": "yaml"
+    },
+    "occasions": {
+      "records_seen": 5,
+      "sample_pks": [
+        "01KRKFFEEC\u2026",
+        "01KRKFFEEC\u2026",
+        "01KRKFFEEC\u2026"
+      ],
+      "file_glob": "06_saudi_calendar/*.yaml",
+      "format": "yaml"
+    },
+    "cd_brains": {
+      "records_seen": 5,
+      "sample_pks": [
+        "01KRKGQ3GK\u2026",
+        "01KRKGQ3GQ\u2026",
+        "01KRKGQ3GZ\u2026"
+      ],
+      "file_glob": "20_cd_brains/cd_0*.md",
+      "format": "md_frontmatter"
+    },
+    "cultural_specs": {
+      "records_seen": 8,
+      "sample_pks": [
+        "01KRKH1N22\u2026",
+        "01KRKH1N2V\u2026",
+        "01KRKH1N26\u2026"
+      ],
+      "file_glob": "15_cultural_specs/sector_defaults/*.yaml",
+      "format": "yaml"
+    },
+    "benchmark_accounts": {
+      "records_seen": 108,
+      "sample_pks": [
+        "01KRKHS8RA\u2026",
+        "01KRKHS8R8\u2026",
+        "01KRKHS8R9\u2026"
+      ],
+      "file_glob": "11_who_to_learn_from/accounts/**/*.json",
+      "format": "json"
+    },
+    "account_patterns": {
+      "records_seen": 40,
+      "sample_pks": [
+        "01KRKHS8RM\u2026",
+        "01KRKHS8RM\u2026",
+        "01KRKHS8RM\u2026"
+      ],
+      "file_glob": "11_who_to_learn_from/patterns/**/*.json",
+      "format": "json"
+    },
+    "campaign_archive": {
+      "records_seen": 38,
+      "sample_pks": [
+        "01KRKJ5E77\u2026",
+        "01KRKJ5E75\u2026",
+        "01KRKJ5E76\u2026"
+      ],
+      "file_glob": "21_campaign_archive/campaigns/*.json",
+      "format": "json"
+    }
+  },
+  "total_records": 297
+}

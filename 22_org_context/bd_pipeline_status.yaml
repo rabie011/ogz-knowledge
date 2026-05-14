@@ -1,0 +1,45 @@
+# bd_pipeline_status.yaml
+# BD pipeline stages + qualification criteria.
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+title: BD pipeline — stages + qualification criteria
+stages:
+- id: 1
+  name: Lead
+  criteria: Inbound inquiry or outbound contact made. No qualification yet.
+- id: 2
+  name: Qualified
+  criteria: Budget bracket confirmed (≥X SAR), decision-maker identified, timeline known.
+- id: 3
+  name: Discovery Complete
+  criteria: Discovery call done. Brief understood. Sector fit confirmed.
+- id: 4
+  name: Proposal Sent
+  criteria: Financial + technical proposal delivered.
+- id: 5
+  name: Negotiation
+  criteria: Client counter-position received. Terms in active discussion.
+- id: 6
+  name: Won
+  criteria: Contract signed; payment terms agreed.
+- id: 7
+  name: Lost
+  criteria: Client chose competitor, deferred indefinitely, or budget pulled.
+qualification_questions:
+- Is the contract value above Starter-tier minimum?
+- Is the brand sector in our covered list (F&B / Retail / Beauty / Real Estate / Healthcare / Government)?
+- Does the brand have Saudi-domestic primary audience?
+- Is the decision-maker engaged or are we talking to a gatekeeper?
+- Is the timeline realistic (>3 weeks for Growth, >6 weeks for Enterprise)?
+win_rate_thresholds:
+  qualified_to_proposal: ≥60%
+  proposal_to_won: ≥30%
+provenance:
+  source: research_corpus/ogz_bd_pipeline.md + ogz_org_and_kpis.md (anonymized)
+  date_added: '2026-05-14T15:39:29Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

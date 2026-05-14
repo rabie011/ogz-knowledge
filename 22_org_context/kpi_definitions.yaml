@@ -1,0 +1,72 @@
+# kpi_definitions.yaml
+# KPIs tracked internally.
+# Confidence: experimental
+# Scope: universal
+
+---
+schema_version: 1
+title: Internally tracked KPIs
+categories:
+  financial:
+  - name: annual_revenue_target_sar
+    owner: CGO+COO
+    cadence: yearly
+    target_2026: 150M+ SAR equivalent (post-platform-scale baseline)
+  - name: net_profit_margin_pct
+    owner: CGO+COO + Finance
+    cadence: yearly
+    target: 11% + 10% cashback = 21% combined
+  - name: cogs_pct_of_revenue
+    owner: CGO+COO
+    cadence: quarterly
+    target: below 80%; production cap at 70% of project budget, plan to reduce to 65%
+  - name: ar_outstanding_days
+    owner: Finance
+    cadence: monthly
+    target: median 45 days
+  client:
+  - name: client_renewal_rate_annual
+    owner: CGO+COO + Client Services
+    cadence: yearly
+    target: ≥80% on retainers
+  - name: new_client_pipeline_value_sar
+    owner: BD
+    cadence: monthly
+  - name: rfp_win_rate
+    owner: BD
+    cadence: quarterly
+  - name: client_satisfaction_score
+    owner: Client Services
+    cadence: quarterly
+  creative:
+  - name: festival_award_count_annual
+    owner: CCO + Pitch Team
+    cadence: yearly
+    notes: Athar + Effie + Cannes
+  - name: two_cd_diagnostic_fire_rate
+    owner: CCO
+    cadence: monthly
+    target: 20-30% of briefs (anti-sameness signal)
+  - name: brand_fingerprint_distinctiveness_score_avg
+    owner: CCO
+    cadence: monthly
+    target: ≥0.50 across active brands
+  platform_operational:
+  - name: ccoo_arabic_qc_avg_score
+    owner: CCO Agent operator
+    cadence: monthly
+    target: 80% of posts scoring ≥50
+  - name: first_post_to_value_time_min
+    owner: Product
+    cadence: weekly
+    target: <10 min from onboarding-complete
+  - name: human_gate_trigger_rate
+    owner: CEO Agent operator
+    cadence: monthly
+    target: 10-15% (too low = under-vigilant; too high = under-trained)
+provenance:
+  source: research_corpus/ogz_org_and_kpis.md (anonymized)
+  date_added: '2026-05-14T15:39:29Z'
+  confirmer: Mohamed
+  confidence: experimental
+  scope: universal

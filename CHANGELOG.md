@@ -13,9 +13,87 @@ This repository uses semantic versioning at the **knowledge-base level**:
 
 ---
 
-## [Unreleased — Day 5]
+## [1.0.0] — 2026-05-14 — Seed Week 1 Complete
 
-### Planned — Day 5 (Archive + Org + Database + Ops)
+**Final state:** 318 records validate across 400 files (1.2 MB). All five day-cuts shipped on 2026-05-14 in one Mac Mini session, with corpus mounted from `~/Desktop/ogz-knowledge-corpus/`. Day 1 was originally built in a web-Claude sandbox 2026-05-13 (history not preserved — see initial commit message). All content marked `confidence: experimental` pending Cultural Advisor + real-brand validation.
+
+### Total counts per major area
+
+| Area | Count |
+|---|---|
+| Schemas (v1, frozen) | 14 |
+| Chains (TF01–TF23) | 88 |
+| Sector baselines | 5 |
+| Saudi occasions | 5 |
+| Saudi rules (universal configs) | 5 |
+| Agent prompts (CEO + COO + CCO + router rules) | 4 |
+| CD-brain methodologies + router narrative | 6 |
+| Cultural specs (sector defaults) | 8 |
+| Universal forbidden lists | 4 |
+| Cultural Advisor playbook docs | 3 |
+| Brand-fingerprint specs (L1–L6 + onboarding + distinctiveness) | 13 |
+| Routing YAMLs | 6 |
+| Benchmark accounts (anonymized) | 108 |
+| Cross-account patterns | 40 |
+| Campaign archive (anonymized) | 38 |
+| Org-context YAMLs | 5 |
+| Ops runbook docs | 6 |
+| SQL migrations | 4 |
+| `sync_to_supabase.py` stub | 1 |
+| Character library stub structure | 1 README + 6 subfolders × 2 files |
+| Folder READMEs | 7 |
+| ADRs | 4 |
+| Generator scripts (Days 2–5) | 9 |
+
+### Honest deltas vs the master prompt's targets
+
+- **Patterns: 40, not 300.** Quality over count — these are substantive cross-account abstractions. Expand in v1.1.0 as real-brand operations surface more.
+- **All `confidence: experimental`.** No content has been validated through real-brand production yet. Cultural Advisor not yet identified; sector-default cultural specs await review before promotion to `inferred` or `confirmed`.
+- **`{PLATFORM_NAME}` placeholder preserved throughout.** Name decision deferred.
+
+---
+
+## [v1.0.0-day5] — 2026-05-14 — Archive + Org + Database + Ops
+
+### Added
+
+**Campaign Archive (`21_campaign_archive/`)** — 38 anonymized campaign records + INDEX.json. Validates against `campaign_archive_v1.schema.json`. Client names → category codes (e.g., `telecom-flagship-A`, `sovereign-fund-C`). Methodology references → cd_0X codes. Each campaign carries strategic_insight + execution_summary + what_made_it_work + what_would_NOT_transplant + retrieval_keywords.
+
+**Org Context (`22_org_context/`)** — 5 YAMLs:
+- `org_structure.yaml` (4-cluster, role-titled, anonymized)
+- `kpi_definitions.yaml` (financial / client / creative / platform-operational KPIs)
+- `bd_pipeline_status.yaml` (7-stage pipeline + qualification criteria + win-rate thresholds)
+- `communication_rules.yaml` (rituals + first-message + send-rule)
+- `operational_rituals.yaml` (Sunday Learning Cycle + weekly / monthly / quarterly / annual)
+
+**Database Migrations (`13_database/migrations/`)** — 4 SQL files (Postgres/Supabase-compatible):
+- `0001_initial_schema.sql` — tables for every schema in 12_data_shapes/ + runtime tables (brands, briefs, generation_events, outcome_events, memory_events); pgvector embeddings; ulid domain
+- `0002_rls_policies.sql` — public-knowledge read-only for authenticated, brand-scoped RLS by `brand_ulid`; `account_handle_internal` redacted via public view; append-only invariant on event tables
+- `0003_materialized_views.sql` — `brand_eligible_chains_view`, `brand_distinctiveness_view`, `sector_chain_recommendation_view`
+- `0004_indexes.sql` — ULID FK indexes, JSONB GIN, pgvector HNSW, date-range indexes
+
+**Operations (`09_how_to_run/`)** — 6 runbook docs:
+- `pipeline_a_flow.md`, `pipeline_b_flow.md`, `decision_authority.yaml`, `data_consent_policy.md`, `data_residency_policy.md`, `breach_response.md`
+
+**Character library stub (`16_character_library/`)** — README + 6 subfolders (faces / wardrobe / architecture / props / gestures / rituals), each with MANIFEST.md + .gitkeep. Full-resolution reference content stays in object storage; this folder is the organizational manifest.
+
+**Sync stub (`sync_to_supabase.py`)** — Memory Controller's file → DB sync. Default `--dry-run` mode reads all records and prints intended UPSERTs (297 records across 8 tables). Real `--execute` wiring deferred to ogz-runtime Week 2.
+
+**Generators saved (`scripts/`)** — `generate_campaign_archive.py`, `generate_day5_rest.py`.
+**`validate_all.py` extended** with campaign_archive + org_context folder mappings.
+
+### Validation
+
+`validate_all.py` → **318/318 records valid** across all Days 1–5.
+
+### Notes
+
+- Anonymization: 38 campaigns retain narrative depth while removing client identification (mapped to opaque category codes).
+- SQL migrations target Supabase region `me-central-1` (Bahrain) per ADR-0003; KSA backup region defined in `data_residency_policy.md`.
+- `account_handle_internal` is explicitly redacted in the public benchmark view — preserved only for service-role access.
+- Character library subfolders are stubs; reference content lives in object storage with LFS pointers (not in this repo).
+
+---
 - `21_campaign_archive/`: 38 anonymized campaign records
 - `22_org_context/`: 5 org/KPI/BD/comm/ops YAMLs
 - `13_database/migrations/`: 4 SQL files (initial schema, RLS, mat views, indexes)

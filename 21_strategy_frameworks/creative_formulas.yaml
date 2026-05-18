@@ -1,0 +1,286 @@
+# creative_formulas.yaml
+# Part of: 21_strategy_frameworks/
+# Purpose: Defines the 7 creative formulas the strategy layer uses.
+# Each formula is a strategic approach — not a visual style.
+# Chain families that execute each formula are mapped here.
+# Used by: Strategy Agent, chain selection (strategy_formula_affinity)
+
+schema_version: 1
+last_updated: "2026-05-18"
+confirmer: "Mohamed"
+confidence: "confirmed"
+
+formulas:
+
+  manifesto_build:
+    id: "CF_01"
+    name_en: "Manifesto Build"
+    name_ar: "بناء البيان"
+    description: >
+      Stakes a claim for a truth. Declares a position the brand holds
+      and invites the audience to agree. The brand says: this is what
+      we believe, and we will act on it.
+    when_to_use: >
+      When the brand has earned enough authority to make a declaration.
+      When the brief is about brand positioning, not product promotion.
+      When there is a cultural moment the brand can authentically own.
+    when_not_to_use: >
+      New brands without earned authority.
+      Product promotion or sales-driven briefs.
+      When the claim cannot be backed by the brand's actual behaviour.
+    execution_feel: >
+      Calm confidence. No exclamation marks.
+      The brand does not need to shout what it believes.
+      Long takes. Minimal text. Weight in the silence.
+    saudi_examples:
+      - "A heritage food brand declaring that homemade food is not a category — it is a philosophy"
+      - "A real estate developer saying that belonging is built before the building"
+    chain_families:
+      - TF11  # Motion Brand Film
+      - TF17  # Behind the Brand
+      - TF18  # Heritage Thread
+      - TF14  # Text-Led
+    permission_levels_available:
+      - category_leader
+      - institutional
+      - purpose
+    occasion_fit:
+      - saudi_national_day   # Strong — national manifesto moment
+      - saudi_founding_day   # Strong — heritage and legacy moment
+      - ramadan_pre_arrival  # Good — brands can stake a Ramadan position early
+    pacing: slow_cinematic
+    arabic_register: msa_accessible
+
+  paradox_play:
+    id: "CF_02"
+    name_en: "Paradox Play"
+    name_ar: "لعبة التناقض"
+    description: >
+      Holds two true things in tension. The brand acknowledges that
+      something real is complicated — and finds the creative energy
+      in that complication. The audience recognises the truth because
+      they have felt it themselves.
+    when_to_use: >
+      When the brief contains a genuine tension the audience feels.
+      When the brand can hold complexity without resolving it artificially.
+      When the objective is emotional resonance over clear persuasion.
+    when_not_to_use: >
+      Product launches that need clarity.
+      Institutional brands that cannot appear ambiguous.
+      Ramadan content where the register must be reverent.
+    execution_feel: >
+      Two contrasting scenes or ideas placed in proximity.
+      The audience makes the connection themselves.
+      No over-explanation. Trust the viewer.
+    saudi_examples:
+      - "A modern café brand: everything moves fast. except the coffee."
+      - "A home food brand: the recipe is 100 years old. the delivery is 20 minutes."
+    chain_families:
+      - TF02  # Lifestyle
+      - TF11  # Motion Brand Film
+      - TF17  # Behind the Brand
+    permission_levels_available:
+      - category_leader
+      - challenger
+      - launch
+    occasion_fit:
+      - general           # Works year-round
+      - saudi_national_day  # Saudi identity tensions are rich here
+    brave_flag: true
+    pacing: slow_cinematic
+    arabic_register: msa_accessible
+
+  freeze_then_action:
+    id: "CF_03"
+    name_en: "Freeze Then Action"
+    name_ar: "توقف ثم تحرك"
+    description: >
+      Stops time. Holds a moment of stillness — a pause before something
+      happens, a held breath, a quiet before the celebration. Then releases
+      into the action. The contrast makes both the stillness and the action
+      more powerful.
+    when_to_use: >
+      Launch moments. New product introductions. Countdown content.
+      Occasion transitions (the night before Eid, the first day of Ramadan).
+      Any moment where anticipation is a feeling worth capturing.
+    when_not_to_use: >
+      Ongoing brand presence content — this formula burns energy fast.
+      Educational or trust-building content.
+    execution_feel: >
+      Slow motion or held frame. Then cut to movement.
+      Sound design matters here — silence then sound.
+      Short duration. High impact.
+    saudi_examples:
+      - "A restaurant launch: the door before it opens"
+      - "Ramadan: the last moments before maghrib, then the table"
+    chain_families:
+      - TF10  # Motion Teaser
+      - TF13  # Motion Occasion
+      - TF19  # Launch Announcement
+    permission_levels_available:
+      - challenger
+      - launch
+      - sme_local
+      - purpose
+    occasion_fit:
+      - ramadan_active       # The iftar moment is perfectly this formula
+      - eid_al_fitr          # The morning of Eid
+      - saudi_national_day   # The countdown to midnight
+    pacing: ultra_slow_to_fast
+    arabic_register: najdi_colloquial
+
+  scene_pair:
+    id: "CF_04"
+    name_en: "Scene Pair"
+    name_ar: "ثنائية المشهد"
+    description: >
+      Two moments placed together that mean something because of
+      their proximity. Not explained. Not connected with text.
+      The audience draws the connection. The meaning lives in the gap.
+    when_to_use: >
+      When the brand truth is emotional rather than rational.
+      When showing the brand's world is more powerful than describing it.
+      When the brief has a human insight that can be felt rather than said.
+    when_not_to_use: >
+      When clarity is required (product specs, pricing, locations).
+      When the audience needs to be guided through reasoning.
+    execution_feel: >
+      Clean cuts between two scenes.
+      Similar framing or completely opposite framing — both work.
+      Music carries the connection. Text is minimal or absent.
+    saudi_examples:
+      - "A bakery: grandfather's hands kneading dough / grandchild eating the result"
+      - "A real estate brand: empty space / family in the same space"
+    chain_families:
+      - TF02  # Lifestyle
+      - TF03  # Hospitality
+      - TF17  # Behind the Brand
+      - TF21  # Community Moment
+    permission_levels_available:
+      - category_leader
+      - challenger
+      - purpose
+      - sme_local
+      - institutional
+    occasion_fit:
+      - ramadan_active  # Family and gathering scenes
+      - eid_al_fitr     # Joy and reunion
+      - eid_al_adha     # Sacrifice and meaning
+    pacing: slow_cinematic
+    arabic_register: msa_accessible
+
+  number_reframe:
+    id: "CF_05"
+    name_en: "Number Reframe"
+    name_ar: "إعادة صياغة الرقم"
+    description: >
+      Makes data emotionally true. Takes a number — a milestone, a
+      quantity, a duration — and translates it into human meaning.
+      Not "we served 1 million customers" but "1 million families
+      sat down together because of us."
+    when_to_use: >
+      Milestones and anniversaries.
+      Scale achievements that have human significance.
+      When the brand has earned numbers worth reframing.
+    when_not_to_use: >
+      New brands with no meaningful numbers yet.
+      When the number is not actually impressive or meaningful.
+    execution_feel: >
+      The number comes first. Large. Clear.
+      Then the reframe — the human meaning.
+      Confident typography. Minimal visual complexity.
+    saudi_examples:
+      - "10 years. 3,650 mornings. One recipe."
+      - "200 families. Every week. Through our kitchen."
+    chain_families:
+      - TF14  # Text-Led
+      - TF16  # Data Storytelling
+      - TF11  # Motion Brand Film
+    permission_levels_available:
+      - category_leader
+      - institutional
+      - purpose
+    occasion_fit:
+      - saudi_founding_day  # Scale and legacy framing
+      - saudi_national_day  # National achievement numbers
+      - general              # Brand anniversaries
+    pacing: slow_cinematic
+    arabic_register: msa_accessible
+
+  gamified_hook:
+    id: "CF_06"
+    name_en: "Gamified Hook"
+    name_ar: "الخطاف التفاعلي"
+    description: >
+      Makes participation irresistible. Invites the audience into the
+      content rather than presenting content at them. Creates the feeling
+      that engaging is more interesting than scrolling past.
+    when_to_use: >
+      When the objective is reach and engagement over brand depth.
+      Youth-targeted content. Trend-adjacent moments.
+      Product launches that benefit from word-of-mouth.
+      When the platform is TikTok or Snapchat.
+    when_not_to_use: >
+      Institutional brands or occasions requiring reverence.
+      Deep brand positioning content.
+      Ramadan spiritual phases.
+    execution_feel: >
+      Fast opening hook (under 2 seconds).
+      Interactive or participatory element.
+      Text-forward on TikTok/Snapchat.
+      High energy. Sometimes humorous.
+    saudi_examples:
+      - "Spot what's different in our new menu (before and after)"
+      - "Name a Saudi who hasn't had this for breakfast — I'll wait"
+    chain_families:
+      - TF22  # Platform Native
+      - TF23  # Saudi UGC
+      - TF20  # Seasonal Promo
+    permission_levels_available:
+      - challenger
+      - launch
+      - sme_local
+      - purpose
+    occasion_fit:
+      - general          # Primarily evergreen
+      - saudi_national_day  # National identity participation content
+    pacing: tiktok
+    arabic_register: najdi_colloquial
+
+  metaphor_system:
+    id: "CF_07"
+    name_en: "Metaphor System"
+    name_ar: "نظام الاستعارة"
+    description: >
+      Sees the category differently. Finds an unexpected comparison that
+      makes the familiar strange and the strange familiar. Creates a
+      recurring visual or verbal language the brand can build on over time.
+    when_to_use: >
+      When the brief is about category repositioning.
+      When the brand wants to own a specific way of seeing their sector.
+      When a single metaphor can carry multiple campaigns.
+    when_not_to_use: >
+      One-off promotional content.
+      When the metaphor feels forced rather than discovered.
+    execution_feel: >
+      The metaphor is introduced with confidence — not explained.
+      Recurs across content types and occasions.
+      Gets richer the more it is used.
+    saudi_examples:
+      - "A coffee brand that uses the language of architecture: every cup is a structure"
+      - "A home food brand that uses the language of heritage craft"
+    chain_families:
+      - TF18  # Heritage Thread
+      - TF02  # Lifestyle
+      - TF11  # Motion Brand Film
+      - TF17  # Behind the Brand
+    permission_levels_available:
+      - category_leader
+      - challenger
+      - purpose
+      - launch
+    occasion_fit:
+      - general              # Builds over time across all occasions
+      - saudi_founding_day   # Heritage metaphors are strong here
+    pacing: slow_cinematic
+    arabic_register: msa_accessible

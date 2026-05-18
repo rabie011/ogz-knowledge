@@ -1,0 +1,173 @@
+# strategy_brief_template.yaml
+# Part of: 21_strategy_frameworks/
+# Purpose: The structured output of the Strategy Agent's 8-step reasoning.
+# This is what gets passed to Chain Selection and Prompt Composer.
+# One instance is created per generation cycle for non-standard briefs.
+# Standard calendar posts use a lightweight version with fewer fields.
+
+schema_version: 1
+last_updated: "2026-05-18"
+confirmer: "Mohamed"
+confidence: "confirmed"
+
+# ── TEMPLATE DEFINITION ────────────────────────────────────────────────────────
+# This file defines the schema. Actual instances are produced at runtime
+# by the Strategy Agent and stored in the brand's runtime session context.
+
+template:
+
+  # ── BRIEF INTAKE ─────────────────────────────────────────────────
+  brief_intake:
+    client_ask: null              # What the client actually asked for
+    real_ask: null                # What they actually need (Step 1 output)
+    brief_type: null              # calendar_slot | client_request | occasion_trigger | business_event
+
+  # ── STRATEGIC DIAGNOSIS ──────────────────────────────────────────
+  strategic_diagnosis:
+    permission_level: null        # One of the 6 permission levels (PL_01 through PL_06)
+    cultural_tension_id: null     # Reference to a tension in cultural_tensions_by_sector.yaml
+    cultural_tension_name: null   # The human-readable tension name
+    tension_reasoning: null       # Why this tension fits this brief and this brand
+
+  # ── CREATIVE DIRECTION ───────────────────────────────────────────
+  creative_direction:
+    formula_primary: null         # Primary creative formula (CF_01 through CF_07)
+    formula_secondary: null       # Optional secondary formula (null if single formula)
+    formula_reasoning: null       # Why this formula for this brief
+    route: null                   # safe | brave | safe_and_brave
+
+  # ── CONTENT SPECIFICATIONS ───────────────────────────────────────
+  content_spec:
+    platform_primary: null        # instagram | tiktok | snapchat | youtube
+    format: null                  # image | video | story | reel
+    duration_seconds: null        # For video only
+    arabic_register: null         # The specific dialect/register for this piece
+    pacing: null                  # ultra_slow | slow_cinematic | normal | fast | tiktok
+    occasion_context: null        # Which occasion is active (null if general)
+    occasion_phase: null          # pre_arrival | active | peak | tail (null if general)
+
+  # ── ANTI-ATTRIBUTE CHECK ─────────────────────────────────────────
+  anti_attribute_check:
+    brand_anti_attributes: []     # Pulled from BrandDNA Layer 1
+    confirmed_no_violations: null # true after check runs
+
+  # ── BRAVE ROUTE (populated only if route = brave or safe_and_brave) ──
+  brave_route:
+    enabled: false
+    brave_concept: null           # The brave creative direction
+    risk_markers: []              # Any cultural/legal/religious flags
+    human_review_required: null   # true if risk markers fire
+    human_review_reason: null     # Why human review is required
+
+  # ── CHAIN GUIDANCE ───────────────────────────────────────────────
+  chain_guidance:
+    formula_affinities_required:  # Which formula affinities to filter chains by
+      - null
+    platform_filter: null         # Match to platform_primary
+    format_filter: null           # Match to format
+    occasion_boost: null          # true if occasion active
+
+  # ── PROMPT COMPOSER CONTEXT ──────────────────────────────────────
+  # This section is used directly by the Prompt Composer
+  prompt_context:
+    strategic_intent: null        # One sentence: what this content must achieve
+    emotional_target: null        # What the viewer should feel
+    cultural_moment: null         # What Saudi cultural context is active
+    brand_voice_note: null        # Specific voice guidance for this brief
+    visual_direction_note: null   # Specific visual guidance for this brief
+    must_include: []              # Elements that must appear
+    must_exclude: []              # Elements that must not appear (from anti-attributes + brief)
+
+  # ── CONFIDENCE AND METADATA ──────────────────────────────────────
+  metadata:
+    strategy_brief_ulid: null     # Generated at runtime
+    brand_ulid: null              # Which brand this is for
+    generated_at: null            # Timestamp
+    strategy_version: null        # Which version of BrandDNA Layer 4 this used
+    confidence_level: null        # high | medium | low
+    confidence_reason: null       # Why this confidence level
+
+# ── EXAMPLE POPULATED BRIEF ──────────────────────────────────────────────────
+# This example shows what a real strategy brief looks like when populated.
+# Used for testing and for Prompt Composer reference.
+
+example_populated:
+  brief_intake:
+    client_ask: "Post something for our shawarma shop for Ramadan"
+    real_ask: "Give our regulars a reason to make us their iftar tradition"
+    brief_type: "occasion_trigger"
+
+  strategic_diagnosis:
+    permission_level: "sme_local"
+    cultural_tension_id: "FAB_T_02"
+    cultural_tension_name: "Real hospitality is never convenient"
+    tension_reasoning: >
+      This brand is a neighbourhood shawarma shop. Their audience
+      is Riyadh locals who have been coming for years. The tension
+      that fits them is not food quality — it is the hospitality of
+      being a place that feels like it was made for you. During
+      Ramadan, this tension is at its most powerful.
+
+  creative_direction:
+    formula_primary: "scene_pair"
+    formula_secondary: null
+    formula_reasoning: >
+      Two scenes: the rush of preparation before iftar, and the
+      moment of stillness when the regular customer arrives and
+      the owner already knows their order. No text needed.
+    route: "safe"
+
+  content_spec:
+    platform_primary: "instagram"
+    format: "video"
+    duration_seconds: 30
+    arabic_register: "najdi_colloquial"
+    pacing: "slow_cinematic"
+    occasion_context: "ramadan"
+    occasion_phase: "active"
+
+  anti_attribute_check:
+    brand_anti_attributes:
+      - "no corporate kitchen lighting"
+      - "no delivery-box shots"
+      - "no fake steam"
+    confirmed_no_violations: true
+
+  brave_route:
+    enabled: false
+
+  chain_guidance:
+    formula_affinities_required:
+      - "scene_pair"
+    platform_filter: "instagram"
+    format_filter: "video"
+    occasion_boost: true          # Ramadan chains get +20 score
+
+  prompt_context:
+    strategic_intent: "Make the viewer feel like this is the iftar they come home to"
+    emotional_target: "Warm recognition — the feeling of being known"
+    cultural_moment: "Ramadan iftar — the moment of breaking fast with something familiar"
+    brand_voice_note: "Warm, unhurried, Najdi. Never salesy. Never corporate."
+    visual_direction_note: >
+      Real kitchen, not styled. Real hands. Real rush.
+      Then: the customer's face recognising the owner.
+    must_include:
+      - "human hands serving"
+      - "the moment of recognition"
+      - "warm practical lighting"
+    must_exclude:
+      - "delivery packaging"
+      - "studio food photography"
+      - "countdown text"
+      - "discount messaging"
+
+  metadata:
+    strategy_brief_ulid: "EXAMPLE_DO_NOT_USE"
+    brand_ulid: "EXAMPLE_BRAND"
+    generated_at: "2026-05-18T00:00:00Z"
+    strategy_version: "3"
+    confidence_level: "high"
+    confidence_reason: >
+      Permission level clear from BrandDNA. Cultural tension confirmed.
+      Formula well-matched to platform and occasion. No brave route needed.
+      All anti-attributes checked. Arabic register confirmed from brand profile.

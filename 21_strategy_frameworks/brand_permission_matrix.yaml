@@ -1,0 +1,160 @@
+# brand_permission_matrix.yaml
+# Part of: 21_strategy_frameworks/
+# Purpose: Maps which creative formulas are available at which permission levels
+# and defines the conflict rules for cultural tension ownership.
+# Used by: Strategy Agent to validate creative direction selections.
+
+schema_version: 1
+last_updated: "2026-05-18"
+confirmer: "Mohamed"
+confidence: "confirmed"
+
+# ── FORMULA × PERMISSION LEVEL MATRIX ─────────────────────────────────────────
+# available: can use freely
+# restricted: requires strong justification and OGZ review
+# blocked: never use for this permission level
+
+formula_permission_matrix:
+  manifesto_build:
+    category_leader: "available"
+    challenger: "restricted"      # Requires evidence of earned authority
+    institutional: "available"
+    purpose: "available"
+    launch: "blocked"
+    sme_local: "blocked"
+
+  paradox_play:
+    category_leader: "available"
+    challenger: "available"
+    institutional: "restricted"   # Only if tension is non-political
+    purpose: "restricted"         # Only if values are clearly consistent
+    launch: "available"
+    sme_local: "restricted"       # Only if tension is human and warm
+
+  freeze_then_action:
+    category_leader: "restricted" # Too energy-burning for leader steady state
+    challenger: "available"
+    institutional: "restricted"   # Only for specific launch moments
+    purpose: "available"
+    launch: "available"
+    sme_local: "available"
+
+  scene_pair:
+    category_leader: "available"
+    challenger: "available"
+    institutional: "available"
+    purpose: "available"
+    launch: "available"
+    sme_local: "available"
+
+  number_reframe:
+    category_leader: "available"
+    challenger: "restricted"      # Only if numbers are genuinely impressive
+    institutional: "available"
+    purpose: "available"
+    launch: "blocked"
+    sme_local: "blocked"
+
+  gamified_hook:
+    category_leader: "restricted" # Too small-feeling — only for specific campaigns
+    challenger: "available"
+    institutional: "blocked"
+    purpose: "restricted"         # Only for community participation moments
+    launch: "available"
+    sme_local: "available"
+
+  metaphor_system:
+    category_leader: "available"
+    challenger: "available"
+    institutional: "restricted"   # Metaphor must not undermine authority
+    purpose: "available"
+    launch: "available"
+    sme_local: "restricted"       # Only if metaphor is genuinely local and specific
+
+
+# ── BRAVE CONTENT THRESHOLDS ──────────────────────────────────────────────────
+# Defines how much brave content is appropriate per permission level
+# as a percentage of total content mix
+
+brave_content_thresholds:
+  category_leader:
+    max_pct: 30
+    review_required: true
+    auto_block_topics:
+      - government_commentary
+      - religious_positioning
+  challenger:
+    max_pct: 40
+    review_required: true
+    auto_block_topics:
+      - direct_competitor_naming
+      - religious_positioning
+  institutional:
+    max_pct: 10
+    review_required: true
+    auto_block_topics:
+      - government_commentary
+      - religious_positioning
+      - political_adjacency
+  purpose:
+    max_pct: 35
+    review_required: true
+    auto_block_topics:
+      - values_inconsistency  # Brave only if consistent with stated values
+  launch:
+    max_pct: 50
+    review_required: true
+    auto_block_topics:
+      - competitor_attacks
+      - unearned_authority_claims
+  sme_local:
+    max_pct: 25
+    review_required: true
+    auto_block_topics:
+      - political_adjacency
+      - religious_positioning
+
+
+# ── TENSION CONFLICT RULES ────────────────────────────────────────────────────
+# When two brands in the same competitive group claim the same tension,
+# these rules determine who gets priority and how the conflict is resolved.
+
+tension_conflict_rules:
+
+  priority_determination:
+    rule: "first_confirmed_claim_wins"
+    description: >
+      The first brand to have their strategy confirmed (not just drafted)
+      with a specific tension assigned gets priority in that
+      sector × city × tension combination.
+
+  conflict_detection:
+    trigger: >
+      When Brand B's strategy draft assigns a tension already held by
+      a brand listed in Brand B's competitor_handles list AND
+      that tension is confirmed (not draft) for Brand A.
+    action: >
+      Strategy Agent flags the conflict and proposes 2 alternative tensions
+      for Brand B from the same sector's tension list.
+      Defends why the alternative is actually stronger for Brand B's
+      specific BrandDNA (founding story, anti-attributes, assets).
+
+  use_it_or_lose_it:
+    days_without_tension_aligned_content: 90
+    warning_at_days: 60
+    warning_message: >
+      "Your brand has not produced content aligned to your claimed territory
+      for 60 days. You will lose protection of this territory in 30 days."
+    release_action: >
+      Tension returned to available pool for the sector × city combination.
+      Strategy Agent proposes re-claiming it or adopting a new tension.
+
+  adjacent_territory_protection:
+    description: >
+      Even if the exact tension is not claimed by a competitor,
+      the Strategy Agent checks if a proposed tension is too adjacent
+      to a competitor's claimed tension to be meaningfully differentiated.
+    adjacency_threshold: >
+      If the proposed tension would produce content that a Saudi viewer
+      could not distinguish from a competitor's content, it is flagged
+      as too adjacent and an alternative is proposed.

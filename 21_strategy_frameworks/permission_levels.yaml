@@ -1,0 +1,279 @@
+# permission_levels.yaml
+# Part of: 21_strategy_frameworks/
+# Purpose: Defines the 6 brand permission levels used in strategy building.
+# Each level determines which creative approaches are available to a brand,
+# how brave they can be, and what cultural tensions they can own.
+# Used by: Strategy Agent, Brand Permission Matrix, Strategy Brief Template
+
+schema_version: 1
+last_updated: "2026-05-18"
+confirmer: "Mohamed"
+confidence: "confirmed"
+
+levels:
+
+  category_leader:
+    id: "PL_01"
+    name_en: "Category Leader"
+    name_ar: "قائد الفئة"
+    description: >
+      The brand that defines what the category means. Consumers in this
+      sector think of this brand first. Has earned the right to set the
+      conversation rather than join it.
+    who_this_is:
+      - National chains with dominant market share
+      - Brands that have been sector-defining for 5+ years
+      - Brands whose name is used generically for the category
+    creative_formulas_available:
+      - manifesto_build
+      - number_reframe
+      - paradox_play
+      - metaphor_system
+      - scene_pair
+    creative_formulas_restricted:
+      - gamified_hook  # Too small-feeling for a category leader
+    brave_tolerance: high
+    cultural_tension_types_available:
+      - philosophical  # Can own big truths about the category
+      - cultural_legacy  # Can define what the category means to Saudi culture
+      - aspiration  # Can set the aspiration for the whole sector
+    cultural_tension_types_restricted:
+      - challenger  # Cannot attack the category they define
+      - underdog  # Inconsistent with leader status
+    what_is_allowed: >
+      Can shape category conversation. Can define what matters.
+      Can be bold without explanation. Can assume authority.
+    what_is_not_allowed: >
+      Cannot be arrogant or dismissive of others.
+      Cannot claim newness — must claim depth.
+      Cannot appear reactive to competitors.
+    register_range:
+      - msa_accessible
+      - najdi_colloquial
+      - hejazi_colloquial
+      - mixed_bilingual
+    example_brands_anonymised:
+      - "National F&B chain with 100+ locations"
+      - "Saudi heritage brand 20+ years operating"
+
+  challenger:
+    id: "PL_02"
+    name_en: "Challenger"
+    name_ar: "المتحدي"
+    description: >
+      A brand growing in a category dominated by others.
+      Has a point of view that challenges the default.
+      Earns attention by standing for something different.
+    who_this_is:
+      - Fast-growing brands in their second or third year
+      - Brands with a clear differentiated proposition
+      - Brands intentionally disrupting how their sector operates
+    creative_formulas_available:
+      - paradox_play
+      - scene_pair
+      - freeze_then_action
+      - gamified_hook
+      - metaphor_system
+    creative_formulas_restricted:
+      - manifesto_build  # Requires earned authority not yet held
+    brave_tolerance: high
+    cultural_tension_types_available:
+      - challenger  # Can disrupt conventions
+      - authenticity  # Can call out the generic
+      - specificity  # Can own hyper-local or hyper-specific territory
+    cultural_tension_types_restricted:
+      - philosophical  # Authority not yet earned for big truths
+    what_is_allowed: >
+      Can call out the generic and the lazy.
+      Can be provocative about category conventions.
+      Can be bold through specificity.
+    what_is_not_allowed: >
+      Cannot name specific competitors.
+      Cannot claim scale not yet achieved.
+      Cannot use manifesto tone without evidence.
+    register_range:
+      - najdi_colloquial
+      - hejazi_colloquial
+      - mixed_bilingual
+      - code_switching
+    example_brands_anonymised:
+      - "Growing local coffee roastery, 3 locations"
+      - "Modern Saudi streetwear brand, 4 years old"
+
+  institutional:
+    id: "PL_03"
+    name_en: "Institutional"
+    name_ar: "المؤسسي"
+    description: >
+      Authority-dependent brand. Trust is the primary asset.
+      Tone must reinforce credibility and stability.
+      Cannot afford to appear experimental or inconsistent.
+    who_this_is:
+      - Government-adjacent entities
+      - Healthcare and medical brands
+      - Financial services and banking
+      - Educational institutions
+      - Large real estate developers with regulatory relationships
+    creative_formulas_available:
+      - manifesto_build
+      - number_reframe
+      - scene_pair
+    creative_formulas_restricted:
+      - paradox_play  # Risk of appearing inconsistent
+      - gamified_hook  # Too casual for institutional register
+      - freeze_then_action  # Too dramatic
+    brave_tolerance: low
+    cultural_tension_types_available:
+      - trust  # Can own the "we've been here when it matters" territory
+      - legacy  # Can own depth and experience
+      - national  # Can connect to Vision 2030 and national progress
+    cultural_tension_types_restricted:
+      - challenger  # Cannot challenge authority they depend on
+      - disruption  # Inconsistent with institutional position
+    what_is_allowed: >
+      Can speak with weight and gravity.
+      Can claim heritage and depth.
+      Can connect to national purpose.
+    what_is_not_allowed: >
+      Cannot be experimental or ironic.
+      Cannot use colloquial register except in specific community content.
+      Cannot appear reactive or political.
+    register_range:
+      - msa_formal
+      - msa_accessible
+    example_brands_anonymised:
+      - "Healthcare group, multiple hospitals"
+      - "Government-affiliated real estate developer"
+
+  purpose:
+    id: "PL_04"
+    name_en: "Purpose"
+    name_ar: "الهدف"
+    description: >
+      Brand with values at its center. Community, sustainability,
+      social impact, or cultural preservation define why it exists.
+      Can take positions on moments that others cannot.
+    who_this_is:
+      - Brands built around social impact
+      - Cultural preservation brands
+      - Sustainability-led businesses
+      - Community-oriented SMEs with a clear mission
+    creative_formulas_available:
+      - manifesto_build
+      - scene_pair
+      - metaphor_system
+      - number_reframe
+    creative_formulas_restricted:
+      - gamified_hook  # Too trivial for purpose-driven content
+    brave_tolerance: medium_high
+    cultural_tension_types_available:
+      - values  # Can take positions on cultural moments
+      - community  # Can own local belonging
+      - authenticity  # Can own the "we do this because we believe it" territory
+    cultural_tension_types_restricted:
+      - commercial  # Cannot appear primarily commercial
+    what_is_allowed: >
+      Can take positions on cultural moments.
+      Can be emotional and direct about values.
+      Can challenge norms when aligned with stated purpose.
+    what_is_not_allowed: >
+      Cannot be inconsistent with stated values — the audience will notice.
+      Cannot use purpose as a marketing tool without operational evidence.
+    register_range:
+      - msa_accessible
+      - najdi_colloquial
+      - hejazi_colloquial
+      - mixed_bilingual
+    example_brands_anonymised:
+      - "Heritage food preservation brand"
+      - "Community kitchen social enterprise"
+
+  launch:
+    id: "PL_05"
+    name_en: "Launch"
+    name_ar: "الإطلاق"
+    description: >
+      New to market. No earned authority yet.
+      Must earn permission through the energy of newness.
+      Bold is allowed precisely because nothing is at risk yet.
+    who_this_is:
+      - Brands in their first 12 months
+      - Established brands launching a completely new line
+      - Brands entering a new market or city
+    creative_formulas_available:
+      - freeze_then_action
+      - gamified_hook
+      - scene_pair
+      - paradox_play
+      - metaphor_system
+    creative_formulas_restricted:
+      - manifesto_build  # Cannot claim authority not yet earned
+      - number_reframe   # No history of numbers to reframe
+    brave_tolerance: very_high
+    cultural_tension_types_available:
+      - newness  # Can own the excitement of being new
+      - disruption  # Can challenge conventions because they have nothing to lose
+      - specificity  # Can be hyper-specific about what they are and aren't
+    what_is_allowed: >
+      Can be bold through newness.
+      Can make bold claims about what they will do.
+      Can use high energy, fast pacing, experimental formats.
+    what_is_not_allowed: >
+      Cannot claim heritage or depth not yet built.
+      Cannot appear to attack established brands.
+    register_range:
+      - najdi_colloquial
+      - hejazi_colloquial
+      - mixed_bilingual
+      - code_switching
+    example_brands_anonymised:
+      - "New F&B concept, first location just opened"
+      - "New beauty brand, first Saudi market entry"
+
+  sme_local:
+    id: "PL_06"
+    name_en: "SME Local"
+    name_ar: "المحلي الصغير"
+    description: >
+      Community-rooted brand. The neighbourhood knows it.
+      Authenticity and human connection are the permission.
+      The owner IS the brand in most cases.
+    who_this_is:
+      - Neighbourhood restaurants and cafés
+      - Local service businesses
+      - Home-based brands
+      - Single-location retail
+      - Small family businesses
+    creative_formulas_available:
+      - scene_pair
+      - gamified_hook
+      - freeze_then_action
+      - metaphor_system
+    creative_formulas_restricted:
+      - manifesto_build  # Too big for local scale
+      - number_reframe   # Scale of numbers doesn't support this
+    brave_tolerance: medium
+    cultural_tension_types_available:
+      - intimacy  # Can own the "we know your name" territory
+      - homemade  # Can own genuine handmade / homecook authenticity
+      - community  # Can own local belonging and neighbourhood presence
+      - founder  # Can own the founder's personal story as the brand story
+    cultural_tension_types_restricted:
+      - category  # Cannot claim category-level authority
+      - national   # Cannot claim national relevance
+    what_is_allowed: >
+      Can be intimate, personal, specific.
+      Can use the founder's story as the brand story.
+      Can be warm and community-rooted.
+      Can be honest about being small.
+    what_is_not_allowed: >
+      Cannot pretend to be bigger than they are.
+      Cannot use corporate language or production scale that contradicts their position.
+    register_range:
+      - najdi_colloquial
+      - hejazi_colloquial
+      - mixed_bilingual
+    founder_content_weight: high  # SME local brands benefit most from founder content
+    example_brands_anonymised:
+      - "Single-location home food brand, WhatsApp-led sales"
+      - "Neighbourhood shawarma shop, family-run"

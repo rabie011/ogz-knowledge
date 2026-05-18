@@ -1,0 +1,330 @@
+# cultural_tensions_by_sector.yaml
+# Part of: 21_strategy_frameworks/
+# Purpose: For each of the 5 sectors, the cultural tensions a brand can own.
+# A cultural tension is a real human truth that Saudi audiences feel
+# about this sector — the productive friction that makes content resonate.
+# Used by: Strategy Agent when assigning primary tension during strategy build.
+# CRITICAL: Tensions are assigned once per brand and protected from competitors.
+
+schema_version: 1
+last_updated: "2026-05-18"
+confirmer: "Mohamed"
+confidence: "confirmed"
+
+sectors:
+
+  f_and_b:
+    sector_id: "f_and_b"
+    tensions:
+
+      - id: "FAB_T_01"
+        name: "The meal that takes all day deserves to be seen"
+        territory: >
+          The gap between how much effort goes into food and how little
+          that effort is visible to the person who eats it. For brands
+          whose product requires skill, patience, or heritage technique.
+        audience_truth: >
+          Saudi food culture values effort. A grandmother's kabsa
+          is not the same as a restaurant's kabsa — and everyone knows why.
+          Brands that show the effort earn a kind of respect that
+          brands that only show the result cannot.
+        best_for_permission_levels:
+          - category_leader
+          - sme_local
+          - purpose
+        best_formula: scene_pair
+        occasion_fit:
+          - ramadan_active  # The preparation before iftar
+          - eid_al_adha     # The sacrifice and the feast
+        regional_strength: najdi  # Strong in Najdi food culture
+
+      - id: "FAB_T_02"
+        name: "Real hospitality is never convenient"
+        territory: >
+          The tension between the Saudi culture of generous, unhurried
+          hospitality and the modern pressure to make everything fast
+          and efficient. Brands that take this tension seriously earn
+          a position no fast-casual brand can own.
+        audience_truth: >
+          Every Saudi has experienced the difference between
+          genuine hospitality and commercial hospitality. They know
+          the feeling immediately. Brands that perform genuine
+          hospitality in their content earn trust that performance
+          cannot fake.
+        best_for_permission_levels:
+          - category_leader
+          - challenger
+          - sme_local
+        best_formula: manifesto_build
+        occasion_fit:
+          - ramadan_active
+          - general
+        regional_strength: national
+
+      - id: "FAB_T_03"
+        name: "The kitchen is the most honest room in the house"
+        territory: >
+          Food as a window into real life — the unpolished, unfiltered,
+          real Saudi home. Not styled food photography but the truth of
+          how food is actually made, shared, and eaten.
+        audience_truth: >
+          Gen Z Saudi audiences are moving away from aspirational
+          food content toward authentic, imperfect, real content.
+          The kitchen that looks like a real kitchen is more trustworthy
+          than one that looks like a studio.
+        best_for_permission_levels:
+          - sme_local
+          - challenger
+          - purpose
+        best_formula: scene_pair
+        occasion_fit:
+          - ramadan_suhoor  # The 4am kitchen
+          - general
+        regional_strength: national
+
+      - id: "FAB_T_04"
+        name: "Food memory is the strongest kind"
+        territory: >
+          The specific, sensory, personal memory of a food — its smell,
+          the specific texture, the exact context. Brands that connect
+          their product to food memory earn an emotional position
+          that is nearly impossible to displace.
+        audience_truth: >
+          Saudi food culture is deeply memorial. Dishes are associated
+          with specific people, specific Ramadans, specific Eids.
+          A brand that can authentically connect to this emotional territory
+          creates loyalty that is not rational — it is identity.
+        best_for_permission_levels:
+          - category_leader
+          - purpose
+          - sme_local
+        best_formula: metaphor_system
+        occasion_fit:
+          - ramadan_active
+          - eid_al_fitr
+          - eid_al_adha
+        regional_strength: national
+
+      - id: "FAB_T_05"
+        name: "The table is where Saudi life actually happens"
+        territory: >
+          Food as the context for everything that matters —
+          decisions, celebrations, reconciliations, first meetings.
+          The food is secondary; the gathering is primary.
+        audience_truth: >
+          Saudi culture organises around shared meals.
+          A restaurant is not a place to eat — it is a place to be together.
+          Brands that understand this and build content around it
+          become part of the social fabric, not just the food industry.
+        best_for_permission_levels:
+          - category_leader
+          - challenger
+          - institutional
+        best_formula: scene_pair
+        occasion_fit:
+          - ramadan_active
+          - eid_al_fitr
+          - general
+        regional_strength: national
+
+  retail:
+    sector_id: "retail"
+    tensions:
+
+      - id: "RET_T_01"
+        name: "Saudi taste is not a trend — it is a standard"
+        territory: >
+          The gap between international brands that treat Saudi as
+          a market to localise for and Saudi brands that understand
+          Saudi taste as its own authoritative standard.
+          For brands that are built around Saudi aesthetic sensibility.
+        audience_truth: >
+          Saudi consumers increasingly prefer products that understand
+          their taste rather than adapt to it. A brand that treats
+          Saudi aesthetic as the original, not the adaptation,
+          earns a different kind of loyalty.
+        best_for_permission_levels:
+          - category_leader
+          - challenger
+        best_formula: manifesto_build
+        occasion_fit:
+          - saudi_national_day
+          - saudi_founding_day
+
+      - id: "RET_T_02"
+        name: "Local is not a compromise — it is a choice"
+        territory: >
+          The tension between the perceived prestige of international
+          brands and the growing pride in choosing Saudi.
+          For brands that represent local production and local identity.
+        audience_truth: >
+          Saudi Gen Z actively chooses local brands as a statement
+          of identity. Choosing Saudi is not settling — it is belonging.
+          Brands that understand this earn a position that international
+          competitors cannot.
+        best_for_permission_levels:
+          - challenger
+          - purpose
+          - sme_local
+        best_formula: paradox_play
+        occasion_fit:
+          - saudi_national_day
+          - general
+
+      - id: "RET_T_03"
+        name: "The thing you wear says what you cannot say"
+        territory: >
+          Clothing and personal style as a language in a culture
+          where direct self-expression has historically been constrained.
+          For fashion and personal care brands that understand
+          Saudi self-expression.
+        audience_truth: >
+          Saudi youth express identity through what they wear
+          with increasing confidence and creativity. The thobe
+          with sneakers is not a hybrid — it is a vocabulary.
+          Brands that speak this vocabulary fluently earn deep loyalty.
+        best_for_permission_levels:
+          - challenger
+          - launch
+          - purpose
+        best_formula: scene_pair
+        occasion_fit:
+          - general
+          - saudi_national_day
+
+  beauty:
+    sector_id: "beauty"
+    tensions:
+
+      - id: "BEA_T_01"
+        name: "Confidence does not require explanation"
+        territory: >
+          The tension between beauty as performance (for others)
+          and beauty as confidence (for self). For brands that
+          position beauty as self-determination rather than
+          social approval.
+        audience_truth: >
+          Saudi women's relationship with beauty is evolving rapidly.
+          The growing confidence in self-presentation across contexts —
+          from modest to bold — reflects a deeper shift in how
+          Saudi women understand beauty as their own.
+        best_for_permission_levels:
+          - challenger
+          - category_leader
+          - purpose
+        best_formula: manifesto_build
+        occasion_fit:
+          - general
+          - saudi_national_day
+
+      - id: "BEA_T_02"
+        name: "What your mother used is not old — it is tested"
+        territory: >
+          The tension between the prestige of international beauty
+          science and the deep knowledge of traditional Saudi
+          beauty practices. For brands built on heritage ingredients
+          and traditional formulations.
+        audience_truth: >
+          Saudi beauty heritage includes oud, rose water, black seed,
+          specific regional preparations. The generation that grew up
+          watching their mothers use these is now rediscovering them
+          with pride rather than embarrassment.
+        best_for_permission_levels:
+          - purpose
+          - sme_local
+          - challenger
+        best_formula: metaphor_system
+        occasion_fit:
+          - general
+          - ramadan_active
+
+  real_estate:
+    sector_id: "real_estate"
+    tensions:
+
+      - id: "RE_T_01"
+        name: "Belonging is built before the building"
+        territory: >
+          The gap between real estate as transaction (square metres,
+          features, price) and real estate as belonging (community,
+          identity, roots). For brands that understand they are
+          not selling property — they are selling a place to be from.
+        audience_truth: >
+          Saudi Vision 2030 has produced a new category of residential
+          development that promises lifestyle and belonging, not just shelter.
+          But most marketing still speaks features. The brand that speaks
+          belonging occupies uncontested territory.
+        best_for_permission_levels:
+          - category_leader
+          - institutional
+          - challenger
+        best_formula: manifesto_build
+        occasion_fit:
+          - saudi_national_day
+          - general
+
+      - id: "RE_T_02"
+        name: "The Saudi home has always been a statement"
+        territory: >
+          The deep cultural significance of the Saudi home —
+          as an expression of family, hospitality, and status.
+          For brands that connect their development to the
+          cultural meaning of home in Saudi life.
+        audience_truth: >
+          The Saudi home is not just a residence — it is a host space,
+          a family statement, a mark of arrival. Majlis design,
+          guest room quality, kitchen visibility all carry social meaning
+          that purely functional architecture misses entirely.
+        best_for_permission_levels:
+          - category_leader
+          - institutional
+        best_formula: scene_pair
+        occasion_fit:
+          - ramadan_active
+          - eid_al_fitr
+          - general
+
+  healthcare_wellness:
+    sector_id: "healthcare_wellness"
+    tensions:
+
+      - id: "HC_T_01"
+        name: "Strength asks for help — weakness does not"
+        territory: >
+          The cultural tension around healthcare-seeking behaviour
+          in a society where health concerns are often private.
+          Reframing seeking healthcare as a sign of strength
+          and responsibility rather than vulnerability.
+        audience_truth: >
+          Saudi culture places high value on self-sufficiency and
+          not showing weakness. Healthcare brands that frame their
+          service as something strong, responsible people do —
+          rather than something sick people need — earn a different
+          relationship with their audience.
+        best_for_permission_levels:
+          - institutional
+          - category_leader
+          - challenger
+        best_formula: paradox_play
+        occasion_fit:
+          - general
+
+      - id: "HC_T_02"
+        name: "Prevention is the oldest Saudi health tradition"
+        territory: >
+          The connection between traditional Saudi wellness practices
+          and modern preventive healthcare. For brands that bridge
+          the traditional and modern approaches to health.
+        audience_truth: >
+          Saudi health culture has deep roots in preventive practices —
+          diet, fasting, natural remedies, specific seasonal behaviours.
+          Brands that connect to this heritage rather than replacing it
+          earn trust that purely clinical brands cannot.
+        best_for_permission_levels:
+          - purpose
+          - challenger
+          - institutional
+        best_formula: metaphor_system
+        occasion_fit:
+          - ramadan_active  # Fasting and health
+          - general

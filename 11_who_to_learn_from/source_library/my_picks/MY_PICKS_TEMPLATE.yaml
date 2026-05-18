@@ -1,0 +1,33 @@
+# MY_PICKS_TEMPLATE.yaml
+# Copy this file and rename to the sector slug (e.g., f_and_b.yaml).
+# Fill in the accounts you want extracted.
+# See START_HERE_EXTRACTION.md for the full workflow.
+
+---
+sector: null
+region_focus: null
+date_created: null
+
+picks:
+  - handle: "@example_handle"
+    platform: instagram
+    tier: 1
+    why_picked: "Explain in your own words why this account matters"
+    what_to_watch: "What should Claude Code pay attention to?"
+    red_flags: null
+    priority_posts: []
+
+  - handle: "@bad_example_handle"
+    platform: instagram
+    tier: 4
+    why_picked: "This account gets Saudi culture wrong — explain how"
+    what_to_watch: "The specific violations to document"
+    red_flags: "Describe the violations you noticed"
+    priority_posts: []
+
+# RULES:
+# - Every picks file MUST include at least one Tier 4 account.
+# - Tier 1 = gold standard you trust completely.
+# - Tier 2 = good coverage, worth learning from.
+# - Tier 4 = bad example — gets Saudi culture wrong. Required for forbidden-pattern training.
+# - Start with 5-10 accounts. Do not try to cover everything in one session.

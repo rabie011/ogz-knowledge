@@ -44,6 +44,30 @@ A pattern is a cross-account abstraction. It carries:
 
 The CEO agent uses patterns as **inspiration material**, not templates to copy. Generated content draws on the pattern's recipe but uses the specific brand's fingerprint.
 
+## Extraction infrastructure (v1.2.0)
+
+```
+11_who_to_learn_from/
+├── source_library/
+│   └── my_picks/                       — Mohamed's account picks per sector
+│       └── MY_PICKS_TEMPLATE.yaml      — copy + rename to start a sector
+├── _calibration_set/
+│   ├── content/                        — calibration images (gitignored)
+│   ├── claude_extractions/             — Claude Code's calibration output
+│   ├── GROUND_TRUTH.yaml              — Mohamed's answers (do not show to Claude Code)
+│   └── CALIBRATION_SETUP_GUIDE.md     — how to build the calibration set
+├── _inbox/                             — per-account content (gitignored)
+│   └── @handle/                        — download content here
+└── observations/
+    ├── f_and_b/                        — extraction records for F&B
+    ├── retail/                         — extraction records for Retail
+    └── beauty/                         — extraction records for Beauty
+```
+
+- Observations validate against `12_data_shapes/observation_v1.schema.json`.
+- See `START_HERE_EXTRACTION.md` for the full workflow.
+- See `EXTRACTION_PROMPT_FOR_CLAUDE_CODE.md` for Claude Code's extraction instructions.
+
 ## Updates
 
 - New accounts: added monthly during brand-onboarding sweep.

@@ -13,6 +13,45 @@ This repository uses semantic versioning at the **knowledge-base level**:
 
 ---
 
+## [1.2.0] — 2026-05-18 — Corpus Extraction Infrastructure
+
+### Added
+
+**Observation schema (`12_data_shapes/observation_v1.schema.json`)** — new schema for individual content observations extracted by Claude Code. Fields: content_ref, visual_observations, voice_observations, compliance_check (hard_blocks_triggered + soft_flags), cultural_notes, pattern_matches, quality_assessment, provenance.
+
+**Extraction folder structure (`11_who_to_learn_from/`):**
+- `source_library/my_picks/` — Mohamed's account picks per sector
+- `_calibration_set/content/` — calibration images (gitignored)
+- `_calibration_set/claude_extractions/` — Claude Code's calibration output
+- `_inbox/` — per-account content download folders (gitignored)
+- `observations/{sector}/` — final extraction records (f_and_b, retail, beauty)
+
+**Templates:**
+- `MY_PICKS_TEMPLATE.yaml` — template for sector picks files
+- `GROUND_TRUTH.yaml` — calibration answer template (10 items)
+- `CALIBRATION_SETUP_GUIDE.md` — guide for building calibration set
+
+**Extraction prompt (`EXTRACTION_PROMPT_FOR_CLAUDE_CODE.md`)** — instructions for Claude Code extraction against observation_v1 schema + all 4 forbidden lists.
+
+**Scripts:**
+- `scripts/test_extraction_accuracy.py` — 3-level calibration tester (hard block detection → completeness → accuracy)
+- `scripts/extract_from_picks.py` — reads picks, scans inbox, builds extraction queue
+
+### Updated
+- `.gitignore` — excludes `_inbox/`, `_calibration_set/content/`, `_extraction_queue.json`
+- `scripts/validate_all.py` — added `observations/` folder→schema mapping
+- `11_who_to_learn_from/README.md` — documents new extraction infrastructure
+
+---
+
+## [1.1.0] — 2026-05-18 — Strategy Frameworks
+
+### Added
+- `21_strategy_frameworks/` — 5 strategy framework YAMLs (brand permission matrix, creative formulas, cultural tensions by sector, permission levels, strategy brief template)
+- `START_HERE_EXTRACTION.md` — extraction workflow guide at repo root
+
+---
+
 ## [1.0.0] — 2026-05-14 — Seed Week 1 Complete
 
 **Final state:** 318 records validate across 400 files (1.2 MB). All five day-cuts shipped on 2026-05-14 in one Mac Mini session, with corpus mounted from `~/Desktop/ogz-knowledge-corpus/`. Day 1 was originally built in a web-Claude sandbox 2026-05-13 (history not preserved — see initial commit message). All content marked `confidence: experimental` pending Cultural Advisor + real-brand validation.

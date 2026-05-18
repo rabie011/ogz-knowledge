@@ -1,0 +1,263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ogz-knowledge/schemas/observation_v1.schema.json",
+  "title": "Observation v1",
+  "description": "A single content observation — what Claude Code produces when analysing one post, image, or video from a benchmark account.",
+  "type": "object",
+  "required": [
+    "observation_ulid",
+    "schema_version",
+    "account_handle_normalized",
+    "account_ulid",
+    "sector",
+    "content_ref",
+    "visual_observations",
+    "compliance_check",
+    "cultural_notes",
+    "quality_assessment",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "observation_ulid": {
+      "type": "string",
+      "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "account_handle_normalized": {
+      "type": "string",
+      "description": "External-facing anonymized label from the parent benchmark account."
+    },
+    "account_ulid": {
+      "type": "string",
+      "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "sector": {
+      "type": "string"
+    },
+    "content_ref": {
+      "type": "object",
+      "required": ["filename", "platform", "content_type"],
+      "additionalProperties": false,
+      "properties": {
+        "filename": {
+          "type": "string",
+          "description": "Source file in _inbox/ or _calibration_set/content/."
+        },
+        "platform": {
+          "type": "string",
+          "enum": ["instagram", "tiktok", "snapchat", "youtube", "x", "other"]
+        },
+        "content_type": {
+          "type": "string",
+          "enum": ["image", "video", "carousel_slide", "story", "reel"]
+        },
+        "capture_date": {
+          "type": "string",
+          "format": "date",
+          "description": "When the content was posted, if known."
+        },
+        "source_url": {
+          "type": "string"
+        }
+      }
+    },
+    "visual_observations": {
+      "type": "object",
+      "required": ["composition_style"],
+      "additionalProperties": false,
+      "properties": {
+        "composition_style": {
+          "type": "string",
+          "minLength": 3,
+          "description": "e.g. 'overhead tabletop spread', 'product hero close-up', 'architectural framing'"
+        },
+        "lighting": {
+          "type": "string"
+        },
+        "color_palette_dominant": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "props_visible": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "setting": {
+          "type": "string"
+        },
+        "characters_visible": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "count": { "type": "integer", "minimum": 0 },
+            "gender_presentation": { "type": "string" },
+            "wardrobe_notes": { "type": "string" },
+            "gesture_notes": { "type": "string" }
+          }
+        },
+        "text_overlays": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["language"],
+            "additionalProperties": false,
+            "properties": {
+              "language": { "type": "string" },
+              "content_summary": { "type": "string" }
+            }
+          }
+        },
+        "notable_visual_elements": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "voice_observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "type": "string",
+          "enum": ["arabic", "english", "bilingual", "none"]
+        },
+        "dialect_detected": {
+          "type": ["string", "null"]
+        },
+        "register": {
+          "type": "string"
+        },
+        "tone": {
+          "type": "string"
+        },
+        "notable_phrases": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "call_to_action_present": {
+          "type": "boolean"
+        }
+      }
+    },
+    "compliance_check": {
+      "type": "object",
+      "required": ["hard_blocks_triggered", "soft_flags", "overall_compliance"],
+      "additionalProperties": false,
+      "properties": {
+        "hard_blocks_triggered": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["forbidden_list_id", "entry_name", "severity", "evidence_description"],
+            "additionalProperties": false,
+            "properties": {
+              "forbidden_list_id": {
+                "type": "string",
+                "description": "ID from the forbidden list entry, e.g. '01KRKH1N2YF8H7F60EGJYQS3EW'"
+              },
+              "entry_name": {
+                "type": "string",
+                "description": "Name from the forbidden list, e.g. 'left_hand_serving'"
+              },
+              "severity": {
+                "type": "string",
+                "enum": ["severe", "moderate", "minor"]
+              },
+              "evidence_description": {
+                "type": "string",
+                "minLength": 10,
+                "description": "What was observed that triggered this block."
+              }
+            }
+          }
+        },
+        "soft_flags": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["flag_type", "description"],
+            "additionalProperties": false,
+            "properties": {
+              "flag_type": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "overall_compliance": {
+          "type": "string",
+          "enum": ["clean", "soft_flagged", "hard_blocked"]
+        }
+      }
+    },
+    "cultural_notes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "regional_orientation_detected": {
+          "type": ["string", "null"]
+        },
+        "occasion_relevance": {
+          "type": ["string", "null"]
+        },
+        "hospitality_cues": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "heritage_vs_modern": {
+          "type": "string",
+          "enum": ["heritage", "modern", "blended", "neutral"]
+        },
+        "free_notes": {
+          "type": "string"
+        }
+      }
+    },
+    "pattern_matches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["pattern_slug", "confidence"],
+        "additionalProperties": false,
+        "properties": {
+          "pattern_slug": {
+            "type": "string",
+            "description": "References a pattern in 11_who_to_learn_from/patterns/"
+          },
+          "confidence": {
+            "type": "string",
+            "enum": ["strong", "moderate", "weak"]
+          },
+          "notes": {
+            "type": ["string", "null"]
+          }
+        }
+      }
+    },
+    "quality_assessment": {
+      "type": "object",
+      "required": ["production_quality"],
+      "additionalProperties": false,
+      "properties": {
+        "production_quality": {
+          "type": "string",
+          "enum": ["professional", "semi_professional", "ugc", "low"]
+        },
+        "brand_consistency_with_account": {
+          "type": "string",
+          "enum": ["strong", "moderate", "weak"]
+        },
+        "engagement_potential": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
+        }
+      }
+    },
+    "provenance": {
+      "$ref": "provenance_mixin_v1.schema.json"
+    }
+  }
+}

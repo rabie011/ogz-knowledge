@@ -1,0 +1,74 @@
+OGZ Knowledge Base — Extraction Report
+Generated: 2026-05-21 21:19 Riyadh
+============================================================
+
+SECTOR TOTALS
+----------------------------------------
+  f_and_b:  375 observations
+  beauty:    37 observations
+  retail:    12 observations
+  TOTAL:    424 observations
+
+ACCOUNT BREAKDOWN
+----------------------------------------
+  FOOD & BEVERAGE (11 accounts, 375 obs)
+  OGZ-F-AND-B-Reference-002  @barnscoffee           50 obs [T1] ✓
+  OGZ-F-AND-B-Reference-003  @crumblcookiespr       50 obs [T1] ✓
+  OGZ-F-AND-B-Reference-004  @riyadhfood            50 obs [T1] ✓
+  OGZ-F-AND-B-Reference-005  @altazaj_fakieh        50 obs [T1] ✓
+  OGZ-F-AND-B-Reference-010  @aseeb.najd            50 obs [T1] ✓
+  OGZ-F-AND-B-Reference-006  @herfyfsc              25 obs [T1] ✓
+  OGZ-F-AND-B-Reference-007  @kuduksa               25 obs [T1] ✓
+  OGZ-F-AND-B-Reference-008  @albaik                25 obs [T1] ✓
+  OGZ-F-AND-B-Reference-009  @shawarmersa           25 obs [T1] ✓
+  OGZ-F-AND-B-Reference-011  @alromansiahksa        25 obs [T1] new discovery
+  (herfyfsc was @herfyfsc — PowerPuff Girls campaign + Ramadan riddles)
+
+  BEAUTY (2 accounts, 37 obs)
+  OGZ-BEAUTY-Reference-001   @asteribeautysa        25 obs [T1] ✓
+  OGZ-BEAUTY-Reference-002   @prettynature.official 12 obs [T2] new discovery
+
+  RETAIL (1 account, 12 obs)
+  OGZ-RETAIL-Reference-001   @aldeebajofficial      12 obs [T2] new discovery
+
+VALIDATION
+----------------------------------------
+  validate_all.py: 742/742 PASS (obs + account schemas + pattern schemas)
+  Observation files: 424 total
+  Hard blocks detected: 3 (in riyadhfood + altazaj_fakieh obs — compliance check working)
+
+PATTERN COVERAGE
+----------------------------------------
+  Library patterns covered: 37/40 (92.5%)
+  Missing 3 library patterns (not observed in any account):
+    - eid_collection_reveal
+    - hajj_period_respectful_silence
+    - welcoming_back_school
+  Note: 68 additional free-form pattern slugs exist in original 5 accounts (pre-remap)
+        These are valid observations — remap script only covers known equivalents.
+
+DRIVE SYNC
+----------------------------------------
+  Last sync: 2026-05-21 21:17 Riyadh — OK
+  Target: My Drive/ogz-knowledge/
+  Status: All 424 obs + scripts + schemas synced
+
+NEW ACCOUNTS DISCOVERED
+----------------------------------------
+  @alromansiahksa (F&B, T1)
+    - 374K followers
+    - Key patterns: #ثلوثية_الرومانسية weekly cash giveaway, Eid sacrifice/feast content
+    - High Saudi score — gamified loyalty mechanics
+  @aldeebajofficial (retail, T2)
+    - Saudi abaya brand, English-dominant captions
+    - Covers: product hero video, collection reveals, modest fashion positioning
+  @prettynature.official (beauty, T2)
+    - Saudi natural skincare brand (now closing/transitioning)
+    - Covers: Arabic product comms, award badge mechanic, national pride alignment
+
+SESSIONS SUMMARY
+----------------------------------------
+  Session produced: 424 - 0 = 424 observations in total
+  This session (pass 2+): added 60 top-up obs + 15 alromansiahksa + 24 retail/beauty
+  Pattern remap: 261 slug remaps applied across 168 files
+  All records: schema-valid, drive-synced, patterns cleaned

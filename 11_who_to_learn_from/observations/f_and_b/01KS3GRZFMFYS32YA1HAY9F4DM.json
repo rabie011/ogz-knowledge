@@ -1,0 +1,134 @@
+{
+  "observation_ulid": "01KS3GRZFMFYS32YA1HAY9F4DM",
+  "schema_version": 1,
+  "account_handle_normalized": "OGZ-F-AND-B-Reference-005",
+  "account_ulid": "01KRKHS8R8SNJ8VJ56WKSQTS2H",
+  "sector": "f_and_b",
+  "content_ref": {
+    "filename": "DGnwykDt93z.jpg",
+    "platform": "instagram",
+    "content_type": "image"
+  },
+  "visual_observations": {
+    "composition_style": "cultural_object_hero with text overlay",
+    "lighting": "bright, warm, studio-grade background lighting",
+    "color_palette_dominant": [
+      "orange",
+      "white",
+      "teal",
+      "gray"
+    ],
+    "props_visible": [
+      "minaret",
+      "crescent moon",
+      "star",
+      "Arabic calligraphy",
+      "brand logo"
+    ],
+    "setting": "digital graphic design, studio backdrop",
+    "characters_visible": {
+      "count": 0
+    },
+    "text_overlays": [
+      {
+        "language": "arabic",
+        "content_summary": "Brand name 'الطازج' (Al-Tazaj) with tagline 'لطازج الإطازج' (fresh/freshness emphasis)"
+      },
+      {
+        "language": "arabic",
+        "content_summary": "Ramadan greeting: 'نهنئكم بحلول شهر رمضان المبارك' (We congratulate you on the arrival of blessed Ramadan month)"
+      }
+    ],
+    "notable_visual_elements": [
+      "minaret silhouette as central focal point",
+      "white Arabic calligraphy 'نور' (nur/light) integrated with minaret",
+      "crescent and star religious symbol",
+      "ornamental Islamic geometric pattern background",
+      "teal banner with white text",
+      "brand badge with crescent moon emblem (top right)"
+    ]
+  },
+  "voice_observations": {
+    "language": "arabic",
+    "dialect_detected": "Modern Standard Arabic (MSA)",
+    "register": "formal_celebratory",
+    "tone": "warm, respectful, festive",
+    "notable_phrases": [
+      "شهر رمضان المبارك (blessed month of Ramadan)",
+      "نهنئكم (we congratulate you)"
+    ],
+    "call_to_action_present": false
+  },
+  "compliance_check": {
+    "hard_blocks_triggered": [
+      {
+        "forbidden_list_id": "prayer_as_commercial_backdrop",
+        "entry_name": "prayer_as_commercial_backdrop",
+        "severity": "severe",
+        "evidence_description": "Minaret (Islamic prayer call symbol) used as primary promotional design element for fast food brand. Minaret represents sacred Islamic architecture tied to Adhan (prayer call) — inappropriate commodification of religious space."
+      },
+      {
+        "forbidden_list_id": "kaaba_or_mecca_as_backdrop",
+        "entry_name": "kaaba_or_mecca_as_backdrop",
+        "severity": "severe",
+        "evidence_description": "Minaret imagery with crescent/star evokes Hajji/Mecca sanctity. Using this as brand backdrop for commercial food promotion risks perceived desecration of sacred Islamic sites."
+      }
+    ],
+    "soft_flags": [
+      {
+        "flag_type": "religious_symbol_commercialization",
+        "description": "Minaret combined with 'nur' (light) calligraphy creates spiritual imagery used for marketing purposes. While Ramadan tie-in shows cultural awareness, the visual composition blurs line between sacred and commercial."
+      },
+      {
+        "flag_type": "cultural_sensitivity_concern",
+        "description": "Islamic architectural symbol as brand design element may be perceived as overly aggressive religious positioning in food/beverage space by some conservative audiences."
+      }
+    ],
+    "overall_compliance": "hard_blocked"
+  },
+  "cultural_notes": {
+    "regional_orientation_detected": "general_saudi",
+    "occasion_relevance": "ramadan_iftar_warmth",
+    "hospitality_cues": [
+      "Ramadan greeting formula (congratulatory tone)",
+      "Festive color scheme (orange/gold = warmth, celebration)",
+      "Sacred timing acknowledgment (holy month respect)"
+    ],
+    "heritage_vs_modern": "heritage",
+    "free_notes": "Brand attempts to position Al-Tazaj as culturally integrated Saudi chain by explicitly connecting Ramadan messaging with minaret iconography. However, this crosses into sensitive territory by using Islamic architectural symbols as commercial branding. While intent appears to celebrate Ramadan, execution risks criticism from religious authorities and conservative segments who view sacred imagery as unsuitable for fast-food marketing. The 'nur' (light) calligraphy suggests spiritual connection, but this intensifies the sacred-commercial overlap issue."
+  },
+  "pattern_matches": [
+    {
+      "pattern_slug": "cultural_object_hero",
+      "confidence": "strong",
+      "notes": "Minaret positioned as central compositional hero; architectural symbol treated as primary visual element"
+    },
+    {
+      "pattern_slug": "ramadan_iftar_warmth",
+      "confidence": "strong",
+      "notes": "Explicit Ramadan blessing greeting; festive orange color; crescent moon imagery tied to Islamic calendar"
+    },
+    {
+      "pattern_slug": "heritage_storytelling_hook",
+      "confidence": "strong",
+      "notes": "Arabic calligraphy, minaret, Islamic geometric patterns position brand within Saudi Islamic heritage narrative"
+    },
+    {
+      "pattern_slug": "occasion_specific_greeting",
+      "confidence": "strong",
+      "notes": "Formal Ramadan congratulations formula embedded as primary text"
+    }
+  ],
+  "quality_assessment": {
+    "production_quality": "professional",
+    "brand_consistency_with_account": "strong",
+    "engagement_potential": "high"
+  },
+  "provenance": {
+    "source": "instagram:@altazaj_fakieh:DGnwykDt93z",
+    "date_added": "2026-05-20T20:21:18.921086Z",
+    "confirmer": "claude_code_extraction",
+    "confidence": "inferred",
+    "scope": "sector:f_and_b"
+  }
+}

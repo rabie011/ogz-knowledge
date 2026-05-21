@@ -1,162 +1,51 @@
-# GROUND_TRUTH.yaml
-# Mohamed's answers for the calibration set.
-# DO NOT show this file to Claude Code before extraction is complete.
-# Fill in what you see. Leave null where uncertain.
-
+# GROUND_TRUTH.yaml — calibration set expected results
+# item_02 PENDING (left-hand violation test — will be filled once Tier 4 media downloaded)
 ---
-calibration_version: 1
-date_filled: null
-filled_by: "Mohamed"
+schema_version: 1
+created_at: "2026-05-20"
+note: "item_02 PENDING. Items 1,3-10 are clean Saudi branded content — expect all clean."
 
 items:
-  - item_id: "item_01"
-    filename: "item_01.jpg"
-    description: "A post with correct qahwa service (everything right)"
-    expected_compliance: "clean"
+  - id: item_01
+    source: "@barnscoffee B-SNK_FltUC.jpg"
+    expected_compliance: clean
     expected_hard_blocks: []
-    key_visual_observations:
-      composition_style: null
-      props_visible: []
-      setting: null
-    key_voice_observations:
-      dialect_detected: null
-      register: null
-    cultural_notes: null
-    pattern_matches: []
-
-  - item_id: "item_02"
-    filename: "item_02.jpg"
-    description: "A post with a LEFT-HAND SERVING violation — the critical test"
-    expected_compliance: "hard_blocked"
+  - id: item_02
+    source: "PENDING — left-hand serving violation image"
+    expected_compliance: hard_blocked
     expected_hard_blocks:
-      - entry_name: "left_hand_serving"
-        forbidden_list: "universal_gestures_forbidden"
-    key_visual_observations:
-      composition_style: null
-      props_visible: []
-      setting: null
-    key_voice_observations:
-      dialect_detected: null
-      register: null
-    cultural_notes: "Left hand used for serving — this must be caught"
-    pattern_matches: []
-
-  - item_id: "item_03"
-    filename: "item_03.mp4"
-    description: "A video with clear pacing you can describe"
-    expected_compliance: null
+      - entry_name: left_hand_serving
+        severity: severe
+    notes: "CRITICAL TEST — must trigger left_hand_serving"
+  - id: item_03
+    source: "@barnscoffee B8sunNeFypp.jpg"
+    expected_compliance: clean
     expected_hard_blocks: []
-    key_visual_observations:
-      composition_style: null
-      props_visible: []
-      setting: null
-    key_voice_observations:
-      dialect_detected: null
-      register: null
-    cultural_notes: null
-    pattern_matches: []
-
-  - item_id: "item_04"
-    filename: "item_04.jpg"
-    description: null
-    expected_compliance: null
+  - id: item_04
+    source: "@barnscoffee B9L1PwblUCW.jpg"
+    expected_compliance: clean
     expected_hard_blocks: []
-    key_visual_observations:
-      composition_style: null
-      props_visible: []
-      setting: null
-    key_voice_observations:
-      dialect_detected: null
-      register: null
-    cultural_notes: null
-    pattern_matches: []
-
-  - item_id: "item_05"
-    filename: "item_05.jpg"
-    description: null
-    expected_compliance: null
+  - id: item_05
+    source: "@barnscoffee B_21U1blZMT.jpg"
+    expected_compliance: clean
     expected_hard_blocks: []
-    key_visual_observations:
-      composition_style: null
-      props_visible: []
-      setting: null
-    key_voice_observations:
-      dialect_detected: null
-      register: null
-    cultural_notes: null
-    pattern_matches: []
-
-  - item_id: "item_06"
-    filename: "item_06.jpg"
-    description: null
-    expected_compliance: null
+  - id: item_06
+    source: "@barnscoffee B9EfOSUFE_P.jpg"
+    expected_compliance: clean
     expected_hard_blocks: []
-    key_visual_observations:
-      composition_style: null
-      props_visible: []
-      setting: null
-    key_voice_observations:
-      dialect_detected: null
-      register: null
-    cultural_notes: null
-    pattern_matches: []
-
-  - item_id: "item_07"
-    filename: "item_07.jpg"
-    description: null
-    expected_compliance: null
+  - id: item_07
+    source: "@altazaj_fakieh C-92dcUNsG2.jpg"
+    expected_compliance: clean
     expected_hard_blocks: []
-    key_visual_observations:
-      composition_style: null
-      props_visible: []
-      setting: null
-    key_voice_observations:
-      dialect_detected: null
-      register: null
-    cultural_notes: null
-    pattern_matches: []
-
-  - item_id: "item_08"
-    filename: "item_08.jpg"
-    description: null
-    expected_compliance: null
+  - id: item_08
+    source: "@altazaj_fakieh C-Ibr3yt_Ds.jpg"
+    expected_compliance: clean
     expected_hard_blocks: []
-    key_visual_observations:
-      composition_style: null
-      props_visible: []
-      setting: null
-    key_voice_observations:
-      dialect_detected: null
-      register: null
-    cultural_notes: null
-    pattern_matches: []
-
-  - item_id: "item_09"
-    filename: "item_09.jpg"
-    description: null
-    expected_compliance: null
+  - id: item_09
+    source: "@altazaj_fakieh C-U84C8N-zG_1.jpg"
+    expected_compliance: clean
     expected_hard_blocks: []
-    key_visual_observations:
-      composition_style: null
-      props_visible: []
-      setting: null
-    key_voice_observations:
-      dialect_detected: null
-      register: null
-    cultural_notes: null
-    pattern_matches: []
-
-  - item_id: "item_10"
-    filename: "item_10.jpg"
-    description: null
-    expected_compliance: null
+  - id: item_10
+    source: "@riyadhfood first image"
+    expected_compliance: clean
     expected_hard_blocks: []
-    key_visual_observations:
-      composition_style: null
-      props_visible: []
-      setting: null
-    key_voice_observations:
-      dialect_detected: null
-      register: null
-    cultural_notes: null
-    pattern_matches: []

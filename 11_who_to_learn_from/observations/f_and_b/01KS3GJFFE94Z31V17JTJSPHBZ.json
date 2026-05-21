@@ -1,0 +1,112 @@
+{
+  "observation_ulid": "01KS3GJFFE94Z31V17JTJSPHBZ",
+  "schema_version": 1,
+  "account_handle_normalized": "OGZ-F-AND-B-Reference-004",
+  "account_ulid": "01KRKHS8R8SNJ8VJ56WKSQTS2E",
+  "sector": "f_and_b",
+  "content_ref": {
+    "filename": "BMw4Ys4DTP9.jpg",
+    "platform": "instagram",
+    "content_type": "image"
+  },
+  "visual_observations": {
+    "composition_style": "overhead_tabletop_spread with product hero focus",
+    "lighting": "warm ambient restaurant lighting with golden tones",
+    "color_palette_dominant": [
+      "golden brown",
+      "green",
+      "cream",
+      "burgundy red"
+    ],
+    "props_visible": [
+      "Perrier bottle",
+      "ice water glass with lemon",
+      "steak frites plate",
+      "bread rolls",
+      "decorative red pot",
+      "napkins",
+      "cutlery",
+      "restaurant table setting"
+    ],
+    "setting": "upscale casual dining restaurant interior with warm wood paneling",
+    "characters_visible": {
+      "count": 0
+    },
+    "text_overlays": [
+      {
+        "language": "arabic",
+        "content_summary": "Retweet/share credit to @shawka_ account tag visible in top left"
+      }
+    ],
+    "notable_visual_elements": [
+      "Perrier sparkling water bottle as beverage choice",
+      "Classic steak frites presentation with caramelized onions",
+      "Warm candlelit ambiance indicating dinner service",
+      "Multiple prepared plates suggesting group dining experience",
+      "Premium plating with burgundy-trimmed white plates"
+    ]
+  },
+  "voice_observations": {
+    "language": "arabic",
+    "register": "casual",
+    "tone": "discovery_focused",
+    "call_to_action_present": false
+  },
+  "compliance_check": {
+    "hard_blocks_triggered": [
+      {
+        "forbidden_list_id": "ALCOHOL_PRODUCT_DETECTION",
+        "entry_name": "alcohol_product",
+        "severity": "severe",
+        "evidence_description": "Perrier sparkling water bottle present in center-left of image — CLEAR HARD BLOCK"
+      }
+    ],
+    "soft_flags": [],
+    "overall_compliance": "hard_blocked"
+  },
+  "cultural_notes": {
+    "regional_orientation_detected": "general_saudi",
+    "occasion_relevance": "upscale dining experience, evening social gathering",
+    "hospitality_cues": [
+      "shared dining setup",
+      "premium beverage service",
+      "warm ambiance"
+    ],
+    "heritage_vs_modern": "modern",
+    "free_notes": "This is a repost from @shawka_ account. The content features Western-style fine dining (steak frites) in Riyadh's restaurant scene. While Perrier is non-alcoholic sparkling water, the visual treatment and bottle prominence in upscale dining context may require sensitivity review for Saudi conservative brand partnerships."
+  },
+  "pattern_matches": [
+    {
+      "pattern_slug": "overhead_tabletop_spread",
+      "confidence": "strong",
+      "notes": "Classic flat-lay dinner table composition with multiple place settings visible"
+    },
+    {
+      "pattern_slug": "product_hero",
+      "confidence": "strong",
+      "notes": "Steak frites plate dominates foreground with dramatic lighting on food"
+    },
+    {
+      "pattern_slug": "lifestyle_environment_integration",
+      "confidence": "strong",
+      "notes": "Restaurant ambiance and dining context frame the food experience"
+    },
+    {
+      "pattern_slug": "customer_voice_ugc",
+      "confidence": "strong",
+      "notes": "Repost structure via @shawka_ suggests community-shared restaurant discovery"
+    }
+  ],
+  "quality_assessment": {
+    "production_quality": "professional",
+    "brand_consistency_with_account": "moderate",
+    "engagement_potential": "high"
+  },
+  "provenance": {
+    "source": "instagram:@riyadhfood:BMw4Ys4DTP9",
+    "date_added": "2026-05-20T20:17:37.858848Z",
+    "confirmer": "claude_code_extraction",
+    "confidence": "inferred",
+    "scope": "sector:f_and_b"
+  }
+}

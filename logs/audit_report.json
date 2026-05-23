@@ -1,0 +1,779 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-05-24T00:00:00Z",
+  "observation_health": {
+    "total_obs": 474,
+    "parse_errors": [],
+    "schema_issues": 0,
+    "sector_distribution": {
+      "f_and_b": 399,
+      "beauty": 50,
+      "retail": 25
+    },
+    "account_obs_counts": {
+      "OGZ-F-AND-B-Reference-002": 50,
+      "OGZ-F-AND-B-Reference-010": 50,
+      "OGZ-F-AND-B-Reference-004": 50,
+      "OGZ-F-AND-B-Reference-005": 50,
+      "OGZ-F-AND-B-Reference-003": 50,
+      "OGZ-BEAUTY-Reference-001": 25,
+      "OGZ-BEAUTY-Reference-002": 25,
+      "OGZ-F-AND-B-Reference-006": 25,
+      "OGZ-F-AND-B-Reference-007": 25,
+      "OGZ-F-AND-B-Reference-008": 25,
+      "OGZ-F-AND-B-Reference-009": 25,
+      "OGZ-F-AND-B-Reference-011": 25,
+      "OGZ-RETAIL-Reference-001": 25,
+      "OGZ-F-AND-B-Reference-038": 12,
+      "OGZ-F-AND-B-Reference-039": 12
+    },
+    "engagement_distribution": {
+      "high": 258,
+      "medium": 151,
+      "low": 65
+    },
+    "field_coverage_count": {
+      "account_handle_normalized": 474,
+      "sector": 474,
+      "engagement_potential": 474,
+      "production_quality": 474,
+      "brand_consistency": 474,
+      "setting": 474,
+      "lighting": 474,
+      "composition_style": 474,
+      "color_palette_dominant": 474,
+      "props_visible": 464,
+      "characters_visible": 432,
+      "register": 427,
+      "tone": 428,
+      "dialect_detected": 327,
+      "notable_phrases": 198,
+      "heritage_vs_modern": 364,
+      "content_type": 474,
+      "capture_date": 374,
+      "source_url": 334,
+      "pattern_matches": 471,
+      "compliance_check": 474,
+      "occasion_relevance": 274,
+      "hospitality_cues": 205
+    },
+    "field_coverage_pct": {
+      "account_handle_normalized": 100.0,
+      "sector": 100.0,
+      "engagement_potential": 100.0,
+      "production_quality": 100.0,
+      "brand_consistency": 100.0,
+      "setting": 100.0,
+      "lighting": 100.0,
+      "composition_style": 100.0,
+      "color_palette_dominant": 100.0,
+      "props_visible": 97.9,
+      "characters_visible": 91.1,
+      "register": 90.1,
+      "tone": 90.3,
+      "dialect_detected": 69.0,
+      "notable_phrases": 41.8,
+      "heritage_vs_modern": 76.8,
+      "content_type": 100.0,
+      "capture_date": 78.9,
+      "source_url": 70.5,
+      "pattern_matches": 99.4,
+      "compliance_check": 100.0,
+      "occasion_relevance": 57.8,
+      "hospitality_cues": 43.2
+    },
+    "unique_pattern_slugs_in_obs": 106,
+    "pattern_slug_counts": {
+      "product_hero": 192,
+      "seasonal_collection_drop": 84,
+      "invitation_to_witness": 66,
+      "lifestyle_environment_integration": 62,
+      "close_up_macro_texture": 47,
+      "overhead_tabletop_spread": 47,
+      "interior_architectural_framing": 40,
+      "customer_voice_ugc": 34,
+      "behind_the_craft": 34,
+      "classical_arabic_warmth": 31,
+      "educational_explainer": 26,
+      "specific_dish_naming": 24,
+      "warm_golden_hour_hero": 23,
+      "cultural_object_hero": 21,
+      "model_centered_frontal_portrait": 20,
+      "color_block_branded_flood": 19,
+      "occasion_peg": 19,
+      "warm_najdi_invitational": 17,
+      "national_day_pride": 16,
+      "ramadan_iftar_warmth": 15
+    },
+    "obs_with_critical_issues": []
+  },
+  "pattern_library_audit": {
+    "total_defined": 159,
+    "total_used_in_obs": 106,
+    "defined_and_used": 106,
+    "defined_but_never_used": 53,
+    "used_in_obs_but_undefined": 0,
+    "undefined_slug_list": [],
+    "library_only_slug_count": 53
+  },
+  "log_file_audit": {
+    "expected_count": 40,
+    "results": [
+      {
+        "file": "account_archetypes.json",
+        "status": "OK",
+        "size_kb": 11.4,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "archetypes_defined",
+          "fleet_distribution",
+          "accounts"
+        ]
+      },
+      {
+        "file": "account_consistency.json",
+        "status": "OK",
+        "size_kb": 19.9,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "corpus_baseline",
+          "total_obs",
+          "account_count",
+          "seasonal_ratio_vs_engagement_correlation"
+        ]
+      },
+      {
+        "file": "account_similarity_matrix.json",
+        "status": "OK",
+        "size_kb": 26.3,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_accounts",
+          "how_to_read",
+          "account_profiles",
+          "similarity_clusters"
+        ]
+      },
+      {
+        "file": "account_themes_index.json",
+        "status": "OK",
+        "size_kb": 30.1,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_account_files_scanned",
+          "accounts_with_theme_data",
+          "fleet_wide",
+          "cross_sector_constants"
+        ]
+      },
+      {
+        "file": "archetype_benchmark.json",
+        "status": "OK",
+        "size_kb": 6.2,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "archetypes_ranked_by_engagement",
+          "comparison_matrix",
+          "archetype_profiles",
+          "key_findings"
+        ]
+      },
+      {
+        "file": "brand_dna_index.json",
+        "status": "OK",
+        "size_kb": 6.5,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_accounts",
+          "accounts"
+        ]
+      },
+      {
+        "file": "caption_analysis.json",
+        "status": "OK",
+        "size_kb": 3.1,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_obs_scanned",
+          "note",
+          "cta_vs_no_cta",
+          "caption_length"
+        ]
+      },
+      {
+        "file": "character_analysis.json",
+        "status": "OK",
+        "size_kb": 7.5,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_obs_scanned",
+          "character_presence_vs_engagement",
+          "character_count_buckets",
+          "media_type_x_character_presence"
+        ]
+      },
+      {
+        "file": "color_palette_dna.json",
+        "status": "OK",
+        "size_kb": 27.7,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_obs_scanned",
+          "total_color_mentions",
+          "unique_raw_colors",
+          "color_families_defined"
+        ]
+      },
+      {
+        "file": "compliance_intelligence.json",
+        "status": "OK",
+        "size_kb": 23.7,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "corpus_overview",
+          "engagement_delta_clean_vs_flagged",
+          "flag_frequency_table",
+          "top_hard_flags_fleet"
+        ]
+      },
+      {
+        "file": "compliance_risk_report.json",
+        "status": "OK",
+        "size_kb": 26.0,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "risk_scoring",
+          "fleet_summary",
+          "accounts"
+        ]
+      },
+      {
+        "file": "content_health_scores.json",
+        "status": "OK",
+        "size_kb": 211.6,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "scoring_weights",
+          "fleet_stats",
+          "account_summaries",
+          "observations_ranked"
+        ]
+      },
+      {
+        "file": "content_pillars.json",
+        "status": "OK",
+        "size_kb": 47.2,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_accounts",
+          "pillar_taxonomy",
+          "fleet_pillar_distribution",
+          "account_pillar_profiles"
+        ]
+      },
+      {
+        "file": "content_recipe_combos.json",
+        "status": "OK",
+        "size_kb": 12.1,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "how_to_read",
+          "master_triplet_recipes",
+          "context_recipes_by_sector_occasion"
+        ]
+      },
+      {
+        "file": "content_score_model.json",
+        "status": "OK",
+        "size_kb": 38.3,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "model_description",
+          "corpus_baseline",
+          "signal_type_weights",
+          "min_obs_threshold"
+        ]
+      },
+      {
+        "file": "cross_sector_benchmark.json",
+        "status": "OK",
+        "size_kb": 21.5,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_obs",
+          "sectors_compared",
+          "sector_profiles",
+          "cross_sector_differentiators"
+        ]
+      },
+      {
+        "file": "engagement_signal_table.json",
+        "status": "OK",
+        "size_kb": 61.9,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "how_to_read",
+          "signal_types_covered",
+          "top_positive_signals",
+          "signals_to_avoid"
+        ]
+      },
+      {
+        "file": "hospitality_analysis.json",
+        "status": "OK",
+        "size_kb": 7.9,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "corpus_baseline",
+          "total_obs",
+          "hospitality_cue_bucket_engagement",
+          "top_cue_types_by_frequency"
+        ]
+      },
+      {
+        "file": "intelligence_playbook.json",
+        "status": "OK",
+        "size_kb": 92.4,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "title",
+          "corpus",
+          "executive_summary",
+          "answers"
+        ]
+      },
+      {
+        "file": "lighting_composition_normalization.json",
+        "status": "OK",
+        "size_kb": 3.8,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_obs_scanned",
+          "obs_updated",
+          "lighting",
+          "composition"
+        ]
+      },
+      {
+        "file": "media_engagement_analysis.json",
+        "status": "OK",
+        "size_kb": 7.9,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_obs_scanned",
+          "how_to_read",
+          "media_type_ranking",
+          "sector_by_media_crosstab"
+        ]
+      },
+      {
+        "file": "occasion_format_grid.json",
+        "status": "OK",
+        "size_kb": 23.7,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_occasions",
+          "how_to_read",
+          "occasion_grid"
+        ]
+      },
+      {
+        "file": "occasion_sector_matrix.json",
+        "status": "OK",
+        "size_kb": 10.8,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_obs",
+          "sector_baselines",
+          "sectors",
+          "occasions"
+        ]
+      },
+      {
+        "file": "pattern_cooccurrence_matrix.json",
+        "status": "OK",
+        "size_kb": 261.2,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_observations_scanned",
+          "total_unique_pairs",
+          "total_unique_triplets_3plus",
+          "top_pairs"
+        ]
+      },
+      {
+        "file": "pattern_density.json",
+        "status": "OK",
+        "size_kb": 7.2,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "corpus_baseline",
+          "total_obs",
+          "density_bucket_engagement",
+          "exact_count_engagement"
+        ]
+      },
+      {
+        "file": "pattern_network_graph.json",
+        "status": "OK",
+        "size_kb": 111.8,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "graph_stats",
+          "how_to_read",
+          "role_distribution",
+          "top_hub_patterns"
+        ]
+      },
+      {
+        "file": "pattern_sector_matrix.json",
+        "status": "OK",
+        "size_kb": 79.7,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_obs",
+          "sector_baselines",
+          "corpus_baseline",
+          "sector_top_patterns"
+        ]
+      },
+      {
+        "file": "pattern_trend_analysis.json",
+        "status": "OK",
+        "size_kb": 58.8,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "corpus_baseline",
+          "total_obs",
+          "dated_obs",
+          "quarters_covered"
+        ]
+      },
+      {
+        "file": "pattern_usage_analysis.json",
+        "status": "OK",
+        "size_kb": 42.1,
+        "keys": [
+          "(array)"
+        ]
+      },
+      {
+        "file": "phrase_engagement_analysis.json",
+        "status": "OK",
+        "size_kb": 15.9,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "corpus_baseline",
+          "total_obs",
+          "obs_with_phrases",
+          "unique_phrases_2plus_uses"
+        ]
+      },
+      {
+        "file": "props_analysis.json",
+        "status": "OK",
+        "size_kb": 9.5,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "corpus_baseline",
+          "total_obs",
+          "obs_with_props",
+          "prop_category_engagement"
+        ]
+      },
+      {
+        "file": "quality_signals.json",
+        "status": "OK",
+        "size_kb": 4.1,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "corpus_baseline",
+          "total_obs",
+          "production_quality_engagement",
+          "brand_consistency_engagement"
+        ]
+      },
+      {
+        "file": "register_tone_matrix.json",
+        "status": "OK",
+        "size_kb": 40.7,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "corpus_baseline_high_eng_rate",
+          "total_obs_with_both_fields",
+          "unique_combos",
+          "register_performance"
+        ]
+      },
+      {
+        "file": "register_tone_normalization.json",
+        "status": "OK",
+        "size_kb": 20.3,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_obs_scanned",
+          "obs_updated",
+          "register_taxonomy",
+          "tone_taxonomy"
+        ]
+      },
+      {
+        "file": "setting_lighting_synergy.json",
+        "status": "OK",
+        "size_kb": 38.0,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "corpus_baseline",
+          "total_obs",
+          "pair_table",
+          "top_20_pairs"
+        ]
+      },
+      {
+        "file": "setting_normalization.json",
+        "status": "OK",
+        "size_kb": 40.7,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_obs_scanned",
+          "obs_updated",
+          "before_unique_count",
+          "canonical_values"
+        ]
+      },
+      {
+        "file": "temporal_analysis.json",
+        "status": "OK",
+        "size_kb": 9.8,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_obs_scanned",
+          "obs_with_dates",
+          "day_of_week_analysis",
+          "month_analysis"
+        ]
+      },
+      {
+        "file": "visual_dna_profiles.json",
+        "status": "OK",
+        "size_kb": 21.8,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "total_accounts",
+          "fleet_visual_summary",
+          "account_visual_dna_profiles"
+        ]
+      },
+      {
+        "file": "voice_positioning_map.json",
+        "status": "OK",
+        "size_kb": 19.1,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "dimensions_explained",
+          "quadrant_density",
+          "overcrowded_quadrants",
+          "vacant_quadrant_examples"
+        ]
+      },
+      {
+        "file": "winning_formula_analysis.json",
+        "status": "OK",
+        "size_kb": 17.3,
+        "keys": [
+          "schema_version",
+          "generated_at",
+          "corpus_baseline",
+          "total_obs",
+          "top_6dim_formulas",
+          "top_5dim_visual_formulas"
+        ]
+      }
+    ],
+    "extra_log_files_not_in_checklist": [
+      "dialect_register_occasion_matrix.json",
+      "heritage_modern_spectrum.json",
+      "hospitality_cues_inventory.json",
+      "notable_phrases_library.json",
+      "occasion_calendar_v2.json",
+      "occasion_pattern_calendar.json",
+      "pattern_adoption_gaps.json",
+      "props_taxonomy.json",
+      "soft_flags_catalog.json"
+    ],
+    "total_log_files_on_disk": 49
+  },
+  "cross_validation": [
+    {
+      "check": "brand_dna_index account count vs obs unique accounts",
+      "expected": 15,
+      "actual": 15,
+      "pass": true
+    },
+    {
+      "check": "engagement_signal_table has signals",
+      "expected": ">100",
+      "actual": 204,
+      "pass": true
+    },
+    {
+      "check": "archetype_benchmark total obs matches corpus",
+      "expected": 474,
+      "actual": 474,
+      "pass": true
+    },
+    {
+      "check": "pattern_density total_obs matches corpus",
+      "expected": 474,
+      "actual": 474,
+      "pass": true
+    },
+    {
+      "check": "hospitality_analysis total_obs",
+      "expected": 474,
+      "actual": 474,
+      "pass": true
+    }
+  ],
+  "gaps": [
+    {
+      "type": "low_field_coverage",
+      "field": "notable_phrases",
+      "coverage_pct": 41.8,
+      "severity": "high",
+      "note": "Only 41.8% of obs have this field populated"
+    },
+    {
+      "type": "low_field_coverage",
+      "field": "hospitality_cues",
+      "coverage_pct": 43.2,
+      "severity": "high",
+      "note": "Only 43.2% of obs have this field populated"
+    },
+    {
+      "type": "low_field_coverage",
+      "field": "occasion_relevance",
+      "coverage_pct": 57.8,
+      "severity": "medium",
+      "note": "Only 57.8% of obs have this field populated"
+    },
+    {
+      "type": "low_field_coverage",
+      "field": "dialect_detected",
+      "coverage_pct": 69.0,
+      "severity": "medium",
+      "note": "Only 69.0% of obs have this field populated"
+    },
+    {
+      "type": "low_field_coverage",
+      "field": "source_url",
+      "coverage_pct": 70.5,
+      "severity": "medium",
+      "note": "Only 70.5% of obs have this field populated"
+    },
+    {
+      "type": "low_field_coverage",
+      "field": "heritage_vs_modern",
+      "coverage_pct": 76.8,
+      "severity": "medium",
+      "note": "Only 76.8% of obs have this field populated"
+    },
+    {
+      "type": "low_field_coverage",
+      "field": "capture_date",
+      "coverage_pct": 78.9,
+      "severity": "medium",
+      "note": "Only 78.9% of obs have this field populated"
+    },
+    {
+      "type": "sector_underrepresentation",
+      "sector": "retail",
+      "obs_count": 25,
+      "pct_of_corpus": 5.3,
+      "severity": "medium",
+      "note": "Only 5.3% of corpus — cross-sector findings for this sector are statistically weak"
+    },
+    {
+      "type": "analytical_gap",
+      "name": "color_x_occasion",
+      "description": "Do amber/gold palettes outperform on Ramadan? White on Eid? Unmined.",
+      "severity": "low"
+    },
+    {
+      "type": "analytical_gap",
+      "name": "character_type_analysis",
+      "description": "characters_visible has count but not type (hands/lifestyle/group). Richer typing needed.",
+      "severity": "low"
+    },
+    {
+      "type": "analytical_gap",
+      "name": "dialect_full_matrix",
+      "description": "Dialect × sector × occasion × engagement — only partial analysis done.",
+      "severity": "low"
+    },
+    {
+      "type": "analytical_gap",
+      "name": "caption_text",
+      "description": "Zero Arabic caption text in obs. The actual words written are unanalyzed.",
+      "severity": "high"
+    },
+    {
+      "type": "analytical_gap",
+      "name": "account_posting_frequency",
+      "description": "How many posts/week per account? Does cadence affect engagement? Dates are available.",
+      "severity": "low"
+    }
+  ],
+  "summary": {
+    "total_obs": 474,
+    "parse_errors": 0,
+    "schema_issues": 0,
+    "log_files_ok": 40,
+    "log_files_missing": 0,
+    "undefined_patterns": 0,
+    "cross_val_passed": 5,
+    "cross_val_total": 5,
+    "gaps_critical": 0,
+    "gaps_high": 3,
+    "gaps_medium": 6,
+    "gaps_low": 4
+  }
+}

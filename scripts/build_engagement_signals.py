@@ -61,6 +61,11 @@ def main():
         track("register", vo.get("register"))
         track("tone", vo.get("tone"))
 
+        # Visual signals
+        vv = data.get("visual_observations", {})
+        track("setting", vv.get("setting"))
+        track("media_type", (data.get("content_ref") or {}).get("content_type"))
+
         # Cultural signals
         cn = data.get("cultural_notes", {})
         track("occasion", cn.get("occasion_relevance"))

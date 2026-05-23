@@ -41,6 +41,29 @@ def load_pattern_names():
             pass
     return names
 
+_COLOR_FAMILIES = [
+    ("neutral_warm",  ["nude","cream","beige","ivory","skin","linen","sand","wheat","oat"]),
+    ("warm_red",      ["red","crimson","scarlet","berry","maroon","wine","cherry","rust"]),
+    ("pink_rose",     ["pink","rose","blush","peach","coral","salmon","lilac","mauve"]),
+    ("amber_gold",    ["amber","gold","honey","caramel","mustard","yellow","saffron","ochre","tan","bronze","copper","golden"]),
+    ("brown_earth",   ["brown","earth","terracotta","sienna","umber","chocolate","mocha","espresso","coffee","cocoa"]),
+    ("green",         ["green","sage","olive","mint","emerald","forest","teal","khaki","lime"]),
+    ("blue",          ["blue","navy","indigo","cobalt","royal","sky","cerulean","denim"]),
+    ("purple",        ["purple","violet","lavender","plum","aubergine"]),
+    ("white_light",   ["white","light","bright","pale","soft","clean","airy","fresh"]),
+    ("black_dark",    ["black","dark","charcoal","graphite","deep","noir","onyx","shadow"]),
+    ("grey",          ["grey","gray","silver","slate","ash","smoke","stone"]),
+    ("mixed_vibrant", ["vibrant","bold","colourful","colorful","rainbow","multi","rich"]),
+]
+
+def _classify_color(color_str):
+    v = color_str.lower().strip()
+    for family, keywords in _COLOR_FAMILIES:
+        if any(k in v for k in keywords):
+            return family
+    return "other"
+
+
 def main():
     pattern_names = load_pattern_names()
     logs = load_existing_logs()
@@ -61,7 +84,14 @@ def main():
         "compliance_hard": [],
         "compliance_soft": [],
         "production_quality": [],
-        "brand_consistency": []
+        "brand_consistency": [],
+        # Visual dimensions
+        "settings": defaultdict(int),
+        "lightings": defaultdict(int),
+        "compositions": defaultdict(int),
+        "media_types": defaultdict(int),
+        "color_families": defaultdict(int),
+        "char_present_count": 0,
     })
 
     for obs_file in sorted(OBS_ROOT.rglob("*.json")):
@@ -108,6 +138,23 @@ def main():
         brand = qa.get("brand_consistency_with_account", "")
         if brand:
             accounts[account]["brand_consistency"].append(str(brand).lower())
+
+        # Visual dimensions
+        vv = data.get("visual_observations", {}) or {}
+        cr = data.get("content_ref", {}) or {}
+        mt = str(cr.get("content_type", "") or "").lower()
+        if mt: accounts[account]["media_types"][mt] += 1
+        if vv.get("setting"): accounts[account]["settings"][vv["setting"]] += 1
+        if vv.get("lighting"): accounts[account]["lightings"][vv["lighting"]] += 1
+        if vv.get("composition_style"): accounts[account]["compositions"][vv["composition_style"]] += 1
+        for color in (vv.get("color_palette_dominant") or []):
+            if isinstance(color, str) and color.strip():
+                fam = _classify_color(color)
+                accounts[account]["color_families"][fam] += 1
+        cv = vv.get("characters_visible")
+        char_count = int(cv.get("count", 0) or 0) if isinstance(cv, dict) else (len(cv) if isinstance(cv, list) else 0)
+        if char_count > 0:
+            accounts[account]["char_present_count"] += 1
 
         hard_blocks = cc.get("hard_blocks_triggered") or []
         soft_flags = cc.get("soft_flags") or []
@@ -241,7 +288,18 @@ def main():
                 "hard_block_types": list(set(info["compliance_hard"])),
                 "soft_flag_types": list(set(info["compliance_soft"]))[:5]
             },
-            "differentiation_gaps": [{"slug": s, "name": pattern_names.get(s, s)} for s in diff_gaps]
+            "differentiation_gaps": [{"slug": s, "name": pattern_names.get(s, s)} for s in diff_gaps],
+            "visual_fingerprint": {
+                "dominant_setting": max(info["settings"], key=info["settings"].get, default=None),
+                "dominant_media_type": max(info["media_types"], key=info["media_types"].get, default=None),
+                "dominant_color_family": max(info["color_families"], key=info["color_families"].get, default=None),
+                "dominant_lighting": max(info["lightings"], key=info["lightings"].get, default=None),
+                "dominant_composition": max(info["compositions"], key=info["compositions"].get, default=None),
+                "character_presence_rate": round(info["char_present_count"] / n, 3),
+                "setting_distribution": dict(sorted(info["settings"].items(), key=lambda x: -x[1])[:5]),
+                "media_type_distribution": dict(sorted(info["media_types"].items(), key=lambda x: -x[1])),
+                "color_family_distribution": dict(sorted(info["color_families"].items(), key=lambda x: -x[1])[:5]),
+            }
         }
         profiles[account] = profile
 

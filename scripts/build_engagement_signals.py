@@ -64,6 +64,8 @@ def main():
         # Visual signals
         vv = data.get("visual_observations", {})
         track("setting", vv.get("setting"))
+        track("lighting", vv.get("lighting"))
+        track("composition", vv.get("composition_style"))
         track("media_type", (data.get("content_ref") or {}).get("content_type"))
 
         # Cultural signals

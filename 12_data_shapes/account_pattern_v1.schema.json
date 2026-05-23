@@ -47,6 +47,16 @@
     },
     "avg_engagement_multiplier_observed": {"type": "string"},
     "cultural_constraints": {"type": "array", "items": {"type": "string"}},
-    "provenance": {"$ref": "provenance_mixin_v1.schema.json"}
+    "provenance": {"$ref": "provenance_mixin_v1.schema.json"},
+    "status": {
+      "type": "string",
+      "enum": ["evidence_based", "library_only", "deprecated"],
+      "description": "evidence_based = used in obs; library_only = defined but no obs reference yet; deprecated = retired"
+    },
+    "obs_usage_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of observations that reference this pattern slug"
+    }
   }
 }

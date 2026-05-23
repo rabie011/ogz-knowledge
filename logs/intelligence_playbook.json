@@ -241,11 +241,11 @@
         {
           "signal_type": "dialect",
           "signal_value": "spanish_colloquial",
-          "obs_count": 3,
-          "high_engagement_count": 3,
-          "high_engagement_rate": 1.0,
+          "obs_count": 50,
+          "high_engagement_count": 46,
+          "high_engagement_rate": 0.92,
           "verdict": "strong_positive",
-          "insight": "3/3 obs with high engagement (100%)"
+          "insight": "46/50 obs with high engagement (92%)"
         },
         {
           "signal_type": "pattern",
@@ -285,15 +285,6 @@
         },
         {
           "signal_type": "occasion",
-          "signal_value": "national_day",
-          "obs_count": 8,
-          "high_engagement_count": 7,
-          "high_engagement_rate": 0.875,
-          "verdict": "strong_positive",
-          "insight": "7/8 obs with high engagement (87%)"
-        },
-        {
-          "signal_type": "occasion",
           "signal_value": "summer_campaign",
           "obs_count": 8,
           "high_engagement_count": 7,
@@ -311,13 +302,13 @@
           "insight": "54/62 obs with high engagement (87%)"
         },
         {
-          "signal_type": "heritage_vs_modern",
-          "signal_value": "heritage",
-          "obs_count": 33,
-          "high_engagement_count": 28,
-          "high_engagement_rate": 0.848,
+          "signal_type": "occasion",
+          "signal_value": "founding_day",
+          "obs_count": 7,
+          "high_engagement_count": 6,
+          "high_engagement_rate": 0.857,
           "verdict": "strong_positive",
-          "insight": "28/33 obs with high engagement (84%)"
+          "insight": "6/7 obs with high engagement (85%)"
         },
         {
           "signal_type": "register",
@@ -336,6 +327,15 @@
           "high_engagement_rate": 0.833,
           "verdict": "strong_positive",
           "insight": "5/6 obs with high engagement (83%)"
+        },
+        {
+          "signal_type": "pattern",
+          "signal_value": "overhead_tabletop_spread",
+          "obs_count": 47,
+          "high_engagement_count": 38,
+          "high_engagement_rate": 0.809,
+          "verdict": "strong_positive",
+          "insight": "38/47 obs with high engagement (80%)"
         }
       ],
       "signals_to_avoid": [
@@ -879,15 +879,6 @@
           "insight": "13/13 obs with high engagement (100%)"
         },
         {
-          "signal_type": "heritage_vs_modern",
-          "signal_value": "heritage",
-          "obs_count": 33,
-          "high_engagement_count": 28,
-          "high_engagement_rate": 0.848,
-          "verdict": "strong_positive",
-          "insight": "28/33 obs with high engagement (84%)"
-        },
-        {
           "signal_type": "pattern",
           "signal_value": "founding_day_dirayyah_heritage",
           "obs_count": 6,
@@ -895,6 +886,15 @@
           "high_engagement_rate": 0.833,
           "verdict": "strong_positive",
           "insight": "5/6 obs with high engagement (83%)"
+        },
+        {
+          "signal_type": "heritage_vs_modern",
+          "signal_value": "heritage",
+          "obs_count": 48,
+          "high_engagement_count": 36,
+          "high_engagement_rate": 0.75,
+          "verdict": "positive",
+          "insight": "36/48 obs with high engagement (75%)"
         },
         {
           "signal_type": "setting",
@@ -906,17 +906,7 @@
           "insight": "19/28 obs with high engagement (67%)"
         }
       ],
-      "modern_positive_signals": [
-        {
-          "signal_type": "heritage_vs_modern",
-          "signal_value": "modern",
-          "obs_count": 218,
-          "high_engagement_count": 132,
-          "high_engagement_rate": 0.606,
-          "verdict": "positive",
-          "insight": "132/218 obs with high engagement (60%)"
-        }
-      ]
+      "modern_positive_signals": []
     },
     "10_people_in_frame": {
       "question": "Does showing people in frame help engagement?",
@@ -1758,10 +1748,10 @@
       "answer": "Seasonal occasions dominate: Eid al-Fitr 100% high eng, National Day 87%. Evergreen (84% of corpus) sits at just 51% — seasonal/occasion content always outperforms. Use occasion-specific patterns (eid_occasion_greeting, national_day_modernity_heritage) and image format.",
       "evergreen_baseline": {
         "high_engagement_rate": 0.51,
-        "obs_count": 400,
+        "obs_count": 398,
         "recommended_recipe": {
           "best_media_type": "carousel_slide",
-          "best_media_high_eng_rate": 0.747,
+          "best_media_high_eng_rate": 0.744,
           "dominant_setting": "restaurant_indoor",
           "dominant_lighting": "mixed_lighting",
           "dominant_composition": "product_hero_closeup",
@@ -2134,75 +2124,6 @@
           }
         },
         {
-          "occasion": "national_day",
-          "obs_count": 8,
-          "account_count": 5,
-          "high_engagement_rate": 0.875,
-          "avg_engagement_score": 0.938,
-          "top_sectors": {
-            "f_and_b": 8
-          },
-          "recommended_recipe": {
-            "best_media_type": "image",
-            "best_media_high_eng_rate": 0.8,
-            "dominant_setting": "digital_graphic",
-            "dominant_lighting": "flat_graphic",
-            "dominant_composition": "graphic_text",
-            "dominant_tone": "celebratory",
-            "dominant_register": "formal"
-          },
-          "top_5_patterns": [
-            {
-              "slug": "national_day_modernity_heritage",
-              "name": "National Day Modernity Meets Heritage",
-              "count": 4,
-              "high_engagement_rate": 0.75
-            },
-            {
-              "slug": "national_day_pride",
-              "name": "National Day Pride",
-              "count": 4,
-              "high_engagement_rate": 0.75
-            },
-            {
-              "slug": "color_block_branded_flood",
-              "name": "Color-Block Branded Flood",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "community_pride_statement",
-              "name": "Community Pride Statement",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "documentary_btsmoment",
-              "name": "Documentary BTS Moment",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            }
-          ],
-          "media_type_breakdown": {
-            "reel": {
-              "count": 1,
-              "high_eng_rate": null
-            },
-            "image": {
-              "count": 5,
-              "high_eng_rate": 0.8
-            },
-            "carousel_slide": {
-              "count": 1,
-              "high_eng_rate": null
-            },
-            "video": {
-              "count": 1,
-              "high_eng_rate": null
-            }
-          }
-        },
-        {
           "occasion": "summer_campaign",
           "obs_count": 8,
           "account_count": 3,
@@ -2269,12 +2190,12 @@
         },
         {
           "occasion": "founding_day",
-          "obs_count": 6,
-          "account_count": 3,
-          "high_engagement_rate": 0.833,
-          "avg_engagement_score": 0.917,
+          "obs_count": 7,
+          "account_count": 4,
+          "high_engagement_rate": 0.857,
+          "avg_engagement_score": 0.929,
           "top_sectors": {
-            "f_and_b": 6
+            "f_and_b": 7
           },
           "recommended_recipe": {
             "best_media_type": "reel",
@@ -2289,8 +2210,20 @@
             {
               "slug": "founding_day_dirayyah_heritage",
               "name": "Founding Day Diriyah Heritage",
-              "count": 5,
-              "high_engagement_rate": 0.8
+              "count": 6,
+              "high_engagement_rate": 0.833
+            },
+            {
+              "slug": "close_up_macro_texture",
+              "name": "Close-Up Macro Texture",
+              "count": 2,
+              "high_engagement_rate": 1.0
+            },
+            {
+              "slug": "product_hero",
+              "name": "Product Hero Static",
+              "count": 2,
+              "high_engagement_rate": 1.0
             },
             {
               "slug": "interior_architectural_framing",
@@ -2303,18 +2236,6 @@
               "name": "Model-Centered Frontal Portrait",
               "count": 1,
               "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "close_up_macro_texture",
-              "name": "Close-Up Macro Texture",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "behind_the_craft",
-              "name": "Behind The Craft Process",
-              "count": 1,
-              "high_engagement_rate": 1.0
             }
           ],
           "media_type_breakdown": {
@@ -2325,6 +2246,79 @@
             "image": {
               "count": 2,
               "high_eng_rate": 1.0
+            },
+            "carousel_slide": {
+              "count": 1,
+              "high_eng_rate": null
+            },
+            "video": {
+              "count": 2,
+              "high_eng_rate": 0.5
+            }
+          }
+        },
+        {
+          "occasion": "national_day",
+          "obs_count": 9,
+          "account_count": 6,
+          "high_engagement_rate": 0.778,
+          "avg_engagement_score": 0.833,
+          "top_sectors": {
+            "f_and_b": 9
+          },
+          "recommended_recipe": {
+            "best_media_type": "image",
+            "best_media_high_eng_rate": 0.8,
+            "dominant_setting": "digital_graphic",
+            "dominant_lighting": "flat_graphic",
+            "dominant_composition": "graphic_text",
+            "dominant_tone": "celebratory",
+            "dominant_register": "formal"
+          },
+          "top_5_patterns": [
+            {
+              "slug": "national_day_modernity_heritage",
+              "name": "National Day Modernity Meets Heritage",
+              "count": 5,
+              "high_engagement_rate": 0.6
+            },
+            {
+              "slug": "national_day_pride",
+              "name": "National Day Pride",
+              "count": 4,
+              "high_engagement_rate": 0.75
+            },
+            {
+              "slug": "color_block_branded_flood",
+              "name": "Color-Block Branded Flood",
+              "count": 2,
+              "high_engagement_rate": 1.0
+            },
+            {
+              "slug": "community_pride_statement",
+              "name": "Community Pride Statement",
+              "count": 2,
+              "high_engagement_rate": 1.0
+            },
+            {
+              "slug": "documentary_btsmoment",
+              "name": "Documentary BTS Moment",
+              "count": 1,
+              "high_engagement_rate": 1.0
+            }
+          ],
+          "media_type_breakdown": {
+            "reel": {
+              "count": 1,
+              "high_eng_rate": null
+            },
+            "image": {
+              "count": 5,
+              "high_eng_rate": 0.8
+            },
+            "carousel_slide": {
+              "count": 1,
+              "high_eng_rate": null
             },
             "video": {
               "count": 2,
@@ -2458,18 +2452,18 @@
         },
         {
           "occasion": "evergreen",
-          "obs_count": 400,
+          "obs_count": 398,
           "account_count": 15,
           "high_engagement_rate": 0.51,
-          "avg_engagement_score": 0.681,
+          "avg_engagement_score": 0.682,
           "top_sectors": {
-            "f_and_b": 330,
+            "f_and_b": 328,
             "beauty": 47,
             "retail": 23
           },
           "recommended_recipe": {
             "best_media_type": "carousel_slide",
-            "best_media_high_eng_rate": 0.747,
+            "best_media_high_eng_rate": 0.744,
             "dominant_setting": "restaurant_indoor",
             "dominant_lighting": "mixed_lighting",
             "dominant_composition": "product_hero_closeup",
@@ -2480,8 +2474,8 @@
             {
               "slug": "product_hero",
               "name": "Product Hero Static",
-              "count": 179,
-              "high_engagement_rate": 0.536
+              "count": 178,
+              "high_engagement_rate": 0.534
             },
             {
               "slug": "seasonal_collection_drop",
@@ -2504,18 +2498,18 @@
             {
               "slug": "close_up_macro_texture",
               "name": "Close-Up Macro Texture",
-              "count": 46,
-              "high_engagement_rate": 0.652
+              "count": 45,
+              "high_engagement_rate": 0.644
             }
           ],
           "media_type_breakdown": {
             "video": {
-              "count": 105,
-              "high_eng_rate": 0.352
+              "count": 104,
+              "high_eng_rate": 0.356
             },
             "carousel_slide": {
-              "count": 79,
-              "high_eng_rate": 0.747
+              "count": 78,
+              "high_eng_rate": 0.744
             },
             "image": {
               "count": 183,

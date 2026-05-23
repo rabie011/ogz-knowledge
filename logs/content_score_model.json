@@ -24,11 +24,11 @@
     "production_quality",
     "setting",
     "dialect",
-    "heritage_vs_modern",
     "register",
     "tone",
     "brand_consistency",
     "hospitality_level",
+    "heritage_vs_modern",
     "media_type",
     "lighting",
     "composition",
@@ -686,12 +686,6 @@
         "confidence": 0.267,
         "verdict": "strong_positive"
       },
-      "national_day": {
-        "high_eng_rate": 0.875,
-        "obs_count": 8,
-        "confidence": 0.533,
-        "verdict": "strong_positive"
-      },
       "summer_campaign": {
         "high_eng_rate": 0.875,
         "obs_count": 8,
@@ -699,10 +693,16 @@
         "verdict": "strong_positive"
       },
       "founding_day": {
-        "high_eng_rate": 0.833,
-        "obs_count": 6,
-        "confidence": 0.4,
+        "high_eng_rate": 0.857,
+        "obs_count": 7,
+        "confidence": 0.467,
         "verdict": "strong_positive"
+      },
+      "national_day": {
+        "high_eng_rate": 0.778,
+        "obs_count": 9,
+        "confidence": 0.6,
+        "verdict": "positive"
       },
       "graduation_season": {
         "high_eng_rate": 0.75,
@@ -717,8 +717,8 @@
         "verdict": "positive"
       },
       "evergreen": {
-        "high_eng_rate": 0.485,
-        "obs_count": 200,
+        "high_eng_rate": 0.51,
+        "obs_count": 398,
         "confidence": 1.0,
         "verdict": "neutral"
       },
@@ -873,9 +873,9 @@
     },
     "dialect": {
       "spanish_colloquial": {
-        "high_eng_rate": 1.0,
-        "obs_count": 3,
-        "confidence": 0.2,
+        "high_eng_rate": 0.92,
+        "obs_count": 50,
+        "confidence": 1.0,
         "verdict": "strong_positive"
       },
       "msa": {
@@ -891,8 +891,14 @@
         "verdict": "neutral"
       },
       "najdi": {
-        "high_eng_rate": 0.46,
-        "obs_count": 161,
+        "high_eng_rate": 0.522,
+        "obs_count": 247,
+        "confidence": 1.0,
+        "verdict": "neutral"
+      },
+      "general_saudi": {
+        "high_eng_rate": 0.448,
+        "obs_count": 29,
         "confidence": 1.0,
         "verdict": "neutral"
       },
@@ -902,15 +908,9 @@
         "confidence": 1.0,
         "verdict": "weak"
       },
-      "general_saudi": {
-        "high_eng_rate": 0.375,
-        "obs_count": 16,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
       "colloquial_arabic": {
-        "high_eng_rate": 0.353,
-        "obs_count": 34,
+        "high_eng_rate": 0.343,
+        "obs_count": 35,
         "confidence": 1.0,
         "verdict": "weak"
       },
@@ -919,32 +919,6 @@
         "obs_count": 1,
         "confidence": 0.0,
         "verdict": "insufficient_data"
-      }
-    },
-    "heritage_vs_modern": {
-      "heritage": {
-        "high_eng_rate": 0.848,
-        "obs_count": 33,
-        "confidence": 1.0,
-        "verdict": "strong_positive"
-      },
-      "blended": {
-        "high_eng_rate": 0.612,
-        "obs_count": 98,
-        "confidence": 1.0,
-        "verdict": "positive"
-      },
-      "modern": {
-        "high_eng_rate": 0.606,
-        "obs_count": 218,
-        "confidence": 1.0,
-        "verdict": "positive"
-      },
-      "neutral": {
-        "high_eng_rate": 0.2,
-        "obs_count": 15,
-        "confidence": 1.0,
-        "verdict": "weak"
       }
     },
     "register": {
@@ -1129,6 +1103,32 @@
         "verdict": "insufficient_data"
       }
     },
+    "heritage_vs_modern": {
+      "heritage": {
+        "high_eng_rate": 0.75,
+        "obs_count": 48,
+        "confidence": 1.0,
+        "verdict": "positive"
+      },
+      "modern": {
+        "high_eng_rate": 0.563,
+        "obs_count": 254,
+        "confidence": 1.0,
+        "verdict": "neutral"
+      },
+      "blended": {
+        "high_eng_rate": 0.484,
+        "obs_count": 157,
+        "confidence": 1.0,
+        "verdict": "neutral"
+      },
+      "neutral": {
+        "high_eng_rate": 0.2,
+        "obs_count": 15,
+        "confidence": 1.0,
+        "verdict": "weak"
+      }
+    },
     "media_type": {
       "carousel_slide": {
         "high_eng_rate": 0.747,
@@ -1290,9 +1290,9 @@
   },
   "self_test_results": [
     {
-      "predicted_high_engagement_rate": 0.708,
+      "predicted_high_engagement_rate": 0.71,
       "grade": "B",
-      "lift_vs_baseline": 0.168,
+      "lift_vs_baseline": 0.17,
       "top_contributing_factors": [
         {
           "signal_type": "pattern",
@@ -1335,9 +1335,9 @@
       "label": "Heritage F&B carousel (expect HIGH)"
     },
     {
-      "predicted_high_engagement_rate": 0.327,
+      "predicted_high_engagement_rate": 0.329,
       "grade": "D",
-      "lift_vs_baseline": -0.213,
+      "lift_vs_baseline": -0.211,
       "top_contributing_factors": [
         {
           "signal_type": "composition",
@@ -1349,9 +1349,9 @@
         {
           "signal_type": "occasion",
           "value": "evergreen",
-          "rate": 0.485,
+          "rate": 0.51,
           "verdict": "neutral",
-          "obs_count": 200
+          "obs_count": 398
         },
         {
           "signal_type": "tone",
@@ -1420,9 +1420,9 @@
       "label": "Eid carousel with occasion pattern (expect HIGH)"
     },
     {
-      "predicted_high_engagement_rate": 0.508,
+      "predicted_high_engagement_rate": 0.51,
       "grade": "C",
-      "lift_vs_baseline": -0.032,
+      "lift_vs_baseline": -0.03,
       "top_contributing_factors": [
         {
           "signal_type": "pattern",
@@ -1441,9 +1441,9 @@
         {
           "signal_type": "occasion",
           "value": "evergreen",
-          "rate": 0.485,
+          "rate": 0.51,
           "verdict": "neutral",
-          "obs_count": 200
+          "obs_count": 398
         },
         {
           "signal_type": "lighting",
@@ -1465,9 +1465,9 @@
       "label": "Standard product hero image (expect MID)"
     },
     {
-      "predicted_high_engagement_rate": 0.611,
+      "predicted_high_engagement_rate": 0.608,
       "grade": "B",
-      "lift_vs_baseline": 0.071,
+      "lift_vs_baseline": 0.068,
       "top_contributing_factors": [
         {
           "signal_type": "pattern",
@@ -1479,9 +1479,9 @@
         {
           "signal_type": "occasion",
           "value": "national_day",
-          "rate": 0.875,
-          "verdict": "strong_positive",
-          "obs_count": 8
+          "rate": 0.778,
+          "verdict": "positive",
+          "obs_count": 9
         },
         {
           "signal_type": "tone",

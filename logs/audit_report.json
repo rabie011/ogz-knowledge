@@ -46,15 +46,15 @@
       "characters_visible": 432,
       "register": 427,
       "tone": 428,
-      "dialect_detected": 327,
+      "dialect_detected": 474,
       "notable_phrases": 198,
-      "heritage_vs_modern": 364,
+      "heritage_vs_modern": 474,
+      "occasion_relevance": 474,
       "content_type": 474,
       "capture_date": 374,
       "source_url": 334,
       "pattern_matches": 471,
       "compliance_check": 474,
-      "occasion_relevance": 274,
       "hospitality_cues": 205
     },
     "field_coverage_pct": {
@@ -71,15 +71,15 @@
       "characters_visible": 91.1,
       "register": 90.1,
       "tone": 90.3,
-      "dialect_detected": 69.0,
+      "dialect_detected": 100.0,
       "notable_phrases": 41.8,
-      "heritage_vs_modern": 76.8,
+      "heritage_vs_modern": 100.0,
+      "occasion_relevance": 100.0,
       "content_type": 100.0,
       "capture_date": 78.9,
       "source_url": 70.5,
       "pattern_matches": 99.4,
       "compliance_check": 100.0,
-      "occasion_relevance": 57.8,
       "hospitality_cues": 43.2
     },
     "unique_pattern_slugs_in_obs": 106,
@@ -390,7 +390,7 @@
       {
         "file": "occasion_format_grid.json",
         "status": "OK",
-        "size_kb": 23.7,
+        "size_kb": 23.8,
         "keys": [
           "schema_version",
           "generated_at",
@@ -514,7 +514,7 @@
       {
         "file": "quality_signals.json",
         "status": "OK",
-        "size_kb": 4.1,
+        "size_kb": 4.3,
         "keys": [
           "schema_version",
           "generated_at",
@@ -629,7 +629,9 @@
       }
     ],
     "extra_log_files_not_in_checklist": [
+      "audit_report.json",
       "dialect_register_occasion_matrix.json",
+      "enrichment_report.json",
       "heritage_modern_spectrum.json",
       "hospitality_cues_inventory.json",
       "notable_phrases_library.json",
@@ -639,7 +641,7 @@
       "props_taxonomy.json",
       "soft_flags_catalog.json"
     ],
-    "total_log_files_on_disk": 49
+    "total_log_files_on_disk": 51
   },
   "cross_validation": [
     {
@@ -690,31 +692,10 @@
     },
     {
       "type": "low_field_coverage",
-      "field": "occasion_relevance",
-      "coverage_pct": 57.8,
-      "severity": "medium",
-      "note": "Only 57.8% of obs have this field populated"
-    },
-    {
-      "type": "low_field_coverage",
-      "field": "dialect_detected",
-      "coverage_pct": 69.0,
-      "severity": "medium",
-      "note": "Only 69.0% of obs have this field populated"
-    },
-    {
-      "type": "low_field_coverage",
       "field": "source_url",
       "coverage_pct": 70.5,
       "severity": "medium",
       "note": "Only 70.5% of obs have this field populated"
-    },
-    {
-      "type": "low_field_coverage",
-      "field": "heritage_vs_modern",
-      "coverage_pct": 76.8,
-      "severity": "medium",
-      "note": "Only 76.8% of obs have this field populated"
     },
     {
       "type": "low_field_coverage",
@@ -773,7 +754,7 @@
     "cross_val_total": 5,
     "gaps_critical": 0,
     "gaps_high": 3,
-    "gaps_medium": 6,
+    "gaps_medium": 3,
     "gaps_low": 4
   }
 }

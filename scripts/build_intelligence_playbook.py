@@ -31,22 +31,26 @@ def top_items(lst, key_field, value_field, n=5):
 
 def main():
     # Load all artifacts
-    eng_signals  = safe_load("engagement_signal_table.json")
-    media_eng    = safe_load("media_engagement_analysis.json")
-    temporal     = safe_load("temporal_analysis.json")
-    color_dna    = safe_load("color_palette_dna.json")
-    patterns_net = safe_load("pattern_network_graph.json")
-    setting_norm = safe_load("setting_normalization.json")
-    lighting_comp= safe_load("lighting_composition_normalization.json")
-    char_anal    = safe_load("character_analysis.json")
-    x_sector     = safe_load("cross_sector_benchmark.json")
-    pillars      = safe_load("content_pillars.json")
-    themes       = safe_load("account_themes_index.json")
-    archetypes   = safe_load("account_archetypes.json")
-    brand_dna    = safe_load("brand_dna_index.json")
-    cooc         = safe_load("pattern_cooccurrence_matrix.json")
-    recipes      = safe_load("content_recipe_combos.json")
-    similarity   = safe_load("account_similarity_matrix.json")
+    eng_signals   = safe_load("engagement_signal_table.json")
+    media_eng     = safe_load("media_engagement_analysis.json")
+    temporal      = safe_load("temporal_analysis.json")
+    color_dna     = safe_load("color_palette_dna.json")
+    patterns_net  = safe_load("pattern_network_graph.json")
+    setting_norm  = safe_load("setting_normalization.json")
+    lighting_comp = safe_load("lighting_composition_normalization.json")
+    char_anal     = safe_load("character_analysis.json")
+    x_sector      = safe_load("cross_sector_benchmark.json")
+    pillars       = safe_load("content_pillars.json")
+    themes        = safe_load("account_themes_index.json")
+    archetypes    = safe_load("account_archetypes.json")
+    brand_dna     = safe_load("brand_dna_index.json")
+    cooc          = safe_load("pattern_cooccurrence_matrix.json")
+    recipes       = safe_load("content_recipe_combos.json")
+    similarity    = safe_load("account_similarity_matrix.json")
+    # Phase 9 artifacts
+    occ_grid      = safe_load("occasion_format_grid.json")
+    compliance_intel = safe_load("compliance_intelligence.json")
+    arch_bench    = safe_load("archetype_benchmark.json")
 
     # ── 1. Best formats ──────────────────────────────────────────────────────
     media_ranking = media_eng.get("media_type_ranking", [])
@@ -211,9 +215,93 @@ def main():
         "most_different_pairs": gap_pairs[:5],
     }
 
+    # ── 17. Occasion format grid ─────────────────────────────────────────────
+    occ_rows = occ_grid.get("occasion_grid", [])
+    # Top 5 by high_engagement_rate (exclude evergreen which is just the baseline)
+    occ_top = [r for r in occ_rows if r["occasion"] != "evergreen"][:5]
+    occ_baseline = next((r for r in occ_rows if r["occasion"] == "evergreen"), {})
+    occasion_answer = {
+        "question": "For each campaign occasion, what is the optimal content recipe?",
+        "answer": (
+            "Seasonal occasions dominate: Eid al-Fitr 100% high eng, National Day 87%. "
+            "Evergreen (84% of corpus) sits at just 51% — seasonal/occasion content always outperforms. "
+            "Use occasion-specific patterns (eid_occasion_greeting, national_day_modernity_heritage) and image format."
+        ),
+        "evergreen_baseline": {
+            "high_engagement_rate": occ_baseline.get("high_engagement_rate"),
+            "obs_count": occ_baseline.get("obs_count"),
+            "recommended_recipe": occ_baseline.get("recommended_recipe"),
+        },
+        "top_occasions_by_engagement": [
+            {
+                "occasion": r["occasion"],
+                "high_engagement_rate": r["high_engagement_rate"],
+                "obs_count": r["obs_count"],
+                "recommended_recipe": r["recommended_recipe"],
+                "top_pattern": r["top_5_patterns"][0]["slug"] if r.get("top_5_patterns") else None,
+            }
+            for r in occ_top
+        ],
+        "full_grid": occ_rows,
+    }
+
+    # ── 18. Compliance deep dive ─────────────────────────────────────────────
+    comp_overview = compliance_intel.get("corpus_overview", {})
+    eng_delta = compliance_intel.get("engagement_delta_clean_vs_flagged", {})
+    comp_accounts = compliance_intel.get("account_risk_profiles", [])
+    high_risk_accounts = [a for a in comp_accounts if a.get("risk_grade") in ("orange", "red")][:5]
+    compliance_answer = {
+        "question": "Where are the compliance risks, and do they correlate with lower engagement?",
+        "answer": (
+            f"{comp_overview.get('flagged_obs', 0)} of {comp_overview.get('total_obs', 0)} observations flagged "
+            f"({int(comp_overview.get('flagged_rate', 0)*100)}%). "
+            "Surprisingly, flagged content engagement is essentially identical to clean content — "
+            "flags are calibration issues not performance killers. "
+            "Top risk: western_occasion_import and regional_language_mismatch soft flags."
+        ),
+        "corpus_overview": comp_overview,
+        "engagement_delta": eng_delta,
+        "top_hard_flags": compliance_intel.get("top_hard_flags_fleet", [])[:5],
+        "top_soft_flags": compliance_intel.get("top_soft_flags_fleet", [])[:5],
+        "high_risk_accounts": high_risk_accounts,
+        "risky_pattern_combinations": compliance_intel.get("risky_pattern_combinations", [])[:5],
+    }
+
+    # ── 19. Archetype benchmark ──────────────────────────────────────────────
+    arch_profiles = arch_bench.get("archetype_profiles", [])
+    arch_ranked = arch_bench.get("archetypes_ranked_by_engagement", [])
+    best_arch = arch_profiles[0] if arch_profiles else {}
+    worst_arch = arch_profiles[-1] if arch_profiles else {}
+    archetype_benchmark_answer = {
+        "question": "Which brand archetype strategy produces the best outcomes?",
+        "answer": (
+            f"Heritage Anchor wins on all 3 dimensions: highest engagement ({int((best_arch.get('performance', {}).get('high_engagement_rate', 0))*100)}% high eng), "
+            f"highest health score ({best_arch.get('performance', {}).get('avg_health_score', 0):.3f}), "
+            f"lowest compliance risk. "
+            f"Mass Market Functional is the worst performer ({int((worst_arch.get('performance', {}).get('high_engagement_rate', 0))*100)}% high eng). "
+            "Modern Premium accounts for 10/15 accounts but underperforms Heritage Anchor by ~19pp."
+        ),
+        "archetypes_ranked": arch_ranked,
+        "comparison_matrix": arch_bench.get("comparison_matrix", {}),
+        "archetype_profiles": [
+            {
+                "archetype": p["archetype"],
+                "account_count": p["account_count"],
+                "high_engagement_rate": p["performance"]["high_engagement_rate"],
+                "avg_health_score": p["performance"]["avg_health_score"],
+                "compliance_risk_per_obs": p["performance"]["compliance_risk_per_obs"],
+                "dominant_setting": p["visual_signature"]["dominant_setting"],
+                "dominant_tone": p["visual_signature"]["dominant_tone"],
+                "top_pattern": p["top_5_patterns"][0]["slug"] if p.get("top_5_patterns") else None,
+            }
+            for p in arch_profiles
+        ],
+        "key_findings": arch_bench.get("key_findings", []),
+    }
+
     # ── Assemble playbook ────────────────────────────────────────────────────
     playbook = {
-        "schema_version": 1,
+        "schema_version": 2,
         "generated_at": "2026-05-24T00:00:00Z",
         "title": "OGZ Saudi Instagram Intelligence Playbook",
         "corpus": {
@@ -221,7 +309,16 @@ def main():
             "total_accounts": 15,
             "total_patterns": 159,
             "sectors": ["f_and_b", "beauty", "retail"],
-            "analytical_artifacts": 27,
+            "analytical_artifacts": 36,
+            "normalization_passes": {
+                "register": "104 raw → 10 canonical",
+                "tone": "211 raw → 12 canonical",
+                "setting": "454 raw → 12 canonical",
+                "lighting": "435 raw → 9 canonical",
+                "composition": "408 raw → 9 canonical",
+                "color_families": "1747 mentions → 12 families",
+                "occasions": "131 raw → 16 canonical slugs",
+            }
         },
         "executive_summary": {
             "top_5_actionable_findings": [
@@ -238,6 +335,16 @@ def main():
                 "Branded bright lighting — 35% high engagement, weakest lighting category.",
                 "Generic product-only flat-lays — flagged as anti-pattern by 25 accounts.",
             ],
+            "archetype_verdict": (
+                "Heritage Anchor = strongest archetype on all 3 dimensions (engagement, health, compliance). "
+                "10 of 15 accounts cluster in Modern Premium — high competition, mid performance. "
+                "Moving an account toward Heritage Anchor positioning is the single highest-leverage strategic move."
+            ),
+            "occasion_insight": (
+                "84% of posts are evergreen (51% high eng baseline). "
+                "Every seasonal occasion outperforms that baseline — Eid 100%, National Day 87%, Ramadan 61%. "
+                "Increasing occasion-specific content from ~16% to ~30% of output is a structural opportunity."
+            ),
         },
         "answers": {
             "1_what_format": format_answer,
@@ -256,6 +363,9 @@ def main():
             "14_brand_archetypes": archetype_answer,
             "15_content_pillars": pillar_answer,
             "16_competitive_positioning": competitive_answer,
+            "17_occasion_format_grid": occasion_answer,
+            "18_compliance_deep_dive": compliance_answer,
+            "19_archetype_benchmark": archetype_benchmark_answer,
         }
     }
 
@@ -263,7 +373,7 @@ def main():
         json.dumps(playbook, ensure_ascii=False, indent=2)
     )
 
-    print("OGZ Intelligence Playbook built")
+    print("OGZ Intelligence Playbook v2 built — 19 Q&A sections, 36 analytical artifacts")
     print(f"\n{'═'*60}")
     print("EXECUTIVE SUMMARY")
     print(f"{'═'*60}")
@@ -273,6 +383,8 @@ def main():
     print("\nTop 5 things to avoid:")
     for i, f in enumerate(playbook["executive_summary"]["top_5_things_to_avoid"], 1):
         print(f"  {i}. {f}")
+    print(f"\nArchetype verdict: {playbook['executive_summary']['archetype_verdict'][:120]}...")
+    print(f"Occasion insight:  {playbook['executive_summary']['occasion_insight'][:120]}...")
     print(f"\nOutput: logs/intelligence_playbook.json")
 
 

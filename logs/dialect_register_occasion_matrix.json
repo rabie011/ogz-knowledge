@@ -1,0 +1,2658 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-05-24T00:00:00Z",
+  "total_observations": 474,
+  "null_rates": {
+    "dialect_null": 147,
+    "register_null": 47,
+    "occasion_null": 200
+  },
+  "unique_values": {
+    "dialects": [
+      "colloquial_arabic",
+      "english_arabic_mixed",
+      "general_saudi",
+      "gulf",
+      "hejazi",
+      "msa",
+      "najdi",
+      "null",
+      "spanish_colloquial"
+    ],
+    "registers": [
+      "achievement_announcement",
+      "announcement",
+      "announcement/promotional",
+      "architectural_narrative",
+      "aspirational",
+      "atmospheric",
+      "authentic",
+      "awareness",
+      "brand-focused",
+      "brand_identity",
+      "brand_professional",
+      "brief_caption",
+      "brief_casual",
+      "brief_informational",
+      "candid_moment",
+      "casual",
+      "casual_authentic",
+      "casual_brand",
+      "casual_celebratory",
+      "casual_challenge",
+      "casual_commercial",
+      "casual_conversational",
+      "casual_engagement",
+      "casual_family-friendly",
+      "casual_friendly",
+      "casual_fun",
+      "casual_modern",
+      "casual_motivational",
+      "casual_playful",
+      "casual_professional",
+      "casual_promotional",
+      "casual_puzzle",
+      "casual_quiz",
+      "celebratory/formal",
+      "commercial",
+      "commercial/promotional",
+      "commercial_casual",
+      "commercial_promotional",
+      "conversational_friendly",
+      "corporate",
+      "discovery/curator",
+      "educational",
+      "event_showcase",
+      "festive/promotional",
+      "formal",
+      "formal/awareness",
+      "formal/proud",
+      "formal_allegiance",
+      "formal_celebratory",
+      "formal_classical",
+      "formal_commercial",
+      "formal_corporate",
+      "formal_patriotic",
+      "formal_prayerful",
+      "functional",
+      "heritage_showcase",
+      "informal",
+      "informal_celebratory",
+      "informal_challenging",
+      "informal_community",
+      "informal_conversational",
+      "informal_descriptive_review",
+      "informal_detailed_review",
+      "informal_enthusiastic",
+      "informal_excited",
+      "informal_excited_announcement",
+      "informal_friendly",
+      "informal_humorous",
+      "informal_playful",
+      "informal_promotional",
+      "informal_quiz",
+      "informal_recommendation",
+      "informal_review",
+      "informal_saudi_dialect",
+      "informal_teaser",
+      "informal_youth-oriented",
+      "informative",
+      "luxe_premium",
+      "null",
+      "patriotic",
+      "personal",
+      "playful",
+      "poetic",
+      "premium",
+      "professional",
+      "promotional",
+      "promotional_celebratory",
+      "promotional_ramadan",
+      "ramadan_occasion",
+      "service_visual",
+      "visual-only",
+      "visual_architecture",
+      "visual_atmosphere",
+      "visual_food",
+      "visual_invitation",
+      "visual_menu",
+      "visual_narrative",
+      "visual_only",
+      "visual_service",
+      "visual_storytelling_only",
+      "visual_teaser",
+      "visual_welcome",
+      "warm"
+    ],
+    "occasions": [
+      "back_to_school",
+      "eid_al_adha",
+      "eid_al_fitr",
+      "evergreen",
+      "founding_day",
+      "friday_weekly",
+      "graduation_season",
+      "hajj",
+      "international_womens_day",
+      "national_day",
+      "national_sports_day",
+      "null",
+      "ramadan",
+      "summer_campaign",
+      "vision_2030_moment",
+      "winter_seasonal",
+      "world_coffee_day"
+    ]
+  },
+  "anomalies": [
+    {
+      "type": "formal_msa_on_casual_occasion",
+      "combo": "msa/formal/evergreen",
+      "count": 4,
+      "note": "MSA formal used on casual occasion — may be overly stiff"
+    }
+  ],
+  "dialect_summary": {
+    "colloquial_arabic": {
+      "total_obs": 34,
+      "top_registers": {
+        "casual": 27,
+        "formal": 4,
+        "casual_friendly": 1,
+        "casual_promotional": 1,
+        "warm": 1
+      },
+      "top_occasions": {
+        "null": 28,
+        "evergreen": 4,
+        "graduation_season": 2
+      }
+    },
+    "english_arabic_mixed": {
+      "total_obs": 1,
+      "top_registers": {
+        "brand_professional": 1
+      },
+      "top_occasions": {
+        "national_day": 1
+      }
+    },
+    "general_saudi": {
+      "total_obs": 16,
+      "top_registers": {
+        "functional": 4,
+        "casual": 3,
+        "premium": 3,
+        "aspirational": 2,
+        "formal_commercial": 1
+      },
+      "top_occasions": {
+        "evergreen": 14,
+        "null": 2
+      }
+    },
+    "gulf": {
+      "total_obs": 37,
+      "top_registers": {
+        "aspirational": 11,
+        "casual": 8,
+        "patriotic": 3,
+        "informative": 3,
+        "educational": 2
+      },
+      "top_occasions": {
+        "evergreen": 26,
+        "null": 5,
+        "national_sports_day": 3,
+        "vision_2030_moment": 1,
+        "world_coffee_day": 1
+      }
+    },
+    "hejazi": {
+      "total_obs": 34,
+      "top_registers": {
+        "casual": 26,
+        "formal": 7,
+        "informal": 1
+      },
+      "top_occasions": {
+        "evergreen": 20,
+        "null": 10,
+        "ramadan": 2,
+        "national_day": 1,
+        "founding_day": 1
+      }
+    },
+    "msa": {
+      "total_obs": 41,
+      "top_registers": {
+        "formal": 20,
+        "casual": 9,
+        "formal_celebratory": 2,
+        "promotional": 1,
+        "celebratory/formal": 1
+      },
+      "top_occasions": {
+        "null": 19,
+        "evergreen": 9,
+        "ramadan": 7,
+        "eid_al_fitr": 2,
+        "winter_seasonal": 1
+      }
+    },
+    "najdi": {
+      "total_obs": 161,
+      "top_registers": {
+        "casual": 105,
+        "informal_review": 6,
+        "poetic": 6,
+        "formal": 6,
+        "informal_detailed_review": 3
+      },
+      "top_occasions": {
+        "null": 72,
+        "evergreen": 55,
+        "ramadan": 11,
+        "summer_campaign": 6,
+        "eid_al_fitr": 3
+      }
+    },
+    "null": {
+      "total_obs": 147,
+      "top_registers": {
+        "null": 47,
+        "casual": 25,
+        "aspirational": 8,
+        "formal": 7,
+        "visual_only": 3
+      },
+      "top_occasions": {
+        "evergreen": 70,
+        "null": 63,
+        "ramadan": 3,
+        "eid_al_adha": 2,
+        "eid_al_fitr": 2
+      }
+    },
+    "spanish_colloquial": {
+      "total_obs": 3,
+      "top_registers": {
+        "casual": 2,
+        "casual_friendly": 1
+      },
+      "top_occasions": {
+        "evergreen": 2,
+        "null": 1
+      }
+    }
+  },
+  "top_50_triples": [
+    {
+      "dialect": "najdi",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 52,
+      "account_count": 4,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-006",
+        "OGZ-F-AND-B-Reference-007",
+        "OGZ-F-AND-B-Reference-009",
+        "OGZ-F-AND-B-Reference-011"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual",
+      "occasion": "null",
+      "count": 33,
+      "account_count": 6,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-006",
+        "OGZ-F-AND-B-Reference-007",
+        "OGZ-F-AND-B-Reference-008",
+        "OGZ-F-AND-B-Reference-009",
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "evergreen",
+      "count": 25,
+      "account_count": 3,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003",
+        "OGZ-F-AND-B-Reference-004",
+        "OGZ-F-AND-B-Reference-011"
+      ]
+    },
+    {
+      "dialect": "colloquial_arabic",
+      "register": "casual",
+      "occasion": "null",
+      "count": 24,
+      "account_count": 4,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-004",
+        "OGZ-F-AND-B-Reference-038",
+        "OGZ-F-AND-B-Reference-039"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "null",
+      "count": 20,
+      "account_count": 3,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003",
+        "OGZ-F-AND-B-Reference-004",
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "hejazi",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 16,
+      "account_count": 3,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-001",
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "casual",
+      "occasion": "null",
+      "count": 13,
+      "account_count": 3,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003",
+        "OGZ-F-AND-B-Reference-004",
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "aspirational",
+      "occasion": "evergreen",
+      "count": 11,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-002"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "formal",
+      "occasion": "null",
+      "count": 10,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-001",
+        "OGZ-F-AND-B-Reference-007"
+      ]
+    },
+    {
+      "dialect": "hejazi",
+      "register": "casual",
+      "occasion": "null",
+      "count": 9,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-001",
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 9,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003",
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "aspirational",
+      "occasion": "evergreen",
+      "count": 7,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-RETAIL-Reference-001"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "casual",
+      "occasion": "null",
+      "count": 6,
+      "account_count": 3,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-001",
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual",
+      "occasion": "summer_campaign",
+      "count": 6,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-009"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_review",
+      "occasion": "null",
+      "count": 6,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual",
+      "occasion": "ramadan",
+      "count": 5,
+      "account_count": 4,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-006",
+        "OGZ-F-AND-B-Reference-008",
+        "OGZ-F-AND-B-Reference-009"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "poetic",
+      "occasion": "null",
+      "count": 5,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "formal",
+      "occasion": "evergreen",
+      "count": 4,
+      "account_count": 3,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-006",
+        "OGZ-F-AND-B-Reference-007",
+        "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "formal",
+      "occasion": "ramadan",
+      "count": 4,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "hejazi",
+      "register": "formal",
+      "occasion": "evergreen",
+      "count": 4,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 4,
+      "account_count": 4,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-002",
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-005",
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "formal",
+      "occasion": "null",
+      "count": 4,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010",
+        "OGZ-F-AND-B-Reference-038"
+      ]
+    },
+    {
+      "dialect": "general_saudi",
+      "register": "functional",
+      "occasion": "evergreen",
+      "count": 4,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-RETAIL-Reference-001"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "casual",
+      "occasion": "null",
+      "count": 3,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "patriotic",
+      "occasion": "national_sports_day",
+      "count": 3,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-002"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "informative",
+      "occasion": "evergreen",
+      "count": 3,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-002"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_detailed_review",
+      "occasion": "null",
+      "count": 3,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "general_saudi",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 3,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-RETAIL-Reference-001"
+      ]
+    },
+    {
+      "dialect": "general_saudi",
+      "register": "premium",
+      "occasion": "evergreen",
+      "count": 3,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-RETAIL-Reference-001"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "formal_celebratory",
+      "occasion": "ramadan",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "educational",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-002"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "personal",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-002"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "playful",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-002"
+      ]
+    },
+    {
+      "dialect": "colloquial_arabic",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-039"
+      ]
+    },
+    {
+      "dialect": "colloquial_arabic",
+      "register": "formal",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-039"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual",
+      "occasion": "graduation_season",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-006"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual",
+      "occasion": "eid_al_fitr",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "formal",
+      "occasion": "national_day",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "formal",
+      "occasion": "founding_day",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_playful",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_humorous",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_promotional",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_excited",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "formal_allegiance",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004",
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "visual_only",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "visual_narrative",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "visual_service",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "visual_atmosphere",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "brand_identity",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "eid_al_adha",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-011"
+      ]
+    }
+  ],
+  "all_triples_count": 179,
+  "all_triples": [
+    {
+      "dialect": "najdi",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 52,
+      "account_count": 4,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-006",
+        "OGZ-F-AND-B-Reference-007",
+        "OGZ-F-AND-B-Reference-009",
+        "OGZ-F-AND-B-Reference-011"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual",
+      "occasion": "null",
+      "count": 33,
+      "account_count": 6,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-006",
+        "OGZ-F-AND-B-Reference-007",
+        "OGZ-F-AND-B-Reference-008",
+        "OGZ-F-AND-B-Reference-009",
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "evergreen",
+      "count": 25,
+      "account_count": 3,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003",
+        "OGZ-F-AND-B-Reference-004",
+        "OGZ-F-AND-B-Reference-011"
+      ]
+    },
+    {
+      "dialect": "colloquial_arabic",
+      "register": "casual",
+      "occasion": "null",
+      "count": 24,
+      "account_count": 4,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-004",
+        "OGZ-F-AND-B-Reference-038",
+        "OGZ-F-AND-B-Reference-039"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "null",
+      "count": 20,
+      "account_count": 3,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003",
+        "OGZ-F-AND-B-Reference-004",
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "hejazi",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 16,
+      "account_count": 3,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-001",
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "casual",
+      "occasion": "null",
+      "count": 13,
+      "account_count": 3,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003",
+        "OGZ-F-AND-B-Reference-004",
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "aspirational",
+      "occasion": "evergreen",
+      "count": 11,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-002"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "formal",
+      "occasion": "null",
+      "count": 10,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-001",
+        "OGZ-F-AND-B-Reference-007"
+      ]
+    },
+    {
+      "dialect": "hejazi",
+      "register": "casual",
+      "occasion": "null",
+      "count": 9,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-001",
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 9,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003",
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "aspirational",
+      "occasion": "evergreen",
+      "count": 7,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-RETAIL-Reference-001"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "casual",
+      "occasion": "null",
+      "count": 6,
+      "account_count": 3,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-001",
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual",
+      "occasion": "summer_campaign",
+      "count": 6,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-009"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_review",
+      "occasion": "null",
+      "count": 6,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual",
+      "occasion": "ramadan",
+      "count": 5,
+      "account_count": 4,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-006",
+        "OGZ-F-AND-B-Reference-008",
+        "OGZ-F-AND-B-Reference-009"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "poetic",
+      "occasion": "null",
+      "count": 5,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "formal",
+      "occasion": "evergreen",
+      "count": 4,
+      "account_count": 3,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-006",
+        "OGZ-F-AND-B-Reference-007",
+        "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "formal",
+      "occasion": "ramadan",
+      "count": 4,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "hejazi",
+      "register": "formal",
+      "occasion": "evergreen",
+      "count": 4,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 4,
+      "account_count": 4,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-002",
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-005",
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "formal",
+      "occasion": "null",
+      "count": 4,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010",
+        "OGZ-F-AND-B-Reference-038"
+      ]
+    },
+    {
+      "dialect": "general_saudi",
+      "register": "functional",
+      "occasion": "evergreen",
+      "count": 4,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-RETAIL-Reference-001"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "casual",
+      "occasion": "null",
+      "count": 3,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "patriotic",
+      "occasion": "national_sports_day",
+      "count": 3,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-002"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "informative",
+      "occasion": "evergreen",
+      "count": 3,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-002"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_detailed_review",
+      "occasion": "null",
+      "count": 3,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "general_saudi",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 3,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-RETAIL-Reference-001"
+      ]
+    },
+    {
+      "dialect": "general_saudi",
+      "register": "premium",
+      "occasion": "evergreen",
+      "count": 3,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-RETAIL-Reference-001"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "formal_celebratory",
+      "occasion": "ramadan",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "educational",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-002"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "personal",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-002"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "playful",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-002"
+      ]
+    },
+    {
+      "dialect": "colloquial_arabic",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-039"
+      ]
+    },
+    {
+      "dialect": "colloquial_arabic",
+      "register": "formal",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-039"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual",
+      "occasion": "graduation_season",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-006"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual",
+      "occasion": "eid_al_fitr",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "formal",
+      "occasion": "national_day",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "formal",
+      "occasion": "founding_day",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_playful",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_humorous",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_promotional",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_excited",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "formal_allegiance",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004",
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "visual_only",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "visual_narrative",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "visual_service",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "visual_atmosphere",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "brand_identity",
+      "occasion": "null",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "eid_al_adha",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-011"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "professional",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "casual_friendly",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "informative",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-RETAIL-Reference-001"
+      ]
+    },
+    {
+      "dialect": "general_saudi",
+      "register": "aspirational",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-RETAIL-Reference-001"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "casual",
+      "occasion": "winter_seasonal",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "casual",
+      "occasion": "eid_al_fitr",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "formal",
+      "occasion": "eid_al_fitr",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "formal",
+      "occasion": "founding_day",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "promotional",
+      "occasion": "vision_2030_moment",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "celebratory/formal",
+      "occasion": "national_day",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "formal/awareness",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "awareness",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "formal/proud",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "ramadan_occasion",
+      "occasion": "ramadan",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "achievement_announcement",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "commercial/promotional",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "casual_professional",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "commercial_casual",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "hejazi",
+      "register": "casual",
+      "occasion": "ramadan",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "hejazi",
+      "register": "informal",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "hejazi",
+      "register": "formal",
+      "occasion": "ramadan",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "hejazi",
+      "register": "formal",
+      "occasion": "national_day",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "hejazi",
+      "register": "formal",
+      "occasion": "founding_day",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "casual",
+      "occasion": "vision_2030_moment",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "promotional",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-002"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "promotional",
+      "occasion": "world_coffee_day",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "festive/promotional",
+      "occasion": "national_day",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "conversational_friendly",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "commercial_casual",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "gulf",
+      "register": "commercial_promotional",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "colloquial_arabic",
+      "register": "casual",
+      "occasion": "graduation_season",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-039"
+      ]
+    },
+    {
+      "dialect": "colloquial_arabic",
+      "register": "casual_friendly",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "colloquial_arabic",
+      "register": "casual_promotional",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "colloquial_arabic",
+      "register": "formal",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-039"
+      ]
+    },
+    {
+      "dialect": "colloquial_arabic",
+      "register": "formal",
+      "occasion": "graduation_season",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-039"
+      ]
+    },
+    {
+      "dialect": "colloquial_arabic",
+      "register": "warm",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-039"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual",
+      "occasion": "world_coffee_day",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual",
+      "occasion": "winter_seasonal",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual",
+      "occasion": "eid_al_adha",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-007"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual",
+      "occasion": "back_to_school",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-007"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual",
+      "occasion": "friday_weekly",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-007"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "formal",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "formal",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "poetic",
+      "occasion": "national_day",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_conversational",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_friendly",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_enthusiastic",
+      "occasion": "winter_seasonal",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_enthusiastic",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_descriptive_review",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_excited_announcement",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_saudi_dialect",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_saudi_dialect",
+      "occasion": "eid_al_fitr",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_recommendation",
+      "occasion": "ramadan",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "brief_informational",
+      "occasion": "ramadan",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "brief_caption",
+      "occasion": "ramadan",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual_conversational",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "brief_casual",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "promotional",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "promotional_celebratory",
+      "occasion": "founding_day",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_youth-oriented",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_quiz",
+      "occasion": "ramadan",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual_engagement",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual_quiz",
+      "occasion": "ramadan",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_celebratory",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual_puzzle",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "casual_challenge",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_challenging",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_teaser",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "informal_community",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "promotional_ramadan",
+      "occasion": "ramadan",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "najdi",
+      "register": "discovery/curator",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "promotional",
+      "occasion": "hajj",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "promotional",
+      "occasion": "eid_al_fitr",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-RETAIL-Reference-001"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "promotional",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-RETAIL-Reference-001"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "formal",
+      "occasion": "ramadan",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "formal",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "formal",
+      "occasion": "founding_day",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "casual",
+      "occasion": "ramadan",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "casual",
+      "occasion": "summer_campaign",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "casual",
+      "occasion": "winter_seasonal",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "formal_classical",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "announcement/promotional",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "formal_corporate",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "formal_patriotic",
+      "occasion": "national_day",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "formal_prayerful",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "visual_only",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "visual_teaser",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "announcement",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "visual_invitation",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "visual_architecture",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "visual_welcome",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "visual_food",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "candid_moment",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "visual_menu",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "achievement_announcement",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "architectural_narrative",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "event_showcase",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "atmospheric",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "ramadan_occasion",
+      "occasion": "ramadan",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "heritage_showcase",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "service_visual",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "commercial_promotional",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "luxe_premium",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "casual_authentic",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "brand-focused",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "visual-only",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "casual_commercial",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "casual_commercial",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "casual_fun",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "casual_promotional",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "professional",
+      "occasion": "international_womens_day",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "visual_storytelling_only",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "casual_family-friendly",
+      "occasion": "summer_campaign",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "casual_motivational",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "corporate",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "casual_celebratory",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "commercial",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "casual_playful",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "aspirational",
+      "occasion": "eid_al_fitr",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-RETAIL-Reference-001"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "authentic",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-RETAIL-Reference-001"
+      ]
+    },
+    {
+      "dialect": "general_saudi",
+      "register": "formal_commercial",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "general_saudi",
+      "register": "casual_modern",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "general_saudi",
+      "register": "casual_commercial",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "general_saudi",
+      "register": "casual_brand",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "english_arabic_mixed",
+      "register": "brand_professional",
+      "occasion": "national_day",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "spanish_colloquial",
+      "register": "casual",
+      "occasion": "null",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "spanish_colloquial",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "spanish_colloquial",
+      "register": "casual_friendly",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    }
+  ]
+}

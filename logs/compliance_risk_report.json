@@ -1,0 +1,873 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-05-24T00:00:00Z",
+  "risk_scoring": {
+    "formula": "(hard_blocks × 10) + soft_flag_count",
+    "green": "0-5 (low risk)",
+    "yellow": "6-15 (moderate risk)",
+    "orange": "16-30 (elevated risk)",
+    "red": "31+ (high risk)"
+  },
+  "fleet_summary": {
+    "total_accounts": 15,
+    "total_hard_blocks": 4,
+    "total_soft_flags": 62,
+    "by_category": {
+      "green": {
+        "accounts": [
+          "OGZ-RETAIL-Reference-001",
+          "OGZ-F-AND-B-Reference-002",
+          "OGZ-F-AND-B-Reference-010",
+          "OGZ-BEAUTY-Reference-002",
+          "OGZ-BEAUTY-Reference-001",
+          "OGZ-F-AND-B-Reference-006",
+          "OGZ-F-AND-B-Reference-007",
+          "OGZ-F-AND-B-Reference-008",
+          "OGZ-F-AND-B-Reference-009",
+          "OGZ-F-AND-B-Reference-011"
+        ],
+        "count": 10
+      },
+      "yellow": {
+        "accounts": [
+          "OGZ-F-AND-B-Reference-003",
+          "OGZ-F-AND-B-Reference-004",
+          "OGZ-F-AND-B-Reference-039"
+        ],
+        "count": 3
+      },
+      "orange": {
+        "accounts": [
+          "OGZ-F-AND-B-Reference-038"
+        ],
+        "count": 1
+      },
+      "red": {
+        "accounts": [
+          "OGZ-F-AND-B-Reference-005"
+        ],
+        "count": 1
+      }
+    },
+    "top_hard_block_types_fleet": [
+      {
+        "type": "{'forbidden_list_id': 'ALCOHOL_PRODUCT_DETECTION', 'entry_name': 'alcohol_product', 'severity': 'severe', 'evidence_description': 'Perrier sparkling water bottle present in center-left of image — CLEAR HARD BLOCK'}",
+        "count": 1
+      },
+      {
+        "type": "{'forbidden_list_id': 'kaaba_as_commercial_backdrop', 'entry_name': 'kaaba_or_mecca_as_backdrop', 'severity': 'severe', 'evidence_description': 'Kaaba structure illustrated as primary visual element in commercial Ramadan greeting post for fast food chain. Sacred Islamic imagery (Kaaba, minarets, hajj pilgrims) used as brand promotional backdrop for food/beverage commerce.'}",
+        "count": 1
+      },
+      {
+        "type": "{'forbidden_list_id': 'prayer_as_commercial_backdrop', 'entry_name': 'prayer_as_commercial_backdrop', 'severity': 'severe', 'evidence_description': 'Minaret (Islamic prayer call symbol) used as primary promotional design element for fast food brand. Minaret represents sacred Islamic architecture tied to Adhan (prayer call) — inappropriate commodification of religious space.'}",
+        "count": 1
+      },
+      {
+        "type": "{'forbidden_list_id': 'kaaba_or_mecca_as_backdrop', 'entry_name': 'kaaba_or_mecca_as_backdrop', 'severity': 'severe', 'evidence_description': 'Minaret imagery with crescent/star evokes Hajji/Mecca sanctity. Using this as brand backdrop for commercial food promotion risks perceived desecration of sacred Islamic sites.'}",
+        "count": 1
+      }
+    ],
+    "top_soft_flag_types_fleet": [
+      {
+        "type": "western_occasion_import",
+        "count": 2
+      },
+      {
+        "type": "regional_language_mismatch",
+        "count": 2
+      },
+      {
+        "type": "face_visibility_moderate",
+        "count": 1
+      },
+      {
+        "type": "gesture_review",
+        "count": 1
+      },
+      {
+        "type": "cross_gender_contact_review",
+        "count": 1
+      },
+      {
+        "type": "illustration_gender_presentation",
+        "count": 1
+      },
+      {
+        "type": "gesture_context_review",
+        "count": 1
+      },
+      {
+        "type": "two_handed_gloved_service",
+        "count": 1
+      },
+      {
+        "type": "hand_visibility_ambiguity",
+        "count": 1
+      },
+      {
+        "type": "ramadan_context_check",
+        "count": 1
+      }
+    ]
+  },
+  "accounts": {
+    "OGZ-F-AND-B-Reference-005": {
+      "account": "OGZ-F-AND-B-Reference-005",
+      "sector": "f_and_b",
+      "obs_count": 50,
+      "risk_score": 37,
+      "risk_category": "red",
+      "hard_block_count": 3,
+      "soft_flag_count": 7,
+      "hard_block_rate_per_obs": 0.06,
+      "soft_flag_rate_per_obs": 0.14,
+      "top_hard_block_types": [
+        {
+          "type": "{'forbidden_list_id': 'kaaba_as_commercial_backdrop', 'entry_name': 'kaaba_or_mecca_as_backdrop', 'severity': 'severe', 'evidence_description': 'Kaaba structure illustrated as primary visual element in commercial Ramadan greeting post for fast food chain. Sacred Islamic imagery (Kaaba, minarets, hajj pilgrims) used as brand promotional backdrop for food/beverage commerce.'}",
+          "count": 1
+        },
+        {
+          "type": "{'forbidden_list_id': 'prayer_as_commercial_backdrop', 'entry_name': 'prayer_as_commercial_backdrop', 'severity': 'severe', 'evidence_description': 'Minaret (Islamic prayer call symbol) used as primary promotional design element for fast food brand. Minaret represents sacred Islamic architecture tied to Adhan (prayer call) — inappropriate commodification of religious space.'}",
+          "count": 1
+        },
+        {
+          "type": "{'forbidden_list_id': 'kaaba_or_mecca_as_backdrop', 'entry_name': 'kaaba_or_mecca_as_backdrop', 'severity': 'severe', 'evidence_description': 'Minaret imagery with crescent/star evokes Hajji/Mecca sanctity. Using this as brand backdrop for commercial food promotion risks perceived desecration of sacred Islamic sites.'}",
+          "count": 1
+        }
+      ],
+      "top_soft_flag_types": [
+        {
+          "type": "alcohol_adjacent_imagery",
+          "count": 1
+        },
+        {
+          "type": "beverage_brand_prominence",
+          "count": 1
+        },
+        {
+          "type": "pork_product_check",
+          "count": 1
+        },
+        {
+          "type": "left_hand_serving_check",
+          "count": 1
+        },
+        {
+          "type": "cultural_moment_inference",
+          "count": 1
+        }
+      ],
+      "flagged_obs_count": 6,
+      "flagged_observations": [
+        {
+          "shortcode": "01KS3GGKSP6Q3NQ6B2RVK1ZV60",
+          "hard_blocks": [],
+          "soft_flags": [
+            "alcohol_adjacent_imagery"
+          ]
+        },
+        {
+          "shortcode": "01KS3GJ192KVHZJKB20HM0GP9Z",
+          "hard_blocks": [
+            "{'forbidden_list_id': 'kaaba_as_commercial_backdrop', 'entry_name': 'kaaba_or_mecca_as_backdrop', 'severity': 'severe', 'evidence_description': 'Kaaba structure illustrated as primary visual element in commercial Ramadan greeting post for fast food chain. Sacred Islamic imagery (Kaaba, minarets, hajj pilgrims) used as brand promotional backdrop for food/beverage commerce.'}"
+          ],
+          "soft_flags": []
+        },
+        {
+          "shortcode": "01KS3GK57ASK2ZKT53D4MSKDSN",
+          "hard_blocks": [],
+          "soft_flags": [
+            "beverage_brand_prominence"
+          ]
+        },
+        {
+          "shortcode": "01KS3GMHDFD5KEWJFK5744MYS8",
+          "hard_blocks": [],
+          "soft_flags": [
+            "pork_product_check",
+            "left_hand_serving_check"
+          ]
+        },
+        {
+          "shortcode": "01KS3GMYJJVMSTPZR8KB6NYJ12",
+          "hard_blocks": [],
+          "soft_flags": [
+            "cultural_moment_inference"
+          ]
+        },
+        {
+          "shortcode": "01KS3GRZFMFYS32YA1HAY9F4DM",
+          "hard_blocks": [
+            "{'forbidden_list_id': 'prayer_as_commercial_backdrop', 'entry_name': 'prayer_as_commercial_backdrop', 'severity': 'severe', 'evidence_description': 'Minaret (Islamic prayer call symbol) used as primary promotional design element for fast food brand. Minaret represents sacred Islamic architecture tied to Adhan (prayer call) — inappropriate commodification of religious space.'}",
+            "{'forbidden_list_id': 'kaaba_or_mecca_as_backdrop', 'entry_name': 'kaaba_or_mecca_as_backdrop', 'severity': 'severe', 'evidence_description': 'Minaret imagery with crescent/star evokes Hajji/Mecca sanctity. Using this as brand backdrop for commercial food promotion risks perceived desecration of sacred Islamic sites.'}"
+          ],
+          "soft_flags": [
+            "religious_symbol_commercialization",
+            "cultural_sensitivity_concern"
+          ]
+        }
+      ]
+    },
+    "OGZ-F-AND-B-Reference-038": {
+      "account": "OGZ-F-AND-B-Reference-038",
+      "sector": "f_and_b",
+      "obs_count": 12,
+      "risk_score": 17,
+      "risk_category": "orange",
+      "hard_block_count": 0,
+      "soft_flag_count": 17,
+      "hard_block_rate_per_obs": 0.0,
+      "soft_flag_rate_per_obs": 1.417,
+      "top_hard_block_types": [],
+      "top_soft_flag_types": [
+        {
+          "type": "foreign_cuisine_Italian_framed_as_aspirational",
+          "count": 1
+        },
+        {
+          "type": "Italian_origin_as_premium",
+          "count": 1
+        },
+        {
+          "type": "generic_lifestyle_tagline_not_Saudi_identity",
+          "count": 1
+        },
+        {
+          "type": "thobe_as_costume_prop_not_cultural_expression",
+          "count": 1
+        },
+        {
+          "type": "western_social_activation_mechanic",
+          "count": 1
+        }
+      ],
+      "flagged_obs_count": 10,
+      "flagged_observations": [
+        {
+          "shortcode": "01KS5XZ1X8PPG2X7R5JQC42EJ5",
+          "hard_blocks": [],
+          "soft_flags": [
+            "foreign_cuisine_Italian_framed_as_aspirational"
+          ]
+        },
+        {
+          "shortcode": "01KS5XZ23GRHEM3E2MSH4DMDZS",
+          "hard_blocks": [],
+          "soft_flags": [
+            "Italian_origin_as_premium",
+            "generic_lifestyle_tagline_not_Saudi_identity"
+          ]
+        },
+        {
+          "shortcode": "01KS5XZ26MX9G8FGVSQE8Z5379",
+          "hard_blocks": [],
+          "soft_flags": [
+            "thobe_as_costume_prop_not_cultural_expression",
+            "western_social_activation_mechanic"
+          ]
+        },
+        {
+          "shortcode": "01KS5XZ29RAV4RRXG07HN7JVAX",
+          "hard_blocks": [],
+          "soft_flags": [
+            "discount_dominant_no_cultural_warmth",
+            "colloquial_tease_without_hospitality_frame"
+          ]
+        },
+        {
+          "shortcode": "01KS5XZ2CW0GB6KC9QA0MZ17QK",
+          "hard_blocks": [],
+          "soft_flags": [
+            "pure_discount_catalogue_zero_cultural_identity",
+            "app_gating_creates_friction"
+          ]
+        },
+        {
+          "shortcode": "01KS5XZ2G0F3F55Z488YAGVDCK",
+          "hard_blocks": [],
+          "soft_flags": [
+            "western_Gen_Z_vs_Millennial_meme_format_applied_to_Saudi",
+            "no_Saudi_cultural_identity"
+          ]
+        },
+        {
+          "shortcode": "01KS5XZ2K4SQWW7FE4N1EE043E",
+          "hard_blocks": [],
+          "soft_flags": [
+            "gaming_pixel_aesthetic_irrelevant_to_Saudi_food_culture",
+            "price_dominant_no_storytelling"
+          ]
+        },
+        {
+          "shortcode": "01KS5XZ2SCVPVTX363SN6FCCW8",
+          "hard_blocks": [],
+          "soft_flags": [
+            "Italian_flag_as_aspirational_marker",
+            "no_Saudi_cultural_launch_framing"
+          ]
+        },
+        {
+          "shortcode": "01KS5XZ2WGVBHXF4W6305FATZY",
+          "hard_blocks": [],
+          "soft_flags": [
+            "CSR_content_global_template_not_Saudi_specific"
+          ]
+        },
+        {
+          "shortcode": "01KS5XZ2ZMDS3AR0RGXJVZ9CJD",
+          "hard_blocks": [],
+          "soft_flags": [
+            "Italian_crust_positioned_as_superior_import"
+          ]
+        }
+      ]
+    },
+    "OGZ-F-AND-B-Reference-003": {
+      "account": "OGZ-F-AND-B-Reference-003",
+      "sector": "f_and_b",
+      "obs_count": 50,
+      "risk_score": 14,
+      "risk_category": "yellow",
+      "hard_block_count": 0,
+      "soft_flag_count": 14,
+      "hard_block_rate_per_obs": 0.0,
+      "soft_flag_rate_per_obs": 0.28,
+      "top_hard_block_types": [],
+      "top_soft_flag_types": [
+        {
+          "type": "regional_language_mismatch",
+          "count": 2
+        },
+        {
+          "type": "cross_gender_physical_proximity",
+          "count": 1
+        },
+        {
+          "type": "occasion_thematic_note",
+          "count": 1
+        },
+        {
+          "type": "cross_gender_physical_contact_non_mahram_proximity",
+          "count": 1
+        },
+        {
+          "type": "child_safety_concern",
+          "count": 1
+        }
+      ],
+      "flagged_obs_count": 11,
+      "flagged_observations": [
+        {
+          "shortcode": "01KS3GS0FPY5HEKGT9W0V05Y5C",
+          "hard_blocks": [],
+          "soft_flags": [
+            "cross_gender_physical_proximity"
+          ]
+        },
+        {
+          "shortcode": "01KS3GTNFNHYTVXDWS34ZJ5YQR",
+          "hard_blocks": [],
+          "soft_flags": [
+            "occasion_thematic_note"
+          ]
+        },
+        {
+          "shortcode": "01KS3GW1PBFSBR4W2GN0HPKDC4",
+          "hard_blocks": [],
+          "soft_flags": [
+            "regional_language_mismatch"
+          ]
+        },
+        {
+          "shortcode": "01KS3GXYM7Z2C40Q5CXJ3Q82D9",
+          "hard_blocks": [],
+          "soft_flags": [
+            "cross_gender_physical_contact_non_mahram_proximity"
+          ]
+        },
+        {
+          "shortcode": "01KS3GYKJYQ20TW9RDMW1F0TWG",
+          "hard_blocks": [],
+          "soft_flags": [
+            "child_safety_concern",
+            "sole_of_foot_visibility"
+          ]
+        },
+        {
+          "shortcode": "01KS3GZ9MC8H7C0EC7224QDRSM",
+          "hard_blocks": [],
+          "soft_flags": [
+            "regional_language_mismatch",
+            "geographic_relevance_question"
+          ]
+        },
+        {
+          "shortcode": "01KS3GZQMFAWAT85GJJF2C5RQ3",
+          "hard_blocks": [],
+          "soft_flags": [
+            "language_regional_mismatch"
+          ]
+        },
+        {
+          "shortcode": "01KS3H0Q4EZ1DKSEP822N6QCNX",
+          "hard_blocks": [],
+          "soft_flags": [
+            "language_concern"
+          ]
+        },
+        {
+          "shortcode": "01KS3H223JPYGKYGARCEDYVZHS",
+          "hard_blocks": [],
+          "soft_flags": [
+            "content_relevance_mismatch",
+            "off_brand_composition"
+          ]
+        },
+        {
+          "shortcode": "01KS3H3MBEFF5FZ6GVG1EETZHE",
+          "hard_blocks": [],
+          "soft_flags": [
+            "cross_gender_physical_contact_review"
+          ]
+        },
+        {
+          "shortcode": "01KS3H4NDWV3PKTRTGY10ABZTJ",
+          "hard_blocks": [],
+          "soft_flags": [
+            "right_hand_serving_prominence"
+          ]
+        }
+      ]
+    },
+    "OGZ-F-AND-B-Reference-004": {
+      "account": "OGZ-F-AND-B-Reference-004",
+      "sector": "f_and_b",
+      "obs_count": 50,
+      "risk_score": 12,
+      "risk_category": "yellow",
+      "hard_block_count": 1,
+      "soft_flag_count": 2,
+      "hard_block_rate_per_obs": 0.02,
+      "soft_flag_rate_per_obs": 0.04,
+      "top_hard_block_types": [
+        {
+          "type": "{'forbidden_list_id': 'ALCOHOL_PRODUCT_DETECTION', 'entry_name': 'alcohol_product', 'severity': 'severe', 'evidence_description': 'Perrier sparkling water bottle present in center-left of image — CLEAR HARD BLOCK'}",
+          "count": 1
+        }
+      ],
+      "top_soft_flag_types": [
+        {
+          "type": "ramadan_context_check",
+          "count": 1
+        },
+        {
+          "type": "visual_composition_note",
+          "count": 1
+        }
+      ],
+      "flagged_obs_count": 3,
+      "flagged_observations": [
+        {
+          "shortcode": "01KS3GFVR45TMT3EBGT1X8216Y",
+          "hard_blocks": [],
+          "soft_flags": [
+            "ramadan_context_check"
+          ]
+        },
+        {
+          "shortcode": "01KS3GJFFE94Z31V17JTJSPHBZ",
+          "hard_blocks": [
+            "{'forbidden_list_id': 'ALCOHOL_PRODUCT_DETECTION', 'entry_name': 'alcohol_product', 'severity': 'severe', 'evidence_description': 'Perrier sparkling water bottle present in center-left of image — CLEAR HARD BLOCK'}"
+          ],
+          "soft_flags": []
+        },
+        {
+          "shortcode": "01KS3GV5PZ443C99KAACZ5ZBN3",
+          "hard_blocks": [],
+          "soft_flags": [
+            "visual_composition_note"
+          ]
+        }
+      ]
+    },
+    "OGZ-F-AND-B-Reference-039": {
+      "account": "OGZ-F-AND-B-Reference-039",
+      "sector": "f_and_b",
+      "obs_count": 12,
+      "risk_score": 10,
+      "risk_category": "yellow",
+      "hard_block_count": 0,
+      "soft_flag_count": 10,
+      "hard_block_rate_per_obs": 0.0,
+      "soft_flag_rate_per_obs": 0.833,
+      "top_hard_block_types": [],
+      "top_soft_flag_types": [
+        {
+          "type": "no_food_product",
+          "count": 1
+        },
+        {
+          "type": "pure_engagement_bait_mechanic",
+          "count": 1
+        },
+        {
+          "type": "product_name_uses_English_loanwords_Grand_Special",
+          "count": 1
+        },
+        {
+          "type": "global_occasion_activation_no_Saudi_cultural_framing",
+          "count": 1
+        },
+        {
+          "type": "second_cut_of_same_product_no_added_value",
+          "count": 1
+        }
+      ],
+      "flagged_obs_count": 8,
+      "flagged_observations": [
+        {
+          "shortcode": "01KS5Y548033M33YA35B44FS7F",
+          "hard_blocks": [],
+          "soft_flags": [
+            "no_food_product",
+            "pure_engagement_bait_mechanic"
+          ]
+        },
+        {
+          "shortcode": "01KS5Y54B425TMGDMFGS8KXM40",
+          "hard_blocks": [],
+          "soft_flags": [
+            "product_name_uses_English_loanwords_Grand_Special"
+          ]
+        },
+        {
+          "shortcode": "01KS5Y54E8X64DG8P4FQJAWK0K",
+          "hard_blocks": [],
+          "soft_flags": [
+            "global_occasion_activation_no_Saudi_cultural_framing"
+          ]
+        },
+        {
+          "shortcode": "01KS5Y54QM9V82KQ2PDF6PT9FA",
+          "hard_blocks": [],
+          "soft_flags": [
+            "second_cut_of_same_product_no_added_value"
+          ]
+        },
+        {
+          "shortcode": "01KS5Y54TRBT1BNTFHA6R2YECX",
+          "hard_blocks": [],
+          "soft_flags": [
+            "pure_price_product_no_cultural_storytelling",
+            "Coca_Cola_foreign_brand_co_branding_prominent"
+          ]
+        },
+        {
+          "shortcode": "01KS5Y54XWPKEE1CSNH4HPSN17",
+          "hard_blocks": [],
+          "soft_flags": [
+            "western_party_aesthetic_no_Saudi_cultural_design_language"
+          ]
+        },
+        {
+          "shortcode": "01KS5Y5544CQV4NM7KKTMSJ8CT",
+          "hard_blocks": [],
+          "soft_flags": [
+            "pure_app_marketing_zero_cultural_content"
+          ]
+        },
+        {
+          "shortcode": "01KS5Y5578RBKS0KJDVMXWWDYA",
+          "hard_blocks": [],
+          "soft_flags": [
+            "western_toy_collectible_mechanic_no_Saudi_cultural_dimension"
+          ]
+        }
+      ]
+    },
+    "OGZ-RETAIL-Reference-001": {
+      "account": "OGZ-RETAIL-Reference-001",
+      "sector": "retail",
+      "obs_count": 25,
+      "risk_score": 4,
+      "risk_category": "green",
+      "hard_block_count": 0,
+      "soft_flag_count": 4,
+      "hard_block_rate_per_obs": 0.0,
+      "soft_flag_rate_per_obs": 0.16,
+      "top_hard_block_types": [],
+      "top_soft_flag_types": [
+        {
+          "type": "religious_city_as_brand_context",
+          "count": 1
+        },
+        {
+          "type": "non_saudi_currency",
+          "count": 1
+        },
+        {
+          "type": "urdu_primary_language",
+          "count": 1
+        },
+        {
+          "type": "western_occasion_import",
+          "count": 1
+        }
+      ],
+      "flagged_obs_count": 3,
+      "flagged_observations": [
+        {
+          "shortcode": "01KSB647Q0P17VSHSJ9QR21XGS",
+          "hard_blocks": [],
+          "soft_flags": [
+            "religious_city_as_brand_context"
+          ]
+        },
+        {
+          "shortcode": "01KSB647Q6B8ZAWHMSX53E305N",
+          "hard_blocks": [],
+          "soft_flags": [
+            "non_saudi_currency"
+          ]
+        },
+        {
+          "shortcode": "01KSB647QKW9262PEJCKJAXNNS",
+          "hard_blocks": [],
+          "soft_flags": [
+            "urdu_primary_language",
+            "western_occasion_import"
+          ]
+        }
+      ]
+    },
+    "OGZ-F-AND-B-Reference-002": {
+      "account": "OGZ-F-AND-B-Reference-002",
+      "sector": "f_and_b",
+      "obs_count": 50,
+      "risk_score": 3,
+      "risk_category": "green",
+      "hard_block_count": 0,
+      "soft_flag_count": 3,
+      "hard_block_rate_per_obs": 0.0,
+      "soft_flag_rate_per_obs": 0.06,
+      "top_hard_block_types": [],
+      "top_soft_flag_types": [
+        {
+          "type": "gesture_review",
+          "count": 1
+        },
+        {
+          "type": "cross_gender_contact_review",
+          "count": 1
+        },
+        {
+          "type": "illustration_gender_presentation",
+          "count": 1
+        }
+      ],
+      "flagged_obs_count": 3,
+      "flagged_observations": [
+        {
+          "shortcode": "01KS39H82218976GVK9BGB9DQG",
+          "hard_blocks": [],
+          "soft_flags": [
+            "gesture_review"
+          ]
+        },
+        {
+          "shortcode": "01KS39H8237N50TS9BJJ7FHYXZ",
+          "hard_blocks": [],
+          "soft_flags": [
+            "cross_gender_contact_review"
+          ]
+        },
+        {
+          "shortcode": "01KS3EWPEK0CP0QH7KZJ3FNYMT",
+          "hard_blocks": [],
+          "soft_flags": [
+            "illustration_gender_presentation"
+          ]
+        }
+      ]
+    },
+    "OGZ-F-AND-B-Reference-010": {
+      "account": "OGZ-F-AND-B-Reference-010",
+      "sector": "f_and_b",
+      "obs_count": 50,
+      "risk_score": 3,
+      "risk_category": "green",
+      "hard_block_count": 0,
+      "soft_flag_count": 3,
+      "hard_block_rate_per_obs": 0.0,
+      "soft_flag_rate_per_obs": 0.06,
+      "top_hard_block_types": [],
+      "top_soft_flag_types": [
+        {
+          "type": "gesture_context_review",
+          "count": 1
+        },
+        {
+          "type": "two_handed_gloved_service",
+          "count": 1
+        },
+        {
+          "type": "hand_visibility_ambiguity",
+          "count": 1
+        }
+      ],
+      "flagged_obs_count": 3,
+      "flagged_observations": [
+        {
+          "shortcode": "01KS3F6Y41EC3PA2JJGNXKT0CC",
+          "hard_blocks": [],
+          "soft_flags": [
+            "gesture_context_review"
+          ]
+        },
+        {
+          "shortcode": "01KS3F6Y4FGS4FYADTR8J63P65",
+          "hard_blocks": [],
+          "soft_flags": [
+            "two_handed_gloved_service"
+          ]
+        },
+        {
+          "shortcode": "01KS3FF5V49HXPV8MX0C7DT9TW",
+          "hard_blocks": [],
+          "soft_flags": [
+            "hand_visibility_ambiguity"
+          ]
+        }
+      ]
+    },
+    "OGZ-BEAUTY-Reference-002": {
+      "account": "OGZ-BEAUTY-Reference-002",
+      "sector": "beauty",
+      "obs_count": 25,
+      "risk_score": 2,
+      "risk_category": "green",
+      "hard_block_count": 0,
+      "soft_flag_count": 2,
+      "hard_block_rate_per_obs": 0.0,
+      "soft_flag_rate_per_obs": 0.08,
+      "top_hard_block_types": [],
+      "top_soft_flag_types": [
+        {
+          "type": "face_visibility_moderate",
+          "count": 1
+        },
+        {
+          "type": "western_occasion_import",
+          "count": 1
+        }
+      ],
+      "flagged_obs_count": 2,
+      "flagged_observations": [
+        {
+          "shortcode": "01KSB5QAHR1KCQ18JJBFT5VH86",
+          "hard_blocks": [],
+          "soft_flags": [
+            "face_visibility_moderate"
+          ]
+        },
+        {
+          "shortcode": "01KSB5QAHXBMFBKKWXMS6ADPXF",
+          "hard_blocks": [],
+          "soft_flags": [
+            "western_occasion_import"
+          ]
+        }
+      ]
+    },
+    "OGZ-BEAUTY-Reference-001": {
+      "account": "OGZ-BEAUTY-Reference-001",
+      "sector": "beauty",
+      "obs_count": 25,
+      "risk_score": 0,
+      "risk_category": "green",
+      "hard_block_count": 0,
+      "soft_flag_count": 0,
+      "hard_block_rate_per_obs": 0.0,
+      "soft_flag_rate_per_obs": 0.0,
+      "top_hard_block_types": [],
+      "top_soft_flag_types": [],
+      "flagged_obs_count": 0,
+      "flagged_observations": []
+    },
+    "OGZ-F-AND-B-Reference-006": {
+      "account": "OGZ-F-AND-B-Reference-006",
+      "sector": "f_and_b",
+      "obs_count": 25,
+      "risk_score": 0,
+      "risk_category": "green",
+      "hard_block_count": 0,
+      "soft_flag_count": 0,
+      "hard_block_rate_per_obs": 0.0,
+      "soft_flag_rate_per_obs": 0.0,
+      "top_hard_block_types": [],
+      "top_soft_flag_types": [],
+      "flagged_obs_count": 0,
+      "flagged_observations": []
+    },
+    "OGZ-F-AND-B-Reference-007": {
+      "account": "OGZ-F-AND-B-Reference-007",
+      "sector": "f_and_b",
+      "obs_count": 25,
+      "risk_score": 0,
+      "risk_category": "green",
+      "hard_block_count": 0,
+      "soft_flag_count": 0,
+      "hard_block_rate_per_obs": 0.0,
+      "soft_flag_rate_per_obs": 0.0,
+      "top_hard_block_types": [],
+      "top_soft_flag_types": [],
+      "flagged_obs_count": 0,
+      "flagged_observations": []
+    },
+    "OGZ-F-AND-B-Reference-008": {
+      "account": "OGZ-F-AND-B-Reference-008",
+      "sector": "f_and_b",
+      "obs_count": 25,
+      "risk_score": 0,
+      "risk_category": "green",
+      "hard_block_count": 0,
+      "soft_flag_count": 0,
+      "hard_block_rate_per_obs": 0.0,
+      "soft_flag_rate_per_obs": 0.0,
+      "top_hard_block_types": [],
+      "top_soft_flag_types": [],
+      "flagged_obs_count": 0,
+      "flagged_observations": []
+    },
+    "OGZ-F-AND-B-Reference-009": {
+      "account": "OGZ-F-AND-B-Reference-009",
+      "sector": "f_and_b",
+      "obs_count": 25,
+      "risk_score": 0,
+      "risk_category": "green",
+      "hard_block_count": 0,
+      "soft_flag_count": 0,
+      "hard_block_rate_per_obs": 0.0,
+      "soft_flag_rate_per_obs": 0.0,
+      "top_hard_block_types": [],
+      "top_soft_flag_types": [],
+      "flagged_obs_count": 0,
+      "flagged_observations": []
+    },
+    "OGZ-F-AND-B-Reference-011": {
+      "account": "OGZ-F-AND-B-Reference-011",
+      "sector": "f_and_b",
+      "obs_count": 25,
+      "risk_score": 0,
+      "risk_category": "green",
+      "hard_block_count": 0,
+      "soft_flag_count": 0,
+      "hard_block_rate_per_obs": 0.0,
+      "soft_flag_rate_per_obs": 0.0,
+      "top_hard_block_types": [],
+      "top_soft_flag_types": [],
+      "flagged_obs_count": 0,
+      "flagged_observations": []
+    }
+  }
+}

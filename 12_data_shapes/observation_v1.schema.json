@@ -39,7 +39,10 @@
       "type": "string"
     },
     "occasion": {
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "description": "Canonical occasion slug: evergreen | ramadan | eid_al_fitr | eid_al_adha | national_day | founding_day | national_sports_day | summer_campaign | winter_seasonal | graduation_season | sporting_event | brand_campaign | vision_2030 | hajj | back_to_school | etc."
     },
     "content_ref": {
@@ -125,6 +128,13 @@
             null
           ],
           "description": "Editing pace label"
+        },
+        "carousel_slide_count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Number of slides in the carousel (from local file count)"
         }
       }
     },
@@ -148,6 +158,25 @@
           "items": {
             "type": "string"
           }
+        },
+        "color_palette": {
+          "type": ["object", "null"],
+          "description": "Extracted from local image via PIL pixel analysis",
+          "additionalProperties": false,
+          "properties": {
+            "dominant_colors": {"type": "array", "items": {"type": "string"}},
+            "warmth":          {"type": ["string", "null"]},
+            "palette_type":    {"type": ["string", "null"]},
+            "primary_family":  {"type": ["string", "null"]}
+          }
+        },
+        "human_presence": {
+          "type": ["boolean", "null"],
+          "description": "True if a human face is detected in the image via OpenCV"
+        },
+        "face_count": {
+          "type": ["integer", "null"],
+          "description": "Number of faces detected via OpenCV Haar cascade"
         },
         "props_visible": {
           "type": "array",
@@ -200,6 +229,20 @@
           "items": {
             "type": "string"
           }
+        },
+        "human_presence": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "True if a human face is detected in the image via OpenCV"
+        },
+        "face_count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Number of faces detected via OpenCV Haar cascade"
         }
       }
     },
@@ -306,6 +349,20 @@
             "null"
           ],
           "description": "Whisper-transcribed spoken words"
+        },
+        "caption_sentiment": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "positive",
+            "negative",
+            "neutral",
+            "question",
+            null
+          ],
+          "description": "Lexicon-based sentiment of caption text"
         }
       }
     },

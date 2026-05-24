@@ -85,6 +85,12 @@ def generate_brief(sector, occasion, goal, account=None):
     hash_an  = _load("hashtag_strategy.json")
     fmt_occ  = _load("format_occasion_matrix.json")
     gap      = _load("competitive_gap.json") if account else {}
+    # Phase 4 — deep intelligence layer
+    npi      = _load("notable_phrases_intelligence.json")
+    evw      = _load("elite_vs_weak_dna.json")
+    toi      = _load("text_overlay_intelligence.json")
+    sfp      = _load("sector_fingerprint.json")
+    osf      = _load("occasion_sector_format_matrix.json")
 
     # Sector slices (preferred over corpus)
     _cap_sl  = ((cap_sec.get("per_sector_analysis") or {}).get(sk) or {})
@@ -231,6 +237,42 @@ def generate_brief(sector, occasion, goal, account=None):
     best_day_for_occ = ((dow_an.get("best_by_occasion") or {}).get(occasion) or {}).get("best_day")
     recommended_day  = best_day_for_occ or best_day_for_sec or best_day_overall
 
+    # ── OCCASION × SECTOR × FORMAT (most precise format source) ──
+    osf_lookup = {e["occasion"] + "__" + e["sector"]: e for e in (osf.get("best_format_table") or [])}
+    osf_best   = osf_lookup.get(f"{occasion}__{sk}") or {}
+    if osf_best.get("best_format"):
+        recommended_format = osf_best["best_format"]  # override with 3-way precision
+
+    # ── NOTABLE PHRASES ──
+    npi_elite       = [p["phrase"] for p in (npi.get("elite_phrases") or [])[:6]]
+    npi_by_sector   = [p["phrase"] for p in (npi.get("best_by_sector") or {}).get(sk, [])[:5]]
+    npi_by_occasion = [p["phrase"] for p in (npi.get("best_by_occasion") or {}).get(occasion, [])[:4]]
+    npi_best_cat    = (list((npi.get("by_category") or {}).items()) or [("sensory_food", {})])[0][0]
+    npi_avoid       = [p["phrase"] for p in (npi.get("avoid_phrases") or [])[:3]]
+
+    # ── ELITE vs WEAK DNA ──
+    evw_do    = [(r["dimension"], r["value"], r["elite_advantage"])
+                 for r in (evw.get("top_elite_advantages") or [])[:5]]
+    evw_avoid = [(r["dimension"], r["value"], abs(r["elite_advantage"]))
+                 for r in (evw.get("top_weak_tendencies") or [])[:4]]
+
+    # ── TEXT OVERLAY guidance ──
+    toi_lang_ranked  = [(k,v) for k,v in (toi.get("by_language") or {}).items() if (v.get("count") or 0) >= 10]
+    toi_best_lang_global = toi_lang_ranked[0][0] if toi_lang_ranked else "english"
+    # Sector slice: pick first language with n >= 10
+    sec_langs = [e for e in ((toi.get("best_lang_by_sector") or {}).get(sk) or []) if (e.get("n") or 0) >= 10]
+    toi_best_lang_sec    = sec_langs[0].get("lang") if sec_langs else None
+    toi_best_lang        = toi_best_lang_sec or toi_best_lang_global
+    toi_type_ranked  = list((toi.get("by_overlay_type") or {}).items())
+    toi_best_type    = toi_type_ranked[0][0] if toi_type_ranked else "brand_identity"
+    toi_overlay_lift = toi.get("overlay_presence_lift")
+
+    # ── SECTOR FINGERPRINT ──
+    sfp_sectors  = sfp.get("sectors") or {}
+    sfp_sec_data = sfp_sectors.get(sk) or {}
+    sfp_profile  = sfp_sec_data.get("profile") or {}
+    sfp_lift     = sfp_sec_data.get("lift_vs_corpus")
+
     # ── COMPETITOR GAPS ──
     account_gaps = []
     if account and gap:
@@ -305,6 +347,32 @@ def generate_brief(sector, occasion, goal, account=None):
             "avoid":             avoid_patterns[:3],
         },
         "competitive_gaps": account_gaps or None,
+        "elite_production_rules": {
+            "do_more":   [{"dimension": d, "value": v, "elite_advantage": round(a, 3)} for d, v, a in evw_do],
+            "do_less":   [{"dimension": d, "value": v, "diff": round(a, 3)} for d, v, a in evw_avoid],
+        },
+        "overlay_spec": {
+            "overlay_presence_lift":  toi_overlay_lift,
+            "verdict":    "skip" if (toi_overlay_lift or 0) < 0 else "add",
+            "best_language":   toi_best_lang,
+            "best_overlay_type": toi_best_type,
+            "worst_overlay_type": toi_type_ranked[-1][0] if toi_type_ranked else None,
+        },
+        "notable_phrases": {
+            "best_category":      npi_best_cat,
+            "elite_phrases":      npi_elite[:4],
+            "sector_phrases":     npi_by_sector[:4],
+            "occasion_phrases":   npi_by_occasion[:3],
+            "avoid_phrases":      npi_avoid,
+        },
+        "sector_dna": {
+            "sector_avg_engagement": sfp_sec_data.get("avg_engagement"),
+            "lift_vs_corpus":        sfp_lift,
+            "dominant_composition":  (sfp_profile.get("composition") or {}).get("dominant"),
+            "dominant_setting":      (sfp_profile.get("setting") or {}).get("dominant"),
+            "dominant_tone":         (sfp_profile.get("tone") or {}).get("dominant"),
+            "dominant_heritage":     (sfp_profile.get("heritage_framing") or {}).get("dominant"),
+        },
         "data_sources": {
             "occasion_obs":    (pb_entry or {}).get("obs_count",0),
             "sector_occ_obs":  (vdt_node or {}).get("obs_count",0),
@@ -323,6 +391,10 @@ def print_brief(brief):
     post = brief["posting_spec"]
     pats = brief["content_patterns"]
     pred = brief["predicted_engagement"]
+    elr  = brief.get("elite_production_rules") or {}
+    ov   = brief.get("overlay_spec") or {}
+    nph  = brief.get("notable_phrases") or {}
+    dna  = brief.get("sector_dna") or {}
 
     W = 68
     print(f"\n{'═'*W}")
@@ -393,6 +465,51 @@ def print_brief(brief):
         print(f"\n  ── GAPS (@{inp.get('account')}) ──────────────────────────────────────")
         for g in brief["competitive_gaps"][:3]:
             print(f"    [{g['priority'].upper()}] {g['pattern']} — {int(g.get('competitor_high_eng_rate',0)*100)}%")
+
+    # ── ELITE PRODUCTION RULES ──
+    if elr.get("do_more"):
+        print(f"\n  ── ELITE RULES ───────────────────────────────────────────────")
+        for r in (elr.get("do_more") or [])[:4]:
+            pct = int((r.get("elite_advantage") or 0) * 100)
+            print(f"    ✓ DO: {r['dimension']} → {r['value']}  (+{pct}pp vs weak)")
+        for r in (elr.get("do_less") or [])[:3]:
+            pct = int((r.get("diff") or 0) * 100)
+            print(f"    ✗ AVOID: {r['dimension']} → {r['value']}  (-{pct}pp vs elite)")
+
+    # ── OVERLAY SPEC ──
+    if ov:
+        lift_str = f"lift {ov.get('overlay_presence_lift',0):+.2f}" if ov.get("overlay_presence_lift") is not None else ""
+        verdict  = ov.get("verdict","?").upper()
+        print(f"\n  ── OVERLAY ───────────────────────────────────────────────────")
+        print(f"  Overlay verdict: {verdict}  {lift_str}")
+        print(f"  Best language:   {ov.get('best_language') or '—'}  |  Best type: {ov.get('best_overlay_type') or '—'}")
+        if ov.get("worst_overlay_type"):
+            print(f"  Avoid type:      {ov.get('worst_overlay_type')}")
+
+    # ── NOTABLE PHRASES ──
+    phrases = (nph.get("occasion_phrases") or nph.get("sector_phrases") or nph.get("elite_phrases") or [])[:4]
+    avoid_ph = nph.get("avoid_phrases") or []
+    if phrases or nph.get("best_category"):
+        print(f"\n  ── NOTABLE PHRASES ───────────────────────────────────────────")
+        if nph.get("best_category"):
+            print(f"  Best category:   {nph['best_category']}")
+        if phrases:
+            print(f"  Use:  {' / '.join(phrases)}")
+        if avoid_ph:
+            print(f"  Avoid: {' / '.join(avoid_ph)}")
+
+    # ── SECTOR DNA ──
+    if dna.get("sector_avg_engagement") is not None:
+        lift = dna.get("lift_vs_corpus") or 0
+        lift_str = f"+{lift:.2f}" if lift >= 0 else f"{lift:.2f}"
+        print(f"\n  ── SECTOR DNA ────────────────────────────────────────────────")
+        print(f"  Sector avg: {int((dna['sector_avg_engagement'])*100)}%  (lift {lift_str} vs corpus)")
+        dom = []
+        if dna.get("dominant_composition"): dom.append(f"comp: {dna['dominant_composition']}")
+        if dna.get("dominant_setting"):     dom.append(f"setting: {dna['dominant_setting']}")
+        if dna.get("dominant_tone"):        dom.append(f"tone: {dna['dominant_tone']}")
+        if dna.get("dominant_heritage"):    dom.append(f"hvm: {dna['dominant_heritage']}")
+        if dom: print(f"  DNA:  {' | '.join(dom)}")
 
     print(f"\n{'═'*W}\n")
 

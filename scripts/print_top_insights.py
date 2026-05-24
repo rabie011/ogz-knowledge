@@ -8,7 +8,8 @@ Usage: python3 scripts/print_top_insights.py [--sector f_and_b|beauty|retail]
 import json, argparse
 from pathlib import Path
 
-LOGS = Path(__file__).parent.parent / "logs"
+BASE = Path(__file__).parent.parent
+LOGS = BASE / "logs"
 
 def _load(name):
     p = LOGS / name
@@ -301,10 +302,16 @@ def main():
 
     # ── PRINT ──────────────────────────────────────────────────────────────────
     W = 72
+    # Live obs count from master signal table (or fallback to obs scan)
+    mst = _load("master_signal_table.json")
+    obs_n   = (mst.get("meta") or {}).get("total_obs") or mst.get("total_obs") or \
+              sum(1 for _ in (BASE / "11_who_to_learn_from" / "observations").rglob("*.json"))
+    acc_n   = (mst.get("meta") or {}).get("total_accounts") or mst.get("total_accounts") or 15
+    log_n   = len(list(LOGS.glob("*.json")))
     sector_tag = f" [{sk}]" if sk else ""
     print(f"\n{'═'*W}")
     print(f"  OGZ TOP INTELLIGENCE INSIGHTS{sector_tag}  —  {len(insights)} findings")
-    print(f"  648 obs · 15 accounts · 111 analytics logs")
+    print(f"  {obs_n} obs · {acc_n} accounts · {log_n} analytics logs")
     print(f"{'═'*W}\n")
 
     CONF_ICON = {"high": "●", "medium": "◐", "low": "○"}

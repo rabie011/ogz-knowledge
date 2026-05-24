@@ -64,7 +64,7 @@ def _best_field(log: dict, table_key: str, field_key: str):
 
 
 def _emoji_verdict(cap_intel: dict) -> bool | None:
-    """Return True if emoji helps, False if hurts, None if no data."""
+    """Return True if emoji helps, False if hurts, None if no data. (corpus-level fallback)"""
     table = cap_intel.get("emoji_presence_table") or []
     if not table:
         return None
@@ -72,6 +72,21 @@ def _emoji_verdict(cap_intel: dict) -> bool | None:
     no_e  = next((r for r in table if r.get("emoji_presence") == "no_emoji"), None)
     if has_e and no_e:
         return has_e["high_engagement_rate"] >= no_e["high_engagement_rate"]
+    return None
+
+
+def _emoji_verdict_sector(cap_intel: dict) -> bool | None:
+    """Return True/False/None for emoji from sector-slice OR corpus table."""
+    # Sector slice: uses 'bucket' key and 'emoji_presence' dim
+    table = cap_intel.get("emoji_presence") or cap_intel.get("emoji_presence_table") or []
+    if not table:
+        return None
+    has_e = next((r for r in table if r.get("bucket") == "has_emoji" or r.get("emoji_presence") == "has_emoji"), None)
+    no_e  = next((r for r in table if r.get("bucket") == "no_emoji"  or r.get("emoji_presence") == "no_emoji"),  None)
+    if has_e and no_e:
+        r_h = has_e.get("high_engagement_rate") or 0
+        r_n = no_e.get("high_engagement_rate") or 0
+        return r_h >= r_n
     return None
 
 
@@ -87,9 +102,28 @@ def generate_brief(sector: str, occasion: str, goal: str, account: str = None) -
     fmt_occ = load_json(LOGS / "format_occasion_matrix.json")
     gap     = load_json(LOGS / "competitive_gap.json") if account else {}
     patterns = load_json(LOGS / "pattern_cooccurrence_matrix.json") if (LOGS / "pattern_cooccurrence_matrix.json").exists() else {}
-    cap_intel = load_json(LOGS / "caption_intelligence.json") if (LOGS / "caption_intelligence.json").exists() else {}
-    ar_copy   = load_json(LOGS / "arabic_copywriting.json")   if (LOGS / "arabic_copywriting.json").exists()   else {}
-    hash_strat = load_json(LOGS / "hashtag_strategy.json")    if (LOGS / "hashtag_strategy.json").exists()    else {}
+    hash_strat = load_json(LOGS / "hashtag_strategy.json") if (LOGS / "hashtag_strategy.json").exists() else {}
+
+    # ── Sector-controlled caption + Arabic intelligence (preferred over corpus-level) ──
+    cap_by_sector = load_json(LOGS / "caption_intelligence_by_sector.json") if (LOGS / "caption_intelligence_by_sector.json").exists() else {}
+    ar_by_sector  = load_json(LOGS / "arabic_copywriting_by_sector.json")   if (LOGS / "arabic_copywriting_by_sector.json").exists()   else {}
+
+    # Map sector arg to key used in sector logs
+    _SECTOR_KEY_MAP = {
+        "food_and_beverage": "f_and_b",
+        "beauty_personal_care": "beauty",
+        "retail_lifestyle": "retail",
+    }
+    _sector_key = _SECTOR_KEY_MAP.get(sector, sector)
+
+    # Pull per-sector analysis slices
+    _cap_sector  = (cap_by_sector.get("per_sector_analysis") or {}).get(_sector_key, {})
+    _ar_sector   = (ar_by_sector.get("per_sector_analysis")  or {}).get(_sector_key, {})
+    _sector_baseline = (cap_by_sector.get("sector_baselines") or {}).get(_sector_key)
+
+    # Fallback to corpus-level if sector slice missing
+    cap_intel = _cap_sector if _cap_sector else load_json(LOGS / "caption_intelligence.json") if (LOGS / "caption_intelligence.json").exists() else {}
+    ar_copy   = _ar_sector  if _ar_sector  else load_json(LOGS / "arabic_copywriting.json")   if (LOGS / "arabic_copywriting.json").exists()   else {}
 
     # 1. OCCASION RECIPE from playbook
     playbook_entry = None
@@ -173,13 +207,31 @@ def generate_brief(sector: str, occasion: str, goal: str, account: str = None) -
             "language":    best_lang_for_occ or (playbook_entry or {}).get("overall_recipe",{}).get("language"),
             "add_cta":     best_cta == "cta_present",
             "heritage_vs_modern": (playbook_entry or {}).get("overall_recipe",{}).get("heritage_vs_modern"),
-            # ── Caption intelligence (populated after extraction + analysis) ──
-            "recommended_length": _best_field(cap_intel, "caption_length_table", "caption_length_bucket"),
-            "recommended_hashtag_count": _best_field(hash_strat, "hashtag_count_table", "hashtag_count"),
-            "use_emoji": _emoji_verdict(cap_intel),
-            "open_style": _best_field(cap_intel, "caption_open_style_table", "caption_open_style"),
-            "arabic_signal_phrases": [p["phrase"] for p in (ar_copy.get("signal_phrases_high_eng") or [])[:5]],
-            "best_opener_formula": _best_field(ar_copy, "opener_formula_table", "formula"),
+            # ── Caption intelligence (sector-controlled when available) ──
+            "recommended_length": (
+                _best_field(cap_intel, "caption_length", "bucket") or          # sector slice key
+                _best_field(cap_intel, "caption_length_table", "caption_length_bucket")  # corpus fallback
+            ),
+            "recommended_hashtag_count": (
+                _best_field(cap_intel, "hashtag_count", "bucket") or
+                _best_field(hash_strat, "hashtag_count_table", "hashtag_count")
+            ),
+            "use_emoji": _emoji_verdict_sector(cap_intel),
+            "open_style": (
+                _best_field(cap_intel, "opener_style", "bucket") or
+                _best_field(cap_intel, "caption_open_style_table", "caption_open_style")
+            ),
+            "arabic_signal_phrases": [
+                p["phrase"] for p in (
+                    ar_copy.get("signal_phrases") or          # sector slice key
+                    ar_copy.get("signal_phrases_high_eng") or # corpus fallback
+                    []
+                )[:5]
+            ],
+            "best_opener_formula": (
+                _best_field(ar_copy, "opener_formula_table", "formula")
+            ),
+            "sector_baseline": _sector_baseline,
         },
         "cultural_spec": {
             "hospitality_cues_target": _hosp_target(playbook_entry),
@@ -246,9 +298,11 @@ def print_brief(brief: dict):
         print(f"  Account: @{inp['account']}")
     print(f"{'═'*65}\n")
 
-    grade = pred.get("grade","?")
-    rate  = int((pred.get("predicted_high_eng_rate",0.54))*100)
-    print(f"  PREDICTED ENGAGEMENT  →  Grade {grade}  ({rate}% high eng)  [{pred.get('confidence','?')} confidence]")
+    grade    = pred.get("grade","?")
+    rate     = int((pred.get("predicted_high_eng_rate",0.54))*100)
+    baseline = brief.get("caption_spec",{}).get("sector_baseline")
+    bl_str   = f"  sector baseline={int(baseline*100)}%" if baseline else ""
+    print(f"  PREDICTED ENGAGEMENT  →  Grade {grade}  ({rate}% high eng)  [{pred.get('confidence','?')} confidence]{bl_str}")
     print(f"  {sep}\n")
 
     print(f"  ── PRODUCTION SPEC ──────────────────────────────────────────")

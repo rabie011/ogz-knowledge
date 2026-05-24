@@ -185,13 +185,15 @@ def generate_brief(sector, occasion, goal, account=None):
     recommended_dialect = dial_by_occ or dial_by_sec
 
     # ── CAPTION: length + hashtags + emoji + opener ──
-    # Word count
-    best_wc_for_sec  = ((cap_lh.get("best_wc_by_sector") or {}).get(sector) or [{}])[0].get("bucket")
+    # Word count — use sector best only if n>=10 to avoid small-sample noise
+    _wc_sec_rows = (cap_lh.get("best_wc_by_sector") or {}).get(sector) or []
+    best_wc_for_sec  = next((r["bucket"] for r in _wc_sec_rows if r.get("n",0) >= 10), None)
     best_wc_overall  = _best_key(cap_lh.get("by_word_count") or {})
     recommended_wc   = best_wc_for_sec or best_wc_overall
 
-    # Hashtag count
-    best_hc_for_sec  = ((cap_lh.get("best_hc_by_sector") or {}).get(sector) or [{}])[0].get("bucket")
+    # Hashtag count — use sector best only if n>=10 to avoid small-sample noise
+    _hc_sec_rows = (cap_lh.get("best_hc_by_sector") or {}).get(sector) or []
+    best_hc_for_sec  = next((r["bucket"] for r in _hc_sec_rows if r.get("n",0) >= 10), None)
     best_hc_overall  = _best_key(cap_lh.get("by_hashtag_count") or {})
     recommended_hc   = best_hc_for_sec or best_hc_overall
 
@@ -430,7 +432,9 @@ def print_brief(brief):
 
     print(f"\n  ── CAPTION ───────────────────────────────────────────────────")
     print(f"  Length:       {cap.get('word_count_target') or '—'} words")
-    print(f"  Hashtags:     {cap.get('hashtag_count') or '—'}")
+    hc_val = cap.get('hashtag_count')
+    hc_display = "none" if hc_val == "0" else (hc_val or '—')
+    print(f"  Hashtags:     {hc_display}")
     print(f"  Emoji:        {'YES' if cap.get('use_emoji') else 'NO'}")
     print(f"  Opener:       {cap.get('opener_formula') or '—'}")
     print(f"  Sentiment:    {cap.get('sentiment') or '—'}")

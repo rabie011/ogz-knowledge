@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "generated_at": "2026-05-24T21:06:32Z",
+  "generated_at": "2026-05-24T22:50:53Z",
   "title": "OGZ Saudi Instagram Intelligence Playbook v4",
   "corpus": {
     "total_observations": 648,
@@ -20,7 +20,7 @@
       "Visual complexity: complex beats moderate by +28pp (86% vs 58%)",
       "Heritage framing: +18pp uplift vs modern",
       "Posting day: sunday beats worst day by ~17pp",
-      "Caption: 10-30 words + 1-5 hashtags = <10 wins"
+      "Caption: 10-30 words + 1-5 hashtags = 60+ wins"
     ],
     "top_5_avoid": [
       "Content type: video is the weakest format (60%)",
@@ -439,17 +439,17 @@
     "caption": {
       "question": "How should captions be written?",
       "by_word_count": {
-        "<10": {
-          "avg": 0.762,
-          "n": 21
-        },
-        "10-30": {
-          "avg": 0.741,
-          "n": 83
-        },
         "60+": {
           "avg": 0.729,
           "n": 24
+        },
+        "10-30": {
+          "avg": 0.617,
+          "n": 107
+        },
+        "<10": {
+          "avg": 0.571,
+          "n": 35
         },
         "30-60": {
           "avg": 0.546,
@@ -457,13 +457,13 @@
         }
       },
       "by_hashtag_count": {
-        "1-5": {
-          "avg": 0.762,
-          "n": 80
-        },
         "0": {
           "avg": 0.7,
           "n": 65
+        },
+        "1-5": {
+          "avg": 0.589,
+          "n": 118
         },
         "6-15": {
           "avg": 0.55,
@@ -475,8 +475,8 @@
         }
       },
       "by_emoji": {
-        "True": 0.686,
-        "False": 0.673
+        "False": 0.673,
+        "True": 0.595
       },
       "by_opener_formula": {
         "number": {
@@ -501,56 +501,56 @@
         }
       },
       "agency_rules": [
-        "Optimal caption length: <10 words (76%) — avoid 30-60 word range (55%)",
-        "Optimal hashtag count: 1-5 (76%) — 16+ tanks to 41%",
-        "Emoji: use (69% with vs 67% without)",
+        "Optimal caption length: 60+ words (73%) — avoid 30-60 word range (55%)",
+        "Optimal hashtag count: 0 (70%) — 16+ tanks to 41%",
+        "Emoji: avoid (60% with vs 67% without)",
         "Best opener: number (100%)"
       ]
     },
     "phrases": {
       "question": "What Arabic phrases drive the highest engagement?",
-      "arabic_avg": 0.468,
-      "english_avg": 0.875,
+      "arabic_avg": 0.439,
+      "english_avg": 0.269,
       "by_category": {
         "sensory_food": {
-          "avg": 0.925,
-          "n": 20
+          "avg": 0.905,
+          "n": 21
         },
         "invitation": {
           "avg": 0.885,
           "n": 13
         },
         "celebration": {
-          "avg": 0.875,
-          "n": 28
-        },
-        "community": {
-          "avg": 0.833,
-          "n": 3
+          "avg": 0.828,
+          "n": 32
         },
         "heritage": {
           "avg": 0.812,
           "n": 8
         },
-        "urgency": {
-          "avg": 0.786,
-          "n": 14
-        },
         "pride_saudi": {
-          "avg": 0.781,
-          "n": 16
+          "avg": 0.765,
+          "n": 17
+        },
+        "community": {
+          "avg": 0.75,
+          "n": 4
+        },
+        "urgency": {
+          "avg": 0.733,
+          "n": 15
         },
         "other": {
-          "avg": 0.654,
-          "n": 446
-        },
-        "price": {
-          "avg": 0.605,
-          "n": 19
+          "avg": 0.598,
+          "n": 510
         },
         "product_hero": {
-          "avg": 0.576,
-          "n": 33
+          "avg": 0.554,
+          "n": 37
+        },
+        "price": {
+          "avg": 0.46,
+          "n": 25
         }
       },
       "elite_phrases": [
@@ -589,13 +589,14 @@
       ],
       "avoid_phrases": [
         "على كيفك",
+        "عرض الثنائي",
         "مع بيبسي",
-        "فخورين ببلادنا وهي تستعد لاستضافة أكبر حدث كروي في العالم",
-        "كأس العالم 2034 في السعودية، لحظة تاريخية نفتخر بها"
+        "NEXT30",
+        "HUT50"
       ],
       "agency_rules": [
-        "Arabic phrases: 47% avg  (14 unique) vs English: 88% (2 unique)",
-        "Best category: 'sensory_food' (92%)",
+        "Arabic phrases: 44% avg  (15 unique) vs English: 27% (5 unique)",
+        "Best category: 'sensory_food' (90%)",
         "Elite phrases (100%): لفترة محدودة فقط / صناعة سعودية / شارك الفرحة / نسعد بخدمتكم",
         "Avoid: nostalgia/memory phrases score 0% consistently"
       ]
@@ -1305,7 +1306,7 @@
           "value": "landscape_4x3",
           "count": 9,
           "avg_engagement": 1.0,
-          "lift_vs_avg": 0.295,
+          "lift_vs_avg": 0.331,
           "high_rate": 1.0,
           "confidence": "low"
         },
@@ -1314,16 +1315,7 @@
           "value": "retail_urban",
           "count": 7,
           "avg_engagement": 1.0,
-          "lift_vs_avg": 0.295,
-          "high_rate": 1.0,
-          "confidence": "low"
-        },
-        {
-          "dimension": "occasion",
-          "value": "eid_al_fitr",
-          "count": 7,
-          "avg_engagement": 1.0,
-          "lift_vs_avg": 0.295,
+          "lift_vs_avg": 0.331,
           "high_rate": 1.0,
           "confidence": "low"
         },
@@ -1332,7 +1324,7 @@
           "value": "unknown",
           "count": 50,
           "avg_engagement": 0.96,
-          "lift_vs_avg": 0.255,
+          "lift_vs_avg": 0.291,
           "high_rate": 0.92,
           "confidence": "high"
         },
@@ -1341,7 +1333,7 @@
           "value": "professional",
           "count": 12,
           "avg_engagement": 0.958,
-          "lift_vs_avg": 0.253,
+          "lift_vs_avg": 0.289,
           "high_rate": 0.917,
           "confidence": "low"
         },
@@ -1350,7 +1342,7 @@
           "value": "4+",
           "count": 10,
           "avg_engagement": 0.95,
-          "lift_vs_avg": 0.245,
+          "lift_vs_avg": 0.281,
           "high_rate": 0.9,
           "confidence": "low"
         },
@@ -1359,7 +1351,7 @@
           "value": "national_day",
           "count": 9,
           "avg_engagement": 0.944,
-          "lift_vs_avg": 0.239,
+          "lift_vs_avg": 0.275,
           "high_rate": 0.889,
           "confidence": "low"
         },
@@ -1368,16 +1360,25 @@
           "value": "msa",
           "count": 17,
           "avg_engagement": 0.941,
-          "lift_vs_avg": 0.236,
+          "lift_vs_avg": 0.272,
           "high_rate": 0.882,
           "confidence": "medium"
+        },
+        {
+          "dimension": "occasion",
+          "value": "eid_al_fitr",
+          "count": 8,
+          "avg_engagement": 0.938,
+          "lift_vs_avg": 0.269,
+          "high_rate": 0.875,
+          "confidence": "low"
         },
         {
           "dimension": "occasion",
           "value": "founding_day",
           "count": 7,
           "avg_engagement": 0.929,
-          "lift_vs_avg": 0.224,
+          "lift_vs_avg": 0.26,
           "high_rate": 0.857,
           "confidence": "low"
         },
@@ -1386,7 +1387,7 @@
           "value": "neutral",
           "count": 14,
           "avg_engagement": 0.929,
-          "lift_vs_avg": 0.224,
+          "lift_vs_avg": 0.26,
           "high_rate": 0.929,
           "confidence": "low"
         },
@@ -1395,7 +1396,7 @@
           "value": "colloquial_arabic",
           "count": 11,
           "avg_engagement": 0.909,
-          "lift_vs_avg": 0.204,
+          "lift_vs_avg": 0.24,
           "high_rate": 0.818,
           "confidence": "low"
         },
@@ -1404,7 +1405,7 @@
           "value": "male",
           "count": 38,
           "avg_engagement": 0.908,
-          "lift_vs_avg": 0.203,
+          "lift_vs_avg": 0.239,
           "high_rate": 0.816,
           "confidence": "medium"
         },
@@ -1413,7 +1414,7 @@
           "value": "landscape_16x9",
           "count": 15,
           "avg_engagement": 0.9,
-          "lift_vs_avg": 0.195,
+          "lift_vs_avg": 0.231,
           "high_rate": 0.867,
           "confidence": "medium"
         },
@@ -1422,7 +1423,7 @@
           "value": "celebratory",
           "count": 10,
           "avg_engagement": 0.9,
-          "lift_vs_avg": 0.195,
+          "lift_vs_avg": 0.231,
           "high_rate": 0.8,
           "confidence": "low"
         },
@@ -1431,27 +1432,54 @@
           "value": "weak",
           "count": 5,
           "avg_engagement": 0.9,
-          "lift_vs_avg": 0.195,
+          "lift_vs_avg": 0.231,
           "high_rate": 0.8,
           "confidence": "low"
         }
       ],
       "top_killers": [
         {
+          "dimension": "composition_style",
+          "value": "product_hero",
+          "count": 20,
+          "avg_engagement": 0.1,
+          "lift_vs_avg": -0.569,
+          "high_rate": 0.0,
+          "confidence": "medium"
+        },
+        {
+          "dimension": "dialect",
+          "value": "saudi_colloquial",
+          "count": 61,
+          "avg_engagement": 0.295,
+          "lift_vs_avg": -0.374,
+          "high_rate": 0.049,
+          "confidence": "high"
+        },
+        {
+          "dimension": "tone",
+          "value": "transactional",
+          "count": 31,
+          "avg_engagement": 0.306,
+          "lift_vs_avg": -0.363,
+          "high_rate": 0.258,
+          "confidence": "medium"
+        },
+        {
           "dimension": "register",
           "value": "patriotic",
           "count": 7,
           "avg_engagement": 0.357,
-          "lift_vs_avg": -0.348,
+          "lift_vs_avg": -0.312,
           "high_rate": 0.143,
           "confidence": "low"
         },
         {
-          "dimension": "tone",
-          "value": "excitement",
+          "dimension": "lighting",
+          "value": "natural mixed",
           "count": 5,
           "avg_engagement": 0.4,
-          "lift_vs_avg": -0.305,
+          "lift_vs_avg": -0.269,
           "high_rate": 0.0,
           "confidence": "low"
         },
@@ -1460,7 +1488,7 @@
           "value": "sporting_event",
           "count": 11,
           "avg_engagement": 0.409,
-          "lift_vs_avg": -0.296,
+          "lift_vs_avg": -0.26,
           "high_rate": 0.091,
           "confidence": "low"
         },
@@ -1469,25 +1497,25 @@
           "value": "16+",
           "count": 17,
           "avg_engagement": 0.412,
-          "lift_vs_avg": -0.293,
+          "lift_vs_avg": -0.257,
           "high_rate": 0.118,
           "confidence": "medium"
         },
         {
-          "dimension": "dialect",
-          "value": "saudi_colloquial",
-          "count": 23,
-          "avg_engagement": 0.413,
-          "lift_vs_avg": -0.292,
-          "high_rate": 0.13,
-          "confidence": "medium"
+          "dimension": "tone",
+          "value": "excitement",
+          "count": 8,
+          "avg_engagement": 0.438,
+          "lift_vs_avg": -0.231,
+          "high_rate": 0.0,
+          "confidence": "low"
         },
         {
           "dimension": "sector",
           "value": "beauty",
           "count": 49,
           "avg_engagement": 0.439,
-          "lift_vs_avg": -0.266,
+          "lift_vs_avg": -0.23,
           "high_rate": 0.184,
           "confidence": "medium"
         },
@@ -1496,16 +1524,34 @@
           "value": "red",
           "count": 13,
           "avg_engagement": 0.462,
-          "lift_vs_avg": -0.243,
+          "lift_vs_avg": -0.207,
           "high_rate": 0.154,
           "confidence": "low"
+        },
+        {
+          "dimension": "setting",
+          "value": "restaurant interior",
+          "count": 5,
+          "avg_engagement": 0.5,
+          "lift_vs_avg": -0.169,
+          "high_rate": 0.0,
+          "confidence": "low"
+        },
+        {
+          "dimension": "lighting",
+          "value": "cold_studio",
+          "count": 117,
+          "avg_engagement": 0.526,
+          "lift_vs_avg": -0.143,
+          "high_rate": 0.35,
+          "confidence": "high"
         },
         {
           "dimension": "caption_length",
           "value": "30-60w",
           "count": 54,
           "avg_engagement": 0.546,
-          "lift_vs_avg": -0.159,
+          "lift_vs_avg": -0.123,
           "high_rate": 0.315,
           "confidence": "high"
         },
@@ -1514,7 +1560,7 @@
           "value": "15-30s",
           "count": 32,
           "avg_engagement": 0.547,
-          "lift_vs_avg": -0.158,
+          "lift_vs_avg": -0.122,
           "high_rate": 0.344,
           "confidence": "medium"
         },
@@ -1523,54 +1569,9 @@
           "value": "6-15",
           "count": 20,
           "avg_engagement": 0.55,
-          "lift_vs_avg": -0.155,
+          "lift_vs_avg": -0.119,
           "high_rate": 0.35,
           "confidence": "medium"
-        },
-        {
-          "dimension": "tone",
-          "value": "nostalgic",
-          "count": 10,
-          "avg_engagement": 0.55,
-          "lift_vs_avg": -0.155,
-          "high_rate": 0.4,
-          "confidence": "low"
-        },
-        {
-          "dimension": "sector",
-          "value": "retail",
-          "count": 25,
-          "avg_engagement": 0.56,
-          "lift_vs_avg": -0.145,
-          "high_rate": 0.36,
-          "confidence": "medium"
-        },
-        {
-          "dimension": "dialect",
-          "value": "standard",
-          "count": 24,
-          "avg_engagement": 0.562,
-          "lift_vs_avg": -0.143,
-          "high_rate": 0.417,
-          "confidence": "medium"
-        },
-        {
-          "dimension": "setting",
-          "value": "home_domestic",
-          "count": 7,
-          "avg_engagement": 0.571,
-          "lift_vs_avg": -0.134,
-          "high_rate": 0.429,
-          "confidence": "low"
-        },
-        {
-          "dimension": "day_of_week",
-          "value": "tuesday",
-          "count": 67,
-          "avg_engagement": 0.59,
-          "lift_vs_avg": -0.115,
-          "high_rate": 0.388,
-          "confidence": "high"
         }
       ],
       "agency_rules": []

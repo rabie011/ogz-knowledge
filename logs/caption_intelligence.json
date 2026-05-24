@@ -2,8 +2,8 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 472,
-  "obs_with_caption": 197,
+  "total_obs": 510,
+  "obs_with_caption": 235,
   "obs_without_caption": 275,
   "caption_length_table": [
     {
@@ -16,18 +16,10 @@
     },
     {
       "caption_length_bucket": "medium_11_30",
-      "count": 80,
-      "high_engagement_rate": 0.55,
-      "avg_engagement": 0.738,
-      "lift_vs_baseline": 0.01,
-      "top_sector": "f_and_b"
-    },
-    {
-      "caption_length_bucket": "short_1_10",
-      "count": 26,
-      "high_engagement_rate": 0.538,
-      "avg_engagement": 0.769,
-      "lift_vs_baseline": -0.002,
+      "count": 100,
+      "high_engagement_rate": 0.44,
+      "avg_engagement": 0.63,
+      "lift_vs_baseline": -0.1,
       "top_sector": "f_and_b"
     },
     {
@@ -45,22 +37,30 @@
       "avg_engagement": 0.533,
       "lift_vs_baseline": -0.207,
       "top_sector": "f_and_b"
+    },
+    {
+      "caption_length_bucket": "short_1_10",
+      "count": 44,
+      "high_engagement_rate": 0.318,
+      "avg_engagement": 0.557,
+      "lift_vs_baseline": -0.222,
+      "top_sector": "f_and_b"
     }
   ],
   "hashtag_count_table": [
-    {
-      "hashtag_count_bucket": "1_5",
-      "count": 80,
-      "high_engagement_rate": 0.575,
-      "avg_engagement": 0.762,
-      "lift_vs_baseline": 0.035
-    },
     {
       "hashtag_count_bucket": "0",
       "count": 80,
       "high_engagement_rate": 0.475,
       "avg_engagement": 0.669,
       "lift_vs_baseline": -0.065
+    },
+    {
+      "hashtag_count_bucket": "1_5",
+      "count": 118,
+      "high_engagement_rate": 0.39,
+      "avg_engagement": 0.589,
+      "lift_vs_baseline": -0.15
     },
     {
       "hashtag_count_bucket": "6_15",
@@ -80,10 +80,10 @@
   "emoji_presence_table": [
     {
       "emoji_presence": "has_emoji",
-      "count": 156,
-      "high_engagement_rate": 0.494,
-      "avg_engagement": 0.686,
-      "lift_vs_baseline": -0.046
+      "count": 194,
+      "high_engagement_rate": 0.397,
+      "avg_engagement": 0.595,
+      "lift_vs_baseline": -0.143
     },
     {
       "emoji_presence": "no_emoji",
@@ -96,18 +96,18 @@
   "caption_language_table": [
     {
       "caption_language": "arabic",
-      "count": 92,
-      "high_engagement_rate": 0.62,
-      "avg_engagement": 0.783,
-      "lift_vs_baseline": 0.08,
+      "count": 121,
+      "high_engagement_rate": 0.471,
+      "avg_engagement": 0.665,
+      "lift_vs_baseline": -0.069,
       "top_sector": "f_and_b"
     },
     {
       "caption_language": "bilingual",
-      "count": 103,
-      "high_engagement_rate": 0.35,
-      "avg_engagement": 0.578,
-      "lift_vs_baseline": -0.19,
+      "count": 112,
+      "high_engagement_rate": 0.321,
+      "avg_engagement": 0.531,
+      "lift_vs_baseline": -0.219,
       "top_sector": "f_and_b"
     },
     {
@@ -122,33 +122,33 @@
   "caption_open_style_table": [
     {
       "caption_open_style": "statement_open",
-      "count": 166,
-      "high_engagement_rate": 0.482,
-      "avg_engagement": 0.678,
-      "lift_vs_baseline": -0.058
+      "count": 199,
+      "high_engagement_rate": 0.402,
+      "avg_engagement": 0.603,
+      "lift_vs_baseline": -0.138
     },
     {
       "caption_open_style": "question_open",
-      "count": 31,
-      "high_engagement_rate": 0.419,
-      "avg_engagement": 0.645,
-      "lift_vs_baseline": -0.121
+      "count": 36,
+      "high_engagement_rate": 0.361,
+      "avg_engagement": 0.583,
+      "lift_vs_baseline": -0.179
     }
   ],
   "language_by_sector": [
     {
       "language": "arabic",
       "sector": "f_and_b",
-      "count": 92,
-      "high_eng_rate": 0.62,
-      "lift": 0.08
+      "count": 121,
+      "high_eng_rate": 0.471,
+      "lift": -0.069
     },
     {
       "language": "bilingual",
       "sector": "f_and_b",
-      "count": 55,
-      "high_eng_rate": 0.491,
-      "lift": -0.049
+      "count": 64,
+      "high_eng_rate": 0.422,
+      "lift": -0.118
     },
     {
       "language": "bilingual",
@@ -175,24 +175,24 @@
     },
     {
       "language": "arabic",
+      "occasion": "eid_al_fitr",
+      "count": 3,
+      "high_eng_rate": 0.667,
+      "lift": 0.127
+    },
+    {
+      "language": "arabic",
       "occasion": "ramadan",
-      "count": 5,
-      "high_eng_rate": 0.6,
-      "lift": 0.06
+      "count": 7,
+      "high_eng_rate": 0.429,
+      "lift": -0.111
     },
     {
       "language": "arabic",
       "occasion": "evergreen",
-      "count": 67,
-      "high_eng_rate": 0.582,
-      "lift": 0.042
-    },
-    {
-      "language": "bilingual",
-      "occasion": "evergreen",
-      "count": 77,
-      "high_eng_rate": 0.351,
-      "lift": -0.189
+      "count": 92,
+      "high_eng_rate": 0.424,
+      "lift": -0.116
     },
     {
       "language": "bilingual",
@@ -200,6 +200,13 @@
       "count": 9,
       "high_eng_rate": 0.333,
       "lift": -0.207
+    },
+    {
+      "language": "bilingual",
+      "occasion": "evergreen",
+      "count": 86,
+      "high_eng_rate": 0.314,
+      "lift": -0.226
     },
     {
       "language": "bilingual",
@@ -225,16 +232,16 @@
   ],
   "key_findings": [
     "Best caption length: 'very_long_75plus' = 64% high-eng (+10pp vs baseline)",
-    "Worst caption length: 'empty' = 33%",
-    "Best hashtag count: '1_5' = 57%",
-    "Emoji HELPS: with=49% vs without=39% (+10pp)",
-    "Best caption language: 'arabic' = 62% (n=92)",
-    "Question-open captions: 41% vs statement-open: 48% (-6pp)"
+    "Worst caption length: 'short_1_10' = 31%",
+    "Best hashtag count: '0' = 47%",
+    "Emoji NEUTRAL: with=39% vs without=39% (+0pp)",
+    "Best caption language: 'arabic' = 47% (n=121)",
+    "Question-open captions: 36% vs statement-open: 40% (-4pp)"
   ],
   "agency_rules": [
     "Target caption length: 'very_long_75plus' — highest engagement bucket",
-    "Optimal hashtag count: 1_5 — top performer",
+    "Optimal hashtag count: 0 — top performer",
     "Use emoji in captions — they lift engagement",
-    "Default caption language: 'arabic' (62% high-eng)"
+    "Default caption language: 'arabic' (47% high-eng)"
   ]
 }

@@ -2,8 +2,8 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 472,
-  "arabic_caption_obs": 193,
+  "total_obs": 510,
+  "arabic_caption_obs": 231,
   "signal_phrases_high_eng": [
     {
       "phrase": "صباحا",
@@ -91,13 +91,6 @@
     },
     {
       "phrase": "الملك",
-      "total": 4,
-      "in_high_eng": 4,
-      "in_low_eng": 0,
-      "high_ratio": 1.0
-    },
-    {
-      "phrase": "السعودية",
       "total": 4,
       "in_high_eng": 4,
       "in_low_eng": 0,
@@ -349,7 +342,14 @@
       "high_ratio": 1.0
     },
     {
-      "phrase": "الثاني",
+      "phrase": "الزلال",
+      "total": 3,
+      "in_high_eng": 3,
+      "in_low_eng": 0,
+      "high_ratio": 1.0
+    },
+    {
+      "phrase": "عسيب الدرعية",
       "total": 3,
       "in_high_eng": 3,
       "in_low_eng": 0,
@@ -358,7 +358,21 @@
   ],
   "avoid_phrases_low_eng": [
     {
+      "phrase": "كود",
+      "total": 10,
+      "in_high_eng": 0,
+      "in_low_eng": 10,
+      "high_ratio": 0.0
+    },
+    {
       "phrase": "ترطيب",
+      "total": 8,
+      "in_high_eng": 0,
+      "in_low_eng": 8,
+      "high_ratio": 0.0
+    },
+    {
+      "phrase": "بيتزاهت",
       "total": 8,
       "in_high_eng": 0,
       "in_low_eng": 8,
@@ -373,6 +387,13 @@
     },
     {
       "phrase": "بريتي نيتشر",
+      "total": 7,
+      "in_high_eng": 0,
+      "in_low_eng": 7,
+      "high_ratio": 0.0
+    },
+    {
+      "phrase": "إذا",
       "total": 7,
       "in_high_eng": 0,
       "in_low_eng": 7,
@@ -428,7 +449,42 @@
       "high_ratio": 0.0
     },
     {
+      "phrase": "استخدم",
+      "total": 5,
+      "in_high_eng": 0,
+      "in_low_eng": 5,
+      "high_ratio": 0.0
+    },
+    {
+      "phrase": "خصم على",
+      "total": 5,
+      "in_high_eng": 0,
+      "in_low_eng": 5,
+      "high_ratio": 0.0
+    },
+    {
+      "phrase": "استخدم كود",
+      "total": 5,
+      "in_high_eng": 0,
+      "in_low_eng": 5,
+      "high_ratio": 0.0
+    },
+    {
       "phrase": "ليب",
+      "total": 5,
+      "in_high_eng": 0,
+      "in_low_eng": 5,
+      "high_ratio": 0.0
+    },
+    {
+      "phrase": "التجربة",
+      "total": 5,
+      "in_high_eng": 0,
+      "in_low_eng": 5,
+      "high_ratio": 0.0
+    },
+    {
+      "phrase": "بيتزا",
       "total": 5,
       "in_high_eng": 0,
       "in_low_eng": 5,
@@ -470,6 +526,13 @@
       "high_ratio": 0.0
     },
     {
+      "phrase": "نفتخر",
+      "total": 4,
+      "in_high_eng": 0,
+      "in_low_eng": 4,
+      "high_ratio": 0.0
+    },
+    {
       "phrase": "تصير",
       "total": 4,
       "in_high_eng": 0,
@@ -503,69 +566,6 @@
       "in_high_eng": 0,
       "in_low_eng": 4,
       "high_ratio": 0.0
-    },
-    {
-      "phrase": "التجربة",
-      "total": 4,
-      "in_high_eng": 0,
-      "in_low_eng": 4,
-      "high_ratio": 0.0
-    },
-    {
-      "phrase": "نجد",
-      "total": 4,
-      "in_high_eng": 0,
-      "in_low_eng": 4,
-      "high_ratio": 0.0
-    },
-    {
-      "phrase": "كودو",
-      "total": 4,
-      "in_high_eng": 0,
-      "in_low_eng": 4,
-      "high_ratio": 0.0
-    },
-    {
-      "phrase": "هل",
-      "total": 3,
-      "in_high_eng": 0,
-      "in_low_eng": 3,
-      "high_ratio": 0.0
-    },
-    {
-      "phrase": "لبشرتك",
-      "total": 3,
-      "in_high_eng": 0,
-      "in_low_eng": 3,
-      "high_ratio": 0.0
-    },
-    {
-      "phrase": "مناسب",
-      "total": 3,
-      "in_high_eng": 0,
-      "in_low_eng": 3,
-      "high_ratio": 0.0
-    },
-    {
-      "phrase": "برائحة",
-      "total": 3,
-      "in_high_eng": 0,
-      "in_low_eng": 3,
-      "high_ratio": 0.0
-    },
-    {
-      "phrase": "يدوم",
-      "total": 3,
-      "in_high_eng": 0,
-      "in_low_eng": 3,
-      "high_ratio": 0.0
-    },
-    {
-      "phrase": "طول",
-      "total": 3,
-      "in_high_eng": 0,
-      "in_low_eng": 3,
-      "high_ratio": 0.0
     }
   ],
   "top_arabic_openers": [
@@ -578,53 +578,53 @@
   ],
   "opener_formula_table": [
     {
-      "formula": "community_invite",
-      "count": 6,
-      "high_engagement_rate": 0.667,
+      "formula": "heritage_occasion",
+      "count": 18,
+      "high_engagement_rate": 0.5,
       "avg_engagement": 0.75,
-      "lift_vs_baseline": 0.127
+      "lift_vs_baseline": -0.04
     },
     {
-      "formula": "heritage_occasion",
-      "count": 16,
-      "high_engagement_rate": 0.562,
-      "avg_engagement": 0.781,
-      "lift_vs_baseline": 0.022
+      "formula": "community_invite",
+      "count": 8,
+      "high_engagement_rate": 0.5,
+      "avg_engagement": 0.562,
+      "lift_vs_baseline": -0.04
     },
     {
       "formula": "other",
-      "count": 97,
-      "high_engagement_rate": 0.495,
-      "avg_engagement": 0.686,
-      "lift_vs_baseline": -0.045
-    },
-    {
-      "formula": "announcement",
-      "count": 22,
-      "high_engagement_rate": 0.409,
-      "avg_engagement": 0.591,
-      "lift_vs_baseline": -0.131
+      "count": 118,
+      "high_engagement_rate": 0.407,
+      "avg_engagement": 0.593,
+      "lift_vs_baseline": -0.133
     },
     {
       "formula": "sensory_emotive",
-      "count": 22,
-      "high_engagement_rate": 0.409,
-      "avg_engagement": 0.636,
-      "lift_vs_baseline": -0.131
+      "count": 25,
+      "high_engagement_rate": 0.36,
+      "avg_engagement": 0.62,
+      "lift_vs_baseline": -0.18
     },
     {
       "formula": "question",
-      "count": 30,
-      "high_engagement_rate": 0.4,
-      "avg_engagement": 0.633,
-      "lift_vs_baseline": -0.14
+      "count": 35,
+      "high_engagement_rate": 0.343,
+      "avg_engagement": 0.571,
+      "lift_vs_baseline": -0.197
+    },
+    {
+      "formula": "announcement",
+      "count": 27,
+      "high_engagement_rate": 0.333,
+      "avg_engagement": 0.537,
+      "lift_vs_baseline": -0.207
     }
   ],
   "occasion_keyword_clusters": {
     "evergreen": [
       {
         "keyword": "جديد",
-        "count": 18
+        "count": 22
       },
       {
         "keyword": "اليوم",
@@ -635,11 +635,11 @@
         "count": 13
       },
       {
-        "keyword": "الآن",
-        "count": 9
+        "keyword": "السعودية",
+        "count": 10
       },
       {
-        "keyword": "السعودية",
+        "keyword": "الآن",
         "count": 9
       },
       {
@@ -680,7 +680,7 @@
     "ramadan": [
       {
         "keyword": "رمضان",
-        "count": 7
+        "count": 9
       },
       {
         "keyword": "السعودية",
@@ -742,7 +742,15 @@
     "eid_al_fitr": [
       {
         "keyword": "عيد",
-        "count": 2
+        "count": 3
+      },
+      {
+        "keyword": "كل عام وأنتم",
+        "count": 1
+      },
+      {
+        "keyword": "جديد",
+        "count": 1
       }
     ],
     "eid_al_adha": [
@@ -774,17 +782,23 @@
         "keyword": "جديد",
         "count": 1
       }
+    ],
+    "saudi_flag_day": [
+      {
+        "keyword": "وطن",
+        "count": 1
+      }
     ]
   },
   "key_findings": [
     "High-engagement Arabic signal phrases: صباحا / آكمي / التالية",
-    "Low-engagement Arabic phrases to avoid: ترطيب / نيتشر / بريتي نيتشر",
-    "Best opener formula: 'community_invite' = 66% (n=6)",
+    "Low-engagement Arabic phrases to avoid: كود / ترطيب / بيتزاهت",
+    "Best opener formula: 'heritage_occasion' = 50% (n=18)",
     "Best performing Arabic opener: 'فلكسترا فوليوم اند كورف ماسكارا' (2 high-eng appearances)"
   ],
   "agency_rules": [
-    "Lead with 'community_invite' opener — best formula",
+    "Lead with 'heritage_occasion' opener — best formula",
     "Use these Arabic phrases: صباحا, آكمي, التالية, تبدأ من, سبتمبر",
-    "Avoid these Arabic phrases in captions: ترطيب, نيتشر, بريتي نيتشر"
+    "Avoid these Arabic phrases in captions: كود, ترطيب, بيتزاهت"
   ]
 }

@@ -1,279 +1,253 @@
 {
-  "total_obs": 564,
-  "global_avg": 0.672,
-  "heritage_uplift_vs_modern": 0.184,
+  "total_obs": 423,
+  "global_avg": 0.727,
+  "heritage_uplift_vs_modern": 0.187,
   "by_heritage_vs_modern": {
     "neutral": {
       "count": 3,
       "avg_engagement": 1.0,
-      "lift_vs_avg": 0.328,
+      "lift_vs_avg": 0.273,
       "high_rate": 1.0
     },
     "heritage": {
-      "count": 57,
-      "avg_engagement": 0.842,
-      "lift_vs_avg": 0.17,
-      "high_rate": 0.754
-    },
-    "modern": {
-      "count": 335,
-      "avg_engagement": 0.658,
-      "lift_vs_avg": -0.014,
-      "high_rate": 0.481
+      "count": 38,
+      "avg_engagement": 0.895,
+      "lift_vs_avg": 0.168,
+      "high_rate": 0.816
     },
     "blended": {
-      "count": 169,
-      "avg_engagement": 0.636,
-      "lift_vs_avg": -0.036,
-      "high_rate": 0.462
+      "count": 122,
+      "avg_engagement": 0.709,
+      "lift_vs_avg": -0.018,
+      "high_rate": 0.541
+    },
+    "modern": {
+      "count": 260,
+      "avg_engagement": 0.708,
+      "lift_vs_avg": -0.019,
+      "high_rate": 0.542
     }
   },
   "by_dialect": {
     "unknown": {
       "count": 50,
       "avg_engagement": 0.96,
-      "lift_vs_avg": 0.288,
+      "lift_vs_avg": 0.233,
       "high_rate": 0.92
+    },
+    "msa": {
+      "count": 17,
+      "avg_engagement": 0.941,
+      "lift_vs_avg": 0.214,
+      "high_rate": 0.882
     },
     "colloquial_arabic": {
       "count": 11,
       "avg_engagement": 0.909,
-      "lift_vs_avg": 0.237,
+      "lift_vs_avg": 0.182,
       "high_rate": 0.818
     },
-    "msa": {
-      "count": 41,
-      "avg_engagement": 0.72,
-      "lift_vs_avg": 0.048,
-      "high_rate": 0.61
-    },
     "najdi": {
-      "count": 334,
-      "avg_engagement": 0.645,
-      "lift_vs_avg": -0.027,
-      "high_rate": 0.461
+      "count": 231,
+      "avg_engagement": 0.71,
+      "lift_vs_avg": -0.017,
+      "high_rate": 0.537
+    },
+    "hejazi": {
+      "count": 34,
+      "avg_engagement": 0.662,
+      "lift_vs_avg": -0.065,
+      "high_rate": 0.529
     },
     "gulf": {
       "count": 37,
       "avg_engagement": 0.622,
-      "lift_vs_avg": -0.05,
+      "lift_vs_avg": -0.105,
       "high_rate": 0.378
     },
-    "hejazi": {
-      "count": 58,
+    "general_saudi": {
+      "count": 29,
       "avg_engagement": 0.621,
-      "lift_vs_avg": -0.051,
-      "high_rate": 0.483
+      "lift_vs_avg": -0.106,
+      "high_rate": 0.448
     },
     "standard": {
       "count": 24,
       "avg_engagement": 0.562,
-      "lift_vs_avg": -0.11,
+      "lift_vs_avg": -0.165,
       "high_rate": 0.417
-    },
-    "general_saudi": {
-      "count": 41,
-      "avg_engagement": 0.537,
-      "lift_vs_avg": -0.135,
-      "high_rate": 0.366
     },
     "saudi_colloquial": {
       "count": 23,
       "avg_engagement": 0.413,
-      "lift_vs_avg": -0.259,
+      "lift_vs_avg": -0.314,
       "high_rate": 0.13
-    },
-    "khaleeji": {
-      "count": 12,
-      "avg_engagement": 0.333,
-      "lift_vs_avg": -0.339,
-      "high_rate": 0.083
     }
   },
   "by_regional_orientation": {
     "najdi": {
       "count": 27,
       "avg_engagement": 0.907,
-      "lift_vs_avg": 0.235,
+      "lift_vs_avg": 0.18,
       "high_rate": 0.815
     },
     "general saudi": {
       "count": 11,
       "avg_engagement": 0.864,
-      "lift_vs_avg": 0.192,
+      "lift_vs_avg": 0.137,
       "high_rate": 0.727
     },
     "najd": {
       "count": 21,
       "avg_engagement": 0.81,
-      "lift_vs_avg": 0.138,
+      "lift_vs_avg": 0.083,
       "high_rate": 0.667
     },
     "riyadh": {
-      "count": 47,
-      "avg_engagement": 0.638,
-      "lift_vs_avg": -0.034,
-      "high_rate": 0.489
+      "count": 29,
+      "avg_engagement": 0.741,
+      "lift_vs_avg": 0.014,
+      "high_rate": 0.621
     },
     "general_saudi": {
-      "count": 460,
-      "avg_engagement": 0.608,
-      "lift_vs_avg": -0.064,
-      "high_rate": 0.433
-    },
-    "saudi_general": {
-      "count": 4,
-      "avg_engagement": 0.125,
-      "lift_vs_avg": -0.547,
-      "high_rate": 0.0
+      "count": 308,
+      "avg_engagement": 0.659,
+      "lift_vs_avg": -0.068,
+      "high_rate": 0.494
     }
   },
   "hvm_dialect_matrix": [
+    {
+      "heritage_vs_modern": "blended",
+      "dialect": "msa",
+      "count": 6,
+      "avg_engagement": 1.0,
+      "lift_vs_avg": 0.273
+    },
     {
       "heritage_vs_modern": "modern",
       "dialect": "unknown",
       "count": 49,
       "avg_engagement": 0.959,
-      "lift_vs_avg": 0.287
+      "lift_vs_avg": 0.232
     },
     {
       "heritage_vs_modern": "heritage",
-      "dialect": "msa",
-      "count": 9,
-      "avg_engagement": 0.944,
-      "lift_vs_avg": 0.272
+      "dialect": "najdi",
+      "count": 22,
+      "avg_engagement": 0.932,
+      "lift_vs_avg": 0.205
     },
     {
       "heritage_vs_modern": "heritage",
       "dialect": "standard",
       "count": 7,
       "avg_engagement": 0.929,
-      "lift_vs_avg": 0.257
+      "lift_vs_avg": 0.202
     },
     {
       "heritage_vs_modern": "modern",
       "dialect": "colloquial_arabic",
       "count": 10,
       "avg_engagement": 0.9,
-      "lift_vs_avg": 0.228
+      "lift_vs_avg": 0.173
     },
     {
       "heritage_vs_modern": "modern",
-      "dialect": "general_saudi",
-      "count": 7,
-      "avg_engagement": 0.857,
-      "lift_vs_avg": 0.185
-    },
-    {
-      "heritage_vs_modern": "heritage",
-      "dialect": "najdi",
-      "count": 30,
-      "avg_engagement": 0.85,
-      "lift_vs_avg": 0.178
+      "dialect": "msa",
+      "count": 8,
+      "avg_engagement": 0.875,
+      "lift_vs_avg": 0.148
     },
     {
       "heritage_vs_modern": "blended",
       "dialect": "hejazi",
-      "count": 6,
+      "count": 3,
       "avg_engagement": 0.833,
-      "lift_vs_avg": 0.161
+      "lift_vs_avg": 0.106
     },
     {
-      "heritage_vs_modern": "blended",
-      "dialect": "msa",
-      "count": 8,
-      "avg_engagement": 0.75,
-      "lift_vs_avg": 0.078
+      "heritage_vs_modern": "modern",
+      "dialect": "general_saudi",
+      "count": 6,
+      "avg_engagement": 0.833,
+      "lift_vs_avg": 0.106
     },
     {
       "heritage_vs_modern": "blended",
       "dialect": "najdi",
-      "count": 101,
-      "avg_engagement": 0.678,
-      "lift_vs_avg": 0.006
+      "count": 66,
+      "avg_engagement": 0.788,
+      "lift_vs_avg": 0.061
+    },
+    {
+      "heritage_vs_modern": "modern",
+      "dialect": "najdi",
+      "count": 106,
+      "avg_engagement": 0.675,
+      "lift_vs_avg": -0.052
     },
     {
       "heritage_vs_modern": "modern",
       "dialect": "gulf",
       "count": 23,
       "avg_engagement": 0.652,
-      "lift_vs_avg": -0.02
-    },
-    {
-      "heritage_vs_modern": "modern",
-      "dialect": "najdi",
-      "count": 161,
-      "avg_engagement": 0.612,
-      "lift_vs_avg": -0.06
-    },
-    {
-      "heritage_vs_modern": "modern",
-      "dialect": "msa",
-      "count": 23,
-      "avg_engagement": 0.609,
-      "lift_vs_avg": -0.063
+      "lift_vs_avg": -0.075
     },
     {
       "heritage_vs_modern": "modern",
       "dialect": "hejazi",
-      "count": 26,
-      "avg_engagement": 0.596,
-      "lift_vs_avg": -0.076
+      "count": 22,
+      "avg_engagement": 0.636,
+      "lift_vs_avg": -0.091
     },
     {
-      "heritage_vs_modern": "heritage",
-      "dialect": "hejazi",
-      "count": 6,
-      "avg_engagement": 0.583,
-      "lift_vs_avg": -0.089
+      "heritage_vs_modern": "blended",
+      "dialect": "general_saudi",
+      "count": 13,
+      "avg_engagement": 0.615,
+      "lift_vs_avg": -0.112
     },
     {
       "heritage_vs_modern": "blended",
       "dialect": "gulf",
       "count": 13,
       "avg_engagement": 0.577,
-      "lift_vs_avg": -0.095
+      "lift_vs_avg": -0.15
     },
     {
       "heritage_vs_modern": "blended",
       "dialect": "saudi_colloquial",
       "count": 12,
       "avg_engagement": 0.5,
-      "lift_vs_avg": -0.172
-    },
-    {
-      "heritage_vs_modern": "blended",
-      "dialect": "general_saudi",
-      "count": 20,
-      "avg_engagement": 0.5,
-      "lift_vs_avg": -0.172
+      "lift_vs_avg": -0.227
     },
     {
       "heritage_vs_modern": "modern",
       "dialect": "standard",
       "count": 15,
       "avg_engagement": 0.467,
-      "lift_vs_avg": -0.205
+      "lift_vs_avg": -0.26
     },
     {
       "heritage_vs_modern": "modern",
       "dialect": "saudi_colloquial",
       "count": 11,
       "avg_engagement": 0.318,
-      "lift_vs_avg": -0.354
+      "lift_vs_avg": -0.409
     }
   ],
   "hvm_by_occasion": {
     "ramadan": [
       {
         "hvm": "heritage",
-        "avg_engagement": 0.875,
-        "n": 12
+        "avg_engagement": 0.917,
+        "n": 6
       },
       {
         "hvm": "modern",
         "avg_engagement": 0.833,
-        "n": 6
+        "n": 3
       },
       {
         "hvm": "blended",
@@ -289,42 +263,18 @@
       },
       {
         "hvm": "heritage",
-        "avg_engagement": 0.767,
-        "n": 30
+        "avg_engagement": 0.833,
+        "n": 21
+      },
+      {
+        "hvm": "blended",
+        "avg_engagement": 0.706,
+        "n": 85
       },
       {
         "hvm": "modern",
-        "avg_engagement": 0.644,
-        "n": 288
-      },
-      {
-        "hvm": "blended",
-        "avg_engagement": 0.621,
-        "n": 128
-      }
-    ],
-    "eid_al_adha": [
-      {
-        "hvm": "heritage",
-        "avg_engagement": 1.0,
-        "n": 2
-      },
-      {
-        "hvm": "blended",
-        "avg_engagement": 0.375,
-        "n": 4
-      }
-    ],
-    "founding_day": [
-      {
-        "hvm": "blended",
-        "avg_engagement": 1.0,
-        "n": 2
-      },
-      {
-        "hvm": "heritage",
-        "avg_engagement": 0.917,
-        "n": 6
+        "avg_engagement": 0.701,
+        "n": 221
       }
     ],
     "brand_campaign": [
@@ -337,6 +287,18 @@
         "hvm": "blended",
         "avg_engagement": 0.5,
         "n": 3
+      }
+    ],
+    "founding_day": [
+      {
+        "hvm": "heritage",
+        "avg_engagement": 1.0,
+        "n": 4
+      },
+      {
+        "hvm": "blended",
+        "avg_engagement": 1.0,
+        "n": 2
       }
     ],
     "national_day": [
@@ -352,8 +314,8 @@
       },
       {
         "hvm": "blended",
-        "avg_engagement": 0.625,
-        "n": 4
+        "avg_engagement": 0.833,
+        "n": 3
       }
     ],
     "sporting_event": [
@@ -371,36 +333,24 @@
     "summer_campaign": [
       {
         "hvm": "modern",
-        "avg_engagement": 0.8,
-        "n": 10
+        "avg_engagement": 0.833,
+        "n": 9
       }
     ],
     "eid_al_fitr": [
       {
+        "hvm": "blended",
+        "avg_engagement": 1.0,
+        "n": 3
+      },
+      {
         "hvm": "heritage",
         "avg_engagement": 1.0,
-        "n": 3
-      },
-      {
-        "hvm": "blended",
-        "avg_engagement": 1.0,
-        "n": 4
+        "n": 2
       },
       {
         "hvm": "modern",
         "avg_engagement": 1.0,
-        "n": 3
-      }
-    ],
-    "graduation_season": [
-      {
-        "hvm": "modern",
-        "avg_engagement": 1.0,
-        "n": 4
-      },
-      {
-        "hvm": "blended",
-        "avg_engagement": 0.75,
         "n": 2
       }
     ]
@@ -414,18 +364,18 @@
       },
       {
         "hvm": "heritage",
-        "avg_engagement": 0.858,
-        "n": 53
-      },
-      {
-        "hvm": "modern",
-        "avg_engagement": 0.696,
-        "n": 275
+        "avg_engagement": 0.926,
+        "n": 34
       },
       {
         "hvm": "blended",
-        "avg_engagement": 0.678,
-        "n": 143
+        "avg_engagement": 0.757,
+        "n": 103
+      },
+      {
+        "hvm": "modern",
+        "avg_engagement": 0.75,
+        "n": 216
       }
     ],
     "retail": [
@@ -436,20 +386,20 @@
       },
       {
         "hvm": "modern",
-        "avg_engagement": 0.8,
-        "n": 5
+        "avg_engagement": 0.75,
+        "n": 4
       },
       {
         "hvm": "blended",
-        "avg_engagement": 0.444,
-        "n": 18
+        "avg_engagement": 0.545,
+        "n": 11
       }
     ],
     "beauty": [
       {
         "hvm": "modern",
-        "avg_engagement": 0.455,
-        "n": 55
+        "avg_engagement": 0.475,
+        "n": 40
       },
       {
         "hvm": "blended",
@@ -484,8 +434,8 @@
     "retail": [
       {
         "dialect": "general_saudi",
-        "avg_engagement": 0.486,
-        "n": 37
+        "avg_engagement": 0.56,
+        "n": 25
       }
     ],
     "beauty": [
@@ -497,15 +447,10 @@
       {
         "dialect": "hejazi",
         "avg_engagement": 0.429,
-        "n": 28
+        "n": 14
       },
       {
         "dialect": "standard",
-        "avg_engagement": 0.409,
-        "n": 11
-      },
-      {
-        "dialect": "msa",
         "avg_engagement": 0.409,
         "n": 11
       }
@@ -516,12 +461,12 @@
       {
         "dialect": "hejazi",
         "avg_engagement": 1.0,
-        "n": 3
+        "n": 2
       },
       {
         "dialect": "msa",
-        "avg_engagement": 0.929,
-        "n": 7
+        "avg_engagement": 1.0,
+        "n": 3
       }
     ],
     "evergreen": [
@@ -536,13 +481,6 @@
         "n": 11
       }
     ],
-    "founding_day": [
-      {
-        "dialect": "najdi",
-        "avg_engagement": 1.0,
-        "n": 5
-      }
-    ],
     "brand_campaign": [
       {
         "dialect": "standard",
@@ -550,13 +488,14 @@
         "n": 2
       }
     ],
-    "national_day": [
+    "founding_day": [
       {
-        "dialect": "hejazi",
+        "dialect": "najdi",
         "avg_engagement": 1.0,
-        "n": 2
+        "n": 5
       }
     ],
+    "national_day": [],
     "sporting_event": [
       {
         "dialect": "saudi_colloquial",
@@ -572,50 +511,21 @@
       },
       {
         "dialect": "najdi",
-        "avg_engagement": 0.75,
-        "n": 8
+        "avg_engagement": 0.786,
+        "n": 7
       }
     ],
     "eid_al_fitr": [
       {
-        "dialect": "msa",
-        "avg_engagement": 1.0,
-        "n": 2
-      },
-      {
         "dialect": "najdi",
         "avg_engagement": 1.0,
-        "n": 5
-      }
-    ],
-    "graduation_season": [
-      {
-        "dialect": "najdi",
-        "avg_engagement": 1.0,
-        "n": 4
-      },
-      {
-        "dialect": "saudi_colloquial",
-        "avg_engagement": 0.75,
-        "n": 2
-      }
-    ],
-    "national_sports_day": [
-      {
-        "dialect": "gulf",
-        "avg_engagement": 0.0,
-        "n": 3
-      },
-      {
-        "dialect": "khaleeji",
-        "avg_engagement": 0.0,
         "n": 3
       }
     ]
   },
   "agency_rules": [
-    "Heritage beats modern by +18% (84% vs 66%) — use heritage cues in briefs",
+    "Heritage beats modern by +19% (90% vs 71%) — use heritage cues in briefs",
     "Best dialect signal: 'unknown' (96%)",
-    "Best cultural combo: modern + unknown (96%, n=49)"
+    "Best cultural combo: blended + msa (100%, n=6)"
   ]
 }

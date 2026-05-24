@@ -62,6 +62,14 @@
         },
         "source_url": {
           "type": "string"
+        },
+        "video_duration_seconds": {
+          "type": ["integer", "null"],
+          "description": "Duration in seconds for video/reel content. Null for image/carousel."
+        },
+        "aspect_ratio": {
+          "type": ["string", "null"],
+          "description": "e.g. square_1x1 / portrait_4x5 / vertical_9x16 / landscape_16x9"
         }
       }
     },
@@ -140,6 +148,36 @@
         },
         "call_to_action_present": {
           "type": "boolean"
+        },
+        "caption_text": {
+          "type": ["string", "null"],
+          "description": "Full verbatim caption text as written on the post (Arabic, English, or both). Null if not yet extracted."
+        },
+        "caption_word_count": {
+          "type": ["integer", "null"],
+          "description": "Word count of caption_text. Null if caption_text is null."
+        },
+        "hashtag_count": {
+          "type": ["integer", "null"],
+          "description": "Number of hashtags in caption. Null if caption_text is null."
+        },
+        "has_emoji": {
+          "type": ["boolean", "null"],
+          "description": "Whether the caption contains emoji. Null if caption_text is null."
+        },
+        "audio_strategy": {
+          "type": ["object", "null"],
+          "description": "For video/reel content only. Null for image/carousel.",
+          "additionalProperties": false,
+          "properties": {
+            "has_voiceover": { "type": ["boolean", "null"] },
+            "voiceover_language": { "type": ["string", "null"] },
+            "music_type": {
+              "type": ["string", "null"],
+              "description": "trending_sound / original_score / ambient / silence / sound_effects"
+            },
+            "has_subtitles": { "type": ["boolean", "null"] }
+          }
         }
       }
     },

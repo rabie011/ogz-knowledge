@@ -94,7 +94,8 @@ def main():
         ("Master signal table",         "build_master_signal_table.py"),
         ("Engagement signals",          "build_engagement_signals.py"),
         ("Intelligence playbook",       "build_intelligence_playbook_v2.py"),
-        ("Production brief engine",     "build_production_brief_engine.py"),  # test run only
+        # NOTE: build_production_brief_engine.py is interactive (requires --sector/--occasion args)
+        # Run manually: python3 scripts/build_production_brief_engine.py --sector f_and_b --occasion ramadan
     ]
     for name, script in SYNTH_SCRIPTS:
         results.append(run(name, script))

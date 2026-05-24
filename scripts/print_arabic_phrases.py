@@ -144,14 +144,16 @@ def main():
         print(f"  TOP PHRASES BY OCCASION ({occ_key}) — from analytics log")
         print(f"  {'─'*66}")
         for p in npi_occ_phrases:
-            print(f"  {p.get('phrase',''):<38}  {p.get('avg_engagement',0):.0%}  n={p.get('count',0)}")
+            n = p.get("count") or p.get("n", 0)
+            print(f"  {p.get('phrase',''):<38}  {p.get('avg_engagement',0):.0%}  n={n}")
         print()
 
     if npi_sec_phrases:
         print(f"  TOP PHRASES BY SECTOR ({sec_key}) — from analytics log")
         print(f"  {'─'*66}")
         for p in npi_sec_phrases:
-            print(f"  {p.get('phrase',''):<38}  {p.get('avg_engagement',0):.0%}  n={p.get('count',0)}")
+            n = p.get("count") or p.get("n", 0)
+            print(f"  {p.get('phrase',''):<38}  {p.get('avg_engagement',0):.0%}  n={n}")
         print()
 
     if not npi_occ_phrases and not npi_sec_phrases and npi_elite:

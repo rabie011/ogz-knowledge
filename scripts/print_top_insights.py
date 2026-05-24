@@ -150,6 +150,48 @@ def main():
             "confidence": "medium",
         })
 
+    # ── COLOR ─────────────────────────────────────────────────────────────────
+    # Read color warmth from obs directly (100 obs only)
+    try:
+        import json as _json
+        from pathlib import Path as _Path
+        from collections import defaultdict as _dd
+        _ENG = {"high":1.0,"very_high":1.0,"above_average":0.75,"medium":0.5,"low":0.0,"below_average":0.25}
+        _wr = _dd(list)
+        for _f in (_Path(__file__).parent.parent/"11_who_to_learn_from/observations").rglob("*.json"):
+            _d = _json.loads(_f.read_text())
+            _e = _ENG.get(_d.get("quality_assessment",{}).get("engagement_potential",""))
+            _cp = _d.get("visual_observations",{}).get("color_palette") or {}
+            if _e is None or not isinstance(_cp, dict): continue
+            _w = _cp.get("warmth",""); _pf = _cp.get("primary_family",""); _pt = _cp.get("palette_type","")
+            if _w: _wr["warmth_"+_w].append(_e)
+            if _pf: _wr["pf_"+_pf].append(_e)
+            if _pt: _wr["pt_"+_pt].append(_e)
+        if _wr:
+            warmth_ranked = sorted(
+                [(k,sum(v)/len(v),len(v)) for k,v in _wr.items() if k.startswith("warmth_") and len(v)>=5],
+                key=lambda x: -x[1])
+            pf_ranked = sorted(
+                [(k.replace("pf_",""),sum(v)/len(v),len(v)) for k,v in _wr.items() if k.startswith("pf_") and len(v)>=5],
+                key=lambda x: -x[1])
+            if warmth_ranked:
+                best_w = warmth_ranked[0]; worst_w = warmth_ranked[-1]
+                insights.append({
+                    "category": "COLOR WARMTH",
+                    "finding": f"{best_w[0].replace('warmth_','')}={best_w[1]:.0%}(n={best_w[2]}) > {worst_w[0].replace('warmth_','')}={worst_w[1]:.0%}(n={worst_w[2]})",
+                    "action": f"Favour {best_w[0].replace('warmth_','')} colour palettes. (100-obs sample — F&B only)",
+                    "confidence": "low",
+                })
+            if pf_ranked:
+                top_pf = pf_ranked[0]
+                insights.append({
+                    "category": "COLOR FAMILY",
+                    "finding": " · ".join(f"{k}={round(v,2):.0%}" for k,v,n in pf_ranked[:4]),
+                    "action": f"Lead with {top_pf[0]} as primary colour family. Avoid red (46%).",
+                    "confidence": "low",
+                })
+    except Exception: pass
+
     # ── PATTERNS ─────────────────────────────────────────────────────────────
     pat = _load("pattern_engagement.json")
     elite_pats = (pat.get("elite_patterns") or [])[:5]

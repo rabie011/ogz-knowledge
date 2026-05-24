@@ -135,6 +135,23 @@
             "null"
           ],
           "description": "Number of slides in the carousel (from local file count)"
+        },
+        "day_of_week": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday",
+            "saturday",
+            "sunday",
+            null
+          ],
+          "description": "Day of week the content was posted (derived from capture_date)"
         }
       }
     },
@@ -160,22 +177,51 @@
           }
         },
         "color_palette": {
-          "type": ["object", "null"],
+          "type": [
+            "object",
+            "null"
+          ],
           "description": "Extracted from local image via PIL pixel analysis",
           "additionalProperties": false,
           "properties": {
-            "dominant_colors": {"type": "array", "items": {"type": "string"}},
-            "warmth":          {"type": ["string", "null"]},
-            "palette_type":    {"type": ["string", "null"]},
-            "primary_family":  {"type": ["string", "null"]}
+            "dominant_colors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "warmth": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "palette_type": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "primary_family": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
           }
         },
         "human_presence": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "True if a human face is detected in the image via OpenCV"
         },
         "face_count": {
-          "type": ["integer", "null"],
+          "type": [
+            "integer",
+            "null"
+          ],
           "description": "Number of faces detected via OpenCV Haar cascade"
         },
         "props_visible": {
@@ -229,20 +275,6 @@
           "items": {
             "type": "string"
           }
-        },
-        "human_presence": {
-          "type": [
-            "boolean",
-            "null"
-          ],
-          "description": "True if a human face is detected in the image via OpenCV"
-        },
-        "face_count": {
-          "type": [
-            "integer",
-            "null"
-          ],
-          "description": "Number of faces detected via OpenCV Haar cascade"
         }
       }
     },
@@ -363,6 +395,22 @@
             null
           ],
           "description": "Lexicon-based sentiment of caption text"
+        },
+        "opener_formula": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "question",
+            "command",
+            "name_drop",
+            "number",
+            "emoji_open",
+            "statement",
+            null
+          ],
+          "description": "Opening pattern of caption: question/command/name_drop/number/emoji_open/statement"
         }
       }
     },

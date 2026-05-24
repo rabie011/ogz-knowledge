@@ -4,30 +4,30 @@
   "methodology_note": "All lift values are vs per-sector baseline (not corpus baseline). F&B baseline ~70%, beauty ~18%, retail ~20%. Cross-sector signals require lift in ≥2 sectors.",
   "sector_summaries": {
     "beauty": {
-      "total_obs": 50,
+      "total_obs": 87,
       "with_caption": 50,
-      "without_caption": 0,
+      "without_caption": 37,
       "sector_baseline": 0.18,
       "avg_engagement": 0.44
     },
     "f_and_b": {
-      "total_obs": 399,
-      "with_caption": 61,
-      "without_caption": 338,
-      "sector_baseline": 0.77,
-      "avg_engagement": 0.877
+      "total_obs": 524,
+      "with_caption": 76,
+      "without_caption": 448,
+      "sector_baseline": 0.684,
+      "avg_engagement": 0.809
     },
     "retail": {
-      "total_obs": 25,
+      "total_obs": 37,
       "with_caption": 0,
-      "without_caption": 25,
+      "without_caption": 37,
       "sector_baseline": null,
       "avg_engagement": null
     }
   },
   "sector_baselines": {
     "beauty": 0.18,
-    "f_and_b": 0.77,
+    "f_and_b": 0.684,
     "retail": null
   },
   "per_sector_analysis": {
@@ -134,106 +134,113 @@
           "count": 5,
           "high_engagement_rate": 1.0,
           "avg_engagement": 1.0,
-          "lift_vs_sector_baseline": 0.23
+          "lift_vs_sector_baseline": 0.316
         },
         {
           "bucket": "medium_11_30",
           "count": 31,
           "high_engagement_rate": 0.774,
           "avg_engagement": 0.871,
-          "lift_vs_sector_baseline": 0.004
+          "lift_vs_sector_baseline": 0.09
         },
         {
           "bucket": "long_31_75",
           "count": 16,
           "high_engagement_rate": 0.75,
           "avg_engagement": 0.875,
-          "lift_vs_sector_baseline": -0.02
+          "lift_vs_sector_baseline": 0.066
         },
         {
           "bucket": "short_1_10",
           "count": 9,
           "high_engagement_rate": 0.667,
           "avg_engagement": 0.833,
-          "lift_vs_sector_baseline": -0.103
+          "lift_vs_sector_baseline": -0.017
+        },
+        {
+          "bucket": "empty",
+          "count": 15,
+          "high_engagement_rate": 0.333,
+          "avg_engagement": 0.533,
+          "lift_vs_sector_baseline": -0.351
         }
       ],
       "hashtag_count": [
-        {
-          "bucket": "0",
-          "count": 14,
-          "high_engagement_rate": 0.857,
-          "avg_engagement": 0.929,
-          "lift_vs_sector_baseline": 0.087
-        },
         {
           "bucket": "1_5",
           "count": 43,
           "high_engagement_rate": 0.767,
           "avg_engagement": 0.872,
-          "lift_vs_sector_baseline": -0.003
+          "lift_vs_sector_baseline": 0.083
         },
         {
           "bucket": "6_15",
           "count": 3,
           "high_engagement_rate": 0.667,
           "avg_engagement": 0.833,
-          "lift_vs_sector_baseline": -0.103
+          "lift_vs_sector_baseline": -0.017
+        },
+        {
+          "bucket": "0",
+          "count": 29,
+          "high_engagement_rate": 0.586,
+          "avg_engagement": 0.724,
+          "lift_vs_sector_baseline": -0.098
         },
         {
           "bucket": "16plus",
           "count": 1,
           "high_engagement_rate": 0.0,
           "avg_engagement": 0.5,
-          "lift_vs_sector_baseline": -0.77
+          "lift_vs_sector_baseline": -0.684
         }
       ],
       "emoji_presence": [
-        {
-          "bucket": "no_emoji",
-          "count": 6,
-          "high_engagement_rate": 0.833,
-          "avg_engagement": 0.917,
-          "lift_vs_sector_baseline": 0.063
-        },
         {
           "bucket": "has_emoji",
           "count": 55,
           "high_engagement_rate": 0.764,
           "avg_engagement": 0.873,
-          "lift_vs_sector_baseline": -0.006
+          "lift_vs_sector_baseline": 0.08
+        },
+        {
+          "bucket": "no_emoji",
+          "count": 21,
+          "high_engagement_rate": 0.476,
+          "avg_engagement": 0.643,
+          "lift_vs_sector_baseline": -0.208
         }
       ],
       "caption_language": [
-        {
-          "bucket": "arabic",
-          "count": 42,
-          "high_engagement_rate": 0.786,
-          "avg_engagement": 0.881,
-          "lift_vs_sector_baseline": 0.016
-        },
         {
           "bucket": "bilingual",
           "count": 19,
           "high_engagement_rate": 0.737,
           "avg_engagement": 0.868,
-          "lift_vs_sector_baseline": -0.033
+          "lift_vs_sector_baseline": 0.053
+        },
+        {
+          "bucket": "arabic",
+          "count": 57,
+          "high_engagement_rate": 0.667,
+          "avg_engagement": 0.789,
+          "lift_vs_sector_baseline": -0.017
         }
       ],
       "opener_style": [
         {
-          "bucket": "question_open",
-          "count": 6,
-          "high_engagement_rate": 0.833,
-          "avg_engagement": 0.917,
-          "lift_vs_sector_baseline": 0.063
+          "bucket": "statement_open",
+          "count": 64,
+          "high_engagement_rate": 0.688,
+          "avg_engagement": 0.812,
+          "lift_vs_sector_baseline": 0.004
         },
         {
-          "bucket": "statement_open",
-          "count": 55,
-          "high_engagement_rate": 0.764,
-          "avg_engagement": 0.873,
-          "lift_vs_sector_baseline": -0.006
+          "bucket": "question_open",
+          "count": 12,
+          "high_engagement_rate": 0.667,
+          "avg_engagement": 0.792,
+          "lift_vs_sector_baseline": -0.017
         }
       ]
     }
@@ -243,9 +250,9 @@
       {
         "bucket": "bilingual",
         "sectors_confirmed": 2,
-        "all_positive_lift": false,
+        "all_positive_lift": true,
         "all_negative_lift": false,
-        "avg_lift_across_sectors": -0.015,
+        "avg_lift_across_sectors": 0.028,
         "per_sector": [
           {
             "sector": "beauty",
@@ -255,12 +262,12 @@
           },
           {
             "sector": "f_and_b",
-            "lift": -0.033,
+            "lift": 0.053,
             "count": 19,
             "rate": 0.737
           }
         ],
-        "verdict": "MIXED_INCONCLUSIVE"
+        "verdict": "TRUE_SIGNAL_POSITIVE"
       }
     ],
     "caption_length": [
@@ -269,7 +276,7 @@
         "sectors_confirmed": 2,
         "all_positive_lift": true,
         "all_negative_lift": false,
-        "avg_lift_across_sectors": 0.225,
+        "avg_lift_across_sectors": 0.268,
         "per_sector": [
           {
             "sector": "beauty",
@@ -279,7 +286,7 @@
           },
           {
             "sector": "f_and_b",
-            "lift": 0.23,
+            "lift": 0.316,
             "count": 5,
             "rate": 1.0
           }
@@ -291,7 +298,7 @@
         "sectors_confirmed": 2,
         "all_positive_lift": true,
         "all_negative_lift": false,
-        "avg_lift_across_sectors": 0.112,
+        "avg_lift_across_sectors": 0.155,
         "per_sector": [
           {
             "sector": "beauty",
@@ -301,7 +308,7 @@
           },
           {
             "sector": "f_and_b",
-            "lift": 0.004,
+            "lift": 0.09,
             "count": 31,
             "rate": 0.774
           }
@@ -312,8 +319,8 @@
         "bucket": "long_31_75",
         "sectors_confirmed": 2,
         "all_positive_lift": false,
-        "all_negative_lift": true,
-        "avg_lift_across_sectors": -0.057,
+        "all_negative_lift": false,
+        "avg_lift_across_sectors": -0.014,
         "per_sector": [
           {
             "sector": "beauty",
@@ -323,12 +330,12 @@
           },
           {
             "sector": "f_and_b",
-            "lift": -0.02,
+            "lift": 0.066,
             "count": 16,
             "rate": 0.75
           }
         ],
-        "verdict": "TRUE_SIGNAL_NEGATIVE"
+        "verdict": "MIXED_INCONCLUSIVE"
       }
     ],
     "hashtag_count": [
@@ -336,8 +343,8 @@
         "bucket": "0",
         "sectors_confirmed": 2,
         "all_positive_lift": false,
-        "all_negative_lift": false,
-        "avg_lift_across_sectors": 0.016,
+        "all_negative_lift": true,
+        "avg_lift_across_sectors": -0.076,
         "per_sector": [
           {
             "sector": "beauty",
@@ -347,21 +354,21 @@
           },
           {
             "sector": "f_and_b",
-            "lift": 0.087,
-            "count": 14,
-            "rate": 0.857
+            "lift": -0.098,
+            "count": 29,
+            "rate": 0.586
           }
         ],
-        "verdict": "MIXED_INCONCLUSIVE"
+        "verdict": "TRUE_SIGNAL_NEGATIVE"
       }
     ],
     "emoji_presence": [
       {
         "bucket": "no_emoji",
         "sectors_confirmed": 2,
-        "all_positive_lift": true,
+        "all_positive_lift": false,
         "all_negative_lift": false,
-        "avg_lift_across_sectors": 0.033,
+        "avg_lift_across_sectors": -0.103,
         "per_sector": [
           {
             "sector": "beauty",
@@ -371,19 +378,19 @@
           },
           {
             "sector": "f_and_b",
-            "lift": 0.063,
-            "count": 6,
-            "rate": 0.833
+            "lift": -0.208,
+            "count": 21,
+            "rate": 0.476
           }
         ],
-        "verdict": "TRUE_SIGNAL_POSITIVE"
+        "verdict": "MIXED_INCONCLUSIVE"
       },
       {
         "bucket": "has_emoji",
         "sectors_confirmed": 2,
         "all_positive_lift": false,
-        "all_negative_lift": true,
-        "avg_lift_across_sectors": -0.004,
+        "all_negative_lift": false,
+        "avg_lift_across_sectors": 0.04,
         "per_sector": [
           {
             "sector": "beauty",
@@ -393,12 +400,12 @@
           },
           {
             "sector": "f_and_b",
-            "lift": -0.006,
+            "lift": 0.08,
             "count": 55,
             "rate": 0.764
           }
         ],
-        "verdict": "TRUE_SIGNAL_NEGATIVE"
+        "verdict": "MIXED_INCONCLUSIVE"
       }
     ],
     "opener_style": [
@@ -406,8 +413,8 @@
         "bucket": "question_open",
         "sectors_confirmed": 2,
         "all_positive_lift": false,
-        "all_negative_lift": false,
-        "avg_lift_across_sectors": 0.013,
+        "all_negative_lift": true,
+        "avg_lift_across_sectors": -0.027,
         "per_sector": [
           {
             "sector": "beauty",
@@ -417,19 +424,19 @@
           },
           {
             "sector": "f_and_b",
-            "lift": 0.063,
-            "count": 6,
-            "rate": 0.833
+            "lift": -0.017,
+            "count": 12,
+            "rate": 0.667
           }
         ],
-        "verdict": "MIXED_INCONCLUSIVE"
+        "verdict": "TRUE_SIGNAL_NEGATIVE"
       },
       {
         "bucket": "statement_open",
         "sectors_confirmed": 2,
-        "all_positive_lift": false,
+        "all_positive_lift": true,
         "all_negative_lift": false,
-        "avg_lift_across_sectors": 0.0,
+        "avg_lift_across_sectors": 0.005,
         "per_sector": [
           {
             "sector": "beauty",
@@ -439,31 +446,24 @@
           },
           {
             "sector": "f_and_b",
-            "lift": -0.006,
-            "count": 55,
-            "rate": 0.764
+            "lift": 0.004,
+            "count": 64,
+            "rate": 0.688
           }
         ],
-        "verdict": "MIXED_INCONCLUSIVE"
+        "verdict": "TRUE_SIGNAL_POSITIVE"
       }
     ]
   },
-  "confound_warnings": [
-    {
-      "dimension": "caption_language",
-      "value": "bilingual",
-      "warning": "'bilingual' language shows mixed sector results (avg lift=-2%). Original 'Arabic = best language' finding was likely a sector confound (F&B accounts post in Arabic AND have high engagement).",
-      "verdict": "MIXED_INCONCLUSIVE"
-    }
-  ],
+  "confound_warnings": [],
   "key_findings": [
-    "Sector baselines differ hugely: f_and_b=77% vs beauty=18% — must always control for sector before interpreting caption signals",
-    "Caption length cross-sector winner: 'very_long_75plus' (avg +22pp)",
-    "⚠️  CONFOUND: 'bilingual' language shows mixed sector results (avg lift=-2%). Original 'Arabic = best language' finding was likely a sector confound (F&B accounts post in Arabic AND have high engagement)."
+    "Sector baselines differ hugely: f_and_b=68% vs beauty=18% — must always control for sector before interpreting caption signals",
+    "Cross-sector language signal: 'bilingual' lifts engagement in ALL sectors (avg +2pp)",
+    "Caption length cross-sector winner: 'very_long_75plus' (avg +26pp)"
   ],
   "agency_rules_universal": [
-    "[caption_length] Use 'very_long_75plus' — true cross-sector lift (+22pp average)",
-    "[caption_length] Use 'medium_11_30' — true cross-sector lift (+11pp average)"
+    "[caption_length] Use 'very_long_75plus' — true cross-sector lift (+26pp average)",
+    "[caption_length] Use 'medium_11_30' — true cross-sector lift (+15pp average)"
   ],
   "agency_rules_by_sector": {
     "beauty": [
@@ -471,10 +471,10 @@
       "[hashtag_count] '6_15' = 27% (+9pp vs beauty baseline)"
     ],
     "f_and_b": [
-      "[caption_length] 'very_long_75plus' = 100% (+23pp vs f_and_b baseline)",
-      "[hashtag_count] '0' = 85% (+8pp vs f_and_b baseline)",
-      "[emoji_presence] 'no_emoji' = 83% (+6pp vs f_and_b baseline)",
-      "[opener_style] 'question_open' = 83% (+6pp vs f_and_b baseline)"
+      "[caption_length] 'very_long_75plus' = 100% (+31pp vs f_and_b baseline)",
+      "[hashtag_count] '1_5' = 76% (+8pp vs f_and_b baseline)",
+      "[emoji_presence] 'has_emoji' = 76% (+8pp vs f_and_b baseline)",
+      "[caption_language] 'bilingual' = 73% (+5pp vs f_and_b baseline)"
     ]
   }
 }

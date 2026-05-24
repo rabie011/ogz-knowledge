@@ -2,27 +2,13 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 474,
-  "arabic_caption_obs": 109,
+  "total_obs": 648,
+  "arabic_caption_obs": 124,
   "signal_phrases_high_eng": [
-    {
-      "phrase": "ريال",
-      "total": 11,
-      "in_high_eng": 11,
-      "in_low_eng": 0,
-      "high_ratio": 1.0
-    },
     {
       "phrase": "الساعة",
       "total": 7,
       "in_high_eng": 7,
-      "in_low_eng": 0,
-      "high_ratio": 1.0
-    },
-    {
-      "phrase": "تبدأ",
-      "total": 6,
-      "in_high_eng": 6,
       "in_low_eng": 0,
       "high_ratio": 1.0
     },
@@ -118,13 +104,6 @@
       "high_ratio": 1.0
     },
     {
-      "phrase": "فيه",
-      "total": 4,
-      "in_high_eng": 4,
-      "in_low_eng": 0,
-      "high_ratio": 1.0
-    },
-    {
       "phrase": "طريق",
       "total": 4,
       "in_high_eng": 4,
@@ -161,6 +140,13 @@
     },
     {
       "phrase": "للوجه بالورد",
+      "total": 3,
+      "in_high_eng": 3,
+      "in_low_eng": 0,
+      "high_ratio": 1.0
+    },
+    {
+      "phrase": "شاركنا",
       "total": 3,
       "in_high_eng": 3,
       "in_low_eng": 0,
@@ -350,6 +336,20 @@
     },
     {
       "phrase": "من تصوير",
+      "total": 3,
+      "in_high_eng": 3,
+      "in_low_eng": 0,
+      "high_ratio": 1.0
+    },
+    {
+      "phrase": "كثير",
+      "total": 3,
+      "in_high_eng": 3,
+      "in_low_eng": 0,
+      "high_ratio": 1.0
+    },
+    {
+      "phrase": "الطلبات",
       "total": 3,
       "in_high_eng": 3,
       "in_low_eng": 0,
@@ -578,20 +578,6 @@
   ],
   "opener_formula_table": [
     {
-      "formula": "sensory_emotive",
-      "count": 9,
-      "high_engagement_rate": 0.778,
-      "avg_engagement": 0.889,
-      "lift_vs_baseline": 0.238
-    },
-    {
-      "formula": "heritage_occasion",
-      "count": 6,
-      "high_engagement_rate": 0.667,
-      "avg_engagement": 0.833,
-      "lift_vs_baseline": 0.127
-    },
-    {
       "formula": "community_invite",
       "count": 6,
       "high_engagement_rate": 0.667,
@@ -599,25 +585,39 @@
       "lift_vs_baseline": 0.127
     },
     {
-      "formula": "announcement",
-      "count": 14,
-      "high_engagement_rate": 0.571,
-      "avg_engagement": 0.679,
-      "lift_vs_baseline": 0.031
+      "formula": "heritage_occasion",
+      "count": 8,
+      "high_engagement_rate": 0.625,
+      "avg_engagement": 0.812,
+      "lift_vs_baseline": 0.085
     },
     {
-      "formula": "other",
-      "count": 62,
-      "high_engagement_rate": 0.435,
-      "avg_engagement": 0.637,
-      "lift_vs_baseline": -0.105
+      "formula": "sensory_emotive",
+      "count": 12,
+      "high_engagement_rate": 0.583,
+      "avg_engagement": 0.792,
+      "lift_vs_baseline": 0.043
+    },
+    {
+      "formula": "announcement",
+      "count": 15,
+      "high_engagement_rate": 0.533,
+      "avg_engagement": 0.633,
+      "lift_vs_baseline": -0.007
     },
     {
       "formula": "question",
-      "count": 12,
-      "high_engagement_rate": 0.417,
-      "avg_engagement": 0.625,
-      "lift_vs_baseline": -0.123
+      "count": 18,
+      "high_engagement_rate": 0.444,
+      "avg_engagement": 0.639,
+      "lift_vs_baseline": -0.096
+    },
+    {
+      "formula": "other",
+      "count": 65,
+      "high_engagement_rate": 0.431,
+      "avg_engagement": 0.623,
+      "lift_vs_baseline": -0.109
     }
   ],
   "occasion_keyword_clusters": {
@@ -714,17 +714,35 @@
         "keyword": "عيد",
         "count": 1
       }
+    ],
+    "eid_al_adha": [
+      {
+        "keyword": "عيد",
+        "count": 2
+      }
+    ],
+    "sporting_event": [
+      {
+        "keyword": "الآن",
+        "count": 1
+      }
+    ],
+    "none": [
+      {
+        "keyword": "اليوم",
+        "count": 1
+      }
     ]
   },
   "key_findings": [
-    "High-engagement Arabic signal phrases: ريال / الساعة / تبدأ",
+    "High-engagement Arabic signal phrases: الساعة / التالية / تبدأ من",
     "Low-engagement Arabic phrases to avoid: ترطيب / نيتشر / بريتي نيتشر",
-    "Best opener formula: 'sensory_emotive' = 77% (n=9)",
+    "Best opener formula: 'community_invite' = 66% (n=6)",
     "Best performing Arabic opener: 'فلكسترا فوليوم اند كورف ماسكارا' (2 high-eng appearances)"
   ],
   "agency_rules": [
-    "Lead with 'sensory_emotive' opener — best formula",
-    "Use these Arabic phrases: ريال, الساعة, تبدأ, التالية, تبدأ من",
+    "Lead with 'community_invite' opener — best formula",
+    "Use these Arabic phrases: الساعة, التالية, تبدأ من, سبتمبر, صباحا",
     "Avoid these Arabic phrases in captions: ترطيب, نيتشر, بريتي نيتشر"
   ]
 }

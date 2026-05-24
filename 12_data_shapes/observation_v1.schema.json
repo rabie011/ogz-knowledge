@@ -275,6 +275,27 @@
           "items": {
             "type": "string"
           }
+        },
+        "visual_complexity_score": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "props_count + character_count + text_overlay_count"
+        },
+        "visual_complexity": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "minimal",
+            "simple",
+            "moderate",
+            "complex",
+            null
+          ],
+          "description": "minimal (0-1) / simple (2-3) / moderate (4-6) / complex (7+)"
         }
       }
     },

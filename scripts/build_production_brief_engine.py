@@ -134,7 +134,7 @@ def generate_brief(sector: str, occasion: str, goal: str, account: str = None) -
 
     # 2. VISUAL PRODUCTION from decision tree
     prod_rec = None
-    sector_tree = (vdt.get("sector_occasion_decision_tree") or {}).get(sector, {})
+    sector_tree = (vdt.get("sector_occasion_decision_tree") or {}).get(_sector_key, {})
     occ_node = sector_tree.get(occasion)
     if occ_node:
         prod_rec = occ_node.get("recommended_production")

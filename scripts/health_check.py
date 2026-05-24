@@ -72,7 +72,7 @@ def check_git() -> tuple[bool, str]:
     """Return (clean, status_summary)."""
     try:
         r = subprocess.run(
-            ["git", "-C", str(BASE), "status", "--short"],
+            ["git", "-C", str(BASE), "status", "--short", "--untracked-files=no"],
             capture_output=True, text=True, timeout=10
         )
         dirty = r.stdout.strip()

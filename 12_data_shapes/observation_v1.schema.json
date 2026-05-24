@@ -40,7 +40,11 @@
     },
     "content_ref": {
       "type": "object",
-      "required": ["filename", "platform", "content_type"],
+      "required": [
+        "filename",
+        "platform",
+        "content_type"
+      ],
       "additionalProperties": false,
       "properties": {
         "filename": {
@@ -49,11 +53,24 @@
         },
         "platform": {
           "type": "string",
-          "enum": ["instagram", "tiktok", "snapchat", "youtube", "x", "other"]
+          "enum": [
+            "instagram",
+            "tiktok",
+            "snapchat",
+            "youtube",
+            "x",
+            "other"
+          ]
         },
         "content_type": {
           "type": "string",
-          "enum": ["image", "video", "carousel_slide", "story", "reel"]
+          "enum": [
+            "image",
+            "video",
+            "carousel_slide",
+            "story",
+            "reel"
+          ]
         },
         "capture_date": {
           "type": "string",
@@ -64,18 +81,54 @@
           "type": "string"
         },
         "video_duration_seconds": {
-          "type": ["integer", "null"],
+          "type": [
+            "integer",
+            "null"
+          ],
           "description": "Duration in seconds for video/reel content. Null for image/carousel."
         },
         "aspect_ratio": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "e.g. square_1x1 / portrait_4x5 / vertical_9x16 / landscape_16x9"
+        },
+        "cut_count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Number of scene cuts detected by ffmpeg scdet"
+        },
+        "avg_shot_duration": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Average shot duration in seconds"
+        },
+        "editing_pace": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "viral_fast",
+            "fast",
+            "medium",
+            "slow",
+            null
+          ],
+          "description": "Editing pace label"
         }
       }
     },
     "visual_observations": {
       "type": "object",
-      "required": ["composition_style"],
+      "required": [
+        "composition_style"
+      ],
       "additionalProperties": false,
       "properties": {
         "composition_style": {
@@ -88,11 +141,15 @@
         },
         "color_palette_dominant": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "props_visible": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "setting": {
           "type": "string"
@@ -101,27 +158,44 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "count": { "type": "integer", "minimum": 0 },
-            "gender_presentation": { "type": "string" },
-            "wardrobe_notes": { "type": "string" },
-            "gesture_notes": { "type": "string" }
+            "count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "gender_presentation": {
+              "type": "string"
+            },
+            "wardrobe_notes": {
+              "type": "string"
+            },
+            "gesture_notes": {
+              "type": "string"
+            }
           }
         },
         "text_overlays": {
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["language"],
+            "required": [
+              "language"
+            ],
             "additionalProperties": false,
             "properties": {
-              "language": { "type": "string" },
-              "content_summary": { "type": "string" }
+              "language": {
+                "type": "string"
+              },
+              "content_summary": {
+                "type": "string"
+              }
             }
           }
         },
         "notable_visual_elements": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -131,10 +205,18 @@
       "properties": {
         "language": {
           "type": "string",
-          "enum": ["arabic", "english", "bilingual", "none"]
+          "enum": [
+            "arabic",
+            "english",
+            "bilingual",
+            "none"
+          ]
         },
         "dialect_detected": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "register": {
           "type": "string"
@@ -144,53 +226,104 @@
         },
         "notable_phrases": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "call_to_action_present": {
           "type": "boolean"
         },
         "caption_text": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Full verbatim caption text as written on the post (Arabic, English, or both). Null if not yet extracted."
         },
         "caption_word_count": {
-          "type": ["integer", "null"],
+          "type": [
+            "integer",
+            "null"
+          ],
           "description": "Word count of caption_text. Null if caption_text is null."
         },
         "hashtag_count": {
-          "type": ["integer", "null"],
+          "type": [
+            "integer",
+            "null"
+          ],
           "description": "Number of hashtags in caption. Null if caption_text is null."
         },
         "has_emoji": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "Whether the caption contains emoji. Null if caption_text is null."
         },
         "audio_strategy": {
-          "type": ["object", "null"],
+          "type": [
+            "object",
+            "null"
+          ],
           "description": "For video/reel content only. Null for image/carousel.",
           "additionalProperties": false,
           "properties": {
-            "has_voiceover": { "type": ["boolean", "null"] },
-            "voiceover_language": { "type": ["string", "null"] },
+            "has_voiceover": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "voiceover_language": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "music_type": {
-              "type": ["string", "null"],
+              "type": [
+                "string",
+                "null"
+              ],
               "description": "trending_sound / original_score / ambient / silence / sound_effects"
             },
-            "has_subtitles": { "type": ["boolean", "null"] }
+            "has_subtitles": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
           }
+        },
+        "voiceover_text": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Whisper-transcribed spoken words"
         }
       }
     },
     "compliance_check": {
       "type": "object",
-      "required": ["hard_blocks_triggered", "soft_flags", "overall_compliance"],
+      "required": [
+        "hard_blocks_triggered",
+        "soft_flags",
+        "overall_compliance"
+      ],
       "additionalProperties": false,
       "properties": {
         "hard_blocks_triggered": {
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["forbidden_list_id", "entry_name", "severity", "evidence_description"],
+            "required": [
+              "forbidden_list_id",
+              "entry_name",
+              "severity",
+              "evidence_description"
+            ],
             "additionalProperties": false,
             "properties": {
               "forbidden_list_id": {
@@ -203,7 +336,11 @@
               },
               "severity": {
                 "type": "string",
-                "enum": ["severe", "moderate", "minor"]
+                "enum": [
+                  "severe",
+                  "moderate",
+                  "minor"
+                ]
               },
               "evidence_description": {
                 "type": "string",
@@ -217,17 +354,28 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["flag_type", "description"],
+            "required": [
+              "flag_type",
+              "description"
+            ],
             "additionalProperties": false,
             "properties": {
-              "flag_type": { "type": "string" },
-              "description": { "type": "string" }
+              "flag_type": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
             }
           }
         },
         "overall_compliance": {
           "type": "string",
-          "enum": ["clean", "soft_flagged", "hard_blocked"]
+          "enum": [
+            "clean",
+            "soft_flagged",
+            "hard_blocked"
+          ]
         }
       }
     },
@@ -236,18 +384,31 @@
       "additionalProperties": false,
       "properties": {
         "regional_orientation_detected": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "occasion_relevance": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "hospitality_cues": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "heritage_vs_modern": {
           "type": "string",
-          "enum": ["heritage", "modern", "blended", "neutral"]
+          "enum": [
+            "heritage",
+            "modern",
+            "blended",
+            "neutral"
+          ]
         },
         "free_notes": {
           "type": "string"
@@ -258,7 +419,10 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["pattern_slug", "confidence"],
+        "required": [
+          "pattern_slug",
+          "confidence"
+        ],
         "additionalProperties": false,
         "properties": {
           "pattern_slug": {
@@ -267,30 +431,52 @@
           },
           "confidence": {
             "type": "string",
-            "enum": ["strong", "moderate", "weak"]
+            "enum": [
+              "strong",
+              "moderate",
+              "weak"
+            ]
           },
           "notes": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           }
         }
       }
     },
     "quality_assessment": {
       "type": "object",
-      "required": ["production_quality"],
+      "required": [
+        "production_quality"
+      ],
       "additionalProperties": false,
       "properties": {
         "production_quality": {
           "type": "string",
-          "enum": ["professional", "semi_professional", "ugc", "low"]
+          "enum": [
+            "professional",
+            "semi_professional",
+            "ugc",
+            "low"
+          ]
         },
         "brand_consistency_with_account": {
           "type": "string",
-          "enum": ["strong", "moderate", "weak"]
+          "enum": [
+            "strong",
+            "moderate",
+            "weak"
+          ]
         },
         "engagement_potential": {
           "type": "string",
-          "enum": ["high", "medium", "low"]
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
         }
       }
     },

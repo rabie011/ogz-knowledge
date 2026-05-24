@@ -1,0 +1,733 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-05-24T00:00:00Z",
+  "corpus_baseline": 0.54,
+  "total_obs": 474,
+  "composition_engagement_table": [
+    {
+      "composition_style": "architectural_frame",
+      "obs_count": 25,
+      "high_engagement_rate": 0.64,
+      "avg_engagement": 0.82,
+      "lift_vs_baseline": 0.1,
+      "dominant_sector": "f_and_b",
+      "dominant_occasion": "evergreen",
+      "dominant_media": "carousel_slide",
+      "dominant_lighting": "natural_daylight"
+    },
+    {
+      "composition_style": "overhead_spread",
+      "obs_count": 43,
+      "high_engagement_rate": 0.628,
+      "avg_engagement": 0.767,
+      "lift_vs_baseline": 0.088,
+      "dominant_sector": "f_and_b",
+      "dominant_occasion": "evergreen",
+      "dominant_media": "image",
+      "dominant_lighting": "mixed_lighting"
+    },
+    {
+      "composition_style": "portrait_face",
+      "obs_count": 21,
+      "high_engagement_rate": 0.619,
+      "avg_engagement": 0.81,
+      "lift_vs_baseline": 0.079,
+      "dominant_sector": "f_and_b",
+      "dominant_occasion": "evergreen",
+      "dominant_media": "reel",
+      "dominant_lighting": "dramatic_moody"
+    },
+    {
+      "composition_style": "documentary_candid",
+      "obs_count": 22,
+      "high_engagement_rate": 0.591,
+      "avg_engagement": 0.75,
+      "lift_vs_baseline": 0.051,
+      "dominant_sector": "f_and_b",
+      "dominant_occasion": "evergreen",
+      "dominant_media": "video",
+      "dominant_lighting": "natural_daylight"
+    },
+    {
+      "composition_style": "graphic_text",
+      "obs_count": 78,
+      "high_engagement_rate": 0.59,
+      "avg_engagement": 0.718,
+      "lift_vs_baseline": 0.05,
+      "dominant_sector": "f_and_b",
+      "dominant_occasion": "evergreen",
+      "dominant_media": "image",
+      "dominant_lighting": "flat_graphic"
+    },
+    {
+      "composition_style": "lifestyle_integrated",
+      "obs_count": 39,
+      "high_engagement_rate": 0.59,
+      "avg_engagement": 0.731,
+      "lift_vs_baseline": 0.05,
+      "dominant_sector": "f_and_b",
+      "dominant_occasion": "evergreen",
+      "dominant_media": "image",
+      "dominant_lighting": "natural_daylight"
+    },
+    {
+      "composition_style": "before_after",
+      "obs_count": 30,
+      "high_engagement_rate": 0.533,
+      "avg_engagement": 0.717,
+      "lift_vs_baseline": -0.007,
+      "dominant_sector": "f_and_b",
+      "dominant_occasion": "evergreen",
+      "dominant_media": "video",
+      "dominant_lighting": "mixed_lighting"
+    },
+    {
+      "composition_style": "multi_product",
+      "obs_count": 8,
+      "high_engagement_rate": 0.5,
+      "avg_engagement": 0.625,
+      "lift_vs_baseline": -0.04,
+      "dominant_sector": "f_and_b",
+      "dominant_occasion": "evergreen",
+      "dominant_media": "carousel_slide",
+      "dominant_lighting": "cold_studio"
+    },
+    {
+      "composition_style": "product_hero_closeup",
+      "obs_count": 208,
+      "high_engagement_rate": 0.481,
+      "avg_engagement": 0.651,
+      "lift_vs_baseline": -0.059,
+      "dominant_sector": "f_and_b",
+      "dominant_occasion": "evergreen",
+      "dominant_media": "image",
+      "dominant_lighting": "mixed_lighting"
+    }
+  ],
+  "agency_verdicts": {
+    "architectural_frame": "standard_use",
+    "overhead_spread": "standard_use",
+    "portrait_face": "standard_use",
+    "documentary_candid": "use_with_care",
+    "graphic_text": "use_with_care",
+    "lifestyle_integrated": "use_with_care",
+    "before_after": "use_with_care",
+    "multi_product": "use_with_care",
+    "product_hero_closeup": "use_with_care"
+  },
+  "best_composition_per_sector": {
+    "beauty": {
+      "composition": "before_after",
+      "rate": 0.6,
+      "n": 5
+    },
+    "f_and_b": {
+      "composition": "overhead_spread",
+      "rate": 0.722,
+      "n": 36
+    },
+    "retail": {
+      "composition": "before_after",
+      "rate": 0.5,
+      "n": 2
+    }
+  },
+  "best_composition_per_occasion": {
+    "evergreen": {
+      "composition": "architectural_frame",
+      "rate": 0.652,
+      "n": 23
+    },
+    "ramadan": {
+      "composition": "graphic_text",
+      "rate": 0.857,
+      "n": 7
+    },
+    "founding_day": {
+      "composition": "product_hero_closeup",
+      "rate": 0.833,
+      "n": 6
+    },
+    "eid_al_fitr": {
+      "composition": "product_hero_closeup",
+      "rate": 1.0,
+      "n": 4
+    },
+    "national_sports_day": {
+      "composition": "graphic_text",
+      "rate": 0.0,
+      "n": 3
+    },
+    "national_day": {
+      "composition": "graphic_text",
+      "rate": 0.8,
+      "n": 5
+    },
+    "graduation_season": {
+      "composition": "graphic_text",
+      "rate": 0.667,
+      "n": 3
+    },
+    "summer_campaign": {
+      "composition": "lifestyle_integrated",
+      "rate": 1.0,
+      "n": 4
+    }
+  },
+  "best_composition_per_media": {
+    "video": {
+      "composition": "before_after",
+      "rate": 0.526,
+      "n": 19
+    },
+    "image": {
+      "composition": "architectural_frame",
+      "rate": 0.857,
+      "n": 7
+    },
+    "carousel_slide": {
+      "composition": "before_after",
+      "rate": 1.0,
+      "n": 3
+    },
+    "reel": {
+      "composition": "documentary_candid",
+      "rate": 0.75,
+      "n": 4
+    }
+  },
+  "composition_x_lighting": {
+    "before_after": {
+      "best_lighting": "dramatic_moody",
+      "best_lighting_rate": 0.833,
+      "all_lightings": [
+        {
+          "lighting": "warm_ambient",
+          "count": 1,
+          "high_eng_rate": 1.0
+        },
+        {
+          "lighting": "dramatic_moody",
+          "count": 6,
+          "high_eng_rate": 0.833
+        },
+        {
+          "lighting": "mixed_lighting",
+          "count": 12,
+          "high_eng_rate": 0.667
+        },
+        {
+          "lighting": "branded_bright",
+          "count": 2,
+          "high_eng_rate": 0.5
+        },
+        {
+          "lighting": "cold_studio",
+          "count": 8,
+          "high_eng_rate": 0.125
+        },
+        {
+          "lighting": "flat_graphic",
+          "count": 1,
+          "high_eng_rate": 0.0
+        }
+      ]
+    },
+    "product_hero_closeup": {
+      "best_lighting": "natural_daylight",
+      "best_lighting_rate": 0.68,
+      "all_lightings": [
+        {
+          "lighting": "natural_daylight",
+          "count": 25,
+          "high_eng_rate": 0.68
+        },
+        {
+          "lighting": "ambient_neutral",
+          "count": 10,
+          "high_eng_rate": 0.6
+        },
+        {
+          "lighting": "dramatic_moody",
+          "count": 34,
+          "high_eng_rate": 0.588
+        },
+        {
+          "lighting": "cold_studio",
+          "count": 32,
+          "high_eng_rate": 0.562
+        },
+        {
+          "lighting": "flat_graphic",
+          "count": 9,
+          "high_eng_rate": 0.556
+        },
+        {
+          "lighting": "warm_studio",
+          "count": 10,
+          "high_eng_rate": 0.5
+        },
+        {
+          "lighting": "branded_bright",
+          "count": 7,
+          "high_eng_rate": 0.429
+        },
+        {
+          "lighting": "warm_ambient",
+          "count": 24,
+          "high_eng_rate": 0.333
+        },
+        {
+          "lighting": "mixed_lighting",
+          "count": 57,
+          "high_eng_rate": 0.316
+        }
+      ]
+    },
+    "graphic_text": {
+      "best_lighting": "warm_ambient",
+      "best_lighting_rate": 1.0,
+      "all_lightings": [
+        {
+          "lighting": "warm_ambient",
+          "count": 6,
+          "high_eng_rate": 1.0
+        },
+        {
+          "lighting": "warm_studio",
+          "count": 1,
+          "high_eng_rate": 1.0
+        },
+        {
+          "lighting": "flat_graphic",
+          "count": 27,
+          "high_eng_rate": 0.704
+        },
+        {
+          "lighting": "natural_daylight",
+          "count": 8,
+          "high_eng_rate": 0.625
+        },
+        {
+          "lighting": "ambient_neutral",
+          "count": 5,
+          "high_eng_rate": 0.6
+        },
+        {
+          "lighting": "dramatic_moody",
+          "count": 5,
+          "high_eng_rate": 0.6
+        },
+        {
+          "lighting": "mixed_lighting",
+          "count": 17,
+          "high_eng_rate": 0.471
+        },
+        {
+          "lighting": "cold_studio",
+          "count": 4,
+          "high_eng_rate": 0.25
+        },
+        {
+          "lighting": "branded_bright",
+          "count": 5,
+          "high_eng_rate": 0.0
+        }
+      ]
+    },
+    "multi_product": {
+      "best_lighting": "cold_studio",
+      "best_lighting_rate": 0.5,
+      "all_lightings": [
+        {
+          "lighting": "dramatic_moody",
+          "count": 1,
+          "high_eng_rate": 1.0
+        },
+        {
+          "lighting": "warm_ambient",
+          "count": 1,
+          "high_eng_rate": 1.0
+        },
+        {
+          "lighting": "cold_studio",
+          "count": 2,
+          "high_eng_rate": 0.5
+        },
+        {
+          "lighting": "warm_studio",
+          "count": 2,
+          "high_eng_rate": 0.5
+        },
+        {
+          "lighting": "mixed_lighting",
+          "count": 1,
+          "high_eng_rate": 0.0
+        },
+        {
+          "lighting": "branded_bright",
+          "count": 1,
+          "high_eng_rate": 0.0
+        }
+      ]
+    },
+    "documentary_candid": {
+      "best_lighting": "ambient_neutral",
+      "best_lighting_rate": 1.0,
+      "all_lightings": [
+        {
+          "lighting": "ambient_neutral",
+          "count": 2,
+          "high_eng_rate": 1.0
+        },
+        {
+          "lighting": "dramatic_moody",
+          "count": 1,
+          "high_eng_rate": 1.0
+        },
+        {
+          "lighting": "mixed_lighting",
+          "count": 5,
+          "high_eng_rate": 0.8
+        },
+        {
+          "lighting": "natural_daylight",
+          "count": 8,
+          "high_eng_rate": 0.5
+        },
+        {
+          "lighting": "warm_ambient",
+          "count": 4,
+          "high_eng_rate": 0.5
+        },
+        {
+          "lighting": "warm_studio",
+          "count": 1,
+          "high_eng_rate": 0.0
+        },
+        {
+          "lighting": "branded_bright",
+          "count": 1,
+          "high_eng_rate": 0.0
+        }
+      ]
+    },
+    "overhead_spread": {
+      "best_lighting": "natural_daylight",
+      "best_lighting_rate": 1.0,
+      "all_lightings": [
+        {
+          "lighting": "natural_daylight",
+          "count": 7,
+          "high_eng_rate": 1.0
+        },
+        {
+          "lighting": "dramatic_moody",
+          "count": 6,
+          "high_eng_rate": 1.0
+        },
+        {
+          "lighting": "warm_ambient",
+          "count": 9,
+          "high_eng_rate": 0.778
+        },
+        {
+          "lighting": "ambient_neutral",
+          "count": 2,
+          "high_eng_rate": 0.5
+        },
+        {
+          "lighting": "warm_studio",
+          "count": 2,
+          "high_eng_rate": 0.5
+        },
+        {
+          "lighting": "mixed_lighting",
+          "count": 10,
+          "high_eng_rate": 0.3
+        },
+        {
+          "lighting": "cold_studio",
+          "count": 7,
+          "high_eng_rate": 0.286
+        }
+      ]
+    },
+    "lifestyle_integrated": {
+      "best_lighting": "cold_studio",
+      "best_lighting_rate": 1.0,
+      "all_lightings": [
+        {
+          "lighting": "cold_studio",
+          "count": 2,
+          "high_eng_rate": 1.0
+        },
+        {
+          "lighting": "ambient_neutral",
+          "count": 3,
+          "high_eng_rate": 0.667
+        },
+        {
+          "lighting": "warm_studio",
+          "count": 3,
+          "high_eng_rate": 0.667
+        },
+        {
+          "lighting": "natural_daylight",
+          "count": 16,
+          "high_eng_rate": 0.625
+        },
+        {
+          "lighting": "dramatic_moody",
+          "count": 5,
+          "high_eng_rate": 0.6
+        },
+        {
+          "lighting": "mixed_lighting",
+          "count": 2,
+          "high_eng_rate": 0.5
+        },
+        {
+          "lighting": "warm_ambient",
+          "count": 8,
+          "high_eng_rate": 0.375
+        }
+      ]
+    },
+    "architectural_frame": {
+      "best_lighting": "cold_studio",
+      "best_lighting_rate": 1.0,
+      "all_lightings": [
+        {
+          "lighting": "cold_studio",
+          "count": 2,
+          "high_eng_rate": 1.0
+        },
+        {
+          "lighting": "branded_bright",
+          "count": 2,
+          "high_eng_rate": 1.0
+        },
+        {
+          "lighting": "natural_daylight",
+          "count": 10,
+          "high_eng_rate": 0.7
+        },
+        {
+          "lighting": "dramatic_moody",
+          "count": 5,
+          "high_eng_rate": 0.6
+        },
+        {
+          "lighting": "ambient_neutral",
+          "count": 2,
+          "high_eng_rate": 0.5
+        },
+        {
+          "lighting": "warm_ambient",
+          "count": 3,
+          "high_eng_rate": 0.333
+        },
+        {
+          "lighting": "mixed_lighting",
+          "count": 1,
+          "high_eng_rate": 0.0
+        }
+      ]
+    },
+    "portrait_face": {
+      "best_lighting": "dramatic_moody",
+      "best_lighting_rate": 0.778,
+      "all_lightings": [
+        {
+          "lighting": "warm_ambient",
+          "count": 1,
+          "high_eng_rate": 1.0
+        },
+        {
+          "lighting": "warm_studio",
+          "count": 1,
+          "high_eng_rate": 1.0
+        },
+        {
+          "lighting": "dramatic_moody",
+          "count": 9,
+          "high_eng_rate": 0.778
+        },
+        {
+          "lighting": "cold_studio",
+          "count": 3,
+          "high_eng_rate": 0.667
+        },
+        {
+          "lighting": "branded_bright",
+          "count": 2,
+          "high_eng_rate": 0.5
+        },
+        {
+          "lighting": "natural_daylight",
+          "count": 2,
+          "high_eng_rate": 0.5
+        },
+        {
+          "lighting": "ambient_neutral",
+          "count": 1,
+          "high_eng_rate": 0.0
+        },
+        {
+          "lighting": "mixed_lighting",
+          "count": 2,
+          "high_eng_rate": 0.0
+        }
+      ]
+    }
+  },
+  "sector_composition_breakdown": {
+    "beauty": [
+      {
+        "composition": "before_after",
+        "count": 5,
+        "high_eng_rate": 0.6,
+        "lift": 0.06
+      },
+      {
+        "composition": "multi_product",
+        "count": 2,
+        "high_eng_rate": 0.5,
+        "lift": -0.04
+      },
+      {
+        "composition": "lifestyle_integrated",
+        "count": 2,
+        "high_eng_rate": 0.5,
+        "lift": -0.04
+      },
+      {
+        "composition": "documentary_candid",
+        "count": 5,
+        "high_eng_rate": 0.2,
+        "lift": -0.34
+      },
+      {
+        "composition": "graphic_text",
+        "count": 6,
+        "high_eng_rate": 0.167,
+        "lift": -0.373
+      },
+      {
+        "composition": "overhead_spread",
+        "count": 7,
+        "high_eng_rate": 0.143,
+        "lift": -0.397
+      },
+      {
+        "composition": "product_hero_closeup",
+        "count": 23,
+        "high_eng_rate": 0.043,
+        "lift": -0.497
+      }
+    ],
+    "f_and_b": [
+      {
+        "composition": "overhead_spread",
+        "count": 36,
+        "high_eng_rate": 0.722,
+        "lift": 0.182
+      },
+      {
+        "composition": "graphic_text",
+        "count": 67,
+        "high_eng_rate": 0.672,
+        "lift": 0.132
+      },
+      {
+        "composition": "documentary_candid",
+        "count": 15,
+        "high_eng_rate": 0.667,
+        "lift": 0.127
+      },
+      {
+        "composition": "architectural_frame",
+        "count": 25,
+        "high_eng_rate": 0.64,
+        "lift": 0.1
+      },
+      {
+        "composition": "portrait_face",
+        "count": 19,
+        "high_eng_rate": 0.632,
+        "lift": 0.092
+      },
+      {
+        "composition": "lifestyle_integrated",
+        "count": 34,
+        "high_eng_rate": 0.618,
+        "lift": 0.078
+      },
+      {
+        "composition": "product_hero_closeup",
+        "count": 174,
+        "high_eng_rate": 0.546,
+        "lift": 0.006
+      },
+      {
+        "composition": "before_after",
+        "count": 23,
+        "high_eng_rate": 0.522,
+        "lift": -0.018
+      },
+      {
+        "composition": "multi_product",
+        "count": 6,
+        "high_eng_rate": 0.5,
+        "lift": -0.04
+      }
+    ],
+    "retail": [
+      {
+        "composition": "documentary_candid",
+        "count": 2,
+        "high_eng_rate": 1.0,
+        "lift": 0.46
+      },
+      {
+        "composition": "before_after",
+        "count": 2,
+        "high_eng_rate": 0.5,
+        "lift": -0.04
+      },
+      {
+        "composition": "portrait_face",
+        "count": 2,
+        "high_eng_rate": 0.5,
+        "lift": -0.04
+      },
+      {
+        "composition": "product_hero_closeup",
+        "count": 11,
+        "high_eng_rate": 0.364,
+        "lift": -0.176
+      },
+      {
+        "composition": "lifestyle_integrated",
+        "count": 3,
+        "high_eng_rate": 0.333,
+        "lift": -0.207
+      },
+      {
+        "composition": "graphic_text",
+        "count": 5,
+        "high_eng_rate": 0.0,
+        "lift": -0.54
+      }
+    ]
+  },
+  "key_findings": [
+    "Best composition: 'architectural_frame' = 64% high eng (n=25, +10pp vs baseline)",
+    "Worst composition: 'product_hero_closeup' = 48% high eng (n=208)",
+    "Most used composition: 'product_hero_closeup' (n=208) — the default Saudi F&B frame",
+    "Best for beauty: 'before_after' = 60% (n=5)",
+    "Best for f_and_b: 'overhead_spread' = 72% (n=36)",
+    "Best for retail: 'before_after' = 50% (n=2)"
+  ]
+}

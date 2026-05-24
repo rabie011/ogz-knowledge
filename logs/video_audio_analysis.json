@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-05-24T00:00:00Z",
+  "corpus_baseline": 0.54,
+  "total_obs": 474,
+  "video_obs": 159,
+  "with_duration_data": 46,
+  "with_audio_data": 159,
+  "duration_table": [
+    {
+      "duration_bucket": "short_0_15s",
+      "count": 13,
+      "high_engagement_rate": 0.692,
+      "avg_engagement": 0.808,
+      "lift_vs_baseline": 0.152
+    },
+    {
+      "duration_bucket": "long_31_60s",
+      "count": 13,
+      "high_engagement_rate": 0.692,
+      "avg_engagement": 0.808,
+      "lift_vs_baseline": 0.152
+    },
+    {
+      "duration_bucket": "very_long_60plus",
+      "count": 9,
+      "high_engagement_rate": 0.667,
+      "avg_engagement": 0.778,
+      "lift_vs_baseline": 0.127
+    },
+    {
+      "duration_bucket": "unknown",
+      "count": 113,
+      "high_engagement_rate": 0.389,
+      "avg_engagement": 0.619,
+      "lift_vs_baseline": -0.151
+    },
+    {
+      "duration_bucket": "medium_16_30s",
+      "count": 11,
+      "high_engagement_rate": 0.182,
+      "avg_engagement": 0.409,
+      "lift_vs_baseline": -0.358
+    }
+  ],
+  "voiceover_table": [
+    {
+      "voiceover_presence": "has_voiceover",
+      "count": 33,
+      "high_engagement_rate": 0.182,
+      "avg_engagement": 0.439,
+      "lift_vs_baseline": -0.358
+    }
+  ],
+  "voiceover_language_table": [
+    {
+      "voiceover_language": "arabic",
+      "count": 33,
+      "high_engagement_rate": 0.182,
+      "avg_engagement": 0.439,
+      "lift_vs_baseline": -0.358
+    }
+  ],
+  "music_type_table": [
+    {
+      "music_type": "original_score",
+      "count": 159,
+      "high_engagement_rate": 0.44,
+      "avg_engagement": 0.645,
+      "lift_vs_baseline": -0.1
+    }
+  ],
+  "subtitle_table": [
+    {
+      "subtitle_presence": "no_subtitles",
+      "count": 159,
+      "high_engagement_rate": 0.44,
+      "avg_engagement": 0.645,
+      "lift_vs_baseline": -0.1
+    }
+  ],
+  "duration_by_sector": [
+    {
+      "duration_bucket": "very_long_60plus",
+      "sector": "f_and_b",
+      "count": 6,
+      "high_eng_rate": 1.0,
+      "lift": 0.46
+    },
+    {
+      "duration_bucket": "long_31_60s",
+      "sector": "f_and_b",
+      "count": 9,
+      "high_eng_rate": 0.889,
+      "lift": 0.349
+    },
+    {
+      "duration_bucket": "short_0_15s",
+      "sector": "f_and_b",
+      "count": 7,
+      "high_eng_rate": 0.714,
+      "lift": 0.174
+    },
+    {
+      "duration_bucket": "short_0_15s",
+      "sector": "beauty",
+      "count": 6,
+      "high_eng_rate": 0.667,
+      "lift": 0.127
+    },
+    {
+      "duration_bucket": "unknown",
+      "sector": "f_and_b",
+      "count": 95,
+      "high_eng_rate": 0.389,
+      "lift": -0.151
+    },
+    {
+      "duration_bucket": "unknown",
+      "sector": "retail",
+      "count": 18,
+      "high_eng_rate": 0.389,
+      "lift": -0.151
+    },
+    {
+      "duration_bucket": "medium_16_30s",
+      "sector": "f_and_b",
+      "count": 6,
+      "high_eng_rate": 0.333,
+      "lift": -0.207
+    },
+    {
+      "duration_bucket": "long_31_60s",
+      "sector": "beauty",
+      "count": 4,
+      "high_eng_rate": 0.25,
+      "lift": -0.29
+    },
+    {
+      "duration_bucket": "medium_16_30s",
+      "sector": "beauty",
+      "count": 5,
+      "high_eng_rate": 0.0,
+      "lift": -0.54
+    },
+    {
+      "duration_bucket": "very_long_60plus",
+      "sector": "beauty",
+      "count": 3,
+      "high_eng_rate": 0.0,
+      "lift": -0.54
+    }
+  ],
+  "key_findings": [
+    "Best video duration: 'short_0_15s' = 69% high-eng (n=13, +15pp)",
+    "Best music type: 'original_score' = 44% (n=159)"
+  ],
+  "agency_rules": [
+    "Target video length: short_0_15s — highest engagement",
+    "Audio: 'original_score' is best-performing music type"
+  ]
+}

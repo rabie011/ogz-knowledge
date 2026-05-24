@@ -51,6 +51,30 @@ def load_json(path: Path) -> dict:
         return {}
 
 
+def _best_field(log: dict, table_key: str, field_key: str):
+    """Return the top-performing value from a sorted analytics table."""
+    table = log.get(table_key) or []
+    if not table:
+        return None
+    # Table should already be sorted by high_engagement_rate desc
+    for row in table:
+        if row.get("count", 0) >= 3:
+            return row.get(field_key)
+    return table[0].get(field_key) if table else None
+
+
+def _emoji_verdict(cap_intel: dict) -> bool | None:
+    """Return True if emoji helps, False if hurts, None if no data."""
+    table = cap_intel.get("emoji_presence_table") or []
+    if not table:
+        return None
+    has_e = next((r for r in table if r.get("emoji_presence") == "has_emoji"), None)
+    no_e  = next((r for r in table if r.get("emoji_presence") == "no_emoji"), None)
+    if has_e and no_e:
+        return has_e["high_engagement_rate"] >= no_e["high_engagement_rate"]
+    return None
+
+
 def generate_brief(sector: str, occasion: str, goal: str, account: str = None) -> dict:
     """Core brief generation logic."""
 
@@ -63,6 +87,9 @@ def generate_brief(sector: str, occasion: str, goal: str, account: str = None) -
     fmt_occ = load_json(LOGS / "format_occasion_matrix.json")
     gap     = load_json(LOGS / "competitive_gap.json") if account else {}
     patterns = load_json(LOGS / "pattern_cooccurrence_matrix.json") if (LOGS / "pattern_cooccurrence_matrix.json").exists() else {}
+    cap_intel = load_json(LOGS / "caption_intelligence.json") if (LOGS / "caption_intelligence.json").exists() else {}
+    ar_copy   = load_json(LOGS / "arabic_copywriting.json")   if (LOGS / "arabic_copywriting.json").exists()   else {}
+    hash_strat = load_json(LOGS / "hashtag_strategy.json")    if (LOGS / "hashtag_strategy.json").exists()    else {}
 
     # 1. OCCASION RECIPE from playbook
     playbook_entry = None
@@ -146,6 +173,13 @@ def generate_brief(sector: str, occasion: str, goal: str, account: str = None) -
             "language":    best_lang_for_occ or (playbook_entry or {}).get("overall_recipe",{}).get("language"),
             "add_cta":     best_cta == "cta_present",
             "heritage_vs_modern": (playbook_entry or {}).get("overall_recipe",{}).get("heritage_vs_modern"),
+            # ── Caption intelligence (populated after extraction + analysis) ──
+            "recommended_length": _best_field(cap_intel, "caption_length_table", "caption_length_bucket"),
+            "recommended_hashtag_count": _best_field(hash_strat, "hashtag_count_table", "hashtag_count"),
+            "use_emoji": _emoji_verdict(cap_intel),
+            "open_style": _best_field(cap_intel, "caption_open_style_table", "caption_open_style"),
+            "arabic_signal_phrases": [p["phrase"] for p in (ar_copy.get("signal_phrases_high_eng") or [])[:5]],
+            "best_opener_formula": _best_field(ar_copy, "opener_formula_table", "formula"),
         },
         "cultural_spec": {
             "hospitality_cues_target": _hosp_target(playbook_entry),
@@ -229,6 +263,19 @@ def print_brief(brief: dict):
     print(f"  Language:    {cap.get('language') or '—'}")
     print(f"  Add CTA:     {'YES' if cap.get('add_cta') else 'NO'}")
     print(f"  Framing:     {cap.get('heritage_vs_modern') or '—'}")
+    # Caption intelligence (populated after extraction + analysis run)
+    if cap.get("recommended_length"):
+        print(f"  Length:      {cap['recommended_length']}  (words — highest-eng bucket)")
+    if cap.get("recommended_hashtag_count"):
+        print(f"  Hashtags:    {cap['recommended_hashtag_count']}  (optimal count)")
+    if cap.get("use_emoji") is not None:
+        print(f"  Emoji:       {'YES — boosts engagement' if cap['use_emoji'] else 'NO — avoid emoji'}")
+    if cap.get("open_style"):
+        print(f"  Open with:   {cap['open_style'].replace('_',' ')}")
+    if cap.get("best_opener_formula"):
+        print(f"  Formula:     {cap['best_opener_formula'].replace('_',' ')}")
+    if cap.get("arabic_signal_phrases"):
+        print(f"  Arabic cues: {' / '.join(cap['arabic_signal_phrases'])}")
 
     print(f"\n  ── CULTURAL SPEC ────────────────────────────────────────────")
     print(f"  Target hospitality cues: {cult.get('hospitality_cues_target',2)}+")

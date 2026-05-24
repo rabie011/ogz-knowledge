@@ -2,7 +2,7 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 474,
+  "total_obs": 648,
   "top_6dim_formulas": [
     {
       "primary_pattern": "product_hero",
@@ -226,6 +226,19 @@
       "lift_vs_baseline": 0.46
     },
     {
+      "primary_pattern": "occasion_peg",
+      "primary_pattern_name": "Occasion Peg",
+      "media_type": "image",
+      "setting": "graphic/designed background",
+      "lighting": "flat graphic",
+      "register": "casual",
+      "tone": "celebratory",
+      "obs_count": 2,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "lift_vs_baseline": 0.46
+    },
+    {
       "primary_pattern": "national_day_pride",
       "primary_pattern_name": "National Day Pride",
       "media_type": "image",
@@ -246,19 +259,6 @@
       "lighting": "warm_ambient",
       "register": "educational",
       "tone": "informative",
-      "obs_count": 2,
-      "high_engagement_rate": 0.5,
-      "avg_engagement": 0.75,
-      "lift_vs_baseline": -0.04
-    },
-    {
-      "primary_pattern": "model_centered_frontal_portrait",
-      "primary_pattern_name": "Model-Centered Frontal Portrait",
-      "media_type": "reel",
-      "setting": "studio",
-      "lighting": "dramatic_moody",
-      "register": "playful",
-      "tone": "playful",
       "obs_count": 2,
       "high_engagement_rate": 0.5,
       "avg_engagement": 0.75,
@@ -377,17 +377,6 @@
       "lift_vs_baseline": 0.127
     },
     {
-      "media_type": "carousel_slide",
-      "setting": "studio",
-      "lighting": "cold_studio",
-      "composition": "product_hero_closeup",
-      "register": "casual",
-      "obs_count": 3,
-      "high_engagement_rate": 0.667,
-      "avg_engagement": 0.667,
-      "lift_vs_baseline": 0.127
-    },
-    {
       "media_type": "image",
       "setting": "restaurant_indoor",
       "lighting": "mixed_lighting",
@@ -401,6 +390,17 @@
     {
       "media_type": "image",
       "setting": "studio",
+      "lighting": "cold_studio",
+      "composition": "product_hero_closeup",
+      "register": "casual",
+      "obs_count": 5,
+      "high_engagement_rate": 0.6,
+      "avg_engagement": 0.7,
+      "lift_vs_baseline": 0.06
+    },
+    {
+      "media_type": "image",
+      "setting": "studio",
       "lighting": "mixed_lighting",
       "composition": "product_hero_closeup",
       "register": "casual",
@@ -408,17 +408,6 @@
       "high_engagement_rate": 0.5,
       "avg_engagement": 0.583,
       "lift_vs_baseline": -0.04
-    },
-    {
-      "media_type": "image",
-      "setting": "studio",
-      "lighting": "cold_studio",
-      "composition": "product_hero_closeup",
-      "register": "casual",
-      "obs_count": 7,
-      "high_engagement_rate": 0.429,
-      "avg_engagement": 0.571,
-      "lift_vs_baseline": -0.111
     },
     {
       "media_type": "video",
@@ -440,17 +429,6 @@
       "obs_count": 3,
       "high_engagement_rate": 0.333,
       "avg_engagement": 0.333,
-      "lift_vs_baseline": -0.207
-    },
-    {
-      "media_type": "image",
-      "setting": "studio",
-      "lighting": "mixed_lighting",
-      "composition": "before_after",
-      "register": "casual",
-      "obs_count": 3,
-      "high_engagement_rate": 0.333,
-      "avg_engagement": 0.667,
       "lift_vs_baseline": -0.207
     },
     {
@@ -485,13 +463,35 @@
       "high_engagement_rate": 0.25,
       "avg_engagement": 0.625,
       "lift_vs_baseline": -0.29
+    },
+    {
+      "media_type": "video",
+      "setting": "kitchen_prep",
+      "lighting": "mixed_lighting",
+      "composition": "product_hero_closeup",
+      "register": "casual",
+      "obs_count": 5,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.5,
+      "lift_vs_baseline": -0.54
+    },
+    {
+      "media_type": "image",
+      "setting": "restaurant_indoor",
+      "lighting": "mixed_lighting",
+      "composition": "product_hero_closeup",
+      "register": "casual",
+      "obs_count": 3,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.333,
+      "lift_vs_baseline": -0.54
     }
   ],
   "best_occasion_formulas": {
     "evergreen": {
-      "media_type": "image",
+      "media_type": "video",
       "setting": "studio",
-      "register": "promotional",
+      "register": "casual",
       "tone": "excited",
       "count": 2,
       "high_eng_rate": 1.0
@@ -527,6 +527,14 @@
       "tone": "celebratory",
       "count": 2,
       "high_eng_rate": 1.0
+    },
+    "sporting_event": {
+      "media_type": "image",
+      "setting": "rendered stadium celebration",
+      "register": "formal",
+      "tone": "celebratory",
+      "count": 2,
+      "high_eng_rate": 0.0
     }
   },
   "sector_winning_formulas": {
@@ -590,16 +598,16 @@
         "high_eng_rate": 1.0
       },
       {
-        "pattern": "ramadan_iftar_warmth",
+        "pattern": "invitation_to_witness",
         "media_type": "image",
         "setting": "digital_graphic",
-        "count": 3,
+        "count": 4,
         "high_eng_rate": 1.0
       },
       {
-        "pattern": "overhead_tabletop_spread",
+        "pattern": "ramadan_iftar_warmth",
         "media_type": "image",
-        "setting": "outdoor_nature",
+        "setting": "digital_graphic",
         "count": 3,
         "high_eng_rate": 1.0
       }
@@ -631,6 +639,6 @@
   "key_findings": [
     "Best 6-dim formula (n≥3): product_hero + carousel_slide + studio + cold_studio + unknown + unknown → 100% high eng",
     "Best visual formula (n≥3): video + studio + dramatic_moody + before_after + casual → 100%",
-    "34 unique 6-dim combinations found. 3 have 3+ observations."
+    "32 unique 6-dim combinations found. 3 have 3+ observations."
   ]
 }

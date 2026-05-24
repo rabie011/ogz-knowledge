@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
-  "total_obs": 474,
+  "total_obs": 648,
   "sector_baselines": {
     "f_and_b": 0.6,
     "beauty": 0.18,
@@ -14,50 +14,49 @@
   ],
   "occasions": [
     "back_to_school",
+    "brand_campaign",
     "eid_al_adha",
     "eid_al_fitr",
     "evergreen",
     "founding_day",
-    "friday_weekly",
     "graduation_season",
     "hajj",
-    "international_womens_day",
     "national_day",
     "national_sports_day",
     "ramadan",
+    "sporting_event",
     "summer_campaign",
-    "vision_2030_moment",
-    "winter_seasonal",
-    "world_coffee_day"
+    "vision_2030",
+    "winter_seasonal"
   ],
   "matrix": [
     {
       "occasion": "evergreen",
-      "total_obs": 398,
-      "total_high_eng_rate": 0.51,
+      "total_obs": 526,
+      "total_high_eng_rate": 0.449,
       "sectors": {
         "beauty": {
-          "count": 47,
-          "high_eng_rate": 0.191,
-          "lift_vs_sector_baseline": 0.011,
+          "count": 81,
+          "high_eng_rate": 0.198,
+          "lift_vs_sector_baseline": 0.018,
           "top_pattern": "Product Hero Static",
           "top_pattern_slug": "product_hero",
           "top_media_type": "image",
           "top_setting": "studio"
         },
         "f_and_b": {
-          "count": 328,
-          "high_eng_rate": 0.57,
-          "lift_vs_sector_baseline": -0.03,
+          "count": 410,
+          "high_eng_rate": 0.515,
+          "lift_vs_sector_baseline": -0.085,
           "top_pattern": "Product Hero Static",
           "top_pattern_slug": "product_hero",
           "top_media_type": "image",
           "top_setting": "restaurant_indoor"
         },
         "retail": {
-          "count": 23,
-          "high_eng_rate": 0.304,
-          "lift_vs_sector_baseline": -0.056,
+          "count": 35,
+          "high_eng_rate": 0.257,
+          "lift_vs_sector_baseline": -0.103,
           "top_pattern": "Product Hero Static",
           "top_pattern_slug": "product_hero",
           "top_media_type": "video",
@@ -67,16 +66,16 @@
     },
     {
       "occasion": "ramadan",
-      "total_obs": 23,
-      "total_high_eng_rate": 0.652,
+      "total_obs": 32,
+      "total_high_eng_rate": 0.656,
       "sectors": {
         "beauty": {
           "count": 0
         },
         "f_and_b": {
-          "count": 23,
-          "high_eng_rate": 0.652,
-          "lift_vs_sector_baseline": 0.052,
+          "count": 32,
+          "high_eng_rate": 0.656,
+          "lift_vs_sector_baseline": 0.056,
           "top_pattern": "Ramadan Iftar Warmth",
           "top_pattern_slug": "ramadan_iftar_warmth",
           "top_media_type": "image",
@@ -88,17 +87,39 @@
       }
     },
     {
-      "occasion": "national_day",
-      "total_obs": 9,
-      "total_high_eng_rate": 0.778,
+      "occasion": "brand_campaign",
+      "total_obs": 13,
+      "total_high_eng_rate": 0.538,
       "sectors": {
         "beauty": {
           "count": 0
         },
         "f_and_b": {
-          "count": 9,
-          "high_eng_rate": 0.778,
-          "lift_vs_sector_baseline": 0.178,
+          "count": 13,
+          "high_eng_rate": 0.538,
+          "lift_vs_sector_baseline": -0.062,
+          "top_pattern": "nostalgia_play",
+          "top_pattern_slug": "nostalgia_play",
+          "top_media_type": "image",
+          "top_setting": "digital_graphic"
+        },
+        "retail": {
+          "count": 0
+        }
+      }
+    },
+    {
+      "occasion": "national_day",
+      "total_obs": 11,
+      "total_high_eng_rate": 0.818,
+      "sectors": {
+        "beauty": {
+          "count": 0
+        },
+        "f_and_b": {
+          "count": 11,
+          "high_eng_rate": 0.818,
+          "lift_vs_sector_baseline": 0.218,
           "top_pattern": "National Day Modernity Meets Heritage",
           "top_pattern_slug": "national_day_modernity_heritage",
           "top_media_type": "image",
@@ -110,21 +131,21 @@
       }
     },
     {
-      "occasion": "summer_campaign",
-      "total_obs": 8,
-      "total_high_eng_rate": 0.875,
+      "occasion": "sporting_event",
+      "total_obs": 11,
+      "total_high_eng_rate": 0.091,
       "sectors": {
         "beauty": {
           "count": 0
         },
         "f_and_b": {
-          "count": 8,
-          "high_eng_rate": 0.875,
-          "lift_vs_sector_baseline": 0.275,
-          "top_pattern": "Welcoming Summer Indoor Pivot",
-          "top_pattern_slug": "welcoming_summer_indoor_pivot",
+          "count": 11,
+          "high_eng_rate": 0.091,
+          "lift_vs_sector_baseline": -0.509,
+          "top_pattern": "Sports Passion Peg",
+          "top_pattern_slug": "sports_passion_peg",
           "top_media_type": "image",
-          "top_setting": "outdoor_nature"
+          "top_setting": "rendered stadium celebration"
         },
         "retail": {
           "count": 0
@@ -133,14 +154,14 @@
     },
     {
       "occasion": "eid_al_fitr",
-      "total_obs": 7,
+      "total_obs": 10,
       "total_high_eng_rate": 1.0,
       "sectors": {
         "beauty": {
           "count": 0
         },
         "f_and_b": {
-          "count": 5,
+          "count": 8,
           "high_eng_rate": 1.0,
           "lift_vs_sector_baseline": 0.4,
           "top_pattern": "Occasion Peg",
@@ -160,20 +181,42 @@
       }
     },
     {
-      "occasion": "founding_day",
-      "total_obs": 7,
-      "total_high_eng_rate": 0.857,
+      "occasion": "summer_campaign",
+      "total_obs": 10,
+      "total_high_eng_rate": 0.7,
       "sectors": {
         "beauty": {
           "count": 0
         },
         "f_and_b": {
-          "count": 7,
-          "high_eng_rate": 0.857,
-          "lift_vs_sector_baseline": 0.257,
+          "count": 10,
+          "high_eng_rate": 0.7,
+          "lift_vs_sector_baseline": 0.1,
+          "top_pattern": "Occasion Peg",
+          "top_pattern_slug": "occasion_peg",
+          "top_media_type": "image",
+          "top_setting": "outdoor_nature"
+        },
+        "retail": {
+          "count": 0
+        }
+      }
+    },
+    {
+      "occasion": "founding_day",
+      "total_obs": 9,
+      "total_high_eng_rate": 0.778,
+      "sectors": {
+        "beauty": {
+          "count": 0
+        },
+        "f_and_b": {
+          "count": 9,
+          "high_eng_rate": 0.778,
+          "lift_vs_sector_baseline": 0.178,
           "top_pattern": "Founding Day Diriyah Heritage",
           "top_pattern_slug": "founding_day_dirayyah_heritage",
-          "top_media_type": "reel",
+          "top_media_type": "video",
           "top_setting": "digital_graphic"
         },
         "retail": {
@@ -182,21 +225,65 @@
       }
     },
     {
-      "occasion": "graduation_season",
-      "total_obs": 4,
-      "total_high_eng_rate": 0.75,
+      "occasion": "eid_al_adha",
+      "total_obs": 6,
+      "total_high_eng_rate": 0.333,
       "sectors": {
         "beauty": {
           "count": 0
         },
         "f_and_b": {
-          "count": 4,
-          "high_eng_rate": 0.75,
-          "lift_vs_sector_baseline": 0.15,
+          "count": 6,
+          "high_eng_rate": 0.333,
+          "lift_vs_sector_baseline": -0.267,
+          "top_pattern": "Occasion Peg",
+          "top_pattern_slug": "occasion_peg",
+          "top_media_type": "video",
+          "top_setting": "restaurant_indoor"
+        },
+        "retail": {
+          "count": 0
+        }
+      }
+    },
+    {
+      "occasion": "graduation_season",
+      "total_obs": 6,
+      "total_high_eng_rate": 0.833,
+      "sectors": {
+        "beauty": {
+          "count": 0
+        },
+        "f_and_b": {
+          "count": 6,
+          "high_eng_rate": 0.833,
+          "lift_vs_sector_baseline": 0.233,
           "top_pattern": "Occasion Peg",
           "top_pattern_slug": "occasion_peg",
           "top_media_type": "image",
           "top_setting": "digital_graphic"
+        },
+        "retail": {
+          "count": 0
+        }
+      }
+    },
+    {
+      "occasion": "national_sports_day",
+      "total_obs": 6,
+      "total_high_eng_rate": 0.0,
+      "sectors": {
+        "beauty": {
+          "count": 6,
+          "high_eng_rate": 0.0,
+          "lift_vs_sector_baseline": -0.18,
+          "top_pattern": "National Day Pride",
+          "top_pattern_slug": "national_day_pride",
+          "top_media_type": "image",
+          "top_setting": "restaurant_indoor"
+        },
+        "f_and_b": {
+          "count": 0
         },
         "retail": {
           "count": 0
@@ -226,51 +313,7 @@
       }
     },
     {
-      "occasion": "eid_al_adha",
-      "total_obs": 3,
-      "total_high_eng_rate": 0.333,
-      "sectors": {
-        "beauty": {
-          "count": 0
-        },
-        "f_and_b": {
-          "count": 3,
-          "high_eng_rate": 0.333,
-          "lift_vs_sector_baseline": -0.267,
-          "top_pattern": "Eid Family Gathering",
-          "top_pattern_slug": "eid_family_gathering",
-          "top_media_type": "video",
-          "top_setting": "restaurant_indoor"
-        },
-        "retail": {
-          "count": 0
-        }
-      }
-    },
-    {
-      "occasion": "national_sports_day",
-      "total_obs": 3,
-      "total_high_eng_rate": 0.0,
-      "sectors": {
-        "beauty": {
-          "count": 3,
-          "high_eng_rate": 0.0,
-          "lift_vs_sector_baseline": -0.18,
-          "top_pattern": "National Day Pride",
-          "top_pattern_slug": "national_day_pride",
-          "top_media_type": "image",
-          "top_setting": "restaurant_indoor"
-        },
-        "f_and_b": {
-          "count": 0
-        },
-        "retail": {
-          "count": 0
-        }
-      }
-    },
-    {
-      "occasion": "vision_2030_moment",
+      "occasion": "vision_2030",
       "total_obs": 2,
       "total_high_eng_rate": 1.0,
       "sectors": {
@@ -283,28 +326,6 @@
           "lift_vs_sector_baseline": 0.4,
           "top_pattern": "Cultural Moment Tie-In",
           "top_pattern_slug": "cultural_moment_tie_in",
-          "top_media_type": "image",
-          "top_setting": "digital_graphic"
-        },
-        "retail": {
-          "count": 0
-        }
-      }
-    },
-    {
-      "occasion": "world_coffee_day",
-      "total_obs": 2,
-      "total_high_eng_rate": 1.0,
-      "sectors": {
-        "beauty": {
-          "count": 0
-        },
-        "f_and_b": {
-          "count": 2,
-          "high_eng_rate": 1.0,
-          "lift_vs_sector_baseline": 0.4,
-          "top_pattern": "Curiosity Gap Question",
-          "top_pattern_slug": "curiosity_gap_question",
           "top_media_type": "image",
           "top_setting": "digital_graphic"
         },
@@ -336,28 +357,6 @@
       }
     },
     {
-      "occasion": "friday_weekly",
-      "total_obs": 1,
-      "total_high_eng_rate": 0.0,
-      "sectors": {
-        "beauty": {
-          "count": 0
-        },
-        "f_and_b": {
-          "count": 1,
-          "high_eng_rate": 0.0,
-          "lift_vs_sector_baseline": -0.6,
-          "top_pattern": "Occasion Peg",
-          "top_pattern_slug": "occasion_peg",
-          "top_media_type": "image",
-          "top_setting": "restaurant_indoor"
-        },
-        "retail": {
-          "count": 0
-        }
-      }
-    },
-    {
       "occasion": "hajj",
       "total_obs": 1,
       "total_high_eng_rate": 0.0,
@@ -378,59 +377,38 @@
           "count": 0
         }
       }
-    },
-    {
-      "occasion": "international_womens_day",
-      "total_obs": 1,
-      "total_high_eng_rate": 1.0,
-      "sectors": {
-        "beauty": {
-          "count": 0
-        },
-        "f_and_b": {
-          "count": 1,
-          "high_eng_rate": 1.0,
-          "lift_vs_sector_baseline": 0.4,
-          "top_pattern": "Event / Collab Announcement",
-          "top_pattern_slug": "event_collab_announcement",
-          "top_media_type": "carousel_slide",
-          "top_setting": "outdoor_nature"
-        },
-        "retail": {
-          "count": 0
-        }
-      }
     }
   ],
   "biggest_sector_splits": [
     {
       "occasion": "evergreen",
       "best_sector": "f_and_b",
-      "best_rate": 0.57,
+      "best_rate": 0.515,
       "worst_sector": "beauty",
-      "worst_rate": 0.191,
-      "gap": 0.379
+      "worst_rate": 0.198,
+      "gap": 0.317
     }
   ],
   "sector_exclusive_occasions": {
     "f_and_b": [
+      "brand_campaign",
       "eid_al_adha",
       "founding_day",
       "graduation_season",
       "national_day",
       "ramadan",
+      "sporting_event",
       "summer_campaign",
-      "vision_2030_moment",
-      "winter_seasonal",
-      "world_coffee_day"
+      "vision_2030",
+      "winter_seasonal"
     ],
     "beauty": [
       "national_sports_day"
     ]
   },
   "key_findings": [
-    "Biggest sector split on 'evergreen': f_and_b 56% vs beauty 19% (37pp gap)",
-    "Occasions exclusive to f_and_b: eid_al_adha, founding_day, graduation_season",
+    "Biggest sector split on 'evergreen': f_and_b 51% vs beauty 19% (31pp gap)",
+    "Occasions exclusive to f_and_b: brand_campaign, eid_al_adha, founding_day",
     "Occasions exclusive to beauty: national_sports_day"
   ]
 }

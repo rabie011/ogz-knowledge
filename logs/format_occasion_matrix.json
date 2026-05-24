@@ -2,32 +2,32 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 474,
+  "total_obs": 648,
   "format_engagement_table": [
     {
       "format": "carousel",
-      "obs_count": 91,
-      "high_engagement_rate": 0.747,
-      "avg_engagement": 0.846,
-      "lift_vs_baseline": 0.207,
+      "obs_count": 100,
+      "high_engagement_rate": 0.69,
+      "avg_engagement": 0.8,
+      "lift_vs_baseline": 0.15,
       "top_occasion": "evergreen",
       "top_sector": "f_and_b"
     },
     {
       "format": "image",
-      "obs_count": 224,
-      "high_engagement_rate": 0.536,
-      "avg_engagement": 0.688,
-      "lift_vs_baseline": -0.004,
+      "obs_count": 289,
+      "high_engagement_rate": 0.471,
+      "avg_engagement": 0.623,
+      "lift_vs_baseline": -0.069,
       "top_occasion": "evergreen",
       "top_sector": "f_and_b"
     },
     {
       "format": "video",
-      "obs_count": 159,
-      "high_engagement_rate": 0.44,
-      "avg_engagement": 0.645,
-      "lift_vs_baseline": -0.1,
+      "obs_count": 259,
+      "high_engagement_rate": 0.409,
+      "avg_engagement": 0.618,
+      "lift_vs_baseline": -0.131,
       "top_occasion": "evergreen",
       "top_sector": "f_and_b"
     }
@@ -35,21 +35,21 @@
   "best_format_per_occasion": {
     "evergreen": {
       "format": "carousel",
-      "rate": 0.744,
-      "n": 78,
+      "rate": 0.686,
+      "n": 86,
       "recommendation": "recommend_carousel"
     },
     "ramadan": {
       "format": "image",
-      "rate": 0.818,
-      "n": 11,
+      "rate": 0.786,
+      "n": 14,
       "recommendation": "strongly_recommend_image"
     },
     "national_day": {
-      "format": "image",
+      "format": "video",
       "rate": 0.8,
       "n": 5,
-      "recommendation": "strongly_recommend_image"
+      "recommendation": "strongly_recommend_video"
     },
     "founding_day": {
       "format": "image",
@@ -58,15 +58,33 @@
       "recommendation": "strongly_recommend_image"
     },
     "eid_al_adha": {
-      "format": "video",
-      "rate": 0.0,
+      "format": "image",
+      "rate": 1.0,
       "n": 2,
-      "recommendation": "avoid_video_for_this_occasion"
+      "recommendation": "strongly_recommend_image"
     },
     "eid_al_fitr": {
       "format": "video",
       "rate": 1.0,
-      "n": 3,
+      "n": 6,
+      "recommendation": "strongly_recommend_video"
+    },
+    "summer_campaign": {
+      "format": "carousel",
+      "rate": 1.0,
+      "n": 2,
+      "recommendation": "strongly_recommend_carousel"
+    },
+    "sporting_event": {
+      "format": "image",
+      "rate": 0.2,
+      "n": 5,
+      "recommendation": "avoid_image_for_this_occasion"
+    },
+    "brand_campaign": {
+      "format": "video",
+      "rate": 1.0,
+      "n": 2,
       "recommendation": "strongly_recommend_video"
     },
     "winter_seasonal": {
@@ -75,25 +93,13 @@
       "n": 3,
       "recommendation": "strongly_recommend_carousel"
     },
-    "summer_campaign": {
-      "format": "carousel",
-      "rate": 1.0,
-      "n": 2,
-      "recommendation": "strongly_recommend_carousel"
-    },
     "national_sports_day": {
       "format": "image",
       "rate": 0.0,
-      "n": 3,
+      "n": 6,
       "recommendation": "avoid_image_for_this_occasion"
     },
-    "vision_2030_moment": {
-      "format": "image",
-      "rate": 1.0,
-      "n": 2,
-      "recommendation": "strongly_recommend_image"
-    },
-    "world_coffee_day": {
+    "vision_2030": {
       "format": "image",
       "rate": 1.0,
       "n": 2,
@@ -102,22 +108,22 @@
     "graduation_season": {
       "format": "image",
       "rate": 1.0,
-      "n": 3,
+      "n": 5,
       "recommendation": "strongly_recommend_image"
     }
   },
   "format_x_occasion_matrix": [
     {
-      "format": "image",
-      "occasion": "summer_campaign",
-      "count": 5,
+      "format": "video",
+      "occasion": "eid_al_fitr",
+      "count": 6,
       "high_eng_rate": 1.0,
       "lift": 0.46
     },
     {
-      "format": "video",
-      "occasion": "eid_al_fitr",
-      "count": 3,
+      "format": "image",
+      "occasion": "graduation_season",
+      "count": 5,
       "high_eng_rate": 1.0,
       "lift": 0.46
     },
@@ -136,9 +142,9 @@
       "lift": 0.46
     },
     {
-      "format": "image",
-      "occasion": "graduation_season",
-      "count": 3,
+      "format": "video",
+      "occasion": "brand_campaign",
+      "count": 2,
       "high_eng_rate": 1.0,
       "lift": 0.46
     },
@@ -158,14 +164,14 @@
     },
     {
       "format": "image",
-      "occasion": "vision_2030_moment",
+      "occasion": "vision_2030",
       "count": 2,
       "high_eng_rate": 1.0,
       "lift": 0.46
     },
     {
       "format": "image",
-      "occasion": "world_coffee_day",
+      "occasion": "eid_al_adha",
       "count": 2,
       "high_eng_rate": 1.0,
       "lift": 0.46
@@ -186,7 +192,7 @@
     },
     {
       "format": "carousel",
-      "occasion": "international_womens_day",
+      "occasion": "brand_campaign",
       "count": 1,
       "high_eng_rate": 1.0,
       "lift": 0.46
@@ -207,17 +213,17 @@
     },
     {
       "format": "image",
-      "occasion": "eid_al_adha",
-      "count": 1,
-      "high_eng_rate": 1.0,
-      "lift": 0.46
+      "occasion": "summer_campaign",
+      "count": 6,
+      "high_eng_rate": 0.833,
+      "lift": 0.293
     },
     {
-      "format": "image",
-      "occasion": "ramadan",
-      "count": 11,
-      "high_eng_rate": 0.818,
-      "lift": 0.278
+      "format": "video",
+      "occasion": "national_day",
+      "count": 5,
+      "high_eng_rate": 0.8,
+      "lift": 0.26
     },
     {
       "format": "image",
@@ -227,46 +233,53 @@
       "lift": 0.26
     },
     {
-      "format": "video",
-      "occasion": "founding_day",
-      "count": 4,
-      "high_eng_rate": 0.75,
-      "lift": 0.21
+      "format": "image",
+      "occasion": "ramadan",
+      "count": 14,
+      "high_eng_rate": 0.786,
+      "lift": 0.246
     },
     {
       "format": "carousel",
       "occasion": "evergreen",
-      "count": 78,
-      "high_eng_rate": 0.744,
-      "lift": 0.204
+      "count": 86,
+      "high_eng_rate": 0.686,
+      "lift": 0.146
     },
     {
       "format": "video",
-      "occasion": "national_day",
-      "count": 3,
+      "occasion": "founding_day",
+      "count": 6,
       "high_eng_rate": 0.667,
       "lift": 0.127
     },
     {
       "format": "video",
       "occasion": "ramadan",
-      "count": 8,
-      "high_eng_rate": 0.625,
-      "lift": 0.085
+      "count": 14,
+      "high_eng_rate": 0.643,
+      "lift": 0.103
     },
     {
       "format": "image",
       "occasion": "evergreen",
-      "count": 183,
-      "high_eng_rate": 0.481,
-      "lift": -0.059
+      "count": 226,
+      "high_eng_rate": 0.425,
+      "lift": -0.115
+    },
+    {
+      "format": "image",
+      "occasion": "brand_campaign",
+      "count": 10,
+      "high_eng_rate": 0.4,
+      "lift": -0.14
     },
     {
       "format": "video",
       "occasion": "evergreen",
-      "count": 137,
-      "high_eng_rate": 0.416,
-      "lift": -0.124
+      "count": 214,
+      "high_eng_rate": 0.379,
+      "lift": -0.161
     },
     {
       "format": "carousel",
@@ -277,28 +290,49 @@
     },
     {
       "format": "image",
+      "occasion": "sporting_event",
+      "count": 5,
+      "high_eng_rate": 0.2,
+      "lift": -0.34
+    },
+    {
+      "format": "image",
       "occasion": "national_sports_day",
-      "count": 3,
+      "count": 6,
+      "high_eng_rate": 0.0,
+      "lift": -0.54
+    },
+    {
+      "format": "video",
+      "occasion": "sporting_event",
+      "count": 5,
       "high_eng_rate": 0.0,
       "lift": -0.54
     },
     {
       "format": "video",
       "occasion": "eid_al_adha",
-      "count": 2,
+      "count": 4,
       "high_eng_rate": 0.0,
       "lift": -0.54
     },
     {
       "format": "video",
       "occasion": "summer_campaign",
-      "count": 1,
+      "count": 2,
       "high_eng_rate": 0.0,
       "lift": -0.54
     },
     {
       "format": "video",
       "occasion": "graduation_season",
+      "count": 1,
+      "high_eng_rate": 0.0,
+      "lift": -0.54
+    },
+    {
+      "format": "carousel",
+      "occasion": "sporting_event",
       "count": 1,
       "high_eng_rate": 0.0,
       "lift": -0.54
@@ -316,29 +350,22 @@
       "count": 1,
       "high_eng_rate": 0.0,
       "lift": -0.54
-    },
-    {
-      "format": "image",
-      "occasion": "friday_weekly",
-      "count": 1,
-      "high_eng_rate": 0.0,
-      "lift": -0.54
     }
   ],
   "format_x_sector": [
     {
       "format": "carousel",
       "sector": "f_and_b",
-      "count": 87,
-      "high_eng_rate": 0.77,
-      "lift": 0.23
+      "count": 94,
+      "high_eng_rate": 0.723,
+      "lift": 0.183
     },
     {
       "format": "image",
       "sector": "f_and_b",
-      "count": 189,
-      "high_eng_rate": 0.608,
-      "lift": 0.068
+      "count": 235,
+      "high_eng_rate": 0.549,
+      "lift": 0.009
     },
     {
       "format": "carousel",
@@ -350,58 +377,58 @@
     {
       "format": "video",
       "sector": "f_and_b",
-      "count": 123,
-      "high_eng_rate": 0.472,
-      "lift": -0.068
+      "count": 195,
+      "high_eng_rate": 0.446,
+      "lift": -0.094
     },
     {
       "format": "video",
       "sector": "retail",
-      "count": 18,
-      "high_eng_rate": 0.389,
-      "lift": -0.151
+      "count": 28,
+      "high_eng_rate": 0.321,
+      "lift": -0.219
     },
     {
       "format": "video",
       "sector": "beauty",
-      "count": 18,
+      "count": 36,
       "high_eng_rate": 0.278,
       "lift": -0.262
     },
     {
       "format": "image",
       "sector": "retail",
-      "count": 5,
-      "high_eng_rate": 0.2,
-      "lift": -0.34
+      "count": 7,
+      "high_eng_rate": 0.143,
+      "lift": -0.397
     },
     {
       "format": "image",
       "sector": "beauty",
-      "count": 30,
-      "high_eng_rate": 0.133,
-      "lift": -0.407
+      "count": 47,
+      "high_eng_rate": 0.128,
+      "lift": -0.412
     },
     {
       "format": "carousel",
       "sector": "beauty",
-      "count": 2,
+      "count": 4,
       "high_eng_rate": 0.0,
       "lift": -0.54
     }
   ],
   "occasion_format_distribution": {
     "evergreen": {
-      "total_obs": 398,
+      "total_obs": 526,
       "format_mix": {
-        "image": 0.46,
-        "video": 0.344,
-        "carousel": 0.196
+        "image": 0.43,
+        "video": 0.407,
+        "carousel": 0.163
       },
       "dominant_format": "image"
     },
     "national_sports_day": {
-      "total_obs": 3,
+      "total_obs": 6,
       "format_mix": {
         "image": 1.0
       },
@@ -416,11 +443,11 @@
       "dominant_format": "carousel"
     },
     "ramadan": {
-      "total_obs": 23,
+      "total_obs": 32,
       "format_mix": {
-        "image": 0.478,
-        "video": 0.348,
-        "carousel": 0.174
+        "image": 0.438,
+        "video": 0.438,
+        "carousel": 0.125
       },
       "dominant_format": "image"
     },
@@ -432,72 +459,67 @@
       "dominant_format": "image"
     },
     "national_day": {
-      "total_obs": 9,
+      "total_obs": 11,
       "format_mix": {
-        "image": 0.556,
-        "video": 0.333,
-        "carousel": 0.111
+        "video": 0.455,
+        "image": 0.455,
+        "carousel": 0.091
       },
-      "dominant_format": "image"
+      "dominant_format": "video"
     },
     "founding_day": {
-      "total_obs": 7,
+      "total_obs": 9,
       "format_mix": {
-        "video": 0.571,
-        "image": 0.286,
-        "carousel": 0.143
+        "video": 0.667,
+        "image": 0.222,
+        "carousel": 0.111
       },
       "dominant_format": "video"
     },
     "eid_al_fitr": {
-      "total_obs": 7,
+      "total_obs": 10,
       "format_mix": {
-        "image": 0.429,
-        "video": 0.429,
-        "carousel": 0.143
+        "video": 0.6,
+        "image": 0.3,
+        "carousel": 0.1
       },
-      "dominant_format": "image"
+      "dominant_format": "video"
     },
     "summer_campaign": {
-      "total_obs": 8,
+      "total_obs": 10,
       "format_mix": {
-        "image": 0.625,
-        "carousel": 0.25,
-        "video": 0.125
+        "image": 0.6,
+        "carousel": 0.2,
+        "video": 0.2
       },
       "dominant_format": "image"
     },
-    "vision_2030_moment": {
+    "vision_2030": {
       "total_obs": 2,
       "format_mix": {
         "image": 1.0
       },
       "dominant_format": "image"
     },
-    "world_coffee_day": {
-      "total_obs": 2,
+    "brand_campaign": {
+      "total_obs": 13,
       "format_mix": {
-        "image": 1.0
+        "image": 0.769,
+        "video": 0.154,
+        "carousel": 0.077
       },
       "dominant_format": "image"
-    },
-    "international_womens_day": {
-      "total_obs": 1,
-      "format_mix": {
-        "carousel": 1.0
-      },
-      "dominant_format": "carousel"
     },
     "graduation_season": {
-      "total_obs": 4,
+      "total_obs": 6,
       "format_mix": {
-        "image": 0.75,
-        "video": 0.25
+        "image": 0.833,
+        "video": 0.167
       },
       "dominant_format": "image"
     },
     "eid_al_adha": {
-      "total_obs": 3,
+      "total_obs": 6,
       "format_mix": {
         "video": 0.667,
         "image": 0.333
@@ -511,23 +533,26 @@
       },
       "dominant_format": "image"
     },
-    "friday_weekly": {
-      "total_obs": 1,
+    "sporting_event": {
+      "total_obs": 11,
       "format_mix": {
-        "image": 1.0
+        "image": 0.455,
+        "video": 0.455,
+        "carousel": 0.091
       },
       "dominant_format": "image"
     }
   },
   "key_findings": [
-    "Best format overall: 'carousel' = 74% high eng (n=91)",
-    "Worst format: 'video' = 44% (n=159)",
-    "Eid Al Fitr: best format = 'video' at 100% (n=3)",
-    "Evergreen: best format = 'carousel' at 74% (n=78)",
-    "Graduation Season: best format = 'image' at 100% (n=3)",
-    "National Day: best format = 'image' at 80% (n=5)",
-    "National Sports Day: best format = 'image' at 0% (n=3)",
-    "Ramadan: best format = 'image' at 81% (n=11)",
+    "Best format overall: 'carousel' = 69% high eng (n=100)",
+    "Worst format: 'video' = 40% (n=259)",
+    "Eid Al Fitr: best format = 'video' at 100% (n=6)",
+    "Evergreen: best format = 'carousel' at 68% (n=86)",
+    "Graduation Season: best format = 'image' at 100% (n=5)",
+    "National Day: best format = 'video' at 80% (n=5)",
+    "National Sports Day: best format = 'image' at 0% (n=6)",
+    "Ramadan: best format = 'image' at 78% (n=14)",
+    "Sporting Event: best format = 'image' at 20% (n=5)",
     "Winter Seasonal: best format = 'carousel' at 100% (n=3)"
   ]
 }

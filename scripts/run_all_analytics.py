@@ -46,6 +46,11 @@ PIPELINE = [
     ("Occasion × sector × format", "build_occasion_sector_format_matrix.py",False),
     ("Master signal table",        "build_master_signal_table.py",         False),
 
+    # Tier 2b: format deep-dives
+    ("Carousel analysis",          "build_carousel_analysis.py",           False),
+    ("Video strategy analysis",    "build_video_strategy_analysis.py",     False),
+    ("Posting frequency",          "build_posting_frequency_analysis.py",  False),
+
     # Tier 3: account-level (fast)
     ("Account performance",        "build_account_performance_analysis.py",False),
     ("Elite vs weak DNA",          "build_elite_vs_weak_dna.py",           False),

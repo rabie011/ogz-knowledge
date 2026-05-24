@@ -49,6 +49,9 @@ def main():
     opp     = _load("occasion_playbook.json")
     wf      = _load("winning_formula_analysis.json")
     props   = _load("props_taxonomy.json")
+    car     = _load("carousel_analysis.json")
+    vid     = _load("video_strategy_analysis.json")
+    pfa     = _load("posting_frequency_analysis.json")
 
     corpus_total = 648
     global_avg = ct_an.get("global_avg") or 0.65
@@ -277,6 +280,68 @@ def main():
         "best_by_sector": wf.get("sector_winning_formulas") or {},
     }
 
+    # ── SECTION 14: Carousel Intelligence ───────────────────────────────────
+    carousel_section = {
+        "question": "How do carousels differ from other formats? What makes them work?",
+        "carousel_obs": car.get("meta",{}).get("carousel_obs"),
+        "carousel_avg": car.get("meta",{}).get("carousel_avg_engagement"),
+        "carousel_lift_vs_corpus": car.get("meta",{}).get("carousel_lift_vs_corpus"),
+        "format_comparison": car.get("format_comparison") or {},
+        "by_aspect_ratio": car.get("by_aspect_ratio") or [],
+        "by_visual_complexity": car.get("by_visual_complexity") or [],
+        "by_tone": (car.get("by_tone") or [])[:5],
+        "by_occasion": car.get("by_occasion") or [],
+        "high_eng_signals": (car.get("high_eng_signals") or [])[:6],
+        "winning_formula": car.get("winning_formula") or {},
+        "agency_rules": [
+            f"Carousels average {(car.get('meta',{}).get('carousel_avg_engagement') or 0):.0%} — second only to reels",
+            "Portrait_4x5 appears in 72% of high-engagement carousels (vs landscape-leaning images)",
+            "Complex visual_complexity in carousels: 90% engagement vs 66% moderate (+24pp)",
+            "Use carousels for: product showcases, storytelling, multi-step reveals",
+            "Avoid: moderate visual complexity in carousels — it underperforms every other option",
+        ],
+    }
+
+    # ── SECTION 15: Video Strategy ──────────────────────────────────────────
+    video_section = {
+        "question": "When should we use video, and what video formula works?",
+        "video_avg": vid.get("meta",{}).get("video_avg_engagement"),
+        "video_lift_vs_corpus": vid.get("meta",{}).get("video_lift_vs_corpus"),
+        "type_comparison": vid.get("type_comparison") or {},
+        "by_duration": vid.get("by_duration") or [],
+        "by_aspect_ratio": vid.get("by_aspect_ratio") or [],
+        "by_tone": (vid.get("by_tone") or [])[:5],
+        "video_vs_static_by_occasion": vid.get("video_vs_static_by_occasion") or [],
+        "high_eng_signals": (vid.get("high_eng_signals") or [])[:5],
+        "winning_formula": vid.get("winning_formula") or {},
+        "agency_rules": [
+            "Static content beats video on EVERY tested occasion (founding_day -17pp, national_day -12pp)",
+            "Reels (short-form) outperform regular video: 81% vs 59% (-22pp for raw video)",
+            "Duration paradox: longer videos (60s+) at 82% vs short (0-15s) at 53% — depth > brevity",
+            "For video: landscape_16x9 is best (88%), NOT vertical_9x16 (63%)",
+            "Patriotic tone is uniquely powerful in video: 84% — higher than in static content",
+            "Default to static unless: brand story, occasion tribute, or product in action",
+        ],
+    }
+
+    # ── SECTION 16: Posting Cadence ─────────────────────────────────────────
+    cadence_section = {
+        "question": "How often should accounts post, and on which days?",
+        "note": "Temporal data has recency bias — May 2026 dominated (261/548 obs). Use directional only.",
+        "by_day_of_week": (pfa.get("by_day_of_week") or [])[:7],
+        "cadence_vs_engagement": pfa.get("cadence_vs_engagement") or [],
+        "gap_days_vs_engagement": pfa.get("gap_days_vs_engagement") or [],
+        "by_occasion_volume": (pfa.get("by_occasion_volume") or [])[:6],
+        "sector_cadence": pfa.get("sector_cadence") or [],
+        "agency_rules": [
+            "Sunday is the best posting day (+4pp) — F&B rule: Sunday/Thursday/Monday",
+            "Tuesday is the worst day (-13pp) — avoid for important posts",
+            "CAVEAT: cadence × engagement data is confounded by extraction recency bias",
+            "Conservative guidance: 3-4 posts/week is the sustainable elite cadence",
+            "Post quality > post frequency — accounts posting <1/week outperform daily posters",
+        ],
+    }
+
     # ── EXECUTIVE SUMMARY ───────────────────────────────────────────────────
     # Pull best-performing values across dimensions
     def _best_dim(d_dict):
@@ -298,7 +363,7 @@ def main():
             f"Text overlays: posts WITH overlays score {(toi.get('has_overlay_avg') or 0):.0%} vs {(toi.get('no_overlay_avg') or 0):.0%} without",
             f"Aspect ratio: vertical_9x16 massively overindexed by weak accounts (-55pp)",
             f"Visual complexity: moderate complexity is the weakest signal (-28pp vs complex)",
-            f"Hashtags: 16+ hashtags = {(_best_dim({k:v for k,v in cap_lh.get('by_hashtag_count',{}).items() if '16' in k})) if cap_lh.get('by_hashtag_count') else '41%'} engagement",
+            f"Hashtags: 16+ hashtags underperform — keep to 1-5 for best engagement",
         ],
         "sector_ranking": [
             {"sector": k, "avg": v.get("avg_engagement"), "lift": v.get("lift_vs_corpus")}
@@ -308,14 +373,14 @@ def main():
     }
 
     out = {
-        "schema_version": 3,
+        "schema_version": 4,
         "generated_at": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "title": "OGZ Saudi Instagram Intelligence Playbook v3",
+        "title": "OGZ Saudi Instagram Intelligence Playbook v4",
         "corpus": {
             "total_observations": corpus_total,
             "sectors": ["f_and_b (524)", "beauty (87)", "retail (37)"],
             "global_avg_engagement": round(global_avg, 3),
-            "analytics_logs_used": 25,
+            "analytics_logs_used": 28,
         },
         "executive_summary": exec_summary,
         "sections": {
@@ -332,6 +397,9 @@ def main():
             "elite_vs_weak": dna_section,
             "signals":       signals_section,
             "formulas":      formula_section,
+            "carousel":      carousel_section,
+            "video":         video_section,
+            "posting_cadence": cadence_section,
         },
     }
 
@@ -339,7 +407,7 @@ def main():
         json.dumps(out, ensure_ascii=False, indent=2)
     )
 
-    print(f"\nOGZ Intelligence Playbook v3 — {corpus_total} obs | {global_avg:.0%} corpus avg")
+    print(f"\nOGZ Intelligence Playbook v{out['schema_version']} — {corpus_total} obs | {global_avg:.0%} corpus avg")
     print(f"\nExecutive Summary:")
     for i, item in enumerate(exec_summary["top_5_do"], 1):
         print(f"  DO  {i}. {item}")
@@ -349,7 +417,7 @@ def main():
     for s in exec_summary["sector_ranking"]:
         lift = f"+{s['lift']:.2f}" if (s['lift'] or 0) >= 0 else f"{s['lift']:.2f}"
         print(f"  {s['sector']:<12}  {(s['avg'] or 0):.0%}  lift {lift}")
-    print(f"\n  Output → logs/intelligence_playbook.json  ({len(out['sections'])} sections)")
+    print(f"\n  Output → logs/intelligence_playbook.json  ({len(out['sections'])} sections, v{out['schema_version']})")
 
 if __name__ == "__main__":
     main()

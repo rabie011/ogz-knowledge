@@ -17,7 +17,7 @@ PATTERNS = BASE / "11_who_to_learn_from" / "patterns"
 LOGS     = BASE / "logs"
 
 ENG_MAP = {"high":1.0,"very_high":1.0,"above_average":0.75,"medium":0.5,"low":0.0,"below_average":0.25}
-CORPUS_BASELINE = 0.54
+CORPUS_BASELINE = 0.65   # updated from 0.54 — live-calculated from 648 obs
 
 
 def load_pattern_names():
@@ -53,13 +53,16 @@ def main():
         cn  = data.get("cultural_notes",{}) or {}
 
         media_type  = str(cr.get("content_type","") or "").lower().strip() or None
-        setting     = vv.get("setting") or None
-        lighting    = vv.get("lighting") or None
-        composition = vv.get("composition_style") or None
-        register    = str(vo.get("register","") or "").lower().strip() or None
-        tone        = str(vo.get("tone","") or "").lower().strip() or None
-        occasion    = str(cn.get("occasion_relevance","") or "evergreen").lower().strip() or "evergreen"
-        sector      = data.get("sector","unknown") or "unknown"
+        setting          = vv.get("setting") or None
+        lighting         = vv.get("lighting") or None
+        composition      = vv.get("composition_style") or None
+        visual_complexity= vv.get("visual_complexity") or None
+        register         = str(vo.get("register","") or "").lower().strip() or None
+        tone             = str(vo.get("tone","") or "").lower().strip() or None
+        occasion         = str(cn.get("occasion_relevance","") or "evergreen").lower().strip() or "evergreen"
+        sector           = data.get("sector","unknown") or "unknown"
+        aspect_ratio     = cr.get("aspect_ratio") or None
+        day_of_week      = cr.get("day_of_week") or None
 
         # All pattern slugs for this obs
         pattern_slugs = []
@@ -74,6 +77,9 @@ def main():
             "setting": setting,
             "lighting": lighting,
             "composition": composition,
+            "visual_complexity": visual_complexity,
+            "aspect_ratio": aspect_ratio,
+            "day_of_week": day_of_week,
             "register": register,
             "tone": tone,
             "occasion": occasion,
@@ -191,6 +197,33 @@ def main():
         rows.sort(key=lambda x: (-x["high_eng_rate"], -x["count"]))
         sector_best[sec] = rows[:5]
 
+    # ── 5. Visual-complexity + format formula (new dimensions)
+    vc_fmt = defaultdict(lambda: {"count":0,"high":0,"sum":0.0})
+    for rec in obs_records:
+        if not (rec["media_type"] and rec["visual_complexity"]): continue
+        key = (rec["media_type"], rec["visual_complexity"], rec["aspect_ratio"] or "unknown", rec["setting"] or "unknown")
+        f = vc_fmt[key]
+        f["count"] += 1
+        f["high"]  += rec["is_high"]
+        f["sum"]   += rec["eng"]
+
+    vc_fmt_table = []
+    for key, f in vc_fmt.items():
+        n = f["count"]
+        if n < 3: continue
+        rate = round(f["high"]/n, 3)
+        vc_fmt_table.append({
+            "media_type": key[0],
+            "visual_complexity": key[1],
+            "aspect_ratio": key[2],
+            "setting": key[3],
+            "obs_count": n,
+            "high_engagement_rate": rate,
+            "avg_engagement": round(f["sum"]/n, 3),
+            "lift_vs_baseline": round(rate - CORPUS_BASELINE, 3),
+        })
+    vc_fmt_table.sort(key=lambda x: (-x["high_engagement_rate"], -x["obs_count"]))
+
     # ── Key findings
     findings = []
     top_6 = [f for f in formula_6_table if f["obs_count"] >= 3]
@@ -215,12 +248,13 @@ def main():
     )
 
     out = {
-        "schema_version": 1,
+        "schema_version": 2,
         "generated_at": "2026-05-24T00:00:00Z",
         "corpus_baseline": CORPUS_BASELINE,
         "total_obs": total,
         "top_6dim_formulas": formula_6_table[:20],
         "top_5dim_visual_formulas": formula_5_table[:20],
+        "top_vc_format_formulas": vc_fmt_table[:15],
         "best_occasion_formulas": best_occasion_formulas,
         "sector_winning_formulas": sector_best,
         "key_findings": findings,

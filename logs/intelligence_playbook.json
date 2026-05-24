@@ -1,2879 +1,2106 @@
 {
-  "schema_version": 2,
-  "generated_at": "2026-05-24T00:00:00Z",
-  "title": "OGZ Saudi Instagram Intelligence Playbook",
+  "schema_version": 3,
+  "generated_at": "2026-05-24T18:15:47Z",
+  "title": "OGZ Saudi Instagram Intelligence Playbook v3",
   "corpus": {
-    "total_observations": 474,
-    "total_accounts": 15,
-    "total_patterns": 159,
+    "total_observations": 648,
     "sectors": [
-      "f_and_b",
-      "beauty",
-      "retail"
+      "f_and_b (524)",
+      "beauty (87)",
+      "retail (37)"
     ],
-    "analytical_artifacts": 36,
-    "normalization_passes": {
-      "register": "104 raw → 10 canonical",
-      "tone": "211 raw → 12 canonical",
-      "setting": "454 raw → 12 canonical",
-      "lighting": "435 raw → 9 canonical",
-      "composition": "408 raw → 9 canonical",
-      "color_families": "1747 mentions → 12 families",
-      "occasions": "131 raw → 16 canonical slugs"
-    }
+    "global_avg_engagement": 0.648,
+    "analytics_logs_used": 25
   },
   "executive_summary": {
-    "top_5_actionable_findings": [
-      "Use carousel format — 74% high engagement vs 37% for video. Single images are mid-tier (53%).",
-      "Post on Sundays — 60% high eng vs 38% on Tuesdays. March and January are peak months.",
-      "Heritage content pattern (heritage_storytelling_hook) achieves 100% high engagement across 13 observations.",
-      "Architectural framing and overhead spreads outperform product hero close-up (64-62% vs 48%). Product hero is overused.",
-      "Dramatic/moody lighting outperforms clean cold studio (68% vs 48%). Branded bright is the worst (35%)."
+    "corpus_size": 648,
+    "global_avg_engagement": 0.648,
+    "top_5_do": [
+      "Format: reel — highest content type",
+      "Visual complexity: complex beats moderate by +28pp (86% vs 58%)",
+      "Heritage framing: +18pp uplift vs modern",
+      "Posting day: sunday beats worst day by ~17pp",
+      "Caption: 10-30 words + 1-5 hashtags = 10-30 wins"
     ],
-    "top_5_things_to_avoid": [
-      "Video format — lowest engagement rate (37%) despite being widely used (122 obs).",
-      "Educational explainer pattern — 19% high engagement across 26 observations.",
-      "editorial_lifestyle setting — 20% high engagement (avoid this setting type).",
-      "Branded bright lighting — 35% high engagement, weakest lighting category.",
-      "Generic product-only flat-lays — flagged as anti-pattern by 25 accounts."
+    "top_5_avoid": [
+      "Content type: video is the weakest format (59%)",
+      "Text overlays: posts WITH overlays score 62% vs 86% without",
+      "Aspect ratio: vertical_9x16 massively overindexed by weak accounts (-55pp)",
+      "Visual complexity: moderate complexity is the weakest signal (-28pp vs complex)",
+      "Hashtags: 16+ hashtags = 16+ engagement"
     ],
-    "archetype_verdict": "Heritage Anchor = strongest archetype on all 3 dimensions (engagement, health, compliance). 10 of 15 accounts cluster in Modern Premium — high competition, mid performance. Moving an account toward Heritage Anchor positioning is the single highest-leverage strategic move.",
-    "occasion_insight": "84% of posts are evergreen (51% high eng baseline). Every seasonal occasion outperforms that baseline — Eid 100%, National Day 87%, Ramadan 61%. Increasing occasion-specific content from ~16% to ~30% of output is a structural opportunity."
+    "sector_ranking": [
+      {
+        "sector": "f_and_b",
+        "avg": 0.698,
+        "lift": 0.05
+      },
+      {
+        "sector": "retail",
+        "avg": 0.486,
+        "lift": -0.162
+      },
+      {
+        "sector": "beauty",
+        "avg": 0.42,
+        "lift": -0.228
+      }
+    ]
   },
-  "answers": {
-    "1_what_format": {
-      "question": "What media format maximises engagement?",
-      "answer": "Carousel slides first, then Reels. Single images are mid-tier. Long video underperforms.",
-      "evidence": [
-        {
-          "format": "carousel_slide",
-          "high_engagement_rate": 0.747,
-          "obs_count": 91,
-          "verdict": "strong_positive"
+  "sections": {
+    "format": {
+      "question": "What format maximises engagement?",
+      "by_content_type": {
+        "reel": {
+          "avg": 0.811,
+          "n": 37
         },
-        {
-          "format": "reel",
-          "high_engagement_rate": 0.649,
-          "obs_count": 37,
-          "verdict": "positive"
+        "carousel_slide": {
+          "avg": 0.8,
+          "n": 100
         },
-        {
-          "format": "image",
-          "high_engagement_rate": 0.536,
-          "obs_count": 224,
-          "verdict": "neutral"
+        "image": {
+          "avg": 0.623,
+          "n": 289
         },
-        {
-          "format": "video",
-          "high_engagement_rate": 0.377,
-          "obs_count": 122,
-          "verdict": "weak"
+        "video": {
+          "avg": 0.586,
+          "n": 222
         }
-      ]
-    },
-    "2_when_to_post": {
-      "question": "What day of the week produces the highest engagement?",
-      "answer": "Sunday is the best posting day. Tuesday is the worst. Weekends outperform weekdays (50% vs 43% high engagement).",
-      "day_ranking": [
-        {
-          "day": "Sunday",
-          "high_engagement_rate": 0.609,
-          "obs_count": 46
-        },
-        {
-          "day": "Friday",
-          "high_engagement_rate": 0.467,
-          "obs_count": 45
-        },
-        {
-          "day": "Wednesday",
-          "high_engagement_rate": 0.436,
-          "obs_count": 55
-        },
-        {
-          "day": "Thursday",
-          "high_engagement_rate": 0.436,
-          "obs_count": 55
-        },
-        {
-          "day": "Monday",
-          "high_engagement_rate": 0.433,
-          "obs_count": 60
-        },
-        {
-          "day": "Saturday",
-          "high_engagement_rate": 0.391,
-          "obs_count": 46
-        },
-        {
-          "day": "Tuesday",
-          "high_engagement_rate": 0.388,
-          "obs_count": 67
-        }
-      ],
-      "top_months": [
-        {
-          "label": "January",
-          "count": 12,
-          "high_engagement_rate": 0.75,
-          "avg_engagement": 0.875,
-          "verdict": "strong_positive",
-          "month": "January"
-        },
-        {
-          "label": "March",
-          "count": 31,
-          "high_engagement_rate": 0.71,
-          "avg_engagement": 0.855,
-          "verdict": "strong_positive",
-          "month": "March"
-        },
-        {
-          "label": "July",
-          "count": 6,
-          "high_engagement_rate": 0.667,
-          "avg_engagement": 0.833,
-          "verdict": "positive",
-          "month": "July"
-        },
-        {
-          "label": "February",
-          "count": 23,
-          "high_engagement_rate": 0.652,
-          "avg_engagement": 0.826,
-          "verdict": "positive",
-          "month": "February"
-        },
-        {
-          "label": "September",
-          "count": 24,
-          "high_engagement_rate": 0.625,
-          "avg_engagement": 0.75,
-          "verdict": "positive",
-          "month": "September"
-        }
-      ]
-    },
-    "3_top_engagement_signals": {
-      "question": "Which content features consistently drive high engagement?",
-      "top_positive_signals": [
-        {
-          "signal_type": "pattern",
-          "signal_value": "heritage_storytelling_hook",
-          "obs_count": 13,
-          "high_engagement_count": 13,
-          "high_engagement_rate": 1.0,
-          "verdict": "strong_positive",
-          "insight": "13/13 obs with high engagement (100%)"
-        },
-        {
-          "signal_type": "occasion",
-          "signal_value": "eid_al_fitr",
-          "obs_count": 7,
-          "high_engagement_count": 7,
-          "high_engagement_rate": 1.0,
-          "verdict": "strong_positive",
-          "insight": "7/7 obs with high engagement (100%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "parallel_original_bilingual",
-          "obs_count": 7,
-          "high_engagement_count": 7,
-          "high_engagement_rate": 1.0,
-          "verdict": "strong_positive",
-          "insight": "7/7 obs with high engagement (100%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "occasion_specific_greeting",
-          "obs_count": 7,
-          "high_engagement_count": 7,
-          "high_engagement_rate": 1.0,
-          "verdict": "strong_positive",
-          "insight": "7/7 obs with high engagement (100%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "urgency_without_pressure",
-          "obs_count": 5,
-          "high_engagement_count": 5,
-          "high_engagement_rate": 1.0,
-          "verdict": "strong_positive",
-          "insight": "5/5 obs with high engagement (100%)"
-        },
-        {
-          "signal_type": "occasion",
-          "signal_value": "winter_seasonal",
-          "obs_count": 4,
-          "high_engagement_count": 4,
-          "high_engagement_rate": 1.0,
-          "verdict": "strong_positive",
-          "insight": "4/4 obs with high engagement (100%)"
-        },
-        {
-          "signal_type": "production_quality",
-          "signal_value": "low",
-          "obs_count": 4,
-          "high_engagement_count": 4,
-          "high_engagement_rate": 1.0,
-          "verdict": "strong_positive",
-          "insight": "4/4 obs with high engagement (100%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "seasonal_summer_heat",
-          "obs_count": 4,
-          "high_engagement_count": 4,
-          "high_engagement_rate": 1.0,
-          "verdict": "strong_positive",
-          "insight": "4/4 obs with high engagement (100%)"
-        },
-        {
-          "signal_type": "setting",
-          "signal_value": "restaurant_outdoor",
-          "obs_count": 3,
-          "high_engagement_count": 3,
-          "high_engagement_rate": 1.0,
-          "verdict": "strong_positive",
-          "insight": "3/3 obs with high engagement (100%)"
-        },
-        {
-          "signal_type": "dialect",
-          "signal_value": "spanish_colloquial",
-          "obs_count": 50,
-          "high_engagement_count": 46,
-          "high_engagement_rate": 0.92,
-          "verdict": "strong_positive",
-          "insight": "46/50 obs with high engagement (92%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "community_pride_statement",
-          "obs_count": 12,
-          "high_engagement_count": 11,
-          "high_engagement_rate": 0.917,
-          "verdict": "strong_positive",
-          "insight": "11/12 obs with high engagement (91%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "pattern_repeat_flatlay",
-          "obs_count": 11,
-          "high_engagement_count": 10,
-          "high_engagement_rate": 0.909,
-          "verdict": "strong_positive",
-          "insight": "10/11 obs with high engagement (90%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "cultural_object_hero",
-          "obs_count": 21,
-          "high_engagement_count": 19,
-          "high_engagement_rate": 0.905,
-          "verdict": "strong_positive",
-          "insight": "19/21 obs with high engagement (90%)"
-        },
-        {
-          "signal_type": "setting",
-          "signal_value": "retail_urban",
-          "obs_count": 8,
-          "high_engagement_count": 7,
-          "high_engagement_rate": 0.875,
-          "verdict": "strong_positive",
-          "insight": "7/8 obs with high engagement (87%)"
-        },
-        {
-          "signal_type": "occasion",
-          "signal_value": "summer_campaign",
-          "obs_count": 8,
-          "high_engagement_count": 7,
-          "high_engagement_rate": 0.875,
-          "verdict": "strong_positive",
-          "insight": "7/8 obs with high engagement (87%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "lifestyle_environment_integration",
-          "obs_count": 62,
-          "high_engagement_count": 54,
-          "high_engagement_rate": 0.871,
-          "verdict": "strong_positive",
-          "insight": "54/62 obs with high engagement (87%)"
-        },
-        {
-          "signal_type": "occasion",
-          "signal_value": "founding_day",
-          "obs_count": 7,
-          "high_engagement_count": 6,
-          "high_engagement_rate": 0.857,
-          "verdict": "strong_positive",
-          "insight": "6/7 obs with high engagement (85%)"
-        },
-        {
-          "signal_type": "register",
-          "signal_value": "professional",
-          "obs_count": 13,
-          "high_engagement_count": 11,
-          "high_engagement_rate": 0.846,
-          "verdict": "strong_positive",
-          "insight": "11/13 obs with high engagement (84%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "founding_day_dirayyah_heritage",
-          "obs_count": 6,
-          "high_engagement_count": 5,
-          "high_engagement_rate": 0.833,
-          "verdict": "strong_positive",
-          "insight": "5/6 obs with high engagement (83%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "overhead_tabletop_spread",
-          "obs_count": 47,
-          "high_engagement_count": 38,
-          "high_engagement_rate": 0.809,
-          "verdict": "strong_positive",
-          "insight": "38/47 obs with high engagement (80%)"
-        }
-      ],
-      "signals_to_avoid": [
-        {
-          "signal_type": "pattern",
-          "signal_value": "educational_explainer",
-          "obs_count": 26,
-          "high_engagement_count": 5,
-          "high_engagement_rate": 0.192,
-          "verdict": "avoid",
-          "insight": "5/26 obs with high engagement (19%)"
-        },
-        {
-          "signal_type": "sector",
-          "signal_value": "beauty",
-          "obs_count": 50,
-          "high_engagement_count": 9,
-          "high_engagement_rate": 0.18,
-          "verdict": "avoid",
-          "insight": "9/50 obs with high engagement (18%)"
-        },
-        {
-          "signal_type": "register",
-          "signal_value": "patriotic",
-          "obs_count": 7,
-          "high_engagement_count": 1,
-          "high_engagement_rate": 0.143,
-          "verdict": "avoid",
-          "insight": "1/7 obs with high engagement (14%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "lifestyle_embed",
-          "obs_count": 9,
-          "high_engagement_count": 1,
-          "high_engagement_rate": 0.111,
-          "verdict": "avoid",
-          "insight": "1/9 obs with high engagement (11%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "ramadan_iftar_table",
-          "obs_count": 4,
-          "high_engagement_count": 0,
-          "high_engagement_rate": 0.0,
-          "verdict": "avoid",
-          "insight": "0/4 obs with high engagement (0%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "sports_passion_peg",
-          "obs_count": 4,
-          "high_engagement_count": 0,
-          "high_engagement_rate": 0.0,
-          "verdict": "avoid",
-          "insight": "0/4 obs with high engagement (0%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "specific_emotional_state",
-          "obs_count": 3,
-          "high_engagement_count": 0,
-          "high_engagement_rate": 0.0,
-          "verdict": "avoid",
-          "insight": "0/3 obs with high engagement (0%)"
-        },
-        {
-          "signal_type": "occasion",
-          "signal_value": "national_sports_day",
-          "obs_count": 3,
-          "high_engagement_count": 0,
-          "high_engagement_rate": 0.0,
-          "verdict": "avoid",
-          "insight": "0/3 obs with high engagement (0%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "product_bundle_offer",
-          "obs_count": 3,
-          "high_engagement_count": 0,
-          "high_engagement_rate": 0.0,
-          "verdict": "avoid",
-          "insight": "0/3 obs with high engagement (0%)"
-        }
-      ]
-    },
-    "4_best_patterns": {
-      "question": "Which patterns are highest-engagement AND most versatile?",
-      "answer": "heritage_storytelling_hook (100%), parallel_original_bilingual (100%), urgency_without_pressure (100%), community_pride_statement (92%), eid_occasion_greeting (100%) are the strongest pattern signals.",
-      "highest_engagement_patterns": [
-        {
-          "signal_type": "pattern",
-          "signal_value": "heritage_storytelling_hook",
-          "obs_count": 13,
-          "high_engagement_count": 13,
-          "high_engagement_rate": 1.0,
-          "verdict": "strong_positive",
-          "insight": "13/13 obs with high engagement (100%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "parallel_original_bilingual",
-          "obs_count": 7,
-          "high_engagement_count": 7,
-          "high_engagement_rate": 1.0,
-          "verdict": "strong_positive",
-          "insight": "7/7 obs with high engagement (100%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "occasion_specific_greeting",
-          "obs_count": 7,
-          "high_engagement_count": 7,
-          "high_engagement_rate": 1.0,
-          "verdict": "strong_positive",
-          "insight": "7/7 obs with high engagement (100%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "urgency_without_pressure",
-          "obs_count": 5,
-          "high_engagement_count": 5,
-          "high_engagement_rate": 1.0,
-          "verdict": "strong_positive",
-          "insight": "5/5 obs with high engagement (100%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "seasonal_summer_heat",
-          "obs_count": 4,
-          "high_engagement_count": 4,
-          "high_engagement_rate": 1.0,
-          "verdict": "strong_positive",
-          "insight": "4/4 obs with high engagement (100%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "community_pride_statement",
-          "obs_count": 12,
-          "high_engagement_count": 11,
-          "high_engagement_rate": 0.917,
-          "verdict": "strong_positive",
-          "insight": "11/12 obs with high engagement (91%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "pattern_repeat_flatlay",
-          "obs_count": 11,
-          "high_engagement_count": 10,
-          "high_engagement_rate": 0.909,
-          "verdict": "strong_positive",
-          "insight": "10/11 obs with high engagement (90%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "cultural_object_hero",
-          "obs_count": 21,
-          "high_engagement_count": 19,
-          "high_engagement_rate": 0.905,
-          "verdict": "strong_positive",
-          "insight": "19/21 obs with high engagement (90%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "lifestyle_environment_integration",
-          "obs_count": 62,
-          "high_engagement_count": 54,
-          "high_engagement_rate": 0.871,
-          "verdict": "strong_positive",
-          "insight": "54/62 obs with high engagement (87%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "founding_day_dirayyah_heritage",
-          "obs_count": 6,
-          "high_engagement_count": 5,
-          "high_engagement_rate": 0.833,
-          "verdict": "strong_positive",
-          "insight": "5/6 obs with high engagement (83%)"
-        }
-      ],
-      "hub_patterns_most_versatile": [
-        {
-          "slug": "product_hero",
-          "name": "Product Hero Static",
-          "weighted_degree": 302
-        },
-        {
-          "slug": "seasonal_collection_drop",
-          "name": "Seasonal Collection Drop",
-          "weighted_degree": 138
-        },
-        {
-          "slug": "lifestyle_environment_integration",
-          "name": "Lifestyle Environment Integration",
-          "weighted_degree": 127
-        },
-        {
-          "slug": "invitation_to_witness",
-          "name": "Invitation to Witness",
-          "weighted_degree": 90
-        },
-        {
-          "slug": "overhead_tabletop_spread",
-          "name": "Overhead Tabletop Spread",
-          "weighted_degree": 83
-        }
-      ]
-    },
-    "5_best_setting": {
-      "question": "What setting should content be shot in?",
-      "answer": "Outdoor/retail (87%), outdoor nature (68%), heritage environments (67%) outperform indoor restaurants (47%). Editorial lifestyle is the weakest at 20%.",
-      "setting_ranking": [
-        {
-          "setting": "restaurant_outdoor",
-          "count": 3,
-          "high_engagement_rate": 1.0,
-          "avg_engagement": 1.0,
-          "verdict": "neutral"
-        },
-        {
-          "setting": "retail_urban",
-          "count": 8,
-          "high_engagement_rate": 0.875,
-          "avg_engagement": 0.875,
-          "verdict": "strong_positive"
-        },
-        {
-          "setting": "outdoor_nature",
-          "count": 41,
-          "high_engagement_rate": 0.683,
-          "avg_engagement": 0.817,
-          "verdict": "positive"
-        },
-        {
-          "setting": "event_venue",
-          "count": 25,
-          "high_engagement_rate": 0.68,
-          "avg_engagement": 0.82,
-          "verdict": "positive"
-        },
-        {
-          "setting": "heritage_setting",
-          "count": 28,
-          "high_engagement_rate": 0.679,
-          "avg_engagement": 0.786,
-          "verdict": "positive"
-        },
-        {
-          "setting": "studio",
-          "count": 109,
-          "high_engagement_rate": 0.587,
-          "avg_engagement": 0.729,
-          "verdict": "positive"
-        },
-        {
-          "setting": "digital_graphic",
-          "count": 69,
-          "high_engagement_rate": 0.58,
-          "avg_engagement": 0.739,
-          "verdict": "positive"
-        },
-        {
-          "setting": "restaurant_indoor",
-          "count": 133,
-          "high_engagement_rate": 0.474,
-          "avg_engagement": 0.643,
-          "verdict": "neutral"
-        },
-        {
-          "setting": "tabletop_food",
-          "count": 16,
-          "high_engagement_rate": 0.375,
-          "avg_engagement": 0.562,
-          "verdict": "weak"
-        },
-        {
-          "setting": "kitchen_prep",
-          "count": 11,
-          "high_engagement_rate": 0.364,
-          "avg_engagement": 0.682,
-          "verdict": "weak"
-        },
-        {
-          "setting": "home_domestic",
-          "count": 11,
-          "high_engagement_rate": 0.273,
-          "avg_engagement": 0.545,
-          "verdict": "weak"
-        },
-        {
-          "setting": "editorial_lifestyle",
-          "count": 20,
-          "high_engagement_rate": 0.2,
-          "avg_engagement": 0.45,
-          "verdict": "avoid"
-        }
-      ]
-    },
-    "6_best_lighting": {
-      "question": "What lighting style drives the most engagement?",
-      "answer": "Dramatic/moody lighting (68%) outperforms clean cold studio (48%) and branded bright (35%).",
-      "lighting_ranking": [
-        {
-          "value": "dramatic_moody",
-          "count": 72,
-          "high_engagement_rate": 0.681,
-          "verdict": "positive"
-        },
-        {
-          "value": "natural_daylight",
-          "count": 76,
-          "high_engagement_rate": 0.671,
-          "verdict": "positive"
-        },
-        {
-          "value": "flat_graphic",
-          "count": 37,
-          "high_engagement_rate": 0.649,
-          "verdict": "positive"
-        },
-        {
-          "value": "ambient_neutral",
-          "count": 25,
-          "high_engagement_rate": 0.6,
-          "verdict": "positive"
-        },
-        {
-          "value": "warm_studio",
-          "count": 20,
-          "high_engagement_rate": 0.55,
-          "verdict": "positive"
-        },
-        {
-          "value": "warm_ambient",
-          "count": 57,
-          "high_engagement_rate": 0.526,
-          "verdict": "neutral"
-        },
-        {
-          "value": "cold_studio",
-          "count": 60,
-          "high_engagement_rate": 0.483,
-          "verdict": "neutral"
-        },
-        {
-          "value": "mixed_lighting",
-          "count": 107,
-          "high_engagement_rate": 0.393,
-          "verdict": "weak"
-        },
-        {
-          "value": "branded_bright",
-          "count": 20,
-          "high_engagement_rate": 0.35,
-          "verdict": "weak"
-        }
-      ]
-    },
-    "7_best_composition": {
-      "question": "What composition style produces the best engagement?",
-      "answer": "Architectural framing (64%) and overhead spread (62%) outperform product hero close-up (48%), which is the most overused composition in the corpus.",
-      "composition_ranking": [
-        {
-          "value": "architectural_frame",
-          "count": 25,
-          "high_engagement_rate": 0.64,
-          "verdict": "positive"
-        },
-        {
-          "value": "overhead_spread",
-          "count": 43,
-          "high_engagement_rate": 0.628,
-          "verdict": "positive"
-        },
-        {
-          "value": "portrait_face",
-          "count": 21,
-          "high_engagement_rate": 0.619,
-          "verdict": "positive"
-        },
-        {
-          "value": "documentary_candid",
-          "count": 22,
-          "high_engagement_rate": 0.591,
-          "verdict": "positive"
-        },
-        {
-          "value": "graphic_text",
-          "count": 78,
-          "high_engagement_rate": 0.59,
-          "verdict": "positive"
-        },
-        {
-          "value": "lifestyle_integrated",
-          "count": 39,
-          "high_engagement_rate": 0.59,
-          "verdict": "positive"
-        },
-        {
-          "value": "before_after",
-          "count": 30,
-          "high_engagement_rate": 0.533,
-          "verdict": "neutral"
-        },
-        {
-          "value": "multi_product",
-          "count": 8,
-          "high_engagement_rate": 0.5,
-          "verdict": "neutral"
-        },
-        {
-          "value": "product_hero_closeup",
-          "count": 208,
-          "high_engagement_rate": 0.481,
-          "verdict": "neutral"
-        }
-      ]
-    },
-    "8_best_colors": {
-      "question": "What color palettes drive the most engagement?",
-      "answer": "Mixed/vibrant palettes (81%) and amber/gold (62%) are the top performers. Red and grey are weakest.",
-      "color_family_ranking": [
-        {
-          "color_family": "mixed_vibrant",
-          "total_mentions": 11,
-          "obs_count": 11,
-          "high_engagement_rate": 0.818,
-          "avg_engagement": 0.909,
-          "verdict": "strong_positive"
-        },
-        {
-          "color_family": "amber_gold",
-          "total_mentions": 269,
-          "obs_count": 248,
-          "high_engagement_rate": 0.629,
-          "avg_engagement": 0.748,
-          "verdict": "positive"
-        },
-        {
-          "color_family": "black_dark",
-          "total_mentions": 117,
-          "obs_count": 115,
-          "high_engagement_rate": 0.626,
-          "avg_engagement": 0.757,
-          "verdict": "positive"
-        },
-        {
-          "color_family": "purple",
-          "total_mentions": 8,
-          "obs_count": 8,
-          "high_engagement_rate": 0.625,
-          "avg_engagement": 0.812,
-          "verdict": "positive"
-        },
-        {
-          "color_family": "blue",
-          "total_mentions": 98,
-          "obs_count": 94,
-          "high_engagement_rate": 0.617,
-          "avg_engagement": 0.782,
-          "verdict": "positive"
-        },
-        {
-          "color_family": "green",
-          "total_mentions": 179,
-          "obs_count": 171,
-          "high_engagement_rate": 0.591,
-          "avg_engagement": 0.754,
-          "verdict": "positive"
-        },
-        {
-          "color_family": "neutral_warm",
-          "total_mentions": 210,
-          "obs_count": 188,
-          "high_engagement_rate": 0.58,
-          "avg_engagement": 0.726,
-          "verdict": "positive"
-        },
-        {
-          "color_family": "brown_earth",
-          "total_mentions": 115,
-          "obs_count": 107,
-          "high_engagement_rate": 0.579,
-          "avg_engagement": 0.72,
-          "verdict": "positive"
-        },
-        {
-          "color_family": "pink_rose",
-          "total_mentions": 110,
-          "obs_count": 95,
-          "high_engagement_rate": 0.579,
-          "avg_engagement": 0.732,
-          "verdict": "positive"
-        },
-        {
-          "color_family": "other",
-          "total_mentions": 131,
-          "obs_count": 125,
-          "high_engagement_rate": 0.528,
-          "avg_engagement": 0.688,
-          "verdict": "neutral"
-        },
-        {
-          "color_family": "white_light",
-          "total_mentions": 309,
-          "obs_count": 298,
-          "high_engagement_rate": 0.527,
-          "avg_engagement": 0.696,
-          "verdict": "neutral"
-        },
-        {
-          "color_family": "grey",
-          "total_mentions": 25,
-          "obs_count": 24,
-          "high_engagement_rate": 0.5,
-          "avg_engagement": 0.708,
-          "verdict": "neutral"
-        },
-        {
-          "color_family": "warm_red",
-          "total_mentions": 165,
-          "obs_count": 160,
-          "high_engagement_rate": 0.481,
-          "avg_engagement": 0.666,
-          "verdict": "neutral"
-        }
-      ]
-    },
-    "9_heritage_vs_modern": {
-      "question": "Does heritage content outperform modern content?",
-      "answer": "Yes — heritage_vs_modern: heritage signals score 100% where present. Heritage patterns (heritage_storytelling_hook, community_pride_statement) are 2-3x stronger than educational or modern equivalents.",
-      "heritage_positive_signals": [
-        {
-          "signal_type": "pattern",
-          "signal_value": "heritage_storytelling_hook",
-          "obs_count": 13,
-          "high_engagement_count": 13,
-          "high_engagement_rate": 1.0,
-          "verdict": "strong_positive",
-          "insight": "13/13 obs with high engagement (100%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "founding_day_dirayyah_heritage",
-          "obs_count": 6,
-          "high_engagement_count": 5,
-          "high_engagement_rate": 0.833,
-          "verdict": "strong_positive",
-          "insight": "5/6 obs with high engagement (83%)"
-        },
-        {
-          "signal_type": "heritage_vs_modern",
-          "signal_value": "heritage",
-          "obs_count": 48,
-          "high_engagement_count": 36,
-          "high_engagement_rate": 0.75,
-          "verdict": "positive",
-          "insight": "36/48 obs with high engagement (75%)"
-        },
-        {
-          "signal_type": "setting",
-          "signal_value": "heritage_setting",
-          "obs_count": 28,
-          "high_engagement_count": 19,
-          "high_engagement_rate": 0.679,
-          "verdict": "positive",
-          "insight": "19/28 obs with high engagement (67%)"
-        }
-      ],
-      "modern_positive_signals": []
-    },
-    "10_people_in_frame": {
-      "question": "Does showing people in frame help engagement?",
-      "answer": "Yes — posts with people: 59% high eng vs without: 51%. 4+ people in a group shot: 90% high eng.",
-      "has_characters": {
-        "label": "has_characters",
-        "count": 167,
-        "high": 99,
-        "sum": 126.5,
-        "high_engagement_rate": 0.593,
-        "avg_engagement": 0.757,
-        "verdict": "positive"
       },
-      "no_characters": {
-        "label": "no_characters",
-        "count": 307,
-        "high": 159,
-        "sum": 207.0,
-        "high_engagement_rate": 0.518,
-        "avg_engagement": 0.674,
-        "verdict": "neutral"
+      "by_aspect_ratio": {
+        "landscape_4x3": {
+          "avg": 1.0,
+          "n": 9
+        },
+        "landscape_16x9": {
+          "avg": 0.9,
+          "n": 15
+        },
+        "portrait_4x5": {
+          "avg": 0.84,
+          "n": 106
+        },
+        "square_1x1": {
+          "avg": 0.822,
+          "n": 107
+        },
+        "vertical_9x16": {
+          "avg": 0.633,
+          "n": 45
+        }
       },
-      "count_buckets": {
+      "top_combos": [
+        {
+          "combo": "image + landscape_4x3",
+          "avg": 1.0,
+          "n": 5
+        },
+        {
+          "combo": "carousel_slide + landscape_4x3",
+          "avg": 1.0,
+          "n": 4
+        },
+        {
+          "combo": "carousel_slide + portrait_4x5",
+          "avg": 0.946,
+          "n": 56
+        },
+        {
+          "combo": "image + square_1x1",
+          "avg": 0.87,
+          "n": 92
+        },
+        {
+          "combo": "reel + landscape_16x9",
+          "avg": 0.85,
+          "n": 10
+        }
+      ],
+      "occasion_sector_matrix": {
+        "eid_al_adha": {
+          "f_and_b": "image (100%, n=2)"
+        },
+        "founding_day": {
+          "f_and_b": "reel (100%, n=2)"
+        },
+        "vision_2030": {
+          "f_and_b": "image (100%, n=2)"
+        },
+        "eid_al_fitr": {
+          "f_and_b": "video (100%, n=6)"
+        },
+        "brand_campaign": {
+          "f_and_b": "video (100%, n=2)"
+        },
+        "winter_seasonal": {
+          "f_and_b": "carousel_slide (100%, n=3)"
+        },
+        "graduation_season": {
+          "f_and_b": "image (100%, n=5)"
+        },
+        "summer_campaign": {
+          "f_and_b": "carousel_slide (100%, n=2)"
+        },
+        "national_day": {
+          "f_and_b": "image (90%, n=5)"
+        },
+        "ramadan": {
+          "f_and_b": "image (89%, n=14)"
+        },
+        "evergreen": {
+          "f_and_b": "carousel_slide (81%, n=81)",
+          "retail": "video (52%, n=28)",
+          "beauty": "carousel_slide (50%, n=4)"
+        },
+        "sporting_event": {
+          "f_and_b": "image (50%, n=5)"
+        },
+        "national_sports_day": {
+          "beauty": "image (0%, n=6)"
+        }
+      },
+      "agency_rules": [
+        "Best format: reel (81%) — worst: video (59%)",
+        "Best ratio: landscape_4x3 (100%)",
+        "Best combo: image + landscape_4x3 (100%, n=5)"
+      ]
+    },
+    "visual": {
+      "question": "What visual approach drives engagement?",
+      "by_setting": {
+        "restaurant_outdoor": {
+          "avg": 1.0,
+          "n": 3
+        },
+        "clean product display": {
+          "avg": 1.0,
+          "n": 1
+        },
+        "national milestone brand congratulation": {
+          "avg": 1.0,
+          "n": 1
+        },
+        "Ramadan evening / iftar gathering ambiance": {
+          "avg": 1.0,
+          "n": 1
+        },
+        "Saudi National Day branded motion": {
+          "avg": 1.0,
+          "n": 1
+        },
+        "Ramadan evening atmospheric with service hours announcement": {
+          "avg": 1.0,
+          "n": 1
+        },
+        "Ramadan prayer time service post": {
+          "avg": 1.0,
+          "n": 1
+        },
+        "employee tutorial spokesperson video": {
+          "avg": 1.0,
+          "n": 1
+        }
+      },
+      "by_lighting": {
+        "warm product spotlight": {
+          "avg": 1.0,
+          "n": 2
+        },
+        "clean white gold": {
+          "avg": 1.0,
+          "n": 1
+        },
+        "warm Ramadan golden atmosphere": {
+          "avg": 1.0,
+          "n": 1
+        },
+        "warm evening, Ramadan atmospheric": {
+          "avg": 1.0,
+          "n": 1
+        },
+        "clean minimal": {
+          "avg": 1.0,
+          "n": 1
+        },
+        "warm lifestyle": {
+          "avg": 1.0,
+          "n": 1
+        }
+      },
+      "by_composition": {
+        "minimal text expression post": {
+          "avg": 1.0,
+          "n": 2
+        },
+        "returning product continuation — Twin still available, limited time urgency": {
+          "avg": 1.0,
+          "n": 1
+        },
+        "national milestone celebration minimal": {
+          "avg": 1.0,
+          "n": 1
+        },
+        "Ramadan sharing launch video — Ramadan campaign activation": {
+          "avg": 1.0,
+          "n": 1
+        },
+        "national day motion graphic": {
+          "avg": 1.0,
+          "n": 1
+        },
+        "product launch hero video — Double Crispy Bik close-up reveal": {
+          "avg": 1.0,
+          "n": 1
+        }
+      },
+      "by_complexity": {
+        "complex": {
+          "avg": 0.858,
+          "n": 137
+        },
+        "minimal": {
+          "avg": 0.75,
+          "n": 10
+        },
+        "simple": {
+          "avg": 0.661,
+          "n": 59
+        },
+        "moderate": {
+          "avg": 0.579,
+          "n": 442
+        }
+      },
+      "complexity_uplift": null,
+      "best_combos": [
+        {
+          "combo": "portrait_face × heritage_setting",
+          "avg": 1.0,
+          "n": 4
+        },
+        {
+          "combo": "documentary_candid × event_venue",
+          "avg": 1.0,
+          "n": 6
+        },
+        {
+          "combo": "graphic_text × studio",
+          "avg": 1.0,
+          "n": 4
+        },
+        {
+          "combo": "lifestyle_integrated × outdoor_nature",
+          "avg": 0.909,
+          "n": 11
+        },
+        {
+          "combo": "overhead_spread × restaurant_indoor",
+          "avg": 0.893,
+          "n": 14
+        }
+      ],
+      "human_presence_lift": null,
+      "agency_rules": [
+        "Best complexity: 'complex' (86%) — 'moderate' weakest (58%)",
+        "Counter-intuitive: complex visuals (+props, characters, overlays) outperform minimalist in Saudi content",
+        "Best setting: 'restaurant_outdoor' (100%)",
+        "Weakest setting: 'natural ingredient product shot' (0%)"
+      ]
+    },
+    "voice": {
+      "question": "What tone and voice signals drive engagement?",
+      "by_tone": {
+        "witty": {
+          "avg": 1.0,
+          "n": 2
+        },
+        "celebratory": {
+          "avg": 0.865,
+          "n": 37
+        },
+        "patriotic": {
+          "avg": 0.862,
+          "n": 29
+        },
+        "spiritual": {
+          "avg": 0.833,
+          "n": 3
+        },
+        "inviting": {
+          "avg": 0.784,
+          "n": 37
+        },
+        "excited": {
+          "avg": 0.775,
+          "n": 51
+        }
+      },
+      "by_register": {
+        "professional": {
+          "avg": 0.958,
+          "n": 12
+        },
+        "celebratory": {
+          "avg": 0.9,
+          "n": 10
+        },
+        "visual_only": {
+          "avg": 0.891,
+          "n": 23
+        },
+        "playful": {
+          "avg": 0.821,
+          "n": 14
+        },
+        "promotional": {
+          "avg": 0.741,
+          "n": 27
+        },
+        "aspirational": {
+          "avg": 0.647,
+          "n": 34
+        },
+        "educational": {
+          "avg": 0.625,
+          "n": 24
+        },
+        "formal": {
+          "avg": 0.623,
+          "n": 77
+        },
+        "casual": {
+          "avg": 0.62,
+          "n": 345
+        },
+        "premium": {
+          "avg": 0.333,
+          "n": 3
+        },
+        "patriotic": {
+          "avg": 0.25,
+          "n": 10
+        },
+        "functional": {
+          "avg": 0.0,
+          "n": 4
+        }
+      },
+      "heritage_vs_modern": {
+        "neutral": {
+          "avg": 1.0,
+          "n": 3
+        },
+        "heritage": {
+          "avg": 0.842,
+          "n": 57
+        },
+        "modern": {
+          "avg": 0.658,
+          "n": 335
+        },
+        "blended": {
+          "avg": 0.636,
+          "n": 169
+        }
+      },
+      "heritage_uplift": 0.184,
+      "by_dialect": {
+        "unknown": {
+          "avg": 0.96,
+          "n": 50
+        },
+        "colloquial_arabic": {
+          "avg": 0.909,
+          "n": 11
+        },
+        "msa": {
+          "avg": 0.72,
+          "n": 41
+        },
+        "najdi": {
+          "avg": 0.645,
+          "n": 334
+        },
+        "gulf": {
+          "avg": 0.622,
+          "n": 37
+        },
+        "hejazi": {
+          "avg": 0.621,
+          "n": 58
+        }
+      },
+      "agency_rules": [
+        "Best tone: 'witty' (100%) — avoid: 'neutral' (0%)",
+        "Best register: 'professional' (96%)",
+        "Best voice combo: tone='celebratory' + register='visual_only' (100%, n=3)",
+        "Heritage beats modern by +18% (84% vs 66%) — use heritage cues in briefs",
+        "Best dialect signal: 'unknown' (96%)",
+        "Best cultural combo: modern + unknown (96%, n=49)"
+      ]
+    },
+    "caption": {
+      "question": "How should captions be written?",
+      "by_word_count": {
+        "10-30": {
+          "avg": 0.817,
+          "n": 41
+        },
+        "<10": {
+          "avg": 0.786,
+          "n": 7
+        },
+        "60+": {
+          "avg": 0.735,
+          "n": 17
+        },
+        "30-60": {
+          "avg": 0.522,
+          "n": 46
+        }
+      },
+      "by_hashtag_count": {
+        "1-5": {
+          "avg": 0.872,
+          "n": 43
+        },
         "0": {
-          "label": "0 characters",
-          "count": 307,
-          "high": 159,
-          "sum": 207.0,
-          "high_engagement_rate": 0.518,
-          "avg_engagement": 0.674,
-          "verdict": "neutral"
+          "avg": 0.65,
+          "n": 30
         },
-        "1": {
-          "label": "1 character",
-          "count": 113,
-          "high": 66,
-          "sum": 84.5,
-          "high_engagement_rate": 0.584,
-          "avg_engagement": 0.748,
-          "verdict": "positive"
+        "6-15": {
+          "avg": 0.548,
+          "n": 21
         },
-        "2-3": {
-          "label": "2-3 characters",
-          "count": 44,
-          "high": 24,
-          "sum": 32.5,
-          "high_engagement_rate": 0.545,
-          "avg_engagement": 0.739,
-          "verdict": "neutral"
-        },
-        "4+": {
-          "label": "4+ characters",
-          "count": 10,
-          "high": 9,
-          "sum": 9.5,
-          "high_engagement_rate": 0.9,
-          "avg_engagement": 0.95,
-          "verdict": "strong_positive"
-        }
-      }
-    },
-    "11_sector_performance": {
-      "question": "How do sectors compare on engagement performance?",
-      "answer": "F&B leads at 60% high engagement. Retail mid at 36%. Beauty lags at 18% — dragged by medical claims and generic flat-lays.",
-      "sector_comparison": {
-        "beauty": {
-          "high_engagement_rate": 0.18,
-          "dominant_tone": "storytelling",
-          "top_pattern": "product_hero"
-        },
-        "f_and_b": {
-          "high_engagement_rate": 0.602,
-          "dominant_tone": "playful",
-          "top_pattern": "product_hero"
-        },
-        "retail": {
-          "high_engagement_rate": 0.36,
-          "dominant_tone": "proud",
-          "top_pattern": "product_hero"
-        }
-      }
-    },
-    "12_content_recipes": {
-      "question": "What pattern combinations (recipes) are proven to work?",
-      "answer": "Top recipe: lifestyle_integration + overhead_tabletop + product_hero (11 obs, 1.0 avg eng). heritage_storytelling_hook as anchor pattern elevates any combo.",
-      "master_triplet_recipes": [
-        {
-          "combo": "lifestyle_environment_integration + overhead_tabletop_spread + product_hero",
-          "combo_names": "Lifestyle Environment Integration + Overhead Tabletop Spread + Product Hero Static",
-          "count": 11,
-          "avg_engagement": 1.0,
-          "verdict": "proven"
-        },
-        {
-          "combo": "invitation_to_witness + product_hero + seasonal_collection_drop",
-          "combo_names": "Invitation to Witness + Product Hero Static + Seasonal Collection Drop",
-          "count": 9,
-          "avg_engagement": 0.944,
-          "verdict": "proven"
-        },
-        {
-          "combo": "customer_voice_ugc + lifestyle_environment_integration + product_hero",
-          "combo_names": "Customer Voice UGC + Lifestyle Environment Integration + Product Hero Static",
-          "count": 7,
-          "avg_engagement": 1.0,
-          "verdict": "proven"
-        },
-        {
-          "combo": "close_up_macro_texture + product_hero + seasonal_collection_drop",
-          "combo_names": "Close-Up Macro Texture + Product Hero Static + Seasonal Collection Drop",
-          "count": 4,
-          "avg_engagement": 1.0,
-          "verdict": "proven"
-        },
-        {
-          "combo": "customer_voice_ugc + lifestyle_environment_integration + overhead_tabletop_spread",
-          "combo_names": "Customer Voice UGC + Lifestyle Environment Integration + Overhead Tabletop Spread",
-          "count": 4,
-          "avg_engagement": 1.0,
-          "verdict": "proven"
-        },
-        {
-          "combo": "pattern_repeat_flatlay + product_hero + seasonal_collection_drop",
-          "combo_names": "Pattern Repeat Flatlay + Product Hero Static + Seasonal Collection Drop",
-          "count": 4,
-          "avg_engagement": 1.0,
-          "verdict": "proven"
-        },
-        {
-          "combo": "cultural_object_hero + lifestyle_environment_integration + product_hero",
-          "combo_names": "Cultural Object Hero + Lifestyle Environment Integration + Product Hero Static",
-          "count": 4,
-          "avg_engagement": 1.0,
-          "verdict": "proven"
-        },
-        {
-          "combo": "overhead_tabletop_spread + product_hero + specific_dish_naming",
-          "combo_names": "Overhead Tabletop Spread + Product Hero Static + Specific Dish or Product Naming in Arabic",
-          "count": 4,
-          "avg_engagement": 0.875,
-          "verdict": "proven"
-        }
-      ],
-      "top_pairs": [
-        {
-          "pattern_a": "product_hero",
-          "pattern_b": "seasonal_collection_drop",
-          "pattern_a_name": "Product Hero Static",
-          "pattern_b_name": "Seasonal Collection Drop",
-          "co_occurrence_count": 43,
-          "avg_engagement": 0.849,
-          "weighted_signal": 36.51,
-          "sample_obs": [
-            {
-              "shortcode": "01KS5QQ8D2FX0F6HYQT3HMJN1F",
-              "account": "OGZ-BEAUTY-Reference-001",
-              "sector": "beauty"
-            },
-            {
-              "shortcode": "01KS5QQ8D5RCN01233H203KTTS",
-              "account": "OGZ-BEAUTY-Reference-001",
-              "sector": "beauty"
-            },
-            {
-              "shortcode": "01KS5QQ8D7TEB4FJ32Z0C7XQ3C",
-              "account": "OGZ-BEAUTY-Reference-001",
-              "sector": "beauty"
-            },
-            {
-              "shortcode": "01KS5QQ8DHF2H0SXBPNX1P6J1D",
-              "account": "OGZ-BEAUTY-Reference-001",
-              "sector": "beauty"
-            },
-            {
-              "shortcode": "01KS5QQ8DJ9TG63H0DA6EC4VYB",
-              "account": "OGZ-BEAUTY-Reference-001",
-              "sector": "beauty"
-            }
-          ]
-        },
-        {
-          "pattern_a": "lifestyle_environment_integration",
-          "pattern_b": "product_hero",
-          "pattern_a_name": "Lifestyle Environment Integration",
-          "pattern_b_name": "Product Hero Static",
-          "co_occurrence_count": 29,
-          "avg_engagement": 0.983,
-          "weighted_signal": 28.51,
-          "sample_obs": [
-            {
-              "shortcode": "01KS3F0Q8BR6Y2PFCT88F2DYZP",
-              "account": "OGZ-F-AND-B-Reference-002",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3FQEJMQ1VJ8BEP5AZE0ZJ6",
-              "account": "OGZ-F-AND-B-Reference-010",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3GFHWCP82ZP5QQAXVF31NB",
-              "account": "OGZ-F-AND-B-Reference-004",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3GG3JE20KJ51DJXZ7VWKZ9",
-              "account": "OGZ-F-AND-B-Reference-004",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3GGKSP6Q3NQ6B2RVK1ZV60",
-              "account": "OGZ-F-AND-B-Reference-005",
-              "sector": "f_and_b"
-            }
-          ]
-        },
-        {
-          "pattern_a": "close_up_macro_texture",
-          "pattern_b": "product_hero",
-          "pattern_a_name": "Close-Up Macro Texture",
-          "pattern_b_name": "Product Hero Static",
-          "co_occurrence_count": 33,
-          "avg_engagement": 0.803,
-          "weighted_signal": 26.5,
-          "sample_obs": [
-            {
-              "shortcode": "01KS5VCPKF0A21AMNVJR5WKZAF",
-              "account": "OGZ-BEAUTY-Reference-001",
-              "sector": "beauty"
-            },
-            {
-              "shortcode": "01KS5VCPKP3A60M4VYBNX7MMSW",
-              "account": "OGZ-BEAUTY-Reference-001",
-              "sector": "beauty"
-            },
-            {
-              "shortcode": "01KS5VCPKT3QCE20APPY4KX7VB",
-              "account": "OGZ-BEAUTY-Reference-001",
-              "sector": "beauty"
-            },
-            {
-              "shortcode": "01KS5VCPMG3QXFH0PXBJ7AXJ3N",
-              "account": "OGZ-BEAUTY-Reference-001",
-              "sector": "beauty"
-            },
-            {
-              "shortcode": "01KS5W2DZYSEQDY3CNYWRMPGY7",
-              "account": "OGZ-BEAUTY-Reference-002",
-              "sector": "beauty"
-            }
-          ]
-        },
-        {
-          "pattern_a": "overhead_tabletop_spread",
-          "pattern_b": "product_hero",
-          "pattern_a_name": "Overhead Tabletop Spread",
-          "pattern_b_name": "Product Hero Static",
-          "co_occurrence_count": 25,
-          "avg_engagement": 0.94,
-          "weighted_signal": 23.5,
-          "sample_obs": [
-            {
-              "shortcode": "01KS39H82218976GVK9BGB9DQE",
-              "account": "OGZ-F-AND-B-Reference-002",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS39H82CC2W17B1106DDGRKQ",
-              "account": "OGZ-F-AND-B-Reference-010",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3CBX8PVZBHZAJV3R8AZ8RY",
-              "account": "OGZ-F-AND-B-Reference-004",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3CBX9BRBZ83WP3Q4E20AFS",
-              "account": "OGZ-F-AND-B-Reference-004",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3GFHWCP82ZP5QQAXVF31NB",
-              "account": "OGZ-F-AND-B-Reference-004",
-              "sector": "f_and_b"
-            }
-          ]
-        },
-        {
-          "pattern_a": "lifestyle_environment_integration",
-          "pattern_b": "overhead_tabletop_spread",
-          "pattern_a_name": "Lifestyle Environment Integration",
-          "pattern_b_name": "Overhead Tabletop Spread",
-          "co_occurrence_count": 19,
-          "avg_engagement": 0.974,
-          "weighted_signal": 18.51,
-          "sample_obs": [
-            {
-              "shortcode": "01KS3F6Y4A1PRPYDQY846JHS6C",
-              "account": "OGZ-F-AND-B-Reference-010",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3FF5V9E10Q0WWHN0WDRJ0E",
-              "account": "OGZ-F-AND-B-Reference-010",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3FK9RVWN268W2AF3STAM4V",
-              "account": "OGZ-F-AND-B-Reference-010",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3FK9S4J3HCS7NPZMTCE7D4",
-              "account": "OGZ-F-AND-B-Reference-010",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3GFHWCP82ZP5QQAXVF31NB",
-              "account": "OGZ-F-AND-B-Reference-004",
-              "sector": "f_and_b"
-            }
-          ]
-        },
-        {
-          "pattern_a": "customer_voice_ugc",
-          "pattern_b": "lifestyle_environment_integration",
-          "pattern_a_name": "Customer Voice UGC",
-          "pattern_b_name": "Lifestyle Environment Integration",
-          "co_occurrence_count": 17,
-          "avg_engagement": 0.941,
-          "weighted_signal": 16.0,
-          "sample_obs": [
-            {
-              "shortcode": "01KS3GGBFRY68CDD39XYVMXEMK",
-              "account": "OGZ-F-AND-B-Reference-004",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3GGZ7GSA30PDQ3ARSSPXX8",
-              "account": "OGZ-F-AND-B-Reference-004",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3GHVVNF4R8P10F978BWWZE",
-              "account": "OGZ-F-AND-B-Reference-004",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3GJFFE94Z31V17JTJSPHBZ",
-              "account": "OGZ-F-AND-B-Reference-004",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3GS0FPY5HEKGT9W0V05Y5C",
-              "account": "OGZ-F-AND-B-Reference-003",
-              "sector": "f_and_b"
-            }
-          ]
-        },
-        {
-          "pattern_a": "invitation_to_witness",
-          "pattern_b": "product_hero",
-          "pattern_a_name": "Invitation to Witness",
-          "pattern_b_name": "Product Hero Static",
-          "co_occurrence_count": 21,
-          "avg_engagement": 0.738,
-          "weighted_signal": 15.5,
-          "sample_obs": [
-            {
-              "shortcode": "01KS5VCPM9RE0841BBTBE3WRHG",
-              "account": "OGZ-BEAUTY-Reference-001",
-              "sector": "beauty"
-            },
-            {
-              "shortcode": "01KS3CQYK1EJNQ4RBR50BQ0P14",
-              "account": "OGZ-F-AND-B-Reference-005",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3GF4M7HNS9A7TRT1F89W2R",
-              "account": "OGZ-F-AND-B-Reference-005",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3GG2A9SF7EXQPV0ZK279M9",
-              "account": "OGZ-F-AND-B-Reference-005",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3GGYKJNAY3ZR9E8YQ9QV1P",
-              "account": "OGZ-F-AND-B-Reference-005",
-              "sector": "f_and_b"
-            }
-          ]
-        },
-        {
-          "pattern_a": "invitation_to_witness",
-          "pattern_b": "seasonal_collection_drop",
-          "pattern_a_name": "Invitation to Witness",
-          "pattern_b_name": "Seasonal Collection Drop",
-          "co_occurrence_count": 17,
-          "avg_engagement": 0.853,
-          "weighted_signal": 14.5,
-          "sample_obs": [
-            {
-              "shortcode": "01KS3GG2A9SF7EXQPV0ZK279M9",
-              "account": "OGZ-F-AND-B-Reference-005",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3GGYKJNAY3ZR9E8YQ9QV1P",
-              "account": "OGZ-F-AND-B-Reference-005",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3GK57ASK2ZKT53D4MSKDSN",
-              "account": "OGZ-F-AND-B-Reference-005",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3GM7P0AM5ESASK06Y8YZ99",
-              "account": "OGZ-F-AND-B-Reference-005",
-              "sector": "f_and_b"
-            },
-            {
-              "shortcode": "01KS3GWAPW1G7W2YQGH8BMBNPR",
-              "account": "OGZ-F-AND-B-Reference-003",
-              "sector": "f_and_b"
-            }
-          ]
-        }
-      ]
-    },
-    "13_what_to_avoid": {
-      "question": "What content types and approaches should be avoided?",
-      "answer": "Sponsored content without authentic angle (26 accounts flag this), generic flat-lays (25 accounts), medical-claim language in beauty (17 accounts), educational/explainer format (19% eng rate), lifestyle_embed pattern (11%).",
-      "anti_patterns_from_account_files": [
-        {
-          "pattern": "sponsored content without authentic angle",
-          "account_count": 26
-        },
-        {
-          "pattern": "generic flat-lay product shots",
-          "account_count": 25
-        },
-        {
-          "pattern": "medical-claim language without clearance",
-          "account_count": 17
-        },
-        {
-          "pattern": "over-styled stock-feel content",
-          "account_count": 7
-        },
-        {
-          "pattern": "flat product-only shots without context",
-          "account_count": 5
-        },
-        {
-          "pattern": "flat lighting",
-          "account_count": 4
-        },
-        {
-          "pattern": "plain product stills",
-          "account_count": 4
-        },
-        {
-          "pattern": "generic burger angles",
-          "account_count": 4
-        },
-        {
-          "pattern": "western-fashion angle promotion",
-          "account_count": 4
-        },
-        {
-          "pattern": "aggressive discount captions",
-          "account_count": 3
-        }
-      ],
-      "lowest_engagement_signals": [
-        {
-          "signal_type": "pattern",
-          "signal_value": "educational_explainer",
-          "obs_count": 26,
-          "high_engagement_count": 5,
-          "high_engagement_rate": 0.192,
-          "verdict": "avoid",
-          "insight": "5/26 obs with high engagement (19%)"
-        },
-        {
-          "signal_type": "sector",
-          "signal_value": "beauty",
-          "obs_count": 50,
-          "high_engagement_count": 9,
-          "high_engagement_rate": 0.18,
-          "verdict": "avoid",
-          "insight": "9/50 obs with high engagement (18%)"
-        },
-        {
-          "signal_type": "register",
-          "signal_value": "patriotic",
-          "obs_count": 7,
-          "high_engagement_count": 1,
-          "high_engagement_rate": 0.143,
-          "verdict": "avoid",
-          "insight": "1/7 obs with high engagement (14%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "lifestyle_embed",
-          "obs_count": 9,
-          "high_engagement_count": 1,
-          "high_engagement_rate": 0.111,
-          "verdict": "avoid",
-          "insight": "1/9 obs with high engagement (11%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "ramadan_iftar_table",
-          "obs_count": 4,
-          "high_engagement_count": 0,
-          "high_engagement_rate": 0.0,
-          "verdict": "avoid",
-          "insight": "0/4 obs with high engagement (0%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "sports_passion_peg",
-          "obs_count": 4,
-          "high_engagement_count": 0,
-          "high_engagement_rate": 0.0,
-          "verdict": "avoid",
-          "insight": "0/4 obs with high engagement (0%)"
-        },
-        {
-          "signal_type": "pattern",
-          "signal_value": "specific_emotional_state",
-          "obs_count": 3,
-          "high_engagement_count": 0,
-          "high_engagement_rate": 0.0,
-          "verdict": "avoid",
-          "insight": "0/3 obs with high engagement (0%)"
-        },
-        {
-          "signal_type": "occasion",
-          "signal_value": "national_sports_day",
-          "obs_count": 3,
-          "high_engagement_count": 0,
-          "high_engagement_rate": 0.0,
-          "verdict": "avoid",
-          "insight": "0/3 obs with high engagement (0%)"
-        }
-      ]
-    },
-    "14_brand_archetypes": {
-      "question": "What brand archetype is most common, and which performs best?",
-      "answer": "Modern Premium dominates (10/15 accounts). Heritage Anchor is rare but has the highest-scoring individual account (OGZ-F-AND-B-Reference-010, health grade A, 86% avg eng).",
-      "fleet_distribution": {
-        "Modern Premium": 10,
-        "Mass Market Functional": 2,
-        "Community Warm": 2,
-        "Heritage Anchor": 1
-      },
-      "top_accounts_by_health": [
-        {
-          "account": "OGZ-F-AND-B-Reference-008",
-          "sector": "f_and_b",
-          "archetype": "Modern Premium",
-          "obs_count": 25,
-          "health_score": 0.868,
-          "health_grade": "A",
-          "compliance_grade": "green",
-          "voice_fingerprint": "formal/warm/playful/modern",
-          "dominant_dialect": "hejazi",
-          "top_pattern": "product_hero",
-          "avg_engagement": 0.88,
-          "high_engagement_rate": 0.8
-        },
-        {
-          "account": "OGZ-F-AND-B-Reference-003",
-          "sector": "f_and_b",
-          "archetype": "Modern Premium",
-          "obs_count": 50,
-          "health_score": 0.867,
-          "health_grade": "A",
-          "compliance_grade": "yellow",
-          "voice_fingerprint": "casual/warm/playful/modern",
-          "dominant_dialect": "spanish_colloquial",
-          "top_pattern": "product_hero",
-          "avg_engagement": 0.96,
-          "high_engagement_rate": 0.92
-        },
-        {
-          "account": "OGZ-F-AND-B-Reference-010",
-          "sector": "f_and_b",
-          "archetype": "Heritage Anchor",
-          "obs_count": 50,
-          "health_score": 0.856,
-          "health_grade": "A",
-          "compliance_grade": "green",
-          "voice_fingerprint": "formal/warm/earnest/heritage",
-          "dominant_dialect": "najdi",
-          "top_pattern": "interior_architectural_framing",
-          "avg_engagement": 0.86,
-          "high_engagement_rate": 0.74
-        },
-        {
-          "account": "OGZ-F-AND-B-Reference-005",
-          "sector": "f_and_b",
-          "archetype": "Modern Premium",
-          "obs_count": 50,
-          "health_score": 0.845,
-          "health_grade": "A",
-          "compliance_grade": "yellow",
-          "voice_fingerprint": "casual/warm/playful/modern",
-          "dominant_dialect": "najdi",
-          "top_pattern": "product_hero",
-          "avg_engagement": 0.83,
-          "high_engagement_rate": 0.68
-        },
-        {
-          "account": "OGZ-F-AND-B-Reference-002",
-          "sector": "f_and_b",
-          "archetype": "Modern Premium",
-          "obs_count": 50,
-          "health_score": 0.825,
-          "health_grade": "A",
-          "compliance_grade": "green",
-          "voice_fingerprint": "formal/warm/playful/modern",
-          "dominant_dialect": "najdi",
-          "top_pattern": "product_hero",
-          "avg_engagement": 0.87,
-          "high_engagement_rate": 0.74
-        }
-      ]
-    },
-    "15_content_pillars": {
-      "question": "What content pillars drive the best engagement?",
-      "answer": "Lifestyle Editorial (70% high eng) > Seasonal/Occasion (69%) > Product Showcase (55%). Product Showcase is the most used (45% of all posts) but not the highest performer.",
-      "fleet_pillar_distribution": [
-        {
-          "community_id": 0,
-          "pillar_name": "Product Showcase",
-          "total_obs": 304,
-          "fleet_share": 0.451,
-          "high_engagement_rate": 0.559
-        },
-        {
-          "community_id": 2,
-          "pillar_name": "Lifestyle Editorial",
-          "total_obs": 182,
-          "fleet_share": 0.27,
-          "high_engagement_rate": 0.709
-        },
-        {
-          "community_id": 1,
-          "pillar_name": "Cultural & Heritage Voice",
-          "total_obs": 91,
-          "fleet_share": 0.135,
-          "high_engagement_rate": 0.473
-        },
-        {
-          "community_id": 3,
-          "pillar_name": "Brand Identity",
-          "total_obs": 59,
-          "fleet_share": 0.088,
-          "high_engagement_rate": 0.542
-        },
-        {
-          "community_id": 4,
-          "pillar_name": "Seasonal & Occasion",
-          "total_obs": 29,
-          "fleet_share": 0.043,
-          "high_engagement_rate": 0.69
-        },
-        {
-          "community_id": 5,
-          "pillar_name": "Social Occasions",
-          "total_obs": 3,
-          "fleet_share": 0.004,
-          "high_engagement_rate": 0.667
-        },
-        {
-          "community_id": 6,
-          "pillar_name": "Sports & Events",
-          "total_obs": 2,
-          "fleet_share": 0.003,
-          "high_engagement_rate": 0.0
-        },
-        {
-          "community_id": 7,
-          "pillar_name": "Engagement Mechanics",
-          "total_obs": 1,
-          "fleet_share": 0.001,
-          "high_engagement_rate": 1.0
-        },
-        {
-          "community_id": 8,
-          "pillar_name": "Visual Craft",
-          "total_obs": 1,
-          "fleet_share": 0.001,
-          "high_engagement_rate": 0.0
-        },
-        {
-          "community_id": 9,
-          "pillar_name": "Discovery & Review",
-          "total_obs": 1,
-          "fleet_share": 0.001,
-          "high_engagement_rate": 0.0
-        },
-        {
-          "community_id": 10,
-          "pillar_name": "Community Building",
-          "total_obs": 1,
-          "fleet_share": 0.001,
-          "high_engagement_rate": 0.0
-        }
-      ]
-    },
-    "16_competitive_positioning": {
-      "question": "Which accounts are competitive twins, and which are maximally differentiated?",
-      "most_similar_pairs": [
-        {
-          "account_a": "OGZ-F-AND-B-Reference-006",
-          "account_b": "OGZ-F-AND-B-Reference-007",
-          "pattern_jaccard": 0.35,
-          "voice_jaccard": 0.75,
-          "visual_jaccard": 0.455,
-          "composite_similarity": 0.476,
-          "sector_a": "f_and_b",
-          "sector_b": "f_and_b",
-          "cross_sector": false
-        },
-        {
-          "account_a": "OGZ-F-AND-B-Reference-006",
-          "account_b": "OGZ-F-AND-B-Reference-009",
-          "pattern_jaccard": 0.471,
-          "voice_jaccard": 0.5,
-          "visual_jaccard": 0.455,
-          "composite_similarity": 0.474,
-          "sector_a": "f_and_b",
-          "sector_b": "f_and_b",
-          "cross_sector": false
-        },
-        {
-          "account_a": "OGZ-F-AND-B-Reference-007",
-          "account_b": "OGZ-F-AND-B-Reference-008",
-          "pattern_jaccard": 0.333,
-          "voice_jaccard": 0.5,
-          "visual_jaccard": 0.6,
-          "composite_similarity": 0.442,
-          "sector_a": "f_and_b",
-          "sector_b": "f_and_b",
-          "cross_sector": false
-        },
-        {
-          "account_a": "OGZ-F-AND-B-Reference-038",
-          "account_b": "OGZ-F-AND-B-Reference-039",
-          "pattern_jaccard": 0.4,
-          "voice_jaccard": 0.444,
-          "visual_jaccard": 0.455,
-          "composite_similarity": 0.425,
-          "sector_a": "f_and_b",
-          "sector_b": "f_and_b",
-          "cross_sector": false
-        },
-        {
-          "account_a": "OGZ-F-AND-B-Reference-007",
-          "account_b": "OGZ-F-AND-B-Reference-009",
-          "pattern_jaccard": 0.364,
-          "voice_jaccard": 0.5,
-          "visual_jaccard": 0.455,
-          "composite_similarity": 0.421,
-          "sector_a": "f_and_b",
-          "sector_b": "f_and_b",
-          "cross_sector": false
-        }
-      ],
-      "most_different_pairs": [
-        {
-          "account_a": "OGZ-F-AND-B-Reference-003",
-          "account_b": "OGZ-F-AND-B-Reference-010",
-          "pattern_jaccard": 0.231,
-          "voice_jaccard": 0.067,
-          "visual_jaccard": 0.143,
-          "composite_similarity": 0.168,
-          "sector_a": "f_and_b",
-          "sector_b": "f_and_b",
-          "cross_sector": false
-        },
-        {
-          "account_a": "OGZ-BEAUTY-Reference-002",
-          "account_b": "OGZ-F-AND-B-Reference-010",
-          "pattern_jaccard": 0.143,
-          "voice_jaccard": 0.231,
-          "visual_jaccard": 0.143,
-          "composite_similarity": 0.165,
-          "sector_a": "beauty",
-          "sector_b": "f_and_b",
-          "cross_sector": true
-        },
-        {
-          "account_a": "OGZ-F-AND-B-Reference-009",
-          "account_b": "OGZ-F-AND-B-Reference-010",
-          "pattern_jaccard": 0.111,
-          "voice_jaccard": 0.273,
-          "visual_jaccard": 0.143,
-          "composite_similarity": 0.16,
-          "sector_a": "f_and_b",
-          "sector_b": "f_and_b",
-          "cross_sector": false
-        },
-        {
-          "account_a": "OGZ-F-AND-B-Reference-004",
-          "account_b": "OGZ-F-AND-B-Reference-038",
-          "pattern_jaccard": 0.118,
-          "voice_jaccard": 0.25,
-          "visual_jaccard": 0.143,
-          "composite_similarity": 0.157,
-          "sector_a": "f_and_b",
-          "sector_b": "f_and_b",
-          "cross_sector": false
-        },
-        {
-          "account_a": "OGZ-F-AND-B-Reference-005",
-          "account_b": "OGZ-F-AND-B-Reference-038",
-          "pattern_jaccard": 0.158,
-          "voice_jaccard": 0.167,
-          "visual_jaccard": 0.143,
-          "composite_similarity": 0.157,
-          "sector_a": "f_and_b",
-          "sector_b": "f_and_b",
-          "cross_sector": false
-        }
-      ]
-    },
-    "17_occasion_format_grid": {
-      "question": "For each campaign occasion, what is the optimal content recipe?",
-      "answer": "Seasonal occasions dominate: Eid al-Fitr 100% high eng, National Day 87%. Evergreen (84% of corpus) sits at just 51% — seasonal/occasion content always outperforms. Use occasion-specific patterns (eid_occasion_greeting, national_day_modernity_heritage) and image format.",
-      "evergreen_baseline": {
-        "high_engagement_rate": 0.51,
-        "obs_count": 398,
-        "recommended_recipe": {
-          "best_media_type": "carousel_slide",
-          "best_media_high_eng_rate": 0.744,
-          "dominant_setting": "restaurant_indoor",
-          "dominant_lighting": "mixed_lighting",
-          "dominant_composition": "product_hero_closeup",
-          "dominant_tone": "playful",
-          "dominant_register": "casual"
+        "16+": {
+          "avg": 0.412,
+          "n": 17
         }
       },
-      "top_occasions_by_engagement": [
+      "by_emoji": {
+        "True": 0.686,
+        "False": 0.647
+      },
+      "by_opener_formula": {
+        "number": {
+          "avg": 1.0,
+          "n": 1
+        },
+        "command": {
+          "avg": 1.0,
+          "n": 2
+        },
+        "question": {
+          "avg": 0.833,
+          "n": 6
+        },
+        "emoji_open": {
+          "avg": 0.722,
+          "n": 9
+        },
+        "statement": {
+          "avg": 0.639,
+          "n": 108
+        }
+      },
+      "agency_rules": [
+        "Optimal caption length: 10-30 words (82%) — avoid 30-60 word range (52%)",
+        "Optimal hashtag count: 1-5 (87%) — 16+ tanks to 41%",
+        "Emoji: use (69% with vs 65% without)",
+        "Best opener: number (100%)"
+      ]
+    },
+    "phrases": {
+      "question": "What Arabic phrases drive the highest engagement?",
+      "arabic_avg": 0.499,
+      "english_avg": 0.65,
+      "by_category": {
+        "sensory_food": {
+          "avg": 0.938,
+          "n": 24
+        },
+        "community": {
+          "avg": 0.875,
+          "n": 4
+        },
+        "celebration": {
+          "avg": 0.865,
+          "n": 37
+        },
+        "invitation": {
+          "avg": 0.861,
+          "n": 18
+        },
+        "heritage": {
+          "avg": 0.833,
+          "n": 9
+        },
+        "pride_saudi": {
+          "avg": 0.806,
+          "n": 18
+        },
+        "urgency": {
+          "avg": 0.786,
+          "n": 21
+        },
+        "other": {
+          "avg": 0.605,
+          "n": 574
+        },
+        "price": {
+          "avg": 0.591,
+          "n": 22
+        },
+        "product_hero": {
+          "avg": 0.538,
+          "n": 39
+        }
+      },
+      "elite_phrases": [
         {
-          "occasion": "eid_al_fitr",
-          "high_engagement_rate": 1.0,
-          "obs_count": 7,
-          "recommended_recipe": {
-            "best_media_type": "image",
-            "best_media_high_eng_rate": 1.0,
-            "dominant_setting": "digital_graphic",
-            "dominant_lighting": "mixed_lighting",
-            "dominant_composition": "product_hero_closeup",
-            "dominant_tone": "warm",
-            "dominant_register": "casual"
-          },
-          "top_pattern": "occasion_peg"
+          "phrase": "مكمل معاك",
+          "avg_engagement": 1.0,
+          "n": 2,
+          "categories": [
+            "other"
+          ]
         },
         {
-          "occasion": "winter_seasonal",
-          "high_engagement_rate": 1.0,
-          "obs_count": 4,
-          "recommended_recipe": {
-            "best_media_type": "carousel_slide",
-            "best_media_high_eng_rate": 1.0,
-            "dominant_setting": "outdoor_nature",
-            "dominant_lighting": "natural_daylight",
-            "dominant_composition": "graphic_text",
-            "dominant_tone": "warm",
-            "dominant_register": "casual"
-          },
-          "top_pattern": "product_hero"
+          "phrase": "التوأم المحبوب",
+          "avg_engagement": 1.0,
+          "n": 2,
+          "categories": [
+            "other"
+          ]
         },
         {
-          "occasion": "vision_2030_moment",
-          "high_engagement_rate": 1.0,
-          "obs_count": 2,
-          "recommended_recipe": {
-            "best_media_type": "image",
-            "best_media_high_eng_rate": 1.0,
-            "dominant_setting": "digital_graphic",
-            "dominant_lighting": "flat_graphic",
-            "dominant_composition": "graphic_text",
-            "dominant_tone": "celebratory",
-            "dominant_register": "promotional"
-          },
-          "top_pattern": "cultural_moment_tie_in"
+          "phrase": "لفترة محدودة فقط",
+          "avg_engagement": 1.0,
+          "n": 4,
+          "categories": [
+            "urgency"
+          ]
         },
         {
-          "occasion": "world_coffee_day",
-          "high_engagement_rate": 1.0,
-          "obs_count": 2,
-          "recommended_recipe": {
-            "best_media_type": "image",
-            "best_media_high_eng_rate": 1.0,
-            "dominant_setting": "digital_graphic",
-            "dominant_lighting": "flat_graphic",
-            "dominant_composition": "graphic_text",
-            "dominant_tone": "inviting",
-            "dominant_register": "casual"
-          },
-          "top_pattern": "curiosity_gap_question"
+          "phrase": "شارك الفرحة",
+          "avg_engagement": 1.0,
+          "n": 2,
+          "categories": [
+            "celebration",
+            "invitation"
+          ]
         },
         {
-          "occasion": "international_womens_day",
-          "high_engagement_rate": 1.0,
-          "obs_count": 1,
-          "recommended_recipe": {
-            "best_media_type": "carousel_slide",
-            "best_media_high_eng_rate": null,
-            "dominant_setting": "outdoor_nature",
-            "dominant_lighting": "natural_daylight",
-            "dominant_composition": "lifestyle_integrated",
-            "dominant_tone": "celebratory",
-            "dominant_register": "professional"
-          },
-          "top_pattern": "event_collab_announcement"
+          "phrase": "حكاية وطن بدأت بعزم",
+          "avg_engagement": 1.0,
+          "n": 2,
+          "categories": [
+            "pride_saudi",
+            "heritage"
+          ]
+        },
+        {
+          "phrase": "بقلب واحد",
+          "avg_engagement": 1.0,
+          "n": 2,
+          "categories": [
+            "community"
+          ]
+        },
+        {
+          "phrase": "قرمشة أكثر",
+          "avg_engagement": 1.0,
+          "n": 2,
+          "categories": [
+            "sensory_food"
+          ]
+        },
+        {
+          "phrase": "ومتعة أكبر",
+          "avg_engagement": 1.0,
+          "n": 2,
+          "categories": [
+            "other"
+          ]
+        },
+        {
+          "phrase": "جربه الآن",
+          "avg_engagement": 1.0,
+          "n": 2,
+          "categories": [
+            "urgency",
+            "invitation"
+          ]
+        },
+        {
+          "phrase": "نسعد بخدمتكم",
+          "avg_engagement": 1.0,
+          "n": 2,
+          "categories": [
+            "invitation"
+          ]
+        },
+        {
+          "phrase": "من بعد صلاة العشاء",
+          "avg_engagement": 1.0,
+          "n": 2,
+          "categories": [
+            "other"
+          ]
+        },
+        {
+          "phrase": "الفرصة الأخيرة",
+          "avg_engagement": 1.0,
+          "n": 2,
+          "categories": [
+            "urgency"
+          ]
+        },
+        {
+          "phrase": "صناعة سعودية",
+          "avg_engagement": 1.0,
+          "n": 2,
+          "categories": [
+            "pride_saudi"
+          ]
+        },
+        {
+          "phrase": "رايتنا العز",
+          "avg_engagement": 1.0,
+          "n": 2,
+          "categories": [
+            "other"
+          ]
+        },
+        {
+          "phrase": "مجدنا هويتنا",
+          "avg_engagement": 1.0,
+          "n": 2,
+          "categories": [
+            "pride_saudi"
+          ]
         }
       ],
-      "full_grid": [
-        {
-          "occasion": "eid_al_fitr",
-          "obs_count": 7,
-          "account_count": 4,
-          "high_engagement_rate": 1.0,
-          "avg_engagement_score": 1.0,
-          "top_sectors": {
-            "f_and_b": 5,
-            "retail": 2
-          },
-          "recommended_recipe": {
-            "best_media_type": "image",
-            "best_media_high_eng_rate": 1.0,
-            "dominant_setting": "digital_graphic",
-            "dominant_lighting": "mixed_lighting",
-            "dominant_composition": "product_hero_closeup",
-            "dominant_tone": "warm",
-            "dominant_register": "casual"
-          },
-          "top_5_patterns": [
-            {
-              "slug": "occasion_peg",
-              "name": "Occasion Peg",
-              "count": 3,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "product_hero",
-              "name": "Product Hero Static",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "warm_najdi_invitational",
-              "name": "Warm Najdi Invitational",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "model_centered_frontal_portrait",
-              "name": "Model-Centered Frontal Portrait",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "eid_collection_reveal",
-              "name": "Eid Collection Reveal",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            }
-          ],
-          "media_type_breakdown": {
-            "image": {
-              "count": 3,
-              "high_eng_rate": 1.0
-            },
-            "video": {
-              "count": 3,
-              "high_eng_rate": 1.0
-            },
-            "carousel_slide": {
-              "count": 1,
-              "high_eng_rate": null
-            }
-          }
+      "avoid_phrases": [
+        "من حبة بسيطة، بدأت قصتهم",
+        "صندوق البيئة كشريك استراتيجي",
+        "على كيفك",
+        "خيارات تناسب صباحك",
+        "ما فيه شيء يبقى على حاله"
+      ],
+      "agency_rules": [
+        "Arabic phrases: 50% avg  (159 unique) vs English: 65% (5 unique)",
+        "Best category: 'sensory_food' (94%)",
+        "Elite phrases (100%): لفترة محدودة فقط / صناعة سعودية / شارك الفرحة / نسعد بخدمتكم",
+        "Avoid: nostalgia/memory phrases score 0% consistently"
+      ]
+    },
+    "occasion": {
+      "question": "What format and approach works best per occasion?",
+      "occasion_sector_matrix": {
+        "eid_al_adha": {
+          "f_and_b": "image (100%, n=2)"
         },
-        {
-          "occasion": "winter_seasonal",
-          "obs_count": 4,
-          "account_count": 3,
-          "high_engagement_rate": 1.0,
-          "avg_engagement_score": 1.0,
-          "top_sectors": {
-            "f_and_b": 4
-          },
-          "recommended_recipe": {
-            "best_media_type": "carousel_slide",
-            "best_media_high_eng_rate": 1.0,
-            "dominant_setting": "outdoor_nature",
-            "dominant_lighting": "natural_daylight",
-            "dominant_composition": "graphic_text",
-            "dominant_tone": "warm",
-            "dominant_register": "casual"
-          },
-          "top_5_patterns": [
-            {
-              "slug": "product_hero",
-              "name": "Product Hero Static",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "specific_dish_naming",
-              "name": "Specific Dish or Product Naming in Arabic",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "overhead_tabletop_spread",
-              "name": "Overhead Tabletop Spread",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "winter_seasonal_camping",
-              "name": "Winter Seasonal Camping (مخيمات)",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "interior_architectural_framing",
-              "name": "Interior Architectural Framing",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            }
-          ],
-          "media_type_breakdown": {
-            "image": {
-              "count": 1,
-              "high_eng_rate": null
-            },
-            "carousel_slide": {
-              "count": 3,
-              "high_eng_rate": 1.0
-            }
-          }
+        "founding_day": {
+          "f_and_b": "reel (100%, n=2)"
         },
-        {
-          "occasion": "vision_2030_moment",
-          "obs_count": 2,
-          "account_count": 1,
-          "high_engagement_rate": 1.0,
-          "avg_engagement_score": 1.0,
-          "top_sectors": {
-            "f_and_b": 2
-          },
-          "recommended_recipe": {
-            "best_media_type": "image",
-            "best_media_high_eng_rate": 1.0,
-            "dominant_setting": "digital_graphic",
-            "dominant_lighting": "flat_graphic",
-            "dominant_composition": "graphic_text",
-            "dominant_tone": "celebratory",
-            "dominant_register": "promotional"
-          },
-          "top_5_patterns": [
-            {
-              "slug": "cultural_moment_tie_in",
-              "name": "Cultural Moment Tie-In",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "national_day_pride",
-              "name": "National Day Pride",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "seasonal_collection_drop",
-              "name": "Seasonal Collection Drop",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "giveaway_contest_post",
-              "name": "Giveaway / Contest Post",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "event_collab_announcement",
-              "name": "Event / Collab Announcement",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            }
-          ],
-          "media_type_breakdown": {
-            "image": {
-              "count": 2,
-              "high_eng_rate": 1.0
-            }
-          }
+        "vision_2030": {
+          "f_and_b": "image (100%, n=2)"
         },
-        {
-          "occasion": "world_coffee_day",
-          "obs_count": 2,
-          "account_count": 1,
-          "high_engagement_rate": 1.0,
-          "avg_engagement_score": 1.0,
-          "top_sectors": {
-            "f_and_b": 2
-          },
-          "recommended_recipe": {
-            "best_media_type": "image",
-            "best_media_high_eng_rate": 1.0,
-            "dominant_setting": "digital_graphic",
-            "dominant_lighting": "flat_graphic",
-            "dominant_composition": "graphic_text",
-            "dominant_tone": "inviting",
-            "dominant_register": "casual"
-          },
-          "top_5_patterns": [
-            {
-              "slug": "curiosity_gap_question",
-              "name": "Curiosity Gap Question",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "world_food_heritage_day",
-              "name": "World Food Heritage Day",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "community_pride_statement",
-              "name": "Community Pride Statement",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "global_event_saudi_lens",
-              "name": "Global Event Saudi Lens",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "seasonal_collection_drop",
-              "name": "Seasonal Collection Drop",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            }
-          ],
-          "media_type_breakdown": {
-            "image": {
-              "count": 2,
-              "high_eng_rate": 1.0
-            }
-          }
+        "eid_al_fitr": {
+          "f_and_b": "video (100%, n=6)"
         },
-        {
-          "occasion": "international_womens_day",
-          "obs_count": 1,
-          "account_count": 1,
-          "high_engagement_rate": 1.0,
-          "avg_engagement_score": 1.0,
-          "top_sectors": {
-            "f_and_b": 1
-          },
-          "recommended_recipe": {
-            "best_media_type": "carousel_slide",
-            "best_media_high_eng_rate": null,
-            "dominant_setting": "outdoor_nature",
-            "dominant_lighting": "natural_daylight",
-            "dominant_composition": "lifestyle_integrated",
-            "dominant_tone": "celebratory",
-            "dominant_register": "professional"
-          },
-          "top_5_patterns": [
-            {
-              "slug": "event_collab_announcement",
-              "name": "Event / Collab Announcement",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "product_hero",
-              "name": "Product Hero Static",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "women_empowerment_day",
-              "name": "Women Empowerment Day",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            }
-          ],
-          "media_type_breakdown": {
-            "carousel_slide": {
-              "count": 1,
-              "high_eng_rate": null
-            }
-          }
+        "brand_campaign": {
+          "f_and_b": "video (100%, n=2)"
         },
+        "winter_seasonal": {
+          "f_and_b": "carousel_slide (100%, n=3)"
+        },
+        "graduation_season": {
+          "f_and_b": "image (100%, n=5)"
+        },
+        "summer_campaign": {
+          "f_and_b": "carousel_slide (100%, n=2)"
+        },
+        "national_day": {
+          "f_and_b": "image (90%, n=5)"
+        },
+        "ramadan": {
+          "f_and_b": "image (89%, n=14)"
+        },
+        "evergreen": {
+          "f_and_b": "carousel_slide (81%, n=81)",
+          "retail": "video (52%, n=28)",
+          "beauty": "carousel_slide (50%, n=4)"
+        },
+        "sporting_event": {
+          "f_and_b": "image (50%, n=5)"
+        },
+        "national_sports_day": {
+          "beauty": "image (0%, n=6)"
+        }
+      },
+      "top_combos": [
         {
-          "occasion": "summer_campaign",
-          "obs_count": 8,
-          "account_count": 3,
-          "high_engagement_rate": 0.875,
-          "avg_engagement_score": 0.938,
-          "top_sectors": {
-            "f_and_b": 8
-          },
-          "recommended_recipe": {
-            "best_media_type": "image",
-            "best_media_high_eng_rate": 1.0,
-            "dominant_setting": "outdoor_nature",
-            "dominant_lighting": "natural_daylight",
-            "dominant_composition": "lifestyle_integrated",
-            "dominant_tone": "playful",
-            "dominant_register": "casual"
-          },
-          "top_5_patterns": [
-            {
-              "slug": "welcoming_summer_indoor_pivot",
-              "name": "Welcoming Summer Indoor Pivot",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "product_hero",
-              "name": "Product Hero Static",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "warm_golden_hour_hero",
-              "name": "Warm Golden-Hour Hero",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "lifestyle_environment_integration",
-              "name": "Lifestyle Environment Integration",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "seasonal_summer_heat",
-              "name": "Seasonal Summer Heat Pivot",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            }
-          ],
-          "media_type_breakdown": {
-            "image": {
-              "count": 5,
-              "high_eng_rate": 1.0
-            },
-            "carousel_slide": {
-              "count": 2,
-              "high_eng_rate": 1.0
-            },
-            "video": {
-              "count": 1,
-              "high_eng_rate": null
-            }
-          }
+          "occasion": "eid_al_adha",
+          "sector": "f_and_b",
+          "content_type": "image",
+          "count": 2,
+          "avg_engagement": 1.0,
+          "lift_vs_avg": 0.352
         },
         {
           "occasion": "founding_day",
-          "obs_count": 7,
-          "account_count": 4,
-          "high_engagement_rate": 0.857,
-          "avg_engagement_score": 0.929,
-          "top_sectors": {
-            "f_and_b": 7
-          },
-          "recommended_recipe": {
-            "best_media_type": "reel",
-            "best_media_high_eng_rate": 1.0,
-            "dominant_setting": "digital_graphic",
-            "dominant_lighting": "dramatic_moody",
-            "dominant_composition": "product_hero_closeup",
-            "dominant_tone": "patriotic",
-            "dominant_register": "formal"
-          },
-          "top_5_patterns": [
-            {
-              "slug": "founding_day_dirayyah_heritage",
-              "name": "Founding Day Diriyah Heritage",
-              "count": 6,
-              "high_engagement_rate": 0.833
-            },
-            {
-              "slug": "close_up_macro_texture",
-              "name": "Close-Up Macro Texture",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "product_hero",
-              "name": "Product Hero Static",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "interior_architectural_framing",
-              "name": "Interior Architectural Framing",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "model_centered_frontal_portrait",
-              "name": "Model-Centered Frontal Portrait",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            }
-          ],
-          "media_type_breakdown": {
-            "reel": {
-              "count": 2,
-              "high_eng_rate": 1.0
-            },
-            "image": {
-              "count": 2,
-              "high_eng_rate": 1.0
-            },
-            "carousel_slide": {
-              "count": 1,
-              "high_eng_rate": null
-            },
-            "video": {
-              "count": 2,
-              "high_eng_rate": 0.5
-            }
-          }
+          "sector": "f_and_b",
+          "content_type": "reel",
+          "count": 2,
+          "avg_engagement": 1.0,
+          "lift_vs_avg": 0.352
         },
         {
-          "occasion": "national_day",
-          "obs_count": 9,
-          "account_count": 6,
-          "high_engagement_rate": 0.778,
-          "avg_engagement_score": 0.833,
-          "top_sectors": {
-            "f_and_b": 9
-          },
-          "recommended_recipe": {
-            "best_media_type": "image",
-            "best_media_high_eng_rate": 0.8,
-            "dominant_setting": "digital_graphic",
-            "dominant_lighting": "flat_graphic",
-            "dominant_composition": "graphic_text",
-            "dominant_tone": "celebratory",
-            "dominant_register": "formal"
-          },
-          "top_5_patterns": [
-            {
-              "slug": "national_day_modernity_heritage",
-              "name": "National Day Modernity Meets Heritage",
-              "count": 5,
-              "high_engagement_rate": 0.6
-            },
-            {
-              "slug": "national_day_pride",
-              "name": "National Day Pride",
-              "count": 4,
-              "high_engagement_rate": 0.75
-            },
-            {
-              "slug": "color_block_branded_flood",
-              "name": "Color-Block Branded Flood",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "community_pride_statement",
-              "name": "Community Pride Statement",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "documentary_btsmoment",
-              "name": "Documentary BTS Moment",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            }
-          ],
-          "media_type_breakdown": {
-            "reel": {
-              "count": 1,
-              "high_eng_rate": null
-            },
-            "image": {
-              "count": 5,
-              "high_eng_rate": 0.8
-            },
-            "carousel_slide": {
-              "count": 1,
-              "high_eng_rate": null
-            },
-            "video": {
-              "count": 2,
-              "high_eng_rate": 0.5
-            }
-          }
+          "occasion": "vision_2030",
+          "sector": "f_and_b",
+          "content_type": "image",
+          "count": 2,
+          "avg_engagement": 1.0,
+          "lift_vs_avg": 0.352
+        },
+        {
+          "occasion": "founding_day",
+          "sector": "f_and_b",
+          "content_type": "image",
+          "count": 2,
+          "avg_engagement": 1.0,
+          "lift_vs_avg": 0.352
+        },
+        {
+          "occasion": "eid_al_fitr",
+          "sector": "f_and_b",
+          "content_type": "video",
+          "count": 6,
+          "avg_engagement": 1.0,
+          "lift_vs_avg": 0.352
+        },
+        {
+          "occasion": "brand_campaign",
+          "sector": "f_and_b",
+          "content_type": "video",
+          "count": 2,
+          "avg_engagement": 1.0,
+          "lift_vs_avg": 0.352
+        },
+        {
+          "occasion": "winter_seasonal",
+          "sector": "f_and_b",
+          "content_type": "carousel_slide",
+          "count": 3,
+          "avg_engagement": 1.0,
+          "lift_vs_avg": 0.352
+        },
+        {
+          "occasion": "eid_al_fitr",
+          "sector": "f_and_b",
+          "content_type": "image",
+          "count": 2,
+          "avg_engagement": 1.0,
+          "lift_vs_avg": 0.352
         },
         {
           "occasion": "graduation_season",
-          "obs_count": 4,
-          "account_count": 2,
-          "high_engagement_rate": 0.75,
-          "avg_engagement_score": 0.875,
-          "top_sectors": {
-            "f_and_b": 4
-          },
-          "recommended_recipe": {
-            "best_media_type": "image",
-            "best_media_high_eng_rate": 1.0,
-            "dominant_setting": "digital_graphic",
-            "dominant_lighting": "flat_graphic",
-            "dominant_composition": "graphic_text",
-            "dominant_tone": "celebratory",
-            "dominant_register": "casual"
-          },
-          "top_5_patterns": [
-            {
-              "slug": "occasion_peg",
-              "name": "Occasion Peg",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "price_offer_graphic",
-              "name": "Price Offer Graphic",
-              "count": 2,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "invitation_to_witness",
-              "name": "Invitation to Witness",
-              "count": 1,
-              "high_engagement_rate": 0.0
-            },
-            {
-              "slug": "behind_the_craft",
-              "name": "Behind The Craft Process",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            }
-          ],
-          "media_type_breakdown": {
-            "image": {
-              "count": 3,
-              "high_eng_rate": 1.0
-            },
-            "video": {
-              "count": 1,
-              "high_eng_rate": null
-            }
-          }
-        },
-        {
-          "occasion": "ramadan",
-          "obs_count": 23,
-          "account_count": 7,
-          "high_engagement_rate": 0.652,
-          "avg_engagement_score": 0.826,
-          "top_sectors": {
-            "f_and_b": 23
-          },
-          "recommended_recipe": {
-            "best_media_type": "image",
-            "best_media_high_eng_rate": 0.818,
-            "dominant_setting": "restaurant_indoor",
-            "dominant_lighting": "warm_ambient",
-            "dominant_composition": "product_hero_closeup",
-            "dominant_tone": "patriotic",
-            "dominant_register": "casual"
-          },
-          "top_5_patterns": [
-            {
-              "slug": "ramadan_iftar_warmth",
-              "name": "Ramadan Iftar Warmth",
-              "count": 15,
-              "high_engagement_rate": 0.6
-            },
-            {
-              "slug": "occasion_peg",
-              "name": "Occasion Peg",
-              "count": 5,
-              "high_engagement_rate": 0.6
-            },
-            {
-              "slug": "warm_najdi_invitational",
-              "name": "Warm Najdi Invitational",
-              "count": 5,
-              "high_engagement_rate": 0.8
-            },
-            {
-              "slug": "product_hero",
-              "name": "Product Hero Static",
-              "count": 4,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "ramadan_iftar_table",
-              "name": "Ramadan Iftar Table",
-              "count": 4,
-              "high_engagement_rate": 0.0
-            }
-          ],
-          "media_type_breakdown": {
-            "image": {
-              "count": 11,
-              "high_eng_rate": 0.818
-            },
-            "video": {
-              "count": 7,
-              "high_eng_rate": 0.571
-            },
-            "carousel_slide": {
-              "count": 4,
-              "high_eng_rate": 0.25
-            },
-            "reel": {
-              "count": 1,
-              "high_eng_rate": null
-            }
-          }
-        },
-        {
-          "occasion": "evergreen",
-          "obs_count": 398,
-          "account_count": 15,
-          "high_engagement_rate": 0.51,
-          "avg_engagement_score": 0.682,
-          "top_sectors": {
-            "f_and_b": 328,
-            "beauty": 47,
-            "retail": 23
-          },
-          "recommended_recipe": {
-            "best_media_type": "carousel_slide",
-            "best_media_high_eng_rate": 0.744,
-            "dominant_setting": "restaurant_indoor",
-            "dominant_lighting": "mixed_lighting",
-            "dominant_composition": "product_hero_closeup",
-            "dominant_tone": "playful",
-            "dominant_register": "casual"
-          },
-          "top_5_patterns": [
-            {
-              "slug": "product_hero",
-              "name": "Product Hero Static",
-              "count": 178,
-              "high_engagement_rate": 0.534
-            },
-            {
-              "slug": "seasonal_collection_drop",
-              "name": "Seasonal Collection Drop",
-              "count": 76,
-              "high_engagement_rate": 0.605
-            },
-            {
-              "slug": "invitation_to_witness",
-              "name": "Invitation to Witness",
-              "count": 61,
-              "high_engagement_rate": 0.574
-            },
-            {
-              "slug": "lifestyle_environment_integration",
-              "name": "Lifestyle Environment Integration",
-              "count": 57,
-              "high_engagement_rate": 0.86
-            },
-            {
-              "slug": "close_up_macro_texture",
-              "name": "Close-Up Macro Texture",
-              "count": 45,
-              "high_engagement_rate": 0.644
-            }
-          ],
-          "media_type_breakdown": {
-            "video": {
-              "count": 104,
-              "high_eng_rate": 0.356
-            },
-            "carousel_slide": {
-              "count": 78,
-              "high_eng_rate": 0.744
-            },
-            "image": {
-              "count": 183,
-              "high_eng_rate": 0.481
-            },
-            "reel": {
-              "count": 33,
-              "high_eng_rate": 0.606
-            }
-          }
-        },
-        {
-          "occasion": "eid_al_adha",
-          "obs_count": 3,
-          "account_count": 2,
-          "high_engagement_rate": 0.333,
-          "avg_engagement_score": 0.5,
-          "top_sectors": {
-            "f_and_b": 3
-          },
-          "recommended_recipe": {
-            "best_media_type": "video",
-            "best_media_high_eng_rate": 0.0,
-            "dominant_setting": "restaurant_indoor",
-            "dominant_lighting": "branded_bright",
-            "dominant_composition": "documentary_candid",
-            "dominant_tone": "celebratory",
-            "dominant_register": "casual"
-          },
-          "top_5_patterns": [
-            {
-              "slug": "eid_family_gathering",
-              "name": "Eid Family Gathering",
-              "count": 2,
-              "high_engagement_rate": 0.5
-            },
-            {
-              "slug": "occasion_peg",
-              "name": "Occasion Peg",
-              "count": 1,
-              "high_engagement_rate": 0.0
-            },
-            {
-              "slug": "seasonal_collection_drop",
-              "name": "Seasonal Collection Drop",
-              "count": 1,
-              "high_engagement_rate": 0.0
-            },
-            {
-              "slug": "eid_al_adha_sacrifice_generosity",
-              "name": "Eid Al-Adha Sacrifice + Generosity",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            },
-            {
-              "slug": "overhead_tabletop_spread",
-              "name": "Overhead Tabletop Spread",
-              "count": 1,
-              "high_engagement_rate": 1.0
-            }
-          ],
-          "media_type_breakdown": {
-            "video": {
-              "count": 2,
-              "high_eng_rate": 0.0
-            },
-            "image": {
-              "count": 1,
-              "high_eng_rate": null
-            }
-          }
-        },
-        {
-          "occasion": "national_sports_day",
-          "obs_count": 3,
-          "account_count": 1,
-          "high_engagement_rate": 0.0,
-          "avg_engagement_score": 0.0,
-          "top_sectors": {
-            "beauty": 3
-          },
-          "recommended_recipe": {
-            "best_media_type": "image",
-            "best_media_high_eng_rate": 0.0,
-            "dominant_setting": "restaurant_indoor",
-            "dominant_lighting": "mixed_lighting",
-            "dominant_composition": "graphic_text",
-            "dominant_tone": "proud",
-            "dominant_register": "patriotic"
-          },
-          "top_5_patterns": [
-            {
-              "slug": "national_day_pride",
-              "name": "National Day Pride",
-              "count": 3,
-              "high_engagement_rate": 0.0
-            }
-          ],
-          "media_type_breakdown": {
-            "image": {
-              "count": 3,
-              "high_eng_rate": 0.0
-            }
-          }
-        },
-        {
-          "occasion": "hajj",
-          "obs_count": 1,
-          "account_count": 1,
-          "high_engagement_rate": 0.0,
-          "avg_engagement_score": 0.5,
-          "top_sectors": {
-            "f_and_b": 1
-          },
-          "recommended_recipe": {
-            "best_media_type": "image",
-            "best_media_high_eng_rate": null,
-            "dominant_setting": "digital_graphic",
-            "dominant_lighting": "mixed_lighting",
-            "dominant_composition": "product_hero_closeup",
-            "dominant_tone": "warm",
-            "dominant_register": "promotional"
-          },
-          "top_5_patterns": [
-            {
-              "slug": "educational_explainer",
-              "name": "Educational Explainer Carousel",
-              "count": 1,
-              "high_engagement_rate": 0.0
-            },
-            {
-              "slug": "specific_dish_naming",
-              "name": "Specific Dish or Product Naming in Arabic",
-              "count": 1,
-              "high_engagement_rate": 0.0
-            }
-          ],
-          "media_type_breakdown": {
-            "image": {
-              "count": 1,
-              "high_eng_rate": null
-            }
-          }
-        },
-        {
-          "occasion": "back_to_school",
-          "obs_count": 1,
-          "account_count": 1,
-          "high_engagement_rate": 0.0,
-          "avg_engagement_score": 0.0,
-          "top_sectors": {
-            "f_and_b": 1
-          },
-          "recommended_recipe": {
-            "best_media_type": "image",
-            "best_media_high_eng_rate": null,
-            "dominant_setting": "digital_graphic",
-            "dominant_lighting": "mixed_lighting",
-            "dominant_composition": "graphic_text",
-            "dominant_tone": "playful",
-            "dominant_register": "casual"
-          },
-          "top_5_patterns": [
-            {
-              "slug": "price_offer_graphic",
-              "name": "Price Offer Graphic",
-              "count": 1,
-              "high_engagement_rate": 0.0
-            },
-            {
-              "slug": "occasion_peg",
-              "name": "Occasion Peg",
-              "count": 1,
-              "high_engagement_rate": 0.0
-            }
-          ],
-          "media_type_breakdown": {
-            "image": {
-              "count": 1,
-              "high_eng_rate": null
-            }
-          }
-        },
-        {
-          "occasion": "friday_weekly",
-          "obs_count": 1,
-          "account_count": 1,
-          "high_engagement_rate": 0.0,
-          "avg_engagement_score": 0.0,
-          "top_sectors": {
-            "f_and_b": 1
-          },
-          "recommended_recipe": {
-            "best_media_type": "image",
-            "best_media_high_eng_rate": null,
-            "dominant_setting": "restaurant_indoor",
-            "dominant_lighting": "mixed_lighting",
-            "dominant_composition": "graphic_text",
-            "dominant_tone": "warm",
-            "dominant_register": "casual"
-          },
-          "top_5_patterns": [
-            {
-              "slug": "occasion_peg",
-              "name": "Occasion Peg",
-              "count": 1,
-              "high_engagement_rate": 0.0
-            },
-            {
-              "slug": "price_offer_graphic",
-              "name": "Price Offer Graphic",
-              "count": 1,
-              "high_engagement_rate": 0.0
-            }
-          ],
-          "media_type_breakdown": {
-            "image": {
-              "count": 1,
-              "high_eng_rate": null
-            }
-          }
-        }
-      ]
-    },
-    "18_compliance_deep_dive": {
-      "question": "Where are the compliance risks, and do they correlate with lower engagement?",
-      "answer": "49 of 474 observations flagged (10%). Surprisingly, flagged content engagement is essentially identical to clean content — flags are calibration issues not performance killers. Top risk: western_occasion_import and regional_language_mismatch soft flags.",
-      "corpus_overview": {
-        "total_obs": 474,
-        "clean_obs": 425,
-        "flagged_obs": 49,
-        "flagged_rate": 0.103,
-        "unique_hard_flag_types": 0,
-        "unique_soft_flag_types": 60
-      },
-      "engagement_delta": {
-        "clean_obs_high_engagement_rate": 0.544,
-        "flagged_obs_high_engagement_rate": 0.551,
-        "delta": -0.007,
-        "insight": "Flagged content unexpectedly outperforms — review flag calibration"
-      },
-      "top_hard_flags": [],
-      "top_soft_flags": [
-        {
-          "flag_type": "western_occasion_import",
-          "count": 2
-        },
-        {
-          "flag_type": "regional_language_mismatch",
-          "count": 2
-        },
-        {
-          "flag_type": "face_visibility_moderate",
-          "count": 1
-        },
-        {
-          "flag_type": "gesture_review",
-          "count": 1
-        },
-        {
-          "flag_type": "cross_gender_contact_review",
-          "count": 1
-        }
-      ],
-      "high_risk_accounts": [
-        {
-          "account": "OGZ-F-AND-B-Reference-038",
           "sector": "f_and_b",
-          "obs_count": 12,
-          "risk_score": 17,
-          "risk_grade": "orange",
-          "risk_per_obs": 1.42,
-          "clean_obs": 2,
-          "flagged_obs": 10,
-          "flagged_rate": 0.833,
-          "top_hard_flags": {},
-          "top_soft_flags": {
-            "foreign_cuisine_Italian_framed_as_aspirational": 1,
-            "Italian_origin_as_premium": 1,
-            "generic_lifestyle_tagline_not_Saudi_identity": 1
-          },
-          "clean_avg_engagement": 0.0,
-          "flagged_avg_engagement": 0.35
+          "content_type": "image",
+          "count": 5,
+          "avg_engagement": 1.0,
+          "lift_vs_avg": 0.352
+        },
+        {
+          "occasion": "summer_campaign",
+          "sector": "f_and_b",
+          "content_type": "carousel_slide",
+          "count": 2,
+          "avg_engagement": 1.0,
+          "lift_vs_avg": 0.352
         }
       ],
-      "risky_pattern_combinations": []
+      "agency_rules": [
+        "eid_al_fitr: use video (100%, n=6)",
+        "ramadan: use image (89%, n=14)",
+        "national_day: use image (90%, n=5)",
+        "founding_day: use video (75%, n=4)",
+        "evergreen: use carousel_slide (81%, n=81)"
+      ]
     },
-    "19_archetype_benchmark": {
-      "question": "Which brand archetype strategy produces the best outcomes?",
-      "answer": "Heritage Anchor wins on all 3 dimensions: highest engagement (74% high eng), highest health score (0.856), lowest compliance risk. Mass Market Functional is the worst performer (24% high eng). Modern Premium accounts for 10/15 accounts but underperforms Heritage Anchor by ~19pp.",
-      "archetypes_ranked": [
-        "Heritage Anchor",
-        "Community Warm",
-        "Modern Premium",
-        "Mass Market Functional"
+    "posting_day": {
+      "question": "Which day of the week produces the highest engagement?",
+      "ranked_days": [
+        "sunday",
+        "thursday",
+        "monday",
+        "friday",
+        "saturday",
+        "wednesday",
+        "tuesday"
       ],
-      "comparison_matrix": {
-        "high_engagement_rate": {
-          "Heritage Anchor": 0.74,
-          "Community Warm": 0.587,
-          "Modern Premium": 0.552,
-          "Mass Market Functional": 0.24
+      "by_day": {
+        "monday": {
+          "avg": 0.633,
+          "n": 83
         },
-        "avg_health_score": {
-          "Heritage Anchor": 0.856,
-          "Community Warm": 0.711,
-          "Modern Premium": 0.761,
-          "Mass Market Functional": 0.588
+        "tuesday": {
+          "avg": 0.52,
+          "n": 100
         },
-        "compliance_risk_per_obs": {
-          "Heritage Anchor": 0.06,
-          "Community Warm": 0.16,
-          "Modern Premium": 0.27,
-          "Mass Market Functional": 0.12
+        "wednesday": {
+          "avg": 0.545,
+          "n": 77
+        },
+        "thursday": {
+          "avg": 0.643,
+          "n": 84
+        },
+        "friday": {
+          "avg": 0.591,
+          "n": 66
+        },
+        "saturday": {
+          "avg": 0.551,
+          "n": 69
+        },
+        "sunday": {
+          "avg": 0.688,
+          "n": 69
         }
       },
-      "archetype_profiles": [
+      "best_by_sector": {
+        "f_and_b": {
+          "best_day": "sunday",
+          "avg_engagement": 0.722,
+          "n": 54
+        },
+        "retail": {
+          "best_day": "wednesday",
+          "avg_engagement": 0.833,
+          "n": 3
+        },
+        "beauty": {
+          "best_day": "sunday",
+          "avg_engagement": 0.5,
+          "n": 12
+        }
+      },
+      "best_by_occasion": {
+        "ramadan": {
+          "best_day": "sunday",
+          "avg_engagement": 1.0,
+          "n": 29
+        },
+        "evergreen": {
+          "best_day": "thursday",
+          "avg_engagement": 0.62,
+          "n": 435
+        },
+        "eid_al_adha": {
+          "best_day": "saturday",
+          "avg_engagement": 1.0,
+          "n": 6
+        },
+        "founding_day": {
+          "best_day": "sunday",
+          "avg_engagement": 1.0,
+          "n": 9
+        },
+        "brand_campaign": {
+          "best_day": "wednesday",
+          "avg_engagement": 1.0,
+          "n": 12
+        },
+        "national_day": {
+          "best_day": "sunday",
+          "avg_engagement": 1.0,
+          "n": 10
+        },
+        "sporting_event": {
+          "best_day": "tuesday",
+          "avg_engagement": 0.75,
+          "n": 11
+        },
+        "summer_campaign": {
+          "best_day": "monday",
+          "avg_engagement": 1.0,
+          "n": 8
+        },
+        "eid_al_fitr": {
+          "best_day": "thursday",
+          "avg_engagement": 1.0,
+          "n": 9
+        },
+        "graduation_season": {
+          "best_day": "monday",
+          "avg_engagement": 1.0,
+          "n": 6
+        },
+        "national_sports_day": {
+          "best_day": "tuesday",
+          "avg_engagement": 0.0,
+          "n": 6
+        }
+      },
+      "agency_rules": []
+    },
+    "hospitality": {
+      "question": "What hospitality cues maximise engagement?",
+      "by_cue_group": {
+        "product_pride": {
+          "avg": 0.922,
+          "n": 32
+        },
+        "welcome": {
+          "avg": 0.902,
+          "n": 56
+        },
+        "other": {
+          "avg": 0.821,
+          "n": 285
+        },
+        "heritage": {
+          "avg": 0.821,
+          "n": 42
+        },
+        "abundance": {
+          "avg": 0.817,
+          "n": 30
+        },
+        "sharing": {
+          "avg": 0.776,
+          "n": 58
+        },
+        "occasion": {
+          "avg": 0.767,
+          "n": 45
+        }
+      },
+      "top_cues": [],
+      "agency_rules": [
+        "Best hospitality group: 'product_pride' (92%)",
+        "Elite cues: premium_presentation"
+      ]
+    },
+    "overlay": {
+      "question": "Should posts include text overlays, and in what language?",
+      "has_overlay_avg": 0.62,
+      "no_overlay_avg": 0.86,
+      "overlay_presence_lift": -0.24,
+      "by_language": {
+        "spanish": {
+          "avg": 1.0,
+          "n": 4
+        },
+        "english": {
+          "avg": 0.843,
+          "n": 115
+        },
+        "bilingual": {
+          "avg": 0.615,
+          "n": 74
+        },
+        "arabic": {
+          "avg": 0.607,
+          "n": 498
+        }
+      },
+      "by_overlay_type": {
+        "event_info": {
+          "avg": 0.886,
+          "n": 22
+        },
+        "brand_identity": {
+          "avg": 0.779,
+          "n": 147
+        },
+        "cta": {
+          "avg": 0.648,
+          "n": 27
+        },
+        "other": {
+          "avg": 0.641,
+          "n": 354
+        },
+        "price_offer": {
+          "avg": 0.59,
+          "n": 50
+        },
+        "how_to": {
+          "avg": 0.5,
+          "n": 28
+        },
+        "product_name": {
+          "avg": 0.491,
+          "n": 57
+        },
+        "hashtag": {
+          "avg": 0.458,
+          "n": 12
+        }
+      },
+      "agency_rules": [
+        "Best overlay language: 'spanish' (100%) vs 'arabic' (61%)",
+        "Has text overlay: 62% vs no overlay: 86% (lift -0.24)",
+        "Best overlay type: 'event_info' (89%)"
+      ]
+    },
+    "sector_dna": {
+      "question": "What makes each sector's content distinct?",
+      "sectors": {
+        "f_and_b": {
+          "avg_engagement": 0.698,
+          "lift_vs_corpus": 0.05,
+          "obs_count": 524,
+          "dominant_signals": {
+            "content_type": {
+              "value": "image",
+              "pct": 0.448
+            },
+            "aspect_ratio": {
+              "value": "square_1x1",
+              "pct": 0.405
+            },
+            "editing_pace": {
+              "value": "viral_fast",
+              "pct": 0.631
+            },
+            "day_of_week": {
+              "value": "thursday",
+              "pct": 0.17
+            },
+            "composition": {
+              "value": "product_hero_closeup",
+              "pct": 0.319
+            },
+            "setting": {
+              "value": "restaurant_indoor",
+              "pct": 0.218
+            },
+            "lighting": {
+              "value": "mixed_ambient",
+              "pct": 0.189
+            },
+            "visual_complexity": {
+              "value": "moderate",
+              "pct": 0.656
+            },
+            "color_warmth": {
+              "value": "warm",
+              "pct": 0.72
+            },
+            "heritage_framing": {
+              "value": "modern",
+              "pct": 0.58
+            },
+            "tone": {
+              "value": "playful",
+              "pct": 0.171
+            },
+            "register": {
+              "value": "casual",
+              "pct": 0.652
+            },
+            "dialect": {
+              "value": "najdi",
+              "pct": 0.656
+            },
+            "production_quality": {
+              "value": "professional",
+              "pct": 0.876
+            },
+            "opener_formula": {
+              "value": "statement",
+              "pct": 0.895
+            }
+          }
+        },
+        "retail": {
+          "avg_engagement": 0.486,
+          "lift_vs_corpus": -0.162,
+          "obs_count": 37,
+          "dominant_signals": {
+            "content_type": {
+              "value": "video",
+              "pct": 0.757
+            },
+            "aspect_ratio": {
+              "value": "vertical_9x16",
+              "pct": 1.0
+            },
+            "editing_pace": {
+              "value": "viral_fast",
+              "pct": 0.75
+            },
+            "day_of_week": {
+              "value": "tuesday",
+              "pct": 0.378
+            },
+            "composition": {
+              "value": "product_hero_closeup",
+              "pct": 0.297
+            },
+            "setting": {
+              "value": "studio",
+              "pct": 0.27
+            },
+            "lighting": {
+              "value": "cold_studio",
+              "pct": 0.432
+            },
+            "visual_complexity": {
+              "value": "moderate",
+              "pct": 0.541
+            },
+            "heritage_framing": {
+              "value": "blended",
+              "pct": 0.72
+            },
+            "tone": {
+              "value": "informative",
+              "pct": 0.189
+            },
+            "register": {
+              "value": "aspirational",
+              "pct": 0.405
+            },
+            "dialect": {
+              "value": "general_saudi",
+              "pct": 1.0
+            },
+            "production_quality": {
+              "value": "semi_professional",
+              "pct": 0.865
+            }
+          }
+        },
+        "beauty": {
+          "avg_engagement": 0.42,
+          "lift_vs_corpus": -0.228,
+          "obs_count": 87,
+          "dominant_signals": {
+            "content_type": {
+              "value": "image",
+              "pct": 0.54
+            },
+            "day_of_week": {
+              "value": "wednesday",
+              "pct": 0.218
+            },
+            "composition": {
+              "value": "product_hero_closeup",
+              "pct": 0.264
+            },
+            "setting": {
+              "value": "studio",
+              "pct": 0.46
+            },
+            "lighting": {
+              "value": "mixed_ambient",
+              "pct": 0.31
+            },
+            "visual_complexity": {
+              "value": "moderate",
+              "pct": 0.897
+            },
+            "heritage_framing": {
+              "value": "modern",
+              "pct": 0.846
+            },
+            "tone": {
+              "value": "informative",
+              "pct": 0.149
+            },
+            "register": {
+              "value": "casual",
+              "pct": 0.437
+            },
+            "dialect": {
+              "value": "hejazi",
+              "pct": 0.322
+            },
+            "production_quality": {
+              "value": "professional",
+              "pct": 0.563
+            },
+            "opener_formula": {
+              "value": "statement",
+              "pct": 0.8
+            }
+          }
+        }
+      },
+      "differentiating_dimensions": [
+        "content_type",
+        "aspect_ratio",
+        "day_of_week",
+        "setting",
+        "lighting",
+        "heritage_framing",
+        "tone",
+        "register",
+        "dialect",
+        "production_quality"
+      ],
+      "agency_rules": [
+        "F&B dominates with restaurant_indoor + product_hero + playful tone",
+        "Beauty underperforms (-23pp) — studio + informative tone — needs tone refresh",
+        "Retail sits between: blended heritage, studio setting",
+        "f_and_b: 70% — leads with product_hero_closeup + restaurant_indoor + playful tone",
+        "retail: 49% — leads with product_hero_closeup + studio + informative tone",
+        "beauty: 42% — leads with product_hero_closeup + studio + informative tone"
+      ]
+    },
+    "elite_vs_weak": {
+      "question": "What separates elite accounts from weak ones?",
+      "elite_accounts": [
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-003",
+        "OGZ-F-AND-B-Reference-004",
+        "OGZ-F-AND-B-Reference-008",
+        "OGZ-F-AND-B-Reference-010"
+      ],
+      "weak_accounts": [
+        "OGZ-BEAUTY-Reference-001",
+        "OGZ-BEAUTY-Reference-002",
+        "OGZ-F-AND-B-Reference-007",
+        "OGZ-F-AND-B-Reference-009",
+        "OGZ-F-AND-B-Reference-011",
+        "OGZ-F-AND-B-Reference-038",
+        "OGZ-F-AND-B-Reference-039",
+        "OGZ-RETAIL-Reference-001"
+      ],
+      "elite_obs_count": 250,
+      "weak_obs_count": 298,
+      "top_elite_advantages": [
         {
-          "archetype": "Heritage Anchor",
-          "account_count": 1,
-          "high_engagement_rate": 0.74,
-          "avg_health_score": 0.856,
-          "compliance_risk_per_obs": 0.06,
-          "dominant_setting": "heritage_setting",
-          "dominant_tone": "warm",
-          "top_pattern": "interior_architectural_framing"
+          "dimension": "aspect_ratio",
+          "value": "square_1x1",
+          "elite_pct": 0.412,
+          "weak_pct": 0.135,
+          "elite_advantage": 0.277
         },
         {
-          "archetype": "Community Warm",
-          "account_count": 2,
-          "high_engagement_rate": 0.587,
-          "avg_health_score": 0.711,
-          "compliance_risk_per_obs": 0.16,
-          "dominant_setting": "restaurant_indoor",
-          "dominant_tone": "informative",
-          "top_pattern": "product_hero"
+          "dimension": "visual_complexity",
+          "value": "complex",
+          "elite_pct": 0.332,
+          "weak_pct": 0.084,
+          "elite_advantage": 0.248
         },
         {
-          "archetype": "Modern Premium",
-          "account_count": 10,
-          "high_engagement_rate": 0.552,
-          "avg_health_score": 0.761,
-          "compliance_risk_per_obs": 0.27,
-          "dominant_setting": "studio",
-          "dominant_tone": "playful",
-          "top_pattern": "product_hero"
+          "dimension": "content_type",
+          "value": "carousel_slide",
+          "elite_pct": 0.284,
+          "weak_pct": 0.06,
+          "elite_advantage": 0.224
         },
         {
-          "archetype": "Mass Market Functional",
-          "account_count": 2,
-          "high_engagement_rate": 0.24,
-          "avg_health_score": 0.588,
-          "compliance_risk_per_obs": 0.12,
-          "dominant_setting": "studio",
-          "dominant_tone": "proud",
-          "top_pattern": "product_hero"
+          "dimension": "dialect",
+          "value": "unknown",
+          "elite_pct": 0.2,
+          "weak_pct": 0.0,
+          "elite_advantage": 0.2
+        },
+        {
+          "dimension": "aspect_ratio",
+          "value": "portrait_4x5",
+          "elite_pct": 0.418,
+          "weak_pct": 0.25,
+          "elite_advantage": 0.168
+        },
+        {
+          "dimension": "production_quality",
+          "value": "professional",
+          "elite_pct": 0.836,
+          "weak_pct": 0.688,
+          "elite_advantage": 0.148
+        },
+        {
+          "dimension": "setting",
+          "value": "outdoor_nature",
+          "elite_pct": 0.136,
+          "weak_pct": 0.013,
+          "elite_advantage": 0.123
+        },
+        {
+          "dimension": "heritage_vs_modern",
+          "value": "heritage",
+          "elite_pct": 0.167,
+          "weak_pct": 0.047,
+          "elite_advantage": 0.12
+        },
+        {
+          "dimension": "content_type",
+          "value": "reel",
+          "elite_pct": 0.116,
+          "weak_pct": 0.0,
+          "elite_advantage": 0.116
+        },
+        {
+          "dimension": "register",
+          "value": "formal",
+          "elite_pct": 0.207,
+          "weak_pct": 0.101,
+          "elite_advantage": 0.106
         }
       ],
-      "key_findings": [
-        "Best-performing archetype: Heritage Anchor (74% high eng)",
-        "Worst-performing archetype: Mass Market Functional (24% high eng)",
-        "Heritage Anchor uses dramatically higher hospitality cue density than Modern Premium",
-        "Community Warm archetype relies more on character presence than any other archetype"
+      "top_weak_tendencies": [
+        {
+          "dimension": "aspect_ratio",
+          "value": "vertical_9x16",
+          "elite_pct": 0.044,
+          "weak_pct": 0.596,
+          "elite_advantage": -0.552
+        },
+        {
+          "dimension": "content_type",
+          "value": "video",
+          "elite_pct": 0.168,
+          "weak_pct": 0.55,
+          "elite_advantage": -0.382
+        },
+        {
+          "dimension": "visual_complexity",
+          "value": "moderate",
+          "elite_pct": 0.576,
+          "weak_pct": 0.826,
+          "elite_advantage": -0.25
+        },
+        {
+          "dimension": "production_quality",
+          "value": "semi_professional",
+          "elite_pct": 0.132,
+          "weak_pct": 0.312,
+          "elite_advantage": -0.18
+        },
+        {
+          "dimension": "lighting",
+          "value": "cold_studio",
+          "elite_pct": 0.124,
+          "weak_pct": 0.268,
+          "elite_advantage": -0.144
+        },
+        {
+          "dimension": "register",
+          "value": "casual",
+          "elite_pct": 0.505,
+          "weak_pct": 0.649,
+          "elite_advantage": -0.144
+        },
+        {
+          "dimension": "dialect",
+          "value": "general_saudi",
+          "elite_pct": 0.0,
+          "weak_pct": 0.131,
+          "elite_advantage": -0.131
+        },
+        {
+          "dimension": "opener_formula",
+          "value": "emoji_open",
+          "elite_pct": 0.017,
+          "weak_pct": 0.121,
+          "elite_advantage": -0.104
+        }
+      ],
+      "agency_rules": [
+        "Elite does more: aspect_ratio=square_1x1 | visual_complexity=complex | content_type=carousel_slide",
+        "Weak does more: aspect_ratio=vertical_9x16 | content_type=video | visual_complexity=moderate"
       ]
+    },
+    "signals": {
+      "question": "What are the single biggest engagement boosters and killers?",
+      "top_boosters": [
+        {
+          "dimension": "aspect_ratio",
+          "value": "landscape_4x3",
+          "count": 9,
+          "avg_engagement": 1.0,
+          "lift_vs_avg": 0.346,
+          "high_rate": 1.0,
+          "confidence": "low"
+        },
+        {
+          "dimension": "occasion",
+          "value": "eid_al_fitr",
+          "count": 10,
+          "avg_engagement": 1.0,
+          "lift_vs_avg": 0.346,
+          "high_rate": 1.0,
+          "confidence": "low"
+        },
+        {
+          "dimension": "dialect",
+          "value": "unknown",
+          "count": 50,
+          "avg_engagement": 0.96,
+          "lift_vs_avg": 0.306,
+          "high_rate": 0.92,
+          "confidence": "high"
+        },
+        {
+          "dimension": "register",
+          "value": "professional",
+          "count": 12,
+          "avg_engagement": 0.958,
+          "lift_vs_avg": 0.304,
+          "high_rate": 0.917,
+          "confidence": "low"
+        },
+        {
+          "dimension": "color_warmth",
+          "value": "neutral",
+          "count": 14,
+          "avg_engagement": 0.929,
+          "lift_vs_avg": 0.275,
+          "high_rate": 0.929,
+          "confidence": "low"
+        },
+        {
+          "dimension": "occasion",
+          "value": "graduation_season",
+          "count": 6,
+          "avg_engagement": 0.917,
+          "lift_vs_avg": 0.263,
+          "high_rate": 0.833,
+          "confidence": "low"
+        },
+        {
+          "dimension": "character_count",
+          "value": "4+",
+          "count": 11,
+          "avg_engagement": 0.909,
+          "lift_vs_avg": 0.255,
+          "high_rate": 0.818,
+          "confidence": "low"
+        },
+        {
+          "dimension": "dialect",
+          "value": "colloquial_arabic",
+          "count": 11,
+          "avg_engagement": 0.909,
+          "lift_vs_avg": 0.255,
+          "high_rate": 0.818,
+          "confidence": "low"
+        },
+        {
+          "dimension": "gender_presentation",
+          "value": "male",
+          "count": 38,
+          "avg_engagement": 0.908,
+          "lift_vs_avg": 0.254,
+          "high_rate": 0.816,
+          "confidence": "medium"
+        },
+        {
+          "dimension": "aspect_ratio",
+          "value": "landscape_16x9",
+          "count": 15,
+          "avg_engagement": 0.9,
+          "lift_vs_avg": 0.246,
+          "high_rate": 0.867,
+          "confidence": "medium"
+        },
+        {
+          "dimension": "register",
+          "value": "celebratory",
+          "count": 10,
+          "avg_engagement": 0.9,
+          "lift_vs_avg": 0.246,
+          "high_rate": 0.8,
+          "confidence": "low"
+        },
+        {
+          "dimension": "brand_consistency",
+          "value": "weak",
+          "count": 5,
+          "avg_engagement": 0.9,
+          "lift_vs_avg": 0.246,
+          "high_rate": 0.8,
+          "confidence": "low"
+        },
+        {
+          "dimension": "register",
+          "value": "visual_only",
+          "count": 23,
+          "avg_engagement": 0.891,
+          "lift_vs_avg": 0.237,
+          "high_rate": 0.783,
+          "confidence": "medium"
+        },
+        {
+          "dimension": "occasion",
+          "value": "founding_day",
+          "count": 9,
+          "avg_engagement": 0.889,
+          "lift_vs_avg": 0.235,
+          "high_rate": 0.778,
+          "confidence": "low"
+        },
+        {
+          "dimension": "color_primary",
+          "value": "grey",
+          "count": 13,
+          "avg_engagement": 0.885,
+          "lift_vs_avg": 0.231,
+          "high_rate": 0.769,
+          "confidence": "low"
+        }
+      ],
+      "top_killers": [
+        {
+          "dimension": "occasion",
+          "value": "national_sports_day",
+          "count": 6,
+          "avg_engagement": 0,
+          "lift_vs_avg": -0.654,
+          "high_rate": 0.0,
+          "confidence": "low"
+        },
+        {
+          "dimension": "register",
+          "value": "patriotic",
+          "count": 10,
+          "avg_engagement": 0.25,
+          "lift_vs_avg": -0.404,
+          "high_rate": 0.1,
+          "confidence": "low"
+        },
+        {
+          "dimension": "dialect",
+          "value": "khaleeji",
+          "count": 12,
+          "avg_engagement": 0.333,
+          "lift_vs_avg": -0.321,
+          "high_rate": 0.083,
+          "confidence": "low"
+        },
+        {
+          "dimension": "tone",
+          "value": "excitement",
+          "count": 5,
+          "avg_engagement": 0.4,
+          "lift_vs_avg": -0.254,
+          "high_rate": 0.0,
+          "confidence": "low"
+        },
+        {
+          "dimension": "occasion",
+          "value": "sporting_event",
+          "count": 11,
+          "avg_engagement": 0.409,
+          "lift_vs_avg": -0.245,
+          "high_rate": 0.091,
+          "confidence": "low"
+        },
+        {
+          "dimension": "hashtag_count",
+          "value": "16+",
+          "count": 17,
+          "avg_engagement": 0.412,
+          "lift_vs_avg": -0.242,
+          "high_rate": 0.118,
+          "confidence": "medium"
+        },
+        {
+          "dimension": "dialect",
+          "value": "saudi_colloquial",
+          "count": 23,
+          "avg_engagement": 0.413,
+          "lift_vs_avg": -0.241,
+          "high_rate": 0.13,
+          "confidence": "medium"
+        },
+        {
+          "dimension": "sector",
+          "value": "beauty",
+          "count": 87,
+          "avg_engagement": 0.42,
+          "lift_vs_avg": -0.234,
+          "high_rate": 0.184,
+          "confidence": "high"
+        },
+        {
+          "dimension": "color_primary",
+          "value": "red",
+          "count": 13,
+          "avg_engagement": 0.462,
+          "lift_vs_avg": -0.192,
+          "high_rate": 0.154,
+          "confidence": "low"
+        },
+        {
+          "dimension": "setting",
+          "value": "home_domestic",
+          "count": 14,
+          "avg_engagement": 0.464,
+          "lift_vs_avg": -0.19,
+          "high_rate": 0.214,
+          "confidence": "low"
+        },
+        {
+          "dimension": "sector",
+          "value": "retail",
+          "count": 37,
+          "avg_engagement": 0.486,
+          "lift_vs_avg": -0.168,
+          "high_rate": 0.297,
+          "confidence": "medium"
+        },
+        {
+          "dimension": "tone",
+          "value": "nostalgic",
+          "count": 15,
+          "avg_engagement": 0.5,
+          "lift_vs_avg": -0.154,
+          "high_rate": 0.333,
+          "confidence": "medium"
+        },
+        {
+          "dimension": "tone",
+          "value": "storytelling",
+          "count": 31,
+          "avg_engagement": 0.5,
+          "lift_vs_avg": -0.154,
+          "high_rate": 0.258,
+          "confidence": "medium"
+        },
+        {
+          "dimension": "video_duration",
+          "value": "15-30s",
+          "count": 41,
+          "avg_engagement": 0.5,
+          "lift_vs_avg": -0.154,
+          "high_rate": 0.293,
+          "confidence": "medium"
+        },
+        {
+          "dimension": "brand_consistency",
+          "value": "moderate",
+          "count": 81,
+          "avg_engagement": 0.512,
+          "lift_vs_avg": -0.142,
+          "high_rate": 0.333,
+          "confidence": "high"
+        }
+      ],
+      "agency_rules": []
+    },
+    "formulas": {
+      "question": "What complete content formula (multi-dim) drives the highest engagement?",
+      "top_6dim_formulas": [
+        {
+          "primary_pattern": "product_hero",
+          "primary_pattern_name": "Product Hero Static",
+          "media_type": "carousel_slide",
+          "setting": "studio",
+          "lighting": "cold_studio",
+          "register": "unknown",
+          "tone": "unknown",
+          "obs_count": 5,
+          "high_engagement_rate": 1.0,
+          "avg_engagement": 1.0,
+          "lift_vs_baseline": 0.35
+        },
+        {
+          "primary_pattern": "occasion_peg",
+          "primary_pattern_name": "Occasion Peg",
+          "media_type": "image",
+          "setting": "digital_graphic",
+          "lighting": "flat_graphic",
+          "register": "casual",
+          "tone": "celebratory",
+          "obs_count": 4,
+          "high_engagement_rate": 1.0,
+          "avg_engagement": 1.0,
+          "lift_vs_baseline": 0.35
+        },
+        {
+          "primary_pattern": "poll_engagement_mechanic",
+          "primary_pattern_name": "Poll Engagement Mechanic",
+          "media_type": "image",
+          "setting": "digital_graphic",
+          "lighting": "flat_graphic",
+          "register": "casual",
+          "tone": "playful",
+          "obs_count": 4,
+          "high_engagement_rate": 1.0,
+          "avg_engagement": 1.0,
+          "lift_vs_baseline": 0.35
+        },
+        {
+          "primary_pattern": "product_hero",
+          "primary_pattern_name": "Product Hero Static",
+          "media_type": "carousel_slide",
+          "setting": "studio",
+          "lighting": "dramatic_moody",
+          "register": "unknown",
+          "tone": "unknown",
+          "obs_count": 3,
+          "high_engagement_rate": 1.0,
+          "avg_engagement": 1.0,
+          "lift_vs_baseline": 0.35
+        },
+        {
+          "primary_pattern": "seasonal_collection_drop",
+          "primary_pattern_name": "Seasonal Collection Drop",
+          "media_type": "video",
+          "setting": "studio",
+          "lighting": "dramatic_moody",
+          "register": "casual",
+          "tone": "playful",
+          "obs_count": 2,
+          "high_engagement_rate": 1.0,
+          "avg_engagement": 1.0,
+          "lift_vs_baseline": 0.35
+        },
+        {
+          "primary_pattern": "product_hero",
+          "primary_pattern_name": "Product Hero Static",
+          "media_type": "image",
+          "setting": "studio",
+          "lighting": "warm_studio",
+          "register": "casual",
+          "tone": "aspirational",
+          "obs_count": 2,
+          "high_engagement_rate": 1.0,
+          "avg_engagement": 1.0,
+          "lift_vs_baseline": 0.35
+        },
+        {
+          "primary_pattern": "product_hero",
+          "primary_pattern_name": "Product Hero Static",
+          "media_type": "image",
+          "setting": "studio",
+          "lighting": "cold_studio",
+          "register": "promotional",
+          "tone": "excited",
+          "obs_count": 2,
+          "high_engagement_rate": 1.0,
+          "avg_engagement": 1.0,
+          "lift_vs_baseline": 0.35
+        },
+        {
+          "primary_pattern": "product_hero",
+          "primary_pattern_name": "Product Hero Static",
+          "media_type": "image",
+          "setting": "studio",
+          "lighting": "cold_studio",
+          "register": "casual",
+          "tone": "inviting",
+          "obs_count": 2,
+          "high_engagement_rate": 1.0,
+          "avg_engagement": 1.0,
+          "lift_vs_baseline": 0.35
+        }
+      ],
+      "top_5dim_visual": [
+        {
+          "media_type": "video",
+          "setting": "studio",
+          "lighting": "dramatic_moody",
+          "composition": "before_after",
+          "register": "casual",
+          "obs_count": 3,
+          "high_engagement_rate": 1.0,
+          "avg_engagement": 1.0,
+          "lift_vs_baseline": 0.35
+        },
+        {
+          "media_type": "image",
+          "setting": "digital_graphic",
+          "lighting": "flat_graphic",
+          "composition": "graphic_text",
+          "register": "promotional",
+          "obs_count": 3,
+          "high_engagement_rate": 1.0,
+          "avg_engagement": 1.0,
+          "lift_vs_baseline": 0.35
+        },
+        {
+          "media_type": "image",
+          "setting": "studio",
+          "lighting": "dramatic_moody",
+          "composition": "product_hero_closeup",
+          "register": "casual",
+          "obs_count": 4,
+          "high_engagement_rate": 0.75,
+          "avg_engagement": 0.75,
+          "lift_vs_baseline": 0.1
+        },
+        {
+          "media_type": "image",
+          "setting": "digital_graphic",
+          "lighting": "flat_graphic",
+          "composition": "graphic_text",
+          "register": "casual",
+          "obs_count": 11,
+          "high_engagement_rate": 0.727,
+          "avg_engagement": 0.864,
+          "lift_vs_baseline": 0.077
+        },
+        {
+          "media_type": "image",
+          "setting": "studio",
+          "lighting": "cold_studio",
+          "composition": "product_hero_closeup",
+          "register": "casual",
+          "obs_count": 7,
+          "high_engagement_rate": 0.714,
+          "avg_engagement": 0.786,
+          "lift_vs_baseline": 0.064
+        }
+      ],
+      "top_vc_format": [
+        {
+          "media_type": "image",
+          "visual_complexity": "complex",
+          "aspect_ratio": "square_1x1",
+          "setting": "studio",
+          "obs_count": 9,
+          "high_engagement_rate": 1.0,
+          "avg_engagement": 1.0,
+          "lift_vs_baseline": 0.35
+        },
+        {
+          "media_type": "image",
+          "visual_complexity": "complex",
+          "aspect_ratio": "square_1x1",
+          "setting": "outdoor_nature",
+          "obs_count": 6,
+          "high_engagement_rate": 1.0,
+          "avg_engagement": 1.0,
+          "lift_vs_baseline": 0.35
+        },
+        {
+          "media_type": "carousel_slide",
+          "visual_complexity": "complex",
+          "aspect_ratio": "portrait_4x5",
+          "setting": "event_venue",
+          "obs_count": 5,
+          "high_engagement_rate": 1.0,
+          "avg_engagement": 1.0,
+          "lift_vs_baseline": 0.35
+        },
+        {
+          "media_type": "carousel_slide",
+          "visual_complexity": "simple",
+          "aspect_ratio": "portrait_4x5",
+          "setting": "studio",
+          "obs_count": 5,
+          "high_engagement_rate": 1.0,
+          "avg_engagement": 1.0,
+          "lift_vs_baseline": 0.35
+        },
+        {
+          "media_type": "image",
+          "visual_complexity": "complex",
+          "aspect_ratio": "square_1x1",
+          "setting": "restaurant_indoor",
+          "obs_count": 4,
+          "high_engagement_rate": 1.0,
+          "avg_engagement": 1.0,
+          "lift_vs_baseline": 0.35
+        }
+      ],
+      "best_by_occasion": {
+        "evergreen": {
+          "media_type": "image",
+          "setting": "studio",
+          "register": "promotional",
+          "tone": "excited",
+          "count": 2,
+          "high_eng_rate": 1.0
+        },
+        "national_sports_day": {
+          "media_type": "image",
+          "setting": "restaurant_indoor",
+          "register": "patriotic",
+          "tone": "proud",
+          "count": 2,
+          "high_eng_rate": 0.0
+        },
+        "ramadan": {
+          "media_type": "image",
+          "setting": "digital_graphic",
+          "register": "celebratory",
+          "tone": "patriotic",
+          "count": 2,
+          "high_eng_rate": 1.0
+        },
+        "founding_day": {
+          "media_type": "video",
+          "setting": "heritage_setting",
+          "register": "formal",
+          "tone": "patriotic",
+          "count": 2,
+          "high_eng_rate": 1.0
+        },
+        "eid_al_fitr": {
+          "media_type": "video",
+          "setting": "digital_graphic",
+          "register": "formal",
+          "tone": "warm",
+          "count": 2,
+          "high_eng_rate": 1.0
+        },
+        "summer_campaign": {
+          "media_type": "image",
+          "setting": "outdoor_nature",
+          "register": "casual",
+          "tone": "excited",
+          "count": 2,
+          "high_eng_rate": 1.0
+        },
+        "brand_campaign": {
+          "media_type": "image",
+          "setting": "digital_graphic",
+          "register": "casual",
+          "tone": "playful",
+          "count": 3,
+          "high_eng_rate": 0.667
+        },
+        "graduation_season": {
+          "media_type": "image",
+          "setting": "digital_graphic",
+          "register": "casual",
+          "tone": "celebratory",
+          "count": 4,
+          "high_eng_rate": 1.0
+        },
+        "eid_al_adha": {
+          "media_type": "image",
+          "setting": "heritage_setting",
+          "register": "?",
+          "tone": "?",
+          "count": 2,
+          "high_eng_rate": 1.0
+        },
+        "sporting_event": {
+          "media_type": "image",
+          "setting": "digital_graphic",
+          "register": "formal",
+          "tone": "celebratory",
+          "count": 2,
+          "high_eng_rate": 0.0
+        }
+      },
+      "best_by_sector": {
+        "beauty": [
+          {
+            "pattern": "seasonal_collection_drop",
+            "media_type": "video",
+            "setting": "studio",
+            "count": 5,
+            "high_eng_rate": 0.6
+          },
+          {
+            "pattern": "customer_voice_ugc",
+            "media_type": "video",
+            "setting": "studio",
+            "count": 2,
+            "high_eng_rate": 0.5
+          },
+          {
+            "pattern": "lifestyle_embed",
+            "media_type": "video",
+            "setting": "studio",
+            "count": 2,
+            "high_eng_rate": 0.5
+          },
+          {
+            "pattern": "product_hero",
+            "media_type": "image",
+            "setting": "event_venue",
+            "count": 3,
+            "high_eng_rate": 0.333
+          },
+          {
+            "pattern": "product_launch_reveal",
+            "media_type": "video",
+            "setting": "studio",
+            "count": 3,
+            "high_eng_rate": 0.333
+          }
+        ],
+        "f_and_b": [
+          {
+            "pattern": "product_hero",
+            "media_type": "carousel_slide",
+            "setting": "studio",
+            "count": 17,
+            "high_eng_rate": 1.0
+          },
+          {
+            "pattern": "overhead_tabletop_spread",
+            "media_type": "carousel_slide",
+            "setting": "restaurant_indoor",
+            "count": 9,
+            "high_eng_rate": 1.0
+          },
+          {
+            "pattern": "lifestyle_environment_integration",
+            "media_type": "carousel_slide",
+            "setting": "outdoor_nature",
+            "count": 5,
+            "high_eng_rate": 1.0
+          },
+          {
+            "pattern": "occasion_peg",
+            "media_type": "image",
+            "setting": "digital_graphic",
+            "count": 4,
+            "high_eng_rate": 1.0
+          },
+          {
+            "pattern": "poll_engagement_mechanic",
+            "media_type": "image",
+            "setting": "digital_graphic",
+            "count": 4,
+            "high_eng_rate": 1.0
+          }
+        ],
+        "retail": [
+          {
+            "pattern": "seasonal_collection_drop",
+            "media_type": "video",
+            "setting": "restaurant_indoor",
+            "count": 2,
+            "high_eng_rate": 0.5
+          },
+          {
+            "pattern": "product_hero",
+            "media_type": "video",
+            "setting": "studio",
+            "count": 6,
+            "high_eng_rate": 0.333
+          },
+          {
+            "pattern": "invitation_to_witness",
+            "media_type": "image",
+            "setting": "digital_graphic",
+            "count": 2,
+            "high_eng_rate": 0.0
+          },
+          {
+            "pattern": "invitation_to_witness",
+            "media_type": "video",
+            "setting": "digital_graphic",
+            "count": 2,
+            "high_eng_rate": 0.0
+          },
+          {
+            "pattern": "model_centered_frontal_portrait",
+            "media_type": "image",
+            "setting": "studio",
+            "count": 2,
+            "high_eng_rate": 0.0
+          }
+        ]
+      }
     }
   }
 }

@@ -185,28 +185,53 @@ def generate_brief(sector, occasion, goal, account=None):
     recommended_dialect = dial_by_occ or dial_by_sec
 
     # ── CAPTION: length + hashtags + emoji + opener ──
-    # Word count — use sector best only if n>=10 to avoid small-sample noise
+    # Word count — prefer new caption_intelligence.json (high_engagement_rate ranked)
+    _wc_new_rows = sorted(
+        cap_corp.get("caption_length_table") or [],
+        key=lambda r: -(r.get("high_engagement_rate") or 0)
+    )
+    # sector slice from old file as fallback
     _wc_sec_rows = (cap_lh.get("best_wc_by_sector") or {}).get(sector) or []
     best_wc_for_sec  = next((r["bucket"] for r in _wc_sec_rows if r.get("n",0) >= 10), None)
-    best_wc_overall  = _best_key(cap_lh.get("by_word_count") or {})
-    recommended_wc   = best_wc_for_sec or best_wc_overall
+    best_wc_new      = (_wc_new_rows[0]["caption_length_bucket"] if _wc_new_rows else None)
+    best_wc_overall  = best_wc_new or _best_key(cap_lh.get("by_word_count") or {})
+    # New corpus data takes priority over old sector slice
+    recommended_wc   = best_wc_new or best_wc_for_sec or best_wc_overall
 
-    # Hashtag count — use sector best only if n>=10 to avoid small-sample noise
+    # Hashtag count — prefer hashtag_strategy.json (high_engagement_rate ranked)
+    _hc_new_rows = sorted(
+        hash_an.get("hashtag_count_table") or [],
+        key=lambda r: -(r.get("high_engagement_rate") or 0)
+    )
     _hc_sec_rows = (cap_lh.get("best_hc_by_sector") or {}).get(sector) or []
     best_hc_for_sec  = next((r["bucket"] for r in _hc_sec_rows if r.get("n",0) >= 10), None)
-    best_hc_overall  = _best_key(cap_lh.get("by_hashtag_count") or {})
-    recommended_hc   = best_hc_for_sec or best_hc_overall
+    best_hc_new      = (_hc_new_rows[0]["hashtag_count"] if _hc_new_rows else None)
+    best_hc_overall  = best_hc_new or _best_key(cap_lh.get("by_hashtag_count") or {})
+    # New corpus data takes priority over old sector slice
+    recommended_hc   = best_hc_new or best_hc_for_sec or best_hc_overall
 
-    # Emoji
-    em_data = cap_lh.get("by_emoji") or {}
-    emoji_yes = (em_data.get("True") or {}).get("avg_engagement") or 0
-    emoji_no  = (em_data.get("False") or {}).get("avg_engagement") or 1
-    use_emoji = emoji_yes >= emoji_no
+    # Emoji — prefer new emoji_presence_table
+    _em_new = sorted(
+        cap_corp.get("emoji_presence_table") or [],
+        key=lambda r: -(r.get("high_engagement_rate") or 0)
+    )
+    if _em_new:
+        use_emoji = _em_new[0].get("emoji_presence","") == "has_emoji"
+    else:
+        em_data = cap_lh.get("by_emoji") or {}
+        emoji_yes = (em_data.get("True") or {}).get("avg_engagement") or 0
+        emoji_no  = (em_data.get("False") or {}).get("avg_engagement") or 1
+        use_emoji = emoji_yes >= emoji_no
 
-    # Opener formula
-    best_op_overall = _best_key(cap_lh.get("by_opener_formula") or {})
+    # Opener formula — prefer arabic_copywriting opener_formula_table
+    _op_new_rows = sorted(
+        ar_corp.get("opener_formula_table") or [],
+        key=lambda r: -(r.get("high_engagement_rate") or 0)
+    )
+    best_op_new     = (_op_new_rows[0]["formula"] if _op_new_rows else None)
+    best_op_overall = best_op_new or _best_key(cap_lh.get("by_opener_formula") or {})
 
-    # Sentiment
+    # Sentiment — fallback to old file
     best_sent = _best_key(cap_lh.get("by_sentiment") or {})
 
     # Arabic signal phrases (sector slice preferred)
@@ -430,10 +455,25 @@ def print_brief(brief):
     if voice.get("dialect"): print(f"  Dialect:      {voice['dialect']}")
     if voice.get("language"): print(f"  Language:     {voice['language']}")
 
+    # ── bucket → human label maps ──────────────────────────────
+    WC_LABEL = {
+        "very_long_75plus": "75+ words (long-form)",
+        "long_31_75":       "31-75 words",
+        "medium_11_30":     "11-30 words",
+        "short_1_10":       "1-10 words",
+        "30-60 words":      "30-60 words",   # old format passthrough
+    }
+    HC_LABEL = {
+        "1_5":    "1-5 hashtags",
+        "6_15":   "6-15 hashtags",
+        "16plus": "16+ hashtags (avoid)",
+        "0":      "none",
+    }
     print(f"\n  ── CAPTION ───────────────────────────────────────────────────")
-    print(f"  Length:       {cap.get('word_count_target') or '—'} words")
+    wc_raw = cap.get('word_count_target') or '—'
+    print(f"  Length:       {WC_LABEL.get(wc_raw, wc_raw)}")
     hc_val = cap.get('hashtag_count')
-    hc_display = "none" if hc_val == "0" else (hc_val or '—')
+    hc_display = HC_LABEL.get(hc_val, ("none" if hc_val == "0" else (hc_val or '—')))
     print(f"  Hashtags:     {hc_display}")
     print(f"  Emoji:        {'YES' if cap.get('use_emoji') else 'NO'}")
     print(f"  Opener:       {cap.get('opener_formula') or '—'}")

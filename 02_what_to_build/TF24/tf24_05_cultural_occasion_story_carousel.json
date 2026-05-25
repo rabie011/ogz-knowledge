@@ -1,0 +1,105 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSGC9DANKQV6BHYCB9VEW820",
+  "chain_id_short": "tf24_05",
+  "family": "TF24",
+  "schema_version": 1,
+  "name_en": "Cultural Occasion Story Carousel",
+  "name_ar": "كاروسيل قصة مناسبة ثقافية",
+  "purpose": "Occasion-led narrative carousel: slide 1=greeting, slides 2-4=brand/cultural content, final=CTA. Eid Al-Fitr posts using this format hit 78% high-eng.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/ideogram/v2",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1",
+      "role": "other"
+    }
+  ],
+  "input_schema": {
+    "occasion": {
+      "type": "string",
+      "description": "Cultural occasion: ramadan | eid_al_fitr | national_day | founding_day | eid_al_adha",
+      "required": true
+    },
+    "occasion_visual_element": {
+      "type": "string",
+      "description": "Key visual symbol for this occasion",
+      "required": true
+    },
+    "slide_message": {
+      "type": "string",
+      "description": "Message or story beat for this slide",
+      "required": true
+    },
+    "occasion_colors": {
+      "type": "string",
+      "description": "Color palette for occasion",
+      "required": false,
+      "default": "gold, green, white"
+    },
+    "brand_name": {
+      "type": "string",
+      "description": "Brand name",
+      "required": false
+    }
+  },
+  "prompt_template": "Saudi {occasion} occasion carousel slide {slide_number}. Visual theme: {occasion_visual_element}. Message: {slide_message}. Color palette: {occasion_colors}. Arabic typography dominant. Warm celebratory tone. Brand {brand_name} subtly integrated. No conflicting imagery. {cultural_constraints_injection}",
+  "output_type": "carousel",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "beauty",
+      "retail"
+    ],
+    "occasions_allowed": [
+      "ramadan",
+      "eid_al_fitr",
+      "eid_al_adha",
+      "national_day",
+      "founding_day"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": true,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "growth"
+  },
+  "cost_estimate_usd": 0.22,
+  "latency_estimate_seconds": 55,
+  "best_for_cd_brains": [
+    "cd_01",
+    "cd_02",
+    "cd_05"
+  ],
+  "anti_patterns": [
+    "Avoid mixing Eid Al-Fitr and Eid Al-Adha imagery (completely different energy)",
+    "Avoid generic crescent moon without context",
+    "Avoid non-Saudi cultural symbols"
+  ],
+  "notes": "Eid Al-Fitr = 78% high-eng | Eid Al-Adha = 11% — treat completely differently. National Day slides must use Saudi green palette. Ramadan slides: warm amber + lantern motifs perform best.",
+  "provenance": {
+    "source": "ogz_knowledge_phase5_autonomous_system",
+    "date_added": "2026-05-25T20:12:44Z",
+    "confirmer": "claude_code_extraction",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

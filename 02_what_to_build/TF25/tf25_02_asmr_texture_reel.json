@@ -1,0 +1,112 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSGC9DAP3S6SPWB9TDATR8R4",
+  "chain_id_short": "tf25_02",
+  "family": "TF25",
+  "schema_version": 1,
+  "name_en": "ASMR Texture Reel",
+  "name_ar": "ريل نكهة وملمس ASMR",
+  "purpose": "Sensory close-up reel: sound-forward, texture detail, pouring, cutting. No voiceover. 10-20 seconds. F&B and beauty. Triggers sensory engagement.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video",
+      "role": "primary_video_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1",
+      "role": "other"
+    }
+  ],
+  "input_schema": {
+    "subject": {
+      "type": "string",
+      "description": "What to film: food item, beverage, product texture",
+      "required": true
+    },
+    "texture_type": {
+      "type": "string",
+      "description": "Texture to highlight: crispy, smooth, melting, foamy, granular",
+      "required": true
+    },
+    "motion_type": {
+      "type": "string",
+      "description": "Motion: pour, slice, swirl, drip, spread",
+      "required": true
+    },
+    "sector": {
+      "type": "string",
+      "description": "Sector context",
+      "required": false,
+      "default": "f_and_b"
+    },
+    "lighting": {
+      "type": "string",
+      "description": "Lighting setup direction",
+      "required": false,
+      "default": "warm backlit"
+    },
+    "asmr_sound": {
+      "type": "string",
+      "description": "Sound design note for editor",
+      "required": false,
+      "default": "natural food texture sounds amplified"
+    },
+    "slowmo_multiplier": {
+      "type": "integer",
+      "description": "Slow motion multiplier",
+      "required": false,
+      "default": 4
+    }
+  },
+  "prompt_template": "Saudi sensory {sector} product ASMR reel. Subject: {subject}. Camera: extreme macro close-up, {texture_type} texture, {motion_type} motion. Lighting: {lighting}: soft diffuse, no harsh shadows. Sound: {asmr_sound}. No music track — pure ambient sound. Slow motion {slowmo_multiplier}x. {cultural_constraints_injection}",
+  "output_type": "video",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1920,
+    "aspect_ratio_label": "9:16"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "beauty"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": true,
+    "requires_cultural_coherence_check": false,
+    "requires_arabic_text_validation": false,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.4,
+  "latency_estimate_seconds": 150,
+  "best_for_cd_brains": [
+    "cd_02",
+    "cd_04"
+  ],
+  "anti_patterns": [
+    "Avoid music — pure ASMR sound only",
+    "Avoid showing full product packaging (keep it sensory)",
+    "Avoid Ramadan-sensitive food content during fasting hours"
+  ],
+  "notes": "Best performing reel format for F&B (corpus: reels 65% high-eng). Winter season amplifies food ASMR +25%. No Arabic text needed — purely sensory.",
+  "provenance": {
+    "source": "ogz_knowledge_phase5_autonomous_system",
+    "date_added": "2026-05-25T20:12:44Z",
+    "confirmer": "claude_code_extraction",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

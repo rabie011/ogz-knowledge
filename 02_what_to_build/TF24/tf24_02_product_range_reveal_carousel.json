@@ -1,0 +1,86 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSGC9DANKQV6BHYCB9VEW81X",
+  "chain_id_short": "tf24_02",
+  "family": "TF24",
+  "schema_version": 1,
+  "name_en": "Product Range Reveal Carousel",
+  "name_ar": "كاروسيل عرض منتجات المجموعة",
+  "purpose": "Systematic product showcase: each slide = one hero product with name, key benefit, visual. Final slide = full range + CTA. Strong for launches.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1",
+      "role": "primary_image_generation"
+    }
+  ],
+  "input_schema": {
+    "product_name": {
+      "type": "string",
+      "description": "Product name to feature on this slide",
+      "required": true
+    },
+    "product_benefit": {
+      "type": "string",
+      "description": "Single key benefit or feature to highlight",
+      "required": true
+    },
+    "background_color": {
+      "type": "string",
+      "description": "Background color direction",
+      "required": false,
+      "default": "white"
+    }
+  },
+  "prompt_template": "Saudi product showcase carousel. Product: {product_name}. Hero shot on {background_color} background. Key benefit displayed: {product_benefit}. Minimalist layout, product centered, brand color accent. Professional studio quality. No lifestyle elements. {cultural_constraints_injection}",
+  "output_type": "carousel",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "beauty",
+      "retail"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": false,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.15,
+  "latency_estimate_seconds": 45,
+  "best_for_cd_brains": [
+    "cd_01",
+    "cd_03",
+    "cd_04"
+  ],
+  "anti_patterns": [
+    "Avoid more than 6 products per carousel",
+    "Avoid busy backgrounds",
+    "Avoid inconsistent visual style across slides"
+  ],
+  "notes": "Best for product launches and seasonal collections. Each slide must follow identical visual template for brand consistency. Final slide should show full range in grid.",
+  "provenance": {
+    "source": "ogz_knowledge_phase5_autonomous_system",
+    "date_added": "2026-05-25T20:12:44Z",
+    "confirmer": "claude_code_extraction",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

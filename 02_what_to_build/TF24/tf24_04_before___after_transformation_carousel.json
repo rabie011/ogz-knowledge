@@ -1,0 +1,95 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSGC9DANKQV6BHYCB9VEW81Z",
+  "chain_id_short": "tf24_04",
+  "family": "TF24",
+  "schema_version": 1,
+  "name_en": "Before / After Transformation Carousel",
+  "name_ar": "كاروسيل قبل وبعد",
+  "purpose": "Split journey: first half = before state, second half = after + brand transformation. Strong for beauty and F&B results-driven content.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1",
+      "role": "primary_image_generation"
+    }
+  ],
+  "input_schema": {
+    "stage": {
+      "type": "string",
+      "description": "Transformation stage label e.g. 'Day 0' / 'Day 30'",
+      "required": true
+    },
+    "before_or_after": {
+      "type": "string",
+      "description": "'before' or 'after'",
+      "required": true
+    },
+    "subject_description": {
+      "type": "string",
+      "description": "What is being transformed",
+      "required": true
+    },
+    "sector": {
+      "type": "string",
+      "description": "Sector context",
+      "required": false,
+      "default": "beauty"
+    },
+    "visual_style": {
+      "type": "string",
+      "description": "Visual treatment direction",
+      "required": false,
+      "default": "clinical editorial"
+    }
+  },
+  "prompt_template": "Saudi {sector} transformation carousel. Stage: {stage} ({before_or_after}). Subject: {subject_description}. Visual treatment: {visual_style}. Consistent framing across before and after slides for direct comparison. Brand identity visible. Clean professional quality. {cultural_constraints_injection}",
+  "output_type": "carousel",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "beauty",
+      "f_and_b"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 30
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": true,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "growth"
+  },
+  "cost_estimate_usd": 0.12,
+  "latency_estimate_seconds": 35,
+  "best_for_cd_brains": [
+    "cd_01",
+    "cd_03"
+  ],
+  "anti_patterns": [
+    "Avoid unrealistic results claims",
+    "Avoid revealing face for female subjects without explicit approval",
+    "Avoid inconsistent lighting between before/after slides"
+  ],
+  "notes": "Beauty sector: enhancement framing outperforms transformation. Avoid claims that could trigger regulatory concerns. Saudi female subjects require abaya/modest styling unless brand has confirmed exception.",
+  "provenance": {
+    "source": "ogz_knowledge_phase5_autonomous_system",
+    "date_added": "2026-05-25T20:12:44Z",
+    "confirmer": "claude_code_extraction",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

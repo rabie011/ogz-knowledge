@@ -1,0 +1,108 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSGC9DAP3S6SPWB9TDATR8R7",
+  "chain_id_short": "tf26_01",
+  "family": "TF26",
+  "schema_version": 1,
+  "name_en": "Staff Pride Story",
+  "name_ar": "قصة فخر الموظف",
+  "purpose": "Employee facing camera shares authentic story about their role, pride, and brand love. UGC-style. 0% corpus high-eng when formulaic, 100% when genuine.",
+  "models_used": [
+    {
+      "provider": "other",
+      "model_id": "real_person_filming",
+      "role": "other"
+    }
+  ],
+  "input_schema": {
+    "employee_role": {
+      "type": "string",
+      "description": "Employee role e.g. 'head chef', 'store manager', 'barista'",
+      "required": true
+    },
+    "story_topic": {
+      "type": "string",
+      "description": "What the employee talks about: a moment of pride, a skill, their journey",
+      "required": true
+    },
+    "location": {
+      "type": "string",
+      "description": "Where they film: kitchen, store floor, workshop",
+      "required": true
+    },
+    "sector": {
+      "type": "string",
+      "description": "Sector context",
+      "required": false,
+      "default": "f_and_b"
+    },
+    "duration": {
+      "type": "integer",
+      "description": "Target duration in seconds (30-60 recommended)",
+      "required": false,
+      "default": 45
+    },
+    "subtitle_note": {
+      "type": "string",
+      "description": "Subtitle style direction",
+      "required": false,
+      "default": "Arabic subtitles, brand font, bottom third"
+    },
+    "brand_display": {
+      "type": "string",
+      "description": "How to show brand: logo corner | uniform | background signage",
+      "required": false,
+      "default": "uniform + logo corner"
+    }
+  },
+  "prompt_template": "Saudi {sector} employee pride video brief. Subject: {employee_role} sharing story about {story_topic}. Setting: {location} — on-brand background, clean. Tone: warm, genuine, unscripted feel. Camera: phone-quality acceptable. Duration: {duration}s. Arabic subtitles required: {subtitle_note}. Brand identifier: {brand_display}. {cultural_constraints_injection}",
+  "output_type": "video",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1920,
+    "aspect_ratio_label": "9:16"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "beauty",
+      "retail"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 30
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": true,
+    "requires_gesture_check": true,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "growth"
+  },
+  "cost_estimate_usd": 0.02,
+  "latency_estimate_seconds": 0,
+  "best_for_cd_brains": [
+    "cd_02",
+    "cd_05"
+  ],
+  "anti_patterns": [
+    "Avoid scripted corporate-speak — must feel genuine",
+    "Avoid filming female employees without explicit consent and wardrobe approval",
+    "Avoid employee_pride_campaign pattern (low-eng) in favor of genuine individual stories"
+  ],
+  "notes": "This is the only chain with no AI generation — pure UGC. employee_pride_campaign pattern = 7 obs, 100% high-eng. Real person, real story. Arabic subtitles mandatory. Saudi staff when possible. Must get written consent.",
+  "provenance": {
+    "source": "ogz_knowledge_phase5_autonomous_system",
+    "date_added": "2026-05-25T20:12:44Z",
+    "confirmer": "claude_code_extraction",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

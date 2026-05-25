@@ -1,0 +1,121 @@
+{
+  "occasion": "eid_al_adha",
+  "sector": "food_and_beverage",
+  "sector_key": "f_and_b",
+  "corpus_data": {
+    "obs_in_corpus": 9,
+    "avg_engagement": 0.389,
+    "high_eng_count": 1,
+    "low_eng_count": 8
+  },
+  "winning_signals": [],
+  "losing_signals": [
+    {
+      "dimension": "register",
+      "value": "casual",
+      "count": 6,
+      "pct": 0.75
+    },
+    {
+      "dimension": "content_type",
+      "value": "image",
+      "count": 5,
+      "pct": 0.625
+    },
+    {
+      "dimension": "tone",
+      "value": "celebratory",
+      "count": 4,
+      "pct": 0.5
+    },
+    {
+      "dimension": "content_type",
+      "value": "video",
+      "count": 2,
+      "pct": 0.25
+    }
+  ],
+  "top_patterns": [
+    {
+      "pattern": "eid_occasion_content",
+      "count": 1,
+      "pct": 1.0
+    },
+    {
+      "pattern": "whole_lamb_visual",
+      "count": 1,
+      "pct": 1.0
+    },
+    {
+      "pattern": "saudi_feast_photography",
+      "count": 1,
+      "pct": 1.0
+    },
+    {
+      "pattern": "free_add_on_offer",
+      "count": 1,
+      "pct": 1.0
+    }
+  ],
+  "top_phrases_in_winners": [
+    "الذبيحة عليك.. وباقي السفرة علينا احجز ذبيحة العيد وكل ملحقات سفرتك تجيك معها مجانًا"
+  ],
+  "recommended_formula": {
+    "format": "video",
+    "predicted_eng": 0.5,
+    "aspect_ratio": "square_1x1",
+    "tone": "celebratory",
+    "register": null,
+    "heritage_framing": "unknown",
+    "visual_complexity": "complex",
+    "posting_day": "sunday",
+    "caption_length": "10-30 words",
+    "hashtag_count": "1-5",
+    "patterns": [],
+    "phrases_to_use": [
+      "لفترة محدودة فقط",
+      "اغلى الكؤوس",
+      "ماك مع ججك"
+    ],
+    "hospitality_cues": []
+  },
+  "red_flags": [
+    "AVOID format: video (50% eng for this occasion)",
+    "AVOID: register=casual (found in 75% of low-eng posts)",
+    "AVOID: content_type=image (found in 62% of low-eng posts)",
+    "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
+    "AVOID: video format if images/carousels are viable — video underperforms"
+  ],
+  "posting_schedule": [
+    {
+      "timing": "3-4 days before",
+      "post_type": "teaser",
+      "format": "video",
+      "tone": "anticipatory"
+    },
+    {
+      "timing": "peak day",
+      "post_type": "hero",
+      "format": "video",
+      "tone": "celebratory"
+    },
+    {
+      "timing": "2 days after",
+      "post_type": "follow_up",
+      "format": "image",
+      "tone": "gratitude"
+    }
+  ],
+  "analytics_support": {
+    "format_matrix_best": "video",
+    "occasion_patterns": [],
+    "occasion_phrases": [
+      "لفترة محدودة فقط",
+      "اغلى الكؤوس",
+      "ماك مع ججك",
+      "اطلب الآن"
+    ],
+    "hospitality_cues": [],
+    "playbook_obs_count": 9
+  }
+}

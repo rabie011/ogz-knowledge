@@ -1,0 +1,108 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSGC9DAP3S6SPWB9TDATR8R5",
+  "chain_id_short": "tf25_03",
+  "family": "TF25",
+  "schema_version": 1,
+  "name_en": "Behind The Scenes Reel",
+  "name_ar": "ريل خلف الكواليس",
+  "purpose": "Authentic BTS reel: kitchen/workshop/team in action. Fast cuts (1-2s each), real moments, builds trust and authenticity. 15-30 seconds.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/kling-video/v1.6/pro/text-to-video",
+      "role": "primary_video_generation"
+    }
+  ],
+  "input_schema": {
+    "scene_description": {
+      "type": "string",
+      "description": "What happens in this BTS scene",
+      "required": true
+    },
+    "location_type": {
+      "type": "string",
+      "description": "Where it happens: kitchen | workshop | office | store floor",
+      "required": true
+    },
+    "character_description": {
+      "type": "string",
+      "description": "Who appears — role not name, e.g. head chef, store manager",
+      "required": false
+    },
+    "sector": {
+      "type": "string",
+      "description": "Sector context",
+      "required": false,
+      "default": "f_and_b"
+    },
+    "scene_number": {
+      "type": "integer",
+      "description": "Scene number in sequence",
+      "required": false,
+      "default": 1
+    },
+    "energy_level": {
+      "type": "string",
+      "description": "Pace and mood: calm | energetic | intense",
+      "required": false,
+      "default": "energetic"
+    },
+    "overlay_text": {
+      "type": "string",
+      "description": "Optional text overlay in Arabic for this scene",
+      "required": false
+    }
+  },
+  "prompt_template": "Saudi {sector} behind-the-scenes reel storyboard. Scene {scene_number}: {scene_description}. Location: {location_type}. Characters: {character_description}. Camera style: handheld authentic, not staged. Lighting: available light + practical sources. Energy: {energy_level}. Optional text overlay: {overlay_text}. {cultural_constraints_injection}",
+  "output_type": "video",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1920,
+    "aspect_ratio_label": "9:16"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "beauty",
+      "retail"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 14
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": true,
+    "requires_gesture_check": true,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "growth"
+  },
+  "cost_estimate_usd": 0.35,
+  "latency_estimate_seconds": 120,
+  "best_for_cd_brains": [
+    "cd_02",
+    "cd_04",
+    "cd_05"
+  ],
+  "anti_patterns": [
+    "Avoid staged 'authentic' shots — must look real",
+    "Avoid showing staff without consent protocols",
+    "Avoid showing religious practice in commercial context"
+  ],
+  "notes": "Transparency/BTS pattern = 0% high-eng when poorly executed but 56% when genuine. Real unpolished moments outperform produced. Wardrobe must follow sector norms. Show Saudi staff when possible — local pride driver.",
+  "provenance": {
+    "source": "ogz_knowledge_phase5_autonomous_system",
+    "date_added": "2026-05-25T20:12:44Z",
+    "confirmer": "claude_code_extraction",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

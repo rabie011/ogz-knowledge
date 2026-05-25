@@ -10,12 +10,124 @@ Usage:
 
 Output: full production brief to stdout + logs/production_briefs/{ts}.json
 """
-import json, argparse
+import json, argparse, os, re
 from pathlib import Path
 from datetime import datetime
 
-BASE = Path(__file__).parent.parent
-LOGS = BASE / "logs"
+BASE        = Path(__file__).parent.parent
+LOGS        = BASE / "logs"
+CHAINS_BASE = BASE / "02_what_to_build"
+
+# ── Load env (same approach as fill_missing_patterns.py) ──────────────────────
+def _load_env():
+    env_path = Path.home() / ".abraham_env"
+    if env_path.exists():
+        for line in env_path.read_text().splitlines():
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, v = line.split("=", 1)
+                k = k.strip(); v = v.strip().strip('"').strip("'")
+                if not os.environ.get(k):
+                    os.environ[k] = v
+_load_env()
+
+
+# ── Chain library helpers ──────────────────────────────────────────────────────
+def _load_all_chains() -> list[dict]:
+    """Load every chain JSON from 02_what_to_build/TF*/ folders."""
+    chains = []
+    for tf_dir in sorted(CHAINS_BASE.glob("TF*")):
+        if not tf_dir.is_dir():
+            continue
+        for f in sorted(tf_dir.glob("*.json")):
+            try:
+                d = json.loads(f.read_text())
+                if d.get("chain_id_short"):
+                    chains.append(d)
+            except Exception:
+                pass
+    return chains
+
+
+def _recommend_chains(sector: str, occasion: str, goal: str, quality_tier: str = "growth") -> list[dict]:
+    """Return top 3 chains matching sector/occasion/goal eligibility, sorted by cost."""
+    sk = SECTOR_KEY_MAP.get(sector, sector)
+    chains = _load_all_chains()
+    candidates = []
+    for c in chains:
+        ef = c.get("eligibility_filters") or {}
+        sa = ef.get("sectors_allowed") or []
+        oa = ef.get("occasions_allowed") or []
+        qa = ef.get("quality_tiers_allowed") or []
+        sectors_ok  = not sa or "*" in sa or sk in sa
+        occ_ok      = not oa or "*" in oa or occasion in oa or "evergreen" in oa
+        tier_ok     = not qa or "*" in qa or quality_tier in qa
+        if sectors_ok and occ_ok and tier_ok:
+            candidates.append(c)
+    # Sort by cost ascending (cheapest first = most accessible)
+    candidates.sort(key=lambda c: (c.get("cost_estimate_usd") or 99))
+    return [
+        {
+            "chain_id":  c["chain_id_short"],
+            "name_en":   c["name_en"],
+            "name_ar":   c.get("name_ar", ""),
+            "purpose":   (c.get("purpose") or "")[:120],
+            "output_type": c.get("output_type", "image"),
+            "cost_usd":  c.get("cost_estimate_usd"),
+            "family":    c.get("family", ""),
+        }
+        for c in candidates[:3]
+    ]
+
+
+def _generate_sample_captions(brief_context: dict) -> list[str]:
+    """Call Claude Haiku to generate 2 sample Arabic captions based on brief spec."""
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if not api_key:
+        return []
+    try:
+        import anthropic
+        client = anthropic.Anthropic(api_key=api_key)
+        cap = brief_context.get("caption_spec", {})
+        voice = brief_context.get("voice_spec", {})
+        inp = brief_context.get("input", {})
+        sector  = inp.get("sector", "")
+        occ     = inp.get("occasion", "evergreen").replace("_", " ")
+        goal    = inp.get("content_goal", "brand_building").replace("_", " ")
+        wc      = cap.get("word_count_target", "medium_11_30")
+        opener  = cap.get("opener_formula", "heritage_occasion_opener")
+        tone    = voice.get("tone", "warm")
+        phrases = cap.get("arabic_signal_phrases", [])
+        phrase_hint = f"Include signal phrases like: {', '.join(phrases[:3])}" if phrases else ""
+        wc_map  = {
+            "very_long_75plus": "75+ words",
+            "long_31_75": "40-60 words",
+            "medium_11_30": "15-25 words",
+            "short_1_10": "5-10 words",
+        }
+        wc_label = wc_map.get(wc, "25-40 words")
+
+        prompt = f"""Write 2 distinct Instagram captions in Arabic for a Saudi {sector} brand.
+Context: occasion={occ} | goal={goal} | tone={tone} | opener style={opener}
+Length: {wc_label} each
+{phrase_hint}
+Rules: Saudi dialect acceptable, authentic warm tone, no price mentions, no hard sell.
+Return ONLY a JSON array of 2 strings: ["caption1", "caption2"]"""
+
+        msg = client.messages.create(
+            model="claude-haiku-4-5",
+            max_tokens=800,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        text = msg.content[0].text.strip()
+        text = re.sub(r"^```(?:json)?\s*", "", text)
+        text = re.sub(r"\s*```$", "", text)
+        result = json.loads(text)
+        if isinstance(result, list) and len(result) >= 1:
+            return result[:2]
+    except Exception:
+        pass
+    return []
 
 SECTOR_ALIASES = {
     "fb":"food_and_beverage","f&b":"food_and_beverage","food":"food_and_beverage",
@@ -374,6 +486,8 @@ def generate_brief(sector, occasion, goal, account=None):
             "avoid":             avoid_patterns[:3],
         },
         "competitive_gaps": account_gaps or None,
+        "recommended_chains": _recommend_chains(sector, occasion, goal),
+        "sample_captions": [],  # filled below after brief is assembled
         "elite_production_rules": {
             "do_more":   [{"dimension": d, "value": v, "elite_advantage": round(a, 3)} for d, v, a in evw_do],
             "do_less":   [{"dimension": d, "value": v, "diff": round(a, 3)} for d, v, a in evw_avoid],
@@ -406,6 +520,10 @@ def generate_brief(sector, occasion, goal, account=None):
             "total_corpus":    648,
         },
     }
+
+    # Fill sample captions after brief is assembled (needs caption_spec context)
+    brief["sample_captions"] = _generate_sample_captions(brief)
+
     return brief
 
 
@@ -509,6 +627,24 @@ def print_brief(brief):
         print(f"\n  ── GAPS (@{inp.get('account')}) ──────────────────────────────────────")
         for g in brief["competitive_gaps"][:3]:
             print(f"    [{g['priority'].upper()}] {g['pattern']} — {int(g.get('competitor_high_eng_rate',0)*100)}%")
+
+    # ── RECOMMENDED CHAINS ──
+    chains = brief.get("recommended_chains") or []
+    if chains:
+        print(f"\n  ── RECOMMENDED CHAINS ────────────────────────────────────────")
+        for c in chains:
+            cost_str = f"  ~${c['cost_usd']:.2f}" if c.get("cost_usd") else ""
+            ar = f" / {c['name_ar']}" if c.get("name_ar") else ""
+            print(f"    [{c['chain_id']}] {c['name_en']}{ar}{cost_str}")
+            if c.get("purpose"):
+                print(f"           {c['purpose'][:80]}")
+
+    # ── SAMPLE ARABIC CAPTIONS ──
+    captions = brief.get("sample_captions") or []
+    if captions:
+        print(f"\n  ── SAMPLE ARABIC CAPTIONS ────────────────────────────────────")
+        for i, cap in enumerate(captions, 1):
+            print(f"  [{i}] {cap}")
 
     # ── ELITE PRODUCTION RULES ──
     if elr.get("do_more"):

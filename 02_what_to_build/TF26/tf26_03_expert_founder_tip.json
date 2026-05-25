@@ -1,0 +1,108 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSGC9DAP3S6SPWB9TDATR8R9",
+  "chain_id_short": "tf26_03",
+  "family": "TF26",
+  "schema_version": 1,
+  "name_en": "Expert Founder Tip",
+  "name_ar": "نصيحة خبير أو مؤسس",
+  "purpose": "Brand expert or founder shares one actionable tip related to brand expertise. Credibility-building, authority positioning. brand_values pattern = 4 obs, 100% high-eng.",
+  "models_used": [
+    {
+      "provider": "other",
+      "model_id": "real_person_filming",
+      "role": "other"
+    }
+  ],
+  "input_schema": {
+    "expert_role": {
+      "type": "string",
+      "description": "Expert's role: founder | head chef | beauty expert | retail director",
+      "required": true
+    },
+    "expertise_area": {
+      "type": "string",
+      "description": "Topic area of the tip",
+      "required": true
+    },
+    "brand_name": {
+      "type": "string",
+      "description": "Brand name",
+      "required": true
+    },
+    "tip_in_arabic": {
+      "type": "string",
+      "description": "The tip summarized in Arabic for the caption card (max 15 words)",
+      "required": false
+    },
+    "setting": {
+      "type": "string",
+      "description": "Filming setting",
+      "required": false,
+      "default": "branded workspace"
+    },
+    "language": {
+      "type": "string",
+      "description": "Language for delivery: arabic | english | bilingual",
+      "required": false,
+      "default": "arabic"
+    },
+    "duration": {
+      "type": "integer",
+      "description": "Duration in seconds (20-45 optimal)",
+      "required": false,
+      "default": 30
+    }
+  },
+  "prompt_template": "Saudi brand expert tip video brief. Expert: {expert_role} at {brand_name}. Topic: one tip about {expertise_area}. Format: direct to camera, {duration}s, confident professional tone. Setting: {setting} — on-brand, clean, professional. Language: {language}. Arabic caption card required: {tip_in_arabic}. {cultural_constraints_injection}",
+  "output_type": "video",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1920,
+    "aspect_ratio_label": "9:16"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "beauty",
+      "retail"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 30
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": true,
+    "requires_gesture_check": true,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "growth"
+  },
+  "cost_estimate_usd": 0.02,
+  "latency_estimate_seconds": 0,
+  "best_for_cd_brains": [
+    "cd_01",
+    "cd_02",
+    "cd_05"
+  ],
+  "anti_patterns": [
+    "Avoid generic advice not tied to brand expertise",
+    "Avoid more than one tip per video",
+    "Avoid reading off a script — must be conversational"
+  ],
+  "notes": "brand_values = 100% high-eng (4 obs). One tip, one video. Arabic delivery preferred. Founder face = authentic. Must follow wardrobe and gesture guidelines. Keep under 45 seconds. Arabic caption card = mandatory.",
+  "provenance": {
+    "source": "ogz_knowledge_phase5_autonomous_system",
+    "date_added": "2026-05-25T20:12:44Z",
+    "confirmer": "claude_code_extraction",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

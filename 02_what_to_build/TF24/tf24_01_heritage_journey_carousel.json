@@ -1,0 +1,102 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSGC9DANKQV6BHYCB9VEW81W",
+  "chain_id_short": "tf24_01",
+  "family": "TF24",
+  "schema_version": 1,
+  "name_en": "Heritage Journey Carousel",
+  "name_ar": "كاروسيل رحلة التراث",
+  "purpose": "Multi-slide brand story rooted in Saudi heritage. Slides progress from historical roots to modern expression. Highest-engagement format (74% high-eng in corpus).",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/ideogram/v2",
+      "role": "other"
+    }
+  ],
+  "input_schema": {
+    "heritage_element": {
+      "type": "string",
+      "description": "Specific heritage reference: ingredient, tradition, landmark, craft",
+      "required": true
+    },
+    "brand_name": {
+      "type": "string",
+      "description": "Brand name for caption/overlay",
+      "required": true
+    },
+    "slide_story_beat": {
+      "type": "string",
+      "description": "What this specific slide communicates in the story arc",
+      "required": true
+    },
+    "slide_number": {
+      "type": "integer",
+      "description": "Slide position (1-based)",
+      "required": false,
+      "default": 1
+    },
+    "total_slides": {
+      "type": "integer",
+      "description": "Total slide count in carousel (typically 5-7)",
+      "required": false,
+      "default": 5
+    }
+  },
+  "prompt_template": "Saudi heritage brand storytelling carousel slide {slide_number} of {total_slides}. Visual theme: {heritage_element}. Slide narrative: {slide_story_beat}. Color palette: warm amber, gold, deep brown. Typography: Arabic calligraphy accent on {brand_name}. No people visible. Clean editorial layout. {cultural_constraints_injection}",
+  "output_type": "carousel",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "beauty",
+      "retail"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "enterprise"
+  },
+  "cost_estimate_usd": 0.25,
+  "latency_estimate_seconds": 60,
+  "best_for_cd_brains": [
+    "cd_01",
+    "cd_02",
+    "cd_05"
+  ],
+  "anti_patterns": [
+    "Avoid generic stock imagery",
+    "Avoid Western heritage references",
+    "Avoid more than 8 slides"
+  ],
+  "notes": "Top-performing format in corpus. Heritage framing adds +19% vs modern. Use 5-7 slides minimum for storytelling arc. Last slide must include brand CTA. Arabic calligraphy on slide 1 performs best.",
+  "provenance": {
+    "source": "ogz_knowledge_phase5_autonomous_system",
+    "date_added": "2026-05-25T20:12:44Z",
+    "confirmer": "claude_code_extraction",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

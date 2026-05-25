@@ -1,0 +1,94 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSGC9DANKQV6BHYCB9VEW81Y",
+  "chain_id_short": "tf24_03",
+  "family": "TF24",
+  "schema_version": 1,
+  "name_en": "Recipe Steps Carousel",
+  "name_ar": "كاروسيل خطوات الوصفة",
+  "purpose": "F&B step-by-step recipe: slide 1=ingredients flat lay, slides 2-5=prep steps, final=plated result. High save/share rates drive algorithmic reach.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1",
+      "role": "primary_image_generation"
+    }
+  ],
+  "input_schema": {
+    "step_name": {
+      "type": "string",
+      "description": "Name of this recipe step",
+      "required": true
+    },
+    "step_visual_description": {
+      "type": "string",
+      "description": "What to show in this step: ingredients, action, tool",
+      "required": true
+    },
+    "step_number": {
+      "type": "integer",
+      "description": "Step number (1-based)",
+      "required": false,
+      "default": 1
+    },
+    "total_steps": {
+      "type": "integer",
+      "description": "Total steps in recipe",
+      "required": false,
+      "default": 5
+    },
+    "arabic_step_number": {
+      "type": "string",
+      "description": "Arabic numeral for overlay e.g. الخطوة ١",
+      "required": false
+    }
+  },
+  "prompt_template": "Saudi recipe carousel slide. Step: {step_name} ({step_number} of {total_steps}). Scene: {step_visual_description}. Food styling: authentic Saudi presentation. Warm natural lighting. Hands may appear if showing technique. Arabic step number overlay: {arabic_step_number}. Brand color accent in corner. {cultural_constraints_injection}",
+  "output_type": "carousel",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": true,
+    "requires_gesture_check": true,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "enterprise"
+  },
+  "cost_estimate_usd": 0.18,
+  "latency_estimate_seconds": 50,
+  "best_for_cd_brains": [
+    "cd_02",
+    "cd_04"
+  ],
+  "anti_patterns": [
+    "Avoid showing alcohol",
+    "Avoid non-halal ingredients",
+    "Avoid Western-style plating that conflicts with Saudi aesthetic"
+  ],
+  "notes": "F&B only. Ramadan recipe carousels get 3x saves vs standard posts. Always show final plated result as last slide. Hand gestures must follow cultural guidance.",
+  "provenance": {
+    "source": "ogz_knowledge_phase5_autonomous_system",
+    "date_added": "2026-05-25T20:12:44Z",
+    "confirmer": "claude_code_extraction",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

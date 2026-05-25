@@ -1,0 +1,125 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSGC9DAP3S6SPWB9TDATR8R6",
+  "chain_id_short": "tf25_04",
+  "family": "TF25",
+  "schema_version": 1,
+  "name_en": "Occasion Motion Greeting Reel",
+  "name_ar": "ريل تهنئة مناسبة متحركة",
+  "purpose": "Cultural occasion greeting in reel format: motion graphics + brand logo + Arabic typography + occasion visual. 8-12 seconds. High share rate around key dates.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/kling-video/v1.6/pro/text-to-video",
+      "role": "primary_video_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/ideogram/v2",
+      "role": "other"
+    }
+  ],
+  "input_schema": {
+    "occasion": {
+      "type": "string",
+      "description": "Occasion: ramadan | eid_al_fitr | national_day | founding_day | eid_al_adha",
+      "required": true
+    },
+    "greeting_text": {
+      "type": "string",
+      "description": "Arabic greeting text to animate",
+      "required": true
+    },
+    "occasion_colors": {
+      "type": "string",
+      "description": "Color palette",
+      "required": false,
+      "default": "gold, green, white"
+    },
+    "animation_description": {
+      "type": "string",
+      "description": "Visual animation description",
+      "required": false,
+      "default": "particles forming crescent then exploding into brand identity"
+    },
+    "particle_type": {
+      "type": "string",
+      "description": "Particle effect: stars | lanterns | petals | geometric",
+      "required": false,
+      "default": "stars"
+    },
+    "logo_entrance_time": {
+      "type": "integer",
+      "description": "When brand logo appears in seconds",
+      "required": false,
+      "default": 6
+    },
+    "duration": {
+      "type": "integer",
+      "description": "Total duration in seconds",
+      "required": false,
+      "default": 10
+    },
+    "mood": {
+      "type": "string",
+      "description": "Overall mood direction",
+      "required": false,
+      "default": "celebratory warm"
+    }
+  },
+  "prompt_template": "Saudi {occasion} animated greeting video. Visual sequence: {animation_description}. Color palette: {occasion_colors}. Arabic greeting text animation: {greeting_text}. Brand logo: entrance at {logo_entrance_time}s. Particle effects: {particle_type}. Duration: {duration}s. Mood: {mood}. No product features — pure occasion celebration. {cultural_constraints_injection}",
+  "output_type": "video",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1920,
+    "aspect_ratio_label": "9:16"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "beauty",
+      "retail"
+    ],
+    "occasions_allowed": [
+      "ramadan",
+      "eid_al_fitr",
+      "eid_al_adha",
+      "national_day",
+      "founding_day"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": true,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "growth"
+  },
+  "cost_estimate_usd": 0.5,
+  "latency_estimate_seconds": 200,
+  "best_for_cd_brains": [
+    "cd_01",
+    "cd_02",
+    "cd_05"
+  ],
+  "anti_patterns": [
+    "Avoid product features in occasion greeting — it reads as exploitative",
+    "Avoid mixing Eid Al-Fitr and Eid Al-Adha visual language",
+    "Avoid Western holiday aesthetic"
+  ],
+  "notes": "Must post 1-2 days before occasion for maximum reach. Eid Al-Fitr = 78% high-eng vs Eid Al-Adha = 11% — completely different strategy required. National Day: Saudi green dominant. Ramadan: lantern + crescent + warm amber mandatory.",
+  "provenance": {
+    "source": "ogz_knowledge_phase5_autonomous_system",
+    "date_added": "2026-05-25T20:12:44Z",
+    "confirmer": "claude_code_extraction",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

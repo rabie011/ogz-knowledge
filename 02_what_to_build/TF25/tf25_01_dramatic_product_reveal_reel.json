@@ -1,0 +1,103 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSGC9DAP3S6SPWB9TDATR8R3",
+  "chain_id_short": "tf25_01",
+  "family": "TF25",
+  "schema_version": 1,
+  "name_en": "Dramatic Product Reveal Reel",
+  "name_ar": "ريل كشف المنتج الدرامي",
+  "purpose": "Reel: starts dark/obscured, dramatic reveal clears to hero product shot. 8-15 seconds. High thumb-stop rate.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/kling-video/v1.6/pro/text-to-video",
+      "role": "primary_video_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1",
+      "role": "other"
+    }
+  ],
+  "input_schema": {
+    "product_name": {
+      "type": "string",
+      "description": "Product being revealed",
+      "required": true
+    },
+    "product_visual_description": {
+      "type": "string",
+      "description": "How the product looks at peak reveal",
+      "required": true
+    },
+    "reveal_buildup": {
+      "type": "string",
+      "description": "How the buildup looks before reveal e.g. fog, shadow, wrap",
+      "required": false,
+      "default": "fog dissipating"
+    },
+    "brand_color": {
+      "type": "string",
+      "description": "Brand primary color for accent",
+      "required": false,
+      "default": "gold"
+    },
+    "music_energy": {
+      "type": "string",
+      "description": "Music direction: subtle/dramatic/cinematic",
+      "required": false,
+      "default": "cinematic"
+    }
+  },
+  "prompt_template": "Saudi product reveal video sequence. Phase 1 (0-3s): {reveal_buildup} — dark or obscured product. Phase 2 (3-8s): dramatic reveal — {product_name} in full glory, {product_visual_description}. Phase 3 (8s+): beauty shot hold, {brand_color} accent animation. Music: {music_energy} beat. No voiceover. {cultural_constraints_injection}",
+  "output_type": "video",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1920,
+    "aspect_ratio_label": "9:16"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "beauty",
+      "retail"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": true,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "growth"
+  },
+  "cost_estimate_usd": 0.45,
+  "latency_estimate_seconds": 180,
+  "best_for_cd_brains": [
+    "cd_01",
+    "cd_03",
+    "cd_04"
+  ],
+  "anti_patterns": [
+    "Avoid reveal longer than 5 seconds — kills thumb-stop",
+    "Avoid human faces as the reveal subject without wardrobe check",
+    "Avoid cluttered backgrounds post-reveal"
+  ],
+  "notes": "Launches and new products. First 3 frames must create mystery. Kling v1.6 Pro gives best motion quality. Audio: no voiceover — music + sound design only.",
+  "provenance": {
+    "source": "ogz_knowledge_phase5_autonomous_system",
+    "date_added": "2026-05-25T20:12:44Z",
+    "confirmer": "claude_code_extraction",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

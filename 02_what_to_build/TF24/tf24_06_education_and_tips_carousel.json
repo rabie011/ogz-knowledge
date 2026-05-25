@@ -1,0 +1,96 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSGC9DANKQV6BHYCB9VEW821",
+  "chain_id_short": "tf24_06",
+  "family": "TF24",
+  "schema_version": 1,
+  "name_en": "Education & Tips Carousel",
+  "name_ar": "كاروسيل تعليمي ونصائح",
+  "purpose": "5-7 tip slides on brand-adjacent topic. Positions brand as authority. High save rate drives long-tail algorithmic distribution.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/ideogram/v2",
+      "role": "primary_image_generation"
+    }
+  ],
+  "input_schema": {
+    "topic_title": {
+      "type": "string",
+      "description": "Overall educational topic e.g. 'Skincare Routine for Saudi Climate'",
+      "required": true
+    },
+    "tip_number": {
+      "type": "integer",
+      "description": "Tip number on this slide",
+      "required": true
+    },
+    "tip_text": {
+      "type": "string",
+      "description": "The actual tip content (keep under 20 words)",
+      "required": true
+    },
+    "background_style": {
+      "type": "string",
+      "description": "Background treatment: minimal | textured | gradient",
+      "required": false,
+      "default": "minimal"
+    },
+    "brand_name": {
+      "type": "string",
+      "description": "Brand name for corner placement",
+      "required": false
+    }
+  },
+  "prompt_template": "Saudi educational content carousel slide {slide_number}. Topic: {topic_title}. Tip number {tip_number}: {tip_text}. Layout: bold tip number in brand color, Arabic headline, supporting visual icon or graphic. Clean minimalist background: {background_style}. Brand {brand_name} in corner. No product hard sell. {cultural_constraints_injection}",
+  "output_type": "carousel",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "beauty",
+      "retail"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.1,
+  "latency_estimate_seconds": 30,
+  "best_for_cd_brains": [
+    "cd_02",
+    "cd_04",
+    "cd_05"
+  ],
+  "anti_patterns": [
+    "Avoid making the last slide feel like an ad",
+    "Avoid more than 8 slides",
+    "Avoid topics already covered by major media outlets without adding unique Saudi angle"
+  ],
+  "notes": "Education carousels are the highest save-rate format. Topic should be genuinely useful. First slide = hook question or bold claim. Save CTA on last slide. Arabic content performs better than bilingual for this format.",
+  "provenance": {
+    "source": "ogz_knowledge_phase5_autonomous_system",
+    "date_added": "2026-05-25T20:12:44Z",
+    "confirmer": "claude_code_extraction",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

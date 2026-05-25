@@ -211,10 +211,10 @@ def module_extract_accounts() -> int:
         log.info("  All accounts meet quota — nothing to extract")
         return 0
 
-    # Check HikerAPI key is set before starting
-    if not os.environ.get("HIKERAPI_KEY"):
-        log.info("  HIKERAPI_KEY not set — skipping account extraction")
-        log.info("  → Sign up at hikerapi.com, get API key, add HIKERAPI_KEY=... to ~/.abraham_env")
+    # Check Apify token is set before starting
+    if not os.environ.get("APIFY_TOKEN"):
+        log.info("  APIFY_TOKEN not set — skipping account extraction")
+        log.info("  → Get token at console.apify.com → Settings → Integrations → API token")
         return 0
 
     log.info(f"  {len(to_extract)} accounts need extraction — processing up to {MAX_ACCOUNTS_PER_CYCLE}/cycle")

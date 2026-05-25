@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
 extract_account_obs.py
-Download posts from an Instagram account via HikerAPI, classify them with
-OpenAI Batch API (GPT-4o-mini), and write observation JSON files.
+Download posts from an Instagram account via Apify (instagram-post-scraper),
+classify them with OpenAI Batch API (GPT-4o-mini), and write observation JSON files.
 
 Requires:
   - OPENAI_API_KEY in ~/.abraham_env
-  - HIKERAPI_KEY in ~/.abraham_env  (get at hikerapi.com — $0.0006/request)
+  - APIFY_TOKEN in ~/.abraham_env  (apify.com — ~$11/1000 posts)
 
 Usage:
   python3 scripts/extract_account_obs.py --handle barnscoffee --sector f_and_b
@@ -14,9 +14,9 @@ Usage:
   python3 scripts/extract_account_obs.py --handle jarirbookstore --sector retail_lifestyle --dry-run
 
 Cost per account (125 posts):
-  HikerAPI:   ~$0.075  (125 × $0.0006)
-  OpenAI Batch: ~$0.009 (125 × 600 tokens × gpt-4o-mini pricing)
-  Total:      ~$0.09 / account
+  Apify:        ~$1.38  (125 × $11.03/1000)
+  OpenAI Batch: ~$0.009 (125 × 600 tokens × gpt-4o-mini batch pricing)
+  Total:        ~$1.39 / account  |  95 accounts ≈ $132  |  $29 covers ~21 accounts
 """
 import json
 import os
@@ -27,7 +27,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import openai
-import requests
+from apify_client import ApifyClient
 from ulid import ULID
 
 # ── Load env ───────────────────────────────────────────────────────────────────
@@ -62,9 +62,8 @@ SECTOR_FOLDER = {
     "real_estate":          "real_estate",
 }
 
-# ── HikerAPI config ────────────────────────────────────────────────────────────
-HIKERAPI_BASE    = "https://hikerapi.com/api/v1"
-HIKERAPI_TIMEOUT = 30   # seconds per request
+# ── Apify config ──────────────────────────────────────────────────────────────
+APIFY_ACTOR = "apify/instagram-post-scraper"
 
 # ── Classification prompt ──────────────────────────────────────────────────────
 CLASSIFY_SYSTEM = """You are a Saudi Instagram content analyst. Classify posts for a Saudi content intelligence database.
@@ -96,206 +95,113 @@ Return ONLY this JSON (all fields required, exact enum values):
 }}"""
 
 
-# ── HikerAPI extraction ────────────────────────────────────────────────────────
-def _hikerapi_get(path: str, params: dict) -> dict:
-    """One HikerAPI GET call. Raises RuntimeError on failure."""
-    key = os.environ.get("HIKERAPI_KEY", "")
-    if not key:
-        raise RuntimeError(
-            "HIKERAPI_KEY not set.\n"
-            "  1. Sign up at https://hikerapi.com\n"
-            "  2. Get your API key\n"
-            "  3. Add to ~/.abraham_env:  HIKERAPI_KEY=your_key_here"
-        )
-    params["access_key"] = key
-    url = f"{HIKERAPI_BASE}{path}"
-    r = requests.get(url, params=params, timeout=HIKERAPI_TIMEOUT)
-    if r.status_code == 401:
-        raise RuntimeError(f"HikerAPI: invalid API key (401)")
-    if r.status_code == 429:
-        raise RuntimeError(f"HikerAPI: rate limited (429) — slow down or check quota")
-    if not r.ok:
-        raise RuntimeError(f"HikerAPI: {r.status_code} — {r.text[:200]}")
-    data = r.json()
-    if data.get("status") not in (None, "ok", "success", True):
-        raise RuntimeError(f"HikerAPI error: {data.get('message', data)}")
-    return data
-
-
-def _get_user_id(handle: str) -> str:
-    """Resolve Instagram handle → user_id via HikerAPI."""
-    data = _hikerapi_get("/user/by/username", {"username": handle})
-    # Field may be nested under 'data', 'user', or at root
-    user = data.get("data") or data.get("user") or data
-    uid = str(user.get("pk") or user.get("id") or user.get("user_id") or "")
-    if not uid:
-        raise RuntimeError(f"Could not resolve user_id for @{handle}: {data}")
-    return uid
-
-
-def extract_via_hikerapi(
+# ── Apify extraction ──────────────────────────────────────────────────────────
+def extract_via_apify(
     handle: str,
     sector: str,
     quota: dict,
     seen_urls: set,
 ) -> tuple[list[dict], bool]:
     """
-    Pull posts from HikerAPI.
-    Paginates until quota is met or profile exhausted.
+    Pull posts from Apify instagram-post-scraper.
+    Requests sum(quota) * 2 posts to ensure enough of each type,
+    then filters to per-type quota on our side.
 
     Returns:
         (raw_posts, profile_exhausted)
     """
-    print(f"  Resolving @{handle} via HikerAPI...", flush=True)
-    user_id = _get_user_id(handle)
-    print(f"  user_id={user_id}", flush=True)
+    token = os.environ.get("APIFY_TOKEN", "")
+    if not token:
+        raise RuntimeError("APIFY_TOKEN not set in ~/.abraham_env")
+
+    # Request 2× the total quota to get a good type mix
+    total_needed = sum(quota.values())
+    results_limit = min(total_needed * 2, 300)  # cap at 300 to control cost
+
+    print(f"  Fetching @{handle} via Apify (limit={results_limit})...", flush=True)
+
+    client = ApifyClient(token)
+    run = client.actor(APIFY_ACTOR).call(run_input={
+        "directUrls": [f"https://www.instagram.com/{handle}/"],
+        "resultsType": "posts",
+        "resultsLimit": results_limit,
+    })
 
     TYPE_MAP = {
-        1: "image",        # Photo
-        2: "video",        # Video/Reel
-        8: "carousel_slide",  # Album/Sidecar
+        "Image":   "image",
+        "Video":   "video",
+        "Sidecar": "carousel_slide",
     }
 
-    needed            = dict(quota)
+    needed    = dict(quota)
     collected: list[dict] = []
-    cursor            = None
+    total_raw = 0
     profile_exhausted = False
-    page              = 0
-    max_pages         = 20  # safety ceiling (~2500 posts scanned max)
 
-    print(
-        f"  Fetching posts (need img={needed.get('image',0)} "
-        f"vid={needed.get('video',0)} car={needed.get('carousel',0)})...",
-        flush=True,
-    )
+    items = list(client.dataset(run["defaultDatasetId"]).iterate_items())
+    total_raw = len(items)
+    print(f"  Apify returned {total_raw} raw posts", flush=True)
 
-    while not all(v <= 0 for v in needed.values()):
-        if page >= max_pages:
+    if total_raw < results_limit:
+        profile_exhausted = True  # got fewer than we asked for — profile is thin
+
+    for item in items:
+        if all(v <= 0 for v in needed.values()):
             break
 
-        # ── Paginated posts request ───────────────────────────────────────────
-        params = {"user_id": user_id, "count": 50}
-        if cursor:
-            params["end_cursor"] = cursor
+        # ── Shortcode & dedup ─────────────────────────────────────────────────
+        short_code = item.get("shortCode") or item.get("id") or ""
+        source_url = f"https://www.instagram.com/p/{short_code}/"
+        if source_url in seen_urls or not short_code:
+            continue
 
+        # ── Content type ──────────────────────────────────────────────────────
+        raw_type     = item.get("type", "Image")
+        content_type = TYPE_MAP.get(raw_type, "image")
+        quota_key    = _ct_to_quota_key(content_type)
+        if needed.get(quota_key, 0) <= 0:
+            continue
+
+        # ── Timestamp ─────────────────────────────────────────────────────────
+        ts = item.get("timestamp") or ""
         try:
-            data = _hikerapi_get("/user/medias", params)
-        except RuntimeError as e:
-            print(f"  ⚠ HikerAPI page {page} error: {e}", flush=True)
-            break
+            capture_date = str(ts)[:10] if ts else datetime.now().strftime("%Y-%m-%d")
+        except Exception:
+            capture_date = datetime.now().strftime("%Y-%m-%d")
 
-        # Normalise response — HikerAPI wraps in 'data' or returns list directly
-        items = (
-            data.get("data")
-            or data.get("items")
-            or data.get("medias")
-            or data.get("results")
-            or []
-        )
-        if isinstance(items, dict):
-            # Some responses: {"data": {"items": [...], "next_cursor": "..."}}
-            cursor = items.get("next_cursor") or items.get("end_cursor")
-            items  = items.get("items") or items.get("medias") or []
-        else:
-            cursor = (
-                data.get("next_cursor")
-                or data.get("end_cursor")
-                or data.get("next_max_id")
-            )
+        # ── Caption ───────────────────────────────────────────────────────────
+        caption_raw = str(item.get("caption") or "")
 
-        page += 1
+        # ── Engagement counts ─────────────────────────────────────────────────
+        likes    = int(item.get("likesCount")    or item.get("likes")    or 0)
+        comments = int(item.get("commentsCount") or item.get("comments") or 0)
 
-        if not items:
-            profile_exhausted = True
-            break
+        # ── Derived fields ────────────────────────────────────────────────────
+        word_count    = len(caption_raw.split()) if caption_raw else 0
+        hashtag_count = len(re.findall(r"#\w+", caption_raw))
+        has_emoji     = bool(re.search(r"[\U00010000-\U0010ffff\U00002600-\U000027BF]", caption_raw))
 
-        for item in items:
-            if all(v <= 0 for v in needed.values()):
-                break
-
-            # ── Extract shortcode ─────────────────────────────────────────────
-            short_code = (
-                item.get("code")
-                or item.get("shortCode")
-                or item.get("shortcode")
-                or item.get("pk", "")
-            )
-            source_url = f"https://www.instagram.com/p/{short_code}/"
-            if source_url in seen_urls:
-                continue
-
-            # ── Content type ──────────────────────────────────────────────────
-            raw_type = item.get("media_type") or item.get("type") or 1
-            if isinstance(raw_type, str):
-                raw_type = {"image": 1, "photo": 1, "video": 2, "carousel": 8, "sidecar": 8}.get(raw_type.lower(), 1)
-            content_type = TYPE_MAP.get(int(raw_type), "image")
-            quota_key    = _ct_to_quota_key(content_type)
-
-            if needed.get(quota_key, 0) <= 0:
-                continue
-
-            # ── Timestamp ─────────────────────────────────────────────────────
-            ts = item.get("taken_at") or item.get("timestamp") or item.get("takenAt") or ""
-            try:
-                capture_date = (
-                    datetime.utcfromtimestamp(int(ts)).strftime("%Y-%m-%d")
-                    if ts and str(ts).isdigit()
-                    else str(ts)[:10] if ts
-                    else datetime.now().strftime("%Y-%m-%d")
-                )
-            except Exception:
-                capture_date = datetime.now().strftime("%Y-%m-%d")
-
-            # ── Caption ───────────────────────────────────────────────────────
-            cap_raw = item.get("caption") or ""
-            if isinstance(cap_raw, dict):
-                cap_raw = cap_raw.get("text", "")
-            caption_raw = str(cap_raw or "")
-
-            # ── Counts ────────────────────────────────────────────────────────
-            likes    = int(item.get("like_count") or item.get("likes") or item.get("likesCount") or 0)
-            comments = int(item.get("comment_count") or item.get("comments") or item.get("commentsCount") or 0)
-
-            # ── Thumbnail URL ─────────────────────────────────────────────────
-            display_url = (
-                item.get("display_url")
-                or item.get("thumbnail_url")
-                or (((item.get("image_versions2") or {}).get("candidates") or [{}])[0].get("url", ""))
-            )
-
-            # ── Derived fields ────────────────────────────────────────────────
-            word_count    = len(caption_raw.split()) if caption_raw else 0
-            hashtag_count = len(re.findall(r"#\w+", caption_raw))
-            has_emoji     = bool(re.search(r"[\U00010000-\U0010ffff\U00002600-\U000027BF]", caption_raw))
-
-            collected.append({
-                "short_code":    str(short_code),
-                "content_type":  content_type,
-                "capture_date":  capture_date,
-                "caption_text":  caption_raw,
-                "word_count":    word_count,
-                "hashtag_count": hashtag_count,
-                "has_emoji":     has_emoji,
-                "likes":         likes,
-                "comments":      comments,
-                "display_url":   display_url,
-                "filename":      f"{short_code}.jpg",
-                "sector":        sector,
-                "handle":        handle,
-                "source_url":    source_url,
-            })
-            needed[quota_key] -= 1
-
-        # ── Pagination ────────────────────────────────────────────────────────
-        if not cursor:
-            profile_exhausted = True
-            break
-
-        time.sleep(0.5)  # gentle rate control
+        collected.append({
+            "short_code":    short_code,
+            "content_type":  content_type,
+            "capture_date":  capture_date,
+            "caption_text":  caption_raw,
+            "word_count":    word_count,
+            "hashtag_count": hashtag_count,
+            "has_emoji":     has_emoji,
+            "likes":         likes,
+            "comments":      comments,
+            "display_url":   item.get("displayUrl", ""),
+            "filename":      f"{short_code}.jpg",
+            "sector":        sector,
+            "handle":        handle,
+            "source_url":    source_url,
+        })
+        needed[quota_key] -= 1
 
     print(
-        f"  Collected {len(collected)} posts "
-        f"(pages={page}, exhausted={profile_exhausted})",
+        f"  Collected {len(collected)} posts after quota filter "
+        f"(raw={total_raw}, exhausted={profile_exhausted})",
         flush=True,
     )
     return collected, profile_exhausted
@@ -521,7 +427,7 @@ def write_observation(raw: dict, cls: dict, account_ulid: str) -> Path:
             "production_quality": pq,
         },
         "provenance": {
-            "source": "hikerapi_instagram",
+            "source": "apify_instagram",
             "date_added": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "confirmer": "gpt4omini_batch_classification",
             "confidence": "inferred",
@@ -620,7 +526,7 @@ def _load_existing_source_urls(handle: str) -> set:
 def main():
     import argparse
     parser = argparse.ArgumentParser(
-        description="Extract Saudi Instagram account observations via HikerAPI"
+        description="Extract Saudi Instagram account observations via Apify"
     )
     parser.add_argument("--handle",         required=True, help="Instagram handle (without @)")
     parser.add_argument("--sector",         required=True, help="Sector: f_and_b | beauty_personal_care | retail_lifestyle | real_estate")
@@ -657,16 +563,16 @@ def main():
     seen_urls = _load_existing_source_urls(handle)
     print(f"  Dedup: {len(seen_urls)} existing source URLs loaded")
 
-    # Check HikerAPI key before starting
-    if not os.environ.get("HIKERAPI_KEY"):
-        print("❌ HIKERAPI_KEY not set in ~/.abraham_env")
-        print("   Sign up at https://hikerapi.com → copy API key → add to ~/.abraham_env")
+    # Check Apify token before starting
+    if not os.environ.get("APIFY_TOKEN"):
+        print("❌ APIFY_TOKEN not set in ~/.abraham_env")
+        print("   Get token at console.apify.com → Settings → Integrations → API token")
         sys.exit(1)
 
     try:
-        raw_posts, profile_exhausted = extract_via_hikerapi(handle, sector, quota, seen_urls)
+        raw_posts, profile_exhausted = extract_via_apify(handle, sector, quota, seen_urls)
     except RuntimeError as e:
-        print(f"❌ HikerAPI error: {e}")
+        print(f"❌ Apify error: {e}")
         sys.exit(1)
 
     if dry_run:

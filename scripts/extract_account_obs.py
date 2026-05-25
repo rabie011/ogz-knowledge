@@ -99,13 +99,13 @@ Return ONLY this JSON (all fields required, exact enum values):
 def extract_via_apify(
     handle: str,
     sector: str,
-    quota: dict,
+    needed: dict,        # REMAINING per-type counts {image: N, video: N, carousel: N}
     seen_urls: set,
 ) -> tuple[list[dict], bool]:
     """
     Pull posts from Apify instagram-post-scraper.
-    Requests sum(quota) * 2 posts to ensure enough of each type,
-    then filters to per-type quota on our side.
+    needed = remaining quota per type (already subtracts existing obs).
+    Requests sum(needed) * 2 to ensure a good type mix, then filters on our side.
 
     Returns:
         (raw_posts, profile_exhausted)
@@ -114,16 +114,18 @@ def extract_via_apify(
     if not token:
         raise RuntimeError("APIFY_TOKEN not set in ~/.abraham_env")
 
-    # Request 2× the total quota to get a good type mix
-    total_needed = sum(quota.values())
-    results_limit = min(total_needed * 2, 300)  # cap at 300 to control cost
+    # Request enough posts to likely find the right type mix.
+    # Use 5× or minimum 150 to handle skewed type distributions; cap at 300.
+    total_needed = sum(needed.values())
+    if total_needed == 0:
+        return [], False
+    results_limit = min(max(total_needed * 5, 150), 300)
 
     print(f"  Fetching @{handle} via Apify (limit={results_limit})...", flush=True)
 
     client = ApifyClient(token)
     run = client.actor(APIFY_ACTOR).call(run_input={
-        "directUrls": [f"https://www.instagram.com/{handle}/"],
-        "resultsType": "posts",
+        "username": [handle],          # actor v0.99+ requires array
         "resultsLimit": results_limit,
     })
 
@@ -133,12 +135,14 @@ def extract_via_apify(
         "Sidecar": "carousel_slide",
     }
 
-    needed    = dict(quota)
+    remaining = dict(needed)  # mutable copy
     collected: list[dict] = []
     total_raw = 0
     profile_exhausted = False
 
-    items = list(client.dataset(run["defaultDatasetId"]).iterate_items())
+    # run is a typed Run object in apify_client >= 1.0 — use attribute access
+    dataset_id = getattr(run, "default_dataset_id", None) or run.get("defaultDatasetId", "")
+    items = list(client.dataset(dataset_id).iterate_items())
     total_raw = len(items)
     print(f"  Apify returned {total_raw} raw posts", flush=True)
 
@@ -146,7 +150,7 @@ def extract_via_apify(
         profile_exhausted = True  # got fewer than we asked for — profile is thin
 
     for item in items:
-        if all(v <= 0 for v in needed.values()):
+        if all(v <= 0 for v in remaining.values()):
             break
 
         # ── Shortcode & dedup ─────────────────────────────────────────────────
@@ -159,7 +163,7 @@ def extract_via_apify(
         raw_type     = item.get("type", "Image")
         content_type = TYPE_MAP.get(raw_type, "image")
         quota_key    = _ct_to_quota_key(content_type)
-        if needed.get(quota_key, 0) <= 0:
+        if remaining.get(quota_key, 0) <= 0:
             continue
 
         # ── Timestamp ─────────────────────────────────────────────────────────
@@ -197,7 +201,7 @@ def extract_via_apify(
             "handle":        handle,
             "source_url":    source_url,
         })
-        needed[quota_key] -= 1
+        remaining[quota_key] -= 1
 
     print(
         f"  Collected {len(collected)} posts after quota filter "
@@ -570,7 +574,7 @@ def main():
         sys.exit(1)
 
     try:
-        raw_posts, profile_exhausted = extract_via_apify(handle, sector, quota, seen_urls)
+        raw_posts, profile_exhausted = extract_via_apify(handle, sector, needed, seen_urls)
     except RuntimeError as e:
         print(f"❌ Apify error: {e}")
         sys.exit(1)

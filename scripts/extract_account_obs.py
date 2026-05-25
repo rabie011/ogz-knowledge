@@ -1,29 +1,33 @@
 #!/usr/bin/env python3
 """
 extract_account_obs.py
-Download posts from an Instagram account via Apify, classify them with
+Download posts from an Instagram account via HikerAPI, classify them with
 Claude Batch API (Haiku 4.5), and write observation JSON files.
 
 Requires:
-  - APIFY_TOKEN in ~/.abraham_env
   - ANTHROPIC_API_KEY in ~/.abraham_env
-  - pip install apify-client anthropic python-ulid
+  - HIKERAPI_KEY in ~/.abraham_env  (get at hikerapi.com — $0.0006/request)
 
 Usage:
   python3 scripts/extract_account_obs.py --handle barnscoffee --sector f_and_b
-  python3 scripts/extract_account_obs.py --handle jarir --sector retail --limit 50
-  python3 scripts/extract_account_obs.py --handle barnscoffee --sector f_and_b --dry-run
+  python3 scripts/extract_account_obs.py --handle niceonesa --sector beauty_personal_care
+  python3 scripts/extract_account_obs.py --handle jarirbookstore --sector retail_lifestyle --dry-run
+
+Cost per account (125 posts):
+  HikerAPI:   ~$0.075  (125 × $0.0006)
+  Claude Batch: ~$0.015 (125 × 600 tokens × Haiku pricing)
+  Total:      ~$0.09 / account
 """
 import json
 import os
 import re
 import sys
 import time
-import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
 import anthropic
+import requests
 from ulid import ULID
 
 # ── Load env ───────────────────────────────────────────────────────────────────
@@ -58,8 +62,9 @@ SECTOR_FOLDER = {
     "real_estate":          "real_estate",
 }
 
-# ── Apify actor ────────────────────────────────────────────────────────────────
-APIFY_ACTOR = "apify/instagram-post-scraper"
+# ── HikerAPI config ────────────────────────────────────────────────────────────
+HIKERAPI_BASE    = "https://hikerapi.com/api/v1"
+HIKERAPI_TIMEOUT = 30   # seconds per request
 
 # ── Classification prompt ──────────────────────────────────────────────────────
 CLASSIFY_SYSTEM = """You are a Saudi Instagram content analyst. Classify posts for a Saudi content intelligence database.
@@ -91,95 +96,217 @@ Return ONLY this JSON (all fields required, exact enum values):
 }}"""
 
 
-# ── Apify extraction ───────────────────────────────────────────────────────────
-def extract_via_apify(handle: str, limit: int) -> list[dict]:
-    """Pull posts from Apify Instagram scraper. Returns raw Apify post dicts."""
-    apify_token = os.environ.get("APIFY_TOKEN", "")
-    if not apify_token:
+# ── HikerAPI extraction ────────────────────────────────────────────────────────
+def _hikerapi_get(path: str, params: dict) -> dict:
+    """One HikerAPI GET call. Raises RuntimeError on failure."""
+    key = os.environ.get("HIKERAPI_KEY", "")
+    if not key:
         raise RuntimeError(
-            "APIFY_TOKEN not set. Create a free Apify account at apify.com → "
-            "Settings → API tokens → add to ~/.abraham_env as APIFY_TOKEN"
+            "HIKERAPI_KEY not set.\n"
+            "  1. Sign up at https://hikerapi.com\n"
+            "  2. Get your API key\n"
+            "  3. Add to ~/.abraham_env:  HIKERAPI_KEY=your_key_here"
         )
-
-    try:
-        from apify_client import ApifyClient
-    except ImportError:
-        raise RuntimeError(
-            "apify-client not installed. Run: pip install apify-client"
-        )
-
-    print(f"  Calling Apify for @{handle} (limit={limit})...", flush=True)
-    client = ApifyClient(apify_token)
-    run = client.actor(APIFY_ACTOR).call(
-        run_input={
-            "username": [handle],
-            "resultsLimit": limit,
-            "addParentData": False,
-        }
-    )
-    posts = list(client.dataset(run.default_dataset_id).iterate_items())
-    print(f"  Apify returned {len(posts)} posts", flush=True)
-    return posts
+    params["access_key"] = key
+    url = f"{HIKERAPI_BASE}{path}"
+    r = requests.get(url, params=params, timeout=HIKERAPI_TIMEOUT)
+    if r.status_code == 401:
+        raise RuntimeError(f"HikerAPI: invalid API key (401)")
+    if r.status_code == 429:
+        raise RuntimeError(f"HikerAPI: rate limited (429) — slow down or check quota")
+    if not r.ok:
+        raise RuntimeError(f"HikerAPI: {r.status_code} — {r.text[:200]}")
+    data = r.json()
+    if data.get("status") not in (None, "ok", "success", True):
+        raise RuntimeError(f"HikerAPI error: {data.get('message', data)}")
+    return data
 
 
-# ── Map Apify post → raw obs fields ───────────────────────────────────────────
-def _map_apify_post(post: dict, handle: str, sector: str) -> dict:
-    """Convert Apify post dict to partial obs dict before classification."""
-    short_code  = post.get("shortCode") or post.get("id", "")
-    post_type   = post.get("type", "")  # Image | Video | Sidecar
-    timestamp   = post.get("timestamp") or post.get("takenAt", "")
-    caption_raw = post.get("caption") or post.get("captionText") or ""
-    likes       = int(post.get("likesCount") or post.get("likes") or 0)
-    comments    = int(post.get("commentsCount") or post.get("comments") or 0)
-    display_url = post.get("displayUrl") or post.get("imageUrl") or ""
+def _get_user_id(handle: str) -> str:
+    """Resolve Instagram handle → user_id via HikerAPI."""
+    data = _hikerapi_get("/user/by/username", {"username": handle})
+    # Field may be nested under 'data', 'user', or at root
+    user = data.get("data") or data.get("user") or data
+    uid = str(user.get("pk") or user.get("id") or user.get("user_id") or "")
+    if not uid:
+        raise RuntimeError(f"Could not resolve user_id for @{handle}: {data}")
+    return uid
 
-    # content_type mapping
-    ct_map = {"Image": "image", "Video": "video", "Sidecar": "carousel_slide"}
-    content_type = ct_map.get(post_type, "image")
 
-    # Normalise date to YYYY-MM-DD
-    if timestamp:
-        try:
-            if isinstance(timestamp, int):
-                capture_date = datetime.utcfromtimestamp(timestamp).strftime("%Y-%m-%d")
-            else:
-                capture_date = str(timestamp)[:10]
-        except Exception:
-            capture_date = "2026-01-01"
-    else:
-        capture_date = "2026-01-01"
+def extract_via_hikerapi(
+    handle: str,
+    sector: str,
+    quota: dict,
+    seen_urls: set,
+) -> tuple[list[dict], bool]:
+    """
+    Pull posts from HikerAPI.
+    Paginates until quota is met or profile exhausted.
 
-    # Derive filename from URL or shortCode
-    filename = f"{short_code}.jpg" if not display_url else display_url.split("?")[0].split("/")[-1]
+    Returns:
+        (raw_posts, profile_exhausted)
+    """
+    print(f"  Resolving @{handle} via HikerAPI...", flush=True)
+    user_id = _get_user_id(handle)
+    print(f"  user_id={user_id}", flush=True)
 
-    word_count = len(caption_raw.split()) if caption_raw else 0
-    hashtag_count = len(re.findall(r"#\w+", caption_raw))
-    has_emoji = bool(re.search(r"[\U00010000-\U0010ffff\U00002600-\U000027BF]", caption_raw))
-
-    return {
-        "short_code":    short_code,
-        "content_type":  content_type,
-        "capture_date":  capture_date,
-        "caption_text":  caption_raw,
-        "word_count":    word_count,
-        "hashtag_count": hashtag_count,
-        "has_emoji":     has_emoji,
-        "likes":         likes,
-        "comments":      comments,
-        "display_url":   display_url,
-        "filename":      filename,
-        "sector":        sector,
-        "handle":        handle,
-        "source_url":    f"https://www.instagram.com/p/{short_code}/",
+    TYPE_MAP = {
+        1: "image",        # Photo
+        2: "video",        # Video/Reel
+        8: "carousel_slide",  # Album/Sidecar
     }
+
+    needed            = dict(quota)
+    collected: list[dict] = []
+    cursor            = None
+    profile_exhausted = False
+    page              = 0
+    max_pages         = 20  # safety ceiling (~2500 posts scanned max)
+
+    print(
+        f"  Fetching posts (need img={needed.get('image',0)} "
+        f"vid={needed.get('video',0)} car={needed.get('carousel',0)})...",
+        flush=True,
+    )
+
+    while not all(v <= 0 for v in needed.values()):
+        if page >= max_pages:
+            break
+
+        # ── Paginated posts request ───────────────────────────────────────────
+        params = {"user_id": user_id, "count": 50}
+        if cursor:
+            params["end_cursor"] = cursor
+
+        try:
+            data = _hikerapi_get("/user/medias", params)
+        except RuntimeError as e:
+            print(f"  ⚠ HikerAPI page {page} error: {e}", flush=True)
+            break
+
+        # Normalise response — HikerAPI wraps in 'data' or returns list directly
+        items = (
+            data.get("data")
+            or data.get("items")
+            or data.get("medias")
+            or data.get("results")
+            or []
+        )
+        if isinstance(items, dict):
+            # Some responses: {"data": {"items": [...], "next_cursor": "..."}}
+            cursor = items.get("next_cursor") or items.get("end_cursor")
+            items  = items.get("items") or items.get("medias") or []
+        else:
+            cursor = (
+                data.get("next_cursor")
+                or data.get("end_cursor")
+                or data.get("next_max_id")
+            )
+
+        page += 1
+
+        if not items:
+            profile_exhausted = True
+            break
+
+        for item in items:
+            if all(v <= 0 for v in needed.values()):
+                break
+
+            # ── Extract shortcode ─────────────────────────────────────────────
+            short_code = (
+                item.get("code")
+                or item.get("shortCode")
+                or item.get("shortcode")
+                or item.get("pk", "")
+            )
+            source_url = f"https://www.instagram.com/p/{short_code}/"
+            if source_url in seen_urls:
+                continue
+
+            # ── Content type ──────────────────────────────────────────────────
+            raw_type = item.get("media_type") or item.get("type") or 1
+            if isinstance(raw_type, str):
+                raw_type = {"image": 1, "photo": 1, "video": 2, "carousel": 8, "sidecar": 8}.get(raw_type.lower(), 1)
+            content_type = TYPE_MAP.get(int(raw_type), "image")
+            quota_key    = _ct_to_quota_key(content_type)
+
+            if needed.get(quota_key, 0) <= 0:
+                continue
+
+            # ── Timestamp ─────────────────────────────────────────────────────
+            ts = item.get("taken_at") or item.get("timestamp") or item.get("takenAt") or ""
+            try:
+                capture_date = (
+                    datetime.utcfromtimestamp(int(ts)).strftime("%Y-%m-%d")
+                    if ts and str(ts).isdigit()
+                    else str(ts)[:10] if ts
+                    else datetime.now().strftime("%Y-%m-%d")
+                )
+            except Exception:
+                capture_date = datetime.now().strftime("%Y-%m-%d")
+
+            # ── Caption ───────────────────────────────────────────────────────
+            cap_raw = item.get("caption") or ""
+            if isinstance(cap_raw, dict):
+                cap_raw = cap_raw.get("text", "")
+            caption_raw = str(cap_raw or "")
+
+            # ── Counts ────────────────────────────────────────────────────────
+            likes    = int(item.get("like_count") or item.get("likes") or item.get("likesCount") or 0)
+            comments = int(item.get("comment_count") or item.get("comments") or item.get("commentsCount") or 0)
+
+            # ── Thumbnail URL ─────────────────────────────────────────────────
+            display_url = (
+                item.get("display_url")
+                or item.get("thumbnail_url")
+                or (((item.get("image_versions2") or {}).get("candidates") or [{}])[0].get("url", ""))
+            )
+
+            # ── Derived fields ────────────────────────────────────────────────
+            word_count    = len(caption_raw.split()) if caption_raw else 0
+            hashtag_count = len(re.findall(r"#\w+", caption_raw))
+            has_emoji     = bool(re.search(r"[\U00010000-\U0010ffff\U00002600-\U000027BF]", caption_raw))
+
+            collected.append({
+                "short_code":    str(short_code),
+                "content_type":  content_type,
+                "capture_date":  capture_date,
+                "caption_text":  caption_raw,
+                "word_count":    word_count,
+                "hashtag_count": hashtag_count,
+                "has_emoji":     has_emoji,
+                "likes":         likes,
+                "comments":      comments,
+                "display_url":   display_url,
+                "filename":      f"{short_code}.jpg",
+                "sector":        sector,
+                "handle":        handle,
+                "source_url":    source_url,
+            })
+            needed[quota_key] -= 1
+
+        # ── Pagination ────────────────────────────────────────────────────────
+        if not cursor:
+            profile_exhausted = True
+            break
+
+        time.sleep(0.5)  # gentle rate control
+
+    print(
+        f"  Collected {len(collected)} posts "
+        f"(pages={page}, exhausted={profile_exhausted})",
+        flush=True,
+    )
+    return collected, profile_exhausted
 
 
 # ── Claude Batch classification ────────────────────────────────────────────────
 def classify_batch(raw_posts: list[dict], client: anthropic.Anthropic) -> dict[str, dict]:
     """Submit batch classification job. Returns {short_code: classification_dict}."""
-    requests = []
+    requests_list = []
     for p in raw_posts:
-        requests.append({
+        requests_list.append({
             "custom_id": p["short_code"],
             "params": {
                 "model": "claude-haiku-4-5",
@@ -192,8 +319,8 @@ def classify_batch(raw_posts: list[dict], client: anthropic.Anthropic) -> dict[s
             },
         })
 
-    print(f"  Submitting {len(requests)} posts to Claude Batch API...", flush=True)
-    batch = client.messages.batches.create(requests=requests)
+    print(f"  Submitting {len(requests_list)} posts to Claude Batch API...", flush=True)
+    batch = client.messages.batches.create(requests=requests_list)
     batch_id = batch.id
     print(f"  Batch ID: {batch_id}", flush=True)
 
@@ -230,7 +357,6 @@ def classify_batch(raw_posts: list[dict], client: anthropic.Anthropic) -> dict[s
 # ── Write observation JSON ─────────────────────────────────────────────────────
 def _get_or_create_account_ulid(handle: str) -> str:
     """Look up account ULID: checks accounts_index.json first, then existing accounts/ JSON files."""
-    # 1. Check fast-path index
     index = {}
     if ACCOUNTS_INDEX.exists():
         try:
@@ -240,12 +366,10 @@ def _get_or_create_account_ulid(handle: str) -> str:
     if handle in index:
         return index[handle]
 
-    # 2. Search existing account JSON files for a matching handle
     accounts_dir = BASE / "11_who_to_learn_from" / "accounts"
     for acct_file in accounts_dir.rglob("*.json"):
         try:
             d = json.loads(acct_file.read_text())
-            # Match on account_handle_normalized (e.g. "kuduksa") or handle field
             handle_norm = d.get("account_handle_normalized", "")
             handle_raw  = d.get("handle", "")
             if handle in (handle_norm, handle_raw, handle_norm.lower(), handle_raw.lower()):
@@ -258,7 +382,6 @@ def _get_or_create_account_ulid(handle: str) -> str:
         except Exception:
             continue
 
-    # 3. Create new ULID
     new_ulid = str(ULID())
     index[handle] = new_ulid
     ACCOUNTS_INDEX.parent.mkdir(parents=True, exist_ok=True)
@@ -275,35 +398,28 @@ def write_observation(raw: dict, cls: dict, account_ulid: str) -> Path:
     obs_ulid = str(ULID())
     handle = raw["handle"]
 
-    # Determine language
     lang = cls.get("language", "arabic")
-    valid_langs = {"arabic", "english", "bilingual", "none"}
-    if lang not in valid_langs:
+    if lang not in {"arabic", "english", "bilingual", "none"}:
         lang = "arabic"
 
-    # Compliance
     compliance = cls.get("overall_compliance", "clean")
     if compliance not in {"clean", "soft_flagged", "hard_blocked"}:
         compliance = "clean"
 
-    # Engagement
     eng = cls.get("engagement_potential", "medium")
     if eng not in {"high", "medium", "low"}:
         eng = "medium"
 
-    # Production quality
     pq = cls.get("production_quality", "semi_professional")
     if pq not in {"professional", "semi_professional", "ugc", "low"}:
         pq = "semi_professional"
 
-    # Pattern matches
     pattern_matches = [
-        {"pattern_slug": slug, "confidence": "moderate"}
+        {"pattern_slug": slug.lower(), "confidence": "moderate"}
         for slug in (cls.get("pattern_slugs") or [])
         if isinstance(slug, str) and slug.strip()
     ]
 
-    # human_presence: schema expects boolean/null
     hp_raw = cls.get("human_presence", "none")
     if hp_raw in ("full", "partial"):
         human_presence = True
@@ -353,7 +469,11 @@ def write_observation(raw: dict, cls: dict, account_ulid: str) -> Path:
         "cultural_notes": {
             "occasion_relevance": cls.get("occasion") or None,
             "hospitality_cues": [],
-            "heritage_vs_modern": cls.get("heritage_vs_modern", "neutral") if cls.get("heritage_vs_modern") in ("heritage", "modern", "blended", "neutral") else "neutral",
+            "heritage_vs_modern": (
+                cls.get("heritage_vs_modern", "neutral")
+                if cls.get("heritage_vs_modern") in ("heritage", "modern", "blended", "neutral")
+                else "neutral"
+            ),
             "free_notes": "",
         },
         "pattern_matches": pattern_matches,
@@ -362,7 +482,7 @@ def write_observation(raw: dict, cls: dict, account_ulid: str) -> Path:
             "production_quality": pq,
         },
         "provenance": {
-            "source": "apify_instagram_scraper",
+            "source": "hikerapi_instagram",
             "date_added": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "confirmer": "claude_haiku_batch_classification",
             "confidence": "inferred",
@@ -379,23 +499,21 @@ def write_observation(raw: dict, cls: dict, account_ulid: str) -> Path:
 DEFAULT_QUOTA = {"image": 50, "video": 50, "carousel": 25}
 
 def _ct_to_quota_key(content_type: str) -> str:
-    """Map content_type → quota bucket key."""
     if content_type in ("video", "reel"):
         return "video"
     if content_type == "carousel_slide":
         return "carousel"
-    return "image"  # image, story, unknown → image bucket
+    return "image"
 
 
 def count_existing_by_type(handle: str) -> dict:
-    """Count existing obs for this handle, bucketed by quota key."""
     counts = {"image": 0, "video": 0, "carousel": 0}
     for f in OBS_ROOT.rglob("*.json"):
         try:
             d = json.loads(f.read_text())
             if d.get("account_handle_normalized", "").lower() != handle.lower():
                 continue
-            ct = d.get("content_ref", {}).get("content_type", "")
+            ct  = d.get("content_ref", {}).get("content_type", "")
             key = _ct_to_quota_key(ct)
             counts[key] += 1
         except Exception:
@@ -404,7 +522,6 @@ def count_existing_by_type(handle: str) -> dict:
 
 
 def _load_quota_for_handle(handle: str) -> dict:
-    """Load per-account quota from target_accounts.json, or return default."""
     try:
         data = json.loads(TARGET_ACCOUNTS_FILE.read_text())
         for a in data.get("accounts", []):
@@ -415,8 +532,13 @@ def _load_quota_for_handle(handle: str) -> dict:
     return DEFAULT_QUOTA
 
 
-# ── Update target_accounts.json status ────────────────────────────────────────
-def _update_target_status(handle: str, written_by_type: dict, quota: dict):
+# ── Update target_accounts.json ────────────────────────────────────────────────
+def _update_target_status(
+    handle: str,
+    written_by_type: dict,
+    quota: dict,
+    force_done: bool = False,
+):
     if not TARGET_ACCOUNTS_FILE.exists():
         return
     try:
@@ -424,14 +546,14 @@ def _update_target_status(handle: str, written_by_type: dict, quota: dict):
         for acct in data.get("accounts", []):
             if acct.get("handle", "").lower() != handle.lower():
                 continue
-            # Recount current totals from disk (includes newly written)
-            current = count_existing_by_type(handle)
-            total = sum(current.values())
+            current  = count_existing_by_type(handle)
+            total    = sum(current.values())
             acct["obs_count_actual"] = total
-            acct["obs_by_type"] = current
-            # Done only if every type meets its quota
-            quota_met = all(current.get(k, 0) >= v for k, v in quota.items())
+            acct["obs_by_type"]      = current
+            quota_met = force_done or all(current.get(k, 0) >= v for k, v in quota.items())
             acct["status"] = "done" if quota_met else "partial"
+            if force_done:
+                acct["note"] = "Profile exhausted — best-effort quota accepted"
             break
         data["updated_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         TARGET_ACCOUNTS_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2))
@@ -439,9 +561,8 @@ def _update_target_status(handle: str, written_by_type: dict, quota: dict):
         print(f"  ⚠ Could not update target_accounts.json: {e}")
 
 
-# ── Dedup: skip posts already in observations ──────────────────────────────────
+# ── Dedup ──────────────────────────────────────────────────────────────────────
 def _load_existing_source_urls(handle: str) -> set:
-    """Return set of source_urls already written for this handle."""
     urls = set()
     for f in OBS_ROOT.rglob("*.json"):
         try:
@@ -459,20 +580,21 @@ def _load_existing_source_urls(handle: str) -> set:
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="Extract Saudi Instagram account observations")
-    parser.add_argument("--handle",  required=True, help="Instagram handle (without @)")
-    parser.add_argument("--sector",  required=True, help="Sector: f_and_b | beauty | retail | real_estate")
-    parser.add_argument("--quota-image",    type=int, default=None, help="Target image count (default: from target_accounts.json)")
-    parser.add_argument("--quota-video",    type=int, default=None, help="Target video/reel count")
-    parser.add_argument("--quota-carousel", type=int, default=None, help="Target carousel count")
-    parser.add_argument("--dry-run", action="store_true", help="Download only, no file writes")
+    parser = argparse.ArgumentParser(
+        description="Extract Saudi Instagram account observations via HikerAPI"
+    )
+    parser.add_argument("--handle",         required=True, help="Instagram handle (without @)")
+    parser.add_argument("--sector",         required=True, help="Sector: f_and_b | beauty_personal_care | retail_lifestyle | real_estate")
+    parser.add_argument("--quota-image",    type=int, default=None)
+    parser.add_argument("--quota-video",    type=int, default=None)
+    parser.add_argument("--quota-carousel", type=int, default=None)
+    parser.add_argument("--dry-run",        action="store_true")
     args = parser.parse_args()
 
     handle  = args.handle.lower().lstrip("@")
     sector  = args.sector.lower()
     dry_run = args.dry_run
 
-    # Load quota (CLI overrides file)
     quota = _load_quota_for_handle(handle)
     if args.quota_image    is not None: quota["image"]    = args.quota_image
     if args.quota_video    is not None: quota["video"]    = args.quota_video
@@ -483,9 +605,8 @@ def main():
     print(f"  Quota: image={quota['image']}  video={quota['video']}  carousel={quota['carousel']}")
     print(f"{'='*60}\n")
 
-    # 1. Count what we already have
     existing = count_existing_by_type(handle)
-    needed = {k: max(0, quota[k] - existing.get(k, 0)) for k in quota}
+    needed   = {k: max(0, quota[k] - existing.get(k, 0)) for k in quota}
     print(f"  Existing: image={existing['image']}  video={existing['video']}  carousel={existing['carousel']}")
     print(f"  Needed:   image={needed['image']}  video={needed['video']}  carousel={needed['carousel']}")
 
@@ -494,66 +615,51 @@ def main():
         _update_target_status(handle, {}, quota)
         sys.exit(0)
 
-    # 2. Already-seen URLs (dedup)
     seen_urls = _load_existing_source_urls(handle)
     print(f"  Dedup: {len(seen_urls)} existing source URLs loaded")
 
-    # 3. Pull from Apify — request 3× needed (buffer for type distribution)
-    apify_limit = max(150, sum(needed.values()) * 3)
+    # Check HikerAPI key before starting
+    if not os.environ.get("HIKERAPI_KEY"):
+        print("❌ HIKERAPI_KEY not set in ~/.abraham_env")
+        print("   Sign up at https://hikerapi.com → copy API key → add to ~/.abraham_env")
+        sys.exit(1)
+
     try:
-        apify_posts = extract_via_apify(handle, apify_limit)
+        raw_posts, profile_exhausted = extract_via_hikerapi(handle, sector, quota, seen_urls)
     except RuntimeError as e:
-        print(f"❌ Apify error: {e}")
+        print(f"❌ HikerAPI error: {e}")
         sys.exit(1)
-
-    if not apify_posts:
-        print("❌ No posts returned from Apify.")
-        sys.exit(1)
-
-    # 4. Map → raw obs, skip already seen
-    raw_posts = []
-    dupes = 0
-    for p in apify_posts:
-        raw = _map_apify_post(p, handle, sector)
-        if raw["source_url"] in seen_urls:
-            dupes += 1
-            continue
-        raw_posts.append(raw)
-
-    print(f"  Mapped {len(raw_posts)} new posts ({dupes} dupes skipped)")
 
     if dry_run:
-        print("\nDRY RUN — sample of new posts:")
+        print("\nDRY RUN — sample of collected posts:")
         for p in raw_posts[:5]:
             key = _ct_to_quota_key(p["content_type"])
             print(f"  [{key}] {p['short_code']} | {p['content_type']} | {p['capture_date']} | {p['caption_text'][:50]!r}")
         return
 
     if not raw_posts:
-        print("  No new posts after dedup.")
-        _update_target_status(handle, {}, quota)
+        print("  No new posts found — profile exhausted, accepting best-effort.")
+        _update_target_status(handle, {}, quota, force_done=True)
         sys.exit(0)
 
-    # 5. Classify via Claude Batch API
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     if not api_key:
         print("❌ ANTHROPIC_API_KEY not set.")
         sys.exit(1)
 
-    client = anthropic.Anthropic(api_key=api_key)
+    client          = anthropic.Anthropic(api_key=api_key)
     classifications = classify_batch(raw_posts, client)
     print(f"  Classified {len(classifications)}/{len(raw_posts)} posts")
 
-    # 6. Write — respect per-type quota
-    account_ulid  = _get_or_create_account_ulid(handle)
+    account_ulid    = _get_or_create_account_ulid(handle)
     written_by_type = {"image": 0, "video": 0, "carousel": 0}
     quota_remaining = dict(needed)
-    errors = 0
+    errors          = 0
 
     for raw in raw_posts:
         ct_key = _ct_to_quota_key(raw["content_type"])
         if quota_remaining.get(ct_key, 0) <= 0:
-            continue  # this type is full
+            continue
         sc  = raw["short_code"]
         cls = classifications.get(sc, {})
         try:
@@ -564,17 +670,17 @@ def main():
             print(f"  ✗ {sc}: {e}")
             errors += 1
 
-        # Stop early if all quotas met
         if all(v <= 0 for v in quota_remaining.values()):
             break
 
-    # 7. Update target_accounts.json
-    _update_target_status(handle, written_by_type, quota)
+    _update_target_status(handle, written_by_type, quota, force_done=profile_exhausted)
 
     total_written = sum(written_by_type.values())
     print(f"\n{'='*60}")
     print(f"Extracted {total_written} observations  |  Errors: {errors}")
     print(f"  image={written_by_type['image']}  video={written_by_type['video']}  carousel={written_by_type['carousel']}")
+    if profile_exhausted:
+        print(f"  ℹ Profile exhausted — best-effort quota accepted")
     print(f"Account ULID: {account_ulid}")
     print(f"\nNext step: python3 scripts/validate_all.py")
 

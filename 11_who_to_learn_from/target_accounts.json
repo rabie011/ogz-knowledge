@@ -1,13 +1,13 @@
 {
   "schema_version": 2,
-  "description": "Mohamed's account watchlist. Daemon reads this every cycle. Add 'pending' accounts to trigger extraction.",
+  "description": "OGZ account watchlist — sourced from KSA_Brand_Accounts_Benchmark.xlsx. Daemon extracts 2/cycle.",
   "note": "Requires APIFY_TOKEN in ~/.abraham_env. quota = target per content type. status=partial means daemon will top-up.",
   "default_quota": {
     "image": 50,
     "video": 50,
     "carousel": 25
   },
-  "updated_at": "2026-05-25T21:16:15Z",
+  "updated_at": "2026-05-25T22:56:10Z",
   "accounts": [
     {
       "handle": "barnscoffee",
@@ -24,7 +24,9 @@
         "image": 50,
         "video": 50,
         "carousel": 25
-      }
+      },
+      "brand_name": "Barn's Coffee",
+      "priority": "A"
     },
     {
       "handle": "crumblcookiespr",
@@ -77,7 +79,9 @@
         "carousel": 25
       },
       "status": "partial",
-      "obs_count_actual": 50
+      "obs_count_actual": 50,
+      "brand_name": "ALBAIK",
+      "priority": "A"
     },
     {
       "handle": "aseeb.najd",
@@ -125,7 +129,9 @@
         "carousel": 25
       },
       "status": "partial",
-      "obs_count_actual": 50
+      "obs_count_actual": 50,
+      "brand_name": "Asteri Beauty",
+      "priority": "A"
     },
     {
       "handle": "prettynature.official",
@@ -239,6 +245,1070 @@
       "handle": "nhcksa",
       "sector": "real_estate",
       "sub_sector": "Developer",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "shawarmer",
+      "brand_name": "Shawarmer",
+      "sector": "f_and_b",
+      "sub_sector": "QSR / shawarma",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "kudusa",
+      "brand_name": "Kudu",
+      "sector": "f_and_b",
+      "sub_sector": "QSR",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "herfy",
+      "brand_name": "Herfy",
+      "sector": "f_and_b",
+      "sub_sector": "QSR",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "altazaj",
+      "brand_name": "Al Tazaj",
+      "sector": "f_and_b",
+      "sub_sector": "QSR / chicken",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "maestropizzaksa",
+      "brand_name": "Maestro Pizza",
+      "sector": "f_and_b",
+      "sub_sector": "Pizza QSR",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "hamburgini",
+      "brand_name": "Hamburgini",
+      "sector": "f_and_b",
+      "sub_sector": "Burger QSR",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "burgerizzr",
+      "brand_name": "Burgerizzr",
+      "sector": "f_and_b",
+      "sub_sector": "Burger QSR",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "hashibasha",
+      "brand_name": "Hashi Basha",
+      "sector": "f_and_b",
+      "sub_sector": "Saudi cuisine QSR",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "janburger",
+      "brand_name": "Jan Burger",
+      "sector": "f_and_b",
+      "sub_sector": "Burger QSR",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "halfmillion_sa",
+      "brand_name": "Half Million",
+      "sector": "f_and_b",
+      "sub_sector": "Coffee",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "camelstep",
+      "brand_name": "Camel Step",
+      "sector": "f_and_b",
+      "sub_sector": "Specialty coffee / roaster",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "brew92",
+      "brand_name": "Brew92",
+      "sector": "f_and_b",
+      "sub_sector": "Specialty coffee",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "dosecafe_sa",
+      "brand_name": "Dose Cafe",
+      "sector": "f_and_b",
+      "sub_sector": "Coffee",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "kyancafe",
+      "brand_name": "Kyan Cafe",
+      "sector": "f_and_b",
+      "sub_sector": "Coffee",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "overdose_sa",
+      "brand_name": "Overdose Cafe",
+      "sector": "f_and_b",
+      "sub_sector": "Coffee / dessert",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "ratio_sa",
+      "brand_name": "RATIO Cafe",
+      "sector": "f_and_b",
+      "sub_sector": "Coffee",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "elixirbunn",
+      "brand_name": "Elixir Bunn",
+      "sector": "f_and_b",
+      "sub_sector": "Coffee roaster",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "drcafe",
+      "brand_name": "Dr. Cafe",
+      "sector": "f_and_b",
+      "sub_sector": "Coffee",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "niceonesa",
+      "brand_name": "Nice One",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Beauty e-commerce",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "goldenscent",
+      "brand_name": "Golden Scent",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Beauty/fragrance e-commerce",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "facesbeauty",
+      "brand_name": "Faces KSA",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Beauty retailer",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "sephoramiddleeast",
+      "brand_name": "Sephora KSA",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Beauty retailer",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "goldapple_ksa",
+      "brand_name": "Gold Apple KSA",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Beauty e-commerce/retail",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "mznbodycare",
+      "brand_name": "MZN Bodycare",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Bodycare / skincare",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "mikyajy",
+      "brand_name": "Mikyajy",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Makeup brand",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "lifestyleshops",
+      "brand_name": "Lifestyle KSA",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Beauty + lifestyle retail",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "bathandbodyworksarabia",
+      "brand_name": "Bath & Body Works KSA",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Bodycare/fragrance retail",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "thebodyshoparabia",
+      "brand_name": "The Body Shop KSA",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Bodycare retail",
+      "priority": "C",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "whites_sa",
+      "brand_name": "Whites",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Pharmacy + beauty retail",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "nahdipharmacy",
+      "brand_name": "Nahdi",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Pharmacy + beauty retail",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "bootsksa",
+      "brand_name": "Boots KSA",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Pharmacy + beauty retail",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "arabianoud",
+      "brand_name": "Arabian Oud",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Oud / fragrance",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "abdulsamadalqurashi",
+      "brand_name": "Abdul Samad Al Qurashi",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Oud / fragrance",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "almajed4oud",
+      "brand_name": "Al Majed Oud",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Oud / fragrance",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "ibraheemalqurashi",
+      "brand_name": "Ibraheem Al Qurashi",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Fragrance / oud",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "reefperfumes",
+      "brand_name": "Reef Perfumes",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Fragrance",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "laverne",
+      "brand_name": "Laverne Perfumes",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Fragrance",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "gissahperfumes",
+      "brand_name": "Gissah",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Fragrance",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "rasasiperfumes",
+      "brand_name": "Rasasi KSA",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Fragrance",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "ajmalperfumes",
+      "brand_name": "Ajmal Perfumes KSA",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Fragrance",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "dokhoonemirates",
+      "brand_name": "Dokhoon",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Fragrance / incense",
+      "priority": "C",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "ahmedalmaghribi",
+      "brand_name": "Ahmed Al Maghribi",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Fragrance",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "swissarabianperfumes",
+      "brand_name": "Swiss Arabian",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Fragrance",
+      "priority": "C",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "alharamainperfumes",
+      "brand_name": "Al Haramain Perfumes",
+      "sector": "beauty_personal_care",
+      "sub_sector": "Fragrance",
+      "priority": "C",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "nayomi",
+      "brand_name": "Nayomi",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Lingerie / sleepwear",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "centrepointstores",
+      "brand_name": "Centrepoint KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Department / fashion",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "maxfashionmena",
+      "brand_name": "Max Fashion KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Value fashion",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "redtagfashion",
+      "brand_name": "REDTAG KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Value fashion",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "splashfashions",
+      "brand_name": "Splash KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Fashion",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "randbfashion",
+      "brand_name": "R&B Fashion KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Value fashion",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "sivvi",
+      "brand_name": "SIVVI",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Fashion e-commerce",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "ounass",
+      "brand_name": "Ounass KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Luxury fashion/beauty e-commerce",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "namshi",
+      "brand_name": "Namshi KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Fashion e-commerce",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "rivafashion",
+      "brand_name": "Riva Fashion",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Women fashion",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "femi9",
+      "brand_name": "Femi9",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Women fashion",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "lcwaikiki",
+      "brand_name": "LC Waikiki KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Value fashion",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "kiabiksa",
+      "brand_name": "Kiabi KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Value fashion",
+      "priority": "C",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "hm",
+      "brand_name": "H&M KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Fashion",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "zara",
+      "brand_name": "Zara KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Fashion",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "sunsandsports",
+      "brand_name": "Sun & Sand Sports KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Sports retail",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "footlockermiddleeast",
+      "brand_name": "Foot Locker KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Sneaker retail",
+      "priority": "C",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "noon",
+      "brand_name": "Noon KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Marketplace",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "amazonsa",
+      "brand_name": "Amazon.sa",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Marketplace",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "jarirbookstore",
+      "brand_name": "Jarir Bookstore",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Electronics/books/office",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "extrastores",
+      "brand_name": "eXtra",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Electronics retail",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "saco_ksa",
+      "brand_name": "SACO",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Home improvement",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "flowardco",
+      "brand_name": "Floward KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Flowers/gifting e-commerce",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "mumzworld",
+      "brand_name": "Mumzworld KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Mother/baby e-commerce",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "ikeasaudiarabia",
+      "brand_name": "IKEA Saudi Arabia",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Furniture/home",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "abyat",
+      "brand_name": "Abyat KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Home/furniture/building products",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "homecentrestores",
+      "brand_name": "Home Centre KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Furniture/home",
+      "priority": "A",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "danubesaudi",
+      "brand_name": "Danube Online",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Supermarket / grocery",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "pandasaudi",
+      "brand_name": "Panda Retail",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Supermarket / grocery",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "tamimimarkets",
+      "brand_name": "Tamimi Markets",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Supermarket / grocery",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "luluhypermarketsaudi",
+      "brand_name": "Lulu Saudi",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Hypermarket",
+      "priority": "B",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "pending",
+      "obs_count_actual": 0
+    },
+    {
+      "handle": "carrefourksa",
+      "brand_name": "Carrefour KSA",
+      "sector": "retail_lifestyle",
+      "sub_sector": "Hypermarket",
+      "priority": "B",
       "quota": {
         "image": 50,
         "video": 50,

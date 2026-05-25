@@ -142,7 +142,7 @@ def find_orphaned_slugs() -> list[dict]:
         account = d.get("account_handle_normalized", "")
 
         for pm in d.get("pattern_matches", []):
-            slug = pm.get("pattern_slug") or pm.get("slug", "")
+            slug = (pm.get("pattern_slug") or pm.get("slug", "")).lower()  # always lowercase
             if not slug or slug in existing:
                 continue
             if slug not in slug_data:
@@ -291,7 +291,8 @@ def generate_batch(orphaned_batch: list[dict], client: anthropic.Anthropic) -> d
 
 # ── Write pattern files ────────────────────────────────────────────────────────
 def write_pattern(pattern: dict, subfolder: str) -> Path:
-    slug = pattern["pattern_slug"]
+    slug = pattern["pattern_slug"].lower()   # enforce lowercase — schema: ^[a-z0-9_]+$
+    pattern["pattern_slug"] = slug
     # Generate a real ULID
     pattern["pattern_ulid"] = str(ULID())
 

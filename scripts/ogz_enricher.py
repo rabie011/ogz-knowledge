@@ -211,10 +211,13 @@ def module_extract_accounts() -> int:
         log.info("  All accounts meet quota — nothing to extract")
         return 0
 
-    # Check Apify token is set
-    if not os.environ.get("APIFY_TOKEN"):
-        log.info("  APIFY_TOKEN not set — skipping account extraction")
+    # Check HikerAPI key is set before starting
+    if not os.environ.get("HIKERAPI_KEY"):
+        log.info("  HIKERAPI_KEY not set — skipping account extraction")
+        log.info("  → Sign up at hikerapi.com, get API key, add HIKERAPI_KEY=... to ~/.abraham_env")
         return 0
+
+    log.info(f"  {len(to_extract)} accounts need extraction — processing up to {MAX_ACCOUNTS_PER_CYCLE}/cycle")
 
     total_written = 0
     for acct in to_extract[:MAX_ACCOUNTS_PER_CYCLE]:
@@ -230,7 +233,7 @@ def module_extract_accounts() -> int:
             sys.executable, "scripts/extract_account_obs.py",
             "--handle", handle,
             "--sector", sector,
-        ], timeout=1200)  # longer timeout — fetches up to 3× quota posts from Apify
+        ], timeout=600)  # HikerAPI is fast — 2-3 min/account max
 
         m = re.search(r"Extracted (\d+) observations", stdout)
         n = int(m.group(1)) if m else 0

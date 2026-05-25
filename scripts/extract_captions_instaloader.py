@@ -28,11 +28,20 @@ import time
 from collections import defaultdict
 from pathlib import Path
 
+import os
+
 BASE        = Path(__file__).parent.parent
 OBS_ROOT    = BASE / "11_who_to_learn_from" / "observations"
 LOGS        = BASE / "logs"
-INSTALOADER = "/opt/homebrew/bin/instaloader"
-SLEEP_SEC   = 4   # seconds between instaloader calls (be gentle)
+# Use venv instaloader (has browser_cookie3); fallback to homebrew
+INSTALOADER = str(BASE / ".venv/bin/instaloader")
+if not Path(INSTALOADER).exists():
+    INSTALOADER = "/opt/homebrew/bin/instaloader"
+# Chrome Profile 1 has Instagram session cookies
+COOKIE_FILE = os.path.expanduser(
+    "~/Library/Application Support/Google/Chrome/Profile 1/Cookies"
+)
+SLEEP_SEC   = 5   # seconds between instaloader calls (be gentle)
 
 # ── Emoji detection ────────────────────────────────────────────────────────────
 _EMOJI_RE = re.compile(
@@ -69,6 +78,7 @@ def _fetch(shortcode: str, work_dir: Path):
     """
     cmd = [
         INSTALOADER,
+        "--cookiefile", COOKIE_FILE,
         "--no-videos",
         "--no-pictures",
         "--no-profile-pic",

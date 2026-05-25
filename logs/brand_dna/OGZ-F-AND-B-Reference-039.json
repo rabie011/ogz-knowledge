@@ -2,63 +2,69 @@
   "account": "OGZ-F-AND-B-Reference-039",
   "sector": "f_and_b",
   "archetype": "Modern Premium",
-  "obs_count": 12,
-  "health_score": 0.725,
-  "health_grade": "B",
+  "obs_count": 50,
+  "health_score": 0.805,
+  "health_grade": "A",
   "compliance_risk_grade": "yellow",
-  "compliance_risk_score": 10,
+  "compliance_risk_score": 15,
   "voice_fingerprint": "formal/warm/playful/modern",
-  "dominant_dialect": "colloquial_arabic",
+  "dominant_dialect": "saudi_colloquial",
   "dominant_register": "casual",
-  "dominant_tone": "excited",
+  "dominant_tone": "playful",
   "heritage_vs_modern_split": {
-    "blended": 1.0
+    "blended": 0.28,
+    "modern": 0.62,
+    "other": 0.1
   },
-  "avg_hospitality_cues_per_post": 0.0,
+  "avg_hospitality_cues_per_post": 0.12,
   "engagement_profile": {
-    "avg_score": 0.5,
-    "high_rate": 0.25,
-    "medium_rate": 0.5,
-    "low_rate": 0.25
+    "avg_score": 0.73,
+    "high_rate": 0.52,
+    "medium_rate": 0.42,
+    "low_rate": 0.06
   },
   "top_5_patterns": [
+    {
+      "slug": "employee_pride_campaign",
+      "name": "employee_pride_campaign",
+      "obs_count": 7
+    },
     {
       "slug": "invitation_to_witness",
       "name": "Invitation to Witness",
       "obs_count": 5
     },
     {
-      "slug": "seasonal_collection_drop",
-      "name": "Seasonal Collection Drop",
-      "obs_count": 2
+      "slug": "entertainment_collab",
+      "name": "entertainment_collab",
+      "obs_count": 5
     },
     {
-      "slug": "behind_the_craft",
-      "name": "Behind The Craft Process",
-      "obs_count": 2
+      "slug": "app_exclusive_offer",
+      "name": "app_exclusive_offer",
+      "obs_count": 4
     },
     {
-      "slug": "product_hero",
-      "name": "Product Hero Static",
-      "obs_count": 2
-    },
-    {
-      "slug": "educational_explainer",
-      "name": "Educational Explainer Carousel",
-      "obs_count": 1
+      "slug": "product_value_positioning",
+      "name": "product_value_positioning",
+      "obs_count": 4
     }
   ],
   "top_occasions": [
     {
       "occasion": "evergreen",
-      "count": 10
+      "count": 45
+    },
+    {
+      "occasion": "sporting_event",
+      "count": 3
     },
     {
       "occasion": "graduation_season",
       "count": 2
     }
   ],
-  "evergreen_content_ratio": 0.833,
+  "evergreen_content_ratio": 0.9,
   "top_phrases": [
     "ليلة حسم الدوري",
     "الدوري الملحمي",
@@ -69,10 +75,10 @@
   "compliance_flags": {
     "hard_block_types": [],
     "soft_flag_types": [
-      "pure_engagement_bait_mechanic",
-      "pure_price_product_no_cultural_storytelling",
       "product_name_uses_English_loanwords_Grand_Special",
-      "western_toy_collectible_mechanic_no_Saudi_cultural_dimension",
+      "western_collab_no_saudi_frame",
+      "global_occasion_activation_no_Saudi_cultural_framing",
+      "no_food_product",
       "Coca_Cola_foreign_brand_co_branding_prominent"
     ]
   },
@@ -94,34 +100,35 @@
       "name": "Close-Up Macro Texture"
     },
     {
-      "slug": "classical_arabic_warmth",
-      "name": "Classical Arabic Warmth (Heritage Register)"
+      "slug": "customer_voice_ugc",
+      "name": "Customer Voice UGC"
     }
   ],
   "visual_fingerprint": {
-    "dominant_setting": "digital_graphic",
+    "dominant_setting": "studio",
     "dominant_media_type": "image",
-    "dominant_color_family": "amber_gold",
-    "dominant_lighting": "cold_studio",
-    "dominant_composition": "product_hero_closeup",
-    "character_presence_rate": 0.25,
+    "dominant_color_family": "warm_red",
+    "dominant_lighting": "artificial",
+    "dominant_composition": "graphic_text",
+    "character_presence_rate": 0.06,
     "setting_distribution": {
+      "studio": 19,
+      "graphic": 15,
       "digital_graphic": 5,
-      "studio": 4,
-      "event_venue": 2,
-      "restaurant_indoor": 1
+      "restaurant_interior": 2,
+      "event_venue": 1
     },
     "media_type_distribution": {
-      "image": 6,
-      "video": 5,
-      "carousel_slide": 1
+      "image": 34,
+      "video": 12,
+      "carousel_slide": 4
     },
     "color_family_distribution": {
-      "amber_gold": 12,
-      "white_light": 11,
-      "warm_red": 9,
-      "black_dark": 5,
-      "green": 3
+      "warm_red": 45,
+      "white_light": 40,
+      "amber_gold": 38,
+      "other": 10,
+      "blue": 7
     }
   }
 }

@@ -2,59 +2,71 @@
   "account": "OGZ-F-AND-B-Reference-038",
   "sector": "f_and_b",
   "archetype": "Modern Premium",
-  "obs_count": 12,
-  "health_score": 0.652,
-  "health_grade": "B",
-  "compliance_risk_grade": "orange",
-  "compliance_risk_score": 17,
+  "obs_count": 50,
+  "health_score": 0.634,
+  "health_grade": "C",
+  "compliance_risk_grade": "red",
+  "compliance_risk_score": 45,
   "voice_fingerprint": "formal/cool/playful/modern",
-  "dominant_dialect": "colloquial_arabic",
+  "dominant_dialect": "saudi_colloquial",
   "dominant_register": "casual",
-  "dominant_tone": "excited",
+  "dominant_tone": "transactional",
   "heritage_vs_modern_split": {
-    "other": 1.0
+    "modern": 1.0
   },
-  "avg_hospitality_cues_per_post": 0.0,
+  "avg_hospitality_cues_per_post": 0.04,
   "engagement_profile": {
-    "avg_score": 0.292,
+    "avg_score": 0.24,
     "high_rate": 0.0,
-    "medium_rate": 0.583,
-    "low_rate": 0.417
+    "medium_rate": 0.48,
+    "low_rate": 0.52
   },
   "top_5_patterns": [
     {
-      "slug": "product_hero",
-      "name": "Product Hero Static",
-      "obs_count": 3
+      "slug": "discount_price_dominant",
+      "name": "discount_price_dominant",
+      "obs_count": 18
     },
     {
-      "slug": "seasonal_collection_drop",
-      "name": "Seasonal Collection Drop",
-      "obs_count": 3
+      "slug": "product_hero",
+      "name": "Product Hero Static",
+      "obs_count": 7
     },
     {
       "slug": "close_up_macro_texture",
       "name": "Close-Up Macro Texture",
-      "obs_count": 3
+      "obs_count": 6
     },
     {
-      "slug": "invitation_to_witness",
-      "name": "Invitation to Witness",
-      "obs_count": 1
+      "slug": "seasonal_collection_drop",
+      "name": "Seasonal Collection Drop",
+      "obs_count": 5
     },
     {
-      "slug": "split_screen_before_after",
-      "name": "Split-Screen Before / After",
-      "obs_count": 1
+      "slug": "educational_explainer",
+      "name": "Educational Explainer Carousel",
+      "obs_count": 4
     }
   ],
   "top_occasions": [
     {
       "occasion": "evergreen",
-      "count": 12
+      "count": 46
+    },
+    {
+      "occasion": "ramadan",
+      "count": 2
+    },
+    {
+      "occasion": "eid_al_fitr",
+      "count": 1
+    },
+    {
+      "occasion": "saudi_flag_day",
+      "count": 1
     }
   ],
-  "evergreen_content_ratio": 1.0,
+  "evergreen_content_ratio": 0.92,
   "top_phrases": [
     "مو أي جديد",
     "طيّب أوقاتك",
@@ -65,11 +77,11 @@
   "compliance_flags": {
     "hard_block_types": [],
     "soft_flag_types": [
+      "discount_dominant_no_cultural_warmth",
+      "western_social_activation_mechanic",
+      "colloquial_tease_without_hospitality_frame",
       "western_Gen_Z_vs_Millennial_meme_format_applied_to_Saudi",
-      "Italian_origin_as_premium",
-      "generic_lifestyle_tagline_not_Saudi_identity",
-      "no_Saudi_cultural_identity",
-      "gaming_pixel_aesthetic_irrelevant_to_Saudi_food_culture"
+      "no_Saudi_cultural_launch_framing"
     ]
   },
   "differentiation_gaps": [
@@ -90,8 +102,8 @@
       "name": "Behind The Craft Process"
     },
     {
-      "slug": "classical_arabic_warmth",
-      "name": "Classical Arabic Warmth (Heritage Register)"
+      "slug": "customer_voice_ugc",
+      "name": "Customer Voice UGC"
     }
   ],
   "visual_fingerprint": {
@@ -99,23 +111,26 @@
     "dominant_media_type": "image",
     "dominant_color_family": "warm_red",
     "dominant_lighting": "cold_studio",
-    "dominant_composition": "product_hero_closeup",
-    "character_presence_rate": 0.25,
+    "dominant_composition": "product_hero",
+    "character_presence_rate": 0.06,
     "setting_distribution": {
-      "studio": 8,
-      "restaurant_indoor": 4
+      "studio": 40,
+      "restaurant interior": 5,
+      "transparent checkerboard background": 1,
+      "dark checkerboard mosaic background": 1,
+      "dark checkerboard background": 1
     },
     "media_type_distribution": {
-      "image": 8,
-      "video": 3,
-      "carousel_slide": 1
+      "image": 21,
+      "video": 16,
+      "carousel_slide": 13
     },
     "color_family_distribution": {
-      "warm_red": 12,
-      "white_light": 11,
-      "neutral_warm": 5,
-      "other": 4,
-      "black_dark": 3
+      "warm_red": 50,
+      "white_light": 47,
+      "neutral_warm": 31,
+      "other": 12,
+      "brown_earth": 4
     }
   }
 }

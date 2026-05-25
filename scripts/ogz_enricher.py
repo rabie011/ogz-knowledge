@@ -128,17 +128,30 @@ def _run(cmd: list[str], timeout: int = 600) -> tuple[int, str, str]:
     return result.returncode, result.stdout or "", result.stderr or ""
 
 
-# ── Helper: count obs for handle ──────────────────────────────────────────────
-def count_obs_for_handle(handle: str) -> int:
-    count = 0
+# ── Helper: count obs per content-type bucket for handle ──────────────────────
+def count_obs_by_type_for_handle(handle: str) -> dict:
+    """Return {"image": N, "video": N, "carousel": N} for this handle."""
+    counts = {"image": 0, "video": 0, "carousel": 0}
     for f in OBS_ROOT.rglob("*.json"):
         try:
             d = json.loads(f.read_text())
-            if d.get("account_handle_normalized", "").lower() == handle.lower():
-                count += 1
+            if d.get("account_handle_normalized", "").lower() != handle.lower():
+                continue
+            ct = (d.get("content_ref") or {}).get("content_type", "")
+            if ct in ("video", "reel"):
+                counts["video"] += 1
+            elif ct == "carousel_slide":
+                counts["carousel"] += 1
+            else:
+                counts["image"] += 1
         except Exception:
             pass
-    return count
+    return counts
+
+
+def is_quota_met(handle: str, quota: dict) -> bool:
+    counts = count_obs_by_type_for_handle(handle)
+    return all(counts.get(k, 0) >= v for k, v in quota.items())
 
 
 def count_missing_captions() -> int:
@@ -181,18 +194,21 @@ def module_extract_accounts() -> int:
     except Exception:
         return 0
 
-    # Find accounts to extract: pending or below target
+    DEFAULT_QUOTA = {"image": 50, "video": 50, "carousel": 25}
+
+    # Find accounts that need extraction: pending OR any type below quota
     to_extract = []
     for a in targets:
         if a.get("handle") == "cafe.najd":
             continue  # CONFIRMED FAKE — never extract
         status = a.get("status", "")
-        actual = int(a.get("obs_count_actual") or 0)
-        target = int(a.get("target_obs") or 50)
-        if status == "pending" or (status in ("partial",) and actual < target):
+        handle = a.get("handle", "")
+        quota  = a.get("quota", DEFAULT_QUOTA)
+        if status == "pending" or (status == "partial" and not is_quota_met(handle, quota)):
             to_extract.append(a)
 
     if not to_extract:
+        log.info("  All accounts meet quota — nothing to extract")
         return 0
 
     # Check Apify token is set
@@ -204,26 +220,32 @@ def module_extract_accounts() -> int:
     for acct in to_extract[:MAX_ACCOUNTS_PER_CYCLE]:
         handle = acct["handle"]
         sector = acct.get("sector", "f_and_b")
-        limit  = int(acct.get("target_obs") or 50)
-        log.info(f"  Extracting @{handle} ({sector}, limit={limit})")
+        quota  = acct.get("quota", DEFAULT_QUOTA)
+        log.info(
+            f"  Extracting @{handle} ({sector}) | "
+            f"quota img={quota['image']} vid={quota['video']} car={quota['carousel']}"
+        )
 
         rc, stdout, stderr = _run([
             sys.executable, "scripts/extract_account_obs.py",
             "--handle", handle,
             "--sector", sector,
-            "--limit", str(limit),
-        ], timeout=900)
+        ], timeout=1200)  # longer timeout — fetches up to 3× quota posts from Apify
 
         m = re.search(r"Extracted (\d+) observations", stdout)
         n = int(m.group(1)) if m else 0
 
+        # Also log per-type breakdown if present
+        m2 = re.search(r"image=(\d+)\s+video=(\d+)\s+carousel=(\d+)", stdout)
+        breakdown = f" (img={m2.group(1)} vid={m2.group(2)} car={m2.group(3)})" if m2 else ""
+
         if rc == 0:
             total_written += n
-            log.info(f"    ✅ @{handle}: {n} obs written")
+            log.info(f"    ✅ @{handle}: {n} obs written{breakdown}")
         else:
             log.warning(f"    ⚠ @{handle} extraction failed (rc={rc})")
             if stderr:
-                log.warning(f"       {stderr[:200]}")
+                log.warning(f"       {stderr[:300]}")
 
     return total_written
 

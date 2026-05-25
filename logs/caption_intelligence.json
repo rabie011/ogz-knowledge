@@ -2,26 +2,10 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 636,
-  "obs_with_caption": 385,
+  "total_obs": 958,
+  "obs_with_caption": 707,
   "obs_without_caption": 251,
   "caption_length_table": [
-    {
-      "caption_length_bucket": "very_long_75plus",
-      "count": 15,
-      "high_engagement_rate": 0.667,
-      "avg_engagement": 0.767,
-      "lift_vs_baseline": 0.127,
-      "top_sector": "f_and_b"
-    },
-    {
-      "caption_length_bucket": "medium_11_30",
-      "count": 172,
-      "high_engagement_rate": 0.401,
-      "avg_engagement": 0.622,
-      "lift_vs_baseline": -0.139,
-      "top_sector": "f_and_b"
-    },
     {
       "caption_length_bucket": "empty",
       "count": 16,
@@ -31,36 +15,45 @@
       "top_sector": "f_and_b"
     },
     {
+      "caption_length_bucket": "very_long_75plus",
+      "count": 83,
+      "high_engagement_rate": 0.373,
+      "avg_engagement": 0.578,
+      "lift_vs_baseline": -0.167,
+      "top_sector": "f_and_b"
+    },
+    {
+      "caption_length_bucket": "medium_11_30",
+      "count": 292,
+      "high_engagement_rate": 0.363,
+      "avg_engagement": 0.572,
+      "lift_vs_baseline": -0.177,
+      "top_sector": "f_and_b"
+    },
+    {
       "caption_length_bucket": "long_31_75",
-      "count": 123,
-      "high_engagement_rate": 0.366,
-      "avg_engagement": 0.622,
-      "lift_vs_baseline": -0.174,
-      "top_sector": "beauty"
+      "count": 196,
+      "high_engagement_rate": 0.306,
+      "avg_engagement": 0.554,
+      "lift_vs_baseline": -0.234,
+      "top_sector": "f_and_b"
     },
     {
       "caption_length_bucket": "short_1_10",
-      "count": 59,
-      "high_engagement_rate": 0.322,
-      "avg_engagement": 0.568,
-      "lift_vs_baseline": -0.218,
+      "count": 120,
+      "high_engagement_rate": 0.233,
+      "avg_engagement": 0.471,
+      "lift_vs_baseline": -0.307,
       "top_sector": "f_and_b"
     }
   ],
   "hashtag_count_table": [
     {
       "hashtag_count_bucket": "1_5",
-      "count": 185,
-      "high_engagement_rate": 0.438,
-      "avg_engagement": 0.63,
-      "lift_vs_baseline": -0.102
-    },
-    {
-      "hashtag_count_bucket": "0",
-      "count": 140,
-      "high_engagement_rate": 0.386,
-      "avg_engagement": 0.643,
-      "lift_vs_baseline": -0.154
+      "count": 367,
+      "high_engagement_rate": 0.376,
+      "avg_engagement": 0.579,
+      "lift_vs_baseline": -0.164
     },
     {
       "hashtag_count_bucket": "6_15",
@@ -68,6 +61,13 @@
       "high_engagement_rate": 0.346,
       "avg_engagement": 0.577,
       "lift_vs_baseline": -0.194
+    },
+    {
+      "hashtag_count_bucket": "0",
+      "count": 280,
+      "high_engagement_rate": 0.282,
+      "avg_engagement": 0.52,
+      "lift_vs_baseline": -0.258
     },
     {
       "hashtag_count_bucket": "16plus",
@@ -80,17 +80,17 @@
   "emoji_presence_table": [
     {
       "emoji_presence": "has_emoji",
-      "count": 331,
-      "high_engagement_rate": 0.393,
-      "avg_engagement": 0.616,
-      "lift_vs_baseline": -0.147
+      "count": 626,
+      "high_engagement_rate": 0.332,
+      "avg_engagement": 0.551,
+      "lift_vs_baseline": -0.208
     },
     {
       "emoji_presence": "no_emoji",
-      "count": 54,
-      "high_engagement_rate": 0.352,
-      "avg_engagement": 0.62,
-      "lift_vs_baseline": -0.188
+      "count": 81,
+      "high_engagement_rate": 0.284,
+      "avg_engagement": 0.543,
+      "lift_vs_baseline": -0.256
     }
   ],
   "caption_language_table": [
@@ -104,63 +104,78 @@
     },
     {
       "caption_language": "arabic",
-      "count": 196,
-      "high_engagement_rate": 0.464,
-      "avg_engagement": 0.666,
-      "lift_vs_baseline": -0.076,
+      "count": 342,
+      "high_engagement_rate": 0.386,
+      "avg_engagement": 0.594,
+      "lift_vs_baseline": -0.154,
       "top_sector": "f_and_b"
     },
     {
       "caption_language": "bilingual",
-      "count": 186,
-      "high_engagement_rate": 0.306,
-      "avg_engagement": 0.565,
-      "lift_vs_baseline": -0.234,
-      "top_sector": "beauty"
+      "count": 263,
+      "high_engagement_rate": 0.293,
+      "avg_engagement": 0.536,
+      "lift_vs_baseline": -0.247,
+      "top_sector": "f_and_b"
     },
     {
       "caption_language": "english",
-      "count": 2,
+      "count": 100,
+      "high_engagement_rate": 0.21,
+      "avg_engagement": 0.435,
+      "lift_vs_baseline": -0.33,
+      "top_sector": "f_and_b"
+    },
+    {
+      "caption_language": "other",
+      "count": 1,
       "high_engagement_rate": 0.0,
       "avg_engagement": 0.5,
       "lift_vs_baseline": -0.54,
-      "top_sector": "beauty"
+      "top_sector": "f_and_b"
     }
   ],
   "caption_open_style_table": [
     {
       "caption_open_style": "statement_open",
-      "count": 328,
-      "high_engagement_rate": 0.393,
-      "avg_engagement": 0.622,
-      "lift_vs_baseline": -0.147
+      "count": 586,
+      "high_engagement_rate": 0.329,
+      "avg_engagement": 0.549,
+      "lift_vs_baseline": -0.211
     },
     {
       "caption_open_style": "question_open",
-      "count": 57,
-      "high_engagement_rate": 0.351,
-      "avg_engagement": 0.588,
-      "lift_vs_baseline": -0.189
+      "count": 121,
+      "high_engagement_rate": 0.314,
+      "avg_engagement": 0.558,
+      "lift_vs_baseline": -0.226
     }
   ],
   "language_by_sector": [
     {
       "language": "arabic",
       "sector": "f_and_b",
-      "count": 195,
-      "high_eng_rate": 0.467,
-      "lift": -0.073
+      "count": 341,
+      "high_eng_rate": 0.387,
+      "lift": -0.153
     },
     {
       "language": "bilingual",
       "sector": "f_and_b",
-      "count": 88,
-      "high_eng_rate": 0.409,
-      "lift": -0.131
+      "count": 165,
+      "high_eng_rate": 0.339,
+      "lift": -0.201
     },
     {
       "language": "bilingual",
       "sector": "beauty",
+      "count": 98,
+      "high_eng_rate": 0.214,
+      "lift": -0.326
+    },
+    {
+      "language": "english",
+      "sector": "f_and_b",
       "count": 98,
       "high_eng_rate": 0.214,
       "lift": -0.326
@@ -177,34 +192,34 @@
     {
       "language": "arabic",
       "occasion": "founding_day",
-      "count": 6,
-      "high_eng_rate": 0.833,
-      "lift": 0.293
+      "count": 7,
+      "high_eng_rate": 0.857,
+      "lift": 0.317
     },
     {
       "language": "arabic",
       "occasion": "national_day",
-      "count": 3,
+      "count": 6,
       "high_eng_rate": 0.667,
       "lift": 0.127
     },
     {
-      "language": "bilingual",
-      "occasion": "national_day",
-      "count": 4,
-      "high_eng_rate": 0.5,
-      "lift": -0.04
-    },
-    {
       "language": "arabic",
-      "occasion": "eid_al_fitr",
-      "count": 4,
-      "high_eng_rate": 0.5,
-      "lift": -0.04
+      "occasion": "seasonal",
+      "count": 27,
+      "high_eng_rate": 0.481,
+      "lift": -0.059
     },
     {
       "language": "arabic",
       "occasion": "ramadan",
+      "count": 17,
+      "high_eng_rate": 0.471,
+      "lift": -0.069
+    },
+    {
+      "language": "bilingual",
+      "occasion": "national_day",
       "count": 9,
       "high_eng_rate": 0.444,
       "lift": -0.096
@@ -212,9 +227,23 @@
     {
       "language": "arabic",
       "occasion": "evergreen",
-      "count": 159,
-      "high_eng_rate": 0.434,
-      "lift": -0.106
+      "count": 174,
+      "high_eng_rate": 0.408,
+      "lift": -0.132
+    },
+    {
+      "language": "bilingual",
+      "occasion": "seasonal",
+      "count": 16,
+      "high_eng_rate": 0.375,
+      "lift": -0.165
+    },
+    {
+      "language": "arabic",
+      "occasion": "eid_al_adha",
+      "count": 8,
+      "high_eng_rate": 0.375,
+      "lift": -0.165
     },
     {
       "language": "bilingual",
@@ -231,18 +260,67 @@
       "lift": -0.207
     },
     {
+      "language": "english",
+      "occasion": "seasonal",
+      "count": 55,
+      "high_eng_rate": 0.309,
+      "lift": -0.231
+    },
+    {
       "language": "bilingual",
       "occasion": "evergreen",
-      "count": 152,
-      "high_eng_rate": 0.303,
-      "lift": -0.237
+      "count": 160,
+      "high_eng_rate": 0.294,
+      "lift": -0.246
+    },
+    {
+      "language": "arabic",
+      "occasion": "eid_al_fitr",
+      "count": 11,
+      "high_eng_rate": 0.273,
+      "lift": -0.267
+    },
+    {
+      "language": "bilingual",
+      "occasion": "general",
+      "count": 38,
+      "high_eng_rate": 0.237,
+      "lift": -0.303
+    },
+    {
+      "language": "arabic",
+      "occasion": "general",
+      "count": 79,
+      "high_eng_rate": 0.203,
+      "lift": -0.337
     },
     {
       "language": "bilingual",
       "occasion": "ramadan",
-      "count": 4,
-      "high_eng_rate": 0.25,
-      "lift": -0.29
+      "count": 5,
+      "high_eng_rate": 0.2,
+      "lift": -0.34
+    },
+    {
+      "language": "bilingual",
+      "occasion": "eid_al_fitr",
+      "count": 6,
+      "high_eng_rate": 0.167,
+      "lift": -0.373
+    },
+    {
+      "language": "english",
+      "occasion": "general",
+      "count": 26,
+      "high_eng_rate": 0.115,
+      "lift": -0.425
+    },
+    {
+      "language": "english",
+      "occasion": "evergreen",
+      "count": 19,
+      "high_eng_rate": 0.053,
+      "lift": -0.487
     },
     {
       "language": "bilingual",
@@ -260,15 +338,15 @@
     }
   ],
   "key_findings": [
-    "Best caption length: 'very_long_75plus' = 66% high-eng (+12pp vs baseline)",
-    "Worst caption length: 'short_1_10' = 32%",
-    "Best hashtag count: '1_5' = 43%",
-    "Emoji NEUTRAL: with=39% vs without=35% (+4pp)",
+    "Best caption length: 'empty' = 37% high-eng (-16pp vs baseline)",
+    "Worst caption length: 'short_1_10' = 23%",
+    "Best hashtag count: '1_5' = 37%",
+    "Emoji NEUTRAL: with=33% vs without=28% (+4pp)",
     "Best caption language: 'empty' = 100% (n=1)",
-    "Question-open captions: 35% vs statement-open: 39% (-4pp)"
+    "Question-open captions: 31% vs statement-open: 32% (-1pp)"
   ],
   "agency_rules": [
-    "Target caption length: 'very_long_75plus' — highest engagement bucket",
+    "Target caption length: 'empty' — highest engagement bucket",
     "Optimal hashtag count: 1_5 — top performer",
     "Use emoji in captions — they lift engagement",
     "Default caption language: 'empty' (100% high-eng)"

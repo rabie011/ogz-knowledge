@@ -112,13 +112,12 @@ def extract_via_apify(handle: str, limit: int) -> list[dict]:
     client = ApifyClient(apify_token)
     run = client.actor(APIFY_ACTOR).call(
         run_input={
-            "directUrls": [f"https://www.instagram.com/{handle}/"],
-            "resultsType": "posts",
+            "username": [handle],
             "resultsLimit": limit,
             "addParentData": False,
         }
     )
-    posts = list(client.dataset(run["defaultDatasetId"]).iterate_items())
+    posts = list(client.dataset(run.default_dataset_id).iterate_items())
     print(f"  Apify returned {len(posts)} posts", flush=True)
     return posts
 
@@ -230,7 +229,8 @@ def classify_batch(raw_posts: list[dict], client: anthropic.Anthropic) -> dict[s
 
 # ── Write observation JSON ─────────────────────────────────────────────────────
 def _get_or_create_account_ulid(handle: str) -> str:
-    """Look up or create account ULID from accounts_index.json."""
+    """Look up account ULID: checks accounts_index.json first, then existing accounts/ JSON files."""
+    # 1. Check fast-path index
     index = {}
     if ACCOUNTS_INDEX.exists():
         try:
@@ -239,6 +239,26 @@ def _get_or_create_account_ulid(handle: str) -> str:
             pass
     if handle in index:
         return index[handle]
+
+    # 2. Search existing account JSON files for a matching handle
+    accounts_dir = BASE / "11_who_to_learn_from" / "accounts"
+    for acct_file in accounts_dir.rglob("*.json"):
+        try:
+            d = json.loads(acct_file.read_text())
+            # Match on account_handle_normalized (e.g. "kuduksa") or handle field
+            handle_norm = d.get("account_handle_normalized", "")
+            handle_raw  = d.get("handle", "")
+            if handle in (handle_norm, handle_raw, handle_norm.lower(), handle_raw.lower()):
+                existing_ulid = d.get("account_ulid", "")
+                if existing_ulid:
+                    index[handle] = existing_ulid
+                    ACCOUNTS_INDEX.parent.mkdir(parents=True, exist_ok=True)
+                    ACCOUNTS_INDEX.write_text(json.dumps(index, ensure_ascii=False, indent=2))
+                    return existing_ulid
+        except Exception:
+            continue
+
+    # 3. Create new ULID
     new_ulid = str(ULID())
     index[handle] = new_ulid
     ACCOUNTS_INDEX.parent.mkdir(parents=True, exist_ok=True)
@@ -278,10 +298,19 @@ def write_observation(raw: dict, cls: dict, account_ulid: str) -> Path:
 
     # Pattern matches
     pattern_matches = [
-        {"pattern_slug": slug, "confidence": "inferred"}
+        {"pattern_slug": slug, "confidence": "moderate"}
         for slug in (cls.get("pattern_slugs") or [])
         if isinstance(slug, str) and slug.strip()
     ]
+
+    # human_presence: schema expects boolean/null
+    hp_raw = cls.get("human_presence", "none")
+    if hp_raw in ("full", "partial"):
+        human_presence = True
+    elif hp_raw == "none":
+        human_presence = False
+    else:
+        human_presence = None
 
     obs = {
         "observation_ulid": obs_ulid,
@@ -298,45 +327,46 @@ def write_observation(raw: dict, cls: dict, account_ulid: str) -> Path:
         },
         "visual_observations": {
             "composition_style": cls.get("composition_style", ""),
-            "lighting_quality": "",
-            "color_palette_dominant": "",
+            "lighting": "",
+            "color_palette_dominant": [],
             "visual_complexity": cls.get("visual_complexity", "moderate"),
-            "human_presence": cls.get("human_presence", "none"),
-            "brand_visibility": "present",
+            "human_presence": human_presence,
             "setting": "",
-            "heritage_vs_modern": cls.get("heritage_vs_modern", "neutral"),
         },
         "voice_observations": {
             "caption_text": raw["caption_text"],
-            "caption_language": lang,
-            "word_count": raw["word_count"],
+            "language": lang,
+            "caption_word_count": raw["word_count"],
             "hashtag_count": raw["hashtag_count"],
             "has_emoji": raw["has_emoji"],
             "tone": cls.get("tone", "informative"),
         },
         "compliance_check": {
+            "hard_blocks_triggered": [],
+            "soft_flags": [
+                {"flag_type": f, "description": f.replace("_", " ")} if isinstance(f, str)
+                else f
+                for f in (cls.get("compliance_flags") or [])
+            ],
             "overall_compliance": compliance,
-            "compliance_flags": cls.get("compliance_flags") or [],
-            "reviewable_elements": [],
         },
         "cultural_notes": {
-            "occasion": cls.get("occasion"),
+            "occasion_relevance": cls.get("occasion") or None,
             "hospitality_cues": [],
-            "heritage_signals": [],
-            "cultural_sensitivity": "standard",
+            "heritage_vs_modern": cls.get("heritage_vs_modern", "neutral") if cls.get("heritage_vs_modern") in ("heritage", "modern", "blended", "neutral") else "neutral",
+            "free_notes": "",
         },
         "pattern_matches": pattern_matches,
         "quality_assessment": {
             "engagement_potential": eng,
             "production_quality": pq,
-            "creative_risk_level": "moderate",
         },
         "provenance": {
             "source": "apify_instagram_scraper",
             "date_added": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "confirmer": "claude_haiku_batch_classification",
             "confidence": "inferred",
-            "scope": f"account:{handle}",
+            "scope": f"brand:{re.sub(r'[^a-z0-9_]', '_', handle.lower())}",
         },
     }
 
@@ -345,24 +375,85 @@ def write_observation(raw: dict, cls: dict, account_ulid: str) -> Path:
     return out
 
 
+# ── Quota helpers ──────────────────────────────────────────────────────────────
+DEFAULT_QUOTA = {"image": 50, "video": 50, "carousel": 25}
+
+def _ct_to_quota_key(content_type: str) -> str:
+    """Map content_type → quota bucket key."""
+    if content_type in ("video", "reel"):
+        return "video"
+    if content_type == "carousel_slide":
+        return "carousel"
+    return "image"  # image, story, unknown → image bucket
+
+
+def count_existing_by_type(handle: str) -> dict:
+    """Count existing obs for this handle, bucketed by quota key."""
+    counts = {"image": 0, "video": 0, "carousel": 0}
+    for f in OBS_ROOT.rglob("*.json"):
+        try:
+            d = json.loads(f.read_text())
+            if d.get("account_handle_normalized", "").lower() != handle.lower():
+                continue
+            ct = d.get("content_ref", {}).get("content_type", "")
+            key = _ct_to_quota_key(ct)
+            counts[key] += 1
+        except Exception:
+            pass
+    return counts
+
+
+def _load_quota_for_handle(handle: str) -> dict:
+    """Load per-account quota from target_accounts.json, or return default."""
+    try:
+        data = json.loads(TARGET_ACCOUNTS_FILE.read_text())
+        for a in data.get("accounts", []):
+            if a.get("handle", "").lower() == handle.lower():
+                return a.get("quota", DEFAULT_QUOTA)
+    except Exception:
+        pass
+    return DEFAULT_QUOTA
+
+
 # ── Update target_accounts.json status ────────────────────────────────────────
-def _update_target_status(handle: str, obs_count: int):
+def _update_target_status(handle: str, written_by_type: dict, quota: dict):
     if not TARGET_ACCOUNTS_FILE.exists():
         return
     try:
         data = json.loads(TARGET_ACCOUNTS_FILE.read_text())
         for acct in data.get("accounts", []):
-            if acct.get("handle") == handle:
-                acct["obs_count_actual"] = obs_count
-                if obs_count >= acct.get("target_obs", 50):
-                    acct["status"] = "done"
-                else:
-                    acct["status"] = "partial"
-                break
+            if acct.get("handle", "").lower() != handle.lower():
+                continue
+            # Recount current totals from disk (includes newly written)
+            current = count_existing_by_type(handle)
+            total = sum(current.values())
+            acct["obs_count_actual"] = total
+            acct["obs_by_type"] = current
+            # Done only if every type meets its quota
+            quota_met = all(current.get(k, 0) >= v for k, v in quota.items())
+            acct["status"] = "done" if quota_met else "partial"
+            break
         data["updated_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         TARGET_ACCOUNTS_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2))
     except Exception as e:
         print(f"  ⚠ Could not update target_accounts.json: {e}")
+
+
+# ── Dedup: skip posts already in observations ──────────────────────────────────
+def _load_existing_source_urls(handle: str) -> set:
+    """Return set of source_urls already written for this handle."""
+    urls = set()
+    for f in OBS_ROOT.rglob("*.json"):
+        try:
+            d = json.loads(f.read_text())
+            if d.get("account_handle_normalized", "").lower() != handle.lower():
+                continue
+            url = d.get("content_ref", {}).get("source_url", "")
+            if url:
+                urls.add(url)
+        except Exception:
+            pass
+    return urls
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────
@@ -371,22 +462,46 @@ def main():
     parser = argparse.ArgumentParser(description="Extract Saudi Instagram account observations")
     parser.add_argument("--handle",  required=True, help="Instagram handle (without @)")
     parser.add_argument("--sector",  required=True, help="Sector: f_and_b | beauty | retail | real_estate")
-    parser.add_argument("--limit",   type=int, default=50, help="Max posts to extract")
+    parser.add_argument("--quota-image",    type=int, default=None, help="Target image count (default: from target_accounts.json)")
+    parser.add_argument("--quota-video",    type=int, default=None, help="Target video/reel count")
+    parser.add_argument("--quota-carousel", type=int, default=None, help="Target carousel count")
     parser.add_argument("--dry-run", action="store_true", help="Download only, no file writes")
     args = parser.parse_args()
 
     handle  = args.handle.lower().lstrip("@")
     sector  = args.sector.lower()
-    limit   = args.limit
     dry_run = args.dry_run
 
+    # Load quota (CLI overrides file)
+    quota = _load_quota_for_handle(handle)
+    if args.quota_image    is not None: quota["image"]    = args.quota_image
+    if args.quota_video    is not None: quota["video"]    = args.quota_video
+    if args.quota_carousel is not None: quota["carousel"] = args.quota_carousel
+
     print(f"\n{'='*60}")
-    print(f"  Extracting @{handle} | sector={sector} | limit={limit}")
+    print(f"  Extracting @{handle} | sector={sector}")
+    print(f"  Quota: image={quota['image']}  video={quota['video']}  carousel={quota['carousel']}")
     print(f"{'='*60}\n")
 
-    # 1. Pull from Apify
+    # 1. Count what we already have
+    existing = count_existing_by_type(handle)
+    needed = {k: max(0, quota[k] - existing.get(k, 0)) for k in quota}
+    print(f"  Existing: image={existing['image']}  video={existing['video']}  carousel={existing['carousel']}")
+    print(f"  Needed:   image={needed['image']}  video={needed['video']}  carousel={needed['carousel']}")
+
+    if sum(needed.values()) == 0:
+        print(f"  ✅ @{handle} already meets quota — nothing to extract.")
+        _update_target_status(handle, {}, quota)
+        sys.exit(0)
+
+    # 2. Already-seen URLs (dedup)
+    seen_urls = _load_existing_source_urls(handle)
+    print(f"  Dedup: {len(seen_urls)} existing source URLs loaded")
+
+    # 3. Pull from Apify — request 3× needed (buffer for type distribution)
+    apify_limit = max(150, sum(needed.values()) * 3)
     try:
-        apify_posts = extract_via_apify(handle, limit)
+        apify_posts = extract_via_apify(handle, apify_limit)
     except RuntimeError as e:
         print(f"❌ Apify error: {e}")
         sys.exit(1)
@@ -395,17 +510,31 @@ def main():
         print("❌ No posts returned from Apify.")
         sys.exit(1)
 
-    # 2. Map to raw obs dicts
-    raw_posts = [_map_apify_post(p, handle, sector) for p in apify_posts]
-    print(f"  Mapped {len(raw_posts)} posts to raw obs format")
+    # 4. Map → raw obs, skip already seen
+    raw_posts = []
+    dupes = 0
+    for p in apify_posts:
+        raw = _map_apify_post(p, handle, sector)
+        if raw["source_url"] in seen_urls:
+            dupes += 1
+            continue
+        raw_posts.append(raw)
+
+    print(f"  Mapped {len(raw_posts)} new posts ({dupes} dupes skipped)")
 
     if dry_run:
-        print("\nDRY RUN — sample of mapped posts:")
-        for p in raw_posts[:3]:
-            print(f"  {p['short_code']} | {p['content_type']} | {p['capture_date']} | caption={p['caption_text'][:60]!r}")
+        print("\nDRY RUN — sample of new posts:")
+        for p in raw_posts[:5]:
+            key = _ct_to_quota_key(p["content_type"])
+            print(f"  [{key}] {p['short_code']} | {p['content_type']} | {p['capture_date']} | {p['caption_text'][:50]!r}")
         return
 
-    # 3. Classify via Claude Batch API
+    if not raw_posts:
+        print("  No new posts after dedup.")
+        _update_target_status(handle, {}, quota)
+        sys.exit(0)
+
+    # 5. Classify via Claude Batch API
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     if not api_key:
         print("❌ ANTHROPIC_API_KEY not set.")
@@ -415,29 +544,37 @@ def main():
     classifications = classify_batch(raw_posts, client)
     print(f"  Classified {len(classifications)}/{len(raw_posts)} posts")
 
-    # 4. Write observation files
-    account_ulid = _get_or_create_account_ulid(handle)
-    written = 0
-    errors  = 0
+    # 6. Write — respect per-type quota
+    account_ulid  = _get_or_create_account_ulid(handle)
+    written_by_type = {"image": 0, "video": 0, "carousel": 0}
+    quota_remaining = dict(needed)
+    errors = 0
 
     for raw in raw_posts:
-        sc = raw["short_code"]
+        ct_key = _ct_to_quota_key(raw["content_type"])
+        if quota_remaining.get(ct_key, 0) <= 0:
+            continue  # this type is full
+        sc  = raw["short_code"]
         cls = classifications.get(sc, {})
-        if not cls:
-            print(f"  ⚠ No classification for {sc} — using defaults")
         try:
-            out = write_observation(raw, cls, account_ulid)
-            print(f"  ✅  {sc} → {out.relative_to(BASE)}")
-            written += 1
+            write_observation(raw, cls, account_ulid)
+            written_by_type[ct_key] += 1
+            quota_remaining[ct_key] -= 1
         except Exception as e:
             print(f"  ✗ {sc}: {e}")
             errors += 1
 
-    # 5. Update target_accounts.json
-    _update_target_status(handle, written)
+        # Stop early if all quotas met
+        if all(v <= 0 for v in quota_remaining.values()):
+            break
 
+    # 7. Update target_accounts.json
+    _update_target_status(handle, written_by_type, quota)
+
+    total_written = sum(written_by_type.values())
     print(f"\n{'='*60}")
-    print(f"Extracted {written} observations  |  Errors: {errors}")
+    print(f"Extracted {total_written} observations  |  Errors: {errors}")
+    print(f"  image={written_by_type['image']}  video={written_by_type['video']}  carousel={written_by_type['carousel']}")
     print(f"Account ULID: {account_ulid}")
     print(f"\nNext step: python3 scripts/validate_all.py")
 

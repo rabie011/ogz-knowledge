@@ -1,139 +1,213 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "description": "Mohamed's account watchlist. Daemon reads this every cycle. Add 'pending' accounts to trigger extraction.",
-  "note": "Requires APIFY_TOKEN in ~/.abraham_env for new account extraction.",
-  "updated_at": "2026-05-25T00:00:00Z",
+  "note": "Requires APIFY_TOKEN in ~/.abraham_env. quota = target per content type. status=partial means daemon will top-up.",
+  "default_quota": {
+    "image": 50,
+    "video": 50,
+    "carousel": 25
+  },
+  "updated_at": "2026-05-25T21:16:15Z",
   "accounts": [
     {
       "handle": "barnscoffee",
       "sector": "f_and_b",
       "sub_sector": "Cafe Chain",
-      "target_obs": 50,
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
       "status": "done",
-      "obs_count_actual": 50
+      "obs_count_actual": 125,
+      "obs_by_type": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      }
     },
     {
       "handle": "crumblcookiespr",
       "sector": "f_and_b",
       "sub_sector": "Bakery",
-      "target_obs": 50,
-      "status": "done",
-      "obs_count_actual": 50
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "partial",
+      "obs_count_actual": 97,
+      "obs_by_type": {
+        "image": 28,
+        "video": 50,
+        "carousel": 19
+      }
     },
     {
       "handle": "riyadhfood",
       "sector": "f_and_b",
       "sub_sector": "Food Media",
-      "target_obs": 50,
-      "status": "done",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "partial",
       "obs_count_actual": 50
     },
     {
       "handle": "altazaj_fakieh",
       "sector": "f_and_b",
       "sub_sector": "Fast Casual",
-      "target_obs": 50,
-      "status": "done",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "partial",
       "obs_count_actual": 50
     },
     {
       "handle": "albaik",
       "sector": "f_and_b",
       "sub_sector": "QSR",
-      "target_obs": 50,
-      "status": "done",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "partial",
       "obs_count_actual": 50
     },
     {
       "handle": "aseeb.najd",
       "sector": "f_and_b",
       "sub_sector": "Heritage F&B",
-      "target_obs": 50,
-      "status": "done",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "partial",
       "obs_count_actual": 50
     },
     {
       "handle": "pizzahutsaudi",
       "sector": "f_and_b",
       "sub_sector": "QSR",
-      "target_obs": 50,
-      "status": "done",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "partial",
       "obs_count_actual": 50
     },
     {
       "handle": "mcdonaldsksa",
       "sector": "f_and_b",
       "sub_sector": "QSR",
-      "target_obs": 50,
-      "status": "done",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "partial",
       "obs_count_actual": 50
     },
     {
       "handle": "asteribeautysa",
       "sector": "beauty_personal_care",
       "sub_sector": "Beauty Retail",
-      "target_obs": 50,
-      "status": "done",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "partial",
       "obs_count_actual": 50
     },
     {
       "handle": "prettynature.official",
       "sector": "beauty_personal_care",
       "sub_sector": "Skincare",
-      "target_obs": 50,
-      "status": "done",
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
+      "status": "partial",
       "obs_count_actual": 50
     },
     {
       "handle": "alromansiahksa",
       "sector": "f_and_b",
       "sub_sector": "Heritage F&B",
-      "target_obs": 50,
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
       "status": "partial",
-      "obs_count_actual": 31,
-      "blocked_reason": "Instagram auth wall — max 5-7 posts visible without login"
+      "obs_count_actual": 81
     },
     {
       "handle": "kuduksa",
       "sector": "f_and_b",
       "sub_sector": "Fast Casual",
-      "target_obs": 50,
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
       "status": "partial",
-      "obs_count_actual": 28,
-      "blocked_reason": "Instagram auth wall"
+      "obs_count_actual": 78
     },
     {
       "handle": "herfyfsc",
       "sector": "f_and_b",
       "sub_sector": "Fast Casual",
-      "target_obs": 50,
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
       "status": "partial",
-      "obs_count_actual": 27,
-      "blocked_reason": "Instagram auth wall"
+      "obs_count_actual": 27
     },
     {
       "handle": "shawarmersa",
       "sector": "f_and_b",
       "sub_sector": "QSR",
-      "target_obs": 50,
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
       "status": "partial",
-      "obs_count_actual": 25,
-      "blocked_reason": "Instagram auth wall"
+      "obs_count_actual": 25
     },
     {
       "handle": "aldeebajofficial",
       "sector": "retail_lifestyle",
       "sub_sector": "Fashion Retail",
-      "target_obs": 50,
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
       "status": "partial",
-      "obs_count_actual": 25,
-      "blocked_reason": "Instagram auth wall"
+      "obs_count_actual": 25
     },
     {
       "handle": "jarir",
       "sector": "retail_lifestyle",
       "sub_sector": "Electronics Retail",
-      "target_obs": 50,
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
       "status": "pending",
       "obs_count_actual": 0
     },
@@ -141,7 +215,11 @@
       "handle": "extra.ksa",
       "sector": "retail_lifestyle",
       "sub_sector": "Electronics Retail",
-      "target_obs": 50,
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
       "status": "pending",
       "obs_count_actual": 0
     },
@@ -149,7 +227,11 @@
       "handle": "roshnksa",
       "sector": "real_estate",
       "sub_sector": "Developer",
-      "target_obs": 50,
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
       "status": "pending",
       "obs_count_actual": 0
     },
@@ -157,7 +239,11 @@
       "handle": "nhcksa",
       "sector": "real_estate",
       "sub_sector": "Developer",
-      "target_obs": 50,
+      "quota": {
+        "image": 50,
+        "video": 50,
+        "carousel": 25
+      },
       "status": "pending",
       "obs_count_actual": 0
     }

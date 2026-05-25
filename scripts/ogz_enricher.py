@@ -306,7 +306,8 @@ def module_fill_patterns() -> int:
 
     rc, stdout, stderr = _run([
         sys.executable, "scripts/fill_missing_patterns.py",
-        "--batch", "10",
+        "--batch", "50",       # 50 slugs per API call
+        "--max-slugs", "200",  # cap per cycle: 4 API calls × ~90s = ~6 min < 10-min timeout
     ], timeout=600)
 
     m = re.search(r"Generated (\d+) pattern files", stdout)
@@ -341,9 +342,20 @@ def module_fill_chain_gaps() -> int:
     top_gap = gaps[0]["gap_id"]
     log.info(f"  Chain gap detected: {top_gap} — generating chains")
 
-    # For now, just log the gap. write_new_chain_families.py handles manual generation.
-    # When autonomous chain generation is implemented, call it here.
-    log.info(f"    ℹ Chain gap {top_gap} needs manual review — run write_new_chain_families.py")
+    # Generate new chain families to fill the gap
+    rc2, stdout2, stderr2 = _run(
+        [sys.executable, "scripts/write_new_chain_families.py"],
+        timeout=120,
+    )
+    m = re.search(r"Wrote (\d+) new chain", stdout2)
+    n = int(m.group(1)) if m else 0
+    if n > 0:
+        log.info(f"    ✅ Chains written: {n}")
+        return n
+    elif rc2 == 0:
+        log.info(f"    ℹ No new chains needed (all files already exist)")
+    else:
+        log.warning(f"    ⚠ Chain generation failed: {stderr2[:200]}")
     return 0
 
 

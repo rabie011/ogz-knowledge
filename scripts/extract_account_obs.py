@@ -2,10 +2,10 @@
 """
 extract_account_obs.py
 Download posts from an Instagram account via HikerAPI, classify them with
-Claude Batch API (Haiku 4.5), and write observation JSON files.
+OpenAI Batch API (GPT-4o-mini), and write observation JSON files.
 
 Requires:
-  - ANTHROPIC_API_KEY in ~/.abraham_env
+  - OPENAI_API_KEY in ~/.abraham_env
   - HIKERAPI_KEY in ~/.abraham_env  (get at hikerapi.com — $0.0006/request)
 
 Usage:
@@ -15,7 +15,7 @@ Usage:
 
 Cost per account (125 posts):
   HikerAPI:   ~$0.075  (125 × $0.0006)
-  Claude Batch: ~$0.015 (125 × 600 tokens × Haiku pricing)
+  OpenAI Batch: ~$0.009 (125 × 600 tokens × gpt-4o-mini pricing)
   Total:      ~$0.09 / account
 """
 import json
@@ -26,7 +26,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-import anthropic
+import openai
 import requests
 from ulid import ULID
 
@@ -301,56 +301,95 @@ def extract_via_hikerapi(
     return collected, profile_exhausted
 
 
-# ── Claude Batch classification ────────────────────────────────────────────────
-def classify_batch(raw_posts: list[dict], client: anthropic.Anthropic) -> dict[str, dict]:
-    """Submit batch classification job. Returns {short_code: classification_dict}."""
-    requests_list = []
-    for p in raw_posts:
-        requests_list.append({
-            "custom_id": p["short_code"],
-            "params": {
-                "model": "claude-haiku-4-5",
-                "max_tokens": 500,
-                "system": CLASSIFY_SYSTEM,
-                "messages": [{"role": "user", "content": _classify_prompt(
-                    p["caption_text"], p["content_type"], p["capture_date"],
-                    p["sector"], p["likes"], p["comments"],
-                )}],
-            },
-        })
+# ── OpenAI Batch classification ───────────────────────────────────────────────
+def classify_batch(raw_posts: list[dict]) -> dict[str, dict]:
+    """
+    Submit all posts to OpenAI Batch API (GPT-4o-mini) for classification.
+    Returns {short_code: classification_dict}.
+    Cost: ~$0.075/1000 input tokens + $0.30/1000 output tokens (batch pricing).
+    """
+    import tempfile, io
 
-    print(f"  Submitting {len(requests_list)} posts to Claude Batch API...", flush=True)
-    batch = client.messages.batches.create(requests=requests_list)
+    api_key = os.environ.get("OPENAI_API_KEY", "")
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY not set in ~/.abraham_env")
+
+    client = openai.OpenAI(api_key=api_key)
+
+    # Build JSONL batch file in memory
+    lines = []
+    for p in raw_posts:
+        lines.append(json.dumps({
+            "custom_id": p["short_code"],
+            "method": "POST",
+            "url": "/v1/chat/completions",
+            "body": {
+                "model": "gpt-4o-mini",
+                "max_tokens": 400,
+                "temperature": 0,
+                "messages": [
+                    {"role": "system", "content": CLASSIFY_SYSTEM},
+                    {"role": "user",   "content": _classify_prompt(
+                        p["caption_text"], p["content_type"], p["capture_date"],
+                        p["sector"], p["likes"], p["comments"],
+                    )},
+                ],
+                "response_format": {"type": "json_object"},
+            },
+        }))
+
+    jsonl_bytes = "\n".join(lines).encode("utf-8")
+    print(f"  Uploading {len(raw_posts)} posts to OpenAI Batch API...", flush=True)
+
+    # Upload JSONL file
+    batch_file = client.files.create(
+        file=("batch.jsonl", io.BytesIO(jsonl_bytes), "application/jsonl"),
+        purpose="batch",
+    )
+
+    # Create batch job
+    batch = client.batches.create(
+        input_file_id=batch_file.id,
+        endpoint="/v1/chat/completions",
+        completion_window="24h",
+    )
     batch_id = batch.id
     print(f"  Batch ID: {batch_id}", flush=True)
 
+    # Poll until complete
     while True:
-        batch = client.messages.batches.retrieve(batch_id)
-        status = batch.processing_status
-        counts = batch.request_counts
+        batch = client.batches.retrieve(batch_id)
+        status = batch.status
+        rc = batch.request_counts
         print(
             f"  Status: {status} | "
-            f"succeeded={counts.succeeded} errored={counts.errored} processing={counts.processing}",
+            f"completed={rc.completed} failed={rc.failed} total={rc.total}",
             flush=True,
         )
-        if status == "ended":
+        if status == "completed":
             break
-        time.sleep(10)
+        if status in ("failed", "expired", "cancelled"):
+            raise RuntimeError(f"OpenAI Batch failed with status: {status}")
+        time.sleep(15)
 
+    # Download results
+    result_content = client.files.content(batch.output_file_id).read()
     results = {}
-    for result in client.messages.batches.results(batch_id):
-        sc = result.custom_id
-        if result.result.type == "succeeded":
-            text = result.result.message.content[0].text.strip()
-            text = re.sub(r"^```(?:json)?\s*", "", text)
+    for line in result_content.decode("utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            row = json.loads(line)
+            sc   = row["custom_id"]
+            body = row.get("response", {}).get("body", {})
+            text = (body.get("choices") or [{}])[0].get("message", {}).get("content", "")
+            text = re.sub(r"^```(?:json)?\s*", "", text.strip())
             text = re.sub(r"\s*```$", "", text)
-            try:
-                results[sc] = json.loads(text)
-            except json.JSONDecodeError as e:
-                print(f"  ⚠ JSON parse error for {sc}: {e}")
-        else:
-            print(f"  ✗ {sc}: {result.result.type}")
+            results[sc] = json.loads(text)
+        except Exception as e:
+            print(f"  ⚠ parse error for {row.get('custom_id','?')}: {e}")
 
+    print(f"  ✓ Classified {len(results)}/{len(raw_posts)} posts", flush=True)
     return results
 
 
@@ -484,7 +523,7 @@ def write_observation(raw: dict, cls: dict, account_ulid: str) -> Path:
         "provenance": {
             "source": "hikerapi_instagram",
             "date_added": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "confirmer": "claude_haiku_batch_classification",
+            "confirmer": "gpt4omini_batch_classification",
             "confidence": "inferred",
             "scope": f"brand:{re.sub(r'[^a-z0-9_]', '_', handle.lower())}",
         },
@@ -642,13 +681,7 @@ def main():
         _update_target_status(handle, {}, quota, force_done=True)
         sys.exit(0)
 
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
-    if not api_key:
-        print("❌ ANTHROPIC_API_KEY not set.")
-        sys.exit(1)
-
-    client          = anthropic.Anthropic(api_key=api_key)
-    classifications = classify_batch(raw_posts, client)
+    classifications = classify_batch(raw_posts)
     print(f"  Classified {len(classifications)}/{len(raw_posts)} posts")
 
     account_ulid    = _get_or_create_account_ulid(handle)

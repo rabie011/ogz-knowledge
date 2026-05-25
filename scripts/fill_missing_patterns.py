@@ -236,12 +236,30 @@ Return JSON with ALL these fields (exact field names, exact enum values):
 
 
 # ── Call Batch API ─────────────────────────────────────────────────────────────
+def _safe_custom_id(slug: str, existing: set) -> str:
+    """Sanitize slug to match Batch API custom_id pattern ^[a-zA-Z0-9_-]{1,64}$.
+    Strips non-ASCII and invalid chars; appends counter on collision."""
+    safe = re.sub(r"[^a-zA-Z0-9_-]", "", slug)[:60] or "slug"
+    candidate = safe
+    i = 0
+    while candidate in existing:
+        i += 1
+        candidate = f"{safe[:56]}-{i:03d}"
+    return candidate
+
+
 def generate_batch(orphaned_batch: list[dict], client: anthropic.Anthropic) -> dict[str, dict]:
     """Submit batch, wait for completion, return {slug: pattern_dict}."""
+    id_to_slug: dict[str, str] = {}  # safe_id → original slug
+    used_ids: set[str] = set()
     requests = []
     for info in orphaned_batch:
+        original_slug = info["slug"]
+        safe_id = _safe_custom_id(original_slug, used_ids)
+        used_ids.add(safe_id)
+        id_to_slug[safe_id] = original_slug
         requests.append({
-            "custom_id": info["slug"],
+            "custom_id": safe_id,
             "params": {
                 "model": "claude-haiku-4-5",
                 "max_tokens": 1200,
@@ -269,10 +287,11 @@ def generate_batch(orphaned_batch: list[dict], client: anthropic.Anthropic) -> d
             break
         time.sleep(10)
 
-    # Collect results
+    # Collect results — map safe_id back to original slug
     results = {}
     for result in client.messages.batches.results(batch_id):
-        slug = result.custom_id
+        safe_id = result.custom_id
+        original_slug = id_to_slug.get(safe_id, safe_id)  # fallback: use safe_id
         if result.result.type == "succeeded":
             text = result.result.message.content[0].text.strip()
             # Strip markdown code fences if present
@@ -280,11 +299,13 @@ def generate_batch(orphaned_batch: list[dict], client: anthropic.Anthropic) -> d
             text = re.sub(r"\s*```$", "", text)
             try:
                 pattern = json.loads(text)
-                results[slug] = pattern
+                # Ensure the written pattern uses the ORIGINAL slug
+                pattern["pattern_slug"] = original_slug.lower()
+                results[original_slug] = pattern
             except json.JSONDecodeError as e:
-                print(f"  ⚠ JSON parse error for {slug}: {e}")
+                print(f"  ⚠ JSON parse error for {original_slug}: {e}")
         else:
-            print(f"  ✗ {slug}: {result.result.type}")
+            print(f"  ✗ {original_slug}: {result.result.type}")
 
     return results
 
@@ -305,12 +326,15 @@ def write_pattern(pattern: dict, subfolder: str) -> Path:
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
-    dry_run  = "--dry-run" in sys.argv
-    batch_n  = 10  # default batch size
+    dry_run   = "--dry-run" in sys.argv
+    batch_n   = 50   # API batch size — 50 slugs per API call (~90s each)
+    max_slugs = None  # None = process all
 
     for i, arg in enumerate(sys.argv):
         if arg == "--batch" and i + 1 < len(sys.argv):
             batch_n = int(sys.argv[i + 1])
+        if arg == "--max-slugs" and i + 1 < len(sys.argv):
+            max_slugs = int(sys.argv[i + 1])
 
     if dry_run:
         print("DRY RUN — no files will be written\n")
@@ -320,6 +344,11 @@ def main():
     if not orphaned:
         print("Nothing to do.")
         return
+
+    # Limit total slugs per invocation (daemon uses this to stay within timeout)
+    if max_slugs is not None:
+        orphaned = orphaned[:max_slugs]
+        print(f"  Capped to {len(orphaned)} slugs (--max-slugs {max_slugs})")
 
     # Show top 20
     print("\nTop orphaned slugs:")

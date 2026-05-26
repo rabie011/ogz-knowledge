@@ -599,9 +599,10 @@ def write_observation(raw: dict, cls: dict, account_ulid: str) -> Path:
         pq = "semi_professional"
 
     pattern_matches = [
-        {"pattern_slug": slug.lower(), "confidence": "moderate"}
+        {"pattern_slug": re.sub(r"[^a-z0-9_]", "", slug.lower().replace(" ", "_").replace("-", "_")), "confidence": "moderate"}
         for slug in (cls.get("pattern_slugs") or [])
         if isinstance(slug, str) and slug.strip()
+        if re.sub(r"[^a-z0-9_]", "", slug.lower().replace(" ", "_").replace("-", "_"))  # skip empty after sanitize
     ]
 
     hp_raw = cls.get("human_presence", "none")

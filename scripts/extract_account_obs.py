@@ -118,6 +118,9 @@ Return ONLY this JSON (all fields required, exact enum values):
   "composition_style": "product_hero_closeup" or "lifestyle_integrated" or "editorial" or "overhead_spread" or "face_forward" or "text_dominant",
   "visual_complexity": "simple" or "moderate" or "complex",
   "human_presence": "none" or "partial" or "full",
+  "color_palette_dominant": ["color1", "color2"],
+  "lighting": "natural" or "studio" or "warm_studio" or "flat_bright" or "dramatic_moody" or "golden_hour" or "backlit" or "neon_pop",
+  "setting": "restaurant" or "restaurant_indoor" or "studio" or "retail_store" or "outdoor" or "outdoor_nature" or "home" or "kitchen" or "heritage_setting" or "event_venue" or "digital_graphic" or "salon" or "unknown",
   "pattern_slugs": [],
   "compliance_flags": []
 }}"""

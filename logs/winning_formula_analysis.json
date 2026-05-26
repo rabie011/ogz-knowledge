@@ -57,19 +57,6 @@
       "lift_vs_baseline": 0.35
     },
     {
-      "primary_pattern": "none",
-      "primary_pattern_name": "none",
-      "media_type": "carousel_slide",
-      "setting": "retail_store",
-      "lighting": "natural",
-      "register": "unknown",
-      "tone": "celebratory",
-      "obs_count": 5,
-      "high_engagement_rate": 1.0,
-      "avg_engagement": 1.0,
-      "lift_vs_baseline": 0.35
-    },
-    {
       "primary_pattern": "entertainment_collab",
       "primary_pattern_name": "Entertainment Collab",
       "media_type": "image",
@@ -109,24 +96,11 @@
       "lift_vs_baseline": 0.35
     },
     {
-      "primary_pattern": "brand_collab",
-      "primary_pattern_name": "Brand Collab",
-      "media_type": "video",
-      "setting": "unknown",
-      "lighting": "unknown",
-      "register": "unknown",
-      "tone": "celebratory",
-      "obs_count": 3,
-      "high_engagement_rate": 1.0,
-      "avg_engagement": 1.0,
-      "lift_vs_baseline": 0.35
-    },
-    {
       "primary_pattern": "limited_time_offer",
       "primary_pattern_name": "Limited Time Offer",
       "media_type": "image",
-      "setting": "unknown",
-      "lighting": "unknown",
+      "setting": "retail_store",
+      "lighting": "flat_bright",
       "register": "unknown",
       "tone": "celebratory",
       "obs_count": 3,
@@ -259,6 +233,32 @@
       "lighting": "flat_graphic",
       "register": "casual",
       "tone": "celebratory",
+      "obs_count": 2,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "lift_vs_baseline": 0.35
+    },
+    {
+      "primary_pattern": "poll_engagement_mechanic",
+      "primary_pattern_name": "Poll Engagement Mechanic",
+      "media_type": "image",
+      "setting": "digital_graphic",
+      "lighting": "flat_graphic",
+      "register": "casual",
+      "tone": "playful",
+      "obs_count": 2,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "lift_vs_baseline": 0.35
+    },
+    {
+      "primary_pattern": "product_launch_reveal",
+      "primary_pattern_name": "Product Launch Reveal",
+      "media_type": "video",
+      "setting": "studio",
+      "lighting": "dramatic_moody",
+      "register": "casual",
+      "tone": "bold",
       "obs_count": 2,
       "high_engagement_rate": 1.0,
       "avg_engagement": 1.0,
@@ -647,10 +647,10 @@
     },
     "eid_al_fitr": {
       "media_type": "image",
-      "setting": "?",
+      "setting": "outdoor",
       "register": "?",
       "tone": "playful",
-      "count": 4,
+      "count": 2,
       "high_eng_rate": 1.0
     },
     "national_day": {
@@ -903,72 +903,72 @@
       {
         "pattern": "none",
         "media_type": "video",
-        "setting": "outdoor",
-        "count": 4,
-        "high_eng_rate": 0.25
-      },
-      {
-        "pattern": "none",
-        "media_type": "image",
-        "setting": "?",
-        "count": 127,
-        "high_eng_rate": 0.079
+        "setting": "office",
+        "count": 2,
+        "high_eng_rate": 0.5
       },
       {
         "pattern": "none",
         "media_type": "video",
-        "setting": "?",
-        "count": 110,
-        "high_eng_rate": 0.073
+        "setting": "outdoor",
+        "count": 24,
+        "high_eng_rate": 0.208
       },
       {
         "pattern": "none",
         "media_type": "carousel_slide",
-        "setting": "?",
-        "count": 69,
-        "high_eng_rate": 0.072
+        "setting": "outdoor",
+        "count": 20,
+        "high_eng_rate": 0.2
       },
       {
         "pattern": "none",
-        "media_type": "video",
+        "media_type": "image",
+        "setting": "outdoor",
+        "count": 17,
+        "high_eng_rate": 0.176
+      },
+      {
+        "pattern": "none",
+        "media_type": "image",
         "setting": "retail_store",
-        "count": 22,
-        "high_eng_rate": 0.0
+        "count": 106,
+        "high_eng_rate": 0.066
       }
     ],
     "fashion": [
       {
         "pattern": "brand_collab",
         "media_type": "video",
-        "setting": "?",
-        "count": 4,
+        "setting": "outdoor",
+        "count": 3,
         "high_eng_rate": 1.0
       },
       {
         "pattern": "limited_time_offer",
         "media_type": "image",
-        "setting": "?",
+        "setting": "retail_store",
         "count": 3,
         "high_eng_rate": 1.0
       },
       {
+        "pattern": "none",
+        "media_type": "image",
+        "setting": "outdoor",
+        "count": 15,
+        "high_eng_rate": 0.667
+      },
+      {
         "pattern": "behind_the_scenes",
         "media_type": "video",
-        "setting": "?",
+        "setting": "studio",
         "count": 3,
         "high_eng_rate": 0.667
       },
       {
-        "pattern": "occasion_plays",
-        "media_type": "video",
-        "setting": "?",
-        "count": 3,
-        "high_eng_rate": 0.667
-      },
-      {
-        "pattern": "cultural_identity_marker",
+        "pattern": "occasion_playseid_campaign",
         "media_type": "image",
-        "setting": "?",
+        "setting": "outdoor",
         "count": 3,
         "high_eng_rate": 0.667
       }
@@ -977,6 +977,6 @@
   "key_findings": [
     "Best 6-dim formula (n≥3): none + image + restaurant + flat_bright + unknown + celebratory → 100% high eng",
     "Best visual formula (n≥3): video + studio + dramatic_moody + product_hero_close_up + casual → 100%",
-    "225 unique 6-dim combinations found. 140 have 3+ observations."
+    "234 unique 6-dim combinations found. 143 have 3+ observations."
   ]
 }

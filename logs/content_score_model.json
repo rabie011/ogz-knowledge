@@ -17,7 +17,7 @@
     "hospitality_cues": 0.02
   },
   "min_obs_threshold": 3,
-  "total_signals_loaded": 1793,
+  "total_signals_loaded": 1801,
   "signal_dimensions": [
     "pattern",
     "setting",
@@ -7280,40 +7280,64 @@
         "confidence": 0.667,
         "verdict": "neutral"
       },
+      "cafe": {
+        "high_eng_rate": 0.333,
+        "obs_count": 3,
+        "confidence": 0.2,
+        "verdict": "weak"
+      },
+      "restaurant": {
+        "high_eng_rate": 0.271,
+        "obs_count": 948,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "retail_store": {
+        "high_eng_rate": 0.267,
+        "obs_count": 217,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "kitchen": {
+        "high_eng_rate": 0.255,
+        "obs_count": 51,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "unknown": {
+        "high_eng_rate": 0.25,
+        "obs_count": 20,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
       "studio": {
-        "high_eng_rate": 0.251,
-        "obs_count": 371,
+        "high_eng_rate": 0.242,
+        "obs_count": 409,
         "confidence": 1.0,
         "verdict": "weak"
       },
       "outdoor": {
-        "high_eng_rate": 0.176,
-        "obs_count": 34,
+        "high_eng_rate": 0.235,
+        "obs_count": 277,
         "confidence": 1.0,
-        "verdict": "avoid"
-      },
-      "retail_store": {
-        "high_eng_rate": 0.125,
-        "obs_count": 16,
-        "confidence": 1.0,
-        "verdict": "avoid"
+        "verdict": "weak"
       },
       "salon": {
-        "high_eng_rate": 0.068,
-        "obs_count": 44,
+        "high_eng_rate": 0.093,
+        "obs_count": 54,
         "confidence": 1.0,
+        "verdict": "avoid"
+      },
+      "office": {
+        "high_eng_rate": 0.083,
+        "obs_count": 12,
+        "confidence": 0.8,
         "verdict": "avoid"
       },
       "home": {
-        "high_eng_rate": 0.0,
-        "obs_count": 23,
+        "high_eng_rate": 0.069,
+        "obs_count": 58,
         "confidence": 1.0,
-        "verdict": "avoid"
-      },
-      "unknown": {
-        "high_eng_rate": 0.0,
-        "obs_count": 6,
-        "confidence": 0.4,
         "verdict": "avoid"
       },
       "restaurant interior": {
@@ -7490,6 +7514,12 @@
         "confidence": 0.0,
         "verdict": "insufficient_data"
       },
+      "drive_thru": {
+        "high_eng_rate": 0.0,
+        "obs_count": 2,
+        "confidence": 0.0,
+        "verdict": "insufficient_data"
+      },
       "clean white/neutral product display": {
         "high_eng_rate": 0.0,
         "obs_count": 1,
@@ -7527,12 +7557,6 @@
         "verdict": "insufficient_data"
       },
       "clean minimal beauty setting": {
-        "high_eng_rate": 0.0,
-        "obs_count": 1,
-        "confidence": 0.0,
-        "verdict": "insufficient_data"
-      },
-      "restaurant": {
         "high_eng_rate": 0.0,
         "obs_count": 1,
         "confidence": 0.0,
@@ -7928,13 +7952,19 @@
         "confidence": 0.0,
         "verdict": "insufficient_data"
       },
-      "drive_thru": {
+      "restaurant_kitchen": {
         "high_eng_rate": 0.0,
         "obs_count": 1,
         "confidence": 0.0,
         "verdict": "insufficient_data"
       },
-      "restaurant_kitchen": {
+      "metro": {
+        "high_eng_rate": 0.0,
+        "obs_count": 1,
+        "confidence": 0.0,
+        "verdict": "insufficient_data"
+      },
+      "coffee_shop": {
         "high_eng_rate": 0.0,
         "obs_count": 1,
         "confidence": 0.0,
@@ -10236,6 +10266,12 @@
         "confidence": 1.0,
         "verdict": "neutral"
       },
+      "flat_bright": {
+        "high_eng_rate": 0.403,
+        "obs_count": 119,
+        "confidence": 1.0,
+        "verdict": "neutral"
+      },
       "warm product spotlight": {
         "high_eng_rate": 0.4,
         "obs_count": 5,
@@ -10267,8 +10303,14 @@
         "verdict": "weak"
       },
       "warm_studio": {
-        "high_eng_rate": 0.312,
-        "obs_count": 144,
+        "high_eng_rate": 0.235,
+        "obs_count": 850,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "natural": {
+        "high_eng_rate": 0.235,
+        "obs_count": 833,
         "confidence": 1.0,
         "verdict": "weak"
       },
@@ -10279,21 +10321,9 @@
         "verdict": "weak"
       },
       "golden_hour": {
-        "high_eng_rate": 0.111,
-        "obs_count": 18,
+        "high_eng_rate": 0.105,
+        "obs_count": 95,
         "confidence": 1.0,
-        "verdict": "avoid"
-      },
-      "natural": {
-        "high_eng_rate": 0.028,
-        "obs_count": 177,
-        "confidence": 1.0,
-        "verdict": "avoid"
-      },
-      "flat_bright": {
-        "high_eng_rate": 0.0,
-        "obs_count": 5,
-        "confidence": 0.333,
         "verdict": "avoid"
       },
       "natural mixed": {
@@ -10413,6 +10443,18 @@
       "animation scene lighting": {
         "high_eng_rate": 1.0,
         "obs_count": 1,
+        "confidence": 0.0,
+        "verdict": "insufficient_data"
+      },
+      "unknown": {
+        "high_eng_rate": 1.0,
+        "obs_count": 1,
+        "confidence": 0.0,
+        "verdict": "insufficient_data"
+      },
+      "cool_studio": {
+        "high_eng_rate": 0.5,
+        "obs_count": 2,
         "confidence": 0.0,
         "verdict": "insufficient_data"
       },
@@ -10681,6 +10723,12 @@
         "verdict": "insufficient_data"
       },
       "warm festive gold": {
+        "high_eng_rate": 0.0,
+        "obs_count": 1,
+        "confidence": 0.0,
+        "verdict": "insufficient_data"
+      },
+      "bright": {
         "high_eng_rate": 0.0,
         "obs_count": 1,
         "confidence": 0.0,

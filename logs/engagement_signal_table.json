@@ -202,6 +202,15 @@
   ],
   "signals_to_avoid": [
     {
+      "signal_type": "lighting",
+      "signal_value": "golden_hour",
+      "obs_count": 138,
+      "high_engagement_count": 26,
+      "high_engagement_rate": 0.188,
+      "verdict": "avoid",
+      "insight": "26/138 obs with high engagement (18%)"
+    },
+    {
       "signal_type": "production_quality",
       "signal_value": "semi_professional",
       "obs_count": 757,
@@ -256,6 +265,15 @@
       "insight": "1/7 obs with high engagement (14%)"
     },
     {
+      "signal_type": "lighting",
+      "signal_value": "cool_studio",
+      "obs_count": 7,
+      "high_engagement_count": 1,
+      "high_engagement_rate": 0.143,
+      "verdict": "avoid",
+      "insight": "1/7 obs with high engagement (14%)"
+    },
+    {
       "signal_type": "tone",
       "signal_value": "informative",
       "obs_count": 947,
@@ -272,24 +290,6 @@
       "high_engagement_rate": 0.125,
       "verdict": "avoid",
       "insight": "2/16 obs with high engagement (12%)"
-    },
-    {
-      "signal_type": "tone",
-      "signal_value": "educational",
-      "obs_count": 8,
-      "high_engagement_count": 1,
-      "high_engagement_rate": 0.125,
-      "verdict": "avoid",
-      "insight": "1/8 obs with high engagement (12%)"
-    },
-    {
-      "signal_type": "pattern",
-      "signal_value": "lifestyle_embed",
-      "obs_count": 9,
-      "high_engagement_count": 1,
-      "high_engagement_rate": 0.111,
-      "verdict": "avoid",
-      "insight": "1/9 obs with high engagement (11%)"
     }
   ],
   "all_signals": [
@@ -1680,15 +1680,6 @@
       "insight": "590/1463 obs with high engagement (40%)"
     },
     {
-      "signal_type": "lighting",
-      "signal_value": "flat_bright",
-      "obs_count": 119,
-      "high_engagement_count": 48,
-      "high_engagement_rate": 0.403,
-      "verdict": "neutral",
-      "insight": "48/119 obs with high engagement (40%)"
-    },
-    {
       "signal_type": "occasion",
       "signal_value": "founding_day",
       "obs_count": 30,
@@ -1867,6 +1858,15 @@
       "high_engagement_rate": 0.372,
       "verdict": "weak",
       "insight": "179/481 obs with high engagement (37%)"
+    },
+    {
+      "signal_type": "lighting",
+      "signal_value": "flat_bright",
+      "obs_count": 154,
+      "high_engagement_count": 57,
+      "high_engagement_rate": 0.37,
+      "verdict": "weak",
+      "insight": "57/154 obs with high engagement (37%)"
     },
     {
       "signal_type": "heritage_vs_modern",
@@ -2303,20 +2303,20 @@
     {
       "signal_type": "setting",
       "signal_value": "restaurant",
-      "obs_count": 948,
-      "high_engagement_count": 257,
-      "high_engagement_rate": 0.271,
+      "obs_count": 952,
+      "high_engagement_count": 259,
+      "high_engagement_rate": 0.272,
       "verdict": "weak",
-      "insight": "257/948 obs with high engagement (27%)"
+      "insight": "259/952 obs with high engagement (27%)"
     },
     {
       "signal_type": "setting",
-      "signal_value": "retail_store",
-      "obs_count": 217,
-      "high_engagement_count": 58,
-      "high_engagement_rate": 0.267,
+      "signal_value": "outdoor",
+      "obs_count": 397,
+      "high_engagement_count": 108,
+      "high_engagement_rate": 0.272,
       "verdict": "weak",
-      "insight": "58/217 obs with high engagement (26%)"
+      "insight": "108/397 obs with high engagement (27%)"
     },
     {
       "signal_type": "occasion",
@@ -2380,15 +2380,6 @@
       "high_engagement_rate": 0.255,
       "verdict": "weak",
       "insight": "13/51 obs with high engagement (25%)"
-    },
-    {
-      "signal_type": "setting",
-      "signal_value": "unknown",
-      "obs_count": 20,
-      "high_engagement_count": 5,
-      "high_engagement_rate": 0.25,
-      "verdict": "weak",
-      "insight": "5/20 obs with high engagement (25%)"
     },
     {
       "signal_type": "pattern",
@@ -2562,42 +2553,6 @@
       "insight": "660/2682 obs with high engagement (24%)"
     },
     {
-      "signal_type": "setting",
-      "signal_value": "studio",
-      "obs_count": 409,
-      "high_engagement_count": 99,
-      "high_engagement_rate": 0.242,
-      "verdict": "weak",
-      "insight": "99/409 obs with high engagement (24%)"
-    },
-    {
-      "signal_type": "lighting",
-      "signal_value": "warm_studio",
-      "obs_count": 850,
-      "high_engagement_count": 200,
-      "high_engagement_rate": 0.235,
-      "verdict": "weak",
-      "insight": "200/850 obs with high engagement (23%)"
-    },
-    {
-      "signal_type": "lighting",
-      "signal_value": "natural",
-      "obs_count": 833,
-      "high_engagement_count": 196,
-      "high_engagement_rate": 0.235,
-      "verdict": "weak",
-      "insight": "196/833 obs with high engagement (23%)"
-    },
-    {
-      "signal_type": "setting",
-      "signal_value": "outdoor",
-      "obs_count": 277,
-      "high_engagement_count": 65,
-      "high_engagement_rate": 0.235,
-      "verdict": "weak",
-      "insight": "65/277 obs with high engagement (23%)"
-    },
-    {
       "signal_type": "production_quality",
       "signal_value": "ugc",
       "obs_count": 383,
@@ -2605,6 +2560,15 @@
       "high_engagement_rate": 0.23,
       "verdict": "weak",
       "insight": "88/383 obs with high engagement (23%)"
+    },
+    {
+      "signal_type": "setting",
+      "signal_value": "studio",
+      "obs_count": 457,
+      "high_engagement_count": 104,
+      "high_engagement_rate": 0.228,
+      "verdict": "weak",
+      "insight": "104/457 obs with high engagement (22%)"
     },
     {
       "signal_type": "pattern",
@@ -2623,6 +2587,24 @@
       "high_engagement_rate": 0.227,
       "verdict": "weak",
       "insight": "5/22 obs with high engagement (22%)"
+    },
+    {
+      "signal_type": "lighting",
+      "signal_value": "natural",
+      "obs_count": 1114,
+      "high_engagement_count": 251,
+      "high_engagement_rate": 0.225,
+      "verdict": "weak",
+      "insight": "251/1114 obs with high engagement (22%)"
+    },
+    {
+      "signal_type": "lighting",
+      "signal_value": "warm_studio",
+      "obs_count": 913,
+      "high_engagement_count": 203,
+      "high_engagement_rate": 0.222,
+      "verdict": "weak",
+      "insight": "203/913 obs with high engagement (22%)"
     },
     {
       "signal_type": "composition",
@@ -2668,6 +2650,24 @@
       "high_engagement_rate": 0.208,
       "verdict": "weak",
       "insight": "5/24 obs with high engagement (20%)"
+    },
+    {
+      "signal_type": "setting",
+      "signal_value": "unknown",
+      "obs_count": 24,
+      "high_engagement_count": 5,
+      "high_engagement_rate": 0.208,
+      "verdict": "weak",
+      "insight": "5/24 obs with high engagement (20%)"
+    },
+    {
+      "signal_type": "setting",
+      "signal_value": "retail_store",
+      "obs_count": 443,
+      "high_engagement_count": 89,
+      "high_engagement_rate": 0.201,
+      "verdict": "weak",
+      "insight": "89/443 obs with high engagement (20%)"
     },
     {
       "signal_type": "pattern",
@@ -2787,6 +2787,15 @@
       "insight": "1/5 obs with high engagement (20%)"
     },
     {
+      "signal_type": "lighting",
+      "signal_value": "golden_hour",
+      "obs_count": 138,
+      "high_engagement_count": 26,
+      "high_engagement_rate": 0.188,
+      "verdict": "avoid",
+      "insight": "26/138 obs with high engagement (18%)"
+    },
+    {
       "signal_type": "production_quality",
       "signal_value": "semi_professional",
       "obs_count": 757,
@@ -2841,6 +2850,15 @@
       "insight": "1/7 obs with high engagement (14%)"
     },
     {
+      "signal_type": "lighting",
+      "signal_value": "cool_studio",
+      "obs_count": 7,
+      "high_engagement_count": 1,
+      "high_engagement_rate": 0.143,
+      "verdict": "avoid",
+      "insight": "1/7 obs with high engagement (14%)"
+    },
+    {
       "signal_type": "tone",
       "signal_value": "informative",
       "obs_count": 947,
@@ -2868,6 +2886,15 @@
       "insight": "1/8 obs with high engagement (12%)"
     },
     {
+      "signal_type": "setting",
+      "signal_value": "office",
+      "obs_count": 17,
+      "high_engagement_count": 2,
+      "high_engagement_rate": 0.118,
+      "verdict": "avoid",
+      "insight": "2/17 obs with high engagement (11%)"
+    },
+    {
       "signal_type": "pattern",
       "signal_value": "lifestyle_embed",
       "obs_count": 9,
@@ -2884,15 +2911,6 @@
       "high_engagement_rate": 0.111,
       "verdict": "avoid",
       "insight": "1/9 obs with high engagement (11%)"
-    },
-    {
-      "signal_type": "lighting",
-      "signal_value": "golden_hour",
-      "obs_count": 95,
-      "high_engagement_count": 10,
-      "high_engagement_rate": 0.105,
-      "verdict": "avoid",
-      "insight": "10/95 obs with high engagement (10%)"
     },
     {
       "signal_type": "tone",
@@ -2922,15 +2940,6 @@
       "insight": "5/54 obs with high engagement (9%)"
     },
     {
-      "signal_type": "setting",
-      "signal_value": "office",
-      "obs_count": 12,
-      "high_engagement_count": 1,
-      "high_engagement_rate": 0.083,
-      "verdict": "avoid",
-      "insight": "1/12 obs with high engagement (8%)"
-    },
-    {
       "signal_type": "pattern",
       "signal_value": "restaurant_promotion",
       "obs_count": 13,
@@ -2949,15 +2958,6 @@
       "insight": "4/55 obs with high engagement (7%)"
     },
     {
-      "signal_type": "setting",
-      "signal_value": "home",
-      "obs_count": 58,
-      "high_engagement_count": 4,
-      "high_engagement_rate": 0.069,
-      "verdict": "avoid",
-      "insight": "4/58 obs with high engagement (6%)"
-    },
-    {
       "signal_type": "sector",
       "signal_value": "retail_lifestyle",
       "obs_count": 359,
@@ -2965,6 +2965,15 @@
       "high_engagement_rate": 0.067,
       "verdict": "avoid",
       "insight": "24/359 obs with high engagement (6%)"
+    },
+    {
+      "signal_type": "setting",
+      "signal_value": "home",
+      "obs_count": 82,
+      "high_engagement_count": 5,
+      "high_engagement_rate": 0.061,
+      "verdict": "avoid",
+      "insight": "5/82 obs with high engagement (6%)"
     },
     {
       "signal_type": "sector",
@@ -3041,6 +3050,15 @@
     {
       "signal_type": "tone",
       "signal_value": "humorous",
+      "obs_count": 5,
+      "high_engagement_count": 0,
+      "high_engagement_rate": 0.0,
+      "verdict": "avoid",
+      "insight": "0/5 obs with high engagement (0%)"
+    },
+    {
+      "signal_type": "lighting",
+      "signal_value": "dramatic",
       "obs_count": 5,
       "high_engagement_count": 0,
       "high_engagement_rate": 0.0,
@@ -7386,15 +7404,6 @@
       "insight": "1/2 obs with high engagement (50%)"
     },
     {
-      "signal_type": "lighting",
-      "signal_value": "cool_studio",
-      "obs_count": 2,
-      "high_engagement_count": 1,
-      "high_engagement_rate": 0.5,
-      "verdict": "insufficient_data",
-      "insight": "1/2 obs with high engagement (50%)"
-    },
-    {
       "signal_type": "pattern",
       "signal_value": "casual_engagement_hook",
       "obs_count": 2,
@@ -8927,15 +8936,6 @@
     {
       "signal_type": "composition",
       "signal_value": "stop_motion_game",
-      "obs_count": 1,
-      "high_engagement_count": 0,
-      "high_engagement_rate": 0.0,
-      "verdict": "insufficient_data",
-      "insight": "0/1 obs with high engagement (0%)"
-    },
-    {
-      "signal_type": "lighting",
-      "signal_value": "dramatic",
       "obs_count": 1,
       "high_engagement_count": 0,
       "high_engagement_rate": 0.0,

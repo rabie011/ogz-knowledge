@@ -306,9 +306,9 @@ def module_fill_patterns() -> int:
 
     rc, stdout, stderr = _run([
         sys.executable, "scripts/fill_missing_patterns.py",
-        "--batch", "50",       # 50 slugs per API call
-        "--max-slugs", "200",  # cap per cycle: 4 API calls × ~2-4 min = ~8-16 min
-    ], timeout=1200)           # 20-min ceiling (Batch API can take 3-4 min/batch)
+        "--batch", "100",      # 100 slugs per API call (Batch API handles concurrently)
+        "--max-slugs", "200",  # cap per cycle: 2 API calls × ~3-5 min = ~6-10 min
+    ], timeout=1200)           # 20-min ceiling — generous for slow Batch API days
 
     m = re.search(r"Generated (\d+) pattern files", stdout)
     n = int(m.group(1)) if m else 0

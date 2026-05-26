@@ -398,6 +398,61 @@ def module_fill_captions(state: dict) -> tuple[int, dict]:
     return written, state
 
 
+# ── Module 2.5: Video transcription ──────────────────────────────────────────
+def module_fill_voiceovers(state: dict) -> tuple[int, dict]:
+    """
+    Transcribe pending video obs (50/cycle max) using Whisper + instaloader.
+    Uses same 8-hr rate-limit state as captions (same Instagram session).
+    Returns (transcribed_count, updated_state).
+    """
+    # Count pending voiceovers
+    pending = 0
+    for f in OBS_ROOT.rglob("*.json"):
+        try:
+            d = json.loads(f.read_text())
+            ct = d.get("content_ref", {}).get("content_type", "")
+            if "video" in ct or "reel" in ct:
+                vo = d.get("voice_observations") or {}
+                if vo.get("voiceover_text") is None:
+                    pending += 1
+        except Exception:
+            pass
+
+    if pending == 0:
+        return 0, state
+
+    # Enforce same 8-hr rate limit as captions
+    last_attempt = state.get("last_voiceover_attempt")
+    fail_count   = state.get("last_voiceover_fail_count", 0)
+    if last_attempt and fail_count > 0:
+        last_dt = datetime.fromisoformat(last_attempt)
+        hrs_elapsed = (datetime.now() - last_dt).total_seconds() / 3600
+        if hrs_elapsed < CAPTION_RATE_LIMIT_HRS:
+            log.info(f"  Voiceover: rate limit active ({hrs_elapsed:.1f}/{CAPTION_RATE_LIMIT_HRS} hrs), {pending} pending. Skipping.")
+            return 0, state
+
+    log.info(f"  Voiceover fill: {pending} pending — running batch of 50")
+    rc, stdout, stderr = _run(
+        [sys.executable, "scripts/run_video_transcription.py", "--batch", "50"],
+        timeout=2400,   # 40-min ceiling: 50 downloads × 4s + Whisper processing
+    )
+
+    m_written  = re.search(r"Written\s*:\s*(\d+)", stdout)
+    m_failed   = re.search(r"Download failed\s*:\s*(\d+)", stdout)
+    transcribed = int(m_written.group(1)) if m_written else 0
+    failed      = int(m_failed.group(1)) if m_failed else 0
+
+    state["last_voiceover_attempt"]     = datetime.now().isoformat()
+    state["last_voiceover_fail_count"]  = failed
+
+    if transcribed > 0:
+        log.info(f"    ✅ Videos transcribed: {transcribed}")
+    if failed > 0:
+        log.info(f"    ⚠ Download failures: {failed} — may be rate limited")
+
+    return transcribed, state
+
+
 # ── Module 3: Pattern gap fill ────────────────────────────────────────────────
 def module_fill_patterns() -> int:
     """Detect orphaned slugs and generate pattern files. Max 10/cycle."""
@@ -606,6 +661,13 @@ def cycle(state: dict, cycle_num: int) -> dict:
         if written: report["captions_filled"] = written
     except Exception as e:
         log.error(f"  Module 2 error: {e}")
+
+    # 2.5. Video transcription (50/cycle, rate-limit-aware)
+    try:
+        transcribed, state = module_fill_voiceovers(state)
+        if transcribed: report["videos_transcribed"] = transcribed
+    except Exception as e:
+        log.error(f"  Module 2.5 error: {e}")
 
     # 3. Pattern fill
     try:

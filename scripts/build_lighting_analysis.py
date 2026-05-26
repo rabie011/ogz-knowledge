@@ -46,10 +46,11 @@ def main():
             "high_rate": round(sum(1 for v in vals if v>=0.75)/len(vals),3),
         }
 
-    # Best lighting per sector
+    # Best lighting per sector (min n=5 to avoid single-obs outliers)
     best_by_sector = {}
     for sec, lits in sector_lighting.items():
-        ranked = sorted(lits.items(), key=lambda x: sum(x[1])/max(len(x[1]),1), reverse=True)
+        valid = {k: v for k, v in lits.items() if len(v) >= 5}
+        ranked = sorted(valid.items(), key=lambda x: sum(x[1])/max(len(x[1]),1), reverse=True)
         best_by_sector[sec] = [
             {"lighting": k, "avg_engagement": round(sum(v)/len(v),3), "n": len(v)}
             for k,v in ranked[:3]

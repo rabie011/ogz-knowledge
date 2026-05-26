@@ -235,6 +235,7 @@ def extract_via_apify(
             "sector":        sector,
             "handle":        handle,
             "source_url":    source_url,
+            "video_duration_seconds": int(round(float(item.get("videoDuration") or 0))) or None,
         })
         remaining[quota_key] -= 1
 
@@ -646,6 +647,7 @@ def write_observation(raw: dict, cls: dict, account_ulid: str) -> Path:
             "content_type": raw["content_type"],
             "capture_date": raw["capture_date"],
             "source_url": raw["source_url"],
+            "video_duration_seconds": raw.get("video_duration_seconds"),
         },
         "visual_observations": {
             "composition_style": cls.get("composition_style", ""),

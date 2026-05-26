@@ -278,15 +278,34 @@ def print_report(rep):
     print(f"\n{'═'*W}\n")
 
 
+BATCH_OCCASIONS = ["national_day","ramadan","eid_al_fitr","founding_day","eid_al_adha","evergreen"]
+BATCH_SECTORS   = ["food_and_beverage","beauty_personal_care","retail_lifestyle","real_estate","fashion"]
+
+
 def main():
     parser = argparse.ArgumentParser(description="OGZ Occasion Readiness Report")
-    parser.add_argument("--occasion", type=str)
-    parser.add_argument("--sector",   type=str)
-    parser.add_argument("--save",     action="store_true")
+    parser.add_argument("--occasion",    type=str)
+    parser.add_argument("--sector",      type=str)
+    parser.add_argument("--save",        action="store_true")
     parser.add_argument("--interactive", action="store_true")
+    parser.add_argument("--batch",       action="store_true",
+                        help="Generate all occasion × sector combos silently (used by daemon)")
     args = parser.parse_args()
 
-    if args.interactive or not args.occasion:
+    # Batch / daemon mode — no prompts, generate everything
+    if args.batch or (not args.interactive and not args.occasion):
+        d = LOGS / "occasion_readiness"
+        d.mkdir(exist_ok=True)
+        count = 0
+        for occ in BATCH_OCCASIONS:
+            for sec in BATCH_SECTORS:
+                rep = generate_report(occ, sec)
+                (d / f"{occ}_{sec}.json").write_text(json.dumps(rep, ensure_ascii=False, indent=2))
+                count += 1
+        print(f"  Batch complete: {count} reports → logs/occasion_readiness/")
+        return
+
+    if args.interactive:
         print("\nOGZ Occasion Readiness Report")
         print("─"*35)
         print("Occasions: national_day | ramadan | eid_al_fitr | founding_day | eid_al_adha | evergreen")

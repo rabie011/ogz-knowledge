@@ -3,112 +3,112 @@
   "sector": "food_and_beverage",
   "sector_key": "f_and_b",
   "corpus_data": {
-    "obs_in_corpus": 26,
-    "avg_engagement": 0.808,
-    "high_eng_count": 16,
-    "low_eng_count": 10
+    "obs_in_corpus": 136,
+    "avg_engagement": 0.449,
+    "high_eng_count": 38,
+    "low_eng_count": 98
   },
   "winning_signals": [
     {
-      "dimension": "visual_complexity",
-      "value": "moderate",
-      "count": 10,
-      "pct": 0.625
-    },
-    {
       "dimension": "content_type",
       "value": "image",
-      "count": 9,
-      "pct": 0.562
+      "count": 24,
+      "pct": 0.632
+    },
+    {
+      "dimension": "visual_complexity",
+      "value": "moderate",
+      "count": 22,
+      "pct": 0.579
+    },
+    {
+      "dimension": "hvm",
+      "value": "modern",
+      "count": 16,
+      "pct": 0.421
     },
     {
       "dimension": "hvm",
       "value": "blended",
-      "count": 7,
-      "pct": 0.438
+      "count": 13,
+      "pct": 0.342
     },
     {
-      "dimension": "hvm",
-      "value": "heritage",
-      "count": 6,
-      "pct": 0.375
+      "dimension": "composition",
+      "value": "product_hero_closeup",
+      "count": 12,
+      "pct": 0.316
     },
     {
       "dimension": "content_type",
       "value": "video",
-      "count": 5,
-      "pct": 0.312
-    },
-    {
-      "dimension": "aspect_ratio",
-      "value": "portrait_4x5",
-      "count": 5,
-      "pct": 0.312
-    },
-    {
-      "dimension": "setting",
-      "value": "digital_graphic",
-      "count": 5,
-      "pct": 0.312
+      "count": 11,
+      "pct": 0.289
     },
     {
       "dimension": "visual_complexity",
-      "value": "complex",
-      "count": 5,
-      "pct": 0.312
+      "value": "simple",
+      "count": 11,
+      "pct": 0.289
+    },
+    {
+      "dimension": "tone",
+      "value": "playful",
+      "count": 10,
+      "pct": 0.263
     }
   ],
   "losing_signals": [
     {
       "dimension": "visual_complexity",
-      "value": "moderate",
-      "count": 8,
-      "pct": 0.8
+      "value": "simple",
+      "count": 64,
+      "pct": 0.653
     },
     {
-      "dimension": "register",
-      "value": "casual",
-      "count": 5,
-      "pct": 0.5
+      "dimension": "content_type",
+      "value": "image",
+      "count": 40,
+      "pct": 0.408
+    },
+    {
+      "dimension": "tone",
+      "value": "informative",
+      "count": 40,
+      "pct": 0.408
     },
     {
       "dimension": "hvm",
       "value": "blended",
-      "count": 5,
-      "pct": 0.5
-    },
-    {
-      "dimension": "content_type",
-      "value": "carousel_slide",
-      "count": 4,
-      "pct": 0.4
+      "count": 39,
+      "pct": 0.398
     }
   ],
   "top_patterns": [
     {
       "pattern": "ramadan_iftar_warmth",
       "count": 9,
-      "pct": 0.562
+      "pct": 0.237
     },
     {
       "pattern": "product_hero",
       "count": 4,
-      "pct": 0.25
+      "pct": 0.105
     },
     {
       "pattern": "occasion_peg",
       "count": 3,
-      "pct": 0.188
+      "pct": 0.079
     },
     {
       "pattern": "arabic_hospitality_cue",
       "count": 3,
-      "pct": 0.188
+      "pct": 0.079
     },
     {
       "pattern": "specific_dish_naming",
       "count": 2,
-      "pct": 0.125
+      "pct": 0.053
     }
   ],
   "top_phrases_in_winners": [
@@ -122,7 +122,7 @@
     "format": "image",
     "predicted_eng": 0.909,
     "aspect_ratio": "square_1x1",
-    "tone": "warm",
+    "tone": "informative",
     "register": null,
     "heritage_framing": "heritage",
     "visual_complexity": "complex",
@@ -138,9 +138,9 @@
     "hospitality_cues": []
   },
   "red_flags": [
-    "AVOID format: carousel_slide (62% eng for this occasion)",
-    "AVOID: visual_complexity=moderate (found in 80% of low-eng posts)",
-    "AVOID: register=casual (found in 50% of low-eng posts)",
+    "AVOID format: carousel_slide (60% eng for this occasion)",
+    "AVOID: visual_complexity=simple (found in 65% of low-eng posts)",
+    "AVOID: content_type=image (found in 40% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
     "AVOID: video format if images/carousels are viable — video underperforms"
   ],
@@ -173,6 +173,6 @@
       "رمضان شهر العبادة والعطاء"
     ],
     "hospitality_cues": [],
-    "playbook_obs_count": 26
+    "playbook_obs_count": 174
   }
 }

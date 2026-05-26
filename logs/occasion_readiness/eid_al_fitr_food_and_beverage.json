@@ -3,81 +3,112 @@
   "sector": "food_and_beverage",
   "sector_key": "f_and_b",
   "corpus_data": {
-    "obs_in_corpus": 6,
-    "avg_engagement": 0.917,
-    "high_eng_count": 5,
-    "low_eng_count": 1
+    "obs_in_corpus": 48,
+    "avg_engagement": 0.531,
+    "high_eng_count": 18,
+    "low_eng_count": 30
   },
   "winning_signals": [
     {
-      "dimension": "visual_complexity",
-      "value": "moderate",
-      "count": 4,
-      "pct": 0.8
-    },
-    {
-      "dimension": "register",
-      "value": "casual",
-      "count": 4,
-      "pct": 0.8
-    },
-    {
       "dimension": "content_type",
       "value": "video",
-      "count": 3,
-      "pct": 0.6
+      "count": 11,
+      "pct": 0.611
+    },
+    {
+      "dimension": "visual_complexity",
+      "value": "simple",
+      "count": 10,
+      "pct": 0.556
+    },
+    {
+      "dimension": "tone",
+      "value": "celebratory",
+      "count": 9,
+      "pct": 0.5
+    },
+    {
+      "dimension": "hvm",
+      "value": "modern",
+      "count": 8,
+      "pct": 0.444
+    },
+    {
+      "dimension": "visual_complexity",
+      "value": "moderate",
+      "count": 7,
+      "pct": 0.389
     },
     {
       "dimension": "hvm",
       "value": "blended",
-      "count": 3,
-      "pct": 0.6
+      "count": 7,
+      "pct": 0.389
     },
     {
       "dimension": "content_type",
       "value": "image",
-      "count": 2,
-      "pct": 0.4
+      "count": 6,
+      "pct": 0.333
     },
     {
-      "dimension": "setting",
-      "value": "digital_graphic",
-      "count": 2,
-      "pct": 0.4
+      "dimension": "composition",
+      "value": "lifestyle_integrated",
+      "count": 6,
+      "pct": 0.333
+    }
+  ],
+  "losing_signals": [
+    {
+      "dimension": "visual_complexity",
+      "value": "simple",
+      "count": 20,
+      "pct": 0.667
     },
     {
       "dimension": "tone",
-      "value": "warm",
-      "count": 2,
-      "pct": 0.4
+      "value": "celebratory",
+      "count": 19,
+      "pct": 0.633
+    },
+    {
+      "dimension": "content_type",
+      "value": "image",
+      "count": 17,
+      "pct": 0.567
+    },
+    {
+      "dimension": "composition",
+      "value": "product_hero_closeup",
+      "count": 14,
+      "pct": 0.467
     }
   ],
-  "losing_signals": [],
   "top_patterns": [
     {
       "pattern": "occasion_peg",
       "count": 3,
-      "pct": 0.6
+      "pct": 0.167
     },
     {
       "pattern": "arabic_hospitality_cue",
       "count": 2,
-      "pct": 0.4
+      "pct": 0.111
     },
     {
       "pattern": "product_hero",
       "count": 2,
-      "pct": 0.4
+      "pct": 0.111
     },
     {
-      "pattern": "eid_family_gathering",
+      "pattern": "promotional_giveaway",
       "count": 1,
-      "pct": 0.2
+      "pct": 0.056
     },
     {
-      "pattern": "invitation_to_witness",
+      "pattern": "multi_location_campaign",
       "count": 1,
-      "pct": 0.2
+      "pct": 0.056
     }
   ],
   "top_phrases_in_winners": [
@@ -95,7 +126,7 @@
     "register": null,
     "heritage_framing": "blended",
     "visual_complexity": "complex",
-    "posting_day": "tuesday",
+    "posting_day": "friday",
     "caption_length": "10-30 words",
     "hashtag_count": "1-5",
     "patterns": [
@@ -109,7 +140,9 @@
     "hospitality_cues": []
   },
   "red_flags": [
-    "AVOID format: image (100% eng for this occasion)",
+    "AVOID format: image (83% eng for this occasion)",
+    "AVOID: visual_complexity=simple (found in 66% of low-eng posts)",
+    "AVOID: tone=celebratory (found in 63% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
     "AVOID: video format if images/carousels are viable — video underperforms"
   ],
@@ -145,6 +178,6 @@
       "اطلب الآن"
     ],
     "hospitality_cues": [],
-    "playbook_obs_count": 9
+    "playbook_obs_count": 81
   }
 }

@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "generated_at": "2026-05-26T09:55:25Z",
+  "generated_at": "2026-05-26T10:23:26Z",
   "title": "OGZ Saudi Instagram Intelligence Playbook v4",
   "corpus": {
     "total_observations": 648,
@@ -24,26 +24,46 @@
     ],
     "top_5_avoid": [
       "Content type: video is the weakest format (41%)",
-      "Text overlays: posts WITH overlays score 68% vs 86% without",
+      "Text overlays: posts WITH overlays score 66% vs 36% without",
       "Aspect ratio: vertical_9x16 massively overindexed by weak accounts (-55pp)",
       "Visual complexity: moderate complexity is the weakest signal (-28pp vs complex)",
       "Hashtags: 16+ hashtags underperform — keep to 1-5 for best engagement"
     ],
     "sector_ranking": [
       {
-        "sector": "f_and_b",
-        "avg": 0.747,
-        "lift": 0.042
-      },
-      {
         "sector": "retail",
         "avg": 0.56,
-        "lift": -0.145
+        "lift": 0.156
       },
       {
         "sector": "beauty",
-        "avg": 0.44,
-        "lift": -0.265
+        "avg": 0.52,
+        "lift": 0.116
+      },
+      {
+        "sector": "f_and_b",
+        "avg": 0.515,
+        "lift": 0.111
+      },
+      {
+        "sector": "retail_lifestyle",
+        "avg": 0.157,
+        "lift": -0.247
+      },
+      {
+        "sector": "beauty_personal_care",
+        "avg": 0.093,
+        "lift": -0.311
+      },
+      {
+        "sector": "real_estate",
+        "avg": 0.062,
+        "lift": -0.342
+      },
+      {
+        "sector": "fashion",
+        "avg": 0,
+        "lift": -0.404
       }
     ]
   },
@@ -128,37 +148,44 @@
         "vision_2030": {
           "f_and_b": "image (100%, n=2)"
         },
-        "brand_campaign": {
-          "f_and_b": "video (100%, n=2)"
+        "national_day": {
+          "f_and_b": "video (100%, n=3)",
+          "beauty": "image (50%, n=2)"
         },
         "winter_seasonal": {
           "f_and_b": "carousel_slide (100%, n=3)"
         },
-        "eid_al_fitr": {
-          "f_and_b": "video (100%, n=3)"
-        },
         "graduation_season": {
           "f_and_b": "image (100%, n=3)"
+        },
+        "eid_al_fitr": {
+          "f_and_b": "video (100%, n=3)"
         },
         "summer_campaign": {
           "f_and_b": "carousel_slide (100%, n=2)"
         },
-        "national_day": {
-          "f_and_b": "video (100%, n=2)"
-        },
         "ramadan": {
           "f_and_b": "image (91%, n=11)"
         },
+        "brand_campaign": {
+          "f_and_b": "carousel_slide (83%, n=3)"
+        },
         "evergreen": {
-          "f_and_b": "carousel_slide (86%, n=74)",
+          "f_and_b": "reel (79%, n=33)",
           "retail": "video (58%, n=18)",
-          "beauty": "carousel_slide (50%, n=2)"
+          "beauty": "carousel_slide (57%, n=7)",
+          "retail_lifestyle": "video (20%, n=141)",
+          "beauty_personal_care": "video (16%, n=104)",
+          "real_estate": "video (7%, n=50)"
+        },
+        "hajj": {
+          "f_and_b": "video (75%, n=2)"
+        },
+        "sporting_event": {
+          "f_and_b": "image (58%, n=6)"
         },
         "eid_al_adha": {
           "f_and_b": "video (50%, n=2)"
-        },
-        "sporting_event": {
-          "f_and_b": "image (50%, n=5)"
         },
         "national_sports_day": {
           "beauty": "image (0%, n=3)"
@@ -181,6 +208,10 @@
           "avg": 1.0,
           "n": 3
         },
+        "restaurant_interior": {
+          "avg": 1.0,
+          "n": 2
+        },
         "clean product display": {
           "avg": 1.0,
           "n": 1
@@ -193,24 +224,16 @@
           "avg": 1.0,
           "n": 1
         },
+        "event": {
+          "avg": 1.0,
+          "n": 1
+        },
         "Ramadan evening atmospheric with service hours announcement": {
-          "avg": 1.0,
-          "n": 1
-        },
-        "Ramadan prayer time service post": {
-          "avg": 1.0,
-          "n": 1
-        },
-        "employee tutorial spokesperson video": {
           "avg": 1.0,
           "n": 1
         }
       },
       "by_lighting": {
-        "warm product spotlight": {
-          "avg": 1.0,
-          "n": 2
-        },
         "clean white gold": {
           "avg": 1.0,
           "n": 1
@@ -228,6 +251,10 @@
           "n": 1
         },
         "warm lifestyle": {
+          "avg": 1.0,
+          "n": 1
+        },
+        "cinematic, warm heritage tones": {
           "avg": 1.0,
           "n": 1
         }
@@ -260,20 +287,20 @@
       },
       "by_complexity": {
         "complex": {
-          "avg": 0.888,
-          "n": 125
+          "avg": 0.886,
+          "n": 132
         },
         "minimal": {
-          "avg": 0.75,
-          "n": 10
-        },
-        "simple": {
-          "avg": 0.705,
-          "n": 44
+          "avg": 0.708,
+          "n": 12
         },
         "moderate": {
-          "avg": 0.626,
-          "n": 294
+          "avg": 0.557,
+          "n": 927
+        },
+        "simple": {
+          "avg": 0.281,
+          "n": 1687
         }
       },
       "complexity_uplift": null,
@@ -306,7 +333,7 @@
       ],
       "human_presence_lift": null,
       "agency_rules": [
-        "Best complexity: 'complex' (89%) — 'moderate' weakest (63%)",
+        "Best complexity: 'complex' (89%) — 'simple' weakest (28%)",
         "Counter-intuitive: complex visuals (+props, characters, overlays) outperform minimalist in Saudi content",
         "Best setting: 'retail_urban' (100%)",
         "Weakest setting: 'beauty creator setup' (0%)"
@@ -315,29 +342,29 @@
     "voice": {
       "question": "What tone and voice signals drive engagement?",
       "by_tone": {
+        "exciting": {
+          "avg": 1.0,
+          "n": 3
+        },
+        "reverent": {
+          "avg": 1.0,
+          "n": 3
+        },
+        "inspiring": {
+          "avg": 1.0,
+          "n": 4
+        },
         "witty": {
           "avg": 1.0,
           "n": 2
         },
-        "celebratory": {
-          "avg": 0.883,
-          "n": 30
+        "bold": {
+          "avg": 0.867,
+          "n": 15
         },
         "excited": {
-          "avg": 0.861,
-          "n": 36
-        },
-        "patriotic": {
-          "avg": 0.857,
-          "n": 21
-        },
-        "spiritual": {
-          "avg": 0.833,
-          "n": 3
-        },
-        "inviting": {
-          "avg": 0.818,
-          "n": 33
+          "avg": 0.851,
+          "n": 37
         }
       },
       "by_register": {
@@ -353,6 +380,10 @@
           "avg": 0.891,
           "n": 23
         },
+        "conversational": {
+          "avg": 0.889,
+          "n": 9
+        },
         "promotional": {
           "avg": 0.833,
           "n": 24
@@ -360,10 +391,6 @@
         "playful": {
           "avg": 0.821,
           "n": 14
-        },
-        "casual": {
-          "avg": 0.675,
-          "n": 232
         },
         "aspirational": {
           "avg": 0.667,
@@ -374,8 +401,16 @@
           "n": 22
         },
         "formal": {
-          "avg": 0.65,
-          "n": 50
+          "avg": 0.656,
+          "n": 64
+        },
+        "casual": {
+          "avg": 0.625,
+          "n": 351
+        },
+        "informal": {
+          "avg": 0.568,
+          "n": 22
         },
         "patriotic": {
           "avg": 0.357,
@@ -432,9 +467,9 @@
         }
       },
       "agency_rules": [
-        "Best tone: 'witty' (100%) — avoid: 'neutral' (0%)",
+        "Best tone: 'exciting' (100%) — avoid: 'neutral' (0%)",
         "Best register: 'professional' (96%)",
-        "Best voice combo: tone='celebratory' + register='visual_only' (100%, n=3)",
+        "Best voice combo: tone='exciting' + register='casual' (100%, n=3)",
         "Heritage beats modern by +6% (44% vs 38%) — use heritage cues in briefs",
         "Best dialect signal: 'unknown' (96%)",
         "Best cultural combo: neutral + saudi_colloquial (100%, n=5)"
@@ -705,37 +740,44 @@
         "vision_2030": {
           "f_and_b": "image (100%, n=2)"
         },
-        "brand_campaign": {
-          "f_and_b": "video (100%, n=2)"
+        "national_day": {
+          "f_and_b": "video (100%, n=3)",
+          "beauty": "image (50%, n=2)"
         },
         "winter_seasonal": {
           "f_and_b": "carousel_slide (100%, n=3)"
         },
-        "eid_al_fitr": {
-          "f_and_b": "video (100%, n=3)"
-        },
         "graduation_season": {
           "f_and_b": "image (100%, n=3)"
+        },
+        "eid_al_fitr": {
+          "f_and_b": "video (100%, n=3)"
         },
         "summer_campaign": {
           "f_and_b": "carousel_slide (100%, n=2)"
         },
-        "national_day": {
-          "f_and_b": "video (100%, n=2)"
-        },
         "ramadan": {
           "f_and_b": "image (91%, n=11)"
         },
+        "brand_campaign": {
+          "f_and_b": "carousel_slide (83%, n=3)"
+        },
         "evergreen": {
-          "f_and_b": "carousel_slide (86%, n=74)",
+          "f_and_b": "reel (79%, n=33)",
           "retail": "video (58%, n=18)",
-          "beauty": "carousel_slide (50%, n=2)"
+          "beauty": "carousel_slide (57%, n=7)",
+          "retail_lifestyle": "video (20%, n=141)",
+          "beauty_personal_care": "video (16%, n=104)",
+          "real_estate": "video (7%, n=50)"
+        },
+        "hajj": {
+          "f_and_b": "video (75%, n=2)"
+        },
+        "sporting_event": {
+          "f_and_b": "image (58%, n=6)"
         },
         "eid_al_adha": {
           "f_and_b": "video (50%, n=2)"
-        },
-        "sporting_event": {
-          "f_and_b": "image (50%, n=5)"
         },
         "national_sports_day": {
           "beauty": "image (0%, n=3)"
@@ -748,7 +790,7 @@
           "content_type": "reel",
           "count": 2,
           "avg_engagement": 1.0,
-          "lift_vs_avg": 0.295
+          "lift_vs_avg": 0.596
         },
         {
           "occasion": "vision_2030",
@@ -756,7 +798,15 @@
           "content_type": "image",
           "count": 2,
           "avg_engagement": 1.0,
-          "lift_vs_avg": 0.295
+          "lift_vs_avg": 0.596
+        },
+        {
+          "occasion": "national_day",
+          "sector": "f_and_b",
+          "content_type": "video",
+          "count": 3,
+          "avg_engagement": 1.0,
+          "lift_vs_avg": 0.596
         },
         {
           "occasion": "founding_day",
@@ -764,15 +814,7 @@
           "content_type": "image",
           "count": 2,
           "avg_engagement": 1.0,
-          "lift_vs_avg": 0.295
-        },
-        {
-          "occasion": "brand_campaign",
-          "sector": "f_and_b",
-          "content_type": "video",
-          "count": 2,
-          "avg_engagement": 1.0,
-          "lift_vs_avg": 0.295
+          "lift_vs_avg": 0.596
         },
         {
           "occasion": "winter_seasonal",
@@ -780,15 +822,7 @@
           "content_type": "carousel_slide",
           "count": 3,
           "avg_engagement": 1.0,
-          "lift_vs_avg": 0.295
-        },
-        {
-          "occasion": "eid_al_fitr",
-          "sector": "f_and_b",
-          "content_type": "image",
-          "count": 2,
-          "avg_engagement": 1.0,
-          "lift_vs_avg": 0.295
+          "lift_vs_avg": 0.596
         },
         {
           "occasion": "graduation_season",
@@ -796,7 +830,7 @@
           "content_type": "image",
           "count": 3,
           "avg_engagement": 1.0,
-          "lift_vs_avg": 0.295
+          "lift_vs_avg": 0.596
         },
         {
           "occasion": "eid_al_fitr",
@@ -804,7 +838,7 @@
           "content_type": "video",
           "count": 3,
           "avg_engagement": 1.0,
-          "lift_vs_avg": 0.295
+          "lift_vs_avg": 0.596
         },
         {
           "occasion": "summer_campaign",
@@ -812,22 +846,30 @@
           "content_type": "carousel_slide",
           "count": 2,
           "avg_engagement": 1.0,
-          "lift_vs_avg": 0.295
+          "lift_vs_avg": 0.596
+        },
+        {
+          "occasion": "ramadan",
+          "sector": "f_and_b",
+          "content_type": "image",
+          "count": 11,
+          "avg_engagement": 0.909,
+          "lift_vs_avg": 0.505
         },
         {
           "occasion": "national_day",
           "sector": "f_and_b",
-          "content_type": "video",
-          "count": 2,
-          "avg_engagement": 1.0,
-          "lift_vs_avg": 0.295
+          "content_type": "image",
+          "count": 5,
+          "avg_engagement": 0.9,
+          "lift_vs_avg": 0.496
         }
       ],
       "agency_rules": [
         "eid_al_fitr: use video (100%, n=3)",
         "ramadan: use image (91%, n=11)",
-        "national_day: use image (90%, n=5)",
-        "evergreen: use carousel_slide (86%, n=74)"
+        "national_day: use video (100%, n=3)",
+        "evergreen: use reel (79%, n=33)"
       ]
     },
     "posting_day": {
@@ -977,9 +1019,9 @@
     },
     "overlay": {
       "question": "Should posts include text overlays, and in what language?",
-      "has_overlay_avg": 0.676,
-      "no_overlay_avg": 0.86,
-      "overlay_presence_lift": -0.184,
+      "has_overlay_avg": 0.664,
+      "no_overlay_avg": 0.359,
+      "overlay_presence_lift": 0.305,
       "by_language": {
         "spanish": {
           "avg": 1.0,
@@ -994,38 +1036,38 @@
           "n": 56
         },
         "arabic": {
-          "avg": 0.654,
-          "n": 340
+          "avg": 0.641,
+          "n": 351
         }
       },
       "by_overlay_type": {
         "event_info": {
-          "avg": 0.868,
-          "n": 19
+          "avg": 0.825,
+          "n": 20
         },
         "brand_identity": {
-          "avg": 0.817,
-          "n": 126
+          "avg": 0.815,
+          "n": 127
         },
         "cta": {
           "avg": 0.773,
           "n": 22
         },
         "other": {
-          "avg": 0.69,
-          "n": 247
+          "avg": 0.678,
+          "n": 253
         },
         "price_offer": {
-          "avg": 0.618,
-          "n": 38
-        },
-        "product_name": {
-          "avg": 0.539,
-          "n": 38
+          "avg": 0.613,
+          "n": 40
         },
         "how_to": {
           "avg": 0.531,
           "n": 16
+        },
+        "product_name": {
+          "avg": 0.526,
+          "n": 39
         },
         "hashtag": {
           "avg": 0.5,
@@ -1033,50 +1075,50 @@
         }
       },
       "agency_rules": [
-        "Best overlay language: 'spanish' (100%) vs 'arabic' (65%)",
-        "Has text overlay: 68% vs no overlay: 86% (lift -0.18)",
-        "Best overlay type: 'event_info' (87%)"
+        "Best overlay language: 'spanish' (100%) vs 'arabic' (64%)",
+        "Has text overlay: 66% vs no overlay: 36% (lift +0.30)",
+        "Best overlay type: 'event_info' (82%)"
       ]
     },
     "sector_dna": {
       "question": "What makes each sector's content distinct?",
       "sectors": {
         "f_and_b": {
-          "avg_engagement": 0.747,
-          "lift_vs_corpus": 0.042,
-          "obs_count": 398,
+          "avg_engagement": 0.515,
+          "lift_vs_corpus": 0.111,
+          "obs_count": 1865,
           "dominant_signals": {
             "content_type": {
               "value": "image",
-              "pct": 0.475
+              "pct": 0.441
             },
             "aspect_ratio": {
-              "value": "square_1x1",
-              "pct": 0.407
+              "value": "portrait_4x5",
+              "pct": 0.42
             },
             "editing_pace": {
               "value": "viral_fast",
               "pct": 0.632
             },
             "day_of_week": {
-              "value": "tuesday",
-              "pct": 0.168
+              "value": "thursday",
+              "pct": 0.16
             },
             "composition": {
               "value": "product_hero_closeup",
-              "pct": 0.246
+              "pct": 0.416
             },
             "setting": {
               "value": "studio",
-              "pct": 0.191
+              "pct": 0.266
             },
             "lighting": {
               "value": "cold_studio",
-              "pct": 0.178
+              "pct": 0.186
             },
             "visual_complexity": {
-              "value": "moderate",
-              "pct": 0.598
+              "value": "simple",
+              "pct": 0.562
             },
             "color_warmth": {
               "value": "warm",
@@ -1084,23 +1126,23 @@
             },
             "heritage_framing": {
               "value": "modern",
-              "pct": 0.607
+              "pct": 0.715
             },
             "tone": {
               "value": "playful",
-              "pct": 0.142
+              "pct": 0.319
             },
             "register": {
               "value": "casual",
-              "pct": 0.598
+              "pct": 0.654
             },
             "dialect": {
               "value": "najdi",
-              "pct": 0.603
+              "pct": 0.541
             },
             "production_quality": {
               "value": "professional",
-              "pct": 0.877
+              "pct": 0.463
             },
             "opener_formula": {
               "value": "statement",
@@ -1108,9 +1150,40 @@
             }
           }
         },
+        "retail_lifestyle": {
+          "avg_engagement": 0.157,
+          "lift_vs_corpus": -0.247,
+          "obs_count": 359,
+          "dominant_signals": {
+            "content_type": {
+              "value": "image",
+              "pct": 0.404
+            },
+            "composition": {
+              "value": "product_hero_closeup",
+              "pct": 0.529
+            },
+            "visual_complexity": {
+              "value": "simple",
+              "pct": 0.716
+            },
+            "heritage_framing": {
+              "value": "modern",
+              "pct": 0.897
+            },
+            "tone": {
+              "value": "informative",
+              "pct": 0.713
+            },
+            "production_quality": {
+              "value": "professional",
+              "pct": 0.641
+            }
+          }
+        },
         "retail": {
           "avg_engagement": 0.56,
-          "lift_vs_corpus": -0.145,
+          "lift_vs_corpus": 0.156,
           "obs_count": 25,
           "dominant_signals": {
             "content_type": {
@@ -1167,58 +1240,155 @@
             }
           }
         },
+        "fashion": {
+          "avg_engagement": 0,
+          "lift_vs_corpus": -0.404,
+          "obs_count": 1,
+          "dominant_signals": {
+            "content_type": {
+              "value": "image",
+              "pct": 1.0
+            },
+            "composition": {
+              "value": "product_hero_closeup",
+              "pct": 1.0
+            },
+            "visual_complexity": {
+              "value": "simple",
+              "pct": 1.0
+            },
+            "heritage_framing": {
+              "value": "modern",
+              "pct": 1.0
+            },
+            "tone": {
+              "value": "casual",
+              "pct": 1.0
+            },
+            "production_quality": {
+              "value": "low",
+              "pct": 1.0
+            }
+          }
+        },
+        "beauty_personal_care": {
+          "avg_engagement": 0.093,
+          "lift_vs_corpus": -0.311,
+          "obs_count": 307,
+          "dominant_signals": {
+            "content_type": {
+              "value": "image",
+              "pct": 0.502
+            },
+            "composition": {
+              "value": "product_hero_closeup",
+              "pct": 0.717
+            },
+            "visual_complexity": {
+              "value": "simple",
+              "pct": 0.932
+            },
+            "heritage_framing": {
+              "value": "modern",
+              "pct": 0.925
+            },
+            "tone": {
+              "value": "informative",
+              "pct": 0.599
+            },
+            "production_quality": {
+              "value": "semi_professional",
+              "pct": 0.414
+            }
+          }
+        },
         "beauty": {
-          "avg_engagement": 0.44,
-          "lift_vs_corpus": -0.265,
-          "obs_count": 50,
+          "avg_engagement": 0.52,
+          "lift_vs_corpus": 0.116,
+          "obs_count": 100,
           "dominant_signals": {
             "content_type": {
               "value": "image",
               "pct": 0.6
             },
+            "aspect_ratio": {
+              "value": "portrait_4x5",
+              "pct": 0.674
+            },
             "day_of_week": {
-              "value": "wednesday",
-              "pct": 0.22
+              "value": "sunday",
+              "pct": 0.19
             },
             "composition": {
               "value": "product_hero_closeup",
-              "pct": 0.36
+              "pct": 0.18
             },
             "setting": {
               "value": "studio",
-              "pct": 0.58
+              "pct": 0.73
             },
             "lighting": {
-              "value": "mixed_ambient",
-              "pct": 0.42
+              "value": "studio_soft",
+              "pct": 0.24
             },
             "visual_complexity": {
               "value": "moderate",
-              "pct": 0.88
+              "pct": 0.6
             },
             "heritage_framing": {
               "value": "modern",
-              "pct": 0.8
+              "pct": 0.89
             },
             "tone": {
-              "value": "informative",
-              "pct": 0.14
+              "value": "aspirational",
+              "pct": 0.21
             },
             "register": {
               "value": "casual",
-              "pct": 0.38
+              "pct": 0.44
             },
             "dialect": {
-              "value": "gulf",
-              "pct": 0.5
+              "value": "hejazi",
+              "pct": 0.39
             },
             "production_quality": {
               "value": "professional",
-              "pct": 0.5
+              "pct": 0.75
             },
             "opener_formula": {
               "value": "statement",
-              "pct": 0.886
+              "pct": 0.882
+            }
+          }
+        },
+        "real_estate": {
+          "avg_engagement": 0.062,
+          "lift_vs_corpus": -0.342,
+          "obs_count": 113,
+          "dominant_signals": {
+            "content_type": {
+              "value": "video",
+              "pct": 0.442
+            },
+            "composition": {
+              "value": "text_dominant",
+              "pct": 0.522
+            },
+            "visual_complexity": {
+              "value": "simple",
+              "pct": 0.549
+            },
+            "heritage_framing": {
+              "value": "modern",
+              "pct": 0.938
+            },
+            "tone": {
+              "value": "informative",
+              "pct": 0.894
+            },
+            "production_quality": {
+              "value": "professional",
+              "pct": 0.885
             }
           }
         }
@@ -1227,7 +1397,9 @@
         "content_type",
         "aspect_ratio",
         "day_of_week",
+        "composition",
         "lighting",
+        "visual_complexity",
         "heritage_framing",
         "tone",
         "register",
@@ -1238,9 +1410,13 @@
         "F&B dominates with restaurant_indoor + product_hero + playful tone",
         "Beauty underperforms (-23pp) — studio + informative tone — needs tone refresh",
         "Retail sits between: blended heritage, studio setting",
-        "f_and_b: 75% — leads with product_hero_closeup + studio + playful tone",
         "retail: 56% — leads with product_hero_closeup + studio + proud tone",
-        "beauty: 44% — leads with product_hero_closeup + studio + informative tone"
+        "beauty: 52% — leads with product_hero_closeup + studio + aspirational tone",
+        "f_and_b: 52% — leads with product_hero_closeup + studio + playful tone",
+        "retail_lifestyle: 16% — leads with product_hero_closeup + ? + informative tone",
+        "beauty_personal_care: 9% — leads with product_hero_closeup + ? + informative tone",
+        "real_estate: 6% — leads with text_dominant + ? + informative tone",
+        "fashion: 0% — leads with product_hero_closeup + ? + casual tone"
       ]
     },
     "elite_vs_weak": {
@@ -1415,20 +1591,11 @@
       "question": "What are the single biggest engagement boosters and killers?",
       "top_boosters": [
         {
-          "dimension": "heritage_vs_modern",
-          "value": "neutral",
-          "count": 8,
-          "avg_engagement": 1.0,
-          "lift_vs_avg": 0.329,
-          "high_rate": 1.0,
-          "confidence": "low"
-        },
-        {
           "dimension": "aspect_ratio",
           "value": "landscape_4x3",
           "count": 10,
           "avg_engagement": 1.0,
-          "lift_vs_avg": 0.329,
+          "lift_vs_avg": 0.559,
           "high_rate": 1.0,
           "confidence": "low"
         },
@@ -1437,7 +1604,7 @@
           "value": "retail_urban",
           "count": 7,
           "avg_engagement": 1.0,
-          "lift_vs_avg": 0.329,
+          "lift_vs_avg": 0.559,
           "high_rate": 1.0,
           "confidence": "low"
         },
@@ -1446,7 +1613,7 @@
           "value": "unknown",
           "count": 50,
           "avg_engagement": 0.96,
-          "lift_vs_avg": 0.289,
+          "lift_vs_avg": 0.519,
           "high_rate": 0.92,
           "confidence": "high"
         },
@@ -1455,7 +1622,7 @@
           "value": "professional",
           "count": 12,
           "avg_engagement": 0.958,
-          "lift_vs_avg": 0.287,
+          "lift_vs_avg": 0.517,
           "high_rate": 0.917,
           "confidence": "low"
         },
@@ -1464,7 +1631,7 @@
           "value": "4+",
           "count": 10,
           "avg_engagement": 0.95,
-          "lift_vs_avg": 0.279,
+          "lift_vs_avg": 0.509,
           "high_rate": 0.9,
           "confidence": "low"
         },
@@ -1473,7 +1640,7 @@
           "value": "msa",
           "count": 17,
           "avg_engagement": 0.941,
-          "lift_vs_avg": 0.27,
+          "lift_vs_avg": 0.5,
           "high_rate": 0.882,
           "confidence": "medium"
         },
@@ -1482,7 +1649,7 @@
           "value": "founding_day",
           "count": 7,
           "avg_engagement": 0.929,
-          "lift_vs_avg": 0.258,
+          "lift_vs_avg": 0.488,
           "high_rate": 0.857,
           "confidence": "low"
         },
@@ -1491,7 +1658,7 @@
           "value": "neutral",
           "count": 14,
           "avg_engagement": 0.929,
-          "lift_vs_avg": 0.258,
+          "lift_vs_avg": 0.488,
           "high_rate": 0.929,
           "confidence": "low"
         },
@@ -1500,7 +1667,7 @@
           "value": "landscape_16x9",
           "count": 19,
           "avg_engagement": 0.921,
-          "lift_vs_avg": 0.25,
+          "lift_vs_avg": 0.48,
           "high_rate": 0.895,
           "confidence": "medium"
         },
@@ -1509,7 +1676,7 @@
           "value": "colloquial_arabic",
           "count": 11,
           "avg_engagement": 0.909,
-          "lift_vs_avg": 0.238,
+          "lift_vs_avg": 0.468,
           "high_rate": 0.818,
           "confidence": "low"
         },
@@ -1518,7 +1685,7 @@
           "value": "male",
           "count": 38,
           "avg_engagement": 0.908,
-          "lift_vs_avg": 0.237,
+          "lift_vs_avg": 0.467,
           "high_rate": 0.816,
           "confidence": "medium"
         },
@@ -1527,7 +1694,7 @@
           "value": "celebratory",
           "count": 10,
           "avg_engagement": 0.9,
-          "lift_vs_avg": 0.229,
+          "lift_vs_avg": 0.459,
           "high_rate": 0.8,
           "confidence": "low"
         },
@@ -1536,7 +1703,7 @@
           "value": "weak",
           "count": 5,
           "avg_engagement": 0.9,
-          "lift_vs_avg": 0.229,
+          "lift_vs_avg": 0.459,
           "high_rate": 0.8,
           "confidence": "low"
         },
@@ -1545,18 +1712,126 @@
           "value": "visual_only",
           "count": 23,
           "avg_engagement": 0.891,
-          "lift_vs_avg": 0.22,
+          "lift_vs_avg": 0.45,
           "high_rate": 0.783,
           "confidence": "medium"
+        },
+        {
+          "dimension": "register",
+          "value": "conversational",
+          "count": 9,
+          "avg_engagement": 0.889,
+          "lift_vs_avg": 0.448,
+          "high_rate": 0.778,
+          "confidence": "low"
         }
       ],
       "top_killers": [
+        {
+          "dimension": "production_quality",
+          "value": "low",
+          "count": 291,
+          "avg_engagement": 0.002,
+          "lift_vs_avg": -0.439,
+          "high_rate": 0.0,
+          "confidence": "high"
+        },
+        {
+          "dimension": "sector",
+          "value": "real_estate",
+          "count": 113,
+          "avg_engagement": 0.062,
+          "lift_vs_avg": -0.379,
+          "high_rate": 0.027,
+          "confidence": "high"
+        },
+        {
+          "dimension": "sector",
+          "value": "beauty_personal_care",
+          "count": 307,
+          "avg_engagement": 0.093,
+          "lift_vs_avg": -0.348,
+          "high_rate": 0.036,
+          "confidence": "high"
+        },
+        {
+          "dimension": "sector",
+          "value": "retail_lifestyle",
+          "count": 359,
+          "avg_engagement": 0.157,
+          "lift_vs_avg": -0.284,
+          "high_rate": 0.067,
+          "confidence": "high"
+        },
+        {
+          "dimension": "tone",
+          "value": "casual",
+          "count": 273,
+          "avg_engagement": 0.179,
+          "lift_vs_avg": -0.262,
+          "high_rate": 0.095,
+          "confidence": "high"
+        },
+        {
+          "dimension": "tone",
+          "value": "informative",
+          "count": 886,
+          "avg_engagement": 0.196,
+          "lift_vs_avg": -0.245,
+          "high_rate": 0.107,
+          "confidence": "high"
+        },
+        {
+          "dimension": "composition_style",
+          "value": "editorial",
+          "count": 49,
+          "avg_engagement": 0.204,
+          "lift_vs_avg": -0.237,
+          "high_rate": 0.082,
+          "confidence": "medium"
+        },
+        {
+          "dimension": "tone",
+          "value": "professional",
+          "count": 16,
+          "avg_engagement": 0.219,
+          "lift_vs_avg": -0.222,
+          "high_rate": 0.125,
+          "confidence": "medium"
+        },
+        {
+          "dimension": "hashtag_count",
+          "value": "16+",
+          "count": 72,
+          "avg_engagement": 0.236,
+          "lift_vs_avg": -0.205,
+          "high_rate": 0.083,
+          "confidence": "high"
+        },
+        {
+          "dimension": "voice_language",
+          "value": "bilingual",
+          "count": 589,
+          "avg_engagement": 0.25,
+          "lift_vs_avg": -0.191,
+          "high_rate": 0.119,
+          "confidence": "high"
+        },
+        {
+          "dimension": "visual_complexity",
+          "value": "simple",
+          "count": 1687,
+          "avg_engagement": 0.281,
+          "lift_vs_avg": -0.16,
+          "high_rate": 0.176,
+          "confidence": "high"
+        },
         {
           "dimension": "composition_style",
           "value": "product_hero",
           "count": 31,
           "avg_engagement": 0.29,
-          "lift_vs_avg": -0.381,
+          "lift_vs_avg": -0.151,
           "high_rate": 0.097,
           "confidence": "medium"
         },
@@ -1565,126 +1840,27 @@
           "value": "transactional",
           "count": 31,
           "avg_engagement": 0.306,
-          "lift_vs_avg": -0.365,
+          "lift_vs_avg": -0.135,
           "high_rate": 0.258,
           "confidence": "medium"
         },
         {
-          "dimension": "register",
-          "value": "patriotic",
-          "count": 7,
-          "avg_engagement": 0.357,
-          "lift_vs_avg": -0.314,
-          "high_rate": 0.143,
-          "confidence": "low"
-        },
-        {
-          "dimension": "lighting",
-          "value": "natural mixed",
-          "count": 5,
-          "avg_engagement": 0.4,
-          "lift_vs_avg": -0.271,
-          "high_rate": 0.0,
-          "confidence": "low"
-        },
-        {
-          "dimension": "hashtag_count",
-          "value": "16+",
-          "count": 17,
-          "avg_engagement": 0.412,
-          "lift_vs_avg": -0.259,
-          "high_rate": 0.118,
-          "confidence": "medium"
-        },
-        {
-          "dimension": "tone",
-          "value": "excitement",
-          "count": 8,
-          "avg_engagement": 0.438,
-          "lift_vs_avg": -0.233,
-          "high_rate": 0.0,
-          "confidence": "low"
-        },
-        {
-          "dimension": "color_primary",
-          "value": "red",
-          "count": 13,
-          "avg_engagement": 0.462,
-          "lift_vs_avg": -0.209,
-          "high_rate": 0.154,
-          "confidence": "low"
-        },
-        {
-          "dimension": "setting",
-          "value": "restaurant interior",
-          "count": 5,
-          "avg_engagement": 0.5,
-          "lift_vs_avg": -0.171,
-          "high_rate": 0.0,
-          "confidence": "low"
-        },
-        {
-          "dimension": "tone",
-          "value": "humorous",
-          "count": 5,
-          "avg_engagement": 0.5,
-          "lift_vs_avg": -0.171,
-          "high_rate": 0.0,
-          "confidence": "low"
-        },
-        {
-          "dimension": "tone",
-          "value": "educational",
-          "count": 8,
-          "avg_engagement": 0.5,
-          "lift_vs_avg": -0.171,
-          "high_rate": 0.125,
-          "confidence": "low"
-        },
-        {
-          "dimension": "dialect",
-          "value": "saudi_colloquial",
-          "count": 124,
-          "avg_engagement": 0.508,
-          "lift_vs_avg": -0.163,
-          "high_rate": 0.258,
+          "dimension": "caption_length",
+          "value": "30-60w",
+          "count": 574,
+          "avg_engagement": 0.313,
+          "lift_vs_avg": -0.128,
+          "high_rate": 0.178,
           "confidence": "high"
         },
         {
-          "dimension": "sector",
-          "value": "beauty",
-          "count": 100,
-          "avg_engagement": 0.52,
-          "lift_vs_avg": -0.151,
-          "high_rate": 0.21,
+          "dimension": "composition_style",
+          "value": "product_hero_closeup",
+          "count": 1216,
+          "avg_engagement": 0.322,
+          "lift_vs_avg": -0.119,
+          "high_rate": 0.212,
           "confidence": "high"
-        },
-        {
-          "dimension": "lighting",
-          "value": "cold_studio",
-          "count": 117,
-          "avg_engagement": 0.526,
-          "lift_vs_avg": -0.145,
-          "high_rate": 0.35,
-          "confidence": "high"
-        },
-        {
-          "dimension": "video_duration",
-          "value": "15-30s",
-          "count": 32,
-          "avg_engagement": 0.547,
-          "lift_vs_avg": -0.124,
-          "high_rate": 0.344,
-          "confidence": "medium"
-        },
-        {
-          "dimension": "hashtag_count",
-          "value": "6-15",
-          "count": 20,
-          "avg_engagement": 0.55,
-          "lift_vs_avg": -0.121,
-          "high_rate": 0.35,
-          "confidence": "medium"
         }
       ],
       "agency_rules": []
@@ -1706,6 +1882,19 @@
           "lift_vs_baseline": 0.35
         },
         {
+          "primary_pattern": "food_review",
+          "primary_pattern_name": "Food Review",
+          "media_type": "image",
+          "setting": "unknown",
+          "lighting": "unknown",
+          "register": "unknown",
+          "tone": "casual",
+          "obs_count": 6,
+          "high_engagement_rate": 1.0,
+          "avg_engagement": 1.0,
+          "lift_vs_baseline": 0.35
+        },
+        {
           "primary_pattern": "product_hero",
           "primary_pattern_name": "Product Hero Static",
           "media_type": "carousel_slide",
@@ -1720,7 +1909,7 @@
         },
         {
           "primary_pattern": "entertainment_collab",
-          "primary_pattern_name": "entertainment_collab",
+          "primary_pattern_name": "Entertainment Collab",
           "media_type": "image",
           "setting": "graphic",
           "lighting": "artificial",
@@ -1746,12 +1935,25 @@
         },
         {
           "primary_pattern": "employee_story_first_person",
-          "primary_pattern_name": "employee_story_first_person",
+          "primary_pattern_name": "Employee Story First Person",
           "media_type": "image",
           "setting": "studio",
           "lighting": "artificial",
           "register": "conversational",
           "tone": "inspiring",
+          "obs_count": 3,
+          "high_engagement_rate": 1.0,
+          "avg_engagement": 1.0,
+          "lift_vs_baseline": 0.35
+        },
+        {
+          "primary_pattern": "gamification",
+          "primary_pattern_name": "Gamification",
+          "media_type": "video",
+          "setting": "unknown",
+          "lighting": "unknown",
+          "register": "unknown",
+          "tone": "playful",
           "obs_count": 3,
           "high_engagement_rate": 1.0,
           "avg_engagement": 1.0,
@@ -1765,32 +1967,6 @@
           "lighting": "cold_studio",
           "register": "promotional",
           "tone": "excited",
-          "obs_count": 2,
-          "high_engagement_rate": 1.0,
-          "avg_engagement": 1.0,
-          "lift_vs_baseline": 0.35
-        },
-        {
-          "primary_pattern": "product_hero",
-          "primary_pattern_name": "Product Hero Static",
-          "media_type": "image",
-          "setting": "studio",
-          "lighting": "cold_studio",
-          "register": "casual",
-          "tone": "inviting",
-          "obs_count": 2,
-          "high_engagement_rate": 1.0,
-          "avg_engagement": 1.0,
-          "lift_vs_baseline": 0.35
-        },
-        {
-          "primary_pattern": "overhead_tabletop_spread",
-          "primary_pattern_name": "Overhead Tabletop Spread",
-          "media_type": "reel",
-          "setting": "heritage_setting",
-          "lighting": "warm_studio",
-          "register": "casual",
-          "tone": "inviting",
           "obs_count": 2,
           "high_engagement_rate": 1.0,
           "avg_engagement": 1.0,
@@ -1923,19 +2099,59 @@
           "count": 2,
           "high_eng_rate": 0.0
         },
+        "eid_al_fitr": {
+          "media_type": "image",
+          "setting": "?",
+          "register": "?",
+          "tone": "playful",
+          "count": 9,
+          "high_eng_rate": 0.444
+        },
         "national_day": {
           "media_type": "image",
-          "setting": "studio",
-          "register": "formal",
-          "tone": "patriotic",
-          "count": 2,
-          "high_eng_rate": 0.0
+          "setting": "?",
+          "register": "?",
+          "tone": "celebratory",
+          "count": 16,
+          "high_eng_rate": 0.5
         },
         "ramadan": {
           "media_type": "image",
           "setting": "digital_graphic",
           "register": "celebratory",
           "tone": "patriotic",
+          "count": 2,
+          "high_eng_rate": 1.0
+        },
+        "seasonal": {
+          "media_type": "image",
+          "setting": "?",
+          "register": "?",
+          "tone": "celebratory",
+          "count": 9,
+          "high_eng_rate": 0.667
+        },
+        "general": {
+          "media_type": "video",
+          "setting": "?",
+          "register": "?",
+          "tone": "informative",
+          "count": 3,
+          "high_eng_rate": 0.667
+        },
+        "eid_al_adha": {
+          "media_type": "carousel_slide",
+          "setting": "?",
+          "register": "?",
+          "tone": "celebratory",
+          "count": 2,
+          "high_eng_rate": 1.0
+        },
+        "founding_day": {
+          "media_type": "video",
+          "setting": "?",
+          "register": "?",
+          "tone": "playful",
           "count": 2,
           "high_eng_rate": 1.0
         },
@@ -2010,6 +2226,29 @@
             "high_eng_rate": 0.333
           }
         ],
+        "beauty_personal_care": [
+          {
+            "pattern": "none",
+            "media_type": "carousel_slide",
+            "setting": "?",
+            "count": 49,
+            "high_eng_rate": 0.061
+          },
+          {
+            "pattern": "none",
+            "media_type": "video",
+            "setting": "?",
+            "count": 104,
+            "high_eng_rate": 0.048
+          },
+          {
+            "pattern": "none",
+            "media_type": "image",
+            "setting": "?",
+            "count": 154,
+            "high_eng_rate": 0.019
+          }
+        ],
         "f_and_b": [
           {
             "pattern": "overhead_tabletop_spread",
@@ -2047,6 +2286,29 @@
             "high_eng_rate": 1.0
           }
         ],
+        "real_estate": [
+          {
+            "pattern": "none",
+            "media_type": "video",
+            "setting": "?",
+            "count": 50,
+            "high_eng_rate": 0.04
+          },
+          {
+            "pattern": "none",
+            "media_type": "image",
+            "setting": "?",
+            "count": 38,
+            "high_eng_rate": 0.026
+          },
+          {
+            "pattern": "none",
+            "media_type": "carousel_slide",
+            "setting": "?",
+            "count": 25,
+            "high_eng_rate": 0.0
+          }
+        ],
         "retail": [
           {
             "pattern": "product_hero",
@@ -2062,7 +2324,31 @@
             "count": 2,
             "high_eng_rate": 0.0
           }
-        ]
+        ],
+        "retail_lifestyle": [
+          {
+            "pattern": "none",
+            "media_type": "image",
+            "setting": "?",
+            "count": 145,
+            "high_eng_rate": 0.069
+          },
+          {
+            "pattern": "none",
+            "media_type": "carousel_slide",
+            "setting": "?",
+            "count": 73,
+            "high_eng_rate": 0.068
+          },
+          {
+            "pattern": "none",
+            "media_type": "video",
+            "setting": "?",
+            "count": 140,
+            "high_eng_rate": 0.064
+          }
+        ],
+        "fashion": []
       }
     },
     "carousel": {
@@ -2290,140 +2576,149 @@
     },
     "video": {
       "question": "When should we use video, and what video formula works?",
-      "video_avg": 0.649,
-      "video_lift_vs_corpus": -0.056,
+      "video_avg": 0.427,
+      "video_lift_vs_corpus": 0.023,
       "type_comparison": {
         "video": {
-          "count": 121,
-          "avg": 0.599,
-          "lift": -0.106
+          "count": 1011,
+          "avg": 0.412,
+          "lift": 0.008
         },
         "reel": {
           "count": 37,
           "avg": 0.811,
-          "lift": 0.106
+          "lift": 0.407
         },
         "static_content": {
-          "count": 315,
-          "avg": 0.733,
-          "lift": 0.028
+          "count": 1722,
+          "avg": 0.39,
+          "lift": -0.014
         }
       },
       "by_duration": [
         {
           "bucket": "short_0_15s",
-          "count": 35,
+          "count": 45,
           "avg_duration_s": 10.5,
-          "avg_engagement": 0.571,
-          "lift_vs_corpus": -0.134
+          "avg_engagement": 0.589,
+          "lift_vs_corpus": 0.185
         },
         {
           "bucket": "medium_16_30s",
-          "count": 30,
-          "avg_duration_s": 23.1,
-          "avg_engagement": 0.55,
-          "lift_vs_corpus": -0.155
+          "count": 41,
+          "avg_duration_s": 22.4,
+          "avg_engagement": 0.61,
+          "lift_vs_corpus": 0.206
         },
         {
           "bucket": "long_31_60s",
-          "count": 19,
-          "avg_duration_s": 44.9,
-          "avg_engagement": 0.763,
-          "lift_vs_corpus": 0.058
+          "count": 25,
+          "avg_duration_s": 44.2,
+          "avg_engagement": 0.72,
+          "lift_vs_corpus": 0.316
         },
         {
           "bucket": "extended_60s_plus",
-          "count": 10,
-          "avg_duration_s": 85.0,
-          "avg_engagement": 0.8,
-          "lift_vs_corpus": 0.095
+          "count": 13,
+          "avg_duration_s": 84.5,
+          "avg_engagement": 0.769,
+          "lift_vs_corpus": 0.365
         }
       ],
       "by_aspect_ratio": [
         {
           "value": "landscape_16x9",
-          "count": 12,
-          "pct": 0.076,
-          "avg_engagement": 0.875,
-          "lift_vs_corpus": 0.17
+          "count": 15,
+          "pct": 0.014,
+          "avg_engagement": 0.9,
+          "lift_vs_corpus": 0.496
         },
         {
           "value": "portrait_4x5",
           "count": 6,
-          "pct": 0.038,
+          "pct": 0.006,
           "avg_engagement": 0.75,
-          "lift_vs_corpus": 0.045
+          "lift_vs_corpus": 0.346
         },
         {
           "value": "vertical_9x16",
-          "count": 44,
-          "pct": 0.278,
-          "avg_engagement": 0.636,
-          "lift_vs_corpus": -0.069
+          "count": 94,
+          "pct": 0.09,
+          "avg_engagement": 0.617,
+          "lift_vs_corpus": 0.213
         },
         {
           "value": "square_1x1",
           "count": 11,
-          "pct": 0.07,
+          "pct": 0.01,
           "avg_engagement": 0.455,
-          "lift_vs_corpus": -0.25
+          "lift_vs_corpus": 0.051
         }
       ],
       "by_tone": [
         {
-          "value": "inviting",
-          "count": 5,
-          "pct": 0.032,
-          "avg_engagement": 0.9,
-          "lift_vs_corpus": 0.195
+          "value": "bold",
+          "count": 14,
+          "pct": 0.013,
+          "avg_engagement": 0.857,
+          "lift_vs_corpus": 0.453
         },
         {
           "value": "spiritual",
           "count": 3,
-          "pct": 0.019,
+          "pct": 0.003,
           "avg_engagement": 0.833,
-          "lift_vs_corpus": 0.128
+          "lift_vs_corpus": 0.429
+        },
+        {
+          "value": "inviting",
+          "count": 6,
+          "pct": 0.006,
+          "avg_engagement": 0.833,
+          "lift_vs_corpus": 0.429
         },
         {
           "value": "patriotic",
           "count": 9,
-          "pct": 0.057,
+          "pct": 0.009,
           "avg_engagement": 0.833,
-          "lift_vs_corpus": 0.128
+          "lift_vs_corpus": 0.429
         },
         {
           "value": "excited",
           "count": 10,
-          "pct": 0.063,
+          "pct": 0.01,
           "avg_engagement": 0.8,
-          "lift_vs_corpus": 0.095
-        },
-        {
-          "value": "celebratory",
-          "count": 7,
-          "pct": 0.044,
-          "avg_engagement": 0.786,
-          "lift_vs_corpus": 0.081
+          "lift_vs_corpus": 0.396
         }
       ],
       "video_vs_static_by_occasion": [
         {
+          "occasion": "brand_campaign",
+          "video_avg": 0.75,
+          "video_n": 4,
+          "static_avg": 0.654,
+          "static_n": 13,
+          "winner": "video",
+          "gap": 0.096
+        },
+        {
           "occasion": "eid_al_fitr",
           "video_avg": 1.0,
           "video_n": 3,
-          "static_avg": 1.0,
-          "static_n": 4,
-          "winner": "static",
-          "gap": 0.0
+          "static_avg": 0.833,
+          "static_n": 6,
+          "winner": "video",
+          "gap": 0.167
         },
         {
           "occasion": "evergreen",
-          "video_avg": 0.628,
-          "video_n": 129,
-          "static_avg": 0.72,
-          "static_n": 248,
+          "video_avg": 0.618,
+          "video_n": 170,
+          "static_avg": 0.682,
+          "static_n": 330,
           "winner": "static",
-          "gap": 0.092
+          "gap": 0.064
         },
         {
           "occasion": "founding_day",
@@ -2437,71 +2732,71 @@
         {
           "occasion": "national_day",
           "video_avg": 1.0,
-          "video_n": 3,
-          "static_avg": 0.917,
-          "static_n": 6,
+          "video_n": 4,
+          "static_avg": 0.812,
+          "static_n": 8,
           "winner": "video",
-          "gap": 0.083
+          "gap": 0.188
         },
         {
           "occasion": "ramadan",
-          "video_avg": 0.812,
-          "video_n": 8,
-          "static_avg": 0.833,
-          "static_n": 15,
+          "video_avg": 0.8,
+          "video_n": 10,
+          "static_avg": 0.812,
+          "static_n": 16,
           "winner": "static",
-          "gap": 0.021
+          "gap": 0.012
         },
         {
           "occasion": "sporting_event",
-          "video_avg": 0.3,
-          "video_n": 5,
-          "static_avg": 0.5,
-          "static_n": 6,
+          "video_avg": 0.55,
+          "video_n": 10,
+          "static_avg": 0.562,
+          "static_n": 8,
           "winner": "static",
-          "gap": 0.2
+          "gap": 0.012
         }
       ],
       "high_eng_signals": [
         {
-          "dimension": "visual_complexity",
-          "value": "moderate",
-          "count": 53,
-          "pct": 0.757
-        },
-        {
           "dimension": "content_type",
           "value": "video",
-          "count": 46,
-          "pct": 0.657
+          "count": 252,
+          "pct": 0.913
         },
         {
           "dimension": "heritage_vs_modern",
           "value": "modern",
-          "count": 29,
-          "pct": 0.414
+          "count": 195,
+          "pct": 0.707
         },
         {
-          "dimension": "content_type",
-          "value": "reel",
-          "count": 24,
-          "pct": 0.343
+          "dimension": "visual_complexity",
+          "value": "moderate",
+          "count": 154,
+          "pct": 0.558
         },
         {
-          "dimension": "aspect_ratio",
-          "value": "vertical_9x16",
-          "count": 16,
-          "pct": 0.229
+          "dimension": "visual_complexity",
+          "value": "simple",
+          "count": 104,
+          "pct": 0.377
+        },
+        {
+          "dimension": "tone",
+          "value": "playful",
+          "count": 101,
+          "pct": 0.366
         }
       ],
       "winning_formula": {
         "aspect_ratio": "landscape_16x9",
         "setting": "retail_urban",
-        "visual_complexity": "minimal",
-        "tone": "inviting",
+        "visual_complexity": "complex",
+        "tone": "bold",
         "best_day": "thursday",
         "heritage_framing": "heritage",
-        "predicted_engagement": 0.649
+        "predicted_engagement": 0.427
       },
       "agency_rules": [
         "Static content beats video on EVERY tested occasion (founding_day -17pp, national_day -12pp)",
@@ -2518,131 +2813,161 @@
       "by_day_of_week": [
         {
           "day": "sunday",
-          "count": 46,
-          "avg_engagement": 0.728,
-          "lift_vs_corpus": 0.023
+          "count": 77,
+          "avg_engagement": 0.662,
+          "lift_vs_corpus": 0.258
         },
         {
           "day": "monday",
-          "count": 60,
-          "avg_engagement": 0.658,
-          "lift_vs_corpus": -0.047
+          "count": 78,
+          "avg_engagement": 0.66,
+          "lift_vs_corpus": 0.256
         },
         {
           "day": "thursday",
-          "count": 55,
-          "avg_engagement": 0.655,
-          "lift_vs_corpus": -0.05
+          "count": 81,
+          "avg_engagement": 0.636,
+          "lift_vs_corpus": 0.232
         },
         {
           "day": "friday",
-          "count": 45,
-          "avg_engagement": 0.644,
-          "lift_vs_corpus": -0.061
+          "count": 64,
+          "avg_engagement": 0.625,
+          "lift_vs_corpus": 0.221
         },
         {
           "day": "saturday",
-          "count": 45,
-          "avg_engagement": 0.611,
-          "lift_vs_corpus": -0.094
+          "count": 61,
+          "avg_engagement": 0.607,
+          "lift_vs_corpus": 0.203
         },
         {
           "day": "wednesday",
-          "count": 55,
-          "avg_engagement": 0.609,
-          "lift_vs_corpus": -0.096
+          "count": 76,
+          "avg_engagement": 0.599,
+          "lift_vs_corpus": 0.195
         },
         {
           "day": "tuesday",
-          "count": 67,
-          "avg_engagement": 0.59,
-          "lift_vs_corpus": -0.115
+          "count": 87,
+          "avg_engagement": 0.592,
+          "lift_vs_corpus": 0.188
         }
       ],
       "cadence_vs_engagement": [
         {
           "cadence": "under_1_per_week",
-          "account_count": 10,
-          "avg_engagement": 0.653,
-          "lift_vs_corpus": -0.052
+          "account_count": 13,
+          "avg_engagement": 0.631,
+          "lift_vs_corpus": 0.227
+        },
+        {
+          "cadence": "1_per_week",
+          "account_count": 7,
+          "avg_engagement": 0.353,
+          "lift_vs_corpus": -0.051
+        },
+        {
+          "cadence": "2_3_per_week",
+          "account_count": 3,
+          "avg_engagement": 0.309,
+          "lift_vs_corpus": -0.095
+        },
+        {
+          "cadence": "4_6_per_week",
+          "account_count": 4,
+          "avg_engagement": 0.26,
+          "lift_vs_corpus": -0.144
         },
         {
           "cadence": "daily_plus",
-          "account_count": 4,
-          "avg_engagement": 0.426,
-          "lift_vs_corpus": -0.279
+          "account_count": 5,
+          "avg_engagement": 0.382,
+          "lift_vs_corpus": -0.022
         }
       ],
       "gap_days_vs_engagement": [
         {
           "avg_gap_bucket": "1_3_days",
-          "obs_count": 73,
-          "avg_engagement": 0.438,
-          "lift_vs_corpus": -0.267
+          "obs_count": 1324,
+          "avg_engagement": 0.259,
+          "lift_vs_corpus": -0.145
+        },
+        {
+          "avg_gap_bucket": "4_7_days",
+          "obs_count": 644,
+          "avg_engagement": 0.354,
+          "lift_vs_corpus": -0.05
         },
         {
           "avg_gap_bucket": "8_14_days",
-          "obs_count": 25,
-          "avg_engagement": 0.46,
-          "lift_vs_corpus": -0.245
+          "obs_count": 322,
+          "avg_engagement": 0.707,
+          "lift_vs_corpus": 0.303
         },
         {
           "avg_gap_bucket": "15_plus_days",
-          "obs_count": 275,
-          "avg_engagement": 0.709,
-          "lift_vs_corpus": 0.004
+          "obs_count": 379,
+          "avg_engagement": 0.592,
+          "lift_vs_corpus": 0.188
         }
       ],
       "by_occasion_volume": [
         {
           "occasion": "evergreen",
-          "post_count": 286,
-          "pct_of_dated": 0.767,
-          "avg_engagement": 0.607,
-          "lift_vs_corpus": -0.098
+          "post_count": 409,
+          "pct_of_dated": 0.153,
+          "avg_engagement": 0.597,
+          "lift_vs_corpus": 0.193
         },
         {
           "occasion": "ramadan",
-          "post_count": 20,
-          "pct_of_dated": 0.054,
-          "avg_engagement": 0.8,
-          "lift_vs_corpus": 0.095
-        },
-        {
-          "occasion": "brand_campaign",
-          "post_count": 12,
-          "pct_of_dated": 0.032,
-          "avg_engagement": 0.667,
-          "lift_vs_corpus": -0.038
+          "post_count": 23,
+          "pct_of_dated": 0.009,
+          "avg_engagement": 0.783,
+          "lift_vs_corpus": 0.379
         },
         {
           "occasion": "sporting_event",
-          "post_count": 11,
-          "pct_of_dated": 0.029,
-          "avg_engagement": 0.409,
-          "lift_vs_corpus": -0.296
+          "post_count": 18,
+          "pct_of_dated": 0.007,
+          "avg_engagement": 0.556,
+          "lift_vs_corpus": 0.152
+        },
+        {
+          "occasion": "brand_campaign",
+          "post_count": 16,
+          "pct_of_dated": 0.006,
+          "avg_engagement": 0.656,
+          "lift_vs_corpus": 0.252
         },
         {
           "occasion": "national_day",
-          "post_count": 8,
-          "pct_of_dated": 0.021,
-          "avg_engagement": 0.938,
-          "lift_vs_corpus": 0.233
+          "post_count": 11,
+          "pct_of_dated": 0.004,
+          "avg_engagement": 0.864,
+          "lift_vs_corpus": 0.46
         },
         {
-          "occasion": "founding_day",
-          "post_count": 7,
-          "pct_of_dated": 0.019,
-          "avg_engagement": 0.929,
-          "lift_vs_corpus": 0.224
+          "occasion": "eid_al_fitr",
+          "post_count": 8,
+          "pct_of_dated": 0.003,
+          "avg_engagement": 0.875,
+          "lift_vs_corpus": 0.471
         }
       ],
       "sector_cadence": [
         {
           "sector": "f_and_b",
-          "total_posts": 298,
-          "posts_per_week": 0.45,
-          "avg_engagement": 0.68
+          "total_posts": 1765,
+          "posts_per_week": 2.66,
+          "avg_engagement": 0.49
+        },
+        {
+          "sector": "retail_lifestyle",
+          "total_posts": 359,
+          "posts_per_week": 8.73,
+          "avg_engagement": 0.157
         },
         {
           "sector": "retail",
@@ -2651,10 +2976,28 @@
           "avg_engagement": 0.56
         },
         {
+          "sector": "fashion",
+          "total_posts": 1,
+          "posts_per_week": null,
+          "avg_engagement": 0.0
+        },
+        {
+          "sector": "beauty_personal_care",
+          "total_posts": 307,
+          "posts_per_week": 0.69,
+          "avg_engagement": 0.093
+        },
+        {
           "sector": "beauty",
-          "total_posts": 50,
-          "posts_per_week": 0.55,
-          "avg_engagement": 0.44
+          "total_posts": 100,
+          "posts_per_week": 0.91,
+          "avg_engagement": 0.52
+        },
+        {
+          "sector": "real_estate",
+          "total_posts": 113,
+          "posts_per_week": 1.41,
+          "avg_engagement": 0.062
         }
       ],
       "agency_rules": [

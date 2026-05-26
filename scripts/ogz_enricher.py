@@ -55,13 +55,111 @@ STATE_FILE = LOGS / "enricher_state.json"
 DRIVE_PATH = Path.home() / "Library/CloudStorage/GoogleDrive-rabie@ogzstudios.com/My Drive/ogz-knowledge"
 
 ANALYTICS_SCRIPTS = [
+    # ── Base intelligence (captions, patterns, hashtags) ──────────────────────
     "build_caption_intelligence.py",
-    "build_arabic_copywriting.py",
+    "build_caption_intelligence_by_sector.py",
+    "build_caption_analysis.py",
+    "build_caption_length_hashtag_analysis.py",
     "build_hashtag_strategy.py",
+    "build_hashtag_cooccurrence.py",
+    "build_arabic_copywriting.py",
+    "build_arabic_copywriting_by_sector.py",
+    # ── Pattern intelligence ──────────────────────────────────────────────────
+    "build_pattern_engagement.py",
+    "build_pattern_usage_analysis.py",
+    "build_pattern_density.py",
+    "build_pattern_cooccurrence.py",
+    "build_pattern_sector_matrix.py",
+    "build_pattern_trends.py",
+    "build_pattern_adoption_gaps.py",
+    "build_pattern_network.py",
+    # ── Account intelligence ──────────────────────────────────────────────────
+    "build_account_archetypes.py",
+    "build_account_consistency.py",
+    "build_account_performance_analysis.py",
+    "build_account_similarity.py",
+    "build_account_themes_index.py",
+    "build_archetype_benchmark.py",
+    "build_brand_dna_profiles.py",
+    # ── Visual / composition ──────────────────────────────────────────────────
+    "build_visual_complexity_analysis.py",
+    "build_visual_dna_profiles.py",
+    "build_visual_decision_tree.py",
+    "build_composition_analysis.py",
+    "build_composition_setting_synergy.py",
+    "build_complexity_composition_matrix.py",
+    "build_color_palette_analysis.py",
+    "build_color_palette_dna.py",
+    "build_setting_analysis.py",
+    "build_setting_lighting_synergy.py",
+    "build_lighting_analysis.py",
+    "build_character_analysis.py",
+    "build_character_library.py",
+    "build_human_element_analysis.py",
+    "build_wardrobe_gender_analysis.py",
+    # ── Voice / copy / tone ───────────────────────────────────────────────────
+    "build_voice_positioning.py",
+    "build_tone_register_analysis.py",
+    "build_register_tone_matrix.py",
+    "build_notable_phrases_intelligence.py",
+    "build_phrases_library.py",
+    "build_phrase_engagement.py",
+    "build_cta_language_signals.py",
+    "build_dialect_register_occasion_matrix.py",
+    "build_text_overlay_analysis.py",
+    "build_text_overlay_intelligence.py",
+    # ── Occasion / temporal ───────────────────────────────────────────────────
+    "build_temporal_analysis.py",
+    "build_day_of_week_analysis.py",
+    "build_post_cadence.py",
+    "build_posting_frequency_analysis.py",
+    "build_occasion_readiness_report.py",
+    "build_occasion_sector_matrix.py",
+    "build_occasion_sector_format_matrix.py",
+    "build_occasion_calendar.py",
+    "build_occasion_format_grid.py",
+    "build_occasion_playbook.py",
+    "build_format_occasion_matrix.py",
+    # ── Compliance / cultural ─────────────────────────────────────────────────
+    "build_compliance_intelligence.py",
+    "build_compliance_risk_report.py",
+    "build_soft_flags_catalog.py",
+    "build_cultural_signal_analysis.py",
+    # ── Content format ────────────────────────────────────────────────────────
+    "build_carousel_analysis.py",
     "build_video_audio_analysis.py",
+    "build_video_pace_analysis.py",
+    "build_video_strategy_analysis.py",
+    "build_props_analysis.py",
+    "build_props_taxonomy.py",
+    "build_content_type_analysis.py",
+    # ── Sector / competitive ──────────────────────────────────────────────────
+    "build_sector_fingerprint.py",
+    "build_content_pillars.py",
+    "build_content_health_scores.py",
+    "build_content_score_model.py",
+    "build_competitive_gap.py",
+    "build_cross_sector_benchmark.py",
+    "build_cross_sector_opportunity.py",
+    "build_elite_vs_weak_dna.py",
+    # ── Quality / engagement ──────────────────────────────────────────────────
+    "build_engagement_signals.py",
+    "build_quality_signals.py",
+    "build_winning_formula.py",
+    "build_master_signal_table.py",
+    "build_media_engagement_analysis.py",
+    # ── Hospitality / heritage ────────────────────────────────────────────────
+    "build_hospitality_analysis.py",
+    "build_hospitality_intelligence.py",
+    "build_hospitality_inventory.py",
+    "build_heritage_spectrum.py",
+    # ── Synthesis (run last — depend on everything above) ────────────────────
+    "build_intelligence_playbook.py",
     "build_intelligence_playbook_v2.py",
-    "build_hospitality_inventory.py",   # → logs/hospitality_cues_inventory.json
-    "build_heritage_spectrum.py",       # → logs/heritage_modern_spectrum.json
+    "build_calibration_extractions.py",
+    "build_account_coach_reports.py",
+    # NOTE: build_production_brief_engine.py excluded — calls Claude API
+    # NOTE: build_content_calendar.py excluded — calls Claude API (check before adding)
 ]
 
 CYCLE_INTERVAL_SECS = 1800   # 30 minutes

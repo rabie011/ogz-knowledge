@@ -3,87 +3,112 @@
   "sector": "food_and_beverage",
   "sector_key": "f_and_b",
   "corpus_data": {
-    "obs_in_corpus": 10,
-    "avg_engagement": 0.95,
-    "high_eng_count": 9,
-    "low_eng_count": 1
+    "obs_in_corpus": 42,
+    "avg_engagement": 0.714,
+    "high_eng_count": 25,
+    "low_eng_count": 17
   },
   "winning_signals": [
     {
-      "dimension": "aspect_ratio",
-      "value": "square_1x1",
-      "count": 5,
-      "pct": 0.556
+      "dimension": "tone",
+      "value": "celebratory",
+      "count": 19,
+      "pct": 0.76
     },
     {
       "dimension": "content_type",
       "value": "image",
-      "count": 4,
-      "pct": 0.444
-    },
-    {
-      "dimension": "composition",
-      "value": "graphic_text",
-      "count": 4,
-      "pct": 0.444
-    },
-    {
-      "dimension": "visual_complexity",
-      "value": "complex",
-      "count": 4,
-      "pct": 0.444
+      "count": 13,
+      "pct": 0.52
     },
     {
       "dimension": "visual_complexity",
       "value": "moderate",
-      "count": 4,
-      "pct": 0.444
+      "count": 13,
+      "pct": 0.52
     },
     {
-      "dimension": "tone",
-      "value": "celebratory",
-      "count": 4,
-      "pct": 0.444
-    },
-    {
-      "dimension": "register",
-      "value": "formal",
-      "count": 4,
-      "pct": 0.444
+      "dimension": "hvm",
+      "value": "blended",
+      "count": 10,
+      "pct": 0.4
     },
     {
       "dimension": "hvm",
       "value": "heritage",
-      "count": 4,
-      "pct": 0.444
+      "count": 9,
+      "pct": 0.36
+    },
+    {
+      "dimension": "composition",
+      "value": "lifestyle_integrated",
+      "count": 8,
+      "pct": 0.32
+    },
+    {
+      "dimension": "visual_complexity",
+      "value": "simple",
+      "count": 8,
+      "pct": 0.32
+    },
+    {
+      "dimension": "content_type",
+      "value": "video",
+      "count": 7,
+      "pct": 0.28
     }
   ],
-  "losing_signals": [],
+  "losing_signals": [
+    {
+      "dimension": "tone",
+      "value": "celebratory",
+      "count": 14,
+      "pct": 0.824
+    },
+    {
+      "dimension": "visual_complexity",
+      "value": "simple",
+      "count": 12,
+      "pct": 0.706
+    },
+    {
+      "dimension": "hvm",
+      "value": "heritage",
+      "count": 8,
+      "pct": 0.471
+    },
+    {
+      "dimension": "hvm",
+      "value": "blended",
+      "count": 8,
+      "pct": 0.471
+    }
+  ],
   "top_patterns": [
     {
       "pattern": "national_day_pride",
       "count": 3,
-      "pct": 0.333
+      "pct": 0.12
     },
     {
       "pattern": "national_day_modernity_heritage",
       "count": 3,
-      "pct": 0.333
+      "pct": 0.12
     },
     {
       "pattern": "community_pride_statement",
       "count": 2,
-      "pct": 0.222
+      "pct": 0.08
+    },
+    {
+      "pattern": "national_celebration",
+      "count": 2,
+      "pct": 0.08
     },
     {
       "pattern": "color_block_branded_flood",
       "count": 2,
-      "pct": 0.222
-    },
-    {
-      "pattern": "customer_voice_ugc",
-      "count": 1,
-      "pct": 0.111
+      "pct": 0.08
     }
   ],
   "top_phrases_in_winners": [
@@ -114,6 +139,8 @@
   },
   "red_flags": [
     "AVOID format: image (90% eng for this occasion)",
+    "AVOID: tone=celebratory (found in 82% of low-eng posts)",
+    "AVOID: visual_complexity=simple (found in 70% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
     "AVOID: video format if images/carousels are viable — video underperforms"
   ],
@@ -146,6 +173,6 @@
       "عز وفخر بالمملكة العربية السعودية"
     ],
     "hospitality_cues": [],
-    "playbook_obs_count": 12
+    "playbook_obs_count": 52
   }
 }

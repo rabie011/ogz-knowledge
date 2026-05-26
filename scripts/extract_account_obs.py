@@ -83,6 +83,18 @@ APIFY_ACTOR = "apify/instagram-post-scraper"
 CLASSIFY_SYSTEM = """You are a Saudi Instagram content analyst. Classify posts for a Saudi content intelligence database.
 Return ONLY valid JSON — no explanation, no markdown."""
 
+# Vocabulary sampled from 11_who_to_learn_from/patterns/*/  (10 categories, 1246 slugs).
+# Kept at 15 representative examples so the LLM knows the naming convention
+# without exhausting its context window.
+_PATTERN_VOCAB = """\
+Pattern slug vocabulary — pick 1–4 that match this post ([] if none apply):
+  content_types       : behind_the_scenes, celebrity_collab, limited_time_offer, customer_voice_ugc, brand_collab
+  visual_compositions : close_up_macro_texture, feast_spread_overhead, lifestyle_environment_integration, model_centered_frontal_portrait, documentary_btsmoment
+  voice_techniques    : arabic_casual_mood_trigger, cultural_identity_marker, emotional_storytelling
+  occasion_plays      : eid_campaign, cultural_moment_tie_in
+  character_repr      : employee_spotlight, family_majlis_hierarchical
+  setting_environment : heritage_majlis_interior, hybrid_modern_heritage"""
+
 def _classify_prompt(caption: str, content_type: str, capture_date: str,
                      sector: str, likes: int, comments: int) -> str:
     engagement_signal = "high" if (likes + comments) > 500 else "medium" if (likes + comments) > 100 else "low"
@@ -91,6 +103,8 @@ def _classify_prompt(caption: str, content_type: str, capture_date: str,
 Caption (first 500 chars): "{caption[:500] if caption else ''}"
 Type: {content_type} | Date: {capture_date} | Sector: {sector}
 Likes: {likes} | Comments: {comments} | Rough engagement signal: {engagement_signal}
+
+{_PATTERN_VOCAB}
 
 Return ONLY this JSON (all fields required, exact enum values):
 {{

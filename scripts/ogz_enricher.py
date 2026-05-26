@@ -235,7 +235,7 @@ def module_extract_accounts() -> int:
             sys.executable, "scripts/extract_account_obs.py",
             "--handle", handle,
             "--sector", sector,
-        ], timeout=600)  # HikerAPI is fast — 2-3 min/account max
+        ], timeout=900)  # Apify: up to 15 min for large accounts (300 posts)
 
         m = re.search(r"Extracted (\d+) observations", stdout)
         n = int(m.group(1)) if m else 0

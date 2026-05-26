@@ -37,10 +37,8 @@ LOGS        = BASE / "logs"
 INSTALOADER = str(BASE / ".venv/bin/instaloader")
 if not Path(INSTALOADER).exists():
     INSTALOADER = "/opt/homebrew/bin/instaloader"
-# Chrome Profile 1 has Instagram session cookies
-COOKIE_FILE = os.path.expanduser(
-    "~/Library/Application Support/Google/Chrome/Profile 1/Cookies"
-)
+# Use --load-cookies chrome (browser_cookie3 reads Chrome SQLite correctly)
+# Note: --cookiefile with Chrome's raw SQLite path does NOT work reliably
 SLEEP_SEC   = 5   # seconds between instaloader calls (be gentle)
 
 # ── Emoji detection ────────────────────────────────────────────────────────────
@@ -78,7 +76,7 @@ def _fetch(shortcode: str, work_dir: Path):
     """
     cmd = [
         INSTALOADER,
-        "--cookiefile", COOKIE_FILE,
+        "--load-cookies", "chrome",   # browser_cookie3 reads Chrome SQLite correctly
         "--no-videos",
         "--no-pictures",
         "--no-profile-pic",

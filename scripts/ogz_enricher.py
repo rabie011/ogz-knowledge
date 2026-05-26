@@ -262,7 +262,7 @@ def count_missing_captions() -> int:
             d = json.loads(f.read_text())
             voice = d.get("voice_observations") or {}
             ct = (d.get("content_ref") or {}).get("content_type", "image")
-            if ct != "image" and not voice.get("caption_text"):
+            if voice.get("caption_text") is None:  # only null — skip empty strings (caption script skips those too)
                 missing += 1
         except Exception:
             pass

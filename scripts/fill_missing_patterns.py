@@ -142,7 +142,9 @@ def find_orphaned_slugs() -> list[dict]:
         account = d.get("account_handle_normalized", "")
 
         for pm in d.get("pattern_matches", []):
-            slug = (pm.get("pattern_slug") or pm.get("slug", "")).lower()  # always lowercase
+            raw = (pm.get("pattern_slug") or pm.get("slug", ""))
+            # Full sanitization: lowercase + spaces/hyphens → underscore + strip non-alnum
+            slug = re.sub(r"[^a-z0-9_]", "", raw.lower().replace(" ", "_").replace("-", "_"))
             if not slug or slug in existing:
                 continue
             if slug not in slug_data:
@@ -299,8 +301,8 @@ def generate_batch(orphaned_batch: list[dict], client: anthropic.Anthropic) -> d
             text = re.sub(r"\s*```$", "", text)
             try:
                 pattern = json.loads(text)
-                # Ensure the written pattern uses the ORIGINAL slug
-                pattern["pattern_slug"] = original_slug.lower()
+                # Ensure the written pattern uses the sanitized slug (no spaces/hyphens)
+                pattern["pattern_slug"] = re.sub(r"[^a-z0-9_]", "", original_slug.lower().replace(" ", "_").replace("-", "_"))
                 results[original_slug] = pattern
             except json.JSONDecodeError as e:
                 print(f"  ⚠ JSON parse error for {original_slug}: {e}")
@@ -312,7 +314,9 @@ def generate_batch(orphaned_batch: list[dict], client: anthropic.Anthropic) -> d
 
 # ── Write pattern files ────────────────────────────────────────────────────────
 def write_pattern(pattern: dict, subfolder: str) -> Path:
-    slug = pattern["pattern_slug"].lower()   # enforce lowercase — schema: ^[a-z0-9_]+$
+    # Full sanitization: lowercase + spaces/hyphens → underscore + strip non ^[a-z0-9_]+$
+    raw = pattern["pattern_slug"]
+    slug = re.sub(r"[^a-z0-9_]", "", raw.lower().replace(" ", "_").replace("-", "_"))
     pattern["pattern_slug"] = slug
     # Generate a real ULID
     pattern["pattern_ulid"] = str(ULID())

@@ -267,21 +267,31 @@ def extract_via_instaloader(
     with tempfile.TemporaryDirectory(prefix="ogz_il_") as tmpdir:
         cmd = [
             INSTALOADER_BIN,
-            "--cookiefile", INSTALOADER_COOKIE_FILE,
+            # --load-cookies chrome: reads Chrome cookies via browser_cookie3 (correct auth method)
+            # Using --load-cookies instead of --cookiefile because --cookiefile expects
+            # instaloader's own session pickle format, NOT Chrome's SQLite Cookies file.
+            "--load-cookies", "chrome",
             "--no-pictures",
             "--no-videos",
             "--no-video-thumbnails",
             "--no-profile-pic",
-            "--save-metadata",
+            # Note: --save-metadata does NOT exist in instaloader 4.x; JSON is saved by default
             "--no-compress-json",
             "--count", str(results_limit),
             f"@{handle}",
         ]
         try:
-            subprocess.run(
+            result = subprocess.run(
                 cmd, capture_output=True, text=True,
                 timeout=300, cwd=tmpdir, check=False,
             )
+            if result.returncode != 0:
+                stderr_snippet = (result.stderr or "")[:300]
+                print(f"  instaloader rc={result.returncode}: {stderr_snippet}", flush=True)
+                # If auth failure, return empty — caller will retry via Apify or skip
+                if "403" in stderr_snippet or "401" in stderr_snippet or "Please wait" in stderr_snippet:
+                    print("  instaloader: Instagram rate-limited — skipping", flush=True)
+                    return [], False
         except subprocess.TimeoutExpired:
             print("  instaloader timed out after 300s", flush=True)
             return [], False

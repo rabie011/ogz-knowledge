@@ -335,7 +335,7 @@ def module_extract_accounts() -> int:
                 sys.executable, "scripts/extract_account_obs.py",
                 "--handle", handle,
                 "--sector", sector,
-            ], timeout=900)  # Apify: up to 15 min for large accounts (300 posts)
+            ], timeout=1200)  # Apify 11min + OpenAI batch ~5min = 16min max → 1200s (20min ceiling)
         except Exception as e:
             # Timeout or crash on THIS account — log and continue to next
             log.warning(f"    ⚠ @{handle} extraction error: {e}")

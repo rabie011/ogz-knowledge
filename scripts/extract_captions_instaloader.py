@@ -90,7 +90,7 @@ def _fetch(shortcode: str, work_dir: Path):
             cwd=str(work_dir),
             capture_output=True,
             text=True,
-            timeout=90,
+            timeout=15,   # 15s: fast-fail on rate-limits/hangs; fits 84 captions in 30-min window
         )
     except Exception:
         return None

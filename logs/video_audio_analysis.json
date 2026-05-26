@@ -5,7 +5,7 @@
   "total_obs": 2894,
   "video_obs": 1098,
   "with_duration_data": 124,
-  "with_audio_data": 253,
+  "with_audio_data": 288,
   "duration_table": [
     {
       "duration_bucket": "very_long_60plus",
@@ -46,17 +46,17 @@
   "voiceover_table": [
     {
       "voiceover_presence": "has_voiceover",
-      "count": 112,
-      "high_engagement_rate": 0.339,
-      "avg_engagement": 0.589,
-      "lift_vs_baseline": -0.201
+      "count": 145,
+      "high_engagement_rate": 0.31,
+      "avg_engagement": 0.552,
+      "lift_vs_baseline": -0.23
     },
     {
       "voiceover_presence": "no_voiceover",
-      "count": 129,
-      "high_engagement_rate": 0.233,
-      "avg_engagement": 0.477,
-      "lift_vs_baseline": -0.307
+      "count": 136,
+      "high_engagement_rate": 0.25,
+      "avg_engagement": 0.485,
+      "lift_vs_baseline": -0.29
     }
   ],
   "voiceover_language_table": [
@@ -68,55 +68,69 @@
       "lift_vs_baseline": 0.46
     },
     {
-      "voiceover_language": "english",
-      "count": 36,
-      "high_engagement_rate": 0.389,
-      "avg_engagement": 0.625,
-      "lift_vs_baseline": -0.151
+      "voiceover_language": "none",
+      "count": 19,
+      "high_engagement_rate": 0.368,
+      "avg_engagement": 0.658,
+      "lift_vs_baseline": -0.172
     },
     {
-      "voiceover_language": "none",
-      "count": 17,
-      "high_engagement_rate": 0.294,
-      "avg_engagement": 0.618,
-      "lift_vs_baseline": -0.246
+      "voiceover_language": "english",
+      "count": 59,
+      "high_engagement_rate": 0.339,
+      "avg_engagement": 0.542,
+      "lift_vs_baseline": -0.201
     },
     {
       "voiceover_language": "arabic",
-      "count": 161,
-      "high_engagement_rate": 0.23,
-      "avg_engagement": 0.472,
-      "lift_vs_baseline": -0.31
+      "count": 173,
+      "high_engagement_rate": 0.231,
+      "avg_engagement": 0.471,
+      "lift_vs_baseline": -0.309
+    },
+    {
+      "voiceover_language": "chinese",
+      "count": 2,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.5,
+      "lift_vs_baseline": -0.54
+    },
+    {
+      "voiceover_language": "javanese",
+      "count": 1,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.5,
+      "lift_vs_baseline": -0.54
     }
   ],
   "music_type_table": [
     {
       "music_type": "original_score",
-      "count": 79,
-      "high_engagement_rate": 0.519,
+      "count": 74,
+      "high_engagement_rate": 0.514,
       "avg_engagement": 0.703,
-      "lift_vs_baseline": -0.021
-    },
-    {
-      "music_type": "voiceover",
-      "count": 63,
-      "high_engagement_rate": 0.254,
-      "avg_engagement": 0.54,
-      "lift_vs_baseline": -0.286
+      "lift_vs_baseline": -0.026
     },
     {
       "music_type": "silent",
-      "count": 36,
-      "high_engagement_rate": 0.222,
-      "avg_engagement": 0.472,
-      "lift_vs_baseline": -0.318
+      "count": 41,
+      "high_engagement_rate": 0.244,
+      "avg_engagement": 0.476,
+      "lift_vs_baseline": -0.296
+    },
+    {
+      "music_type": "voiceover",
+      "count": 96,
+      "high_engagement_rate": 0.24,
+      "avg_engagement": 0.5,
+      "lift_vs_baseline": -0.3
     },
     {
       "music_type": "music_only",
-      "count": 67,
-      "high_engagement_rate": 0.164,
-      "avg_engagement": 0.403,
-      "lift_vs_baseline": -0.376
+      "count": 69,
+      "high_engagement_rate": 0.188,
+      "avg_engagement": 0.42,
+      "lift_vs_baseline": -0.352
     },
     {
       "music_type": "silence",
@@ -251,8 +265,8 @@
   ],
   "key_findings": [
     "Best video duration: 'very_long_60plus' = 61% high-eng (n=13, +7pp)",
-    "Voiceover HELPS: with=33% vs without=23% (+10pp)",
-    "Best music type: 'original_score' = 51% (n=79)"
+    "Voiceover HELPS: with=31% vs without=25% (+6pp)",
+    "Best music type: 'original_score' = 51% (n=74)"
   ],
   "agency_rules": [
     "Target video length: very_long_60plus — highest engagement",

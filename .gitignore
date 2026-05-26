@@ -68,3 +68,9 @@ dist/
 # Git LFS metadata (kept) but ignore local LFS cache
 .git/lfs/
 logs/health_check_last.json
+
+# OpenAI Batch API output files — large, derived, not needed in git
+logs/enrichment_batches/*.jsonl
+logs/video_frame_batches/*.jsonl
+logs/brand_dna_batches/*.jsonl
+logs/obs_embeddings.npy

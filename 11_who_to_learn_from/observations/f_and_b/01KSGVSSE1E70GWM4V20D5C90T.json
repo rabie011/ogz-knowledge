@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "simple",
     "human_presence": false,
-    "setting": "restaurant"
+    "setting": "restaurant",
+    "text_overlay_visible": false,
+    "arabic_text_visible": false,
+    "product_visible": true,
+    "brand_logo_visible": false,
+    "scene_type": "indoor"
   },
   "voice_observations": {
     "caption_text": "بيتزا العجينة الإيطالية 🇮🇹🍕 \nتاكلها بعينك قبل فمك اطلب الحين 😍🔥\n\n#بيتزاهت #بيتزاهت_السعودية #العجينةـالايطاليةـالاصلية",
@@ -28,7 +33,15 @@
     "caption_word_count": 14,
     "hashtag_count": 3,
     "has_emoji": true,
-    "tone": "playful"
+    "tone": "playful",
+    "hook_type": "statement",
+    "hook_text": "تاكلها بعينك قبل فمك",
+    "cta_type": "order_now",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "😍",
+      "🔥"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -41,7 +54,28 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "food_content",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "sensory_close_up",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "italian_cuisine",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "f_and_b_beverage",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "food_product_showcase",
+      "confidence": "moderate"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "low",
     "production_quality": "semi_professional"

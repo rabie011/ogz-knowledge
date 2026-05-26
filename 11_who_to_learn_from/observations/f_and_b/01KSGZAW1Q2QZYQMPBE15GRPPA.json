@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "simple",
     "human_presence": false,
-    "setting": "restaurant"
+    "setting": "restaurant",
+    "text_overlay_visible": true,
+    "arabic_text_visible": true,
+    "product_visible": false,
+    "brand_logo_visible": false,
+    "scene_type": "graphic"
   },
   "voice_observations": {
     "caption_text": "حفلة تخرج طفلك جاية؟ خلّها علينا! ✨🎈\n\nداخل صالاتنا المجهزة بالكامل 🥳 أو برا المطعم نجيك وين ما كنت بكامل عدتنا ووجباتنا! 🚗💨 فعاليات ووناسة وضحكة من القلب..\n\nريح بالك واحجز الحين عبر رقمنا الموحد:\n📞 8001212345\n\n#ماكدونالدز #حفلات_أطفال #عيد_ميلاد #ماك",
@@ -28,7 +33,15 @@
     "caption_word_count": 41,
     "hashtag_count": 4,
     "has_emoji": true,
-    "tone": "celebratory"
+    "tone": "celebratory",
+    "hook_type": "question",
+    "hook_text": "حفلة تخرج طفلك جاية؟",
+    "cta_type": "order_now",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "وناسة",
+      "ضحكة"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -41,7 +54,28 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "casual_dining_promotion",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "casual_promotion",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "children_focused",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "family_friendly_event",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "f_and_b_beverage",
+      "confidence": "weak"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "low",
     "production_quality": "semi_professional"

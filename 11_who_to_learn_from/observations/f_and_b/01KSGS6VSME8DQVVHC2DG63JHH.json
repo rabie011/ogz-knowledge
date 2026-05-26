@@ -28,7 +28,15 @@
     "caption_word_count": 11,
     "hashtag_count": 1,
     "has_emoji": true,
-    "tone": "celebratory"
+    "tone": "celebratory",
+    "hook_type": "statement",
+    "hook_text": "يسر وطمأنينة، الحمد لله",
+    "cta_type": "none",
+    "arabic_technique": "msa_formal",
+    "emotion_words": [
+      "يسر",
+      "طمأنينة"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -41,7 +49,28 @@
     "heritage_vs_modern": "heritage",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "arabic_caption",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "arabic_hospitality_cue",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "hotel_restaurant_promotion",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "f_and_b_beverage",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "hajj_period",
+      "confidence": "weak"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "high",
     "production_quality": "professional"

@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "simple",
     "human_presence": false,
-    "setting": "restaurant"
+    "setting": "restaurant",
+    "text_overlay_visible": true,
+    "arabic_text_visible": true,
+    "product_visible": true,
+    "brand_logo_visible": true,
+    "scene_type": "graphic"
   },
   "voice_observations": {
     "caption_text": "كباب يا شباب! ساندويتش الكباب عندنا ماله شبيه!\n‫#الطازج‬ ‫#دجاجنا_من_ارض_السعودية‬🐓🇸🇦",
@@ -34,7 +39,15 @@
       "has_voiceover": false,
       "voiceover_language": "arabic",
       "music_type": "music_only"
-    }
+    },
+    "hook_type": "statement",
+    "hook_text": "ساندويتش الكباب عندنا ماله شبيه!",
+    "cta_type": "none",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "شباب",
+      "شبيه"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -47,7 +60,28 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "f_and_b_beverage",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "food_content",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "brand_promotional",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "f_and_b_breakfast_promotion",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "saudi_colloquial",
+      "confidence": "weak"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "low",
     "production_quality": "low"

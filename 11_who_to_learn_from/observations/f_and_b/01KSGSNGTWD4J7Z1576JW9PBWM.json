@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "simple",
     "human_presence": false,
-    "setting": "outdoor"
+    "setting": "outdoor",
+    "text_overlay_visible": true,
+    "arabic_text_visible": true,
+    "product_visible": true,
+    "brand_logo_visible": true,
+    "scene_type": "graphic"
   },
   "voice_observations": {
     "caption_text": "تكيّة الشتوية مع أخوياك يبيلها قرمشة\nاطلب سطل سناك من التطبيق وبالعافية عليكم\n#الطازج‬ ‫#دجاجنا_من_ارض_السعودية",
@@ -28,7 +33,15 @@
     "caption_word_count": 15,
     "hashtag_count": 2,
     "has_emoji": false,
-    "tone": "casual"
+    "tone": "casual",
+    "hook_type": "statement",
+    "hook_text": "تكيّة الشتوية مع أخوياك يبيلها قرمشة",
+    "cta_type": "order_now",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "قرمشة",
+      "بالعافية"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -41,7 +54,28 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "seasonal_winter_content",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "food_content",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "traditional_cuisine",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "brand_promotional",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "f_and_b_beverage",
+      "confidence": "moderate"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "low",
     "production_quality": "low"

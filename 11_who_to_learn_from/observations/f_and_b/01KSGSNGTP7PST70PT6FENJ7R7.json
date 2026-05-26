@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "simple",
     "human_presence": false,
-    "setting": "restaurant"
+    "setting": "restaurant",
+    "text_overlay_visible": false,
+    "arabic_text_visible": false,
+    "product_visible": false,
+    "brand_logo_visible": false,
+    "scene_type": "studio"
   },
   "voice_observations": {
     "caption_text": "إيش تختار؟\n\n#ديربي_الطازج\n#ايش_تختار\n\nتطبق الشروط والأحكام\nرقم الترخيص : ١١٠٠٨٧٣٩",
@@ -34,7 +39,12 @@
       "has_voiceover": false,
       "voiceover_language": "arabic",
       "music_type": "music_only"
-    }
+    },
+    "hook_type": "question",
+    "hook_text": "إيش تختار؟",
+    "cta_type": "none",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": []
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -47,7 +57,28 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "f_and_b_beverage",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "sports_passion_peg",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "arabic_caption",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "food_and_beverage_brand",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "food_product_showcase",
+      "confidence": "weak"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "low",
     "production_quality": "low"

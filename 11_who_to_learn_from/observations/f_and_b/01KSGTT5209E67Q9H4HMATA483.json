@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "simple",
     "human_presence": true,
-    "setting": "outdoor"
+    "setting": "outdoor",
+    "text_overlay_visible": false,
+    "arabic_text_visible": true,
+    "product_visible": false,
+    "brand_logo_visible": false,
+    "scene_type": "indoor"
   },
   "voice_observations": {
     "caption_text": "نورتونا بوجودكم، وشرفتونا بحضوركم ✨\nبكل فخر واعتزاز، وفي أجواء وطنية مفعمة بالولاء، احتضن عسيب احتفالًا استثنائيًا جسّد حب الوطن، وعبّر عن روح الانتماء والاعتزاز بالهوية الوطنية 🇸🇦💚\n\n#اليوم_الوطني_السعودي95\n#اليوم_الوطني\n#عزنا_بطبعنا\n#عسيب",
@@ -34,7 +39,15 @@
       "has_voiceover": true,
       "voiceover_language": "arabic",
       "music_type": "voiceover"
-    }
+    },
+    "hook_type": "statement",
+    "hook_text": "نورتونا بوجودكم، وشرفتونا بحضوركم ✨",
+    "cta_type": "none",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "حب",
+      "اعتزاز"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -47,7 +60,28 @@
     "heritage_vs_modern": "heritage",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "national_occasion",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "saudi_national_celebration",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "saudi_day_content",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "saudi_pride",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "saudi_pride_messaging",
+      "confidence": "moderate"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "low",
     "production_quality": "low"

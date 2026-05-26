@@ -22,7 +22,7 @@ Usage:
   python3 scripts/run_video_transcription.py --dry-run    # plan only
   python3 scripts/run_video_transcription.py --batch 50   # process N videos
 """
-import json, re, subprocess, sys, tempfile, time
+import json, os, re, subprocess, sys, tempfile, time
 from collections import defaultdict
 from pathlib import Path
 
@@ -31,9 +31,18 @@ OBS_ROOT    = BASE / "11_who_to_learn_from" / "observations"
 LOGS        = BASE / "logs"
 INSTALOADER = "/opt/homebrew/bin/instaloader"
 COOKIE_FILE = BASE / "logs" / ".instagram_cookies.txt"
-WHISPER     = "/opt/homebrew/bin/whisper"
 SLEEP_DL    = 4    # seconds between instaloader calls
 VIDEO_TYPES = {"video", "reel", "video_reel"}
+MAX_FILE_MB = 24   # OpenAI Whisper API limit is 25 MB
+
+# ── OpenAI Whisper API client ─────────────────────────────────────────────────
+try:
+    from openai import OpenAI as _OpenAI
+    _oa_client = _OpenAI(api_key=os.environ.get("OPENAI_API_KEY", ""))
+    USE_OPENAI_WHISPER = bool(os.environ.get("OPENAI_API_KEY"))
+except ImportError:
+    _oa_client = None
+    USE_OPENAI_WHISPER = False
 
 
 def _shortcode(url: str):
@@ -67,51 +76,74 @@ def _download_video(shortcode: str, work_dir: Path) -> Path | None:
 
 def _transcribe(mp4_path: Path) -> dict:
     """
-    Run Whisper on mp4. Returns dict with:
-      text, language, word_count, has_voiceover, music_type
+    Transcribe mp4 audio. Uses OpenAI Whisper API if key available,
+    falls back to local Whisper CLI otherwise.
+    Returns dict with: text, language, word_count, has_voiceover, music_type
     """
-    with tempfile.TemporaryDirectory() as tmp:
-        cmd = [
-            WHISPER,
-            str(mp4_path),
-            "--model", "small",
-            "--output_format", "json",
-            "--output_dir", tmp,
-            "--fp16", "False",
-        ]
+    _EMPTY = {"text": "", "language": "none", "word_count": 0,
+              "has_voiceover": False, "music_type": "unknown"}
+
+    # ── OpenAI Whisper API (preferred) ────────────────────────────────────────
+    if USE_OPENAI_WHISPER and _oa_client:
+        file_mb = mp4_path.stat().st_size / 1024 / 1024
+        if file_mb > MAX_FILE_MB:
+            print(f"    ⚠ {mp4_path.name} is {file_mb:.1f} MB — skipping (API limit 25 MB)")
+            return _EMPTY
         try:
-            r = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
-        except subprocess.TimeoutExpired:
-            return {"text": "", "language": "none", "word_count": 0,
-                    "has_voiceover": False, "music_type": "unknown"}
+            with open(mp4_path, "rb") as fh:
+                resp = _oa_client.audio.transcriptions.create(
+                    model="whisper-1",
+                    file=fh,
+                    response_format="verbose_json",
+                    language=None,   # auto-detect Arabic/English
+                )
+            text     = (resp.text or "").strip()
+            language = resp.language or "none"
+        except Exception as e:
+            print(f"    ⚠ OpenAI Whisper API error: {e}")
+            return _EMPTY
 
-        json_files = sorted(Path(tmp).glob("*.json"))
-        if not json_files:
-            return {"text": "", "language": "none", "word_count": 0,
-                    "has_voiceover": False, "music_type": "unknown"}
+    # ── Local Whisper CLI (fallback) ──────────────────────────────────────────
+    else:
+        with tempfile.TemporaryDirectory() as tmp:
+            cmd = [
+                "/opt/homebrew/bin/whisper",
+                str(mp4_path),
+                "--model", "small",
+                "--output_format", "json",
+                "--output_dir", tmp,
+                "--fp16", "False",
+            ]
+            try:
+                subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+            except subprocess.TimeoutExpired:
+                return _EMPTY
 
-        try:
-            data = json.loads(json_files[0].read_text())
-        except Exception:
-            return {"text": "", "language": "none", "word_count": 0,
-                    "has_voiceover": False, "music_type": "unknown"}
+            json_files = sorted(Path(tmp).glob("*.json"))
+            if not json_files:
+                return _EMPTY
+            try:
+                data = json.loads(json_files[0].read_text())
+            except Exception:
+                return _EMPTY
 
-    text     = data.get("text", "").strip()
-    language = data.get("language", "none")
-    wc       = len(text.split()) if text else 0
+        text     = data.get("text", "").strip()
+        language = data.get("language", "none")
 
-    # Classify audio strategy
+    # ── Classify audio strategy (shared) ─────────────────────────────────────
+    wc = len(text.split()) if text else 0
+
     if wc < 3:
-        music_type   = "music_only" if wc == 0 else "silent"
+        music_type    = "music_only" if wc == 0 else "silent"
         has_voiceover = False
         text = ""  # discard noise
     else:
         music_type    = "voiceover"
         has_voiceover = True
 
-    lang_label = "arabic" if language in ("ar","arabic") else \
-                 "english" if language in ("en","english") else \
-                 language if language else "none"
+    lang_label = "arabic"  if language in ("ar", "arabic")  else \
+                 "english" if language in ("en", "english") else \
+                 language  if language else "none"
 
     return {
         "text":          text,

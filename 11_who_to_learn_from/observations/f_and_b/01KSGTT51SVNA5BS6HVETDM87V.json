@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "moderate",
     "human_presence": false,
-    "setting": "restaurant"
+    "setting": "restaurant",
+    "text_overlay_visible": false,
+    "arabic_text_visible": false,
+    "product_visible": false,
+    "brand_logo_visible": false,
+    "scene_type": "indoor"
   },
   "voice_observations": {
     "caption_text": "إذا ودك بسحور غير ولذيذ🌙…\nعسيب وجهتك في رمضان مرنا وتسحر عندنا😋🤎\n\nالفترة الثانية ( السحور ):\n📍 | فرع الياسمين:\nمن 9:00م إلى 2:15ص\n\n📍 | فرع الدرعية:\nمن 8:00 إلى 3:00ص\n\nللحجوزات والاستفسارات:\n\nمكالمة:\n+920028226\nواتس اب:\n+966500058721\n +966554003213\n\n#عسيب\n#الرياض\n#نجدي\n#رمضان\n#سحور",
@@ -34,7 +39,15 @@
       "has_voiceover": false,
       "voiceover_language": "arabic",
       "music_type": "music_only"
-    }
+    },
+    "hook_type": "question",
+    "hook_text": "إذا ودك بسحور غير ولذيذ🌙…",
+    "cta_type": "none",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "لذيذ",
+      "مرنا"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -47,7 +60,28 @@
     "heritage_vs_modern": "blended",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "extended_hours",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "hashtag_restaurant_romantic",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "ramadan_operations",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "hotel_restaurant_promotion",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "ramadan_greeting",
+      "confidence": "moderate"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "medium",
     "production_quality": "semi_professional"

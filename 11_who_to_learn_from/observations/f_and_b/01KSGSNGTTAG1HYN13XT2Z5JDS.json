@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "simple",
     "human_presence": false,
-    "setting": "restaurant"
+    "setting": "restaurant",
+    "text_overlay_visible": true,
+    "arabic_text_visible": true,
+    "product_visible": true,
+    "brand_logo_visible": true,
+    "scene_type": "graphic"
   },
   "voice_observations": {
     "caption_text": "حول وجبتك لافطار متكامل ب١٠ ريال فقط مع فكة ريق من الطازج. \n#لا_طازج_إلا_الطازج #الطازج_يفهم_جوعك",
@@ -34,7 +39,15 @@
       "has_voiceover": false,
       "voiceover_language": "arabic",
       "music_type": "music_only"
-    }
+    },
+    "hook_type": "statement",
+    "hook_text": "حول وجبتك لافطار متكامل ب١٠ ريال فقط",
+    "cta_type": "none",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "متكامل",
+      "جوعك"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -47,7 +60,28 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "f_and_b_breakfast_promotion",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "f_and_b_beverage",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "food_beverage_product",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "brand_promotional",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "snack_category",
+      "confidence": "weak"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "low",
     "production_quality": "low"

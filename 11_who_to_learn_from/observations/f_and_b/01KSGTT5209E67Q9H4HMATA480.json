@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "simple",
     "human_presence": true,
-    "setting": "outdoor"
+    "setting": "outdoor",
+    "text_overlay_visible": false,
+    "arabic_text_visible": false,
+    "product_visible": false,
+    "brand_logo_visible": false,
+    "scene_type": "indoor"
   },
   "voice_observations": {
     "caption_text": "شرفتونا ونورتونا في عسيب الدرعية✨…\n\nبكل مناسبة وطنية تتجدد فرحتنا واعتزازنا بوطننا، وتزداد بهجتنا بحضوركم ومشاركتكم🇸🇦💚\n\n#اليوم_الوطني_السعودي95\n#اليوم_الوطني\n#عزنا_بطبعنا\n#عسيب",
@@ -34,7 +39,15 @@
       "has_voiceover": true,
       "voiceover_language": "arabic",
       "music_type": "voiceover"
-    }
+    },
+    "hook_type": "statement",
+    "hook_text": "شرفتونا ونورتونا في عسيب الدرعية✨…",
+    "cta_type": "none",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "فرحة",
+      "اعتزاز"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -47,7 +60,28 @@
     "heritage_vs_modern": "blended",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "arabic_caption",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "saudi_pride",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "national_occasion",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "saudi_pride_messaging",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "saudi_national_celebration",
+      "confidence": "moderate"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "low",
     "production_quality": "ugc"

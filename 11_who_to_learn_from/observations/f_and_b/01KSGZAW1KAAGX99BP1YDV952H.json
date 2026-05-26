@@ -28,7 +28,15 @@
     "caption_word_count": 23,
     "hashtag_count": 1,
     "has_emoji": true,
-    "tone": "playful"
+    "tone": "playful",
+    "hook_type": "question",
+    "hook_text": "عطونا توقعاتكم في التعليقات",
+    "cta_type": "comment",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "عيديات",
+      "ناوين"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -41,7 +49,28 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "arabic_caption",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "emoji_driven_caption",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "arabic_casual_mood_trigger",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "brand_hashtag_promotion",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "emoji_heavy",
+      "confidence": "weak"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "high",
     "production_quality": "ugc"

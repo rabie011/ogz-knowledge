@@ -28,7 +28,15 @@
     "caption_word_count": 8,
     "hashtag_count": 2,
     "has_emoji": true,
-    "tone": "informative"
+    "tone": "informative",
+    "hook_type": "command",
+    "hook_text": "اطلب أول مرة…والتوصيل علينا",
+    "cta_type": "order_now",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "أول",
+      "التوصيل"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -41,7 +49,28 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "food_product_promotion",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "delivery_app_mention",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "delivery_convenience",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "delivery_service_highlight",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "f_and_b_beverage",
+      "confidence": "weak"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "low",
     "production_quality": "low"

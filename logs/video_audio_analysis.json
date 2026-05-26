@@ -5,7 +5,7 @@
   "total_obs": 2894,
   "video_obs": 1098,
   "with_duration_data": 124,
-  "with_audio_data": 87,
+  "with_audio_data": 253,
   "duration_table": [
     {
       "duration_bucket": "very_long_60plus",
@@ -46,17 +46,17 @@
   "voiceover_table": [
     {
       "voiceover_presence": "has_voiceover",
-      "count": 49,
-      "high_engagement_rate": 0.449,
-      "avg_engagement": 0.653,
-      "lift_vs_baseline": -0.091
+      "count": 112,
+      "high_engagement_rate": 0.339,
+      "avg_engagement": 0.589,
+      "lift_vs_baseline": -0.201
     },
     {
       "voiceover_presence": "no_voiceover",
-      "count": 26,
-      "high_engagement_rate": 0.423,
-      "avg_engagement": 0.673,
-      "lift_vs_baseline": -0.117
+      "count": 129,
+      "high_engagement_rate": 0.233,
+      "avg_engagement": 0.477,
+      "lift_vs_baseline": -0.307
     }
   ],
   "voiceover_language_table": [
@@ -68,18 +68,25 @@
       "lift_vs_baseline": 0.46
     },
     {
-      "voiceover_language": "arabic",
-      "count": 44,
-      "high_engagement_rate": 0.477,
-      "avg_engagement": 0.682,
-      "lift_vs_baseline": -0.063
+      "voiceover_language": "english",
+      "count": 36,
+      "high_engagement_rate": 0.389,
+      "avg_engagement": 0.625,
+      "lift_vs_baseline": -0.151
     },
     {
-      "voiceover_language": "english",
-      "count": 4,
-      "high_engagement_rate": 0.0,
-      "avg_engagement": 0.25,
-      "lift_vs_baseline": -0.54
+      "voiceover_language": "none",
+      "count": 17,
+      "high_engagement_rate": 0.294,
+      "avg_engagement": 0.618,
+      "lift_vs_baseline": -0.246
+    },
+    {
+      "voiceover_language": "arabic",
+      "count": 161,
+      "high_engagement_rate": 0.23,
+      "avg_engagement": 0.472,
+      "lift_vs_baseline": -0.31
     }
   ],
   "music_type_table": [
@@ -89,6 +96,27 @@
       "high_engagement_rate": 0.519,
       "avg_engagement": 0.703,
       "lift_vs_baseline": -0.021
+    },
+    {
+      "music_type": "voiceover",
+      "count": 63,
+      "high_engagement_rate": 0.254,
+      "avg_engagement": 0.54,
+      "lift_vs_baseline": -0.286
+    },
+    {
+      "music_type": "silent",
+      "count": 36,
+      "high_engagement_rate": 0.222,
+      "avg_engagement": 0.472,
+      "lift_vs_baseline": -0.318
+    },
+    {
+      "music_type": "music_only",
+      "count": 67,
+      "high_engagement_rate": 0.164,
+      "avg_engagement": 0.403,
+      "lift_vs_baseline": -0.376
     },
     {
       "music_type": "silence",
@@ -223,7 +251,7 @@
   ],
   "key_findings": [
     "Best video duration: 'very_long_60plus' = 61% high-eng (n=13, +7pp)",
-    "Voiceover NEUTRAL: with=44% vs without=42% (+2pp)",
+    "Voiceover HELPS: with=33% vs without=23% (+10pp)",
     "Best music type: 'original_score' = 51% (n=79)"
   ],
   "agency_rules": [

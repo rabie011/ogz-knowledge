@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "simple",
     "human_presence": false,
-    "setting": "restaurant"
+    "setting": "restaurant",
+    "text_overlay_visible": false,
+    "arabic_text_visible": false,
+    "product_visible": false,
+    "brand_logo_visible": false,
+    "scene_type": "indoor"
   },
   "voice_observations": {
     "caption_text": "أطلب ساندوتش مــحــمّــص زيــادة دجــاج 🫵🏼\nمحمص ومقمر بالصوص اللي تحبه 😋🔥\n‫#دجاجنا_من_ارض_السعودية‬ 🇸🇦‫#الطازج‬",
@@ -28,7 +33,15 @@
     "caption_word_count": 14,
     "hashtag_count": 2,
     "has_emoji": true,
-    "tone": "playful"
+    "tone": "playful",
+    "hook_type": "command",
+    "hook_text": "أطلب ساندوتش مــحــمّــص زيــادة دجــاج",
+    "cta_type": "order_now",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "محمص",
+      "مقمر"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -41,7 +54,28 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "food_content",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "f_and_b_beverage",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "burger_content",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "seasonal_winter_content",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "riyadh_f_and_b",
+      "confidence": "moderate"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "high",
     "production_quality": "professional"

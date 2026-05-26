@@ -28,7 +28,14 @@
     "caption_word_count": 5,
     "hashtag_count": 1,
     "has_emoji": true,
-    "tone": "casual"
+    "tone": "casual",
+    "hook_type": "question",
+    "hook_text": "كيييف المشاعر لمباراة اليوم؟",
+    "cta_type": "none",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "المشاعر"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -41,7 +48,28 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "arabic_caption",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "saudi_sports_rivalry",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "football_occasion_tie_in",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "sports_passion_peg",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "arabic_casual_mood_trigger",
+      "confidence": "weak"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "low",
     "production_quality": "ugc"

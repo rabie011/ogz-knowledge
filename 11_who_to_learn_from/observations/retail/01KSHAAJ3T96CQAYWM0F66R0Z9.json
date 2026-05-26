@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "simple",
     "human_presence": false,
-    "setting": "retail_store"
+    "setting": "retail_store",
+    "text_overlay_visible": false,
+    "arabic_text_visible": false,
+    "product_visible": true,
+    "brand_logo_visible": false,
+    "scene_type": "indoor"
   },
   "voice_observations": {
     "caption_text": "Good news for our customers! ✨\nOur outlets will now remain open till 11 PM.\nVisit Al Deebaj and enjoy a relaxed shopping experience with your favorite abayas, thobes & modest wear. 🤍",
@@ -28,7 +33,15 @@
     "caption_word_count": 33,
     "hashtag_count": 0,
     "has_emoji": true,
-    "tone": "informative"
+    "tone": "informative",
+    "hook_type": "statement",
+    "hook_text": "Good news for our customers! ✨",
+    "cta_type": "visit_store",
+    "arabic_technique": "none",
+    "emotion_words": [
+      "good news",
+      "relaxed"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -41,7 +54,28 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "extended_hours",
+      "confidence": "strong"
+    },
+    {
+      "pattern_slug": "ramadan_operations",
+      "confidence": "strong"
+    },
+    {
+      "pattern_slug": "everyday_summer_fits",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "trending_now",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "abaya_outfit",
+      "confidence": "moderate"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "low",
     "production_quality": "low"

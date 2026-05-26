@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "simple",
     "human_presence": false,
-    "setting": "restaurant"
+    "setting": "restaurant",
+    "text_overlay_visible": false,
+    "arabic_text_visible": false,
+    "product_visible": true,
+    "brand_logo_visible": false,
+    "scene_type": "indoor"
   },
   "voice_observations": {
     "caption_text": "ابدأ صباحك مع عسيب… وجهتك لألذ الإفطار وأجمل الأجواء! 😍🤎\nأحجز طاولتك الآن واستمتع بلحظات الصباح☀\n\n📍| فرع الياسمين، شارع أنس بن مالك، الرياض.\n\n🕖 | فترة الفطور من 6:30 ص حتى 11 ص.\n\nللحجوزات والاستفسارات:\nمكالمة:\n920028226+\nواتس اب:\n966500058721+\n966554003213\n\n#عسيب\n#مطاعم_الرياض\n#نجدي\n#فطور",
@@ -34,7 +39,15 @@
       "has_voiceover": false,
       "voiceover_language": "arabic",
       "music_type": "music_only"
-    }
+    },
+    "hook_type": "statement",
+    "hook_text": "ابدأ صباحك مع عسيب… وجهتك لألذ الإفطار",
+    "cta_type": "order_now",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "ألذ",
+      "أجمل"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -47,7 +60,28 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "f_and_b_breakfast_promotion",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "riyadh_f_and_b",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "riyadh_dining",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "new_establishment",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "saudi_dining_recommendation",
+      "confidence": "moderate"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "low",
     "production_quality": "low"

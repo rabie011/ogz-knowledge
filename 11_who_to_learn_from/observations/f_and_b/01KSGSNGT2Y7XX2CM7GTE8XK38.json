@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "moderate",
     "human_presence": true,
-    "setting": "restaurant"
+    "setting": "restaurant",
+    "text_overlay_visible": false,
+    "arabic_text_visible": false,
+    "product_visible": true,
+    "brand_logo_visible": false,
+    "scene_type": "indoor"
   },
   "voice_observations": {
     "caption_text": "الحديد له أهله، واللذاذة لها بطلها 💪🏻\nلا تشد حيلك بالباي، شد حيلك بالتغميس لأن فروج السبايسي من الطازج يحتاج عضلة قلب تتحمل 🌶️",
@@ -28,7 +33,15 @@
     "caption_word_count": 24,
     "hashtag_count": 0,
     "has_emoji": true,
-    "tone": "playful"
+    "tone": "playful",
+    "hook_type": "arabic_idiom",
+    "hook_text": "الحديد له أهله، واللذاذة لها بطلها",
+    "cta_type": "none",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "عضلة",
+      "قلب"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -41,7 +54,28 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "food_content",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "f_and_b_romantic",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "poetic_arabic_copy",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "food_beverage_product",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "product_hero_video",
+      "confidence": "weak"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "high",
     "production_quality": "semi_professional"

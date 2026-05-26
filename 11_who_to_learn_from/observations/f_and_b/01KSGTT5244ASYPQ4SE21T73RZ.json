@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "simple",
     "human_presence": false,
-    "setting": "restaurant"
+    "setting": "restaurant",
+    "text_overlay_visible": false,
+    "arabic_text_visible": false,
+    "product_visible": false,
+    "brand_logo_visible": false,
+    "scene_type": "indoor"
   },
   "voice_observations": {
     "caption_text": "الليالي النجدية ببهائها وأُنسِها 😍✨\n\nتنتظرك في عسيب 🤎.\n\n#عسيب\n #نجدي\n #مطاعم_الرياض",
@@ -34,7 +39,15 @@
       "has_voiceover": false,
       "voiceover_language": "arabic",
       "music_type": "music_only"
-    }
+    },
+    "hook_type": "statement",
+    "hook_text": "الليالي النجدية ببهائها وأُنسِها",
+    "cta_type": "none",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "بهائها",
+      "أُنسِها"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -47,7 +60,28 @@
     "heritage_vs_modern": "heritage",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "food_content",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "f_and_b_beverage",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "arabic_caption",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "new_establishment",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "traditional_cuisine",
+      "confidence": "moderate"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "low",
     "production_quality": "ugc"

@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "simple",
     "human_presence": false,
-    "setting": "restaurant"
+    "setting": "restaurant",
+    "text_overlay_visible": false,
+    "arabic_text_visible": false,
+    "product_visible": false,
+    "brand_logo_visible": false,
+    "scene_type": "outdoor"
   },
   "voice_observations": {
     "caption_text": "⁨\tاليوم وجبتنا الديربي\nجاهزين ؟\n\n#ديربي_الطازج #ايش_تختار\n\nتطبق الشروط والأحكام\nرقم الترخيص : ١١٠٠٨٧٣٩⁩",
@@ -34,7 +39,15 @@
       "has_voiceover": true,
       "voiceover_language": "arabic",
       "music_type": "voiceover"
-    }
+    },
+    "hook_type": "question",
+    "hook_text": "جاهزين ؟",
+    "cta_type": "none",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "وجبتنا",
+      "ديربي"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -47,7 +60,28 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "f_and_b_beverage",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "sports_passion_peg",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "delivery_promo_sport",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "fnb_brand_activation",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "formal_dignified",
+      "confidence": "weak"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "low",
     "production_quality": "low"

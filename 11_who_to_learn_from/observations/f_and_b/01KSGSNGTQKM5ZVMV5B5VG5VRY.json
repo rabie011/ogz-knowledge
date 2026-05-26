@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "simple",
     "human_presence": false,
-    "setting": "restaurant"
+    "setting": "restaurant",
+    "text_overlay_visible": false,
+    "arabic_text_visible": false,
+    "product_visible": false,
+    "brand_logo_visible": false,
+    "scene_type": "indoor"
   },
   "voice_observations": {
     "caption_text": "البيتزا.. نعم لنا فيها! 😋 كرسبي رول بيتزا\nجرّبها اليوم وعيش قرمشة الكرسبي رول بطعم البيتزا.\nاطلبها الآن من تطبيق الطازج أو الفروع\n\n#الطازج\n#لذيذ\n#لنا_فيها",
@@ -34,7 +39,15 @@
       "has_voiceover": true,
       "voiceover_language": "arabic",
       "music_type": "voiceover"
-    }
+    },
+    "hook_type": "statement",
+    "hook_text": "البيتزا.. نعم لنا فيها!",
+    "cta_type": "order_now",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "لذيذ",
+      "قرمشة"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -47,7 +60,28 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "f_and_b_beverage",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "brand_promotional",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "snack_category",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "riyadh_f_and_b",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "food_beverage_product",
+      "confidence": "weak"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "medium",
     "production_quality": "semi_professional"

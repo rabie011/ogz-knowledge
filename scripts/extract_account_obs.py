@@ -458,13 +458,19 @@ def extract_posts(
         return extract_via_instaloader(handle, sector, needed, seen_urls)
 
     credit = _get_apify_credit()
-    if credit < 1.0:
-        print(f"  Apify credit low (${credit:.2f}) — switching to instaloader", flush=True)
-        return extract_via_instaloader(handle, sector, needed, seen_urls)
+    if credit < 0.05:
+        print(f"  APIFY BUDGET EXHAUSTED (${credit:.2f} remaining) — skipping extraction", flush=True)
+        print("  APIFY_BUDGET_EXHAUSTED", flush=True)   # sentinel for daemon to detect
+        return [], False   # empty result — daemon will mark force_done
 
     try:
         return extract_via_apify(handle, sector, needed, seen_urls)
     except Exception as e:
+        err_str = str(e).lower()
+        if any(kw in err_str for kw in ("billing", "credit", "limit", "payment", "quota")):
+            print(f"  APIFY BILLING ERROR: {e}", flush=True)
+            print("  APIFY_BUDGET_EXHAUSTED", flush=True)   # sentinel for daemon
+            return [], False
         print(f"  Apify error ({e}) — falling back to instaloader", flush=True)
         return extract_via_instaloader(handle, sector, needed, seen_urls)
 

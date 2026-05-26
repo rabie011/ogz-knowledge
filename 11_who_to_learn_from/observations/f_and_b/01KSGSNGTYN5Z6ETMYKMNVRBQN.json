@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "simple",
     "human_presence": false,
-    "setting": "restaurant"
+    "setting": "restaurant",
+    "text_overlay_visible": true,
+    "arabic_text_visible": true,
+    "product_visible": false,
+    "brand_logo_visible": true,
+    "scene_type": "mixed"
   },
   "voice_observations": {
     "caption_text": "هم اللي سوو الاجتماع في وقت مو مناسب \n#الطازج #دجاجنا_من_ارض_السعودية🐓🇸🇦",
@@ -34,7 +39,14 @@
       "has_voiceover": true,
       "voiceover_language": "arabic",
       "music_type": "voiceover"
-    }
+    },
+    "hook_type": "statement",
+    "hook_text": "هم اللي سوو الاجتماع في وقت مو مناسب",
+    "cta_type": "none",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "مو مناسب"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -47,7 +59,28 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "f_and_b_beverage",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "food_content",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "brand_promotional",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "traditional_cuisine",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "riyadh_f_and_b",
+      "confidence": "moderate"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "low",
     "production_quality": "low"

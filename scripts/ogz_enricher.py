@@ -291,9 +291,13 @@ def module_extract_accounts() -> int:
         return 0
 
     try:
-        targets = json.loads(TARGET_ACCOUNTS_FILE.read_text()).get("accounts", [])
+        target_accounts = json.loads(TARGET_ACCOUNTS_FILE.read_text())
+        targets = target_accounts.get("accounts", [])
     except Exception:
         return 0
+
+    def _save_target_accounts(ta: dict):
+        TARGET_ACCOUNTS_FILE.write_text(json.dumps(ta, indent=2, ensure_ascii=False))
 
     DEFAULT_QUOTA = {"image": 50, "video": 50, "carousel": 25}
 
@@ -339,7 +343,33 @@ def module_extract_accounts() -> int:
         except Exception as e:
             # Timeout or crash on THIS account — log and continue to next
             log.warning(f"    ⚠ @{handle} extraction error: {e}")
+            # Increment consecutive timeout counter — ALWAYS persist so the count
+            # survives across daemon cycles (target_accounts.json is re-read each cycle).
+            acct["_timeout_count"] = acct.get("_timeout_count", 0) + 1
+            if acct["_timeout_count"] >= 3:
+                log.warning(f"    ⚠ @{handle} timed out {acct['_timeout_count']}x — marking force_done to unblock queue")
+                acct["status"] = "force_done"
+                acct["obs_count"] = acct.get("obs_count", 0)
+                acct["note"] = f"force_done: {acct['_timeout_count']} consecutive timeouts at 1800s"
+            else:
+                log.warning(f"    ⚠ @{handle} timeout #{acct['_timeout_count']} (force_done after 3)")
+            _save_target_accounts(target_accounts)  # always save — count must persist
             continue
+
+        # ── Apify budget sentinel ────────────────────────────────────────────
+        if "APIFY_BUDGET_EXHAUSTED" in (stdout or ""):
+            log.warning("  💸 Apify budget exhausted — disabling extraction for all remaining accounts")
+            # Mark every remaining pending/partial account as skip
+            skipped_handles = []
+            for a in targets:
+                if a.get("status") in ("pending", "partial"):
+                    a["status"] = "skip"
+                    a["note"] = a.get("note", "") + " [paused: Apify budget exhausted]"
+                    skipped_handles.append(a["handle"])
+            _save_target_accounts(target_accounts)
+            if skipped_handles:
+                log.warning(f"  Paused {len(skipped_handles)} accounts: {skipped_handles[:5]}...")
+            break   # stop processing accounts this cycle
 
         m = re.search(r"Extracted (\d+) observations", stdout)
         n = int(m.group(1)) if m else 0

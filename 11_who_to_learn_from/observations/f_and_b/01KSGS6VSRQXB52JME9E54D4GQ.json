@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "moderate",
     "human_presence": false,
-    "setting": "outdoor"
+    "setting": "outdoor",
+    "text_overlay_visible": true,
+    "arabic_text_visible": true,
+    "product_visible": true,
+    "brand_logo_visible": false,
+    "scene_type": "indoor"
   },
   "voice_observations": {
     "caption_text": "#اليوم_الوطني_السعودي_94 حب يجمعنا 🇸🇦\n#نحلم_ونحقق\n#البيك",
@@ -28,7 +33,15 @@
     "caption_word_count": 6,
     "hashtag_count": 3,
     "has_emoji": true,
-    "tone": "celebratory"
+    "tone": "celebratory",
+    "hook_type": "statement",
+    "hook_text": "#اليوم_الوطني_السعودي_94 حب يجمعنا",
+    "cta_type": "none",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "حب",
+      "يجمعنا"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -41,7 +54,28 @@
     "heritage_vs_modern": "blended",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "f_and_b_beverage",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "saudi_day_content",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "arabic_caption",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "saudi_pride_messaging",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "saudi_pride",
+      "confidence": "moderate"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "high",
     "production_quality": "professional"

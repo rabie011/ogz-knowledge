@@ -28,7 +28,15 @@
     "caption_word_count": 12,
     "hashtag_count": 0,
     "has_emoji": true,
-    "tone": "casual"
+    "tone": "casual",
+    "hook_type": "question",
+    "hook_text": "سمعت عن الفلم اللي نزل قبل يومين؟",
+    "cta_type": "comment",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "سمعت",
+      "علّمنا"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -41,7 +49,28 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "arabic_caption",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "f_and_b_beverage",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "casual_promotion",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "brand_hashtag_promotion",
+      "confidence": "weak"
+    },
+    {
+      "pattern_slug": "nostalgia_cultural_reference",
+      "confidence": "weak"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "medium",
     "production_quality": "ugc"

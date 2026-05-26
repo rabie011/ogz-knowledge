@@ -20,7 +20,12 @@
     ],
     "visual_complexity": "simple",
     "human_presence": false,
-    "setting": "restaurant"
+    "setting": "restaurant",
+    "text_overlay_visible": false,
+    "arabic_text_visible": false,
+    "product_visible": false,
+    "brand_logo_visible": false,
+    "scene_type": "indoor"
   },
   "voice_observations": {
     "caption_text": "كل عام وأنتم بخير✨\nعسى عيدكم مبارك🤎\n\n#عيد_الفطر_المبارك\n#عسيب\n#مطاعم_الرياض\n#نجدي",
@@ -34,7 +39,15 @@
       "has_voiceover": true,
       "voiceover_language": "arabic",
       "music_type": "voiceover"
-    }
+    },
+    "hook_type": "statement",
+    "hook_text": "كل عام وأنتم بخير✨",
+    "cta_type": "none",
+    "arabic_technique": "colloquial_gulf",
+    "emotion_words": [
+      "مبارك",
+      "عيدكم"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -47,7 +60,28 @@
     "heritage_vs_modern": "blended",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "f_and_b_beverage",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "brand_promotional",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "national_day_campaign",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "casual_promotion",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "national_celebration",
+      "confidence": "moderate"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "high",
     "production_quality": "ugc"

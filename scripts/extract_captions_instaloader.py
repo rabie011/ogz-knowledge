@@ -33,13 +33,19 @@ import os
 BASE        = Path(__file__).parent.parent
 OBS_ROOT    = BASE / "11_who_to_learn_from" / "observations"
 LOGS        = BASE / "logs"
-# Use venv instaloader (has browser_cookie3); fallback to homebrew
-INSTALOADER = str(BASE / ".venv/bin/instaloader")
-if not Path(INSTALOADER).exists():
-    INSTALOADER = "/opt/homebrew/bin/instaloader"
-# Use --load-cookies chrome (browser_cookie3 reads Chrome SQLite correctly)
-# Note: --cookiefile with Chrome's raw SQLite path does NOT work reliably
+INSTALOADER = "/opt/homebrew/bin/instaloader"
+COOKIE_FILE = BASE / "logs" / ".instagram_cookies.txt"
 SLEEP_SEC   = 5   # seconds between instaloader calls (be gentle)
+
+def _ensure_cookies():
+    """Refresh cookie file from Chrome Profile 1 before batch."""
+    import subprocess as _sp, sys as _sys
+    r = _sp.run([_sys.executable, str(BASE / "scripts" / "refresh_instagram_cookies.py")],
+                capture_output=True, text=True)
+    if r.returncode != 0:
+        print(f"WARNING: Cookie refresh failed — {r.stderr.strip()}")
+    else:
+        print(r.stdout.strip())
 
 # ── Emoji detection ────────────────────────────────────────────────────────────
 _EMOJI_RE = re.compile(
@@ -76,7 +82,7 @@ def _fetch(shortcode: str, work_dir: Path):
     """
     cmd = [
         INSTALOADER,
-        "--load-cookies", "chrome",   # browser_cookie3 reads Chrome SQLite correctly
+        "--cookiefile", str(COOKIE_FILE),
         "--no-videos",
         "--no-pictures",
         "--no-profile-pic",
@@ -124,6 +130,8 @@ def main():
     dry_run = "--dry-run" in sys.argv
     if dry_run:
         print("DRY RUN — no files will be written\n")
+    else:
+        _ensure_cookies()   # refresh Chrome Profile 1 cookies before batch
 
     stats  = defaultdict(int)
     errors = []

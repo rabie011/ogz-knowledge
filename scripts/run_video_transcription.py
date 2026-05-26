@@ -29,9 +29,8 @@ from pathlib import Path
 BASE        = Path(__file__).parent.parent
 OBS_ROOT    = BASE / "11_who_to_learn_from" / "observations"
 LOGS        = BASE / "logs"
-INSTALOADER = str(BASE / ".venv/bin/instaloader")
-if not Path(INSTALOADER).exists():
-    INSTALOADER = "/opt/homebrew/bin/instaloader"
+INSTALOADER = "/opt/homebrew/bin/instaloader"
+COOKIE_FILE = BASE / "logs" / ".instagram_cookies.txt"
 WHISPER     = "/opt/homebrew/bin/whisper"
 SLEEP_DL    = 4    # seconds between instaloader calls
 VIDEO_TYPES = {"video", "reel", "video_reel"}
@@ -46,7 +45,7 @@ def _download_video(shortcode: str, work_dir: Path) -> Path | None:
     """Download a single Instagram post video. Returns mp4 path or None."""
     cmd = [
         INSTALOADER,
-        "--load-cookies", "chrome",
+        "--cookiefile", str(COOKIE_FILE),
         "--no-pictures",
         "--no-profile-pic",
         "--no-compress-json",

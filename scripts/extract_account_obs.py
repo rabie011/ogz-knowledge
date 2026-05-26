@@ -23,7 +23,7 @@ import os
 import re
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 import openai
@@ -161,7 +161,8 @@ def extract_via_apify(
             "username": [handle],          # actor v0.99+ requires array
             "resultsLimit": results_limit,
         },
-        timeout_secs=600,   # abort Apify run after 10 min — prevents 900s daemon timeout
+        run_timeout=timedelta(minutes=10),   # Apify aborts actor after 10 min
+        wait_duration=timedelta(minutes=11), # client waits up to 11 min
     )
 
     TYPE_MAP = {

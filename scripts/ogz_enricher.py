@@ -60,6 +60,8 @@ ANALYTICS_SCRIPTS = [
     "build_hashtag_strategy.py",
     "build_video_audio_analysis.py",
     "build_intelligence_playbook_v2.py",
+    "build_hospitality_inventory.py",   # → logs/hospitality_cues_inventory.json
+    "build_heritage_spectrum.py",       # → logs/heritage_modern_spectrum.json
 ]
 
 CYCLE_INTERVAL_SECS = 1800   # 30 minutes

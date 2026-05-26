@@ -2,54 +2,153 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "archetypes_ranked_by_engagement": [
-    "Heritage Anchor",
+    "Mass Market Functional",
     "Community Warm",
-    "Modern Premium",
-    "Mass Market Functional"
+    "Heritage Anchor",
+    "Occasion Specialist",
+    "Modern Premium"
   ],
   "comparison_matrix": {
     "high_engagement_rate": {
-      "Heritage Anchor": 0.74,
-      "Community Warm": 0.587,
-      "Modern Premium": 0.552,
-      "Mass Market Functional": 0.24
+      "Mass Market Functional": 0.36,
+      "Community Warm": 0.355,
+      "Heritage Anchor": 0.326,
+      "Occasion Specialist": 0.317,
+      "Modern Premium": 0.249
     },
     "avg_health_score": {
-      "Heritage Anchor": 0.856,
-      "Community Warm": 0.711,
-      "Modern Premium": 0.761,
-      "Mass Market Functional": 0.588
+      "Mass Market Functional": 0.613,
+      "Community Warm": 0.502,
+      "Heritage Anchor": 0.554,
+      "Occasion Specialist": 0.426,
+      "Modern Premium": 0.508
     },
     "compliance_risk_per_obs": {
-      "Heritage Anchor": 0.06,
-      "Community Warm": 0.16,
-      "Modern Premium": 0.27,
-      "Mass Market Functional": 0.12
+      "Mass Market Functional": 0.16,
+      "Community Warm": 0.06,
+      "Heritage Anchor": 0.02,
+      "Occasion Specialist": 0.07,
+      "Modern Premium": 0.06
     }
   },
   "archetype_profiles": [
     {
-      "archetype": "Heritage Anchor",
+      "archetype": "Mass Market Functional",
       "account_count": 1,
       "accounts": [
-        "OGZ-F-AND-B-Reference-010"
+        "OGZ-RETAIL-Reference-001"
       ],
-      "obs_count": 50,
+      "obs_count": 25,
       "performance": {
-        "avg_engagement_score": 0.86,
-        "high_engagement_rate": 0.74,
-        "avg_health_score": 0.856,
+        "avg_engagement_score": 0.56,
+        "high_engagement_rate": 0.36,
+        "avg_health_score": 0.613,
+        "compliance_risk_per_obs": 0.16
+      },
+      "visual_signature": {
+        "dominant_setting": "studio",
+        "dominant_media_type": "video",
+        "dominant_color_family": "white_light",
+        "dominant_lighting": "cold_studio",
+        "dominant_tone": "proud",
+        "dominant_register": "aspirational",
+        "character_presence_rate": 0.72,
+        "avg_hospitality_cues": 0.12
+      },
+      "top_5_patterns": [
+        {
+          "slug": "product_hero",
+          "count": 10
+        },
+        {
+          "slug": "model_centered_frontal_portrait",
+          "count": 9
+        },
+        {
+          "slug": "invitation_to_witness",
+          "count": 7
+        },
+        {
+          "slug": "seasonal_collection_drop",
+          "count": 6
+        },
+        {
+          "slug": "warm_golden_hour_hero",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "archetype": "Community Warm",
+      "account_count": 3,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004",
+        "alromansiahksa",
+        "barnscoffee"
+      ],
+      "obs_count": 282,
+      "performance": {
+        "avg_engagement_score": 0.532,
+        "high_engagement_rate": 0.355,
+        "avg_health_score": 0.502,
         "compliance_risk_per_obs": 0.06
       },
       "visual_signature": {
-        "dominant_setting": "heritage_setting",
-        "dominant_media_type": "reel",
+        "dominant_setting": "restaurant_indoor",
+        "dominant_media_type": "image",
         "dominant_color_family": "amber_gold",
-        "dominant_lighting": "warm_ambient",
-        "dominant_tone": "warm",
+        "dominant_lighting": "natural_daylight",
+        "dominant_tone": "playful",
+        "dominant_register": "casual",
+        "character_presence_rate": 0.018,
+        "avg_hospitality_cues": 0.44
+      },
+      "top_5_patterns": [
+        {
+          "slug": "product_hero",
+          "count": 23
+        },
+        {
+          "slug": "overhead_tabletop_spread",
+          "count": 22
+        },
+        {
+          "slug": "lifestyle_environment_integration",
+          "count": 22
+        },
+        {
+          "slug": "interior_architectural_framing",
+          "count": 12
+        },
+        {
+          "slug": "gamification",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "archetype": "Heritage Anchor",
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-010",
+        "aseeb.najd"
+      ],
+      "obs_count": 141,
+      "performance": {
+        "avg_engagement_score": 0.404,
+        "high_engagement_rate": 0.326,
+        "avg_health_score": 0.554,
+        "compliance_risk_per_obs": 0.02
+      },
+      "visual_signature": {
+        "dominant_setting": "heritage_setting",
+        "dominant_media_type": "image",
+        "dominant_color_family": "amber_gold",
+        "dominant_lighting": "warm_studio",
+        "dominant_tone": "informative",
         "dominant_register": "visual_only",
-        "character_presence_rate": 0.52,
-        "avg_hospitality_cues": 2.04
+        "character_presence_rate": 0.184,
+        "avg_hospitality_cues": 0.72
       },
       "top_5_patterns": [
         {
@@ -75,57 +174,58 @@
       ]
     },
     {
-      "archetype": "Community Warm",
+      "archetype": "Occasion Specialist",
       "account_count": 2,
       "accounts": [
-        "OGZ-F-AND-B-Reference-004",
-        "OGZ-F-AND-B-Reference-011"
+        "crumblcookiespr",
+        "riyadhfood"
       ],
-      "obs_count": 75,
+      "obs_count": 183,
       "performance": {
-        "avg_engagement_score": 0.707,
-        "high_engagement_rate": 0.587,
-        "avg_health_score": 0.711,
-        "compliance_risk_per_obs": 0.16
+        "avg_engagement_score": 0.552,
+        "high_engagement_rate": 0.317,
+        "avg_health_score": 0.426,
+        "compliance_risk_per_obs": 0.07
       },
       "visual_signature": {
-        "dominant_setting": "restaurant_indoor",
-        "dominant_media_type": "carousel_slide",
-        "dominant_color_family": "amber_gold",
-        "dominant_lighting": "natural_daylight",
-        "dominant_tone": "informative",
-        "dominant_register": "casual",
-        "character_presence_rate": 0.08,
-        "avg_hospitality_cues": 2.23
+        "dominant_setting": null,
+        "dominant_media_type": "image",
+        "dominant_color_family": null,
+        "dominant_lighting": null,
+        "dominant_tone": "playful",
+        "dominant_register": null,
+        "character_presence_rate": 0.0,
+        "avg_hospitality_cues": 0.0
       },
       "top_5_patterns": [
         {
-          "slug": "product_hero",
+          "slug": "limited_time_offer",
           "count": 34
         },
         {
-          "slug": "overhead_tabletop_spread",
-          "count": 24
+          "slug": "food_and_beverage",
+          "count": 18
         },
         {
-          "slug": "lifestyle_environment_integration",
-          "count": 22
+          "slug": "new_product_launch",
+          "count": 13
         },
         {
-          "slug": "interior_architectural_framing",
-          "count": 12
+          "slug": "food_promotion",
+          "count": 13
         },
         {
-          "slug": "invitation_to_witness",
-          "count": 10
+          "slug": "food_review",
+          "count": 13
         }
       ]
     },
     {
       "archetype": "Modern Premium",
-      "account_count": 10,
+      "account_count": 27,
       "accounts": [
         "OGZ-BEAUTY-Reference-001",
+        "OGZ-BEAUTY-Reference-002",
         "OGZ-F-AND-B-Reference-002",
         "OGZ-F-AND-B-Reference-003",
         "OGZ-F-AND-B-Reference-005",
@@ -133,100 +233,69 @@
         "OGZ-F-AND-B-Reference-007",
         "OGZ-F-AND-B-Reference-008",
         "OGZ-F-AND-B-Reference-009",
+        "OGZ-F-AND-B-Reference-011",
         "OGZ-F-AND-B-Reference-038",
-        "OGZ-F-AND-B-Reference-039"
+        "OGZ-F-AND-B-Reference-039",
+        "albaik",
+        "aldeebajofficial",
+        "altazaj_fakieh",
+        "asteribeautysa",
+        "goldenscent",
+        "herfyfsc",
+        "kuduksa",
+        "mcdonaldsksa",
+        "niceonesa",
+        "noon",
+        "ounass",
+        "pizzahutsaudi",
+        "prettynature.official",
+        "roshnksa",
+        "shawarmersa"
       ],
-      "obs_count": 299,
+      "obs_count": 2138,
       "performance": {
-        "avg_engagement_score": 0.709,
-        "high_engagement_rate": 0.552,
-        "avg_health_score": 0.761,
-        "compliance_risk_per_obs": 0.27
+        "avg_engagement_score": 0.373,
+        "high_engagement_rate": 0.249,
+        "avg_health_score": 0.508,
+        "compliance_risk_per_obs": 0.06
       },
       "visual_signature": {
         "dominant_setting": "studio",
         "dominant_media_type": "image",
         "dominant_color_family": "white_light",
-        "dominant_lighting": "mixed_lighting",
-        "dominant_tone": "playful",
+        "dominant_lighting": "cold_studio",
+        "dominant_tone": "informative",
         "dominant_register": "casual",
-        "character_presence_rate": 0.378,
-        "avg_hospitality_cues": 0.7
+        "character_presence_rate": 0.055,
+        "avg_hospitality_cues": 0.11
       },
       "top_5_patterns": [
         {
           "slug": "product_hero",
-          "count": 127
+          "count": 185
         },
         {
           "slug": "seasonal_collection_drop",
-          "count": 72
+          "count": 63
         },
         {
           "slug": "invitation_to_witness",
-          "count": 46
+          "count": 49
+        },
+        {
+          "slug": "close_up_macro_texture",
+          "count": 34
         },
         {
           "slug": "lifestyle_environment_integration",
           "count": 28
-        },
-        {
-          "slug": "customer_voice_ugc",
-          "count": 27
-        }
-      ]
-    },
-    {
-      "archetype": "Mass Market Functional",
-      "account_count": 2,
-      "accounts": [
-        "OGZ-BEAUTY-Reference-002",
-        "OGZ-RETAIL-Reference-001"
-      ],
-      "obs_count": 50,
-      "performance": {
-        "avg_engagement_score": 0.51,
-        "high_engagement_rate": 0.24,
-        "avg_health_score": 0.588,
-        "compliance_risk_per_obs": 0.12
-      },
-      "visual_signature": {
-        "dominant_setting": "studio",
-        "dominant_media_type": "image",
-        "dominant_color_family": "white_light",
-        "dominant_lighting": "mixed_lighting",
-        "dominant_tone": "proud",
-        "dominant_register": "aspirational",
-        "character_presence_rate": 0.44,
-        "avg_hospitality_cues": 0.06
-      },
-      "top_5_patterns": [
-        {
-          "slug": "product_hero",
-          "count": 28
-        },
-        {
-          "slug": "seasonal_collection_drop",
-          "count": 11
-        },
-        {
-          "slug": "invitation_to_witness",
-          "count": 9
-        },
-        {
-          "slug": "model_centered_frontal_portrait",
-          "count": 9
-        },
-        {
-          "slug": "educational_explainer",
-          "count": 8
         }
       ]
     }
   ],
   "key_findings": [
-    "Best-performing archetype: Heritage Anchor (74% high eng)",
-    "Worst-performing archetype: Mass Market Functional (24% high eng)",
+    "Best-performing archetype: Mass Market Functional (36% high eng)",
+    "Worst-performing archetype: Modern Premium (24% high eng)",
     "Heritage Anchor uses dramatically higher hospitality cue density than Modern Premium",
     "Community Warm archetype relies more on character presence than any other archetype"
   ]

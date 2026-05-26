@@ -2,42 +2,42 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 474,
+  "total_obs": 2770,
   "hospitality_cue_bucket_engagement": [
     {
       "hospitality_cues": "0",
-      "obs_count": 269,
-      "high_engagement_rate": 0.424,
-      "avg_engagement_score": 0.619,
-      "lift_vs_baseline": -0.116
+      "obs_count": 2558,
+      "high_engagement_rate": 0.235,
+      "avg_engagement_score": 0.37,
+      "lift_vs_baseline": -0.305
     },
     {
       "hospitality_cues": "1",
-      "obs_count": 46,
-      "high_engagement_rate": 0.457,
-      "avg_engagement_score": 0.641,
-      "lift_vs_baseline": -0.083
+      "obs_count": 57,
+      "high_engagement_rate": 0.439,
+      "avg_engagement_score": 0.64,
+      "lift_vs_baseline": -0.101
     },
     {
       "hospitality_cues": "2",
-      "obs_count": 64,
-      "high_engagement_rate": 0.75,
-      "avg_engagement_score": 0.859,
-      "lift_vs_baseline": 0.21
+      "obs_count": 68,
+      "high_engagement_rate": 0.721,
+      "avg_engagement_score": 0.838,
+      "lift_vs_baseline": 0.181
     },
     {
       "hospitality_cues": "3",
-      "obs_count": 75,
-      "high_engagement_rate": 0.773,
-      "avg_engagement_score": 0.86,
-      "lift_vs_baseline": 0.233
+      "obs_count": 69,
+      "high_engagement_rate": 0.797,
+      "avg_engagement_score": 0.884,
+      "lift_vs_baseline": 0.257
     },
     {
       "hospitality_cues": "4+",
-      "obs_count": 20,
-      "high_engagement_rate": 0.85,
-      "avg_engagement_score": 0.9,
-      "lift_vs_baseline": 0.31
+      "obs_count": 18,
+      "high_engagement_rate": 0.889,
+      "avg_engagement_score": 0.944,
+      "lift_vs_baseline": 0.349
     }
   ],
   "top_cue_types_by_frequency": [
@@ -61,6 +61,30 @@
     },
     {
       "cue_type": "ramadan iftar tradition",
+      "frequency": 2,
+      "high_engagement_rate": 0.0,
+      "lift_vs_baseline": -0.54
+    },
+    {
+      "cue_type": "accessible_workspace",
+      "frequency": 2,
+      "high_engagement_rate": 0.0,
+      "lift_vs_baseline": -0.54
+    },
+    {
+      "cue_type": "pilgrimage_service",
+      "frequency": 2,
+      "high_engagement_rate": 1.0,
+      "lift_vs_baseline": 0.46
+    },
+    {
+      "cue_type": "digital_ease_framing",
+      "frequency": 2,
+      "high_engagement_rate": 0.0,
+      "lift_vs_baseline": -0.54
+    },
+    {
+      "cue_type": "eid_celebratory_dining",
       "frequency": 2,
       "high_engagement_rate": 0.0,
       "lift_vs_baseline": -0.54
@@ -136,65 +160,55 @@
       "frequency": 1,
       "high_engagement_rate": 1.0,
       "lift_vs_baseline": 0.46
-    },
-    {
-      "cue_type": "coffee as companion for commute",
-      "frequency": 1,
-      "high_engagement_rate": 1.0,
-      "lift_vs_baseline": 0.46
-    },
-    {
-      "cue_type": "karkadeh as traditional ramadan drink",
-      "frequency": 1,
-      "high_engagement_rate": 1.0,
-      "lift_vs_baseline": 0.46
-    },
-    {
-      "cue_type": "delivery convenience for iftar",
-      "frequency": 1,
-      "high_engagement_rate": 1.0,
-      "lift_vs_baseline": 0.46
-    },
-    {
-      "cue_type": "sharing coffee together",
-      "frequency": 1,
-      "high_engagement_rate": 0.0,
-      "lift_vs_baseline": -0.54
     }
   ],
   "sector_hospitality_breakdown": {
     "beauty": [
       {
         "hospitality_cues": "0",
-        "count": 50,
-        "high_eng_rate": 0.18
+        "count": 100,
+        "high_eng_rate": 0.21
+      }
+    ],
+    "beauty_personal_care": [
+      {
+        "hospitality_cues": "0",
+        "count": 307,
+        "high_eng_rate": 0.036
       }
     ],
     "f_and_b": [
       {
         "hospitality_cues": "0",
-        "count": 195,
-        "high_eng_rate": 0.497
+        "count": 1654,
+        "high_eng_rate": 0.322
       },
       {
         "hospitality_cues": "1",
-        "count": 46,
-        "high_eng_rate": 0.457
+        "count": 57,
+        "high_eng_rate": 0.439
       },
       {
         "hospitality_cues": "2",
-        "count": 64,
-        "high_eng_rate": 0.75
+        "count": 68,
+        "high_eng_rate": 0.721
       },
       {
         "hospitality_cues": "3",
-        "count": 74,
-        "high_eng_rate": 0.77
+        "count": 68,
+        "high_eng_rate": 0.794
       },
       {
         "hospitality_cues": "4+",
-        "count": 20,
-        "high_eng_rate": 0.85
+        "count": 18,
+        "high_eng_rate": 0.889
+      }
+    ],
+    "real_estate": [
+      {
+        "hospitality_cues": "0",
+        "count": 113,
+        "high_eng_rate": 0.027
       }
     ],
     "retail": [
@@ -207,6 +221,20 @@
         "hospitality_cues": "3",
         "count": 1,
         "high_eng_rate": 1.0
+      }
+    ],
+    "retail_lifestyle": [
+      {
+        "hospitality_cues": "0",
+        "count": 359,
+        "high_eng_rate": 0.067
+      }
+    ],
+    "fashion": [
+      {
+        "hospitality_cues": "0",
+        "count": 1,
+        "high_eng_rate": 0.0
       }
     ]
   },
@@ -224,13 +252,6 @@
       "avg_engagement": 0.86,
       "high_engagement_rate": 0.74,
       "obs_count": 50
-    },
-    {
-      "account": "OGZ-F-AND-B-Reference-011",
-      "avg_hospitality_cues_per_post": 1.72,
-      "avg_engagement": 0.34,
-      "high_engagement_rate": 0.2,
-      "obs_count": 25
     },
     {
       "account": "OGZ-F-AND-B-Reference-003",
@@ -255,24 +276,31 @@
     },
     {
       "account": "OGZ-F-AND-B-Reference-007",
-      "avg_hospitality_cues_per_post": 0.36,
-      "avg_engagement": 0.4,
-      "high_engagement_rate": 0.2,
-      "obs_count": 25
+      "avg_hospitality_cues_per_post": 0.57,
+      "avg_engagement": 0.393,
+      "high_engagement_rate": 0.179,
+      "obs_count": 28
     },
     {
       "account": "OGZ-F-AND-B-Reference-008",
+      "avg_hospitality_cues_per_post": 0.34,
+      "avg_engagement": 0.85,
+      "high_engagement_rate": 0.72,
+      "obs_count": 50
+    },
+    {
+      "account": "OGZ-F-AND-B-Reference-011",
       "avg_hospitality_cues_per_post": 0.32,
-      "avg_engagement": 0.88,
-      "high_engagement_rate": 0.8,
-      "obs_count": 25
+      "avg_engagement": 0.306,
+      "high_engagement_rate": 0.161,
+      "obs_count": 31
     },
     {
       "account": "OGZ-F-AND-B-Reference-006",
-      "avg_hospitality_cues_per_post": 0.24,
-      "avg_engagement": 0.6,
-      "high_engagement_rate": 0.36,
-      "obs_count": 25
+      "avg_hospitality_cues_per_post": 0.3,
+      "avg_engagement": 0.593,
+      "high_engagement_rate": 0.333,
+      "obs_count": 27
     },
     {
       "account": "OGZ-F-AND-B-Reference-009",
@@ -282,6 +310,13 @@
       "obs_count": 25
     },
     {
+      "account": "OGZ-F-AND-B-Reference-039",
+      "avg_hospitality_cues_per_post": 0.12,
+      "avg_engagement": 0.73,
+      "high_engagement_rate": 0.52,
+      "obs_count": 50
+    },
+    {
       "account": "OGZ-RETAIL-Reference-001",
       "avg_hospitality_cues_per_post": 0.12,
       "avg_engagement": 0.56,
@@ -289,36 +324,176 @@
       "obs_count": 25
     },
     {
+      "account": "OGZ-F-AND-B-Reference-038",
+      "avg_hospitality_cues_per_post": 0.04,
+      "avg_engagement": 0.24,
+      "high_engagement_rate": 0.0,
+      "obs_count": 50
+    },
+    {
       "account": "OGZ-BEAUTY-Reference-001",
       "avg_hospitality_cues_per_post": 0.0,
-      "avg_engagement": 0.42,
+      "avg_engagement": 0.52,
       "high_engagement_rate": 0.24,
-      "obs_count": 25
+      "obs_count": 50
     },
     {
       "account": "OGZ-BEAUTY-Reference-002",
       "avg_hospitality_cues_per_post": 0.0,
-      "avg_engagement": 0.46,
-      "high_engagement_rate": 0.12,
-      "obs_count": 25
+      "avg_engagement": 0.52,
+      "high_engagement_rate": 0.18,
+      "obs_count": 50
     },
     {
-      "account": "OGZ-F-AND-B-Reference-038",
+      "account": "asteribeautysa",
       "avg_hospitality_cues_per_post": 0.0,
-      "avg_engagement": 0.292,
+      "avg_engagement": 0.112,
+      "high_engagement_rate": 0.048,
+      "obs_count": 125
+    },
+    {
+      "account": "prettynature.official",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.016,
+      "high_engagement_rate": 0.016,
+      "obs_count": 63
+    },
+    {
+      "account": "niceonesa",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.118,
+      "high_engagement_rate": 0.035,
+      "obs_count": 114
+    },
+    {
+      "account": "goldenscent",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.0,
       "high_engagement_rate": 0.0,
-      "obs_count": 12
+      "obs_count": 5
     },
     {
-      "account": "OGZ-F-AND-B-Reference-039",
+      "account": "alromansiahksa",
       "avg_hospitality_cues_per_post": 0.0,
-      "avg_engagement": 0.5,
-      "high_engagement_rate": 0.25,
-      "obs_count": 12
+      "avg_engagement": 0.178,
+      "high_engagement_rate": 0.093,
+      "obs_count": 107
+    },
+    {
+      "account": "kuduksa",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.456,
+      "high_engagement_rate": 0.248,
+      "obs_count": 125
+    },
+    {
+      "account": "barnscoffee",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.692,
+      "high_engagement_rate": 0.408,
+      "obs_count": 125
+    },
+    {
+      "account": "crumblcookiespr",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.433,
+      "high_engagement_rate": 0.216,
+      "obs_count": 97
+    },
+    {
+      "account": "riyadhfood",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.686,
+      "high_engagement_rate": 0.43,
+      "obs_count": 86
+    },
+    {
+      "account": "albaik",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.936,
+      "high_engagement_rate": 0.872,
+      "obs_count": 125
+    },
+    {
+      "account": "altazaj_fakieh",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.213,
+      "high_engagement_rate": 0.066,
+      "obs_count": 122
+    },
+    {
+      "account": "aseeb.najd",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.154,
+      "high_engagement_rate": 0.099,
+      "obs_count": 91
+    },
+    {
+      "account": "pizzahutsaudi",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.0,
+      "high_engagement_rate": 0.0,
+      "obs_count": 125
+    },
+    {
+      "account": "mcdonaldsksa",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.509,
+      "high_engagement_rate": 0.313,
+      "obs_count": 115
+    },
+    {
+      "account": "herfyfsc",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.504,
+      "high_engagement_rate": 0.371,
+      "obs_count": 124
+    },
+    {
+      "account": "shawarmersa",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.527,
+      "high_engagement_rate": 0.357,
+      "obs_count": 112
+    },
+    {
+      "account": "roshnksa",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.062,
+      "high_engagement_rate": 0.027,
+      "obs_count": 113
+    },
+    {
+      "account": "aldeebajofficial",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.096,
+      "high_engagement_rate": 0.04,
+      "obs_count": 125
+    },
+    {
+      "account": "ounass",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.013,
+      "high_engagement_rate": 0.0,
+      "obs_count": 114
+    },
+    {
+      "account": "centrepointstores",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.0,
+      "high_engagement_rate": 0.0,
+      "obs_count": 1
+    },
+    {
+      "account": "noon",
+      "avg_hospitality_cues_per_post": 0.0,
+      "avg_engagement": 0.358,
+      "high_engagement_rate": 0.158,
+      "obs_count": 120
     }
   ],
   "key_findings": [
-    "Peak engagement at 4+ hospitality cues: 85% vs 42% for zero cues (42pp gap)",
+    "Peak engagement at 4+ hospitality cues: 88% vs 23% for zero cues (65pp gap)",
     "Highest-engagement cue type: 'premium_presentation' (100% high eng, n=3)",
     "Highest hospitality density account: OGZ-F-AND-B-Reference-004 (2.48 avg cues, 78% high eng)"
   ]

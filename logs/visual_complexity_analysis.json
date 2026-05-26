@@ -1,39 +1,34 @@
 {
-  "total_obs": 473,
-  "global_avg": 0.705,
+  "total_obs": 2758,
+  "global_avg": 0.404,
   "by_complexity": {
-    "moderate": {
-      "count": 294,
-      "avg_engagement": 0.626,
-      "lift_vs_avg": -0.079
-    },
     "complex": {
-      "count": 125,
-      "avg_engagement": 0.888,
-      "lift_vs_avg": 0.183
+      "count": 132,
+      "avg_engagement": 0.886,
+      "lift_vs_avg": 0.482
     },
     "simple": {
-      "count": 44,
-      "avg_engagement": 0.705,
-      "lift_vs_avg": 0.0
+      "count": 1687,
+      "avg_engagement": 0.281,
+      "lift_vs_avg": -0.123
+    },
+    "moderate": {
+      "count": 927,
+      "avg_engagement": 0.557,
+      "lift_vs_avg": 0.153
     },
     "minimal": {
-      "count": 10,
-      "avg_engagement": 0.75,
-      "lift_vs_avg": 0.045
+      "count": 12,
+      "avg_engagement": 0.708,
+      "lift_vs_avg": 0.304
     }
   },
   "best_by_sector": {
     "f_and_b": [
       {
         "complexity": "complex",
-        "avg_engagement": 0.903,
-        "n": 113
-      },
-      {
-        "complexity": "simple",
-        "avg_engagement": 0.77,
-        "n": 37
+        "avg_engagement": 0.9,
+        "n": 120
       },
       {
         "complexity": "minimal",
@@ -42,8 +37,25 @@
       },
       {
         "complexity": "moderate",
-        "avg_engagement": 0.67,
-        "n": 238
+        "avg_engagement": 0.649,
+        "n": 681
+      },
+      {
+        "complexity": "simple",
+        "avg_engagement": 0.384,
+        "n": 1042
+      }
+    ],
+    "retail_lifestyle": [
+      {
+        "complexity": "moderate",
+        "avg_engagement": 0.235,
+        "n": 102
+      },
+      {
+        "complexity": "simple",
+        "avg_engagement": 0.126,
+        "n": 257
       }
     ],
     "retail": [
@@ -63,25 +75,62 @@
         "n": 4
       }
     ],
+    "fashion": [],
+    "beauty_personal_care": [
+      {
+        "complexity": "moderate",
+        "avg_engagement": 0.476,
+        "n": 21
+      },
+      {
+        "complexity": "simple",
+        "avg_engagement": 0.065,
+        "n": 286
+      }
+    ],
     "beauty": [
       {
         "complexity": "simple",
-        "avg_engagement": 0.5,
-        "n": 3
+        "avg_engagement": 0.557,
+        "n": 35
       },
       {
         "complexity": "moderate",
-        "avg_engagement": 0.443,
-        "n": 44
+        "avg_engagement": 0.508,
+        "n": 60
       },
       {
         "complexity": "complex",
         "avg_engagement": 0.333,
         "n": 3
       }
+    ],
+    "real_estate": [
+      {
+        "complexity": "moderate",
+        "avg_engagement": 0.098,
+        "n": 51
+      },
+      {
+        "complexity": "simple",
+        "avg_engagement": 0.032,
+        "n": 62
+      }
     ]
   },
   "best_by_occasion": {
+    "evergreen": [
+      {
+        "complexity": "complex",
+        "avg_engagement": 0.89,
+        "n": 100
+      },
+      {
+        "complexity": "minimal",
+        "avg_engagement": 0.778,
+        "n": 9
+      }
+    ],
     "ramadan": [
       {
         "complexity": "complex",
@@ -90,20 +139,8 @@
       },
       {
         "complexity": "moderate",
-        "avg_engagement": 0.812,
-        "n": 16
-      }
-    ],
-    "evergreen": [
-      {
-        "complexity": "complex",
-        "avg_engagement": 0.894,
-        "n": 94
-      },
-      {
-        "complexity": "minimal",
         "avg_engagement": 0.778,
-        "n": 9
+        "n": 18
       }
     ],
     "brand_campaign": [
@@ -114,8 +151,8 @@
       },
       {
         "complexity": "moderate",
-        "avg_engagement": 0.625,
-        "n": 8
+        "avg_engagement": 0.636,
+        "n": 11
       }
     ],
     "founding_day": [
@@ -123,6 +160,30 @@
         "complexity": "moderate",
         "avg_engagement": 0.929,
         "n": 7
+      }
+    ],
+    "sporting_event": [
+      {
+        "complexity": "complex",
+        "avg_engagement": 0.667,
+        "n": 3
+      },
+      {
+        "complexity": "moderate",
+        "avg_engagement": 0.542,
+        "n": 12
+      }
+    ],
+    "hajj": [
+      {
+        "complexity": "moderate",
+        "avg_engagement": 1.0,
+        "n": 2
+      },
+      {
+        "complexity": "simple",
+        "avg_engagement": 0.75,
+        "n": 2
       }
     ],
     "national_day": [
@@ -134,19 +195,7 @@
       {
         "complexity": "moderate",
         "avg_engagement": 1.0,
-        "n": 3
-      }
-    ],
-    "sporting_event": [
-      {
-        "complexity": "complex",
-        "avg_engagement": 0.5,
-        "n": 2
-      },
-      {
-        "complexity": "moderate",
-        "avg_engagement": 0.438,
-        "n": 8
+        "n": 4
       }
     ],
     "summer_campaign": [
@@ -163,14 +212,14 @@
     ],
     "eid_al_fitr": [
       {
-        "complexity": "moderate",
-        "avg_engagement": 1.0,
-        "n": 4
-      },
-      {
         "complexity": "complex",
         "avg_engagement": 1.0,
         "n": 3
+      },
+      {
+        "complexity": "moderate",
+        "avg_engagement": 0.9,
+        "n": 5
       }
     ]
   },
@@ -178,13 +227,37 @@
     "video": [
       {
         "complexity": "complex",
-        "avg_engagement": 0.75,
-        "n": 12
+        "avg_engagement": 0.806,
+        "n": 18
       },
       {
         "complexity": "moderate",
-        "avg_engagement": 0.595,
-        "n": 100
+        "avg_engagement": 0.549,
+        "n": 429
+      }
+    ],
+    "image": [
+      {
+        "complexity": "complex",
+        "avg_engagement": 0.881,
+        "n": 63
+      },
+      {
+        "complexity": "minimal",
+        "avg_engagement": 0.667,
+        "n": 9
+      }
+    ],
+    "carousel_slide": [
+      {
+        "complexity": "complex",
+        "avg_engagement": 0.913,
+        "n": 46
+      },
+      {
+        "complexity": "moderate",
+        "avg_engagement": 0.533,
+        "n": 180
       }
     ],
     "reel": [
@@ -198,34 +271,10 @@
         "avg_engagement": 0.833,
         "n": 3
       }
-    ],
-    "image": [
-      {
-        "complexity": "complex",
-        "avg_engagement": 0.881,
-        "n": 63
-      },
-      {
-        "complexity": "simple",
-        "avg_engagement": 0.727,
-        "n": 22
-      }
-    ],
-    "carousel_slide": [
-      {
-        "complexity": "simple",
-        "avg_engagement": 1.0,
-        "n": 8
-      },
-      {
-        "complexity": "complex",
-        "avg_engagement": 0.922,
-        "n": 45
-      }
     ]
   },
   "agency_rules": [
-    "Best complexity: 'complex' (89%) — 'moderate' weakest (63%)",
+    "Best complexity: 'complex' (89%) — 'simple' weakest (28%)",
     "Counter-intuitive: complex visuals (+props, characters, overlays) outperform minimalist in Saudi content"
   ]
 }

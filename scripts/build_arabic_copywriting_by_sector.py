@@ -440,7 +440,7 @@ def main():
     for sig in cross_phrase_signals[:10]:
         agency_rules_universal.append(
             f"Arabic phrase '{sig['phrase']}' — confirmed cross-sector signal "
-            f"(sectors: {', '.join(sig['confirmed_sectors'])})"
+            f"(sectors: {', '.join(sig.get('confirmed_in_sectors', sig.get('confirmed_sectors', [])))})"
         )
 
     for sig in cross_formula_signals[:5]:
@@ -499,7 +499,7 @@ def main():
 
     print(f"\nCross-sector phrase signals ({len(cross_phrase_signals)} found):")
     for sig in cross_phrase_signals[:10]:
-        print(f"  '{sig['phrase']}'  sectors={','.join(sig['confirmed_sectors'])}  "
+        print(f"  '{sig['phrase']}'  sectors={','.join(sig.get('confirmed_in_sectors', sig.get('confirmed_sectors', [])))}  "
               f"avg_lift=+{int(sig['avg_lift_across_sectors']*100)}pp")
 
     print(f"\nCross-sector formula signals:")

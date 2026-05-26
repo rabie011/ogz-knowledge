@@ -2,22 +2,22 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 648,
-  "obs_with_human_presence": 226,
+  "total_obs": 2770,
+  "obs_with_human_presence": 167,
   "human_presence_table": [
     {
       "human_presence": "has_human",
-      "obs_count": 226,
-      "high_engagement_rate": 0.504,
-      "avg_engagement": 0.695,
-      "lift_vs_baseline": -0.036
+      "obs_count": 167,
+      "high_engagement_rate": 0.593,
+      "avg_engagement": 0.757,
+      "lift_vs_baseline": 0.053
     },
     {
       "human_presence": "no_human",
-      "obs_count": 422,
-      "high_engagement_rate": 0.467,
-      "avg_engagement": 0.623,
-      "lift_vs_baseline": -0.073
+      "obs_count": 2603,
+      "high_engagement_rate": 0.248,
+      "avg_engagement": 0.381,
+      "lift_vs_baseline": -0.292
     }
   ],
   "people_count_table": [
@@ -30,31 +30,31 @@
     },
     {
       "people_count": "5+",
-      "obs_count": 9,
-      "high_engagement_rate": 0.778,
-      "avg_engagement": 0.889,
-      "lift_vs_baseline": 0.238
+      "obs_count": 8,
+      "high_engagement_rate": 0.875,
+      "avg_engagement": 0.938,
+      "lift_vs_baseline": 0.335
     },
     {
       "people_count": "1",
-      "obs_count": 154,
-      "high_engagement_rate": 0.5,
-      "avg_engagement": 0.685,
-      "lift_vs_baseline": -0.04
-    },
-    {
-      "people_count": "2",
-      "obs_count": 39,
-      "high_engagement_rate": 0.462,
-      "avg_engagement": 0.679,
-      "lift_vs_baseline": -0.078
+      "obs_count": 113,
+      "high_engagement_rate": 0.584,
+      "avg_engagement": 0.748,
+      "lift_vs_baseline": 0.044
     },
     {
       "people_count": "3",
-      "obs_count": 22,
-      "high_engagement_rate": 0.455,
-      "avg_engagement": 0.682,
-      "lift_vs_baseline": -0.085
+      "obs_count": 16,
+      "high_engagement_rate": 0.562,
+      "avg_engagement": 0.75,
+      "lift_vs_baseline": 0.022
+    },
+    {
+      "people_count": "2",
+      "obs_count": 28,
+      "high_engagement_rate": 0.536,
+      "avg_engagement": 0.732,
+      "lift_vs_baseline": -0.004
     }
   ],
   "gender_table": [
@@ -81,10 +81,10 @@
     },
     {
       "gender": "unknown",
-      "obs_count": 139,
-      "high_engagement_rate": 0.317,
-      "avg_engagement": 0.565,
-      "lift_vs_baseline": -0.223
+      "obs_count": 80,
+      "high_engagement_rate": 0.362,
+      "avg_engagement": 0.6,
+      "lift_vs_baseline": -0.178
     }
   ],
   "wardrobe_style_table": [
@@ -111,10 +111,10 @@
     },
     {
       "wardrobe_style": "unknown",
-      "obs_count": 126,
-      "high_engagement_rate": 0.27,
-      "avg_engagement": 0.532,
-      "lift_vs_baseline": -0.27
+      "obs_count": 67,
+      "high_engagement_rate": 0.284,
+      "avg_engagement": 0.545,
+      "lift_vs_baseline": -0.256
     }
   ],
   "gender_by_sector": [
@@ -156,21 +156,21 @@
     {
       "gender": "unknown",
       "sector": "f_and_b",
-      "count": 91,
-      "high_eng_rate": 0.352,
-      "lift": -0.188
+      "count": 56,
+      "high_eng_rate": 0.411,
+      "lift": -0.129
     },
     {
       "gender": "unknown",
       "sector": "retail",
-      "count": 12,
+      "count": 6,
       "high_eng_rate": 0.333,
       "lift": -0.207
     },
     {
       "gender": "unknown",
       "sector": "beauty",
-      "count": 36,
+      "count": 18,
       "high_eng_rate": 0.222,
       "lift": -0.318
     },
@@ -221,21 +221,21 @@
     {
       "wardrobe": "unknown",
       "sector": "retail",
-      "count": 12,
+      "count": 6,
       "high_eng_rate": 0.333,
       "lift": -0.207
     },
     {
       "wardrobe": "unknown",
       "sector": "f_and_b",
-      "count": 78,
-      "high_eng_rate": 0.282,
-      "lift": -0.258
+      "count": 43,
+      "high_eng_rate": 0.302,
+      "lift": -0.238
     },
     {
       "wardrobe": "unknown",
       "sector": "beauty",
-      "count": 36,
+      "count": 18,
       "high_eng_rate": 0.222,
       "lift": -0.318
     },
@@ -248,12 +248,12 @@
     }
   ],
   "agency_rules": [
-    "Human presence is neutral — decide based on brand story, not engagement heuristic",
+    "Include a human in the frame — it lifts engagement",
     "Traditional Saudi dress in frame = +24pp lift — cast accordingly for heritage content",
     "Optimal group size: 4 person(s) in frame"
   ],
   "key_findings": [
-    "Human presence NEUTRAL engagement: with_person=50% vs no_person=46% (+3pp)",
+    "Human presence HELPS engagement: with_person=59% vs no_person=24% (+34pp)",
     "Best wardrobe style: 'other' = 84% high eng (n=39, +30pp)",
     "Best group size: 4 person(s) = 100% high eng (n=2)",
     "Best gender in frame: 'mixed' = 82% (n=35)"

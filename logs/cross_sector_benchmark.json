@@ -1,61 +1,474 @@
 {
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
-  "total_obs": 474,
+  "total_obs": 2770,
   "sectors_compared": [
     "beauty",
+    "beauty_personal_care",
     "f_and_b",
-    "retail"
+    "fashion",
+    "real_estate",
+    "retail",
+    "retail_lifestyle"
   ],
   "sector_profiles": {
     "beauty": {
-      "obs_count": 50,
+      "obs_count": 100,
       "account_count": 2,
-      "share_of_corpus": 0.105,
+      "share_of_corpus": 0.036,
       "engagement": {
-        "avg_score": 0.44,
-        "high_engagement_rate": 0.18
+        "avg_score": 0.52,
+        "high_engagement_rate": 0.21
       },
       "media_breakdown": {
         "image": {
-          "count": 30,
+          "count": 60,
           "share": 0.6,
-          "high_engagement_rate": 0.133
+          "high_engagement_rate": 0.183
         },
         "video": {
-          "count": 18,
-          "share": 0.36,
-          "high_engagement_rate": 0.278
+          "count": 33,
+          "share": 0.33,
+          "high_engagement_rate": 0.273
         },
         "carousel_slide": {
-          "count": 2,
-          "share": 0.04,
-          "high_engagement_rate": 0.0
+          "count": 7,
+          "share": 0.07,
+          "high_engagement_rate": 0.143
         }
       },
       "voice": {
         "dominant_register": "casual",
-        "dominant_tone": "storytelling",
-        "dominant_dialect": "gulf",
+        "dominant_tone": "aspirational",
+        "dominant_dialect": "hejazi",
         "register_distribution": {
-          "casual": 19,
+          "casual": 44,
+          "informal": 22,
           "aspirational": 11,
-          "formal": 7,
-          "educational": 7,
-          "patriotic": 3
+          "formal": 10,
+          "educational": 7
         },
         "tone_distribution": {
-          "storytelling": 9,
-          "informative": 9,
-          "proud": 7,
-          "aspirational": 7,
-          "inviting": 6
+          "aspirational": 21,
+          "warm": 16,
+          "educational": 8,
+          "inviting": 6,
+          "informative": 6
         },
         "dialect_distribution": {
+          "hejazi": 39,
           "gulf": 25,
-          "hejazi": 14,
-          "msa": 11
+          "saudi_colloquial": 25,
+          "standard": 11
         }
+      },
+      "cultural": {
+        "heritage_vs_modern_split": {
+          "heritage": 0.02,
+          "modern": 0.89,
+          "blended": 0.09
+        },
+        "avg_hospitality_cues_per_post": 0.0,
+        "pct_posts_with_hospitality_cues": 0.0,
+        "top_occasions": [
+          {
+            "occasion": "evergreen",
+            "count": 90
+          },
+          {
+            "occasion": "national_sports_day",
+            "count": 3
+          },
+          {
+            "occasion": "national_day",
+            "count": 2
+          },
+          {
+            "occasion": "eid_al_fitr",
+            "count": 1
+          },
+          {
+            "occasion": "hajj",
+            "count": 1
+          },
+          {
+            "occasion": "industry_event",
+            "count": 1
+          },
+          {
+            "occasion": "singles_day_11_11",
+            "count": 1
+          },
+          {
+            "occasion": "white_friday",
+            "count": 1
+          }
+        ]
+      },
+      "quality": {
+        "production_quality_distribution": {
+          "professional": 75,
+          "semi_professional": 25
+        },
+        "brand_consistency_distribution": {
+          "strong": 86,
+          "moderate": 14
+        }
+      },
+      "compliance_risk_per_obs": 0.02,
+      "top_10_patterns": [
+        {
+          "slug": "product_hero",
+          "name": "Product Hero Static",
+          "count": 54,
+          "share_of_obs": 0.54
+        },
+        {
+          "slug": "educational_explainer",
+          "name": "Educational Explainer Carousel",
+          "count": 10,
+          "share_of_obs": 0.1
+        },
+        {
+          "slug": "close_up_macro_texture",
+          "name": "Close-Up Macro Texture",
+          "count": 8,
+          "share_of_obs": 0.08
+        },
+        {
+          "slug": "seasonal_collection_drop",
+          "name": "Seasonal Collection Drop",
+          "count": 8,
+          "share_of_obs": 0.08
+        },
+        {
+          "slug": "product_launch_reveal",
+          "name": "Product Launch Reveal",
+          "count": 6,
+          "share_of_obs": 0.06
+        },
+        {
+          "slug": "occasion_tie_in",
+          "name": "Occasion Tie In",
+          "count": 5,
+          "share_of_obs": 0.05
+        },
+        {
+          "slug": "influencer_review",
+          "name": "Influencer Review",
+          "count": 4,
+          "share_of_obs": 0.04
+        },
+        {
+          "slug": "influencer_collab",
+          "name": "Influencer Collab",
+          "count": 4,
+          "share_of_obs": 0.04
+        },
+        {
+          "slug": "ingredient_credibility",
+          "name": "Ingredient Credibility",
+          "count": 4,
+          "share_of_obs": 0.04
+        },
+        {
+          "slug": "customer_voice_ugc",
+          "name": "Customer Voice UGC",
+          "count": 3,
+          "share_of_obs": 0.03
+        }
+      ]
+    },
+    "beauty_personal_care": {
+      "obs_count": 307,
+      "account_count": 4,
+      "share_of_corpus": 0.111,
+      "engagement": {
+        "avg_score": 0.093,
+        "high_engagement_rate": 0.036
+      },
+      "media_breakdown": {
+        "image": {
+          "count": 154,
+          "share": 0.502,
+          "high_engagement_rate": 0.019
+        },
+        "video": {
+          "count": 104,
+          "share": 0.339,
+          "high_engagement_rate": 0.048
+        },
+        "carousel_slide": {
+          "count": 49,
+          "share": 0.16,
+          "high_engagement_rate": 0.061
+        }
+      },
+      "voice": {
+        "dominant_register": null,
+        "dominant_tone": "informative",
+        "dominant_dialect": null,
+        "register_distribution": {},
+        "tone_distribution": {
+          "informative": 184,
+          "celebratory": 55,
+          "casual": 37,
+          "playful": 29,
+          "urgent": 2
+        },
+        "dialect_distribution": {}
+      },
+      "cultural": {
+        "heritage_vs_modern_split": {
+          "heritage": 0.02,
+          "modern": 0.925,
+          "blended": 0.036
+        },
+        "avg_hospitality_cues_per_post": 0.0,
+        "pct_posts_with_hospitality_cues": 0.0,
+        "top_occasions": [
+          {
+            "occasion": "ramadan",
+            "count": 13
+          },
+          {
+            "occasion": "eid_al_fitr",
+            "count": 11
+          },
+          {
+            "occasion": "seasonal",
+            "count": 8
+          },
+          {
+            "occasion": "national_day",
+            "count": 4
+          },
+          {
+            "occasion": "eid_al_adha",
+            "count": 4
+          },
+          {
+            "occasion": "general",
+            "count": 3
+          },
+          {
+            "occasion": "founding_day",
+            "count": 2
+          }
+        ]
+      },
+      "quality": {
+        "production_quality_distribution": {
+          "semi_professional": 127,
+          "professional": 77,
+          "ugc": 66,
+          "low": 37
+        },
+        "brand_consistency_distribution": {}
+      },
+      "compliance_risk_per_obs": 0.0,
+      "top_10_patterns": []
+    },
+    "f_and_b": {
+      "obs_count": 1865,
+      "account_count": 24,
+      "share_of_corpus": 0.673,
+      "engagement": {
+        "avg_score": 0.515,
+        "high_engagement_rate": 0.363
+      },
+      "media_breakdown": {
+        "image": {
+          "count": 822,
+          "share": 0.441,
+          "high_engagement_rate": 0.361
+        },
+        "video": {
+          "count": 665,
+          "share": 0.357,
+          "high_engagement_rate": 0.331
+        },
+        "carousel_slide": {
+          "count": 341,
+          "share": 0.183,
+          "high_engagement_rate": 0.399
+        },
+        "reel": {
+          "count": 37,
+          "share": 0.02,
+          "high_engagement_rate": 0.649
+        }
+      },
+      "voice": {
+        "dominant_register": "casual",
+        "dominant_tone": "playful",
+        "dominant_dialect": "najdi",
+        "register_distribution": {
+          "casual": 304,
+          "formal": 54,
+          "visual_only": 23,
+          "promotional": 20,
+          "educational": 13
+        },
+        "tone_distribution": {
+          "playful": 580,
+          "informative": 336,
+          "celebratory": 331,
+          "casual": 207,
+          "warm": 68
+        },
+        "dialect_distribution": {
+          "najdi": 269,
+          "saudi_colloquial": 99,
+          "unknown": 50,
+          "hejazi": 20,
+          "msa": 17
+        }
+      },
+      "cultural": {
+        "heritage_vs_modern_split": {
+          "heritage": 0.081,
+          "modern": 0.715,
+          "blended": 0.124
+        },
+        "avg_hospitality_cues_per_post": 0.25,
+        "pct_posts_with_hospitality_cues": 0.113,
+        "top_occasions": [
+          {
+            "occasion": "evergreen",
+            "count": 393
+          },
+          {
+            "occasion": "general",
+            "count": 172
+          },
+          {
+            "occasion": "ramadan",
+            "count": 136
+          },
+          {
+            "occasion": "seasonal",
+            "count": 116
+          },
+          {
+            "occasion": "eid_al_fitr",
+            "count": 48
+          },
+          {
+            "occasion": "national_day",
+            "count": 42
+          },
+          {
+            "occasion": "founding_day",
+            "count": 25
+          },
+          {
+            "occasion": "eid_al_adha",
+            "count": 23
+          }
+        ]
+      },
+      "quality": {
+        "production_quality_distribution": {
+          "professional": 864,
+          "semi_professional": 506,
+          "ugc": 288,
+          "low": 207
+        },
+        "brand_consistency_distribution": {
+          "strong": 480,
+          "moderate": 26,
+          "weak": 5
+        }
+      },
+      "compliance_risk_per_obs": 0.08,
+      "top_10_patterns": [
+        {
+          "slug": "product_hero",
+          "name": "Product Hero Static",
+          "count": 157,
+          "share_of_obs": 0.084
+        },
+        {
+          "slug": "lifestyle_environment_integration",
+          "name": "Lifestyle Environment Integration",
+          "count": 62,
+          "share_of_obs": 0.033
+        },
+        {
+          "slug": "seasonal_collection_drop",
+          "name": "Seasonal Collection Drop",
+          "count": 56,
+          "share_of_obs": 0.03
+        },
+        {
+          "slug": "invitation_to_witness",
+          "name": "Invitation to Witness",
+          "count": 50,
+          "share_of_obs": 0.027
+        },
+        {
+          "slug": "limited_time_offer",
+          "name": "Limited Time Offer",
+          "count": 49,
+          "share_of_obs": 0.026
+        },
+        {
+          "slug": "overhead_tabletop_spread",
+          "name": "Overhead Tabletop Spread",
+          "count": 45,
+          "share_of_obs": 0.024
+        },
+        {
+          "slug": "interior_architectural_framing",
+          "name": "Interior Architectural Framing",
+          "count": 40,
+          "share_of_obs": 0.021
+        },
+        {
+          "slug": "close_up_macro_texture",
+          "name": "Close-Up Macro Texture",
+          "count": 37,
+          "share_of_obs": 0.02
+        },
+        {
+          "slug": "food_and_beverage",
+          "name": "Food And Beverage",
+          "count": 30,
+          "share_of_obs": 0.016
+        },
+        {
+          "slug": "behind_the_craft",
+          "name": "Behind The Craft Process",
+          "count": 27,
+          "share_of_obs": 0.014
+        }
+      ]
+    },
+    "fashion": {
+      "obs_count": 1,
+      "account_count": 1,
+      "share_of_corpus": 0.0,
+      "engagement": {
+        "avg_score": 0.0,
+        "high_engagement_rate": 0.0
+      },
+      "media_breakdown": {
+        "image": {
+          "count": 1,
+          "share": 1.0,
+          "high_engagement_rate": 0.0
+        }
+      },
+      "voice": {
+        "dominant_register": null,
+        "dominant_tone": "casual",
+        "dominant_dialect": null,
+        "register_distribution": {},
+        "tone_distribution": {
+          "casual": 1
+        },
+        "dialect_distribution": {}
       },
       "cultural": {
         "heritage_vs_modern_split": {
@@ -65,271 +478,99 @@
         },
         "avg_hospitality_cues_per_post": 0.0,
         "pct_posts_with_hospitality_cues": 0.0,
-        "top_occasions": [
-          {
-            "occasion": "evergreen",
-            "count": 32
-          },
-          {
-            "occasion": "national_sports_day",
-            "count": 3
-          }
-        ]
+        "top_occasions": []
       },
       "quality": {
         "production_quality_distribution": {
-          "professional": 25,
-          "semi_professional": 25
+          "low": 1
         },
-        "brand_consistency_distribution": {
-          "strong": 36,
-          "moderate": 14
-        }
+        "brand_consistency_distribution": {}
       },
-      "compliance_risk_per_obs": 0.04,
-      "top_10_patterns": [
-        {
-          "slug": "product_hero",
-          "name": "Product Hero Static",
-          "count": 38,
-          "share_of_obs": 0.76
-        },
-        {
-          "slug": "seasonal_collection_drop",
-          "name": "Seasonal Collection Drop",
-          "count": 14,
-          "share_of_obs": 0.28
-        },
-        {
-          "slug": "educational_explainer",
-          "name": "Educational Explainer Carousel",
-          "count": 13,
-          "share_of_obs": 0.26
-        },
-        {
-          "slug": "close_up_macro_texture",
-          "name": "Close-Up Macro Texture",
-          "count": 9,
-          "share_of_obs": 0.18
-        },
-        {
-          "slug": "customer_voice_ugc",
-          "name": "Customer Voice UGC",
-          "count": 7,
-          "share_of_obs": 0.14
-        },
-        {
-          "slug": "behind_the_craft",
-          "name": "Behind The Craft Process",
-          "count": 3,
-          "share_of_obs": 0.06
-        },
-        {
-          "slug": "invitation_to_witness",
-          "name": "Invitation to Witness",
-          "count": 3,
-          "share_of_obs": 0.06
-        },
-        {
-          "slug": "specific_emotional_state",
-          "name": "Specific Emotional State (not happy/sad)",
-          "count": 3,
-          "share_of_obs": 0.06
-        },
-        {
-          "slug": "national_day_pride",
-          "name": "National Day Pride",
-          "count": 3,
-          "share_of_obs": 0.06
-        },
-        {
-          "slug": "lifestyle_embed",
-          "name": "Lifestyle Embed",
-          "count": 2,
-          "share_of_obs": 0.04
-        }
-      ]
+      "compliance_risk_per_obs": 0.0,
+      "top_10_patterns": []
     },
-    "f_and_b": {
-      "obs_count": 399,
-      "account_count": 12,
-      "share_of_corpus": 0.842,
+    "real_estate": {
+      "obs_count": 113,
+      "account_count": 1,
+      "share_of_corpus": 0.041,
       "engagement": {
-        "avg_score": 0.746,
-        "high_engagement_rate": 0.602
+        "avg_score": 0.062,
+        "high_engagement_rate": 0.027
       },
       "media_breakdown": {
+        "video": {
+          "count": 50,
+          "share": 0.442,
+          "high_engagement_rate": 0.04
+        },
         "image": {
-          "count": 189,
-          "share": 0.474,
-          "high_engagement_rate": 0.608
+          "count": 38,
+          "share": 0.336,
+          "high_engagement_rate": 0.026
         },
         "carousel_slide": {
-          "count": 87,
-          "share": 0.218,
-          "high_engagement_rate": 0.77
-        },
-        "video": {
-          "count": 86,
-          "share": 0.216,
-          "high_engagement_rate": 0.395
-        },
-        "reel": {
-          "count": 37,
-          "share": 0.093,
-          "high_engagement_rate": 0.649
+          "count": 25,
+          "share": 0.221,
+          "high_engagement_rate": 0.0
         }
       },
       "voice": {
-        "dominant_register": "casual",
-        "dominant_tone": "playful",
-        "dominant_dialect": "najdi",
-        "register_distribution": {
-          "casual": 211,
-          "formal": 43,
-          "visual_only": 23,
-          "promotional": 20,
-          "educational": 13
-        },
+        "dominant_register": null,
+        "dominant_tone": "informative",
+        "dominant_dialect": null,
+        "register_distribution": {},
         "tone_distribution": {
-          "playful": 60,
-          "warm": 49,
-          "excited": 45,
-          "informative": 35,
-          "celebratory": 28
+          "informative": 101,
+          "celebratory": 12
         },
-        "dialect_distribution": {
-          "najdi": 161,
-          "colloquial_arabic": 34,
-          "msa": 30,
-          "hejazi": 20,
-          "gulf": 12
-        }
+        "dialect_distribution": {}
       },
       "cultural": {
         "heritage_vs_modern_split": {
-          "heritage": 0.095,
-          "modern": 0.582,
-          "blended": 0.281
+          "heritage": 0.018,
+          "modern": 0.938,
+          "blended": 0.035
         },
-        "avg_hospitality_cues_per_post": 1.2,
-        "pct_posts_with_hospitality_cues": 0.511,
+        "avg_hospitality_cues_per_post": 0.0,
+        "pct_posts_with_hospitality_cues": 0.0,
         "top_occasions": [
           {
-            "occasion": "evergreen",
-            "count": 145
-          },
-          {
             "occasion": "ramadan",
-            "count": 23
-          },
-          {
-            "occasion": "national_day",
-            "count": 8
-          },
-          {
-            "occasion": "summer_campaign",
-            "count": 8
+            "count": 3
           },
           {
             "occasion": "founding_day",
-            "count": 6
+            "count": 3
+          },
+          {
+            "occasion": "general",
+            "count": 2
+          },
+          {
+            "occasion": "national_day",
+            "count": 1
           },
           {
             "occasion": "eid_al_fitr",
-            "count": 5
-          },
-          {
-            "occasion": "winter_seasonal",
-            "count": 4
-          },
-          {
-            "occasion": "graduation_season",
-            "count": 4
+            "count": 1
           }
         ]
       },
       "quality": {
         "production_quality_distribution": {
-          "professional": 341,
-          "semi_professional": 50,
-          "low": 4,
-          "ugc": 4
+          "professional": 100,
+          "semi_professional": 11,
+          "low": 2
         },
-        "brand_consistency_distribution": {
-          "strong": 368,
-          "moderate": 26,
-          "weak": 5
-        }
+        "brand_consistency_distribution": {}
       },
-      "compliance_risk_per_obs": 0.24,
-      "top_10_patterns": [
-        {
-          "slug": "product_hero",
-          "name": "Product Hero Static",
-          "count": 144,
-          "share_of_obs": 0.361
-        },
-        {
-          "slug": "seasonal_collection_drop",
-          "name": "Seasonal Collection Drop",
-          "count": 64,
-          "share_of_obs": 0.16
-        },
-        {
-          "slug": "lifestyle_environment_integration",
-          "name": "Lifestyle Environment Integration",
-          "count": 62,
-          "share_of_obs": 0.155
-        },
-        {
-          "slug": "invitation_to_witness",
-          "name": "Invitation to Witness",
-          "count": 56,
-          "share_of_obs": 0.14
-        },
-        {
-          "slug": "overhead_tabletop_spread",
-          "name": "Overhead Tabletop Spread",
-          "count": 47,
-          "share_of_obs": 0.118
-        },
-        {
-          "slug": "interior_architectural_framing",
-          "name": "Interior Architectural Framing",
-          "count": 40,
-          "share_of_obs": 0.1
-        },
-        {
-          "slug": "close_up_macro_texture",
-          "name": "Close-Up Macro Texture",
-          "count": 36,
-          "share_of_obs": 0.09
-        },
-        {
-          "slug": "behind_the_craft",
-          "name": "Behind The Craft Process",
-          "count": 31,
-          "share_of_obs": 0.078
-        },
-        {
-          "slug": "classical_arabic_warmth",
-          "name": "Classical Arabic Warmth (Heritage Register)",
-          "count": 29,
-          "share_of_obs": 0.073
-        },
-        {
-          "slug": "customer_voice_ugc",
-          "name": "Customer Voice UGC",
-          "count": 27,
-          "share_of_obs": 0.068
-        }
-      ]
+      "compliance_risk_per_obs": 0.0,
+      "top_10_patterns": []
     },
     "retail": {
       "obs_count": 25,
       "account_count": 1,
-      "share_of_corpus": 0.053,
+      "share_of_corpus": 0.009,
       "engagement": {
         "avg_score": 0.56,
         "high_engagement_rate": 0.36
@@ -356,28 +597,28 @@
         "dominant_tone": "proud",
         "dominant_dialect": "general_saudi",
         "register_distribution": {
-          "aspirational": 13,
-          "promotional": 6,
+          "aspirational": 12,
           "casual": 3,
-          "educational": 2,
-          "professional": 1
+          "promotional": 3,
+          "functional": 3,
+          "educational": 2
         },
         "tone_distribution": {
-          "proud": 5,
-          "aspirational": 4,
-          "storytelling": 4,
-          "informative": 4,
-          "patriotic": 3
+          "proud": 4,
+          "informative": 3,
+          "aspirational": 3,
+          "patriotic": 3,
+          "warm": 2
         },
         "dialect_distribution": {
-          "general_saudi": 12
+          "general_saudi": 25
         }
       },
       "cultural": {
         "heritage_vs_modern_split": {
-          "heritage": 0.0,
-          "modern": 0.0,
-          "blended": 0.0
+          "heritage": 0.118,
+          "modern": 0.235,
+          "blended": 0.647
         },
         "avg_hospitality_cues_per_post": 0.12,
         "pct_posts_with_hospitality_cues": 0.04,
@@ -435,12 +676,6 @@
           "share_of_obs": 0.16
         },
         {
-          "slug": "close_up_macro_texture",
-          "name": "Close-Up Macro Texture",
-          "count": 2,
-          "share_of_obs": 0.08
-        },
-        {
           "slug": "eid_collection_reveal",
           "name": "Eid Collection Reveal",
           "count": 2,
@@ -449,6 +684,12 @@
         {
           "slug": "documentary_btsmoment",
           "name": "Documentary BTS Moment",
+          "count": 2,
+          "share_of_obs": 0.08
+        },
+        {
+          "slug": "close_up_macro_texture",
+          "name": "Close-Up Macro Texture",
           "count": 2,
           "share_of_obs": 0.08
         },
@@ -465,32 +706,642 @@
           "share_of_obs": 0.04
         }
       ]
+    },
+    "retail_lifestyle": {
+      "obs_count": 359,
+      "account_count": 3,
+      "share_of_corpus": 0.13,
+      "engagement": {
+        "avg_score": 0.157,
+        "high_engagement_rate": 0.067
+      },
+      "media_breakdown": {
+        "image": {
+          "count": 145,
+          "share": 0.404,
+          "high_engagement_rate": 0.069
+        },
+        "video": {
+          "count": 141,
+          "share": 0.393,
+          "high_engagement_rate": 0.064
+        },
+        "carousel_slide": {
+          "count": 73,
+          "share": 0.203,
+          "high_engagement_rate": 0.068
+        }
+      },
+      "voice": {
+        "dominant_register": null,
+        "dominant_tone": "informative",
+        "dominant_dialect": null,
+        "register_distribution": {},
+        "tone_distribution": {
+          "informative": 256,
+          "celebratory": 46,
+          "casual": 28,
+          "playful": 20,
+          "urgent": 5
+        },
+        "dialect_distribution": {}
+      },
+      "cultural": {
+        "heritage_vs_modern_split": {
+          "heritage": 0.014,
+          "modern": 0.897,
+          "blended": 0.053
+        },
+        "avg_hospitality_cues_per_post": 0.0,
+        "pct_posts_with_hospitality_cues": 0.0,
+        "top_occasions": [
+          {
+            "occasion": "seasonal",
+            "count": 26
+          },
+          {
+            "occasion": "ramadan",
+            "count": 22
+          },
+          {
+            "occasion": "eid_al_fitr",
+            "count": 18
+          },
+          {
+            "occasion": "general",
+            "count": 3
+          },
+          {
+            "occasion": "national_day",
+            "count": 3
+          },
+          {
+            "occasion": "eid_al_adha",
+            "count": 3
+          }
+        ]
+      },
+      "quality": {
+        "production_quality_distribution": {
+          "professional": 230,
+          "semi_professional": 61,
+          "low": 44,
+          "ugc": 24
+        },
+        "brand_consistency_distribution": {}
+      },
+      "compliance_risk_per_obs": 0.0,
+      "top_10_patterns": [
+        {
+          "slug": "abaya_outfit",
+          "name": "Abaya Outfit",
+          "count": 1,
+          "share_of_obs": 0.003
+        },
+        {
+          "slug": "summer_modest_fits",
+          "name": "Summer Modest Fits",
+          "count": 1,
+          "share_of_obs": 0.003
+        },
+        {
+          "slug": "modest_looks",
+          "name": "Modest Looks",
+          "count": 1,
+          "share_of_obs": 0.003
+        },
+        {
+          "slug": "modest_wear",
+          "name": "Modest Wear",
+          "count": 1,
+          "share_of_obs": 0.003
+        },
+        {
+          "slug": "trending_now",
+          "name": "Trending Now",
+          "count": 1,
+          "share_of_obs": 0.003
+        },
+        {
+          "slug": "collab_post",
+          "name": "Collab Post",
+          "count": 1,
+          "share_of_obs": 0.003
+        },
+        {
+          "slug": "everyday_summer_fits",
+          "name": "Everyday Summer Fits",
+          "count": 1,
+          "share_of_obs": 0.003
+        }
+      ]
     }
   },
   "cross_sector_differentiators": {
     "patterns_exclusive_to_sector": {
       "beauty": [
         {
-          "slug": "specific_emotional_state",
-          "name": "Specific Emotional State (not happy/sad)"
+          "slug": "authenticity_positioning",
+          "name": "Authenticity Positioning"
+        },
+        {
+          "slug": "before_after_transformation",
+          "name": "Before After Transformation"
+        },
+        {
+          "slug": "brand_experience_event",
+          "name": "Brand Experience Event"
+        },
+        {
+          "slug": "brand_identity_signal",
+          "name": "Brand Identity Signal"
+        },
+        {
+          "slug": "brand_manifesto",
+          "name": "Brand Manifesto"
+        },
+        {
+          "slug": "brand_promise",
+          "name": "Brand Promise"
+        },
+        {
+          "slug": "brand_story",
+          "name": "Brand Story"
+        },
+        {
+          "slug": "community_warmth",
+          "name": "Community Warmth"
+        },
+        {
+          "slug": "creative_format_experiment",
+          "name": "Creative Format Experiment"
+        },
+        {
+          "slug": "educational_content",
+          "name": "Educational Content"
+        },
+        {
+          "slug": "enhancement_not_transformation",
+          "name": "Enhancement Not Transformation"
+        },
+        {
+          "slug": "event_marketing",
+          "name": "Event Marketing"
+        },
+        {
+          "slug": "feature_reveal_sequence",
+          "name": "Feature Reveal Sequence"
+        },
+        {
+          "slug": "gamification_content",
+          "name": "Gamification Content"
+        },
+        {
+          "slug": "humor_and_relatability",
+          "name": "Humor And Relatability"
+        },
+        {
+          "slug": "influencer_collab",
+          "name": "Influencer Collab"
+        },
+        {
+          "slug": "influencer_review",
+          "name": "Influencer Review"
+        },
+        {
+          "slug": "ingredient_credibility",
+          "name": "Ingredient Credibility"
+        },
+        {
+          "slug": "ingredient_reveal",
+          "name": "Ingredient Reveal"
+        },
+        {
+          "slug": "interactive_challenge",
+          "name": "Interactive Challenge"
+        },
+        {
+          "slug": "lifestyle_routine",
+          "name": "Lifestyle Routine"
+        },
+        {
+          "slug": "local_pride_signal",
+          "name": "Local Pride Signal"
+        },
+        {
+          "slug": "natural_ingredient_claim",
+          "name": "Natural Ingredient Claim"
+        },
+        {
+          "slug": "occasion_tie_in",
+          "name": "Occasion Tie In"
+        },
+        {
+          "slug": "product_application",
+          "name": "Product Application"
+        },
+        {
+          "slug": "product_benefit_callout",
+          "name": "Product Benefit Callout"
+        },
+        {
+          "slug": "product_range_showcase",
+          "name": "Product Range Showcase"
+        },
+        {
+          "slug": "product_results_claim",
+          "name": "Product Results Claim"
+        },
+        {
+          "slug": "product_review_ugc",
+          "name": "Product Review Ugc"
+        },
+        {
+          "slug": "product_teaser",
+          "name": "Product Teaser"
+        },
+        {
+          "slug": "purification_claim",
+          "name": "Purification Claim"
+        },
+        {
+          "slug": "routine_tutorial",
+          "name": "Routine Tutorial"
+        },
+        {
+          "slug": "seasonal_sale_content",
+          "name": "Seasonal Sale Content"
+        },
+        {
+          "slug": "skincare_beauty_bridge",
+          "name": "Skincare Beauty Bridge"
+        },
+        {
+          "slug": "third_party_credibility",
+          "name": "Third Party Credibility"
+        },
+        {
+          "slug": "three_word_hook",
+          "name": "Three Word Hook"
         },
         {
           "slug": "transformation_story",
           "name": "Transformation Story"
+        },
+        {
+          "slug": "tutorial_how_to",
+          "name": "Tutorial How To"
+        },
+        {
+          "slug": "tutorial_routine",
+          "name": "Tutorial Routine"
         }
       ],
+      "beauty_personal_care": [],
       "f_and_b": [
+        {
+          "slug": "accessibility_mention",
+          "name": "Accessibility Mention"
+        },
+        {
+          "slug": "achievement_recognition",
+          "name": "Achievement Recognition"
+        },
+        {
+          "slug": "agricultural_narrative",
+          "name": "Agricultural Narrative"
+        },
+        {
+          "slug": "agricultural_support",
+          "name": "Agricultural Support"
+        },
+        {
+          "slug": "ai_solutions",
+          "name": "Ai Solutions"
+        },
+        {
+          "slug": "anniversary_celebration",
+          "name": "Anniversary Celebration"
+        },
+        {
+          "slug": "app_based_ordering",
+          "name": "App Based Ordering"
+        },
+        {
+          "slug": "app_cta",
+          "name": "App Cta"
+        },
+        {
+          "slug": "app_digital_convenience",
+          "name": "App Digital Convenience"
+        },
+        {
+          "slug": "app_download_cta",
+          "name": "App Download Cta"
+        },
+        {
+          "slug": "app_exclusive",
+          "name": "App Exclusive"
+        },
+        {
+          "slug": "app_exclusive_offer",
+          "name": "App Exclusive Offer"
+        },
+        {
+          "slug": "app_feature_announcement",
+          "name": "App Feature Announcement"
+        },
+        {
+          "slug": "app_feature_launch",
+          "name": "App Feature Launch"
+        },
         {
           "slug": "app_loyalty_mechanic",
           "name": "App Loyalty Mechanic"
+        },
+        {
+          "slug": "app_promotion",
+          "name": "App Promotion"
+        },
+        {
+          "slug": "appetite_appeal",
+          "name": "Appetite Appeal"
+        },
+        {
+          "slug": "appetizers",
+          "name": "Appetizers"
+        },
+        {
+          "slug": "arabic_caption",
+          "name": "Arabic Caption"
         },
         {
           "slug": "arabic_casual_mood_trigger",
           "name": "Arabic Casual Mood Trigger"
         },
         {
+          "slug": "arabic_english_bilingual",
+          "name": "Arabic English Bilingual"
+        },
+        {
+          "slug": "arabic_hospitality_cue",
+          "name": "Arabic Hospitality Cue"
+        },
+        {
+          "slug": "artisanal_positioning",
+          "name": "Artisanal Positioning"
+        },
+        {
+          "slug": "aspirational_lifestyle",
+          "name": "Aspirational Lifestyle"
+        },
+        {
+          "slug": "audience_engagement",
+          "name": "Audience Engagement"
+        },
+        {
+          "slug": "automotive_promotion",
+          "name": "Automotive Promotion"
+        },
+        {
+          "slug": "awards_and_accolades",
+          "name": "Awards And Accolades"
+        },
+        {
+          "slug": "b2b_outreach",
+          "name": "B2B Outreach"
+        },
+        {
+          "slug": "b2b_partnership",
+          "name": "B2B Partnership"
+        },
+        {
+          "slug": "back_to_school",
+          "name": "Back To School"
+        },
+        {
+          "slug": "bakery_cafe",
+          "name": "Bakery Cafe"
+        },
+        {
+          "slug": "bakery_confectionery",
+          "name": "Bakery Confectionery"
+        },
+        {
+          "slug": "bakery_product",
+          "name": "Bakery Product"
+        },
+        {
+          "slug": "barnes_brand_content",
+          "name": "Barnes Brand Content"
+        },
+        {
+          "slug": "beach_lifestyle",
+          "name": "Beach Lifestyle"
+        },
+        {
+          "slug": "beauty_brand_collaboration",
+          "name": "Beauty Brand Collaboration"
+        },
+        {
+          "slug": "beauty_cosmetics",
+          "name": "Beauty Cosmetics"
+        },
+        {
+          "slug": "beauty_product_launch",
+          "name": "Beauty Product Launch"
+        },
+        {
+          "slug": "beauty_wellness",
+          "name": "Beauty Wellness"
+        },
+        {
+          "slug": "behind_the_scenes",
+          "name": "Behind The Scenes"
+        },
+        {
+          "slug": "beverage_brand",
+          "name": "Beverage Brand"
+        },
+        {
+          "slug": "beverage_category",
+          "name": "Beverage Category"
+        },
+        {
+          "slug": "beverage_engagement",
+          "name": "Beverage Engagement"
+        },
+        {
+          "slug": "beverage_focus",
+          "name": "Beverage Focus"
+        },
+        {
+          "slug": "beverage_menu_launch",
+          "name": "Beverage Menu Launch"
+        },
+        {
+          "slug": "beverage_poll",
+          "name": "Beverage Poll"
+        },
+        {
+          "slug": "beverage_preference_poll",
+          "name": "Beverage Preference Poll"
+        },
+        {
+          "slug": "beverage_product_launch",
+          "name": "Beverage Product Launch"
+        },
+        {
+          "slug": "beverage_product_showcase",
+          "name": "Beverage Product Showcase"
+        },
+        {
+          "slug": "beverage_promo",
+          "name": "Beverage Promo"
+        },
+        {
+          "slug": "beverage_promotion",
+          "name": "Beverage Promotion"
+        },
+        {
+          "slug": "beverage_recommendation",
+          "name": "Beverage Recommendation"
+        },
+        {
+          "slug": "beverage_showcase",
+          "name": "Beverage Showcase"
+        },
+        {
+          "slug": "beverage_thermal_product",
+          "name": "Beverage Thermal Product"
+        },
+        {
+          "slug": "beverage_winter_campaign",
+          "name": "Beverage Winter Campaign"
+        },
+        {
+          "slug": "bilingual_code_switching",
+          "name": "Bilingual Code Switching"
+        },
+        {
+          "slug": "bilingual_content",
+          "name": "Bilingual Content"
+        },
+        {
+          "slug": "bilingual_engagement_strategy",
+          "name": "Bilingual Engagement Strategy"
+        },
+        {
+          "slug": "bilingual_marketing",
+          "name": "Bilingual Marketing"
+        },
+        {
+          "slug": "bilingual_messaging",
+          "name": "Bilingual Messaging"
+        },
+        {
+          "slug": "birthday_celebration",
+          "name": "Birthday Celebration"
+        },
+        {
+          "slug": "birthday_promotion",
+          "name": "Birthday Promotion"
+        },
+        {
+          "slug": "book_fair",
+          "name": "Book Fair"
+        },
+        {
+          "slug": "box_meal_offer",
+          "name": "Box Meal Offer"
+        },
+        {
+          "slug": "brand_achievement",
+          "name": "Brand Achievement"
+        },
+        {
+          "slug": "brand_activism",
+          "name": "Brand Activism"
+        },
+        {
+          "slug": "brand_anniversary",
+          "name": "Brand Anniversary"
+        },
+        {
+          "slug": "brand_awareness",
+          "name": "Brand Awareness"
+        },
+        {
+          "slug": "brand_callout",
+          "name": "Brand Callout"
+        },
+        {
+          "slug": "brand_campaign",
+          "name": "Brand Campaign"
+        },
+        {
+          "slug": "brand_collab",
+          "name": "Brand Collab"
+        },
+        {
+          "slug": "brand_collaboration",
+          "name": "Brand Collaboration"
+        },
+        {
+          "slug": "brand_community_hashtag",
+          "name": "Brand Community Hashtag"
+        },
+        {
+          "slug": "brand_csr_pillar",
+          "name": "Brand CSR Pillar"
+        },
+        {
+          "slug": "brand_engagement",
+          "name": "Brand Engagement"
+        },
+        {
+          "slug": "brand_expansion",
+          "name": "Brand Expansion"
+        },
+        {
+          "slug": "brand_gratitude",
+          "name": "Brand Gratitude"
+        },
+        {
+          "slug": "brand_hashtag",
+          "name": "Brand Hashtag"
+        },
+        {
+          "slug": "brand_hashtag_campaign",
+          "name": "Brand Hashtag Campaign"
+        },
+        {
+          "slug": "brand_hashtag_engagement",
+          "name": "Brand Hashtag Engagement"
+        },
+        {
+          "slug": "brand_hashtag_promotion",
+          "name": "Brand Hashtag Promotion"
+        },
+        {
           "slug": "brand_hashtag_series",
           "name": "Brand Hashtag Series"
+        },
+        {
+          "slug": "brand_hashtag_strategy",
+          "name": "Brand Hashtag Strategy"
+        },
+        {
+          "slug": "brand_localization",
+          "name": "Brand Localization"
+        },
+        {
+          "slug": "brand_messaging",
+          "name": "Brand Messaging"
+        },
+        {
+          "slug": "brand_milestone",
+          "name": "Brand Milestone"
         },
         {
           "slug": "brand_milestone_post",
@@ -501,32 +1352,604 @@
           "name": "Brand Origin Positioning"
         },
         {
+          "slug": "brand_partnership",
+          "name": "Brand Partnership"
+        },
+        {
+          "slug": "brand_partnerships",
+          "name": "Brand Partnerships"
+        },
+        {
+          "slug": "brand_patriotism",
+          "name": "Brand Patriotism"
+        },
+        {
           "slug": "brand_personality",
           "name": "Brand Personality Voice"
+        },
+        {
+          "slug": "brand_promotional",
+          "name": "Brand Promotional"
+        },
+        {
+          "slug": "brand_scale_communication",
+          "name": "Brand Scale Communication"
+        },
+        {
+          "slug": "brand_solution_framing",
+          "name": "Brand Solution Framing"
+        },
+        {
+          "slug": "brand_trust_building",
+          "name": "Brand Trust Building"
+        },
+        {
+          "slug": "brand_verification",
+          "name": "Brand Verification"
+        },
+        {
+          "slug": "branded_campaign",
+          "name": "Branded Campaign"
+        },
+        {
+          "slug": "branded_collaboration",
+          "name": "Branded Collaboration"
+        },
+        {
+          "slug": "branded_collaborations",
+          "name": "Branded Collaborations"
+        },
+        {
+          "slug": "branded_content",
+          "name": "Branded Content"
+        },
+        {
+          "slug": "branded_gifting",
+          "name": "Branded Gifting"
+        },
+        {
+          "slug": "branded_hashtag",
+          "name": "Branded Hashtag"
+        },
+        {
+          "slug": "branded_ingredients",
+          "name": "Branded Ingredients"
+        },
+        {
+          "slug": "branded_merchandise",
+          "name": "Branded Merchandise"
+        },
+        {
+          "slug": "branded_partnership",
+          "name": "Branded Partnership"
+        },
+        {
+          "slug": "breakfast_campaign",
+          "name": "Breakfast Campaign"
+        },
+        {
+          "slug": "breakfast_content",
+          "name": "Breakfast Content"
+        },
+        {
+          "slug": "breakfast_menu_launch",
+          "name": "Breakfast Menu Launch"
+        },
+        {
+          "slug": "buffet_dining",
+          "name": "Buffet Dining"
+        },
+        {
+          "slug": "buffet_menu_comparison",
+          "name": "Buffet Menu Comparison"
+        },
+        {
+          "slug": "bundle_offer",
+          "name": "Bundle Offer"
+        },
+        {
+          "slug": "bundled_deal",
+          "name": "Bundled Deal"
+        },
+        {
+          "slug": "burger_content",
+          "name": "Burger Content"
+        },
+        {
+          "slug": "burger_cuisine",
+          "name": "Burger Cuisine"
+        },
+        {
+          "slug": "burger_restaurant",
+          "name": "Burger Restaurant"
+        },
+        {
+          "slug": "business_opening_announcement",
+          "name": "Business Opening Announcement"
+        },
+        {
+          "slug": "business_philosophy",
+          "name": "Business Philosophy"
+        },
+        {
+          "slug": "buy_multiple_get_free",
+          "name": "Buy Multiple Get Free"
+        },
+        {
+          "slug": "buy_one_get_one",
+          "name": "Buy One Get One"
+        },
+        {
+          "slug": "cafe_bakery",
+          "name": "Cafe Bakery"
+        },
+        {
+          "slug": "cafe_beverage_showcase",
+          "name": "Cafe Beverage Showcase"
+        },
+        {
+          "slug": "cafe_brand",
+          "name": "Cafe Brand"
+        },
+        {
+          "slug": "cafe_brand_content",
+          "name": "Cafe Brand Content"
+        },
+        {
+          "slug": "cafe_culture",
+          "name": "Cafe Culture"
+        },
+        {
+          "slug": "cafe_experience",
+          "name": "Cafe Experience"
+        },
+        {
+          "slug": "cafe_menu_highlight",
+          "name": "Cafe Menu Highlight"
+        },
+        {
+          "slug": "cafe_review",
+          "name": "Cafe Review"
+        },
+        {
+          "slug": "cake_dessert_product",
+          "name": "Cake Dessert Product"
+        },
+        {
+          "slug": "call_to_action",
+          "name": "Call To Action"
+        },
+        {
+          "slug": "call_to_action_phone",
+          "name": "Call To Action Phone"
+        },
+        {
+          "slug": "call_to_action_purchase",
+          "name": "Call To Action Purchase"
+        },
+        {
+          "slug": "caramel_drink",
+          "name": "Caramel Drink"
+        },
+        {
+          "slug": "carousel_format",
+          "name": "Carousel Format"
         },
         {
           "slug": "carousel_swipe_mechanic",
           "name": "Carousel Swipe Mechanic"
         },
         {
+          "slug": "cash_incentive",
+          "name": "Cash Incentive"
+        },
+        {
+          "slug": "casual_content",
+          "name": "Casual Content"
+        },
+        {
+          "slug": "casual_dining",
+          "name": "Casual Dining"
+        },
+        {
+          "slug": "casual_dining_promo",
+          "name": "Casual Dining Promo"
+        },
+        {
+          "slug": "casual_dining_promotion",
+          "name": "Casual Dining Promotion"
+        },
+        {
+          "slug": "casual_engagement",
+          "name": "Casual Engagement"
+        },
+        {
+          "slug": "casual_engagement_hook",
+          "name": "Casual Engagement Hook"
+        },
+        {
+          "slug": "casual_humor",
+          "name": "Casual Humor"
+        },
+        {
+          "slug": "casual_marketing",
+          "name": "Casual Marketing"
+        },
+        {
+          "slug": "casual_poll_format",
+          "name": "Casual Poll Format"
+        },
+        {
+          "slug": "casual_promotion",
+          "name": "Casual Promotion"
+        },
+        {
+          "slug": "casual_restaurant_content",
+          "name": "Casual Restaurant Content"
+        },
+        {
+          "slug": "casual_tone",
+          "name": "Casual Tone"
+        },
+        {
+          "slug": "casual_vernacular",
+          "name": "Casual Vernacular"
+        },
+        {
+          "slug": "category_mismatch",
+          "name": "Category Mismatch"
+        },
+        {
+          "slug": "catering_service",
+          "name": "Catering Service"
+        },
+        {
+          "slug": "cause_marketing",
+          "name": "Cause Marketing"
+        },
+        {
+          "slug": "celebration_milestone",
+          "name": "Celebration Milestone"
+        },
+        {
+          "slug": "celebration_services",
+          "name": "Celebration Services"
+        },
+        {
+          "slug": "celebrity_collab",
+          "name": "Celebrity Collab"
+        },
+        {
+          "slug": "celebrity_collaboration",
+          "name": "Celebrity Collaboration"
+        },
+        {
+          "slug": "celebrity_partnership",
+          "name": "Celebrity Partnership"
+        },
+        {
+          "slug": "challenge_driven",
+          "name": "Challenge Driven"
+        },
+        {
+          "slug": "challenge_mechanic",
+          "name": "Challenge Mechanic"
+        },
+        {
           "slug": "character_spokesperson",
           "name": "Character Spokesperson"
+        },
+        {
+          "slug": "charity_initiative",
+          "name": "Charity Initiative"
+        },
+        {
+          "slug": "charity_partnership",
+          "name": "Charity Partnership"
+        },
+        {
+          "slug": "chef_attribution",
+          "name": "Chef Attribution"
+        },
+        {
+          "slug": "chef_collaboration",
+          "name": "Chef Collaboration"
+        },
+        {
+          "slug": "chicken_dish",
+          "name": "Chicken Dish"
+        },
+        {
+          "slug": "children_focused",
+          "name": "Children Focused"
+        },
+        {
+          "slug": "children_product_bundling",
+          "name": "Children Product Bundling"
+        },
+        {
+          "slug": "chinese_cuisine",
+          "name": "Chinese Cuisine"
+        },
+        {
+          "slug": "chocolate_focused",
+          "name": "Chocolate Focused"
+        },
+        {
+          "slug": "chocolate_products",
+          "name": "Chocolate Products"
+        },
+        {
+          "slug": "christmas_content",
+          "name": "Christmas Content"
+        },
+        {
+          "slug": "coffee_artisanal",
+          "name": "Coffee Artisanal"
+        },
+        {
+          "slug": "coffee_beverage",
+          "name": "Coffee Beverage"
+        },
+        {
+          "slug": "coffee_brand",
+          "name": "Coffee Brand"
+        },
+        {
+          "slug": "coffee_brand_placement",
+          "name": "Coffee Brand Placement"
+        },
+        {
+          "slug": "coffee_content",
+          "name": "Coffee Content"
+        },
+        {
+          "slug": "coffee_cultural_heritage",
+          "name": "Coffee Cultural Heritage"
+        },
+        {
+          "slug": "coffee_culture",
+          "name": "Coffee Culture"
+        },
+        {
+          "slug": "coffee_education",
+          "name": "Coffee Education"
+        },
+        {
+          "slug": "coffee_products",
+          "name": "Coffee Products"
+        },
+        {
+          "slug": "coffee_sector",
+          "name": "Coffee Sector"
+        },
+        {
+          "slug": "coffee_specialty",
+          "name": "Coffee Specialty"
+        },
+        {
+          "slug": "coffee_storytelling",
+          "name": "Coffee Storytelling"
+        },
+        {
+          "slug": "collab_campaign_reveal",
+          "name": "Collab Campaign Reveal"
+        },
+        {
+          "slug": "collaboration_branded",
+          "name": "Collaboration Branded"
+        },
+        {
+          "slug": "collaborative_brand",
+          "name": "Collaborative Brand"
+        },
+        {
+          "slug": "colloquial_humor",
+          "name": "Colloquial Humor"
+        },
+        {
+          "slug": "colloquial_saudi_arabic",
+          "name": "Colloquial Saudi Arabic"
+        },
+        {
+          "slug": "combo_bundle",
+          "name": "Combo Bundle"
+        },
+        {
+          "slug": "combo_deal",
+          "name": "Combo Deal"
+        },
+        {
+          "slug": "combo_meal_marketing",
+          "name": "Combo Meal Marketing"
+        },
+        {
+          "slug": "comfort_beverage",
+          "name": "Comfort Beverage"
+        },
+        {
+          "slug": "comment_activation",
+          "name": "Comment Activation"
         },
         {
           "slug": "comment_to_win",
           "name": "Comment to Win"
         },
         {
+          "slug": "community_engagement",
+          "name": "Community Engagement"
+        },
+        {
+          "slug": "community_engagement_question",
+          "name": "Community Engagement Question"
+        },
+        {
+          "slug": "community_engagement_request",
+          "name": "Community Engagement Request"
+        },
+        {
+          "slug": "community_gathering",
+          "name": "Community Gathering"
+        },
+        {
+          "slug": "community_guidance",
+          "name": "Community Guidance"
+        },
+        {
           "slug": "community_pride_statement",
           "name": "Community Pride Statement"
+        },
+        {
+          "slug": "community_question",
+          "name": "Community Question"
+        },
+        {
+          "slug": "community_recap",
+          "name": "Community Recap"
+        },
+        {
+          "slug": "community_responsiveness",
+          "name": "Community Responsiveness"
+        },
+        {
+          "slug": "community_welcome",
+          "name": "Community Welcome"
+        },
+        {
+          "slug": "consumer_feedback_response",
+          "name": "Consumer Feedback Response"
+        },
+        {
+          "slug": "consumer_preference_survey",
+          "name": "Consumer Preference Survey"
+        },
+        {
+          "slug": "contact_cta",
+          "name": "Contact Cta"
+        },
+        {
+          "slug": "contest_giveaway",
+          "name": "Contest Giveaway"
+        },
+        {
+          "slug": "contest_promotion",
+          "name": "Contest Promotion"
         },
         {
           "slug": "contrarian_pivot_line",
           "name": "Contrarian Pivot Line ('غلطان', 'But wait!')"
         },
         {
+          "slug": "control_narrative",
+          "name": "Control Narrative"
+        },
+        {
+          "slug": "convenience_messaging",
+          "name": "Convenience Messaging"
+        },
+        {
+          "slug": "cookie_product",
+          "name": "Cookie Product"
+        },
+        {
+          "slug": "cookie_products",
+          "name": "Cookie Products"
+        },
+        {
+          "slug": "cookies_desserts",
+          "name": "Cookies Desserts"
+        },
+        {
+          "slug": "corporate_gifting",
+          "name": "Corporate Gifting"
+        },
+        {
+          "slug": "corporate_partnership",
+          "name": "Corporate Partnership"
+        },
+        {
+          "slug": "costume_content",
+          "name": "Costume Content"
+        },
+        {
+          "slug": "covid19_pandemic_response",
+          "name": "Covid19 Pandemic Response"
+        },
+        {
+          "slug": "covid_restrictions",
+          "name": "Covid Restrictions"
+        },
+        {
+          "slug": "craftsmanship_emphasis",
+          "name": "Craftsmanship Emphasis"
+        },
+        {
+          "slug": "craftsmanship_focus",
+          "name": "Craftsmanship Focus"
+        },
+        {
+          "slug": "cross_brand_partnership",
+          "name": "Cross Brand Partnership"
+        },
+        {
+          "slug": "csr_community_impact",
+          "name": "Csr Community Impact"
+        },
+        {
+          "slug": "csr_food_safety",
+          "name": "Csr Food Safety"
+        },
+        {
+          "slug": "csr_impact_reporting",
+          "name": "Csr Impact Reporting"
+        },
+        {
+          "slug": "csr_initiative",
+          "name": "Csr Initiative"
+        },
+        {
+          "slug": "cta_direct_order",
+          "name": "Cta Direct Order"
+        },
+        {
+          "slug": "cta_driven",
+          "name": "Cta Driven"
+        },
+        {
+          "slug": "cta_engagement",
+          "name": "Cta Engagement"
+        },
+        {
+          "slug": "cta_with_emoji",
+          "name": "Cta With Emoji"
+        },
+        {
+          "slug": "culinary_experience",
+          "name": "Culinary Experience"
+        },
+        {
+          "slug": "culinary_heritage",
+          "name": "Culinary Heritage"
+        },
+        {
+          "slug": "cultural_activity",
+          "name": "Cultural Activity"
+        },
+        {
+          "slug": "cultural_authenticity",
+          "name": "Cultural Authenticity"
+        },
+        {
+          "slug": "cultural_heritage",
+          "name": "Cultural Heritage"
+        },
+        {
           "slug": "cultural_identity_marker",
           "name": "Cultural Identity Marker"
+        },
+        {
+          "slug": "cultural_moment_activation",
+          "name": "Cultural Moment Activation"
         },
         {
           "slug": "cultural_moment_tie_in",
@@ -537,28 +1960,280 @@
           "name": "Cultural Object Hero"
         },
         {
+          "slug": "cultural_pride",
+          "name": "Cultural Pride"
+        },
+        {
+          "slug": "cultural_values_marketing",
+          "name": "Cultural Values Marketing"
+        },
+        {
+          "slug": "cultural_venue",
+          "name": "Cultural Venue"
+        },
+        {
           "slug": "curiosity_gap_question",
           "name": "Curiosity Gap Question"
+        },
+        {
+          "slug": "customer_appreciation",
+          "name": "Customer Appreciation"
+        },
+        {
+          "slug": "customer_ease",
+          "name": "Customer Ease"
+        },
+        {
+          "slug": "cyber_monday",
+          "name": "Cyber Monday"
+        },
+        {
+          "slug": "daily_routine",
+          "name": "Daily Routine"
+        },
+        {
+          "slug": "delivery_app_integration",
+          "name": "Delivery App Integration"
+        },
+        {
+          "slug": "delivery_app_mention",
+          "name": "Delivery App Mention"
+        },
+        {
+          "slug": "delivery_app_promotion",
+          "name": "Delivery App Promotion"
+        },
+        {
+          "slug": "delivery_convenience",
+          "name": "Delivery Convenience"
+        },
+        {
+          "slug": "delivery_promo",
+          "name": "Delivery Promo"
         },
         {
           "slug": "delivery_promo_sport",
           "name": "Delivery Promo Sport"
         },
         {
+          "slug": "delivery_promotion",
+          "name": "Delivery Promotion"
+        },
+        {
+          "slug": "delivery_service",
+          "name": "Delivery Service"
+        },
+        {
+          "slug": "delivery_service_highlight",
+          "name": "Delivery Service Highlight"
+        },
+        {
           "slug": "delivery_value_proposition",
           "name": "Delivery Value Proposition"
+        },
+        {
+          "slug": "design_community",
+          "name": "Design Community"
+        },
+        {
+          "slug": "dessert_bakery",
+          "name": "Dessert Bakery"
+        },
+        {
+          "slug": "dessert_content",
+          "name": "Dessert Content"
+        },
+        {
+          "slug": "dessert_focus",
+          "name": "Dessert Focus"
+        },
+        {
+          "slug": "dessert_focused",
+          "name": "Dessert Focused"
+        },
+        {
+          "slug": "dessert_menu",
+          "name": "Dessert Menu"
+        },
+        {
+          "slug": "dessert_menu_promotion",
+          "name": "Dessert Menu Promotion"
+        },
+        {
+          "slug": "dessert_product_launch",
+          "name": "Dessert Product Launch"
+        },
+        {
+          "slug": "dessert_promotion",
+          "name": "Dessert Promotion"
+        },
+        {
+          "slug": "dessert_showcase",
+          "name": "Dessert Showcase"
+        },
+        {
+          "slug": "detailed_menu_description",
+          "name": "Detailed Menu Description"
+        },
+        {
+          "slug": "detailed_pricing",
+          "name": "Detailed Pricing"
+        },
+        {
+          "slug": "detailed_ratings",
+          "name": "Detailed Ratings"
+        },
+        {
+          "slug": "digital_convenience",
+          "name": "Digital Convenience"
+        },
+        {
+          "slug": "digital_service_promo",
+          "name": "Digital Service Promo"
+        },
+        {
+          "slug": "digital_transformation",
+          "name": "Digital Transformation"
+        },
+        {
+          "slug": "dine_and_learn",
+          "name": "Dine And Learn"
+        },
+        {
+          "slug": "dining_choice_question",
+          "name": "Dining Choice Question"
+        },
+        {
+          "slug": "dining_guide",
+          "name": "Dining Guide"
+        },
+        {
+          "slug": "discount_incentive",
+          "name": "Discount Incentive"
+        },
+        {
+          "slug": "discount_price_dominant",
+          "name": "Discount Price Dominant"
+        },
+        {
+          "slug": "dish_recommendation",
+          "name": "Dish Recommendation"
+        },
+        {
+          "slug": "donation_per_purchase",
+          "name": "Donation Per Purchase"
+        },
+        {
+          "slug": "drive_thru_promotion",
+          "name": "Drive Thru Promotion"
+        },
+        {
+          "slug": "dual_channel_promotion",
+          "name": "Dual Channel Promotion"
+        },
+        {
+          "slug": "dual_language_content",
+          "name": "Dual Language Content"
         },
         {
           "slug": "dual_meaning_arabic_word",
           "name": "Dual-Meaning Arabic Word"
         },
         {
-          "slug": "eid_al_adha_sacrifice_generosity",
-          "name": "Eid Al-Adha Sacrifice + Generosity"
+          "slug": "educational_institutions",
+          "name": "Educational Institutions"
+        },
+        {
+          "slug": "eid_campaign",
+          "name": "Eid Campaign"
+        },
+        {
+          "slug": "eid_celebration",
+          "name": "Eid Celebration"
+        },
+        {
+          "slug": "eid_engagement",
+          "name": "Eid Engagement"
         },
         {
           "slug": "eid_family_gathering",
           "name": "Eid Family Gathering"
+        },
+        {
+          "slug": "eid_gifting",
+          "name": "Eid Gifting"
+        },
+        {
+          "slug": "eid_greeting",
+          "name": "Eid Greeting"
+        },
+        {
+          "slug": "eid_occasion_activation",
+          "name": "Eid Occasion Activation"
+        },
+        {
+          "slug": "eid_occasion_content",
+          "name": "Eid Occasion Content"
+        },
+        {
+          "slug": "eid_promotion",
+          "name": "Eid Promotion"
+        },
+        {
+          "slug": "eid_promotional",
+          "name": "Eid Promotional"
+        },
+        {
+          "slug": "eid_seasonal_promotion",
+          "name": "Eid Seasonal Promotion"
+        },
+        {
+          "slug": "eid_themed_promotion",
+          "name": "Eid Themed Promotion"
+        },
+        {
+          "slug": "elderly_care",
+          "name": "Elderly Care"
+        },
+        {
+          "slug": "emoji_caption",
+          "name": "Emoji Caption"
+        },
+        {
+          "slug": "emoji_driven",
+          "name": "Emoji Driven"
+        },
+        {
+          "slug": "emoji_driven_caption",
+          "name": "Emoji Driven Caption"
+        },
+        {
+          "slug": "emoji_heavy",
+          "name": "Emoji Heavy"
+        },
+        {
+          "slug": "emoji_heavy_caption",
+          "name": "Emoji Heavy Caption"
+        },
+        {
+          "slug": "emoji_heavy_casual",
+          "name": "Emoji Heavy Casual"
+        },
+        {
+          "slug": "emoji_rich_caption",
+          "name": "Emoji Rich Caption"
+        },
+        {
+          "slug": "emojis_heavy",
+          "name": "Emojis Heavy"
+        },
+        {
+          "slug": "emojis_used",
+          "name": "Emojis Used"
+        },
+        {
+          "slug": "emotional_appeal",
+          "name": "Emotional Appeal"
         },
         {
           "slug": "emotional_brand_connection",
@@ -569,24 +2244,720 @@
           "name": "Emotional Brand Moment"
         },
         {
+          "slug": "emotional_branding",
+          "name": "Emotional Branding"
+        },
+        {
+          "slug": "emotional_connection",
+          "name": "Emotional Connection"
+        },
+        {
+          "slug": "emotional_connection_messaging",
+          "name": "Emotional Connection Messaging"
+        },
+        {
+          "slug": "emotional_copywriting",
+          "name": "Emotional Copywriting"
+        },
+        {
+          "slug": "emotional_language",
+          "name": "Emotional Language"
+        },
+        {
+          "slug": "emotional_storytelling",
+          "name": "Emotional Storytelling"
+        },
+        {
+          "slug": "employee_pride_campaign",
+          "name": "Employee Pride Campaign"
+        },
+        {
           "slug": "employee_pride_story",
           "name": "Employee Pride Story"
+        },
+        {
+          "slug": "employee_spotlight",
+          "name": "Employee Spotlight"
+        },
+        {
+          "slug": "employee_story_first_person",
+          "name": "Employee Story First Person"
+        },
+        {
+          "slug": "engagement_bait",
+          "name": "Engagement Bait"
+        },
+        {
+          "slug": "engagement_call_to_action",
+          "name": "Engagement Call To Action"
+        },
+        {
+          "slug": "engagement_driver",
+          "name": "Engagement Driver"
+        },
+        {
+          "slug": "engagement_driver_poll",
+          "name": "Engagement Driver Poll"
+        },
+        {
+          "slug": "engagement_mechanics",
+          "name": "Engagement Mechanics"
+        },
+        {
+          "slug": "engagement_question",
+          "name": "Engagement Question"
+        },
+        {
+          "slug": "entertainment_collab",
+          "name": "Entertainment Collab"
+        },
+        {
+          "slug": "environmental_focus",
+          "name": "Environmental Focus"
+        },
+        {
+          "slug": "environmental_initiative",
+          "name": "Environmental Initiative"
+        },
+        {
+          "slug": "esports_gaming",
+          "name": "Esports Gaming"
+        },
+        {
+          "slug": "establishment_review",
+          "name": "Establishment Review"
+        },
+        {
+          "slug": "event_booking",
+          "name": "Event Booking"
         },
         {
           "slug": "event_collab_announcement",
           "name": "Event / Collab Announcement"
         },
         {
+          "slug": "event_collab_product",
+          "name": "Event Collab Product"
+        },
+        {
+          "slug": "event_invitation",
+          "name": "Event Invitation"
+        },
+        {
+          "slug": "event_promotion",
+          "name": "Event Promotion"
+        },
+        {
+          "slug": "event_sponsorship",
+          "name": "Event Sponsorship"
+        },
+        {
+          "slug": "expansion_announcement",
+          "name": "Expansion Announcement"
+        },
+        {
+          "slug": "experience_focused",
+          "name": "Experience Focused"
+        },
+        {
+          "slug": "experience_prize",
+          "name": "Experience Prize"
+        },
+        {
+          "slug": "experience_sharing",
+          "name": "Experience Sharing"
+        },
+        {
+          "slug": "experiential_activation",
+          "name": "Experiential Activation"
+        },
+        {
+          "slug": "experiential_marketing",
+          "name": "Experiential Marketing"
+        },
+        {
+          "slug": "extended_hours",
+          "name": "Extended Hours"
+        },
+        {
+          "slug": "f_and_b_beverage",
+          "name": "F And B Beverage"
+        },
+        {
+          "slug": "f_and_b_beverages",
+          "name": "F And B Beverages"
+        },
+        {
+          "slug": "f_and_b_brand_partnership",
+          "name": "F And B Brand Partnership"
+        },
+        {
+          "slug": "f_and_b_brand_promotion",
+          "name": "F And B Brand Promotion"
+        },
+        {
+          "slug": "f_and_b_breakfast",
+          "name": "F And B Breakfast"
+        },
+        {
+          "slug": "f_and_b_breakfast_promotion",
+          "name": "F And B Breakfast Promotion"
+        },
+        {
+          "slug": "f_and_b_campaign",
+          "name": "F And B Campaign"
+        },
+        {
+          "slug": "f_and_b_catering",
+          "name": "F And B Catering"
+        },
+        {
+          "slug": "f_and_b_convenience",
+          "name": "F And B Convenience"
+        },
+        {
+          "slug": "f_and_b_engagement",
+          "name": "F And B Engagement"
+        },
+        {
+          "slug": "f_and_b_engagement_question",
+          "name": "F And B Engagement Question"
+        },
+        {
+          "slug": "f_and_b_festive",
+          "name": "F And B Festive"
+        },
+        {
+          "slug": "f_and_b_launch",
+          "name": "F And B Launch"
+        },
+        {
+          "slug": "f_and_b_marketing",
+          "name": "F And B Marketing"
+        },
+        {
+          "slug": "f_and_b_memory_narrative",
+          "name": "F And B Memory Narrative"
+        },
+        {
+          "slug": "f_and_b_menu_post",
+          "name": "F And B Menu Post"
+        },
+        {
+          "slug": "f_and_b_merchandise",
+          "name": "F And B Merchandise"
+        },
+        {
+          "slug": "f_and_b_new_product_line",
+          "name": "F And B New Product Line"
+        },
+        {
+          "slug": "f_and_b_occasion_marketing",
+          "name": "F And B Occasion Marketing"
+        },
+        {
+          "slug": "f_and_b_opening",
+          "name": "F And B Opening"
+        },
+        {
+          "slug": "f_and_b_ordering",
+          "name": "F And B Ordering"
+        },
+        {
+          "slug": "f_and_b_product_launch",
+          "name": "F And B Product Launch"
+        },
+        {
+          "slug": "f_and_b_product_push",
+          "name": "F And B Product Push"
+        },
+        {
+          "slug": "f_and_b_promo",
+          "name": "F And B Promo"
+        },
+        {
+          "slug": "f_and_b_promotion",
+          "name": "F And B Promotion"
+        },
+        {
+          "slug": "f_and_b_promotional",
+          "name": "F And B Promotional"
+        },
+        {
+          "slug": "f_and_b_recommendation",
+          "name": "F And B Recommendation"
+        },
+        {
+          "slug": "f_and_b_restaurant_review",
+          "name": "F And B Restaurant Review"
+        },
+        {
+          "slug": "f_and_b_retail",
+          "name": "F And B Retail"
+        },
+        {
+          "slug": "f_and_b_review_request",
+          "name": "F And B Review Request"
+        },
+        {
+          "slug": "f_and_b_romantic",
+          "name": "F And B Romantic"
+        },
+        {
+          "slug": "f_and_b_seasonal",
+          "name": "F And B Seasonal"
+        },
+        {
+          "slug": "f_and_b_seasonal_campaign",
+          "name": "F And B Seasonal Campaign"
+        },
+        {
+          "slug": "f_and_b_seasonal_marketing",
+          "name": "F And B Seasonal Marketing"
+        },
+        {
+          "slug": "f_and_b_sector",
+          "name": "F And B Sector"
+        },
+        {
+          "slug": "f_and_b_value_proposition",
+          "name": "F And B Value Proposition"
+        },
+        {
+          "slug": "family_business_narrative",
+          "name": "Family Business Narrative"
+        },
+        {
+          "slug": "family_content",
+          "name": "Family Content"
+        },
+        {
+          "slug": "family_friendly_event",
+          "name": "Family Friendly Event"
+        },
+        {
           "slug": "family_gathering_angle",
           "name": "Family Gathering Angle"
+        },
+        {
+          "slug": "family_group_dining",
+          "name": "Family Group Dining"
         },
         {
           "slug": "family_occasion_appeal",
           "name": "Family Occasion Appeal"
         },
         {
+          "slug": "family_oriented",
+          "name": "Family Oriented"
+        },
+        {
+          "slug": "family_outing",
+          "name": "Family Outing"
+        },
+        {
+          "slug": "family_recipe",
+          "name": "Family Recipe"
+        },
+        {
+          "slug": "family_size_promotion",
+          "name": "Family Size Promotion"
+        },
+        {
+          "slug": "faq_content",
+          "name": "Faq Content"
+        },
+        {
+          "slug": "farm_to_cup",
+          "name": "Farm To Cup"
+        },
+        {
+          "slug": "farmer_spotlight",
+          "name": "Farmer Spotlight"
+        },
+        {
+          "slug": "fashion_accessory_integration",
+          "name": "Fashion Accessory Integration"
+        },
+        {
+          "slug": "fast_food_brand",
+          "name": "Fast Food Brand"
+        },
+        {
+          "slug": "feast_spread_overhead",
+          "name": "Feast Spread Overhead"
+        },
+        {
+          "slug": "female_empowerment",
+          "name": "Female Empowerment"
+        },
+        {
+          "slug": "feminine_audience_targeting",
+          "name": "Feminine Audience Targeting"
+        },
+        {
+          "slug": "festive_branding",
+          "name": "Festive Branding"
+        },
+        {
+          "slug": "festive_menu_announcement",
+          "name": "Festive Menu Announcement"
+        },
+        {
+          "slug": "festive_messaging",
+          "name": "Festive Messaging"
+        },
+        {
+          "slug": "fine_dining",
+          "name": "Fine Dining"
+        },
+        {
+          "slug": "fine_dining_promotion",
+          "name": "Fine Dining Promotion"
+        },
+        {
+          "slug": "first_come_first_served",
+          "name": "First Come First Served"
+        },
+        {
+          "slug": "flag_imagery",
+          "name": "Flag Imagery"
+        },
+        {
+          "slug": "flag_symbolism",
+          "name": "Flag Symbolism"
+        },
+        {
+          "slug": "flavor_focused_messaging",
+          "name": "Flavor Focused Messaging"
+        },
+        {
+          "slug": "flavor_profile",
+          "name": "Flavor Profile"
+        },
+        {
+          "slug": "flavor_selection",
+          "name": "Flavor Selection"
+        },
+        {
+          "slug": "flavor_variant_feature",
+          "name": "Flavor Variant Feature"
+        },
+        {
+          "slug": "flavor_variety_highlight",
+          "name": "Flavor Variety Highlight"
+        },
+        {
+          "slug": "flavour_bold_claim",
+          "name": "Flavour Bold Claim"
+        },
+        {
+          "slug": "fnb_brand_activation",
+          "name": "Fnb Brand Activation"
+        },
+        {
+          "slug": "fnb_brand_promotion",
+          "name": "Fnb Brand Promotion"
+        },
+        {
+          "slug": "fnb_engagement",
+          "name": "Fnb Engagement"
+        },
+        {
+          "slug": "fnb_engagement_hook",
+          "name": "Fnb Engagement Hook"
+        },
+        {
+          "slug": "fnb_holiday_content",
+          "name": "Fnb Holiday Content"
+        },
+        {
+          "slug": "fnb_product_launch",
+          "name": "Fnb Product Launch"
+        },
+        {
+          "slug": "fnb_seasonal_promotion",
+          "name": "Fnb Seasonal Promotion"
+        },
+        {
+          "slug": "follow_cta",
+          "name": "Follow Cta"
+        },
+        {
+          "slug": "follow_incentive",
+          "name": "Follow Incentive"
+        },
+        {
+          "slug": "food_and_beverage",
+          "name": "Food And Beverage"
+        },
+        {
+          "slug": "food_and_beverage_brand",
+          "name": "Food And Beverage Brand"
+        },
+        {
+          "slug": "food_and_beverage_educational",
+          "name": "Food And Beverage Educational"
+        },
+        {
+          "slug": "food_and_beverage_product_launch",
+          "name": "Food And Beverage Product Launch"
+        },
+        {
+          "slug": "food_and_beverage_promo",
+          "name": "Food And Beverage Promo"
+        },
+        {
+          "slug": "food_and_beverage_promotion",
+          "name": "Food And Beverage Promotion"
+        },
+        {
+          "slug": "food_and_beverage_promotional",
+          "name": "Food And Beverage Promotional"
+        },
+        {
+          "slug": "food_and_beverage_restaurant_review",
+          "name": "Food And Beverage Restaurant Review"
+        },
+        {
+          "slug": "food_appeal",
+          "name": "Food Appeal"
+        },
+        {
+          "slug": "food_beverage",
+          "name": "Food Beverage"
+        },
+        {
+          "slug": "food_beverage_brand",
+          "name": "Food Beverage Brand"
+        },
+        {
+          "slug": "food_beverage_combo",
+          "name": "Food Beverage Combo"
+        },
+        {
+          "slug": "food_beverage_csr",
+          "name": "Food Beverage Csr"
+        },
+        {
+          "slug": "food_beverage_deal",
+          "name": "Food Beverage Deal"
+        },
+        {
+          "slug": "food_beverage_discount",
+          "name": "Food Beverage Discount"
+        },
+        {
+          "slug": "food_beverage_ecommerce",
+          "name": "Food Beverage Ecommerce"
+        },
+        {
+          "slug": "food_beverage_pairing",
+          "name": "Food Beverage Pairing"
+        },
+        {
+          "slug": "food_beverage_product",
+          "name": "Food Beverage Product"
+        },
+        {
+          "slug": "food_beverage_promo",
+          "name": "Food Beverage Promo"
+        },
+        {
+          "slug": "food_beverage_promotion",
+          "name": "Food Beverage Promotion"
+        },
+        {
+          "slug": "food_beverage_promotional",
+          "name": "Food Beverage Promotional"
+        },
+        {
+          "slug": "food_beverage_question",
+          "name": "Food Beverage Question"
+        },
+        {
+          "slug": "food_beverage_recommendation_request",
+          "name": "Food Beverage Recommendation Request"
+        },
+        {
+          "slug": "food_beverage_weekly_rotation",
+          "name": "Food Beverage Weekly Rotation"
+        },
+        {
+          "slug": "food_blogger",
+          "name": "Food Blogger"
+        },
+        {
+          "slug": "food_brand_engagement",
+          "name": "Food Brand Engagement"
+        },
+        {
+          "slug": "food_buffet_promotion",
+          "name": "Food Buffet Promotion"
+        },
+        {
+          "slug": "food_bundle_deal",
+          "name": "Food Bundle Deal"
+        },
+        {
+          "slug": "food_catering",
+          "name": "Food Catering"
+        },
+        {
+          "slug": "food_challenge",
+          "name": "Food Challenge"
+        },
+        {
+          "slug": "food_content",
+          "name": "Food Content"
+        },
+        {
+          "slug": "food_court_activation",
+          "name": "Food Court Activation"
+        },
+        {
+          "slug": "food_craving",
+          "name": "Food Craving"
+        },
+        {
+          "slug": "food_craving_content",
+          "name": "Food Craving Content"
+        },
+        {
+          "slug": "food_deal_offer",
+          "name": "Food Deal Offer"
+        },
+        {
+          "slug": "food_delivery",
+          "name": "Food Delivery"
+        },
+        {
+          "slug": "food_delivery_promotion",
+          "name": "Food Delivery Promotion"
+        },
+        {
+          "slug": "food_discount",
+          "name": "Food Discount"
+        },
+        {
+          "slug": "food_emotion_connection",
+          "name": "Food Emotion Connection"
+        },
+        {
+          "slug": "food_establishment",
+          "name": "Food Establishment"
+        },
+        {
+          "slug": "food_experience",
+          "name": "Food Experience"
+        },
+        {
+          "slug": "food_gifting",
+          "name": "Food Gifting"
+        },
+        {
+          "slug": "food_influencer_collab",
+          "name": "Food Influencer Collab"
+        },
+        {
+          "slug": "food_inquiry",
+          "name": "Food Inquiry"
+        },
+        {
+          "slug": "food_menu_post",
+          "name": "Food Menu Post"
+        },
+        {
+          "slug": "food_opinion_poll",
+          "name": "Food Opinion Poll"
+        },
+        {
+          "slug": "food_ordering",
+          "name": "Food Ordering"
+        },
+        {
+          "slug": "food_photography",
+          "name": "Food Photography"
+        },
+        {
           "slug": "food_preference_poll",
           "name": "Food Preference Poll"
+        },
+        {
+          "slug": "food_pricing",
+          "name": "Food Pricing"
+        },
+        {
+          "slug": "food_product_feature",
+          "name": "Food Product Feature"
+        },
+        {
+          "slug": "food_product_launch",
+          "name": "Food Product Launch"
+        },
+        {
+          "slug": "food_product_promotion",
+          "name": "Food Product Promotion"
+        },
+        {
+          "slug": "food_product_showcase",
+          "name": "Food Product Showcase"
+        },
+        {
+          "slug": "food_promo",
+          "name": "Food Promo"
+        },
+        {
+          "slug": "food_promotion",
+          "name": "Food Promotion"
+        },
+        {
+          "slug": "food_promotional",
+          "name": "Food Promotional"
+        },
+        {
+          "slug": "food_recommendation",
+          "name": "Food Recommendation"
+        },
+        {
+          "slug": "food_recommendation_query",
+          "name": "Food Recommendation Query"
+        },
+        {
+          "slug": "food_recommendation_request",
+          "name": "Food Recommendation Request"
+        },
+        {
+          "slug": "food_retail_recommendation",
+          "name": "Food Retail Recommendation"
+        },
+        {
+          "slug": "food_review",
+          "name": "Food Review"
+        },
+        {
+          "slug": "food_safety_information",
+          "name": "Food Safety Information"
+        },
+        {
+          "slug": "food_service_bundle",
+          "name": "Food Service Bundle"
+        },
+        {
+          "slug": "food_service_bundle_offer",
+          "name": "Food Service Bundle Offer"
+        },
+        {
+          "slug": "food_service_promotion",
+          "name": "Food Service Promotion"
+        },
+        {
+          "slug": "food_snack_promotion",
+          "name": "Food Snack Promotion"
+        },
+        {
+          "slug": "food_viral_trend",
+          "name": "Food Viral Trend"
         },
         {
           "slug": "football_occasion_tie_in",
@@ -601,16 +2972,108 @@
           "name": "Founding Day Heritage"
         },
         {
+          "slug": "francophone_cuisine",
+          "name": "Francophone Cuisine"
+        },
+        {
           "slug": "free_add_on_offer",
           "name": "Free Add-On Offer"
+        },
+        {
+          "slug": "free_gift_incentive",
+          "name": "Free Gift Incentive"
+        },
+        {
+          "slug": "free_gift_with_purchase",
+          "name": "Free Gift With Purchase"
+        },
+        {
+          "slug": "free_shipping_nationwide",
+          "name": "Free Shipping Nationwide"
+        },
+        {
+          "slug": "french_cuisine",
+          "name": "French Cuisine"
+        },
+        {
+          "slug": "fried_chicken",
+          "name": "Fried Chicken"
+        },
+        {
+          "slug": "friend_gathering",
+          "name": "Friend Gathering"
         },
         {
           "slug": "friendship_loyalty_content",
           "name": "Friendship Loyalty Content"
         },
         {
+          "slug": "fundraiser_campaign",
+          "name": "Fundraiser Campaign"
+        },
+        {
+          "slug": "fundraising_campaign",
+          "name": "Fundraising Campaign"
+        },
+        {
+          "slug": "fundraising_promotion",
+          "name": "Fundraising Promotion"
+        },
+        {
+          "slug": "gamification",
+          "name": "Gamification"
+        },
+        {
+          "slug": "gamification_contest",
+          "name": "Gamification Contest"
+        },
+        {
+          "slug": "gamification_element",
+          "name": "Gamification Element"
+        },
+        {
+          "slug": "gamification_marketing",
+          "name": "Gamification Marketing"
+        },
+        {
+          "slug": "gamification_strategy",
+          "name": "Gamification Strategy"
+        },
+        {
+          "slug": "gamified_content",
+          "name": "Gamified Content"
+        },
+        {
+          "slug": "gaming_esports",
+          "name": "Gaming Esports"
+        },
+        {
+          "slug": "geographic_availability_messaging",
+          "name": "Geographic Availability Messaging"
+        },
+        {
+          "slug": "gift_promotion",
+          "name": "Gift Promotion"
+        },
+        {
+          "slug": "giveaway",
+          "name": "Giveaway"
+        },
+        {
+          "slug": "giveaway_contest",
+          "name": "Giveaway Contest"
+        },
+        {
           "slug": "giveaway_contest_post",
           "name": "Giveaway / Contest Post"
+        },
+        {
+          "slug": "giveaway_mechanic",
+          "name": "Giveaway Mechanic"
+        },
+        {
+          "slug": "giveaway_winner_announcement",
+          "name": "Giveaway Winner Announcement"
         },
         {
           "slug": "global_event_saudi_lens",
@@ -621,32 +3084,544 @@
           "name": "Golden Color Food Aesthetic"
         },
         {
+          "slug": "government_collaboration",
+          "name": "Government Collaboration"
+        },
+        {
+          "slug": "government_mandate",
+          "name": "Government Mandate"
+        },
+        {
+          "slug": "government_partnership",
+          "name": "Government Partnership"
+        },
+        {
+          "slug": "grand_opening",
+          "name": "Grand Opening"
+        },
+        {
+          "slug": "gratitude_messaging",
+          "name": "Gratitude Messaging"
+        },
+        {
+          "slug": "growth_messaging",
+          "name": "Growth Messaging"
+        },
+        {
+          "slug": "growth_narrative",
+          "name": "Growth Narrative"
+        },
+        {
+          "slug": "guinness_world_record",
+          "name": "Guinness World Record"
+        },
+        {
+          "slug": "gwp_offer",
+          "name": "Gwp Offer"
+        },
+        {
+          "slug": "hajj_period",
+          "name": "Hajj Period"
+        },
+        {
+          "slug": "hajj_season",
+          "name": "Hajj Season"
+        },
+        {
+          "slug": "hajj_season_marketing",
+          "name": "Hajj Season Marketing"
+        },
+        {
+          "slug": "hajj_themed_campaign",
+          "name": "Hajj Themed Campaign"
+        },
+        {
+          "slug": "halal_trust_messaging",
+          "name": "Halal Trust Messaging"
+        },
+        {
+          "slug": "halloween_themed",
+          "name": "Halloween Themed"
+        },
+        {
+          "slug": "haneedh_dish",
+          "name": "Haneedh Dish"
+        },
+        {
+          "slug": "hashtag_brand",
+          "name": "Hashtag Brand"
+        },
+        {
+          "slug": "hashtag_brand_community",
+          "name": "Hashtag Brand Community"
+        },
+        {
+          "slug": "hashtag_branded",
+          "name": "Hashtag Branded"
+        },
+        {
+          "slug": "hashtag_branded_campaign",
+          "name": "Hashtag Branded Campaign"
+        },
+        {
+          "slug": "hashtag_campaign",
+          "name": "Hashtag Campaign"
+        },
+        {
+          "slug": "hashtag_community",
+          "name": "Hashtag Community"
+        },
+        {
+          "slug": "hashtag_community_building",
+          "name": "Hashtag Community Building"
+        },
+        {
+          "slug": "hashtag_community_engagement",
+          "name": "Hashtag Community Engagement"
+        },
+        {
+          "slug": "hashtag_engagement",
+          "name": "Hashtag Engagement"
+        },
+        {
+          "slug": "hashtag_local_brand",
+          "name": "Hashtag Local Brand"
+        },
+        {
+          "slug": "hashtag_restaurant_chain",
+          "name": "Hashtag Restaurant Chain"
+        },
+        {
+          "slug": "hashtag_restaurant_romantic",
+          "name": "Hashtag Restaurant Romantic"
+        },
+        {
+          "slug": "health_awareness",
+          "name": "Health Awareness"
+        },
+        {
+          "slug": "health_safety_messaging",
+          "name": "Health Safety Messaging"
+        },
+        {
+          "slug": "health_wellness_claim",
+          "name": "Health Wellness Claim"
+        },
+        {
+          "slug": "helicopter_delivery_joke",
+          "name": "Helicopter Delivery Joke"
+        },
+        {
+          "slug": "heritage_brand_narrative",
+          "name": "Heritage Brand Narrative"
+        },
+        {
           "slug": "heritage_storytelling_hook",
           "name": "Heritage Storytelling Hook"
+        },
+        {
+          "slug": "high_engagement",
+          "name": "High Engagement"
+        },
+        {
+          "slug": "high_value_prize",
+          "name": "High Value Prize"
+        },
+        {
+          "slug": "holiday_event",
+          "name": "Holiday Event"
+        },
+        {
+          "slug": "holiday_greeting",
+          "name": "Holiday Greeting"
+        },
+        {
+          "slug": "holiday_promotion",
+          "name": "Holiday Promotion"
+        },
+        {
+          "slug": "holiday_seasonal",
+          "name": "Holiday Seasonal"
+        },
+        {
+          "slug": "holiday_seasonal_content",
+          "name": "Holiday Seasonal Content"
+        },
+        {
+          "slug": "holiday_special_offer",
+          "name": "Holiday Special Offer"
+        },
+        {
+          "slug": "hospitality_box",
+          "name": "Hospitality Box"
+        },
+        {
+          "slug": "hospitality_values",
+          "name": "Hospitality Values"
+        },
+        {
+          "slug": "hotel_dining_promotion",
+          "name": "Hotel Dining Promotion"
+        },
+        {
+          "slug": "hotel_hospitality_marketing",
+          "name": "Hotel Hospitality Marketing"
+        },
+        {
+          "slug": "hotel_promotion",
+          "name": "Hotel Promotion"
+        },
+        {
+          "slug": "hotel_restaurant_promotion",
+          "name": "Hotel Restaurant Promotion"
+        },
+        {
+          "slug": "humor_driven",
+          "name": "Humor Driven"
+        },
+        {
+          "slug": "humour_hook",
+          "name": "Humour Hook"
+        },
+        {
+          "slug": "iftar_content",
+          "name": "Iftar Content"
+        },
+        {
+          "slug": "iftar_dining",
+          "name": "Iftar Dining"
+        },
+        {
+          "slug": "impact_storytelling",
+          "name": "Impact Storytelling"
+        },
+        {
+          "slug": "in_store_redemption",
+          "name": "In Store Redemption"
         },
         {
           "slug": "indecision_hook",
           "name": "Indecision Hook"
         },
         {
+          "slug": "indecision_solver",
+          "name": "Indecision Solver"
+        },
+        {
+          "slug": "indian_cuisine",
+          "name": "Indian Cuisine"
+        },
+        {
+          "slug": "influencer_collaboration",
+          "name": "Influencer Collaboration"
+        },
+        {
+          "slug": "influencer_content",
+          "name": "Influencer Content"
+        },
+        {
+          "slug": "influencer_endorsement",
+          "name": "Influencer Endorsement"
+        },
+        {
+          "slug": "influencer_partnership",
+          "name": "Influencer Partnership"
+        },
+        {
           "slug": "influencer_takeover_post",
           "name": "Influencer Takeover Post"
+        },
+        {
+          "slug": "informal_arabic",
+          "name": "Informal Arabic"
+        },
+        {
+          "slug": "ingredient_breakdown",
+          "name": "Ingredient Breakdown"
+        },
+        {
+          "slug": "innovation_showcase",
+          "name": "Innovation Showcase"
+        },
+        {
+          "slug": "innovative_flavors",
+          "name": "Innovative Flavors"
+        },
+        {
+          "slug": "inside_joke",
+          "name": "Inside Joke"
+        },
+        {
+          "slug": "inspirational_narrative",
+          "name": "Inspirational Narrative"
+        },
+        {
+          "slug": "institutional_milestone",
+          "name": "Institutional Milestone"
+        },
+        {
+          "slug": "interactive_call_to_action",
+          "name": "Interactive Call To Action"
+        },
+        {
+          "slug": "interactive_engagement",
+          "name": "Interactive Engagement"
+        },
+        {
+          "slug": "interactive_game",
+          "name": "Interactive Game"
+        },
+        {
+          "slug": "interactive_gaming",
+          "name": "Interactive Gaming"
+        },
+        {
+          "slug": "interactive_question",
+          "name": "Interactive Question"
         },
         {
           "slug": "interactive_question_post",
           "name": "Interactive Question Post"
         },
         {
+          "slug": "interactive_quiz",
+          "name": "Interactive Quiz"
+        },
+        {
           "slug": "interior_architectural_framing",
           "name": "Interior Architectural Framing"
+        },
+        {
+          "slug": "interior_focused",
+          "name": "Interior Focused"
+        },
+        {
+          "slug": "internal_culture",
+          "name": "Internal Culture"
+        },
+        {
+          "slug": "international_achievement",
+          "name": "International Achievement"
+        },
+        {
+          "slug": "international_brands",
+          "name": "International Brands"
+        },
+        {
+          "slug": "international_cuisine",
+          "name": "International Cuisine"
+        },
+        {
+          "slug": "international_occasion_marketing",
+          "name": "International Occasion Marketing"
+        },
+        {
+          "slug": "international_womens_day",
+          "name": "International Womens Day"
+        },
+        {
+          "slug": "invitation",
+          "name": "Invitation"
+        },
+        {
+          "slug": "ip_collab",
+          "name": "Ip Collab"
+        },
+        {
+          "slug": "italian_cuisine",
+          "name": "Italian Cuisine"
+        },
+        {
+          "slug": "japanese_cuisine",
+          "name": "Japanese Cuisine"
+        },
+        {
+          "slug": "jazan_region",
+          "name": "Jazan Region"
+        },
+        {
+          "slug": "kids_meal_bundle",
+          "name": "Kids Meal Bundle"
+        },
+        {
+          "slug": "kids_meal_promotion",
+          "name": "Kids Meal Promotion"
+        },
+        {
+          "slug": "kunafa_content",
+          "name": "Kunafa Content"
+        },
+        {
+          "slug": "kuwaiti_cuisine",
+          "name": "Kuwaiti Cuisine"
+        },
+        {
+          "slug": "leadership_recognition",
+          "name": "Leadership Recognition"
+        },
+        {
+          "slug": "leap_2025_event",
+          "name": "Leap 2025 Event"
+        },
+        {
+          "slug": "lebanese_cuisine",
+          "name": "Lebanese Cuisine"
+        },
+        {
+          "slug": "lifestyle_aspiration",
+          "name": "Lifestyle Aspiration"
+        },
+        {
+          "slug": "lifestyle_brand_collab",
+          "name": "Lifestyle Brand Collab"
         },
         {
           "slug": "lifestyle_environment_integration",
           "name": "Lifestyle Environment Integration"
         },
         {
+          "slug": "lifestyle_morning_routine",
+          "name": "Lifestyle Morning Routine"
+        },
+        {
+          "slug": "lifestyle_occasion_framing",
+          "name": "Lifestyle Occasion Framing"
+        },
+        {
+          "slug": "lifestyle_product",
+          "name": "Lifestyle Product"
+        },
+        {
+          "slug": "limited_availability",
+          "name": "Limited Availability"
+        },
+        {
+          "slug": "limited_availability_promotion",
+          "name": "Limited Availability Promotion"
+        },
+        {
+          "slug": "limited_availability_urgency",
+          "name": "Limited Availability Urgency"
+        },
+        {
+          "slug": "limited_edition",
+          "name": "Limited Edition"
+        },
+        {
+          "slug": "limited_time_deal",
+          "name": "Limited Time Deal"
+        },
+        {
+          "slug": "limited_time_offer",
+          "name": "Limited Time Offer"
+        },
+        {
+          "slug": "limited_time_offering",
+          "name": "Limited Time Offering"
+        },
+        {
           "slug": "limited_time_price_offer",
           "name": "Limited Time Price Offer"
+        },
+        {
+          "slug": "limited_time_promo",
+          "name": "Limited Time Promo"
+        },
+        {
+          "slug": "limited_time_sale",
+          "name": "Limited Time Sale"
+        },
+        {
+          "slug": "local_brand_advocacy",
+          "name": "Local Brand Advocacy"
+        },
+        {
+          "slug": "local_business",
+          "name": "Local Business"
+        },
+        {
+          "slug": "local_cuisine",
+          "name": "Local Cuisine"
+        },
+        {
+          "slug": "local_dining_search",
+          "name": "Local Dining Search"
+        },
+        {
+          "slug": "local_food_promotion",
+          "name": "Local Food Promotion"
+        },
+        {
+          "slug": "local_influencer_content",
+          "name": "Local Influencer Content"
+        },
+        {
+          "slug": "local_partnership",
+          "name": "Local Partnership"
+        },
+        {
+          "slug": "local_personalization",
+          "name": "Local Personalization"
+        },
+        {
+          "slug": "local_recommendations",
+          "name": "Local Recommendations"
+        },
+        {
+          "slug": "location_announcement",
+          "name": "Location Announcement"
+        },
+        {
+          "slug": "location_based_content",
+          "name": "Location Based Content"
+        },
+        {
+          "slug": "location_based_marketing",
+          "name": "Location Based Marketing"
+        },
+        {
+          "slug": "location_based_redemption",
+          "name": "Location Based Redemption"
+        },
+        {
+          "slug": "location_hours_info",
+          "name": "Location Hours Info"
+        },
+        {
+          "slug": "location_specific",
+          "name": "Location Specific"
+        },
+        {
+          "slug": "location_specific_marketing",
+          "name": "Location Specific Marketing"
+        },
+        {
+          "slug": "location_tag",
+          "name": "Location Tag"
+        },
+        {
+          "slug": "location_tagged",
+          "name": "Location Tagged"
+        },
+        {
+          "slug": "location_tagged_riyadh",
+          "name": "Location Tagged Riyadh"
+        },
+        {
+          "slug": "location_tagging",
+          "name": "Location Tagging"
+        },
+        {
+          "slug": "logo_recognition",
+          "name": "Logo Recognition"
+        },
+        {
+          "slug": "low_engagement_metrics",
+          "name": "Low Engagement Metrics"
+        },
+        {
+          "slug": "low_engagement_minimal_content",
+          "name": "Low Engagement Minimal Content"
         },
         {
           "slug": "loyalty_activation",
@@ -657,32 +3632,344 @@
           "name": "Loyalty App Engagement"
         },
         {
+          "slug": "loyalty_incentive",
+          "name": "Loyalty Incentive"
+        },
+        {
+          "slug": "loyalty_program",
+          "name": "Loyalty Program"
+        },
+        {
+          "slug": "loyalty_program_promotion",
+          "name": "Loyalty Program Promotion"
+        },
+        {
+          "slug": "loyalty_rewards",
+          "name": "Loyalty Rewards"
+        },
+        {
+          "slug": "loyalty_rewards_promotion",
+          "name": "Loyalty Rewards Promotion"
+        },
+        {
+          "slug": "luck_based_promotion",
+          "name": "Luck Based Promotion"
+        },
+        {
           "slug": "lunch_daypart_prompt",
           "name": "Lunch Daypart Prompt"
+        },
+        {
+          "slug": "luxury_automotive",
+          "name": "Luxury Automotive"
+        },
+        {
+          "slug": "luxury_dining",
+          "name": "Luxury Dining"
+        },
+        {
+          "slug": "luxury_food_positioning",
+          "name": "Luxury Food Positioning"
+        },
+        {
+          "slug": "luxury_hospitality",
+          "name": "Luxury Hospitality"
+        },
+        {
+          "slug": "luxury_venue",
+          "name": "Luxury Venue"
+        },
+        {
+          "slug": "march_2020",
+          "name": "March 2020"
+        },
+        {
+          "slug": "matcha_content",
+          "name": "Matcha Content"
+        },
+        {
+          "slug": "matcha_drink",
+          "name": "Matcha Drink"
         },
         {
           "slug": "meal_box_format",
           "name": "Meal Box Format"
         },
         {
+          "slug": "meat_product",
+          "name": "Meat Product"
+        },
+        {
+          "slug": "membership_benefit",
+          "name": "Membership Benefit"
+        },
+        {
+          "slug": "menu_announcement",
+          "name": "Menu Announcement"
+        },
+        {
+          "slug": "menu_breakdown",
+          "name": "Menu Breakdown"
+        },
+        {
+          "slug": "menu_launch",
+          "name": "Menu Launch"
+        },
+        {
+          "slug": "menu_pricing_details",
+          "name": "Menu Pricing Details"
+        },
+        {
+          "slug": "menu_promotion",
+          "name": "Menu Promotion"
+        },
+        {
+          "slug": "menu_recommendations",
+          "name": "Menu Recommendations"
+        },
+        {
+          "slug": "menu_rotation",
+          "name": "Menu Rotation"
+        },
+        {
+          "slug": "menu_selection",
+          "name": "Menu Selection"
+        },
+        {
+          "slug": "menu_showcase",
+          "name": "Menu Showcase"
+        },
+        {
+          "slug": "metro_setting",
+          "name": "Metro Setting"
+        },
+        {
+          "slug": "michelin_dining",
+          "name": "Michelin Dining"
+        },
+        {
+          "slug": "michelin_star_chef",
+          "name": "Michelin Star Chef"
+        },
+        {
+          "slug": "milestone_celebration",
+          "name": "Milestone Celebration"
+        },
+        {
+          "slug": "mobile_app_cta",
+          "name": "Mobile App Cta"
+        },
+        {
+          "slug": "mobile_app_engagement",
+          "name": "Mobile App Engagement"
+        },
+        {
+          "slug": "mobile_food_truck",
+          "name": "Mobile Food Truck"
+        },
+        {
+          "slug": "mood_check",
+          "name": "Mood Check"
+        },
+        {
+          "slug": "mood_food",
+          "name": "Mood Food"
+        },
+        {
+          "slug": "mood_matching_positioning",
+          "name": "Mood Matching Positioning"
+        },
+        {
+          "slug": "mood_personalization_messaging",
+          "name": "Mood Personalization Messaging"
+        },
+        {
+          "slug": "mood_setting",
+          "name": "Mood Setting"
+        },
+        {
+          "slug": "morning_routine",
+          "name": "Morning Routine"
+        },
+        {
+          "slug": "mothers_day_campaign",
+          "name": "Mothers Day Campaign"
+        },
+        {
+          "slug": "mothers_day_content",
+          "name": "Mothers Day Content"
+        },
+        {
+          "slug": "motivational_content",
+          "name": "Motivational Content"
+        },
+        {
+          "slug": "movie_tie_in",
+          "name": "Movie Tie In"
+        },
+        {
+          "slug": "multi_branch_campaign",
+          "name": "Multi Branch Campaign"
+        },
+        {
+          "slug": "multi_brand_collaboration",
+          "name": "Multi Brand Collaboration"
+        },
+        {
+          "slug": "multi_dish_carousel",
+          "name": "Multi Dish Carousel"
+        },
+        {
+          "slug": "multi_location_announcement",
+          "name": "Multi Location Announcement"
+        },
+        {
+          "slug": "multi_location_availability",
+          "name": "Multi Location Availability"
+        },
+        {
+          "slug": "multi_location_campaign",
+          "name": "Multi Location Campaign"
+        },
+        {
+          "slug": "multi_location_promotion",
+          "name": "Multi Location Promotion"
+        },
+        {
+          "slug": "mysterious_teaser",
+          "name": "Mysterious Teaser"
+        },
+        {
+          "slug": "mystery_element",
+          "name": "Mystery Element"
+        },
+        {
+          "slug": "mystery_product",
+          "name": "Mystery Product"
+        },
+        {
           "slug": "mystery_teaser_format",
           "name": "Mystery Teaser Format"
+        },
+        {
+          "slug": "national_celebration",
+          "name": "National Celebration"
+        },
+        {
+          "slug": "national_day_campaign",
+          "name": "National Day Campaign"
         },
         {
           "slug": "national_day_modernity_heritage",
           "name": "National Day Modernity Meets Heritage"
         },
         {
+          "slug": "national_day_promotion",
+          "name": "National Day Promotion"
+        },
+        {
+          "slug": "national_occasion",
+          "name": "National Occasion"
+        },
+        {
+          "slug": "national_occasion_tie_in",
+          "name": "National Occasion Tie In"
+        },
+        {
+          "slug": "national_pride",
+          "name": "National Pride"
+        },
+        {
+          "slug": "national_pride_messaging",
+          "name": "National Pride Messaging"
+        },
+        {
+          "slug": "national_support",
+          "name": "National Support"
+        },
+        {
+          "slug": "new_branch_launch",
+          "name": "New Branch Launch"
+        },
+        {
+          "slug": "new_establishment",
+          "name": "New Establishment"
+        },
+        {
+          "slug": "new_location_announcement",
+          "name": "New Location Announcement"
+        },
+        {
+          "slug": "new_menu_items",
+          "name": "New Menu Items"
+        },
+        {
+          "slug": "new_menu_launch",
+          "name": "New Menu Launch"
+        },
+        {
+          "slug": "new_product_announcement",
+          "name": "New Product Announcement"
+        },
+        {
+          "slug": "new_product_launch",
+          "name": "New Product Launch"
+        },
+        {
+          "slug": "new_venue_announcement",
+          "name": "New Venue Announcement"
+        },
+        {
           "slug": "nostalgia_cultural_reference",
           "name": "Nostalgia Cultural Reference"
+        },
+        {
+          "slug": "nostalgia_marketing",
+          "name": "Nostalgia Marketing"
+        },
+        {
+          "slug": "nostalgia_play",
+          "name": "Nostalgia Play"
+        },
+        {
+          "slug": "occasion_branded_hero",
+          "name": "Occasion Branded Hero"
+        },
+        {
+          "slug": "occasion_greeting",
+          "name": "Occasion Greeting"
         },
         {
           "slug": "occasion_peg",
           "name": "Occasion Peg"
         },
         {
+          "slug": "occasion_pillar",
+          "name": "Occasion Pillar"
+        },
+        {
           "slug": "occasion_specific_greeting",
           "name": "Occasion-Specific Greeting"
+        },
+        {
+          "slug": "opening_hours_provided",
+          "name": "Opening Hours Provided"
+        },
+        {
+          "slug": "operating_hours_disclosure",
+          "name": "Operating Hours Disclosure"
+        },
+        {
+          "slug": "operational_details",
+          "name": "Operational Details"
+        },
+        {
+          "slug": "operational_hours",
+          "name": "Operational Hours"
+        },
+        {
+          "slug": "outlet_mall_location_tag",
+          "name": "Outlet Mall Location Tag"
         },
         {
           "slug": "overhead_tabletop_spread",
@@ -693,36 +3980,412 @@
           "name": "Parallel-Original Bilingual (not translation)"
         },
         {
+          "slug": "parental_affection",
+          "name": "Parental Affection"
+        },
+        {
+          "slug": "partition_seating",
+          "name": "Partition Seating"
+        },
+        {
+          "slug": "patience_narrative",
+          "name": "Patience Narrative"
+        },
+        {
+          "slug": "patriotic_branding",
+          "name": "Patriotic Branding"
+        },
+        {
+          "slug": "patriotic_messaging",
+          "name": "Patriotic Messaging"
+        },
+        {
+          "slug": "patriotic_sentiment",
+          "name": "Patriotic Sentiment"
+        },
+        {
           "slug": "pattern_repeat_flatlay",
           "name": "Pattern Repeat Flatlay"
+        },
+        {
+          "slug": "peer_tagging_mechanism",
+          "name": "Peer Tagging Mechanism"
+        },
+        {
+          "slug": "personal_achievement",
+          "name": "Personal Achievement"
+        },
+        {
+          "slug": "personal_branding",
+          "name": "Personal Branding"
+        },
+        {
+          "slug": "personality_food_pairing",
+          "name": "Personality Food Pairing"
+        },
+        {
+          "slug": "personality_quiz",
+          "name": "Personality Quiz"
+        },
+        {
+          "slug": "personality_selector",
+          "name": "Personality Selector"
+        },
+        {
+          "slug": "photographer_credit",
+          "name": "Photographer Credit"
+        },
+        {
+          "slug": "pilgrimage_support",
+          "name": "Pilgrimage Support"
+        },
+        {
+          "slug": "poetic_arabic_copy",
+          "name": "Poetic Arabic Copy"
+        },
+        {
+          "slug": "points_system",
+          "name": "Points System"
         },
         {
           "slug": "poll_engagement_mechanic",
           "name": "Poll Engagement Mechanic"
         },
         {
+          "slug": "poll_question",
+          "name": "Poll Question"
+        },
+        {
+          "slug": "post_occasion_content",
+          "name": "Post Occasion Content"
+        },
+        {
+          "slug": "pr_branded_content",
+          "name": "Pr Branded Content"
+        },
+        {
           "slug": "prediction_engagement",
           "name": "Prediction Engagement"
+        },
+        {
+          "slug": "premium_cookie_products",
+          "name": "Premium Cookie Products"
+        },
+        {
+          "slug": "premium_dessert",
+          "name": "Premium Dessert"
+        },
+        {
+          "slug": "premium_desserts",
+          "name": "Premium Desserts"
+        },
+        {
+          "slug": "premium_ingredients",
+          "name": "Premium Ingredients"
+        },
+        {
+          "slug": "premium_positioning",
+          "name": "Premium Positioning"
+        },
+        {
+          "slug": "premium_product",
+          "name": "Premium Product"
+        },
+        {
+          "slug": "premium_products",
+          "name": "Premium Products"
+        },
+        {
+          "slug": "price_disclosure",
+          "name": "Price Disclosure"
+        },
+        {
+          "slug": "price_focused",
+          "name": "Price Focused"
+        },
+        {
+          "slug": "price_highlight",
+          "name": "Price Highlight"
+        },
+        {
+          "slug": "price_list",
+          "name": "Price List"
+        },
+        {
+          "slug": "price_listing",
+          "name": "Price Listing"
         },
         {
           "slug": "price_offer_graphic",
           "name": "Price Offer Graphic"
         },
         {
+          "slug": "price_point_emphasis",
+          "name": "Price Point Emphasis"
+        },
+        {
+          "slug": "price_point_mention",
+          "name": "Price Point Mention"
+        },
+        {
+          "slug": "price_point_messaging",
+          "name": "Price Point Messaging"
+        },
+        {
+          "slug": "price_point_premium",
+          "name": "Price Point Premium"
+        },
+        {
+          "slug": "price_point_transparency",
+          "name": "Price Point Transparency"
+        },
+        {
+          "slug": "price_transparency",
+          "name": "Price Transparency"
+        },
+        {
+          "slug": "pricing_display",
+          "name": "Pricing Display"
+        },
+        {
+          "slug": "pricing_highlight",
+          "name": "Pricing Highlight"
+        },
+        {
+          "slug": "pricing_transparency",
+          "name": "Pricing Transparency"
+        },
+        {
+          "slug": "pricing_transparent",
+          "name": "Pricing Transparent"
+        },
+        {
+          "slug": "pride_campaign",
+          "name": "Pride Campaign"
+        },
+        {
+          "slug": "prize_giveaway",
+          "name": "Prize Giveaway"
+        },
+        {
+          "slug": "prize_incentive",
+          "name": "Prize Incentive"
+        },
+        {
           "slug": "problem_solution_hook",
           "name": "Problem–Solution Hook"
+        },
+        {
+          "slug": "process_storytelling",
+          "name": "Process Storytelling"
         },
         {
           "slug": "product_bundle_offer",
           "name": "Product Bundle Offer"
         },
         {
+          "slug": "product_combo",
+          "name": "Product Combo"
+        },
+        {
+          "slug": "product_comparison",
+          "name": "Product Comparison"
+        },
+        {
+          "slug": "product_description_focused",
+          "name": "Product Description Focused"
+        },
+        {
+          "slug": "product_discovery",
+          "name": "Product Discovery"
+        },
+        {
+          "slug": "product_feature",
+          "name": "Product Feature"
+        },
+        {
+          "slug": "product_hero_video",
+          "name": "Product Hero Video"
+        },
+        {
+          "slug": "product_launch",
+          "name": "Product Launch"
+        },
+        {
+          "slug": "product_launch_relaunch",
+          "name": "Product Launch Relaunch"
+        },
+        {
+          "slug": "product_mention",
+          "name": "Product Mention"
+        },
+        {
           "slug": "product_packaging_hero",
           "name": "Product Packaging Hero"
         },
         {
+          "slug": "product_personalization",
+          "name": "Product Personalization"
+        },
+        {
+          "slug": "product_placement",
+          "name": "Product Placement"
+        },
+        {
+          "slug": "product_preference",
+          "name": "Product Preference"
+        },
+        {
+          "slug": "product_promotion",
+          "name": "Product Promotion"
+        },
+        {
+          "slug": "product_recommendation",
+          "name": "Product Recommendation"
+        },
+        {
+          "slug": "product_relaunch",
+          "name": "Product Relaunch"
+        },
+        {
+          "slug": "product_review",
+          "name": "Product Review"
+        },
+        {
+          "slug": "product_sampling",
+          "name": "Product Sampling"
+        },
+        {
+          "slug": "product_spotlight",
+          "name": "Product Spotlight"
+        },
+        {
+          "slug": "product_storytelling",
+          "name": "Product Storytelling"
+        },
+        {
+          "slug": "product_value_positioning",
+          "name": "Product Value Positioning"
+        },
+        {
+          "slug": "product_variety_showcase",
+          "name": "Product Variety Showcase"
+        },
+        {
+          "slug": "professional_photography",
+          "name": "Professional Photography"
+        },
+        {
+          "slug": "promotional_campaign",
+          "name": "Promotional Campaign"
+        },
+        {
+          "slug": "promotional_contest",
+          "name": "Promotional Contest"
+        },
+        {
+          "slug": "promotional_giveaway",
+          "name": "Promotional Giveaway"
+        },
+        {
+          "slug": "promotional_pricing",
+          "name": "Promotional Pricing"
+        },
+        {
+          "slug": "purchase_incentive",
+          "name": "Purchase Incentive"
+        },
+        {
+          "slug": "qr_code_activation",
+          "name": "Qr Code Activation"
+        },
+        {
+          "slug": "qr_code_engagement",
+          "name": "Qr Code Engagement"
+        },
+        {
+          "slug": "qr_code_promotion",
+          "name": "Qr Code Promotion"
+        },
+        {
+          "slug": "qsr_chain",
+          "name": "Qsr Chain"
+        },
+        {
+          "slug": "quality_assurance",
+          "name": "Quality Assurance"
+        },
+        {
+          "slug": "quality_messaging",
+          "name": "Quality Messaging"
+        },
+        {
+          "slug": "quality_of_life_program",
+          "name": "Quality Of Life Program"
+        },
+        {
+          "slug": "quick_service_messaging",
+          "name": "Quick Service Messaging"
+        },
+        {
+          "slug": "quick_service_restaurant",
+          "name": "Quick Service Restaurant"
+        },
+        {
+          "slug": "ramadan_beverage_promotion",
+          "name": "Ramadan Beverage Promotion"
+        },
+        {
+          "slug": "ramadan_campaign",
+          "name": "Ramadan Campaign"
+        },
+        {
           "slug": "ramadan_charity_giving",
           "name": "Ramadan Charity Giving"
+        },
+        {
+          "slug": "ramadan_content",
+          "name": "Ramadan Content"
+        },
+        {
+          "slug": "ramadan_dining",
+          "name": "Ramadan Dining"
+        },
+        {
+          "slug": "ramadan_eid_season_marketing",
+          "name": "Ramadan Eid Season Marketing"
+        },
+        {
+          "slug": "ramadan_engagement",
+          "name": "Ramadan Engagement"
+        },
+        {
+          "slug": "ramadan_f_and_b",
+          "name": "Ramadan F And B"
+        },
+        {
+          "slug": "ramadan_food_promo",
+          "name": "Ramadan Food Promo"
+        },
+        {
+          "slug": "ramadan_greeting",
+          "name": "Ramadan Greeting"
+        },
+        {
+          "slug": "ramadan_iftar",
+          "name": "Ramadan Iftar"
+        },
+        {
+          "slug": "ramadan_iftar_deals",
+          "name": "Ramadan Iftar Deals"
+        },
+        {
+          "slug": "ramadan_iftar_promo",
+          "name": "Ramadan Iftar Promo"
+        },
+        {
+          "slug": "ramadan_iftar_promotion",
+          "name": "Ramadan Iftar Promotion"
         },
         {
           "slug": "ramadan_iftar_table",
@@ -733,90 +4396,1118 @@
           "name": "Ramadan Iftar Warmth"
         },
         {
+          "slug": "ramadan_operations",
+          "name": "Ramadan Operations"
+        },
+        {
+          "slug": "ramadan_promotion",
+          "name": "Ramadan Promotion"
+        },
+        {
+          "slug": "ramadan_promotional",
+          "name": "Ramadan Promotional"
+        },
+        {
+          "slug": "rating_system",
+          "name": "Rating System"
+        },
+        {
+          "slug": "receipt_based_entry",
+          "name": "Receipt Based Entry"
+        },
+        {
+          "slug": "recipe_content",
+          "name": "Recipe Content"
+        },
+        {
+          "slug": "refreshment_theme",
+          "name": "Refreshment Theme"
+        },
+        {
+          "slug": "regional_development",
+          "name": "Regional Development"
+        },
+        {
+          "slug": "regional_expansion",
+          "name": "Regional Expansion"
+        },
+        {
+          "slug": "regional_identity",
+          "name": "Regional Identity"
+        },
+        {
+          "slug": "regional_preference",
+          "name": "Regional Preference"
+        },
+        {
+          "slug": "relatability_messaging",
+          "name": "Relatability Messaging"
+        },
+        {
+          "slug": "relatable_humor",
+          "name": "Relatable Humor"
+        },
+        {
+          "slug": "relatable_lifestyle",
+          "name": "Relatable Lifestyle"
+        },
+        {
+          "slug": "relatable_messaging",
+          "name": "Relatable Messaging"
+        },
+        {
+          "slug": "religious_blessing",
+          "name": "Religious Blessing"
+        },
+        {
+          "slug": "religious_observance",
+          "name": "Religious Observance"
+        },
+        {
+          "slug": "religious_sentiment",
+          "name": "Religious Sentiment"
+        },
+        {
+          "slug": "repeat_customer",
+          "name": "Repeat Customer"
+        },
+        {
+          "slug": "repost_from_influencer",
+          "name": "Repost From Influencer"
+        },
+        {
+          "slug": "restaurant_carousel",
+          "name": "Restaurant Carousel"
+        },
+        {
+          "slug": "restaurant_feature",
+          "name": "Restaurant Feature"
+        },
+        {
+          "slug": "restaurant_iftar",
+          "name": "Restaurant Iftar"
+        },
+        {
+          "slug": "restaurant_inquiry",
+          "name": "Restaurant Inquiry"
+        },
+        {
+          "slug": "restaurant_marketing",
+          "name": "Restaurant Marketing"
+        },
+        {
+          "slug": "restaurant_menu_highlight",
+          "name": "Restaurant Menu Highlight"
+        },
+        {
+          "slug": "restaurant_menu_listing",
+          "name": "Restaurant Menu Listing"
+        },
+        {
+          "slug": "restaurant_menu_showcase",
+          "name": "Restaurant Menu Showcase"
+        },
+        {
+          "slug": "restaurant_opening",
+          "name": "Restaurant Opening"
+        },
+        {
+          "slug": "restaurant_pricing_transparency",
+          "name": "Restaurant Pricing Transparency"
+        },
+        {
+          "slug": "restaurant_promotion",
+          "name": "Restaurant Promotion"
+        },
+        {
+          "slug": "restaurant_recommendation",
+          "name": "Restaurant Recommendation"
+        },
+        {
+          "slug": "restaurant_review",
+          "name": "Restaurant Review"
+        },
+        {
+          "slug": "retail_activation",
+          "name": "Retail Activation"
+        },
+        {
+          "slug": "retail_engagement",
+          "name": "Retail Engagement"
+        },
+        {
+          "slug": "retail_event",
+          "name": "Retail Event"
+        },
+        {
+          "slug": "retail_growth",
+          "name": "Retail Growth"
+        },
+        {
+          "slug": "retail_promotion",
+          "name": "Retail Promotion"
+        },
+        {
           "slug": "returning_fan_favourite",
           "name": "Returning Fan Favourite"
+        },
+        {
+          "slug": "rewards_exchange",
+          "name": "Rewards Exchange"
+        },
+        {
+          "slug": "rewards_incentive",
+          "name": "Rewards Incentive"
+        },
+        {
+          "slug": "rewards_promotion",
+          "name": "Rewards Promotion"
+        },
+        {
+          "slug": "riyadh_dining",
+          "name": "Riyadh Dining"
+        },
+        {
+          "slug": "riyadh_f_and_b",
+          "name": "Riyadh F And B"
+        },
+        {
+          "slug": "riyadh_local_commerce",
+          "name": "Riyadh Local Commerce"
+        },
+        {
+          "slug": "riyadh_location",
+          "name": "Riyadh Location"
+        },
+        {
+          "slug": "roasting_process",
+          "name": "Roasting Process"
+        },
+        {
+          "slug": "robotics_automation",
+          "name": "Robotics Automation"
+        },
+        {
+          "slug": "romantic_dining",
+          "name": "Romantic Dining"
+        },
+        {
+          "slug": "romantic_gift_box",
+          "name": "Romantic Gift Box"
+        },
+        {
+          "slug": "romantic_positioning",
+          "name": "Romantic Positioning"
+        },
+        {
+          "slug": "rotating_offerings",
+          "name": "Rotating Offerings"
+        },
+        {
+          "slug": "rotation_strategy",
+          "name": "Rotation Strategy"
+        },
+        {
+          "slug": "sacrifice_service",
+          "name": "Sacrifice Service"
+        },
+        {
+          "slug": "sacrificial_meat_booking",
+          "name": "Sacrificial Meat Booking"
+        },
+        {
+          "slug": "safety_awareness",
+          "name": "Safety Awareness"
+        },
+        {
+          "slug": "satisfaction_promise",
+          "name": "Satisfaction Promise"
+        },
+        {
+          "slug": "saudi_agriculture",
+          "name": "Saudi Agriculture"
+        },
+        {
+          "slug": "saudi_coffee_culture",
+          "name": "Saudi Coffee Culture"
+        },
+        {
+          "slug": "saudi_colloquial",
+          "name": "Saudi Colloquial"
+        },
+        {
+          "slug": "saudi_cuisine",
+          "name": "Saudi Cuisine"
+        },
+        {
+          "slug": "saudi_day_content",
+          "name": "Saudi Day Content"
+        },
+        {
+          "slug": "saudi_dining_recommendation",
+          "name": "Saudi Dining Recommendation"
         },
         {
           "slug": "saudi_dining_ritual",
           "name": "Saudi Dining Ritual"
         },
         {
+          "slug": "saudi_farmer_spotlight",
+          "name": "Saudi Farmer Spotlight"
+        },
+        {
+          "slug": "saudi_feast_photography",
+          "name": "Saudi Feast Photography"
+        },
+        {
           "slug": "saudi_food_heritage_pride",
           "name": "Saudi Food Heritage Pride"
+        },
+        {
+          "slug": "saudi_heritage",
+          "name": "Saudi Heritage"
+        },
+        {
+          "slug": "saudi_infrastructure",
+          "name": "Saudi Infrastructure"
+        },
+        {
+          "slug": "saudi_localized",
+          "name": "Saudi Localized"
+        },
+        {
+          "slug": "saudi_national_celebration",
+          "name": "Saudi National Celebration"
+        },
+        {
+          "slug": "saudi_pride",
+          "name": "Saudi Pride"
+        },
+        {
+          "slug": "saudi_pride_messaging",
+          "name": "Saudi Pride Messaging"
+        },
+        {
+          "slug": "saudi_professional",
+          "name": "Saudi Professional"
         },
         {
           "slug": "saudi_sports_rivalry",
           "name": "Saudi Sports Rivalry"
         },
         {
+          "slug": "saudi_vision_2030",
+          "name": "Saudi Vision 2030"
+        },
+        {
+          "slug": "scarcity_driven_cta",
+          "name": "Scarcity Driven Cta"
+        },
+        {
+          "slug": "scarcity_marketing",
+          "name": "Scarcity Marketing"
+        },
+        {
+          "slug": "scarcity_messaging",
+          "name": "Scarcity Messaging"
+        },
+        {
+          "slug": "seasonal_beverage",
+          "name": "Seasonal Beverage"
+        },
+        {
+          "slug": "seasonal_beverage_promo",
+          "name": "Seasonal Beverage Promo"
+        },
+        {
+          "slug": "seasonal_beverage_promotion",
+          "name": "Seasonal Beverage Promotion"
+        },
+        {
+          "slug": "seasonal_box_offering",
+          "name": "Seasonal Box Offering"
+        },
+        {
+          "slug": "seasonal_campaign",
+          "name": "Seasonal Campaign"
+        },
+        {
+          "slug": "seasonal_celebration",
+          "name": "Seasonal Celebration"
+        },
+        {
+          "slug": "seasonal_content",
+          "name": "Seasonal Content"
+        },
+        {
+          "slug": "seasonal_discount_offer",
+          "name": "Seasonal Discount Offer"
+        },
+        {
+          "slug": "seasonal_drink_positioning",
+          "name": "Seasonal Drink Positioning"
+        },
+        {
+          "slug": "seasonal_f_and_b",
+          "name": "Seasonal F And B"
+        },
+        {
+          "slug": "seasonal_greeting",
+          "name": "Seasonal Greeting"
+        },
+        {
+          "slug": "seasonal_holiday",
+          "name": "Seasonal Holiday"
+        },
+        {
+          "slug": "seasonal_limited_menu",
+          "name": "Seasonal Limited Menu"
+        },
+        {
+          "slug": "seasonal_menu",
+          "name": "Seasonal Menu"
+        },
+        {
+          "slug": "seasonal_messaging",
+          "name": "Seasonal Messaging"
+        },
+        {
+          "slug": "seasonal_product_launch",
+          "name": "Seasonal Product Launch"
+        },
+        {
+          "slug": "seasonal_product_reveal",
+          "name": "Seasonal Product Reveal"
+        },
+        {
+          "slug": "seasonal_promotion",
+          "name": "Seasonal Promotion"
+        },
+        {
+          "slug": "seasonal_summer",
+          "name": "Seasonal Summer"
+        },
+        {
           "slug": "seasonal_summer_heat",
           "name": "Seasonal Summer Heat Pivot"
+        },
+        {
+          "slug": "seasonal_winter_campaign",
+          "name": "Seasonal Winter Campaign"
+        },
+        {
+          "slug": "seasonal_winter_content",
+          "name": "Seasonal Winter Content"
+        },
+        {
+          "slug": "secret_menu_marketing",
+          "name": "Secret Menu Marketing"
+        },
+        {
+          "slug": "sensory_appeal",
+          "name": "Sensory Appeal"
+        },
+        {
+          "slug": "sensory_appeal_marketing",
+          "name": "Sensory Appeal Marketing"
+        },
+        {
+          "slug": "sensory_close_up",
+          "name": "Sensory Close Up"
         },
         {
           "slug": "sensory_irresistibility_copy",
           "name": "Sensory Irresistibility Copy"
         },
         {
+          "slug": "september_23_campaign",
+          "name": "September 23 Campaign"
+        },
+        {
+          "slug": "service_convenience",
+          "name": "Service Convenience"
+        },
+        {
+          "slug": "services_advertisement",
+          "name": "Services Advertisement"
+        },
+        {
+          "slug": "shareable_meal_experience",
+          "name": "Shareable Meal Experience"
+        },
+        {
+          "slug": "sharing_culture",
+          "name": "Sharing Culture"
+        },
+        {
+          "slug": "small_business_promotion",
+          "name": "Small Business Promotion"
+        },
+        {
+          "slug": "snack_category",
+          "name": "Snack Category"
+        },
+        {
+          "slug": "snack_content",
+          "name": "Snack Content"
+        },
+        {
+          "slug": "snack_product",
+          "name": "Snack Product"
+        },
+        {
           "slug": "social_dining",
           "name": "Social Dining"
+        },
+        {
+          "slug": "social_dining_concept",
+          "name": "Social Dining Concept"
+        },
+        {
+          "slug": "social_engagement",
+          "name": "Social Engagement"
+        },
+        {
+          "slug": "social_engagement_mechanic",
+          "name": "Social Engagement Mechanic"
+        },
+        {
+          "slug": "social_exclusivity",
+          "name": "Social Exclusivity"
+        },
+        {
+          "slug": "social_proof_tagging",
+          "name": "Social Proof Tagging"
+        },
+        {
+          "slug": "social_sharing_call_to_action",
+          "name": "Social Sharing Call To Action"
+        },
+        {
+          "slug": "social_skit",
+          "name": "Social Skit"
+        },
+        {
+          "slug": "social_tagging",
+          "name": "Social Tagging"
+        },
+        {
+          "slug": "spanish_language_content",
+          "name": "Spanish Language Content"
         },
         {
           "slug": "specific_dish_naming",
           "name": "Specific Dish or Product Naming in Arabic"
         },
         {
+          "slug": "speed_challenge",
+          "name": "Speed Challenge"
+        },
+        {
+          "slug": "spicy_food",
+          "name": "Spicy Food"
+        },
+        {
+          "slug": "spicy_product_launch",
+          "name": "Spicy Product Launch"
+        },
+        {
+          "slug": "sports_betting_language",
+          "name": "Sports Betting Language"
+        },
+        {
+          "slug": "sports_cultural_moment",
+          "name": "Sports Cultural Moment"
+        },
+        {
+          "slug": "sports_giveaway",
+          "name": "Sports Giveaway"
+        },
+        {
+          "slug": "sports_giveaway_teaser",
+          "name": "Sports Giveaway Teaser"
+        },
+        {
           "slug": "sports_passion_peg",
           "name": "Sports Passion Peg"
+        },
+        {
+          "slug": "sports_reference",
+          "name": "Sports Reference"
+        },
+        {
+          "slug": "sports_teaser",
+          "name": "Sports Teaser"
+        },
+        {
+          "slug": "sports_tie_in",
+          "name": "Sports Tie In"
+        },
+        {
+          "slug": "spring_seasonal",
+          "name": "Spring Seasonal"
         },
         {
           "slug": "static_lockedoff_motion_inside",
           "name": "Static Lock-Off + Motion Inside Frame"
         },
         {
+          "slug": "steak_preference",
+          "name": "Steak Preference"
+        },
+        {
+          "slug": "stem_focus",
+          "name": "Stem Focus"
+        },
+        {
+          "slug": "store_opening_announcement",
+          "name": "Store Opening Announcement"
+        },
+        {
+          "slug": "storytelling_narrative",
+          "name": "Storytelling Narrative"
+        },
+        {
           "slug": "storytelling_sequence_grid",
           "name": "Storytelling Sequence Grid"
+        },
+        {
+          "slug": "strawberry_flavor",
+          "name": "Strawberry Flavor"
+        },
+        {
+          "slug": "strawberry_seasonal",
+          "name": "Strawberry Seasonal"
+        },
+        {
+          "slug": "summer_campaign",
+          "name": "Summer Campaign"
+        },
+        {
+          "slug": "summer_marketing",
+          "name": "Summer Marketing"
+        },
+        {
+          "slug": "summer_promotion",
+          "name": "Summer Promotion"
+        },
+        {
+          "slug": "summer_seasonal",
+          "name": "Summer Seasonal"
+        },
+        {
+          "slug": "summer_seasonal_content",
+          "name": "Summer Seasonal Content"
+        },
+        {
+          "slug": "sunglasses_promotion",
+          "name": "Sunglasses Promotion"
+        },
+        {
+          "slug": "supply_chain_transparency",
+          "name": "Supply Chain Transparency"
+        },
+        {
+          "slug": "surprise_mechanics",
+          "name": "Surprise Mechanics"
+        },
+        {
+          "slug": "sustainability",
+          "name": "Sustainability"
+        },
+        {
+          "slug": "sustainability_initiative",
+          "name": "Sustainability Initiative"
+        },
+        {
+          "slug": "sustainability_messaging",
+          "name": "Sustainability Messaging"
+        },
+        {
+          "slug": "sustainability_narrative",
+          "name": "Sustainability Narrative"
+        },
+        {
+          "slug": "table_spread",
+          "name": "Table Spread"
+        },
+        {
+          "slug": "tag_a_friend",
+          "name": "Tag A Friend"
+        },
+        {
+          "slug": "tagging_strategy",
+          "name": "Tagging Strategy"
+        },
+        {
+          "slug": "taste_appeal",
+          "name": "Taste Appeal"
+        },
+        {
+          "slug": "tawakkalna_app",
+          "name": "Tawakkalna App"
+        },
+        {
+          "slug": "team_appreciation",
+          "name": "Team Appreciation"
+        },
+        {
+          "slug": "team_culture",
+          "name": "Team Culture"
+        },
+        {
+          "slug": "team_engagement",
+          "name": "Team Engagement"
+        },
+        {
+          "slug": "team_recognition",
+          "name": "Team Recognition"
+        },
+        {
+          "slug": "teaser_announcement",
+          "name": "Teaser Announcement"
+        },
+        {
+          "slug": "teaser_content",
+          "name": "Teaser Content"
+        },
+        {
+          "slug": "tech_innovation",
+          "name": "Tech Innovation"
+        },
+        {
+          "slug": "temperature_variations",
+          "name": "Temperature Variations"
+        },
+        {
+          "slug": "tent_dining",
+          "name": "Tent Dining"
+        },
+        {
+          "slug": "time_limited_offer",
+          "name": "Time Limited Offer"
+        },
+        {
+          "slug": "tone_code_switch",
+          "name": "Tone Code Switch"
+        },
+        {
+          "slug": "tourism_destination",
+          "name": "Tourism Destination"
+        },
+        {
+          "slug": "tournament_sponsorship",
+          "name": "Tournament Sponsorship"
+        },
+        {
+          "slug": "toy_incentive",
+          "name": "Toy Incentive"
+        },
+        {
+          "slug": "toy_incentive_marketing",
+          "name": "Toy Incentive Marketing"
+        },
+        {
+          "slug": "traditional_coffee",
+          "name": "Traditional Coffee"
+        },
+        {
+          "slug": "traditional_cuisine",
+          "name": "Traditional Cuisine"
+        },
+        {
+          "slug": "traditional_food",
+          "name": "Traditional Food"
+        },
+        {
+          "slug": "traditional_saudi_cuisine",
+          "name": "Traditional Saudi Cuisine"
+        },
+        {
+          "slug": "traditional_sweets",
+          "name": "Traditional Sweets"
+        },
+        {
+          "slug": "transparency_initiative",
+          "name": "Transparency Initiative"
+        },
+        {
+          "slug": "transparency_trust_content",
+          "name": "Transparency Trust Content"
         },
         {
           "slug": "trivia_engagement_mechanic",
           "name": "Trivia Engagement Mechanic"
         },
         {
+          "slug": "trivia_giveaway",
+          "name": "Trivia Giveaway"
+        },
+        {
+          "slug": "tumbler_promotion",
+          "name": "Tumbler Promotion"
+        },
+        {
+          "slug": "upscale_dining",
+          "name": "Upscale Dining"
+        },
+        {
+          "slug": "urban_lifestyle",
+          "name": "Urban Lifestyle"
+        },
+        {
+          "slug": "urgency_cta",
+          "name": "Urgency Cta"
+        },
+        {
+          "slug": "urgency_deadline",
+          "name": "Urgency Deadline"
+        },
+        {
+          "slug": "urgency_driven",
+          "name": "Urgency Driven"
+        },
+        {
           "slug": "urgency_without_pressure",
           "name": "Urgency Without Pressure"
+        },
+        {
+          "slug": "urgent_messaging",
+          "name": "Urgent Messaging"
+        },
+        {
+          "slug": "user_content_repost",
+          "name": "User Content Repost"
+        },
+        {
+          "slug": "user_engagement_bait",
+          "name": "User Engagement Bait"
+        },
+        {
+          "slug": "user_engagement_call",
+          "name": "User Engagement Call"
+        },
+        {
+          "slug": "user_engagement_call_to_action",
+          "name": "User Engagement Call To Action"
+        },
+        {
+          "slug": "user_engagement_incentive",
+          "name": "User Engagement Incentive"
+        },
+        {
+          "slug": "user_engagement_mechanics",
+          "name": "User Engagement Mechanics"
+        },
+        {
+          "slug": "user_engagement_question",
+          "name": "User Engagement Question"
+        },
+        {
+          "slug": "user_experience_feedback",
+          "name": "User Experience Feedback"
+        },
+        {
+          "slug": "user_generated_content",
+          "name": "User Generated Content"
+        },
+        {
+          "slug": "user_generated_content_campaign",
+          "name": "User Generated Content Campaign"
+        },
+        {
+          "slug": "user_generated_content_collaboration",
+          "name": "User Generated Content Collaboration"
+        },
+        {
+          "slug": "user_generated_engagement",
+          "name": "User Generated Engagement"
+        },
+        {
+          "slug": "user_generated_review",
+          "name": "User Generated Review"
+        },
+        {
+          "slug": "user_generated_validation",
+          "name": "User Generated Validation"
+        },
+        {
+          "slug": "valentine_themed",
+          "name": "Valentine Themed"
+        },
+        {
+          "slug": "value_deal_activation",
+          "name": "Value Deal Activation"
+        },
+        {
+          "slug": "value_proposition_pricing",
+          "name": "Value Proposition Pricing"
+        },
+        {
+          "slug": "variety_emphasis",
+          "name": "Variety Emphasis"
+        },
+        {
+          "slug": "venue_announcement",
+          "name": "Venue Announcement"
+        },
+        {
+          "slug": "vision_2030",
+          "name": "Vision 2030"
+        },
+        {
+          "slug": "vision_2030_alignment",
+          "name": "Vision 2030 Alignment"
+        },
+        {
+          "slug": "visual_focused",
+          "name": "Visual Focused"
+        },
+        {
+          "slug": "wallet_app_promotion",
+          "name": "Wallet App Promotion"
         },
         {
           "slug": "warm_najdi_invitational",
           "name": "Warm Najdi Invitational"
         },
         {
+          "slug": "weather_responsive",
+          "name": "Weather Responsive"
+        },
+        {
+          "slug": "weekday_recommendation",
+          "name": "Weekday Recommendation"
+        },
+        {
+          "slug": "weekend_deal",
+          "name": "Weekend Deal"
+        },
+        {
+          "slug": "weekend_deal_announcement",
+          "name": "Weekend Deal Announcement"
+        },
+        {
+          "slug": "weekend_gathering",
+          "name": "Weekend Gathering"
+        },
+        {
+          "slug": "weekend_hours_promotion",
+          "name": "Weekend Hours Promotion"
+        },
+        {
+          "slug": "weekend_offer",
+          "name": "Weekend Offer"
+        },
+        {
+          "slug": "weekend_promotion",
+          "name": "Weekend Promotion"
+        },
+        {
+          "slug": "weekend_special",
+          "name": "Weekend Special"
+        },
+        {
+          "slug": "weekly_deal",
+          "name": "Weekly Deal"
+        },
+        {
+          "slug": "weekly_engagement_campaign",
+          "name": "Weekly Engagement Campaign"
+        },
+        {
+          "slug": "weekly_feature",
+          "name": "Weekly Feature"
+        },
+        {
           "slug": "weekly_giveaway_mechanic",
           "name": "Weekly Giveaway Mechanic"
+        },
+        {
+          "slug": "weekly_menu",
+          "name": "Weekly Menu"
+        },
+        {
+          "slug": "weekly_menu_launch",
+          "name": "Weekly Menu Launch"
+        },
+        {
+          "slug": "weekly_menu_promotion",
+          "name": "Weekly Menu Promotion"
+        },
+        {
+          "slug": "weekly_menu_rotation",
+          "name": "Weekly Menu Rotation"
+        },
+        {
+          "slug": "weekly_offering",
+          "name": "Weekly Offering"
+        },
+        {
+          "slug": "weekly_rotating_menu",
+          "name": "Weekly Rotating Menu"
+        },
+        {
+          "slug": "weekly_rotation",
+          "name": "Weekly Rotation"
+        },
+        {
+          "slug": "weekly_series_anchor",
+          "name": "Weekly Series Anchor"
+        },
+        {
+          "slug": "weekly_special",
+          "name": "Weekly Special"
         },
         {
           "slug": "welcoming_summer_indoor_pivot",
           "name": "Welcoming Summer Indoor Pivot"
         },
         {
+          "slug": "western_holiday_celebration",
+          "name": "Western Holiday Celebration"
+        },
+        {
+          "slug": "which_are_you",
+          "name": "Which Are You"
+        },
+        {
+          "slug": "whole_lamb_visual",
+          "name": "Whole Lamb Visual"
+        },
+        {
+          "slug": "winner_announcement",
+          "name": "Winner Announcement"
+        },
+        {
+          "slug": "winter_beverage",
+          "name": "Winter Beverage"
+        },
+        {
+          "slug": "winter_beverage_promotion",
+          "name": "Winter Beverage Promotion"
+        },
+        {
           "slug": "winter_comfort_cozy",
           "name": "Winter Comfort Cozy"
+        },
+        {
+          "slug": "winter_content",
+          "name": "Winter Content"
+        },
+        {
+          "slug": "winter_drinks",
+          "name": "Winter Drinks"
+        },
+        {
+          "slug": "winter_promotion",
+          "name": "Winter Promotion"
+        },
+        {
+          "slug": "winter_seasonal",
+          "name": "Winter Seasonal"
+        },
+        {
+          "slug": "winter_seasonal_campaign",
+          "name": "Winter Seasonal Campaign"
         },
         {
           "slug": "winter_seasonal_camping",
           "name": "Winter Seasonal Camping (مخيمات)"
         },
         {
+          "slug": "winter_themed",
+          "name": "Winter Themed"
+        },
+        {
+          "slug": "winter_vibes",
+          "name": "Winter Vibes"
+        },
+        {
+          "slug": "women_empowerment",
+          "name": "Women Empowerment"
+        },
+        {
           "slug": "women_empowerment_day",
           "name": "Women Empowerment Day"
         },
         {
+          "slug": "women_entrepreneurship",
+          "name": "Women Entrepreneurship"
+        },
+        {
+          "slug": "women_exclusive_event",
+          "name": "Women Exclusive Event"
+        },
+        {
+          "slug": "women_focused_event",
+          "name": "Women Focused Event"
+        },
+        {
+          "slug": "womens_day_marketing",
+          "name": "Womens Day Marketing"
+        },
+        {
+          "slug": "womens_empowerment",
+          "name": "Womens Empowerment"
+        },
+        {
           "slug": "world_food_heritage_day",
           "name": "World Food Heritage Day"
+        },
+        {
+          "slug": "youth_culture_collab",
+          "name": "Youth Culture Collab"
+        },
+        {
+          "slug": "youth_culture_reference",
+          "name": "Youth Culture Reference"
+        },
+        {
+          "slug": "youth_engagement",
+          "name": "Youth Engagement"
+        },
+        {
+          "slug": "youth_entertainment",
+          "name": "Youth Entertainment"
         }
       ],
+      "fashion": [],
+      "real_estate": [],
       "retail": [
         {
           "slug": "eid_collection_reveal",
           "name": "Eid Collection Reveal"
+        }
+      ],
+      "retail_lifestyle": [
+        {
+          "slug": "abaya_outfit",
+          "name": "Abaya Outfit"
+        },
+        {
+          "slug": "collab_post",
+          "name": "Collab Post"
+        },
+        {
+          "slug": "everyday_summer_fits",
+          "name": "Everyday Summer Fits"
+        },
+        {
+          "slug": "modest_looks",
+          "name": "Modest Looks"
+        },
+        {
+          "slug": "modest_wear",
+          "name": "Modest Wear"
+        },
+        {
+          "slug": "summer_modest_fits",
+          "name": "Summer Modest Fits"
+        },
+        {
+          "slug": "trending_now",
+          "name": "Trending Now"
         }
       ]
     }

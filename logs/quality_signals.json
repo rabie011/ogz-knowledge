@@ -2,30 +2,30 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 473,
+  "total_obs": 2770,
   "production_quality_engagement": [
     {
       "value": "professional",
-      "obs_count": 377,
-      "high_engagement_rate": 0.565,
-      "avg_engagement": 0.716,
-      "lift_vs_baseline": 0.025
+      "obs_count": 1349,
+      "high_engagement_rate": 0.395,
+      "avg_engagement": 0.532,
+      "lift_vs_baseline": -0.145
     },
     {
       "value": "semi_professional",
-      "obs_count": 88,
-      "high_engagement_rate": 0.443,
-      "avg_engagement": 0.642,
-      "lift_vs_baseline": -0.097
+      "obs_count": 752,
+      "high_engagement_rate": 0.169,
+      "avg_engagement": 0.37,
+      "lift_vs_baseline": -0.371
     }
   ],
   "brand_consistency_engagement": [
     {
       "value": "strong",
-      "obs_count": 412,
-      "high_engagement_rate": 0.558,
-      "avg_engagement": 0.717,
-      "lift_vs_baseline": 0.018
+      "obs_count": 575,
+      "high_engagement_rate": 0.489,
+      "avg_engagement": 0.675,
+      "lift_vs_baseline": -0.051
     },
     {
       "value": "moderate",
@@ -44,32 +44,32 @@
   ],
   "heritage_vs_modern_engagement": [
     {
+      "value": "blended",
+      "obs_count": 278,
+      "high_engagement_rate": 0.428,
+      "avg_engagement": 0.597,
+      "lift_vs_baseline": -0.112
+    },
+    {
       "value": "heritage",
-      "obs_count": 38,
-      "high_engagement_rate": 0.816,
-      "avg_engagement": 0.895,
-      "lift_vs_baseline": 0.276
+      "obs_count": 163,
+      "high_engagement_rate": 0.368,
+      "avg_engagement": 0.442,
+      "lift_vs_baseline": -0.172
     },
     {
       "value": "modern",
-      "obs_count": 260,
-      "high_engagement_rate": 0.542,
-      "avg_engagement": 0.708,
-      "lift_vs_baseline": 0.002
-    },
-    {
-      "value": "blended",
-      "obs_count": 122,
-      "high_engagement_rate": 0.541,
-      "avg_engagement": 0.709,
-      "lift_vs_baseline": 0.001
+      "obs_count": 2100,
+      "high_engagement_rate": 0.245,
+      "avg_engagement": 0.38,
+      "lift_vs_baseline": -0.295
     },
     {
       "value": "unclassified",
-      "obs_count": 53,
-      "high_engagement_rate": 0.377,
-      "avg_engagement": 0.547,
-      "lift_vs_baseline": -0.163
+      "obs_count": 229,
+      "high_engagement_rate": 0.223,
+      "avg_engagement": 0.362,
+      "lift_vs_baseline": -0.317
     }
   ],
   "production_x_brand_combos": [
@@ -95,13 +95,6 @@
       "lift_vs_baseline": 0.085
     },
     {
-      "production_quality": "professional",
-      "brand_consistency": "strong",
-      "obs_count": 360,
-      "high_engagement_rate": 0.561,
-      "lift_vs_baseline": 0.021
-    },
-    {
       "production_quality": "semi_professional",
       "brand_consistency": "strong",
       "obs_count": 51,
@@ -116,6 +109,13 @@
       "lift_vs_baseline": -0.04
     },
     {
+      "production_quality": "professional",
+      "brand_consistency": "strong",
+      "obs_count": 523,
+      "high_engagement_rate": 0.484,
+      "lift_vs_baseline": -0.056
+    },
+    {
       "production_quality": "semi_professional",
       "brand_consistency": "moderate",
       "obs_count": 35,
@@ -126,16 +126,32 @@
   "heritage_vs_modern_by_sector": {
     "modern": {
       "beauty": {
-        "count": 40,
+        "count": 89,
         "high_eng_rate": 0.225
       },
+      "beauty_personal_care": {
+        "count": 284,
+        "high_eng_rate": 0.039
+      },
       "f_and_b": {
-        "count": 216,
-        "high_eng_rate": 0.602
+        "count": 1294,
+        "high_eng_rate": 0.357
+      },
+      "real_estate": {
+        "count": 106,
+        "high_eng_rate": 0.028
       },
       "retail": {
         "count": 4,
         "high_eng_rate": 0.5
+      },
+      "retail_lifestyle": {
+        "count": 322,
+        "high_eng_rate": 0.053
+      },
+      "fashion": {
+        "count": 1,
+        "high_eng_rate": 0.0
       }
     },
     "heritage": {
@@ -143,44 +159,80 @@
         "count": 2,
         "high_eng_rate": 0.0
       },
+      "beauty_personal_care": {
+        "count": 6,
+        "high_eng_rate": 0.0
+      },
       "f_and_b": {
-        "count": 34,
-        "high_eng_rate": 0.853
+        "count": 146,
+        "high_eng_rate": 0.397
+      },
+      "real_estate": {
+        "count": 2,
+        "high_eng_rate": 0.0
       },
       "retail": {
         "count": 2,
         "high_eng_rate": 1.0
+      },
+      "retail_lifestyle": {
+        "count": 5,
+        "high_eng_rate": 0.0
       }
     },
     "blended": {
       "beauty": {
-        "count": 8,
+        "count": 9,
+        "high_eng_rate": 0.111
+      },
+      "beauty_personal_care": {
+        "count": 11,
         "high_eng_rate": 0.0
       },
       "f_and_b": {
-        "count": 103,
-        "high_eng_rate": 0.612
+        "count": 224,
+        "high_eng_rate": 0.496
+      },
+      "real_estate": {
+        "count": 4,
+        "high_eng_rate": 0.0
       },
       "retail": {
         "count": 11,
         "high_eng_rate": 0.273
+      },
+      "retail_lifestyle": {
+        "count": 19,
+        "high_eng_rate": 0.211
       }
     },
     "unclassified": {
+      "beauty_personal_care": {
+        "count": 6,
+        "high_eng_rate": 0.0
+      },
       "f_and_b": {
-        "count": 45,
-        "high_eng_rate": 0.4
+        "count": 201,
+        "high_eng_rate": 0.229
+      },
+      "real_estate": {
+        "count": 1,
+        "high_eng_rate": 0.0
       },
       "retail": {
         "count": 8,
         "high_eng_rate": 0.25
+      },
+      "retail_lifestyle": {
+        "count": 13,
+        "high_eng_rate": 0.231
       }
     }
   },
   "key_findings": [
-    "Production: professional = 56% vs semi_professional = 44% (12pp gap)",
-    "Brand consistency: strong = 55% vs weak = 80%",
-    "Heritage framing: heritage = 81% (n=38)",
+    "Production: professional = 39% vs semi_professional = 16% (22pp gap)",
+    "Brand consistency: strong = 48% vs weak = 80%",
+    "Heritage framing: blended = 42% (n=278)",
     "Best quality combo: ugc + weak = 100% (n=2)"
   ]
 }

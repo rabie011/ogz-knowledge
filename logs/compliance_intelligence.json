@@ -2,20 +2,52 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_overview": {
-    "total_obs": 474,
-    "clean_obs": 425,
-    "flagged_obs": 49,
-    "flagged_rate": 0.103,
+    "total_obs": 2770,
+    "clean_obs": 2679,
+    "flagged_obs": 91,
+    "flagged_rate": 0.033,
     "unique_hard_flag_types": 0,
-    "unique_soft_flag_types": 60
+    "unique_soft_flag_types": 83
   },
   "engagement_delta_clean_vs_flagged": {
-    "clean_obs_high_engagement_rate": 0.544,
-    "flagged_obs_high_engagement_rate": 0.551,
-    "delta": -0.007,
+    "clean_obs_high_engagement_rate": 0.265,
+    "flagged_obs_high_engagement_rate": 0.385,
+    "delta": -0.12,
     "insight": "Flagged content unexpectedly outperforms — review flag calibration"
   },
   "flag_frequency_table": [
+    {
+      "flag_type": "SOFT",
+      "flag_name": "discount_dominant_no_cultural_warmth",
+      "frequency": 19,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.026,
+      "insight": "Compliance flags correlate with lower engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "western_collab_no_saudi_frame",
+      "frequency": 5,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "insight": "Flagged content still drives engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "western_social_mechanic_no_cultural_identity",
+      "frequency": 4,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.375,
+      "insight": "Compliance flags correlate with lower engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "occasion_branding_without_cultural_depth",
+      "frequency": 4,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.5,
+      "insight": "Compliance flags correlate with lower engagement"
+    },
     {
       "flag_type": "SOFT",
       "flag_name": "western_occasion_import",
@@ -31,6 +63,14 @@
       "high_engagement_rate": 1.0,
       "avg_engagement": 1.0,
       "insight": "Flagged content still drives engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "Italian_origin_as_aspirational",
+      "frequency": 2,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.5,
+      "insight": "Compliance flags correlate with lower engagement"
     },
     {
       "flag_type": "SOFT",
@@ -298,14 +338,6 @@
     },
     {
       "flag_type": "SOFT",
-      "flag_name": "discount_dominant_no_cultural_warmth",
-      "frequency": 1,
-      "high_engagement_rate": 0.0,
-      "avg_engagement": 0.0,
-      "insight": "Compliance flags correlate with lower engagement"
-    },
-    {
-      "flag_type": "SOFT",
       "flag_name": "colloquial_tease_without_hospitality_frame",
       "frequency": 1,
       "high_engagement_rate": 0.0,
@@ -474,6 +506,158 @@
     },
     {
       "flag_type": "SOFT",
+      "flag_name": "unregulated_giveaway",
+      "frequency": 1,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "insight": "Flagged content still drives engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "monetary_incentive_for_engagement",
+      "frequency": 1,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "insight": "Flagged content still drives engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "gambling_adjacent_language",
+      "frequency": 1,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.5,
+      "insight": "Compliance flags correlate with lower engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "prize_draw_promotion",
+      "frequency": 1,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.5,
+      "insight": "Compliance flags correlate with lower engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "giveaway_mechanics_clarity",
+      "frequency": 1,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "insight": "Flagged content still drives engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "user_data_collection",
+      "frequency": 1,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "insight": "Flagged content still drives engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "promotional_intensity",
+      "frequency": 1,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "insight": "Flagged content still drives engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "christian_holiday_promotion",
+      "frequency": 1,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.5,
+      "insight": "Compliance flags correlate with lower engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "non_islamic_seasonal_content",
+      "frequency": 1,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.5,
+      "insight": "Compliance flags correlate with lower engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "christmas_religious_holiday_celebration",
+      "frequency": 1,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.5,
+      "insight": "Compliance flags correlate with lower engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "non_islamic_religious_occasion",
+      "frequency": 1,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.5,
+      "insight": "Compliance flags correlate with lower engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "non_saudi_location_content",
+      "frequency": 1,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.0,
+      "insight": "Compliance flags correlate with lower engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "non_saudi_content",
+      "frequency": 1,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "insight": "Flagged content still drives engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "non_arabic_caption",
+      "frequency": 1,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "insight": "Flagged content still drives engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "puerto_rico_locations",
+      "frequency": 1,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "insight": "Flagged content still drives engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "non_saudi_market",
+      "frequency": 1,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "insight": "Flagged content still drives engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "language_mismatch_spanish_not_saudi_primary",
+      "frequency": 1,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.0,
+      "insight": "Compliance flags correlate with lower engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "low_engagement_metrics",
+      "frequency": 1,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.0,
+      "insight": "Compliance flags correlate with lower engagement"
+    },
+    {
+      "flag_type": "SOFT",
+      "flag_name": "halloween_celebration_non_islamic_holiday",
+      "frequency": 1,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.0,
+      "insight": "Compliance flags correlate with lower engagement"
+    },
+    {
+      "flag_type": "SOFT",
       "flag_name": "religious_city_as_brand_context",
       "frequency": 1,
       "high_engagement_rate": 1.0,
@@ -500,11 +684,31 @@
   "top_hard_flags_fleet": [],
   "top_soft_flags_fleet": [
     {
+      "flag_type": "discount_dominant_no_cultural_warmth",
+      "count": 19
+    },
+    {
+      "flag_type": "western_collab_no_saudi_frame",
+      "count": 5
+    },
+    {
+      "flag_type": "western_social_mechanic_no_cultural_identity",
+      "count": 4
+    },
+    {
+      "flag_type": "occasion_branding_without_cultural_depth",
+      "count": 4
+    },
+    {
       "flag_type": "western_occasion_import",
       "count": 2
     },
     {
       "flag_type": "regional_language_mismatch",
+      "count": 2
+    },
+    {
+      "flag_type": "Italian_origin_as_aspirational",
       "count": 2
     },
     {
@@ -518,47 +722,46 @@
     {
       "flag_type": "cross_gender_contact_review",
       "count": 1
-    },
-    {
-      "flag_type": "illustration_gender_presentation",
-      "count": 1
-    },
-    {
-      "flag_type": "gesture_context_review",
-      "count": 1
-    },
-    {
-      "flag_type": "two_handed_gloved_service",
-      "count": 1
-    },
-    {
-      "flag_type": "hand_visibility_ambiguity",
-      "count": 1
-    },
-    {
-      "flag_type": "ramadan_context_check",
-      "count": 1
     }
   ],
   "account_risk_profiles": [
     {
       "account": "OGZ-F-AND-B-Reference-038",
       "sector": "f_and_b",
-      "obs_count": 12,
-      "risk_score": 17,
-      "risk_grade": "orange",
-      "risk_per_obs": 1.42,
-      "clean_obs": 2,
-      "flagged_obs": 10,
-      "flagged_rate": 0.833,
+      "obs_count": 50,
+      "risk_score": 45,
+      "risk_grade": "red",
+      "risk_per_obs": 0.9,
+      "clean_obs": 12,
+      "flagged_obs": 38,
+      "flagged_rate": 0.76,
       "top_hard_flags": {},
       "top_soft_flags": {
-        "foreign_cuisine_Italian_framed_as_aspirational": 1,
-        "Italian_origin_as_premium": 1,
-        "generic_lifestyle_tagline_not_Saudi_identity": 1
+        "discount_dominant_no_cultural_warmth": 19,
+        "western_social_mechanic_no_cultural_identity": 4,
+        "occasion_branding_without_cultural_depth": 4
       },
-      "clean_avg_engagement": 0.0,
-      "flagged_avg_engagement": 0.35
+      "clean_avg_engagement": 0.292,
+      "flagged_avg_engagement": 0.224
+    },
+    {
+      "account": "OGZ-F-AND-B-Reference-039",
+      "sector": "f_and_b",
+      "obs_count": 50,
+      "risk_score": 15,
+      "risk_grade": "yellow",
+      "risk_per_obs": 0.3,
+      "clean_obs": 37,
+      "flagged_obs": 13,
+      "flagged_rate": 0.26,
+      "top_hard_flags": {},
+      "top_soft_flags": {
+        "western_collab_no_saudi_frame": 5,
+        "no_food_product": 1,
+        "pure_engagement_bait_mechanic": 1
+      },
+      "clean_avg_engagement": 0.757,
+      "flagged_avg_engagement": 0.654
     },
     {
       "account": "OGZ-F-AND-B-Reference-003",
@@ -580,23 +783,23 @@
       "flagged_avg_engagement": 0.955
     },
     {
-      "account": "OGZ-F-AND-B-Reference-039",
+      "account": "crumblcookiespr",
       "sector": "f_and_b",
-      "obs_count": 12,
-      "risk_score": 10,
+      "obs_count": 97,
+      "risk_score": 12,
       "risk_grade": "yellow",
-      "risk_per_obs": 0.83,
-      "clean_obs": 4,
-      "flagged_obs": 8,
-      "flagged_rate": 0.667,
+      "risk_per_obs": 0.12,
+      "clean_obs": 91,
+      "flagged_obs": 6,
+      "flagged_rate": 0.062,
       "top_hard_flags": {},
       "top_soft_flags": {
-        "no_food_product": 1,
-        "pure_engagement_bait_mechanic": 1,
-        "product_name_uses_English_loanwords_Grand_Special": 1
+        "christian_holiday_promotion": 1,
+        "non_islamic_seasonal_content": 1,
+        "christmas_religious_holiday_celebration": 1
       },
-      "clean_avg_engagement": 0.625,
-      "flagged_avg_engagement": 0.438
+      "clean_avg_engagement": 0.44,
+      "flagged_avg_engagement": 0.333
     },
     {
       "account": "OGZ-F-AND-B-Reference-005",
@@ -675,21 +878,40 @@
       "flagged_avg_engagement": 0.667
     },
     {
+      "account": "barnscoffee",
+      "sector": "f_and_b",
+      "obs_count": 125,
+      "risk_score": 3,
+      "risk_grade": "green",
+      "risk_per_obs": 0.02,
+      "clean_obs": 124,
+      "flagged_obs": 1,
+      "flagged_rate": 0.008,
+      "top_hard_flags": {},
+      "top_soft_flags": {
+        "giveaway_mechanics_clarity": 1,
+        "user_data_collection": 1,
+        "promotional_intensity": 1
+      },
+      "clean_avg_engagement": 0.69,
+      "flagged_avg_engagement": 1.0
+    },
+    {
       "account": "OGZ-BEAUTY-Reference-002",
       "sector": "beauty",
-      "obs_count": 25,
+      "obs_count": 50,
       "risk_score": 2,
       "risk_grade": "green",
-      "risk_per_obs": 0.08,
-      "clean_obs": 23,
+      "risk_per_obs": 0.04,
+      "clean_obs": 48,
       "flagged_obs": 2,
-      "flagged_rate": 0.08,
+      "flagged_rate": 0.04,
       "top_hard_flags": {},
       "top_soft_flags": {
         "face_visibility_moderate": 1,
         "western_occasion_import": 1
       },
-      "clean_avg_engagement": 0.457,
+      "clean_avg_engagement": 0.521,
       "flagged_avg_engagement": 0.5
     },
     {
@@ -711,63 +933,99 @@
       "flagged_avg_engagement": 1.0
     },
     {
+      "account": "alromansiahksa",
+      "sector": "f_and_b",
+      "obs_count": 107,
+      "risk_score": 2,
+      "risk_grade": "green",
+      "risk_per_obs": 0.02,
+      "clean_obs": 106,
+      "flagged_obs": 1,
+      "flagged_rate": 0.009,
+      "top_hard_flags": {},
+      "top_soft_flags": {
+        "unregulated_giveaway": 1,
+        "monetary_incentive_for_engagement": 1
+      },
+      "clean_avg_engagement": 0.17,
+      "flagged_avg_engagement": 1.0
+    },
+    {
+      "account": "kuduksa",
+      "sector": "f_and_b",
+      "obs_count": 125,
+      "risk_score": 2,
+      "risk_grade": "green",
+      "risk_per_obs": 0.02,
+      "clean_obs": 124,
+      "flagged_obs": 1,
+      "flagged_rate": 0.008,
+      "top_hard_flags": {},
+      "top_soft_flags": {
+        "gambling_adjacent_language": 1,
+        "prize_draw_promotion": 1
+      },
+      "clean_avg_engagement": 0.456,
+      "flagged_avg_engagement": 0.5
+    },
+    {
       "account": "OGZ-BEAUTY-Reference-001",
       "sector": "beauty",
-      "obs_count": 25,
+      "obs_count": 50,
       "risk_score": 0,
       "risk_grade": "green",
       "risk_per_obs": 0.0,
-      "clean_obs": 25,
+      "clean_obs": 50,
       "flagged_obs": 0,
       "flagged_rate": 0.0,
       "top_hard_flags": {},
       "top_soft_flags": {},
-      "clean_avg_engagement": 0.42,
+      "clean_avg_engagement": 0.52,
       "flagged_avg_engagement": null
     },
     {
       "account": "OGZ-F-AND-B-Reference-006",
       "sector": "f_and_b",
-      "obs_count": 25,
+      "obs_count": 27,
       "risk_score": 0,
       "risk_grade": "green",
       "risk_per_obs": 0.0,
-      "clean_obs": 25,
+      "clean_obs": 27,
       "flagged_obs": 0,
       "flagged_rate": 0.0,
       "top_hard_flags": {},
       "top_soft_flags": {},
-      "clean_avg_engagement": 0.6,
+      "clean_avg_engagement": 0.593,
       "flagged_avg_engagement": null
     },
     {
       "account": "OGZ-F-AND-B-Reference-007",
       "sector": "f_and_b",
-      "obs_count": 25,
+      "obs_count": 28,
       "risk_score": 0,
       "risk_grade": "green",
       "risk_per_obs": 0.0,
-      "clean_obs": 25,
+      "clean_obs": 28,
       "flagged_obs": 0,
       "flagged_rate": 0.0,
       "top_hard_flags": {},
       "top_soft_flags": {},
-      "clean_avg_engagement": 0.4,
+      "clean_avg_engagement": 0.393,
       "flagged_avg_engagement": null
     },
     {
       "account": "OGZ-F-AND-B-Reference-008",
       "sector": "f_and_b",
-      "obs_count": 25,
+      "obs_count": 50,
       "risk_score": 0,
       "risk_grade": "green",
       "risk_per_obs": 0.0,
-      "clean_obs": 25,
+      "clean_obs": 50,
       "flagged_obs": 0,
       "flagged_rate": 0.0,
       "top_hard_flags": {},
       "top_soft_flags": {},
-      "clean_avg_engagement": 0.88,
+      "clean_avg_engagement": 0.85,
       "flagged_avg_engagement": null
     },
     {
@@ -788,46 +1046,328 @@
     {
       "account": "OGZ-F-AND-B-Reference-011",
       "sector": "f_and_b",
-      "obs_count": 25,
+      "obs_count": 31,
       "risk_score": 0,
       "risk_grade": "green",
       "risk_per_obs": 0.0,
-      "clean_obs": 25,
+      "clean_obs": 31,
       "flagged_obs": 0,
       "flagged_rate": 0.0,
       "top_hard_flags": {},
       "top_soft_flags": {},
-      "clean_avg_engagement": 0.34,
+      "clean_avg_engagement": 0.306,
+      "flagged_avg_engagement": null
+    },
+    {
+      "account": "albaik",
+      "sector": "f_and_b",
+      "obs_count": 125,
+      "risk_score": 0,
+      "risk_grade": "green",
+      "risk_per_obs": 0.0,
+      "clean_obs": 125,
+      "flagged_obs": 0,
+      "flagged_rate": 0.0,
+      "top_hard_flags": {},
+      "top_soft_flags": {},
+      "clean_avg_engagement": 0.936,
+      "flagged_avg_engagement": null
+    },
+    {
+      "account": "aldeebajofficial",
+      "sector": "retail_lifestyle",
+      "obs_count": 125,
+      "risk_score": 0,
+      "risk_grade": "green",
+      "risk_per_obs": 0.0,
+      "clean_obs": 125,
+      "flagged_obs": 0,
+      "flagged_rate": 0.0,
+      "top_hard_flags": {},
+      "top_soft_flags": {},
+      "clean_avg_engagement": 0.096,
+      "flagged_avg_engagement": null
+    },
+    {
+      "account": "altazaj_fakieh",
+      "sector": "f_and_b",
+      "obs_count": 122,
+      "risk_score": 0,
+      "risk_grade": "green",
+      "risk_per_obs": 0.0,
+      "clean_obs": 122,
+      "flagged_obs": 0,
+      "flagged_rate": 0.0,
+      "top_hard_flags": {},
+      "top_soft_flags": {},
+      "clean_avg_engagement": 0.213,
+      "flagged_avg_engagement": null
+    },
+    {
+      "account": "aseeb.najd",
+      "sector": "f_and_b",
+      "obs_count": 91,
+      "risk_score": 0,
+      "risk_grade": "green",
+      "risk_per_obs": 0.0,
+      "clean_obs": 91,
+      "flagged_obs": 0,
+      "flagged_rate": 0.0,
+      "top_hard_flags": {},
+      "top_soft_flags": {},
+      "clean_avg_engagement": 0.154,
+      "flagged_avg_engagement": null
+    },
+    {
+      "account": "asteribeautysa",
+      "sector": "beauty_personal_care",
+      "obs_count": 125,
+      "risk_score": 0,
+      "risk_grade": "green",
+      "risk_per_obs": 0.0,
+      "clean_obs": 125,
+      "flagged_obs": 0,
+      "flagged_rate": 0.0,
+      "top_hard_flags": {},
+      "top_soft_flags": {},
+      "clean_avg_engagement": 0.112,
+      "flagged_avg_engagement": null
+    },
+    {
+      "account": "centrepointstores",
+      "sector": "fashion",
+      "obs_count": 1,
+      "risk_score": 0,
+      "risk_grade": "green",
+      "risk_per_obs": 0.0,
+      "clean_obs": 1,
+      "flagged_obs": 0,
+      "flagged_rate": 0.0,
+      "top_hard_flags": {},
+      "top_soft_flags": {},
+      "clean_avg_engagement": 0.0,
+      "flagged_avg_engagement": null
+    },
+    {
+      "account": "goldenscent",
+      "sector": "beauty_personal_care",
+      "obs_count": 5,
+      "risk_score": 0,
+      "risk_grade": "green",
+      "risk_per_obs": 0.0,
+      "clean_obs": 5,
+      "flagged_obs": 0,
+      "flagged_rate": 0.0,
+      "top_hard_flags": {},
+      "top_soft_flags": {},
+      "clean_avg_engagement": 0.0,
+      "flagged_avg_engagement": null
+    },
+    {
+      "account": "herfyfsc",
+      "sector": "f_and_b",
+      "obs_count": 124,
+      "risk_score": 0,
+      "risk_grade": "green",
+      "risk_per_obs": 0.0,
+      "clean_obs": 124,
+      "flagged_obs": 0,
+      "flagged_rate": 0.0,
+      "top_hard_flags": {},
+      "top_soft_flags": {},
+      "clean_avg_engagement": 0.504,
+      "flagged_avg_engagement": null
+    },
+    {
+      "account": "mcdonaldsksa",
+      "sector": "f_and_b",
+      "obs_count": 115,
+      "risk_score": 0,
+      "risk_grade": "green",
+      "risk_per_obs": 0.0,
+      "clean_obs": 115,
+      "flagged_obs": 0,
+      "flagged_rate": 0.0,
+      "top_hard_flags": {},
+      "top_soft_flags": {},
+      "clean_avg_engagement": 0.509,
+      "flagged_avg_engagement": null
+    },
+    {
+      "account": "niceonesa",
+      "sector": "beauty_personal_care",
+      "obs_count": 114,
+      "risk_score": 0,
+      "risk_grade": "green",
+      "risk_per_obs": 0.0,
+      "clean_obs": 114,
+      "flagged_obs": 0,
+      "flagged_rate": 0.0,
+      "top_hard_flags": {},
+      "top_soft_flags": {},
+      "clean_avg_engagement": 0.118,
+      "flagged_avg_engagement": null
+    },
+    {
+      "account": "noon",
+      "sector": "retail_lifestyle",
+      "obs_count": 120,
+      "risk_score": 0,
+      "risk_grade": "green",
+      "risk_per_obs": 0.0,
+      "clean_obs": 120,
+      "flagged_obs": 0,
+      "flagged_rate": 0.0,
+      "top_hard_flags": {},
+      "top_soft_flags": {},
+      "clean_avg_engagement": 0.358,
+      "flagged_avg_engagement": null
+    },
+    {
+      "account": "ounass",
+      "sector": "retail_lifestyle",
+      "obs_count": 114,
+      "risk_score": 0,
+      "risk_grade": "green",
+      "risk_per_obs": 0.0,
+      "clean_obs": 114,
+      "flagged_obs": 0,
+      "flagged_rate": 0.0,
+      "top_hard_flags": {},
+      "top_soft_flags": {},
+      "clean_avg_engagement": 0.013,
+      "flagged_avg_engagement": null
+    },
+    {
+      "account": "pizzahutsaudi",
+      "sector": "f_and_b",
+      "obs_count": 125,
+      "risk_score": 0,
+      "risk_grade": "green",
+      "risk_per_obs": 0.0,
+      "clean_obs": 125,
+      "flagged_obs": 0,
+      "flagged_rate": 0.0,
+      "top_hard_flags": {},
+      "top_soft_flags": {},
+      "clean_avg_engagement": 0.0,
+      "flagged_avg_engagement": null
+    },
+    {
+      "account": "prettynature.official",
+      "sector": "beauty_personal_care",
+      "obs_count": 63,
+      "risk_score": 0,
+      "risk_grade": "green",
+      "risk_per_obs": 0.0,
+      "clean_obs": 63,
+      "flagged_obs": 0,
+      "flagged_rate": 0.0,
+      "top_hard_flags": {},
+      "top_soft_flags": {},
+      "clean_avg_engagement": 0.016,
+      "flagged_avg_engagement": null
+    },
+    {
+      "account": "riyadhfood",
+      "sector": "f_and_b",
+      "obs_count": 86,
+      "risk_score": 0,
+      "risk_grade": "green",
+      "risk_per_obs": 0.0,
+      "clean_obs": 86,
+      "flagged_obs": 0,
+      "flagged_rate": 0.0,
+      "top_hard_flags": {},
+      "top_soft_flags": {},
+      "clean_avg_engagement": 0.686,
+      "flagged_avg_engagement": null
+    },
+    {
+      "account": "roshnksa",
+      "sector": "real_estate",
+      "obs_count": 113,
+      "risk_score": 0,
+      "risk_grade": "green",
+      "risk_per_obs": 0.0,
+      "clean_obs": 113,
+      "flagged_obs": 0,
+      "flagged_rate": 0.0,
+      "top_hard_flags": {},
+      "top_soft_flags": {},
+      "clean_avg_engagement": 0.062,
+      "flagged_avg_engagement": null
+    },
+    {
+      "account": "shawarmersa",
+      "sector": "f_and_b",
+      "obs_count": 112,
+      "risk_score": 0,
+      "risk_grade": "green",
+      "risk_per_obs": 0.0,
+      "clean_obs": 112,
+      "flagged_obs": 0,
+      "flagged_rate": 0.0,
+      "top_hard_flags": {},
+      "top_soft_flags": {},
+      "clean_avg_engagement": 0.527,
       "flagged_avg_engagement": null
     }
   ],
   "sector_risk_profiles": {
     "beauty": {
-      "obs_count": 50,
+      "obs_count": 100,
       "total_hard_blocks": 0,
       "total_soft_flags": 2,
       "risk_score_total": 2,
-      "risk_per_obs": 0.04,
+      "risk_per_obs": 0.02,
       "top_hard_flag_types": {},
       "top_soft_flag_types": {
         "face_visibility_moderate": 1,
         "western_occasion_import": 1
       }
     },
-    "f_and_b": {
-      "obs_count": 399,
+    "beauty_personal_care": {
+      "obs_count": 307,
       "total_hard_blocks": 0,
-      "total_soft_flags": 56,
-      "risk_score_total": 56,
-      "risk_per_obs": 0.14,
+      "total_soft_flags": 0,
+      "risk_score_total": 0,
+      "risk_per_obs": 0.0,
+      "top_hard_flag_types": {},
+      "top_soft_flag_types": {}
+    },
+    "f_and_b": {
+      "obs_count": 1865,
+      "total_hard_blocks": 0,
+      "total_soft_flags": 108,
+      "risk_score_total": 108,
+      "risk_per_obs": 0.06,
       "top_hard_flag_types": {},
       "top_soft_flag_types": {
-        "regional_language_mismatch": 2,
-        "gesture_review": 1,
-        "cross_gender_contact_review": 1,
-        "illustration_gender_presentation": 1,
-        "gesture_context_review": 1
+        "discount_dominant_no_cultural_warmth": 19,
+        "western_collab_no_saudi_frame": 5,
+        "western_social_mechanic_no_cultural_identity": 4,
+        "occasion_branding_without_cultural_depth": 4,
+        "regional_language_mismatch": 2
       }
+    },
+    "fashion": {
+      "obs_count": 1,
+      "total_hard_blocks": 0,
+      "total_soft_flags": 0,
+      "risk_score_total": 0,
+      "risk_per_obs": 0.0,
+      "top_hard_flag_types": {},
+      "top_soft_flag_types": {}
+    },
+    "real_estate": {
+      "obs_count": 113,
+      "total_hard_blocks": 0,
+      "total_soft_flags": 0,
+      "risk_score_total": 0,
+      "risk_per_obs": 0.0,
+      "top_hard_flag_types": {},
+      "top_soft_flag_types": {}
     },
     "retail": {
       "obs_count": 25,
@@ -842,6 +1382,15 @@
         "urdu_primary_language": 1,
         "western_occasion_import": 1
       }
+    },
+    "retail_lifestyle": {
+      "obs_count": 359,
+      "total_hard_blocks": 0,
+      "total_soft_flags": 0,
+      "risk_score_total": 0,
+      "risk_per_obs": 0.0,
+      "top_hard_flag_types": {},
+      "top_soft_flag_types": {}
     }
   },
   "risky_pattern_combinations": []

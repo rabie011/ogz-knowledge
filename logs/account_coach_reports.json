@@ -3,10 +3,10 @@
   "corpus_avg": 0.65,
   "elite_threshold": 0.85,
   "tier_distribution": {
-    "elite": 5,
+    "elite": 6,
     "strong": 1,
-    "average": 1,
-    "weak": 8
+    "average": 3,
+    "weak": 26
   },
   "account_reports": [
     {
@@ -21,25 +21,25 @@
           "dimension": "visual_complexity",
           "value": "complex",
           "pct": 0.42,
-          "elite_advantage": 0.296
-        },
-        {
-          "dimension": "content_type",
-          "value": "carousel_slide",
-          "pct": 0.64,
-          "elite_advantage": 0.25
-        },
-        {
-          "dimension": "dialect",
-          "value": "unknown",
-          "pct": 1.0,
-          "elite_advantage": 0.222
+          "elite_advantage": 0.28
         },
         {
           "dimension": "composition_style",
           "value": "product_hero_closeup",
           "pct": 0.36,
-          "elite_advantage": 0.174
+          "elite_advantage": 0.262
+        },
+        {
+          "dimension": "dialect",
+          "value": "unknown",
+          "pct": 1.0,
+          "elite_advantage": 0.2
+        },
+        {
+          "dimension": "content_type",
+          "value": "carousel_slide",
+          "pct": 0.64,
+          "elite_advantage": 0.166
         }
       ],
       "priority_changes": [
@@ -47,19 +47,19 @@
           "dimension": "heritage_vs_modern",
           "current_value": "modern",
           "current_pct": 0.98,
-          "penalty": 0.128
-        },
-        {
-          "dimension": "visual_complexity",
-          "current_value": "moderate",
-          "current_pct": 0.38,
-          "penalty": 0.32
+          "penalty": 0.268
         },
         {
           "dimension": "register",
           "current_value": "casual",
           "current_pct": 0.606,
-          "penalty": 0.174
+          "penalty": 0.409
+        },
+        {
+          "dimension": "aspect_ratio",
+          "current_value": "portrait_4x5",
+          "current_pct": 0.72,
+          "penalty": 0.221
         }
       ],
       "current_profile": {
@@ -110,6 +110,61 @@
       }
     },
     {
+      "account": "albaik",
+      "sector": "f_and_b",
+      "obs_count": 125,
+      "avg_engagement": 0.936,
+      "tier": "elite",
+      "lift_vs_corpus": 0.286,
+      "strengths": [],
+      "priority_changes": [
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.648,
+          "penalty": 0.268
+        },
+        {
+          "dimension": "content_type",
+          "current_value": "video",
+          "current_pct": 0.4,
+          "penalty": 0.287
+        },
+        {
+          "dimension": "production_quality",
+          "current_value": "professional",
+          "current_pct": 0.824,
+          "penalty": 0.112
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "video",
+          "pct": 0.4
+        },
+        "composition_style": {
+          "dominant": "text_dominant",
+          "pct": 0.36
+        },
+        "visual_complexity": {
+          "dominant": "simple",
+          "pct": 0.728
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.648
+        },
+        "tone": {
+          "dominant": "celebratory",
+          "pct": 0.648
+        },
+        "production_quality": {
+          "dominant": "professional",
+          "pct": 0.824
+        }
+      }
+    },
+    {
       "account": "OGZ-F-AND-B-Reference-004",
       "sector": "f_and_b",
       "obs_count": 50,
@@ -118,48 +173,48 @@
       "lift_vs_corpus": 0.24,
       "strengths": [
         {
-          "dimension": "visual_complexity",
-          "value": "complex",
-          "pct": 0.54,
-          "elite_advantage": 0.296
-        },
-        {
-          "dimension": "content_type",
-          "value": "carousel_slide",
-          "pct": 0.58,
-          "elite_advantage": 0.25
-        },
-        {
           "dimension": "aspect_ratio",
           "value": "square_1x1",
           "pct": 0.526,
-          "elite_advantage": 0.2
+          "elite_advantage": 0.338
+        },
+        {
+          "dimension": "visual_complexity",
+          "value": "complex",
+          "pct": 0.54,
+          "elite_advantage": 0.28
         },
         {
           "dimension": "composition_style",
           "value": "product_hero_closeup",
           "pct": 0.34,
+          "elite_advantage": 0.262
+        },
+        {
+          "dimension": "setting",
+          "value": "restaurant_indoor",
+          "pct": 0.48,
           "elite_advantage": 0.174
         }
       ],
       "priority_changes": [
         {
-          "dimension": "visual_complexity",
-          "current_value": "moderate",
-          "current_pct": 0.38,
-          "penalty": 0.32
-        },
-        {
           "dimension": "register",
           "current_value": "casual",
           "current_pct": 0.487,
-          "penalty": 0.174
+          "penalty": 0.409
         },
         {
           "dimension": "heritage_vs_modern",
           "current_value": "modern",
           "current_pct": 0.56,
-          "penalty": 0.128
+          "penalty": 0.268
+        },
+        {
+          "dimension": "visual_complexity",
+          "current_value": "moderate",
+          "current_pct": 0.38,
+          "penalty": 0.287
         }
       ],
       "current_profile": {
@@ -218,98 +273,6 @@
       }
     },
     {
-      "account": "OGZ-F-AND-B-Reference-008",
-      "sector": "f_and_b",
-      "obs_count": 25,
-      "avg_engagement": 0.88,
-      "tier": "elite",
-      "lift_vs_corpus": 0.23,
-      "strengths": [
-        {
-          "dimension": "aspect_ratio",
-          "value": "square_1x1",
-          "pct": 0.5,
-          "elite_advantage": 0.2
-        },
-        {
-          "dimension": "heritage_vs_modern",
-          "value": "heritage",
-          "pct": 0.444,
-          "elite_advantage": 0.1
-        }
-      ],
-      "priority_changes": [
-        {
-          "dimension": "visual_complexity",
-          "current_value": "moderate",
-          "current_pct": 0.92,
-          "penalty": 0.32
-        },
-        {
-          "dimension": "content_type",
-          "current_value": "video",
-          "current_pct": 0.72,
-          "penalty": 0.373
-        },
-        {
-          "dimension": "register",
-          "current_value": "casual",
-          "current_pct": 0.4,
-          "penalty": 0.174
-        }
-      ],
-      "current_profile": {
-        "content_type": {
-          "dominant": "video",
-          "pct": 0.72
-        },
-        "day_of_week": {
-          "dominant": "thursday",
-          "pct": 0.32
-        },
-        "setting": {
-          "dominant": "studio",
-          "pct": 0.16
-        },
-        "lighting": {
-          "dominant": "dramatic_moody",
-          "pct": 0.12
-        },
-        "composition_style": {
-          "dominant": "returning product continuation — Twin still available, limited time urgency",
-          "pct": 0.04
-        },
-        "visual_complexity": {
-          "dominant": "moderate",
-          "pct": 0.92
-        },
-        "heritage_vs_modern": {
-          "dominant": "heritage",
-          "pct": 0.444
-        },
-        "tone": {
-          "dominant": "patriotic",
-          "pct": 0.2
-        },
-        "register": {
-          "dominant": "formal",
-          "pct": 0.6
-        },
-        "production_quality": {
-          "dominant": "professional",
-          "pct": 1.0
-        },
-        "dialect": {
-          "dominant": "hejazi",
-          "pct": 0.4
-        },
-        "aspect_ratio": {
-          "dominant": "square_1x1",
-          "pct": 0.5
-        }
-      }
-    },
-    {
       "account": "OGZ-F-AND-B-Reference-002",
       "sector": "f_and_b",
       "obs_count": 50,
@@ -321,45 +284,33 @@
           "dimension": "aspect_ratio",
           "value": "square_1x1",
           "pct": 0.735,
-          "elite_advantage": 0.2
+          "elite_advantage": 0.338
         },
         {
           "dimension": "composition_style",
           "value": "product_hero_closeup",
           "pct": 0.38,
-          "elite_advantage": 0.174
-        },
-        {
-          "dimension": "dialect",
-          "value": "najdi",
-          "pct": 0.4,
-          "elite_advantage": 0.124
-        },
-        {
-          "dimension": "tone",
-          "value": "warm",
-          "pct": 0.36,
-          "elite_advantage": 0.054
+          "elite_advantage": 0.262
         }
       ],
       "priority_changes": [
         {
-          "dimension": "visual_complexity",
-          "current_value": "moderate",
-          "current_pct": 0.56,
-          "penalty": 0.32
-        },
-        {
           "dimension": "register",
           "current_value": "casual",
           "current_pct": 0.76,
-          "penalty": 0.174
+          "penalty": 0.409
         },
         {
           "dimension": "heritage_vs_modern",
           "current_value": "modern",
           "current_pct": 0.78,
-          "penalty": 0.128
+          "penalty": 0.268
+        },
+        {
+          "dimension": "visual_complexity",
+          "current_value": "moderate",
+          "current_pct": 0.56,
+          "penalty": 0.287
         }
       ],
       "current_profile": {
@@ -429,25 +380,25 @@
           "dimension": "composition_style",
           "value": "product_hero_closeup",
           "pct": 0.32,
-          "elite_advantage": 0.174
+          "elite_advantage": 0.262
         },
         {
           "dimension": "setting",
           "value": "restaurant_indoor",
           "pct": 0.32,
-          "elite_advantage": 0.157
+          "elite_advantage": 0.174
+        },
+        {
+          "dimension": "heritage_vs_modern",
+          "value": "blended",
+          "pct": 0.52,
+          "elite_advantage": 0.14
         },
         {
           "dimension": "content_type",
           "value": "reel",
           "pct": 0.44,
-          "elite_advantage": 0.129
-        },
-        {
-          "dimension": "dialect",
-          "value": "najdi",
-          "pct": 0.92,
-          "elite_advantage": 0.124
+          "elite_advantage": 0.116
         }
       ],
       "priority_changes": [
@@ -455,13 +406,19 @@
           "dimension": "visual_complexity",
           "current_value": "moderate",
           "current_pct": 0.64,
-          "penalty": 0.32
+          "penalty": 0.287
         },
         {
           "dimension": "register",
           "current_value": "casual",
           "current_pct": 0.3,
-          "penalty": 0.174
+          "penalty": 0.409
+        },
+        {
+          "dimension": "production_quality",
+          "current_value": "professional",
+          "current_pct": 0.94,
+          "penalty": 0.112
         }
       ],
       "current_profile": {
@@ -520,6 +477,85 @@
       }
     },
     {
+      "account": "OGZ-F-AND-B-Reference-008",
+      "sector": "f_and_b",
+      "obs_count": 50,
+      "avg_engagement": 0.85,
+      "tier": "elite",
+      "lift_vs_corpus": 0.2,
+      "strengths": [],
+      "priority_changes": [
+        {
+          "dimension": "register",
+          "current_value": "casual",
+          "current_pct": 0.56,
+          "penalty": 0.409
+        },
+        {
+          "dimension": "visual_complexity",
+          "current_value": "moderate",
+          "current_pct": 0.76,
+          "penalty": 0.287
+        },
+        {
+          "dimension": "content_type",
+          "current_value": "video",
+          "current_pct": 0.72,
+          "penalty": 0.287
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "video",
+          "pct": 0.72
+        },
+        "day_of_week": {
+          "dominant": "sunday",
+          "pct": 0.22
+        },
+        "setting": {
+          "dominant": "studio",
+          "pct": 0.34
+        },
+        "lighting": {
+          "dominant": "dramatic_moody",
+          "pct": 0.28
+        },
+        "composition_style": {
+          "dominant": "product_hero_close_up",
+          "pct": 0.08
+        },
+        "visual_complexity": {
+          "dominant": "moderate",
+          "pct": 0.76
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.581
+        },
+        "tone": {
+          "dominant": "warm",
+          "pct": 0.26
+        },
+        "register": {
+          "dominant": "casual",
+          "pct": 0.56
+        },
+        "production_quality": {
+          "dominant": "professional",
+          "pct": 1.0
+        },
+        "dialect": {
+          "dominant": "najdi",
+          "pct": 0.64
+        },
+        "aspect_ratio": {
+          "dominant": "vertical_9x16",
+          "pct": 0.621
+        }
+      }
+    },
+    {
       "account": "OGZ-F-AND-B-Reference-005",
       "sector": "f_and_b",
       "obs_count": 50,
@@ -528,48 +564,42 @@
       "lift_vs_corpus": 0.18,
       "strengths": [
         {
-          "dimension": "visual_complexity",
-          "value": "complex",
-          "pct": 0.38,
-          "elite_advantage": 0.296
-        },
-        {
           "dimension": "aspect_ratio",
           "value": "square_1x1",
           "pct": 0.521,
-          "elite_advantage": 0.2
+          "elite_advantage": 0.338
+        },
+        {
+          "dimension": "visual_complexity",
+          "value": "complex",
+          "pct": 0.38,
+          "elite_advantage": 0.28
         },
         {
           "dimension": "composition_style",
           "value": "product_hero_closeup",
           "pct": 0.48,
-          "elite_advantage": 0.174
-        },
-        {
-          "dimension": "dialect",
-          "value": "najdi",
-          "pct": 0.62,
-          "elite_advantage": 0.124
+          "elite_advantage": 0.262
         }
       ],
       "priority_changes": [
         {
-          "dimension": "visual_complexity",
-          "current_value": "moderate",
-          "current_pct": 0.32,
-          "penalty": 0.32
-        },
-        {
           "dimension": "heritage_vs_modern",
           "current_value": "modern",
           "current_pct": 0.56,
-          "penalty": 0.128
+          "penalty": 0.268
         },
         {
-          "dimension": "setting",
-          "current_value": "studio",
-          "current_pct": 0.3,
-          "penalty": 0.113
+          "dimension": "production_quality",
+          "current_value": "professional",
+          "current_pct": 0.98,
+          "penalty": 0.112
+        },
+        {
+          "dimension": "visual_complexity",
+          "current_value": "moderate",
+          "current_pct": 0.32,
+          "penalty": 0.287
         }
       ],
       "current_profile": {
@@ -628,44 +658,246 @@
       }
     },
     {
-      "account": "OGZ-F-AND-B-Reference-006",
+      "account": "OGZ-F-AND-B-Reference-039",
       "sector": "f_and_b",
-      "obs_count": 25,
-      "avg_engagement": 0.6,
+      "obs_count": 50,
+      "avg_engagement": 0.73,
       "tier": "average",
-      "lift_vs_corpus": -0.05,
-      "strengths": [
-        {
-          "dimension": "dialect",
-          "value": "najdi",
-          "pct": 0.96,
-          "elite_advantage": 0.124
-        }
-      ],
+      "lift_vs_corpus": 0.08,
+      "strengths": [],
       "priority_changes": [
         {
-          "dimension": "visual_complexity",
-          "current_value": "moderate",
-          "current_pct": 0.72,
-          "penalty": 0.32
+          "dimension": "dialect",
+          "current_value": "saudi_colloquial",
+          "current_pct": 1.0,
+          "penalty": 0.408
         },
         {
           "dimension": "register",
           "current_value": "casual",
-          "current_pct": 0.96,
-          "penalty": 0.174
+          "current_pct": 0.66,
+          "penalty": 0.409
         },
         {
-          "dimension": "content_type",
-          "current_value": "video",
-          "current_pct": 0.32,
-          "penalty": 0.373
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.62,
+          "penalty": 0.268
         }
       ],
       "current_profile": {
         "content_type": {
           "dominant": "image",
-          "pct": 0.64
+          "pct": 0.68
+        },
+        "aspect_ratio": {
+          "dominant": "portrait_4x5",
+          "pct": 0.48
+        },
+        "day_of_week": {
+          "dominant": "monday",
+          "pct": 0.22
+        },
+        "setting": {
+          "dominant": "studio",
+          "pct": 0.38
+        },
+        "lighting": {
+          "dominant": "artificial",
+          "pct": 0.68
+        },
+        "composition_style": {
+          "dominant": "graphic_text",
+          "pct": 0.26
+        },
+        "visual_complexity": {
+          "dominant": "moderate",
+          "pct": 0.52
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.62
+        },
+        "tone": {
+          "dominant": "playful",
+          "pct": 0.18
+        },
+        "register": {
+          "dominant": "casual",
+          "pct": 0.66
+        },
+        "production_quality": {
+          "dominant": "professional",
+          "pct": 1.0
+        },
+        "dialect": {
+          "dominant": "saudi_colloquial",
+          "pct": 1.0
+        }
+      }
+    },
+    {
+      "account": "barnscoffee",
+      "sector": "f_and_b",
+      "obs_count": 125,
+      "avg_engagement": 0.692,
+      "tier": "average",
+      "lift_vs_corpus": 0.042,
+      "strengths": [
+        {
+          "dimension": "composition_style",
+          "value": "product_hero_closeup",
+          "pct": 0.68,
+          "elite_advantage": 0.262
+        },
+        {
+          "dimension": "production_quality",
+          "value": "semi_professional",
+          "pct": 0.584,
+          "elite_advantage": 0.08
+        }
+      ],
+      "priority_changes": [
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.76,
+          "penalty": 0.268
+        },
+        {
+          "dimension": "visual_complexity",
+          "current_value": "moderate",
+          "current_pct": 0.552,
+          "penalty": 0.287
+        },
+        {
+          "dimension": "content_type",
+          "current_value": "video",
+          "current_pct": 0.4,
+          "penalty": 0.287
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "image",
+          "pct": 0.4
+        },
+        "composition_style": {
+          "dominant": "product_hero_closeup",
+          "pct": 0.68
+        },
+        "visual_complexity": {
+          "dominant": "moderate",
+          "pct": 0.552
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.76
+        },
+        "tone": {
+          "dominant": "playful",
+          "pct": 0.672
+        },
+        "production_quality": {
+          "dominant": "semi_professional",
+          "pct": 0.584
+        }
+      }
+    },
+    {
+      "account": "riyadhfood",
+      "sector": "f_and_b",
+      "obs_count": 86,
+      "avg_engagement": 0.686,
+      "tier": "average",
+      "lift_vs_corpus": 0.036,
+      "strengths": [
+        {
+          "dimension": "composition_style",
+          "value": "product_hero_closeup",
+          "pct": 0.57,
+          "elite_advantage": 0.262
+        },
+        {
+          "dimension": "production_quality",
+          "value": "semi_professional",
+          "pct": 0.581,
+          "elite_advantage": 0.08
+        }
+      ],
+      "priority_changes": [
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.709,
+          "penalty": 0.268
+        },
+        {
+          "dimension": "visual_complexity",
+          "current_value": "moderate",
+          "current_pct": 0.581,
+          "penalty": 0.287
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "image",
+          "pct": 0.581
+        },
+        "composition_style": {
+          "dominant": "product_hero_closeup",
+          "pct": 0.57
+        },
+        "visual_complexity": {
+          "dominant": "moderate",
+          "pct": 0.581
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.709
+        },
+        "tone": {
+          "dominant": "informative",
+          "pct": 0.453
+        },
+        "production_quality": {
+          "dominant": "semi_professional",
+          "pct": 0.581
+        }
+      }
+    },
+    {
+      "account": "OGZ-F-AND-B-Reference-006",
+      "sector": "f_and_b",
+      "obs_count": 27,
+      "avg_engagement": 0.593,
+      "tier": "weak",
+      "lift_vs_corpus": -0.057,
+      "strengths": [],
+      "priority_changes": [
+        {
+          "dimension": "register",
+          "current_value": "casual",
+          "current_pct": 0.963,
+          "penalty": 0.409
+        },
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.8,
+          "penalty": 0.268
+        },
+        {
+          "dimension": "visual_complexity",
+          "current_value": "moderate",
+          "current_pct": 0.72,
+          "penalty": 0.287
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "image",
+          "pct": 0.667
         },
         "day_of_week": {
           "dominant": "wednesday",
@@ -673,15 +905,15 @@
         },
         "setting": {
           "dominant": "digital_graphic",
-          "pct": 0.4
+          "pct": 0.37
         },
         "lighting": {
           "dominant": "flat_graphic",
-          "pct": 0.28
+          "pct": 0.259
         },
         "composition_style": {
           "dominant": "silhouette recognition graphic — multiple Spacetoon character silhouettes",
-          "pct": 0.04
+          "pct": 0.037
         },
         "visual_complexity": {
           "dominant": "moderate",
@@ -693,11 +925,11 @@
         },
         "tone": {
           "dominant": "playful",
-          "pct": 0.28
+          "pct": 0.296
         },
         "register": {
           "dominant": "casual",
-          "pct": 0.96
+          "pct": 0.963
         },
         "production_quality": {
           "dominant": "professional",
@@ -705,7 +937,7 @@
         },
         "dialect": {
           "dominant": "najdi",
-          "pct": 0.96
+          "pct": 0.963
         }
       }
     },
@@ -721,19 +953,19 @@
           "dimension": "composition_style",
           "value": "product_hero_closeup",
           "pct": 0.36,
-          "elite_advantage": 0.174
+          "elite_advantage": 0.262
         },
         {
-          "dimension": "register",
-          "value": "aspirational",
-          "pct": 0.48,
-          "elite_advantage": -0.063
+          "dimension": "heritage_vs_modern",
+          "value": "blended",
+          "pct": 0.647,
+          "elite_advantage": 0.14
         },
         {
           "dimension": "production_quality",
           "value": "semi_professional",
           "pct": 0.88,
-          "elite_advantage": -0.069
+          "elite_advantage": 0.08
         }
       ],
       "priority_changes": [
@@ -741,19 +973,19 @@
           "dimension": "aspect_ratio",
           "current_value": "vertical_9x16",
           "current_pct": 1.0,
-          "penalty": 0.32
+          "penalty": 0.247
         },
         {
           "dimension": "content_type",
           "current_value": "video",
           "current_pct": 0.72,
-          "penalty": 0.373
+          "penalty": 0.287
         },
         {
           "dimension": "visual_complexity",
           "current_value": "moderate",
           "current_pct": 0.48,
-          "penalty": 0.32
+          "penalty": 0.287
         }
       ],
       "current_profile": {
@@ -808,88 +1040,372 @@
       }
     },
     {
-      "account": "OGZ-F-AND-B-Reference-039",
+      "account": "shawarmersa",
       "sector": "f_and_b",
-      "obs_count": 12,
-      "avg_engagement": 0.5,
+      "obs_count": 112,
+      "avg_engagement": 0.527,
       "tier": "weak",
-      "lift_vs_corpus": -0.15,
-      "strengths": [
-        {
-          "dimension": "aspect_ratio",
-          "value": "square_1x1",
-          "pct": 0.417,
-          "elite_advantage": 0.2
-        }
-      ],
+      "lift_vs_corpus": -0.123,
+      "strengths": [],
       "priority_changes": [
         {
-          "dimension": "visual_complexity",
-          "current_value": "moderate",
-          "current_pct": 0.833,
-          "penalty": 0.32
-        },
-        {
-          "dimension": "dialect",
-          "current_value": "saudi_colloquial",
-          "current_pct": 1.0,
-          "penalty": 0.173
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.804,
+          "penalty": 0.268
         },
         {
           "dimension": "content_type",
           "current_value": "video",
-          "current_pct": 0.417,
-          "penalty": 0.373
+          "current_pct": 0.446,
+          "penalty": 0.287
+        },
+        {
+          "dimension": "tone",
+          "current_value": "playful",
+          "current_pct": 0.429,
+          "penalty": 0.102
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "video",
+          "pct": 0.446
+        },
+        "composition_style": {
+          "dominant": "text_dominant",
+          "pct": 0.438
+        },
+        "visual_complexity": {
+          "dominant": "simple",
+          "pct": 0.866
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.804
+        },
+        "tone": {
+          "dominant": "playful",
+          "pct": 0.429
+        },
+        "production_quality": {
+          "dominant": "ugc",
+          "pct": 0.598
+        }
+      }
+    },
+    {
+      "account": "OGZ-BEAUTY-Reference-001",
+      "sector": "beauty",
+      "obs_count": 50,
+      "avg_engagement": 0.52,
+      "tier": "weak",
+      "lift_vs_corpus": -0.13,
+      "strengths": [
+        {
+          "dimension": "lighting",
+          "value": "warm_studio",
+          "pct": 0.32,
+          "elite_advantage": 0.104
+        },
+        {
+          "dimension": "tone",
+          "value": "aspirational",
+          "pct": 0.3,
+          "elite_advantage": 0.081
+        },
+        {
+          "dimension": "dialect",
+          "value": "hejazi",
+          "pct": 0.78,
+          "elite_advantage": 0.08
+        }
+      ],
+      "priority_changes": [
+        {
+          "dimension": "register",
+          "current_value": "casual",
+          "current_pct": 0.86,
+          "penalty": 0.409
+        },
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.98,
+          "penalty": 0.268
+        },
+        {
+          "dimension": "visual_complexity",
+          "current_value": "moderate",
+          "current_pct": 0.68,
+          "penalty": 0.287
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "video",
+          "pct": 0.62
+        },
+        "day_of_week": {
+          "dominant": "wednesday",
+          "pct": 0.2
+        },
+        "setting": {
+          "dominant": "studio",
+          "pct": 0.72
+        },
+        "lighting": {
+          "dominant": "warm_studio",
+          "pct": 0.32
+        },
+        "composition_style": {
+          "dominant": "product_hero_closeup",
+          "pct": 0.12
+        },
+        "visual_complexity": {
+          "dominant": "moderate",
+          "pct": 0.68
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.98
+        },
+        "tone": {
+          "dominant": "aspirational",
+          "pct": 0.3
+        },
+        "register": {
+          "dominant": "casual",
+          "pct": 0.86
+        },
+        "production_quality": {
+          "dominant": "professional",
+          "pct": 0.98
+        },
+        "dialect": {
+          "dominant": "hejazi",
+          "pct": 0.78
+        },
+        "aspect_ratio": {
+          "dominant": "vertical_9x16",
+          "pct": 0.667
+        },
+        "opener_formula": {
+          "dominant": "statement",
+          "pct": 0.778
+        }
+      }
+    },
+    {
+      "account": "OGZ-BEAUTY-Reference-002",
+      "sector": "beauty",
+      "obs_count": 50,
+      "avg_engagement": 0.52,
+      "tier": "weak",
+      "lift_vs_corpus": -0.13,
+      "strengths": [],
+      "priority_changes": [
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.8,
+          "penalty": 0.268
+        },
+        {
+          "dimension": "aspect_ratio",
+          "current_value": "portrait_4x5",
+          "current_pct": 0.96,
+          "penalty": 0.221
+        },
+        {
+          "dimension": "dialect",
+          "current_value": "saudi_colloquial",
+          "current_pct": 0.5,
+          "penalty": 0.408
         }
       ],
       "current_profile": {
         "content_type": {
           "dominant": "image",
-          "pct": 0.5
+          "pct": 0.94
         },
         "aspect_ratio": {
-          "dominant": "square_1x1",
-          "pct": 0.417
+          "dominant": "portrait_4x5",
+          "pct": 0.96
         },
         "day_of_week": {
-          "dominant": "tuesday",
-          "pct": 0.417
+          "dominant": "sunday",
+          "pct": 0.26
         },
         "setting": {
-          "dominant": "digital_graphic",
-          "pct": 0.417
+          "dominant": "studio",
+          "pct": 0.74
         },
         "lighting": {
-          "dominant": "cold_studio",
-          "pct": 0.583
+          "dominant": "studio_soft",
+          "pct": 0.48
         },
         "composition_style": {
-          "dominant": "product reveal video — chicken sandwich with close-up shots",
-          "pct": 0.083
+          "dominant": "product_hero_closeup",
+          "pct": 0.24
         },
         "visual_complexity": {
           "dominant": "moderate",
-          "pct": 0.833
+          "pct": 0.52
         },
         "heritage_vs_modern": {
-          "dominant": "blended",
-          "pct": 1.0
+          "dominant": "modern",
+          "pct": 0.8
         },
         "tone": {
-          "dominant": "celebratory",
-          "pct": 0.333
+          "dominant": "warm",
+          "pct": 0.14
         },
         "register": {
-          "dominant": "casual",
-          "pct": 0.583
+          "dominant": "informal",
+          "pct": 0.44
         },
         "production_quality": {
           "dominant": "professional",
-          "pct": 1.0
+          "pct": 0.52
         },
         "dialect": {
           "dominant": "saudi_colloquial",
-          "pct": 1.0
+          "pct": 0.5
+        },
+        "opener_formula": {
+          "dominant": "statement",
+          "pct": 0.92
+        }
+      }
+    },
+    {
+      "account": "mcdonaldsksa",
+      "sector": "f_and_b",
+      "obs_count": 115,
+      "avg_engagement": 0.509,
+      "tier": "weak",
+      "lift_vs_corpus": -0.141,
+      "strengths": [
+        {
+          "dimension": "composition_style",
+          "value": "product_hero_closeup",
+          "pct": 0.435,
+          "elite_advantage": 0.262
+        },
+        {
+          "dimension": "production_quality",
+          "value": "semi_professional",
+          "pct": 0.322,
+          "elite_advantage": 0.08
+        }
+      ],
+      "priority_changes": [
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.991,
+          "penalty": 0.268
+        },
+        {
+          "dimension": "content_type",
+          "current_value": "video",
+          "current_pct": 0.435,
+          "penalty": 0.287
+        },
+        {
+          "dimension": "tone",
+          "current_value": "playful",
+          "current_pct": 0.435,
+          "penalty": 0.102
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "image",
+          "pct": 0.435
+        },
+        "composition_style": {
+          "dominant": "product_hero_closeup",
+          "pct": 0.435
+        },
+        "visual_complexity": {
+          "dominant": "simple",
+          "pct": 0.835
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.991
+        },
+        "tone": {
+          "dominant": "playful",
+          "pct": 0.435
+        },
+        "production_quality": {
+          "dominant": "semi_professional",
+          "pct": 0.322
+        }
+      }
+    },
+    {
+      "account": "herfyfsc",
+      "sector": "f_and_b",
+      "obs_count": 124,
+      "avg_engagement": 0.504,
+      "tier": "weak",
+      "lift_vs_corpus": -0.146,
+      "strengths": [
+        {
+          "dimension": "composition_style",
+          "value": "product_hero_closeup",
+          "pct": 0.532,
+          "elite_advantage": 0.262
+        }
+      ],
+      "priority_changes": [
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.871,
+          "penalty": 0.268
+        },
+        {
+          "dimension": "content_type",
+          "current_value": "video",
+          "current_pct": 0.403,
+          "penalty": 0.287
+        },
+        {
+          "dimension": "tone",
+          "current_value": "playful",
+          "current_pct": 0.468,
+          "penalty": 0.102
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "image",
+          "pct": 0.403
+        },
+        "composition_style": {
+          "dominant": "product_hero_closeup",
+          "pct": 0.532
+        },
+        "visual_complexity": {
+          "dominant": "simple",
+          "pct": 0.823
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.871
+        },
+        "tone": {
+          "dominant": "playful",
+          "pct": 0.468
+        },
+        "production_quality": {
+          "dominant": "professional",
+          "pct": 0.331
         }
       }
     },
@@ -905,33 +1421,27 @@
           "dimension": "aspect_ratio",
           "value": "square_1x1",
           "pct": 1.0,
-          "elite_advantage": 0.2
-        },
-        {
-          "dimension": "dialect",
-          "value": "najdi",
-          "pct": 1.0,
-          "elite_advantage": 0.124
+          "elite_advantage": 0.338
         }
       ],
       "priority_changes": [
         {
-          "dimension": "visual_complexity",
-          "current_value": "moderate",
-          "current_pct": 0.76,
-          "penalty": 0.32
-        },
-        {
-          "dimension": "content_type",
-          "current_value": "video",
-          "current_pct": 0.6,
-          "penalty": 0.373
-        },
-        {
           "dimension": "register",
           "current_value": "casual",
           "current_pct": 1.0,
-          "penalty": 0.174
+          "penalty": 0.409
+        },
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.882,
+          "penalty": 0.268
+        },
+        {
+          "dimension": "visual_complexity",
+          "current_value": "moderate",
+          "current_pct": 0.76,
+          "penalty": 0.287
         }
       ],
       "current_profile": {
@@ -990,221 +1500,161 @@
       }
     },
     {
-      "account": "OGZ-BEAUTY-Reference-002",
-      "sector": "beauty",
-      "obs_count": 25,
-      "avg_engagement": 0.46,
+      "account": "kuduksa",
+      "sector": "f_and_b",
+      "obs_count": 125,
+      "avg_engagement": 0.456,
       "tier": "weak",
-      "lift_vs_corpus": -0.19,
+      "lift_vs_corpus": -0.194,
       "strengths": [
         {
           "dimension": "composition_style",
-          "value": "product_hero_closeup",
-          "pct": 0.48,
-          "elite_advantage": 0.174
-        },
-        {
-          "dimension": "register",
-          "value": "aspirational",
-          "pct": 0.44,
-          "elite_advantage": -0.063
-        },
-        {
-          "dimension": "production_quality",
-          "value": "semi_professional",
-          "pct": 0.96,
-          "elite_advantage": -0.069
+          "value": "lifestyle_integrated",
+          "pct": 0.36,
+          "elite_advantage": 0.1
         }
       ],
       "priority_changes": [
         {
           "dimension": "visual_complexity",
           "current_value": "moderate",
-          "current_pct": 0.84,
-          "penalty": 0.32
-        },
-        {
-          "dimension": "dialect",
-          "current_value": "gulf",
-          "current_pct": 1.0,
-          "penalty": 0.161
+          "current_pct": 0.464,
+          "penalty": 0.287
         },
         {
           "dimension": "heritage_vs_modern",
           "current_value": "modern",
-          "current_pct": 0.64,
-          "penalty": 0.128
-        }
-      ],
-      "current_profile": {
-        "content_type": {
-          "dominant": "image",
-          "pct": 0.92
-        },
-        "day_of_week": {
-          "dominant": "tuesday",
-          "pct": 0.28
-        },
-        "setting": {
-          "dominant": "studio",
-          "pct": 0.48
-        },
-        "lighting": {
-          "dominant": "mixed_ambient",
-          "pct": 0.6
-        },
-        "composition_style": {
-          "dominant": "product_hero_closeup",
-          "pct": 0.48
-        },
-        "visual_complexity": {
-          "dominant": "moderate",
-          "pct": 0.84
-        },
-        "heritage_vs_modern": {
-          "dominant": "modern",
-          "pct": 0.64
-        },
-        "tone": {
-          "dominant": "proud",
-          "pct": 0.2
-        },
-        "register": {
-          "dominant": "aspirational",
-          "pct": 0.44
-        },
-        "production_quality": {
-          "dominant": "semi_professional",
-          "pct": 0.96
-        },
-        "dialect": {
-          "dominant": "gulf",
-          "pct": 1.0
-        },
-        "opener_formula": {
-          "dominant": "statement",
-          "pct": 0.92
-        }
-      }
-    },
-    {
-      "account": "OGZ-BEAUTY-Reference-001",
-      "sector": "beauty",
-      "obs_count": 25,
-      "avg_engagement": 0.42,
-      "tier": "weak",
-      "lift_vs_corpus": -0.23,
-      "strengths": [],
-      "priority_changes": [
-        {
-          "dimension": "visual_complexity",
-          "current_value": "moderate",
-          "current_pct": 0.92,
-          "penalty": 0.32
+          "current_pct": 0.472,
+          "penalty": 0.268
         },
         {
           "dimension": "content_type",
           "current_value": "video",
-          "current_pct": 0.68,
-          "penalty": 0.373
-        },
-        {
-          "dimension": "register",
-          "current_value": "casual",
-          "current_pct": 0.72,
-          "penalty": 0.174
+          "current_pct": 0.4,
+          "penalty": 0.287
         }
       ],
       "current_profile": {
         "content_type": {
           "dominant": "video",
-          "pct": 0.68
-        },
-        "day_of_week": {
-          "dominant": "wednesday",
-          "pct": 0.32
-        },
-        "setting": {
-          "dominant": "studio",
-          "pct": 0.68
-        },
-        "lighting": {
-          "dominant": "cold_studio",
-          "pct": 0.28
+          "pct": 0.4
         },
         "composition_style": {
-          "dominant": "product_hero_closeup",
-          "pct": 0.24
+          "dominant": "lifestyle_integrated",
+          "pct": 0.36
         },
         "visual_complexity": {
-          "dominant": "moderate",
-          "pct": 0.92
+          "dominant": "simple",
+          "pct": 0.536
         },
         "heritage_vs_modern": {
           "dominant": "modern",
-          "pct": 0.96
+          "pct": 0.472
         },
         "tone": {
-          "dominant": "informative",
-          "pct": 0.24
-        },
-        "register": {
-          "dominant": "casual",
-          "pct": 0.72
+          "dominant": "playful",
+          "pct": 0.472
         },
         "production_quality": {
           "dominant": "professional",
-          "pct": 0.96
+          "pct": 0.536
+        }
+      }
+    },
+    {
+      "account": "crumblcookiespr",
+      "sector": "f_and_b",
+      "obs_count": 97,
+      "avg_engagement": 0.433,
+      "tier": "weak",
+      "lift_vs_corpus": -0.217,
+      "strengths": [
+        {
+          "dimension": "composition_style",
+          "value": "product_hero_closeup",
+          "pct": 0.732,
+          "elite_advantage": 0.262
+        }
+      ],
+      "priority_changes": [
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.948,
+          "penalty": 0.268
         },
-        "dialect": {
-          "dominant": "hejazi",
-          "pct": 0.56
+        {
+          "dimension": "visual_complexity",
+          "current_value": "moderate",
+          "current_pct": 0.598,
+          "penalty": 0.287
         },
-        "opener_formula": {
-          "dominant": "statement",
-          "pct": 0.8
+        {
+          "dimension": "content_type",
+          "current_value": "video",
+          "current_pct": 0.515,
+          "penalty": 0.287
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "video",
+          "pct": 0.515
+        },
+        "composition_style": {
+          "dominant": "product_hero_closeup",
+          "pct": 0.732
+        },
+        "visual_complexity": {
+          "dominant": "moderate",
+          "pct": 0.598
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.948
+        },
+        "tone": {
+          "dominant": "playful",
+          "pct": 0.619
+        },
+        "production_quality": {
+          "dominant": "professional",
+          "pct": 0.526
         }
       }
     },
     {
       "account": "OGZ-F-AND-B-Reference-007",
       "sector": "f_and_b",
-      "obs_count": 25,
-      "avg_engagement": 0.4,
+      "obs_count": 28,
+      "avg_engagement": 0.393,
       "tier": "weak",
-      "lift_vs_corpus": -0.25,
-      "strengths": [
-        {
-          "dimension": "dialect",
-          "value": "najdi",
-          "pct": 0.84,
-          "elite_advantage": 0.124
-        }
-      ],
+      "lift_vs_corpus": -0.257,
+      "strengths": [],
       "priority_changes": [
+        {
+          "dimension": "register",
+          "current_value": "casual",
+          "current_pct": 0.857,
+          "penalty": 0.409
+        },
         {
           "dimension": "aspect_ratio",
           "current_value": "vertical_9x16",
           "current_pct": 1.0,
-          "penalty": 0.32
+          "penalty": 0.247
         },
         {
           "dimension": "visual_complexity",
           "current_value": "moderate",
           "current_pct": 0.84,
-          "penalty": 0.32
-        },
-        {
-          "dimension": "content_type",
-          "current_value": "video",
-          "current_pct": 0.72,
-          "penalty": 0.373
+          "penalty": 0.287
         }
       ],
       "current_profile": {
         "content_type": {
           "dominant": "video",
-          "pct": 0.72
+          "pct": 0.643
         },
         "day_of_week": {
           "dominant": "friday",
@@ -1212,15 +1662,15 @@
         },
         "setting": {
           "dominant": "event_venue",
-          "pct": 0.12
+          "pct": 0.107
         },
         "lighting": {
           "dominant": "natural_daylight",
-          "pct": 0.28
+          "pct": 0.25
         },
         "composition_style": {
           "dominant": "documentary video — coffee origin story with Saudi Environment Fund",
-          "pct": 0.04
+          "pct": 0.036
         },
         "visual_complexity": {
           "dominant": "moderate",
@@ -1232,19 +1682,19 @@
         },
         "tone": {
           "dominant": "warm",
-          "pct": 0.28
+          "pct": 0.25
         },
         "register": {
           "dominant": "casual",
-          "pct": 0.84
+          "pct": 0.857
         },
         "production_quality": {
           "dominant": "professional",
-          "pct": 0.96
+          "pct": 0.964
         },
         "dialect": {
           "dominant": "najdi",
-          "pct": 0.84
+          "pct": 0.857
         },
         "aspect_ratio": {
           "dominant": "vertical_9x16",
@@ -1253,50 +1703,99 @@
       }
     },
     {
-      "account": "OGZ-F-AND-B-Reference-011",
-      "sector": "f_and_b",
-      "obs_count": 24,
-      "avg_engagement": 0.354,
+      "account": "noon",
+      "sector": "retail_lifestyle",
+      "obs_count": 120,
+      "avg_engagement": 0.358,
       "tier": "weak",
-      "lift_vs_corpus": -0.296,
+      "lift_vs_corpus": -0.292,
       "strengths": [
         {
-          "dimension": "dialect",
-          "value": "najdi",
-          "pct": 1.0,
-          "elite_advantage": 0.124
-        },
-        {
-          "dimension": "tone",
-          "value": "warm",
-          "pct": 0.333,
-          "elite_advantage": 0.054
+          "dimension": "composition_style",
+          "value": "lifestyle_integrated",
+          "pct": 0.542,
+          "elite_advantage": 0.1
         }
       ],
       "priority_changes": [
         {
-          "dimension": "visual_complexity",
-          "current_value": "moderate",
-          "current_pct": 0.958,
-          "penalty": 0.32
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.883,
+          "penalty": 0.268
         },
         {
           "dimension": "content_type",
           "current_value": "video",
-          "current_pct": 0.5,
-          "penalty": 0.373
+          "current_pct": 0.417,
+          "penalty": 0.287
         },
         {
-          "dimension": "register",
-          "current_value": "casual",
-          "current_pct": 1.0,
-          "penalty": 0.174
+          "dimension": "visual_complexity",
+          "current_value": "moderate",
+          "current_pct": 0.267,
+          "penalty": 0.287
         }
       ],
       "current_profile": {
         "content_type": {
           "dominant": "video",
-          "pct": 0.5
+          "pct": 0.417
+        },
+        "composition_style": {
+          "dominant": "lifestyle_integrated",
+          "pct": 0.542
+        },
+        "visual_complexity": {
+          "dominant": "simple",
+          "pct": 0.733
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.883
+        },
+        "tone": {
+          "dominant": "informative",
+          "pct": 0.567
+        },
+        "production_quality": {
+          "dominant": "professional",
+          "pct": 0.342
+        }
+      }
+    },
+    {
+      "account": "OGZ-F-AND-B-Reference-011",
+      "sector": "f_and_b",
+      "obs_count": 31,
+      "avg_engagement": 0.306,
+      "tier": "weak",
+      "lift_vs_corpus": -0.344,
+      "strengths": [],
+      "priority_changes": [
+        {
+          "dimension": "register",
+          "current_value": "casual",
+          "current_pct": 1.0,
+          "penalty": 0.409
+        },
+        {
+          "dimension": "visual_complexity",
+          "current_value": "moderate",
+          "current_pct": 0.958,
+          "penalty": 0.287
+        },
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.533,
+          "penalty": 0.268
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "image",
+          "pct": 0.516
         },
         "day_of_week": {
           "dominant": "saturday",
@@ -1304,15 +1803,15 @@
         },
         "setting": {
           "dominant": "digital_graphic",
-          "pct": 0.208
+          "pct": 0.161
         },
         "lighting": {
           "dominant": "cold_studio",
-          "pct": 0.333
+          "pct": 0.258
         },
         "composition_style": {
           "dominant": "lifestyle_motion",
-          "pct": 0.042
+          "pct": 0.032
         },
         "visual_complexity": {
           "dominant": "moderate",
@@ -1332,7 +1831,7 @@
         },
         "tone": {
           "dominant": "warm",
-          "pct": 0.333
+          "pct": 0.235
         },
         "register": {
           "dominant": "casual",
@@ -1351,71 +1850,71 @@
     {
       "account": "OGZ-F-AND-B-Reference-038",
       "sector": "f_and_b",
-      "obs_count": 12,
-      "avg_engagement": 0.292,
+      "obs_count": 50,
+      "avg_engagement": 0.24,
       "tier": "weak",
-      "lift_vs_corpus": -0.358,
+      "lift_vs_corpus": -0.41,
       "strengths": [],
       "priority_changes": [
         {
-          "dimension": "visual_complexity",
-          "current_value": "moderate",
-          "current_pct": 0.833,
-          "penalty": 0.32
+          "dimension": "dialect",
+          "current_value": "saudi_colloquial",
+          "current_pct": 0.98,
+          "penalty": 0.408
         },
         {
           "dimension": "register",
           "current_value": "casual",
-          "current_pct": 0.917,
-          "penalty": 0.174
+          "current_pct": 0.96,
+          "penalty": 0.409
         },
         {
-          "dimension": "dialect",
-          "current_value": "saudi_colloquial",
-          "current_pct": 0.917,
-          "penalty": 0.173
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 1.0,
+          "penalty": 0.268
         }
       ],
       "current_profile": {
         "content_type": {
           "dominant": "image",
-          "pct": 0.667
+          "pct": 0.42
         },
         "aspect_ratio": {
           "dominant": "portrait_4x5",
-          "pct": 0.75
+          "pct": 0.68
         },
         "day_of_week": {
           "dominant": "thursday",
-          "pct": 0.333
+          "pct": 0.2
         },
         "setting": {
           "dominant": "studio",
-          "pct": 0.667
+          "pct": 0.8
         },
         "lighting": {
           "dominant": "cold_studio",
-          "pct": 0.667
+          "pct": 0.64
         },
         "composition_style": {
-          "dominant": "vertical product hero — hand holding pizza slice against solid red background",
-          "pct": 0.083
+          "dominant": "product_hero",
+          "pct": 0.4
         },
         "visual_complexity": {
           "dominant": "moderate",
-          "pct": 0.833
+          "pct": 0.8
         },
         "heritage_vs_modern": {
           "dominant": "modern",
           "pct": 1.0
         },
         "tone": {
-          "dominant": "excitement",
-          "pct": 0.25
+          "dominant": "transactional",
+          "pct": 0.38
         },
         "register": {
           "dominant": "casual",
-          "pct": 0.917
+          "pct": 0.96
         },
         "production_quality": {
           "dominant": "professional",
@@ -1423,7 +1922,714 @@
         },
         "dialect": {
           "dominant": "saudi_colloquial",
-          "pct": 0.917
+          "pct": 0.98
+        }
+      }
+    },
+    {
+      "account": "altazaj_fakieh",
+      "sector": "f_and_b",
+      "obs_count": 122,
+      "avg_engagement": 0.213,
+      "tier": "weak",
+      "lift_vs_corpus": -0.437,
+      "strengths": [
+        {
+          "dimension": "composition_style",
+          "value": "product_hero_closeup",
+          "pct": 0.59,
+          "elite_advantage": 0.262
+        }
+      ],
+      "priority_changes": [
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.902,
+          "penalty": 0.268
+        },
+        {
+          "dimension": "content_type",
+          "current_value": "video",
+          "current_pct": 0.41,
+          "penalty": 0.287
+        },
+        {
+          "dimension": "tone",
+          "current_value": "playful",
+          "current_pct": 0.393,
+          "penalty": 0.102
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "image",
+          "pct": 0.41
+        },
+        "composition_style": {
+          "dominant": "product_hero_closeup",
+          "pct": 0.59
+        },
+        "visual_complexity": {
+          "dominant": "simple",
+          "pct": 0.934
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.902
+        },
+        "tone": {
+          "dominant": "playful",
+          "pct": 0.393
+        },
+        "production_quality": {
+          "dominant": "low",
+          "pct": 0.377
+        }
+      }
+    },
+    {
+      "account": "alromansiahksa",
+      "sector": "f_and_b",
+      "obs_count": 107,
+      "avg_engagement": 0.178,
+      "tier": "weak",
+      "lift_vs_corpus": -0.472,
+      "strengths": [
+        {
+          "dimension": "composition_style",
+          "value": "product_hero_closeup",
+          "pct": 0.523,
+          "elite_advantage": 0.262
+        },
+        {
+          "dimension": "production_quality",
+          "value": "semi_professional",
+          "pct": 0.43,
+          "elite_advantage": 0.08
+        }
+      ],
+      "priority_changes": [
+        {
+          "dimension": "content_type",
+          "current_value": "video",
+          "current_pct": 0.467,
+          "penalty": 0.287
+        },
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.449,
+          "penalty": 0.268
+        },
+        {
+          "dimension": "visual_complexity",
+          "current_value": "moderate",
+          "current_pct": 0.271,
+          "penalty": 0.287
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "video",
+          "pct": 0.467
+        },
+        "composition_style": {
+          "dominant": "product_hero_closeup",
+          "pct": 0.523
+        },
+        "visual_complexity": {
+          "dominant": "simple",
+          "pct": 0.729
+        },
+        "heritage_vs_modern": {
+          "dominant": "neutral",
+          "pct": 0.495
+        },
+        "tone": {
+          "dominant": "playful",
+          "pct": 0.458
+        },
+        "production_quality": {
+          "dominant": "semi_professional",
+          "pct": 0.43
+        }
+      }
+    },
+    {
+      "account": "aseeb.najd",
+      "sector": "f_and_b",
+      "obs_count": 91,
+      "avg_engagement": 0.154,
+      "tier": "weak",
+      "lift_vs_corpus": -0.496,
+      "strengths": [
+        {
+          "dimension": "heritage_vs_modern",
+          "value": "heritage",
+          "pct": 0.681,
+          "elite_advantage": 0.12
+        },
+        {
+          "dimension": "composition_style",
+          "value": "lifestyle_integrated",
+          "pct": 0.56,
+          "elite_advantage": 0.1
+        },
+        {
+          "dimension": "production_quality",
+          "value": "semi_professional",
+          "pct": 0.385,
+          "elite_advantage": 0.08
+        }
+      ],
+      "priority_changes": [
+        {
+          "dimension": "content_type",
+          "current_value": "video",
+          "current_pct": 0.341,
+          "penalty": 0.287
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "image",
+          "pct": 0.549
+        },
+        "composition_style": {
+          "dominant": "lifestyle_integrated",
+          "pct": 0.56
+        },
+        "visual_complexity": {
+          "dominant": "simple",
+          "pct": 0.78
+        },
+        "heritage_vs_modern": {
+          "dominant": "heritage",
+          "pct": 0.681
+        },
+        "tone": {
+          "dominant": "informative",
+          "pct": 0.56
+        },
+        "production_quality": {
+          "dominant": "semi_professional",
+          "pct": 0.385
+        }
+      }
+    },
+    {
+      "account": "niceonesa",
+      "sector": "beauty_personal_care",
+      "obs_count": 114,
+      "avg_engagement": 0.118,
+      "tier": "weak",
+      "lift_vs_corpus": -0.532,
+      "strengths": [
+        {
+          "dimension": "composition_style",
+          "value": "product_hero_closeup",
+          "pct": 0.728,
+          "elite_advantage": 0.262
+        },
+        {
+          "dimension": "production_quality",
+          "value": "semi_professional",
+          "pct": 0.5,
+          "elite_advantage": 0.08
+        }
+      ],
+      "priority_changes": [
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.947,
+          "penalty": 0.268
+        },
+        {
+          "dimension": "content_type",
+          "current_value": "video",
+          "current_pct": 0.439,
+          "penalty": 0.287
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "video",
+          "pct": 0.439
+        },
+        "composition_style": {
+          "dominant": "product_hero_closeup",
+          "pct": 0.728
+        },
+        "visual_complexity": {
+          "dominant": "simple",
+          "pct": 0.947
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.947
+        },
+        "tone": {
+          "dominant": "informative",
+          "pct": 0.465
+        },
+        "production_quality": {
+          "dominant": "semi_professional",
+          "pct": 0.5
+        }
+      }
+    },
+    {
+      "account": "asteribeautysa",
+      "sector": "beauty_personal_care",
+      "obs_count": 125,
+      "avg_engagement": 0.112,
+      "tier": "weak",
+      "lift_vs_corpus": -0.538,
+      "strengths": [
+        {
+          "dimension": "composition_style",
+          "value": "product_hero_closeup",
+          "pct": 0.648,
+          "elite_advantage": 0.262
+        }
+      ],
+      "priority_changes": [
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.92,
+          "penalty": 0.268
+        },
+        {
+          "dimension": "content_type",
+          "current_value": "video",
+          "current_pct": 0.4,
+          "penalty": 0.287
+        },
+        {
+          "dimension": "production_quality",
+          "current_value": "professional",
+          "current_pct": 0.536,
+          "penalty": 0.112
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "video",
+          "pct": 0.4
+        },
+        "composition_style": {
+          "dominant": "product_hero_closeup",
+          "pct": 0.648
+        },
+        "visual_complexity": {
+          "dominant": "simple",
+          "pct": 0.88
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.92
+        },
+        "tone": {
+          "dominant": "informative",
+          "pct": 0.704
+        },
+        "production_quality": {
+          "dominant": "professional",
+          "pct": 0.536
+        }
+      }
+    },
+    {
+      "account": "aldeebajofficial",
+      "sector": "retail_lifestyle",
+      "obs_count": 125,
+      "avg_engagement": 0.096,
+      "tier": "weak",
+      "lift_vs_corpus": -0.554,
+      "strengths": [
+        {
+          "dimension": "composition_style",
+          "value": "product_hero_closeup",
+          "pct": 0.736,
+          "elite_advantage": 0.262
+        }
+      ],
+      "priority_changes": [
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.872,
+          "penalty": 0.268
+        },
+        {
+          "dimension": "content_type",
+          "current_value": "video",
+          "current_pct": 0.4,
+          "penalty": 0.287
+        },
+        {
+          "dimension": "production_quality",
+          "current_value": "professional",
+          "current_pct": 0.632,
+          "penalty": 0.112
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "video",
+          "pct": 0.4
+        },
+        "composition_style": {
+          "dominant": "product_hero_closeup",
+          "pct": 0.736
+        },
+        "visual_complexity": {
+          "dominant": "simple",
+          "pct": 0.904
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.872
+        },
+        "tone": {
+          "dominant": "informative",
+          "pct": 0.68
+        },
+        "production_quality": {
+          "dominant": "professional",
+          "pct": 0.632
+        }
+      }
+    },
+    {
+      "account": "roshnksa",
+      "sector": "real_estate",
+      "obs_count": 113,
+      "avg_engagement": 0.062,
+      "tier": "weak",
+      "lift_vs_corpus": -0.588,
+      "strengths": [],
+      "priority_changes": [
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.938,
+          "penalty": 0.268
+        },
+        {
+          "dimension": "visual_complexity",
+          "current_value": "moderate",
+          "current_pct": 0.451,
+          "penalty": 0.287
+        },
+        {
+          "dimension": "content_type",
+          "current_value": "video",
+          "current_pct": 0.442,
+          "penalty": 0.287
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "video",
+          "pct": 0.442
+        },
+        "composition_style": {
+          "dominant": "text_dominant",
+          "pct": 0.522
+        },
+        "visual_complexity": {
+          "dominant": "simple",
+          "pct": 0.549
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.938
+        },
+        "tone": {
+          "dominant": "informative",
+          "pct": 0.894
+        },
+        "production_quality": {
+          "dominant": "professional",
+          "pct": 0.885
+        }
+      }
+    },
+    {
+      "account": "prettynature.official",
+      "sector": "beauty_personal_care",
+      "obs_count": 63,
+      "avg_engagement": 0.016,
+      "tier": "weak",
+      "lift_vs_corpus": -0.634,
+      "strengths": [
+        {
+          "dimension": "composition_style",
+          "value": "product_hero_closeup",
+          "pct": 0.825,
+          "elite_advantage": 0.262
+        }
+      ],
+      "priority_changes": [
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.921,
+          "penalty": 0.268
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "image",
+          "pct": 0.794
+        },
+        "composition_style": {
+          "dominant": "product_hero_closeup",
+          "pct": 0.825
+        },
+        "visual_complexity": {
+          "dominant": "simple",
+          "pct": 1.0
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.921
+        },
+        "tone": {
+          "dominant": "informative",
+          "pct": 0.683
+        },
+        "production_quality": {
+          "dominant": "ugc",
+          "pct": 0.429
+        }
+      }
+    },
+    {
+      "account": "ounass",
+      "sector": "retail_lifestyle",
+      "obs_count": 114,
+      "avg_engagement": 0.013,
+      "tier": "weak",
+      "lift_vs_corpus": -0.637,
+      "strengths": [
+        {
+          "dimension": "composition_style",
+          "value": "product_hero_closeup",
+          "pct": 0.509,
+          "elite_advantage": 0.262
+        }
+      ],
+      "priority_changes": [
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.939,
+          "penalty": 0.268
+        },
+        {
+          "dimension": "visual_complexity",
+          "current_value": "moderate",
+          "current_pct": 0.509,
+          "penalty": 0.287
+        },
+        {
+          "dimension": "production_quality",
+          "current_value": "professional",
+          "current_pct": 0.965,
+          "penalty": 0.112
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "image",
+          "pct": 0.439
+        },
+        "composition_style": {
+          "dominant": "product_hero_closeup",
+          "pct": 0.509
+        },
+        "visual_complexity": {
+          "dominant": "moderate",
+          "pct": 0.509
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.939
+        },
+        "tone": {
+          "dominant": "informative",
+          "pct": 0.904
+        },
+        "production_quality": {
+          "dominant": "professional",
+          "pct": 0.965
+        }
+      }
+    },
+    {
+      "account": "centrepointstores",
+      "sector": "fashion",
+      "obs_count": 1,
+      "avg_engagement": 0,
+      "tier": "weak",
+      "lift_vs_corpus": -0.65,
+      "strengths": [
+        {
+          "dimension": "composition_style",
+          "value": "product_hero_closeup",
+          "pct": 1.0,
+          "elite_advantage": 0.262
+        }
+      ],
+      "priority_changes": [
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 1.0,
+          "penalty": 0.268
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "image",
+          "pct": 1.0
+        },
+        "composition_style": {
+          "dominant": "product_hero_closeup",
+          "pct": 1.0
+        },
+        "visual_complexity": {
+          "dominant": "simple",
+          "pct": 1.0
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 1.0
+        },
+        "tone": {
+          "dominant": "casual",
+          "pct": 1.0
+        },
+        "production_quality": {
+          "dominant": "low",
+          "pct": 1.0
+        }
+      }
+    },
+    {
+      "account": "goldenscent",
+      "sector": "beauty_personal_care",
+      "obs_count": 5,
+      "avg_engagement": 0,
+      "tier": "weak",
+      "lift_vs_corpus": -0.65,
+      "strengths": [
+        {
+          "dimension": "composition_style",
+          "value": "product_hero_closeup",
+          "pct": 0.8,
+          "elite_advantage": 0.262
+        }
+      ],
+      "priority_changes": [
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.6,
+          "penalty": 0.268
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "image",
+          "pct": 0.8
+        },
+        "composition_style": {
+          "dominant": "product_hero_closeup",
+          "pct": 0.8
+        },
+        "visual_complexity": {
+          "dominant": "simple",
+          "pct": 1.0
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.6
+        },
+        "tone": {
+          "dominant": "casual",
+          "pct": 0.8
+        },
+        "production_quality": {
+          "dominant": "low",
+          "pct": 1.0
+        }
+      }
+    },
+    {
+      "account": "pizzahutsaudi",
+      "sector": "f_and_b",
+      "obs_count": 125,
+      "avg_engagement": 0,
+      "tier": "weak",
+      "lift_vs_corpus": -0.65,
+      "strengths": [
+        {
+          "dimension": "composition_style",
+          "value": "product_hero_closeup",
+          "pct": 0.832,
+          "elite_advantage": 0.262
+        }
+      ],
+      "priority_changes": [
+        {
+          "dimension": "heritage_vs_modern",
+          "current_value": "modern",
+          "current_pct": 0.984,
+          "penalty": 0.268
+        },
+        {
+          "dimension": "content_type",
+          "current_value": "video",
+          "current_pct": 0.4,
+          "penalty": 0.287
+        },
+        {
+          "dimension": "tone",
+          "current_value": "playful",
+          "current_pct": 0.328,
+          "penalty": 0.102
+        }
+      ],
+      "current_profile": {
+        "content_type": {
+          "dominant": "video",
+          "pct": 0.4
+        },
+        "composition_style": {
+          "dominant": "product_hero_closeup",
+          "pct": 0.832
+        },
+        "visual_complexity": {
+          "dominant": "simple",
+          "pct": 1.0
+        },
+        "heritage_vs_modern": {
+          "dominant": "modern",
+          "pct": 0.984
+        },
+        "tone": {
+          "dominant": "playful",
+          "pct": 0.328
+        },
+        "production_quality": {
+          "dominant": "low",
+          "pct": 0.496
         }
       }
     }

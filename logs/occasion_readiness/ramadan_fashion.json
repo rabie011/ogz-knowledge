@@ -3,14 +3,114 @@
   "sector": "fashion",
   "sector_key": "fashion",
   "corpus_data": {
-    "obs_in_corpus": 0,
-    "avg_engagement": null,
-    "high_eng_count": 0,
-    "low_eng_count": 0
+    "obs_in_corpus": 27,
+    "avg_engagement": 0.815,
+    "high_eng_count": 18,
+    "low_eng_count": 9
   },
-  "winning_signals": [],
-  "losing_signals": [],
-  "top_patterns": [],
+  "winning_signals": [
+    {
+      "dimension": "visual_complexity",
+      "value": "moderate",
+      "count": 15,
+      "pct": 0.833
+    },
+    {
+      "dimension": "composition",
+      "value": "lifestyle_integrated",
+      "count": 13,
+      "pct": 0.722
+    },
+    {
+      "dimension": "hvm",
+      "value": "modern",
+      "count": 12,
+      "pct": 0.667
+    },
+    {
+      "dimension": "content_type",
+      "value": "video",
+      "count": 10,
+      "pct": 0.556
+    },
+    {
+      "dimension": "tone",
+      "value": "celebratory",
+      "count": 10,
+      "pct": 0.556
+    },
+    {
+      "dimension": "content_type",
+      "value": "image",
+      "count": 8,
+      "pct": 0.444
+    },
+    {
+      "dimension": "tone",
+      "value": "informative",
+      "count": 6,
+      "pct": 0.333
+    },
+    {
+      "dimension": "hvm",
+      "value": "blended",
+      "count": 5,
+      "pct": 0.278
+    }
+  ],
+  "losing_signals": [
+    {
+      "dimension": "visual_complexity",
+      "value": "moderate",
+      "count": 9,
+      "pct": 1.0
+    },
+    {
+      "dimension": "composition",
+      "value": "lifestyle_integrated",
+      "count": 7,
+      "pct": 0.778
+    },
+    {
+      "dimension": "tone",
+      "value": "informative",
+      "count": 7,
+      "pct": 0.778
+    },
+    {
+      "dimension": "content_type",
+      "value": "image",
+      "count": 6,
+      "pct": 0.667
+    }
+  ],
+  "top_patterns": [
+    {
+      "pattern": "cultural_identity_marker",
+      "count": 5,
+      "pct": 0.278
+    },
+    {
+      "pattern": "brand_collab",
+      "count": 5,
+      "pct": 0.278
+    },
+    {
+      "pattern": "limited_time_offer",
+      "count": 3,
+      "pct": 0.167
+    },
+    {
+      "pattern": "occasion_plays",
+      "count": 3,
+      "pct": 0.167
+    },
+    {
+      "pattern": "celebrity_collab",
+      "count": 3,
+      "pct": 0.167
+    }
+  ],
   "top_phrases_in_winners": [],
   "recommended_formula": {
     "format": null,
@@ -32,6 +132,8 @@
     "hospitality_cues": []
   },
   "red_flags": [
+    "AVOID: visual_complexity=moderate (found in 100% of low-eng posts)",
+    "AVOID: composition=lifestyle_integrated (found in 77% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
     "AVOID: video format if images/carousels are viable — video underperforms"
   ],

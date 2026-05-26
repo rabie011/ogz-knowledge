@@ -2,32 +2,32 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 2770,
+  "total_obs": 2894,
   "format_engagement_table": [
     {
       "format": "carousel",
-      "obs_count": 497,
-      "high_engagement_rate": 0.294,
-      "avg_engagement": 0.428,
-      "lift_vs_baseline": -0.246,
+      "obs_count": 522,
+      "high_engagement_rate": 0.285,
+      "avg_engagement": 0.432,
+      "lift_vs_baseline": -0.255,
       "top_occasion": "evergreen",
       "top_sector": "f_and_b"
     },
     {
       "format": "image",
-      "obs_count": 1225,
-      "high_engagement_rate": 0.264,
-      "avg_engagement": 0.375,
-      "lift_vs_baseline": -0.276,
+      "obs_count": 1274,
+      "high_engagement_rate": 0.277,
+      "avg_engagement": 0.389,
+      "lift_vs_baseline": -0.263,
       "top_occasion": "evergreen",
       "top_sector": "f_and_b"
     },
     {
       "format": "video",
-      "obs_count": 1048,
-      "high_engagement_rate": 0.263,
-      "avg_engagement": 0.427,
-      "lift_vs_baseline": -0.277,
+      "obs_count": 1098,
+      "high_engagement_rate": 0.276,
+      "avg_engagement": 0.439,
+      "lift_vs_baseline": -0.264,
       "top_occasion": "evergreen",
       "top_sector": "f_and_b"
     }
@@ -35,8 +35,8 @@
   "best_format_per_occasion": {
     "evergreen": {
       "format": "carousel",
-      "rate": 0.316,
-      "n": 361,
+      "rate": 0.312,
+      "n": 365,
       "recommendation": "avoid_carousel_for_this_occasion"
     },
     "national_sports_day": {
@@ -47,8 +47,8 @@
     },
     "eid_al_fitr": {
       "format": "video",
-      "rate": 0.342,
-      "n": 38,
+      "rate": 0.388,
+      "n": 49,
       "recommendation": "avoid_video_for_this_occasion"
     },
     "hajj": {
@@ -65,8 +65,8 @@
     },
     "ramadan": {
       "format": "image",
-      "rate": 0.347,
-      "n": 72,
+      "rate": 0.384,
+      "n": 86,
       "recommendation": "avoid_image_for_this_occasion"
     },
     "general": {
@@ -119,9 +119,9 @@
     },
     "seasonal": {
       "format": "image",
-      "rate": 0.389,
-      "n": 54,
-      "recommendation": "avoid_image_for_this_occasion"
+      "rate": 0.422,
+      "n": 64,
+      "recommendation": "use_cautiously_image"
     },
     "winter_seasonal": {
       "format": "carousel",
@@ -260,9 +260,16 @@
     {
       "format": "image",
       "occasion": "seasonal",
-      "count": 54,
-      "high_eng_rate": 0.389,
-      "lift": -0.151
+      "count": 64,
+      "high_eng_rate": 0.422,
+      "lift": -0.118
+    },
+    {
+      "format": "video",
+      "occasion": "eid_al_fitr",
+      "count": 49,
+      "high_eng_rate": 0.388,
+      "lift": -0.152
     },
     {
       "format": "image",
@@ -273,31 +280,31 @@
     },
     {
       "format": "image",
+      "occasion": "ramadan",
+      "count": 86,
+      "high_eng_rate": 0.384,
+      "lift": -0.156
+    },
+    {
+      "format": "image",
       "occasion": "brand_campaign",
       "count": 11,
       "high_eng_rate": 0.364,
       "lift": -0.176
     },
     {
+      "format": "image",
+      "occasion": "eid_al_fitr",
+      "count": 43,
+      "high_eng_rate": 0.349,
+      "lift": -0.191
+    },
+    {
       "format": "video",
       "occasion": "eid_al_adha",
-      "count": 11,
-      "high_eng_rate": 0.364,
-      "lift": -0.176
-    },
-    {
-      "format": "image",
-      "occasion": "ramadan",
-      "count": 72,
-      "high_eng_rate": 0.347,
-      "lift": -0.193
-    },
-    {
-      "format": "video",
-      "occasion": "eid_al_fitr",
-      "count": 38,
-      "high_eng_rate": 0.342,
-      "lift": -0.198
+      "count": 12,
+      "high_eng_rate": 0.333,
+      "lift": -0.207
     },
     {
       "format": "image",
@@ -309,9 +316,23 @@
     {
       "format": "carousel",
       "occasion": "evergreen",
-      "count": 361,
-      "high_eng_rate": 0.316,
-      "lift": -0.224
+      "count": 365,
+      "high_eng_rate": 0.312,
+      "lift": -0.228
+    },
+    {
+      "format": "video",
+      "occasion": "ramadan",
+      "count": 78,
+      "high_eng_rate": 0.308,
+      "lift": -0.232
+    },
+    {
+      "format": "video",
+      "occasion": "seasonal",
+      "count": 78,
+      "high_eng_rate": 0.308,
+      "lift": -0.232
     },
     {
       "format": "image",
@@ -328,25 +349,11 @@
       "lift": -0.24
     },
     {
-      "format": "video",
-      "occasion": "seasonal",
-      "count": 69,
-      "high_eng_rate": 0.29,
-      "lift": -0.25
-    },
-    {
       "format": "image",
       "occasion": "general",
       "count": 78,
       "high_eng_rate": 0.282,
       "lift": -0.258
-    },
-    {
-      "format": "image",
-      "occasion": "eid_al_fitr",
-      "count": 30,
-      "high_eng_rate": 0.267,
-      "lift": -0.273
     },
     {
       "format": "carousel",
@@ -357,45 +364,38 @@
     },
     {
       "format": "video",
+      "occasion": "evergreen",
+      "count": 759,
+      "high_eng_rate": 0.254,
+      "lift": -0.286
+    },
+    {
+      "format": "video",
       "occasion": "general",
       "count": 71,
       "high_eng_rate": 0.254,
       "lift": -0.286
     },
     {
-      "format": "video",
-      "occasion": "evergreen",
-      "count": 743,
-      "high_eng_rate": 0.25,
-      "lift": -0.29
-    },
-    {
       "format": "image",
       "occasion": "evergreen",
-      "count": 902,
-      "high_eng_rate": 0.228,
-      "lift": -0.312
-    },
-    {
-      "format": "video",
-      "occasion": "ramadan",
-      "count": 65,
-      "high_eng_rate": 0.215,
-      "lift": -0.325
+      "count": 914,
+      "high_eng_rate": 0.235,
+      "lift": -0.305
     },
     {
       "format": "carousel",
       "occasion": "eid_al_fitr",
-      "count": 13,
+      "count": 26,
       "high_eng_rate": 0.154,
       "lift": -0.386
     },
     {
       "format": "carousel",
       "occasion": "seasonal",
-      "count": 27,
-      "high_eng_rate": 0.111,
-      "lift": -0.429
+      "count": 34,
+      "high_eng_rate": 0.118,
+      "lift": -0.422
     },
     {
       "format": "carousel",
@@ -452,9 +452,30 @@
       "count": 1,
       "high_eng_rate": 0.0,
       "lift": -0.54
+    },
+    {
+      "format": "carousel",
+      "occasion": "eid_campaign",
+      "count": 1,
+      "high_eng_rate": 0.0,
+      "lift": -0.54
     }
   ],
   "format_x_sector": [
+    {
+      "format": "image",
+      "sector": "fashion",
+      "count": 50,
+      "high_eng_rate": 0.6,
+      "lift": 0.06
+    },
+    {
+      "format": "video",
+      "sector": "fashion",
+      "count": 50,
+      "high_eng_rate": 0.54,
+      "lift": 0.0
+    },
     {
       "format": "carousel",
       "sector": "retail",
@@ -519,6 +540,13 @@
       "lift": -0.397
     },
     {
+      "format": "carousel",
+      "sector": "fashion",
+      "count": 25,
+      "high_eng_rate": 0.12,
+      "lift": -0.42
+    },
+    {
       "format": "image",
       "sector": "retail_lifestyle",
       "count": 145,
@@ -580,22 +608,15 @@
       "count": 25,
       "high_eng_rate": 0.0,
       "lift": -0.54
-    },
-    {
-      "format": "image",
-      "sector": "fashion",
-      "count": 1,
-      "high_eng_rate": 0.0,
-      "lift": -0.54
     }
   ],
   "occasion_format_distribution": {
     "evergreen": {
-      "total_obs": 2006,
+      "total_obs": 2038,
       "format_mix": {
-        "image": 0.45,
-        "video": 0.37,
-        "carousel": 0.18
+        "image": 0.448,
+        "video": 0.372,
+        "carousel": 0.179
       },
       "dominant_format": "image"
     },
@@ -607,11 +628,11 @@
       "dominant_format": "image"
     },
     "eid_al_fitr": {
-      "total_obs": 81,
+      "total_obs": 118,
       "format_mix": {
-        "video": 0.469,
-        "image": 0.37,
-        "carousel": 0.16
+        "video": 0.415,
+        "image": 0.364,
+        "carousel": 0.22
       },
       "dominant_format": "video"
     },
@@ -655,20 +676,20 @@
       "dominant_format": "image"
     },
     "ramadan": {
-      "total_obs": 174,
+      "total_obs": 201,
       "format_mix": {
-        "image": 0.414,
-        "video": 0.374,
-        "carousel": 0.213
+        "image": 0.428,
+        "video": 0.388,
+        "carousel": 0.184
       },
       "dominant_format": "image"
     },
     "seasonal": {
-      "total_obs": 150,
+      "total_obs": 176,
       "format_mix": {
-        "video": 0.46,
-        "image": 0.36,
-        "carousel": 0.18
+        "video": 0.443,
+        "image": 0.364,
+        "carousel": 0.193
       },
       "dominant_format": "video"
     },
@@ -682,11 +703,11 @@
       "dominant_format": "image"
     },
     "eid_al_adha": {
-      "total_obs": 30,
+      "total_obs": 31,
       "format_mix": {
-        "image": 0.433,
-        "video": 0.367,
-        "carousel": 0.2
+        "image": 0.419,
+        "video": 0.387,
+        "carousel": 0.194
       },
       "dominant_format": "image"
     },
@@ -755,21 +776,28 @@
         "image": 1.0
       },
       "dominant_format": "image"
+    },
+    "eid_campaign": {
+      "total_obs": 1,
+      "format_mix": {
+        "carousel": 1.0
+      },
+      "dominant_format": "carousel"
     }
   },
   "key_findings": [
-    "Best format overall: 'carousel' = 29% high eng (n=497)",
-    "Worst format: 'video' = 26% (n=1048)",
+    "Best format overall: 'carousel' = 28% high eng (n=522)",
+    "Worst format: 'video' = 27% (n=1098)",
     "Brand Campaign: best format = 'carousel' at 66% (n=3)",
     "Eid Al Adha: best format = 'carousel' at 66% (n=6)",
-    "Eid Al Fitr: best format = 'video' at 34% (n=38)",
-    "Evergreen: best format = 'carousel' at 31% (n=361)",
+    "Eid Al Fitr: best format = 'video' at 38% (n=49)",
+    "Evergreen: best format = 'carousel' at 31% (n=365)",
     "General: best format = 'image' at 28% (n=78)",
     "Graduation Season: best format = 'image' at 100% (n=3)",
     "National Day: best format = 'image' at 52% (n=25)",
     "National Sports Day: best format = 'image' at 0% (n=3)",
-    "Ramadan: best format = 'image' at 34% (n=72)",
-    "Seasonal: best format = 'image' at 38% (n=54)",
+    "Ramadan: best format = 'image' at 38% (n=86)",
+    "Seasonal: best format = 'image' at 42% (n=64)",
     "Sporting Event: best format = 'image' at 33% (n=6)",
     "Winter Seasonal: best format = 'carousel' at 100% (n=3)"
   ]

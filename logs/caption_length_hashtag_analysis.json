@@ -1,104 +1,104 @@
 {
-  "obs_with_caption": 2644,
-  "global_avg": 0.398,
+  "obs_with_caption": 2768,
+  "global_avg": 0.41,
   "by_word_count": {
     "<10": {
       "count": 506,
       "avg_engagement": 0.508,
-      "lift_vs_avg": 0.11
+      "lift_vs_avg": 0.098
     },
     "10-30": {
-      "count": 1235,
-      "avg_engagement": 0.402,
-      "lift_vs_avg": 0.004
+      "count": 1247,
+      "avg_engagement": 0.405,
+      "lift_vs_avg": -0.005
     },
     "30-60": {
-      "count": 574,
-      "avg_engagement": 0.313,
-      "lift_vs_avg": -0.085
+      "count": 640,
+      "avg_engagement": 0.347,
+      "lift_vs_avg": -0.063
     },
     "60+": {
-      "count": 329,
-      "avg_engagement": 0.362,
-      "lift_vs_avg": -0.036
+      "count": 375,
+      "avg_engagement": 0.407,
+      "lift_vs_avg": -0.003
     }
   },
   "by_hashtag_count": {
     "0": {
-      "count": 1155,
-      "avg_engagement": 0.393,
-      "lift_vs_avg": -0.005
+      "count": 1157,
+      "avg_engagement": 0.392,
+      "lift_vs_avg": -0.018
     },
     "1-5": {
-      "count": 1324,
-      "avg_engagement": 0.415,
-      "lift_vs_avg": 0.017
+      "count": 1388,
+      "avg_engagement": 0.43,
+      "lift_vs_avg": 0.02
     },
     "6-15": {
-      "count": 93,
-      "avg_engagement": 0.349,
-      "lift_vs_avg": -0.049
+      "count": 151,
+      "avg_engagement": 0.457,
+      "lift_vs_avg": 0.047
     },
     "16+": {
       "count": 72,
       "avg_engagement": 0.236,
-      "lift_vs_avg": -0.162
+      "lift_vs_avg": -0.174
     }
   },
   "by_emoji": {
     "True": {
-      "count": 1993,
-      "avg_engagement": 0.402,
-      "lift_vs_avg": 0.004
+      "count": 2072,
+      "avg_engagement": 0.411,
+      "lift_vs_avg": 0.001
     },
     "False": {
-      "count": 651,
-      "avg_engagement": 0.386,
-      "lift_vs_avg": -0.012
+      "count": 696,
+      "avg_engagement": 0.407,
+      "lift_vs_avg": -0.003
     }
   },
   "by_sentiment": {
     "question": {
       "count": 63,
       "avg_engagement": 0.714,
-      "lift_vs_avg": 0.316
+      "lift_vs_avg": 0.304
     },
     "positive": {
       "count": 30,
       "avg_engagement": 0.617,
-      "lift_vs_avg": 0.219
+      "lift_vs_avg": 0.207
     },
     "neutral": {
       "count": 32,
       "avg_engagement": 0.609,
-      "lift_vs_avg": 0.211
+      "lift_vs_avg": 0.199
     }
   },
   "by_opener_formula": {
     "number": {
       "count": 1,
       "avg_engagement": 1.0,
-      "lift_vs_avg": 0.602
+      "lift_vs_avg": 0.59
     },
     "command": {
       "count": 2,
       "avg_engagement": 1.0,
-      "lift_vs_avg": 0.602
+      "lift_vs_avg": 0.59
     },
     "question": {
       "count": 6,
       "avg_engagement": 0.833,
-      "lift_vs_avg": 0.435
+      "lift_vs_avg": 0.423
     },
     "emoji_open": {
       "count": 3,
       "avg_engagement": 0.833,
-      "lift_vs_avg": 0.435
+      "lift_vs_avg": 0.423
     },
     "statement": {
       "count": 98,
       "avg_engagement": 0.679,
-      "lift_vs_avg": 0.281
+      "lift_vs_avg": 0.269
     }
   },
   "best_wc_by_sector": {
@@ -146,7 +146,23 @@
         "n": 133
       }
     ],
-    "fashion": [],
+    "fashion": [
+      {
+        "bucket": "60+",
+        "avg_engagement": 0.728,
+        "n": 46
+      },
+      {
+        "bucket": "10-30",
+        "avg_engagement": 0.667,
+        "n": 12
+      },
+      {
+        "bucket": "30-60",
+        "avg_engagement": 0.644,
+        "n": 66
+      }
+    ],
     "retail": [],
     "beauty_personal_care": [
       {
@@ -250,7 +266,23 @@
         "n": 309
       }
     ],
-    "fashion": [],
+    "fashion": [
+      {
+        "bucket": "1-5",
+        "avg_engagement": 0.742,
+        "n": 64
+      },
+      {
+        "bucket": "6-15",
+        "avg_engagement": 0.629,
+        "n": 58
+      },
+      {
+        "bucket": "0",
+        "avg_engagement": 0.0,
+        "n": 3
+      }
+    ],
     "retail": [],
     "beauty_personal_care": [
       {
@@ -310,9 +342,9 @@
     ]
   },
   "agency_rules": [
-    "Optimal caption length: <10 words (51%) — avoid 30-60 word range (31%)",
-    "Optimal hashtag count: 1-5 (42%) — 16+ tanks to 24%",
-    "Emoji: use (40% with vs 39% without)",
+    "Optimal caption length: <10 words (51%) — avoid 30-60 word range (35%)",
+    "Optimal hashtag count: 6-15 (46%) — 16+ tanks to 24%",
+    "Emoji: use (41% with vs 41% without)",
     "Best opener: number (100%)"
   ]
 }

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
-  "total_obs": 2770,
+  "total_obs": 2894,
   "sector_baselines": {
     "f_and_b": 0.6,
     "beauty": 0.18,
@@ -994,6 +994,140 @@
         }
       ],
       "avoid": []
+    },
+    "fashion": {
+      "baseline": 0.54,
+      "top_10_by_engagement": [
+        {
+          "slug": "brand_collab",
+          "name": "Brand Collab",
+          "count": 6,
+          "high_eng_rate": 0.833,
+          "lift_vs_sector_baseline": 0.293
+        },
+        {
+          "slug": "limited_time_offer",
+          "name": "Limited Time Offer",
+          "count": 5,
+          "high_eng_rate": 0.8,
+          "lift_vs_sector_baseline": 0.26
+        },
+        {
+          "slug": "celebrity_collab",
+          "name": "Celebrity Collab",
+          "count": 4,
+          "high_eng_rate": 0.75,
+          "lift_vs_sector_baseline": 0.21
+        },
+        {
+          "slug": "behind_the_scenes",
+          "name": "Behind The Scenes",
+          "count": 3,
+          "high_eng_rate": 0.667,
+          "lift_vs_sector_baseline": 0.127
+        },
+        {
+          "slug": "cultural_identity_marker",
+          "name": "Cultural Identity Marker",
+          "count": 8,
+          "high_eng_rate": 0.625,
+          "lift_vs_sector_baseline": 0.085
+        },
+        {
+          "slug": "eid_campaign",
+          "name": "Eid Campaign",
+          "count": 4,
+          "high_eng_rate": 0.5,
+          "lift_vs_sector_baseline": -0.04
+        },
+        {
+          "slug": "occasion_playseid_campaign",
+          "name": "Occasion Playseid Campaign",
+          "count": 32,
+          "high_eng_rate": 0.406,
+          "lift_vs_sector_baseline": -0.134
+        },
+        {
+          "slug": "occasion_plays",
+          "name": "Occasion Plays",
+          "count": 8,
+          "high_eng_rate": 0.375,
+          "lift_vs_sector_baseline": -0.165
+        }
+      ],
+      "top_10_by_volume": [
+        {
+          "slug": "occasion_playseid_campaign",
+          "name": "Occasion Playseid Campaign",
+          "count": 32,
+          "high_eng_rate": 0.406,
+          "lift_vs_sector_baseline": -0.134
+        },
+        {
+          "slug": "occasion_plays",
+          "name": "Occasion Plays",
+          "count": 8,
+          "high_eng_rate": 0.375,
+          "lift_vs_sector_baseline": -0.165
+        },
+        {
+          "slug": "cultural_identity_marker",
+          "name": "Cultural Identity Marker",
+          "count": 8,
+          "high_eng_rate": 0.625,
+          "lift_vs_sector_baseline": 0.085
+        },
+        {
+          "slug": "brand_collab",
+          "name": "Brand Collab",
+          "count": 6,
+          "high_eng_rate": 0.833,
+          "lift_vs_sector_baseline": 0.293
+        },
+        {
+          "slug": "limited_time_offer",
+          "name": "Limited Time Offer",
+          "count": 5,
+          "high_eng_rate": 0.8,
+          "lift_vs_sector_baseline": 0.26
+        },
+        {
+          "slug": "eid_campaign",
+          "name": "Eid Campaign",
+          "count": 4,
+          "high_eng_rate": 0.5,
+          "lift_vs_sector_baseline": -0.04
+        },
+        {
+          "slug": "celebrity_collab",
+          "name": "Celebrity Collab",
+          "count": 4,
+          "high_eng_rate": 0.75,
+          "lift_vs_sector_baseline": 0.21
+        },
+        {
+          "slug": "behind_the_scenes",
+          "name": "Behind The Scenes",
+          "count": 3,
+          "high_eng_rate": 0.667,
+          "lift_vs_sector_baseline": 0.127
+        },
+        {
+          "slug": "cultural_moment_tie_in",
+          "name": "Cultural Moment Tie-In",
+          "count": 2,
+          "high_eng_rate": 0.5,
+          "lift_vs_sector_baseline": -0.04
+        },
+        {
+          "slug": "voice_techniquesarabic_casual_mood_trigger",
+          "name": "Voice Techniquesarabic Casual Mood Trigger",
+          "count": 2,
+          "high_eng_rate": 1.0,
+          "lift_vs_sector_baseline": 0.46
+        }
+      ],
+      "avoid": []
     }
   },
   "cross_sector_transfer_patterns": [
@@ -1128,6 +1262,30 @@
       }
     },
     {
+      "slug": "behind_the_scenes",
+      "name": "Behind The Scenes",
+      "total_count": 7,
+      "overall_high_eng_rate": 0.286,
+      "overall_lift_vs_baseline": -0.254,
+      "appears_in_n_sectors": 2,
+      "best_sector": "fashion",
+      "best_sector_rate": 0.667,
+      "worst_sector": "f_and_b",
+      "worst_sector_rate": 0.0,
+      "sector_breakdown": {
+        "f_and_b": {
+          "count": 4,
+          "high_eng_rate": 0.0,
+          "lift_vs_sector_baseline": -0.6
+        },
+        "fashion": {
+          "count": 3,
+          "high_eng_rate": 0.667,
+          "lift_vs_sector_baseline": 0.127
+        }
+      }
+    },
+    {
       "slug": "behind_the_craft",
       "name": "Behind The Craft Process",
       "total_count": 30,
@@ -1258,6 +1416,30 @@
       }
     },
     {
+      "slug": "limited_time_offer",
+      "name": "Limited Time Offer",
+      "total_count": 54,
+      "overall_high_eng_rate": 0.389,
+      "overall_lift_vs_baseline": -0.151,
+      "appears_in_n_sectors": 2,
+      "best_sector": "fashion",
+      "best_sector_rate": 0.8,
+      "worst_sector": "f_and_b",
+      "worst_sector_rate": 0.347,
+      "sector_breakdown": {
+        "f_and_b": {
+          "count": 49,
+          "high_eng_rate": 0.347,
+          "lift_vs_sector_baseline": -0.253
+        },
+        "fashion": {
+          "count": 5,
+          "high_eng_rate": 0.8,
+          "lift_vs_sector_baseline": 0.26
+        }
+      }
+    },
+    {
       "slug": "classical_arabic_warmth",
       "name": "Classical Arabic Warmth (Heritage Register)",
       "total_count": 18,
@@ -1284,10 +1466,10 @@
     {
       "slug": "documentary_btsmoment",
       "name": "Documentary BTS Moment",
-      "total_count": 10,
-      "overall_high_eng_rate": 0.8,
-      "overall_lift_vs_baseline": 0.26,
-      "appears_in_n_sectors": 2,
+      "total_count": 12,
+      "overall_high_eng_rate": 0.75,
+      "overall_lift_vs_baseline": 0.21,
+      "appears_in_n_sectors": 3,
       "best_sector": "f_and_b",
       "best_sector_rate": 0.875,
       "worst_sector": "retail",
@@ -1302,6 +1484,11 @@
           "count": 2,
           "high_eng_rate": 0.5,
           "lift_vs_sector_baseline": 0.14
+        },
+        "fashion": {
+          "count": 2,
+          "high_eng_rate": 0.5,
+          "lift_vs_sector_baseline": -0.04
         }
       }
     },
@@ -1440,12 +1627,12 @@
     {
       "slug": "limited_time_offer",
       "name": "Limited Time Offer",
-      "total_count": 49,
-      "overall_high_eng_rate": 0.347,
-      "overall_lift_vs_baseline": -0.193,
-      "appears_in_n_sectors": 1,
-      "best_sector": "f_and_b",
-      "best_sector_rate": 0.347,
+      "total_count": 54,
+      "overall_high_eng_rate": 0.389,
+      "overall_lift_vs_baseline": -0.151,
+      "appears_in_n_sectors": 2,
+      "best_sector": "fashion",
+      "best_sector_rate": 0.8,
       "worst_sector": "f_and_b",
       "worst_sector_rate": 0.347,
       "sector_breakdown": {
@@ -1453,6 +1640,11 @@
           "count": 49,
           "high_eng_rate": 0.347,
           "lift_vs_sector_baseline": -0.253
+        },
+        "fashion": {
+          "count": 5,
+          "high_eng_rate": 0.8,
+          "lift_vs_sector_baseline": 0.26
         }
       }
     },
@@ -1524,11 +1716,30 @@
       }
     },
     {
+      "slug": "occasion_playseid_campaign",
+      "name": "Occasion Playseid Campaign",
+      "total_count": 32,
+      "overall_high_eng_rate": 0.406,
+      "overall_lift_vs_baseline": -0.134,
+      "appears_in_n_sectors": 1,
+      "best_sector": "fashion",
+      "best_sector_rate": 0.406,
+      "worst_sector": "fashion",
+      "worst_sector_rate": 0.406,
+      "sector_breakdown": {
+        "fashion": {
+          "count": 32,
+          "high_eng_rate": 0.406,
+          "lift_vs_sector_baseline": -0.134
+        }
+      }
+    },
+    {
       "slug": "customer_voice_ugc",
       "name": "Customer Voice UGC",
-      "total_count": 30,
-      "overall_high_eng_rate": 0.833,
-      "overall_lift_vs_baseline": 0.293,
+      "total_count": 31,
+      "overall_high_eng_rate": 0.839,
+      "overall_lift_vs_baseline": 0.299,
       "appears_in_n_sectors": 2,
       "best_sector": "f_and_b",
       "best_sector_rate": 0.852,
@@ -1544,6 +1755,11 @@
           "count": 27,
           "high_eng_rate": 0.852,
           "lift_vs_sector_baseline": 0.252
+        },
+        "fashion": {
+          "count": 1,
+          "high_eng_rate": 1.0,
+          "lift_vs_sector_baseline": 0.46
         }
       }
     },
@@ -2030,6 +2246,35 @@
       }
     },
     {
+      "slug": "documentary_btsmoment",
+      "name": "Documentary BTS Moment",
+      "total_count": 12,
+      "overall_high_eng_rate": 0.75,
+      "overall_lift_vs_baseline": 0.21,
+      "appears_in_n_sectors": 3,
+      "best_sector": "f_and_b",
+      "best_sector_rate": 0.875,
+      "worst_sector": "retail",
+      "worst_sector_rate": 0.5,
+      "sector_breakdown": {
+        "f_and_b": {
+          "count": 8,
+          "high_eng_rate": 0.875,
+          "lift_vs_sector_baseline": 0.275
+        },
+        "retail": {
+          "count": 2,
+          "high_eng_rate": 0.5,
+          "lift_vs_sector_baseline": 0.14
+        },
+        "fashion": {
+          "count": 2,
+          "high_eng_rate": 0.5,
+          "lift_vs_sector_baseline": -0.04
+        }
+      }
+    },
+    {
       "slug": "product_launch_reveal",
       "name": "Product Launch Reveal",
       "total_count": 12,
@@ -2159,6 +2404,30 @@
       }
     },
     {
+      "slug": "cultural_identity_marker",
+      "name": "Cultural Identity Marker",
+      "total_count": 11,
+      "overall_high_eng_rate": 0.636,
+      "overall_lift_vs_baseline": 0.096,
+      "appears_in_n_sectors": 2,
+      "best_sector": "f_and_b",
+      "best_sector_rate": 0.667,
+      "worst_sector": "fashion",
+      "worst_sector_rate": 0.625,
+      "sector_breakdown": {
+        "f_and_b": {
+          "count": 3,
+          "high_eng_rate": 0.667,
+          "lift_vs_sector_baseline": 0.067
+        },
+        "fashion": {
+          "count": 8,
+          "high_eng_rate": 0.625,
+          "lift_vs_sector_baseline": 0.085
+        }
+      }
+    },
+    {
       "slug": "restaurant_recommendation",
       "name": "Restaurant Recommendation",
       "total_count": 11,
@@ -2212,30 +2481,6 @@
           "count": 11,
           "high_eng_rate": 0.273,
           "lift_vs_sector_baseline": -0.327
-        }
-      }
-    },
-    {
-      "slug": "documentary_btsmoment",
-      "name": "Documentary BTS Moment",
-      "total_count": 10,
-      "overall_high_eng_rate": 0.8,
-      "overall_lift_vs_baseline": 0.26,
-      "appears_in_n_sectors": 2,
-      "best_sector": "f_and_b",
-      "best_sector_rate": 0.875,
-      "worst_sector": "retail",
-      "worst_sector_rate": 0.5,
-      "sector_breakdown": {
-        "f_and_b": {
-          "count": 8,
-          "high_eng_rate": 0.875,
-          "lift_vs_sector_baseline": 0.275
-        },
-        "retail": {
-          "count": 2,
-          "high_eng_rate": 0.5,
-          "lift_vs_sector_baseline": 0.14
         }
       }
     },
@@ -2369,6 +2614,30 @@
           "count": 9,
           "high_eng_rate": 0.778,
           "lift_vs_sector_baseline": 0.178
+        }
+      }
+    },
+    {
+      "slug": "cultural_moment_tie_in",
+      "name": "Cultural Moment Tie-In",
+      "total_count": 9,
+      "overall_high_eng_rate": 0.556,
+      "overall_lift_vs_baseline": 0.016,
+      "appears_in_n_sectors": 2,
+      "best_sector": "f_and_b",
+      "best_sector_rate": 0.571,
+      "worst_sector": "fashion",
+      "worst_sector_rate": 0.5,
+      "sector_breakdown": {
+        "f_and_b": {
+          "count": 7,
+          "high_eng_rate": 0.571,
+          "lift_vs_sector_baseline": -0.029
+        },
+        "fashion": {
+          "count": 2,
+          "high_eng_rate": 0.5,
+          "lift_vs_sector_baseline": -0.04
         }
       }
     },
@@ -2578,6 +2847,25 @@
       }
     },
     {
+      "slug": "occasion_plays",
+      "name": "Occasion Plays",
+      "total_count": 8,
+      "overall_high_eng_rate": 0.375,
+      "overall_lift_vs_baseline": -0.165,
+      "appears_in_n_sectors": 1,
+      "best_sector": "fashion",
+      "best_sector_rate": 0.375,
+      "worst_sector": "fashion",
+      "worst_sector_rate": 0.375,
+      "sector_breakdown": {
+        "fashion": {
+          "count": 8,
+          "high_eng_rate": 0.375,
+          "lift_vs_sector_baseline": -0.165
+        }
+      }
+    },
+    {
       "slug": "warm_najdi_invitational",
       "name": "Warm Najdi Invitational",
       "total_count": 8,
@@ -2711,21 +2999,26 @@
       }
     },
     {
-      "slug": "cultural_moment_tie_in",
-      "name": "Cultural Moment Tie-In",
+      "slug": "brand_collab",
+      "name": "Brand Collab",
       "total_count": 7,
-      "overall_high_eng_rate": 0.571,
-      "overall_lift_vs_baseline": 0.031,
+      "overall_high_eng_rate": 0.714,
+      "overall_lift_vs_baseline": 0.174,
       "appears_in_n_sectors": 1,
-      "best_sector": "f_and_b",
-      "best_sector_rate": 0.571,
-      "worst_sector": "f_and_b",
-      "worst_sector_rate": 0.571,
+      "best_sector": "fashion",
+      "best_sector_rate": 0.833,
+      "worst_sector": "fashion",
+      "worst_sector_rate": 0.833,
       "sector_breakdown": {
         "f_and_b": {
-          "count": 7,
-          "high_eng_rate": 0.571,
-          "lift_vs_sector_baseline": -0.029
+          "count": 1,
+          "high_eng_rate": 0.0,
+          "lift_vs_sector_baseline": -0.6
+        },
+        "fashion": {
+          "count": 6,
+          "high_eng_rate": 0.833,
+          "lift_vs_sector_baseline": 0.293
         }
       }
     },
@@ -2764,6 +3057,30 @@
           "count": 7,
           "high_eng_rate": 0.286,
           "lift_vs_sector_baseline": -0.314
+        }
+      }
+    },
+    {
+      "slug": "behind_the_scenes",
+      "name": "Behind The Scenes",
+      "total_count": 7,
+      "overall_high_eng_rate": 0.286,
+      "overall_lift_vs_baseline": -0.254,
+      "appears_in_n_sectors": 2,
+      "best_sector": "fashion",
+      "best_sector_rate": 0.667,
+      "worst_sector": "f_and_b",
+      "worst_sector_rate": 0.0,
+      "sector_breakdown": {
+        "f_and_b": {
+          "count": 4,
+          "high_eng_rate": 0.0,
+          "lift_vs_sector_baseline": -0.6
+        },
+        "fashion": {
+          "count": 3,
+          "high_eng_rate": 0.667,
+          "lift_vs_sector_baseline": 0.127
         }
       }
     },
@@ -3092,6 +3409,54 @@
           "count": 5,
           "high_eng_rate": 0.6,
           "lift_vs_sector_baseline": 0.0
+        }
+      }
+    },
+    {
+      "slug": "celebrity_collab",
+      "name": "Celebrity Collab",
+      "total_count": 5,
+      "overall_high_eng_rate": 0.6,
+      "overall_lift_vs_baseline": 0.06,
+      "appears_in_n_sectors": 1,
+      "best_sector": "fashion",
+      "best_sector_rate": 0.75,
+      "worst_sector": "fashion",
+      "worst_sector_rate": 0.75,
+      "sector_breakdown": {
+        "f_and_b": {
+          "count": 1,
+          "high_eng_rate": 0.0,
+          "lift_vs_sector_baseline": -0.6
+        },
+        "fashion": {
+          "count": 4,
+          "high_eng_rate": 0.75,
+          "lift_vs_sector_baseline": 0.21
+        }
+      }
+    },
+    {
+      "slug": "eid_campaign",
+      "name": "Eid Campaign",
+      "total_count": 5,
+      "overall_high_eng_rate": 0.4,
+      "overall_lift_vs_baseline": -0.14,
+      "appears_in_n_sectors": 1,
+      "best_sector": "fashion",
+      "best_sector_rate": 0.5,
+      "worst_sector": "fashion",
+      "worst_sector_rate": 0.5,
+      "sector_breakdown": {
+        "f_and_b": {
+          "count": 1,
+          "high_eng_rate": 0.0,
+          "lift_vs_sector_baseline": -0.6
+        },
+        "fashion": {
+          "count": 4,
+          "high_eng_rate": 0.5,
+          "lift_vs_sector_baseline": -0.04
         }
       }
     },
@@ -3981,25 +4346,6 @@
       }
     },
     {
-      "slug": "behind_the_scenes",
-      "name": "Behind The Scenes",
-      "total_count": 4,
-      "overall_high_eng_rate": 0.0,
-      "overall_lift_vs_baseline": -0.54,
-      "appears_in_n_sectors": 1,
-      "best_sector": "f_and_b",
-      "best_sector_rate": 0.0,
-      "worst_sector": "f_and_b",
-      "worst_sector_rate": 0.0,
-      "sector_breakdown": {
-        "f_and_b": {
-          "count": 4,
-          "high_eng_rate": 0.0,
-          "lift_vs_sector_baseline": -0.6
-        }
-      }
-    },
-    {
       "slug": "transparency_trust_content",
       "name": "Transparency Trust Content",
       "total_count": 4,
@@ -4325,25 +4671,6 @@
     {
       "slug": "returning_fan_favourite",
       "name": "Returning Fan Favourite",
-      "total_count": 3,
-      "overall_high_eng_rate": 0.667,
-      "overall_lift_vs_baseline": 0.127,
-      "appears_in_n_sectors": 1,
-      "best_sector": "f_and_b",
-      "best_sector_rate": 0.667,
-      "worst_sector": "f_and_b",
-      "worst_sector_rate": 0.667,
-      "sector_breakdown": {
-        "f_and_b": {
-          "count": 3,
-          "high_eng_rate": 0.667,
-          "lift_vs_sector_baseline": 0.067
-        }
-      }
-    },
-    {
-      "slug": "cultural_identity_marker",
-      "name": "Cultural Identity Marker",
       "total_count": 3,
       "overall_high_eng_rate": 0.667,
       "overall_lift_vs_baseline": 0.127,
@@ -4912,6 +5239,30 @@
       }
     },
     {
+      "slug": "emotional_storytelling",
+      "name": "Emotional Storytelling",
+      "total_count": 3,
+      "overall_high_eng_rate": 0.0,
+      "overall_lift_vs_baseline": -0.54,
+      "appears_in_n_sectors": 1,
+      "best_sector": "fashion",
+      "best_sector_rate": 0.0,
+      "worst_sector": "fashion",
+      "worst_sector_rate": 0.0,
+      "sector_breakdown": {
+        "f_and_b": {
+          "count": 1,
+          "high_eng_rate": 0.0,
+          "lift_vs_sector_baseline": -0.6
+        },
+        "fashion": {
+          "count": 2,
+          "high_eng_rate": 0.0,
+          "lift_vs_sector_baseline": -0.54
+        }
+      }
+    },
+    {
       "slug": "hashtag_branded",
       "name": "Hashtag Branded",
       "total_count": 3,
@@ -5364,6 +5715,25 @@
           "count": 2,
           "high_eng_rate": 1.0,
           "lift_vs_sector_baseline": 0.64
+        }
+      }
+    },
+    {
+      "slug": "voice_techniquesarabic_casual_mood_trigger",
+      "name": "Voice Techniquesarabic Casual Mood Trigger",
+      "total_count": 2,
+      "overall_high_eng_rate": 1.0,
+      "overall_lift_vs_baseline": 0.46,
+      "appears_in_n_sectors": 1,
+      "best_sector": "fashion",
+      "best_sector_rate": 1.0,
+      "worst_sector": "fashion",
+      "worst_sector_rate": 1.0,
+      "sector_breakdown": {
+        "fashion": {
+          "count": 2,
+          "high_eng_rate": 1.0,
+          "lift_vs_sector_baseline": 0.46
         }
       }
     },
@@ -12726,6 +13096,25 @@
       }
     },
     {
+      "slug": "occasion_playscultural_moment_tie_in",
+      "name": "Occasion Playscultural Moment Tie In",
+      "total_count": 1,
+      "overall_high_eng_rate": 1.0,
+      "overall_lift_vs_baseline": 0.46,
+      "appears_in_n_sectors": 0,
+      "best_sector": null,
+      "best_sector_rate": null,
+      "worst_sector": null,
+      "worst_sector_rate": null,
+      "sector_breakdown": {
+        "fashion": {
+          "count": 1,
+          "high_eng_rate": 1.0,
+          "lift_vs_sector_baseline": 0.46
+        }
+      }
+    },
+    {
       "slug": "transformation_story",
       "name": "Transformation Story",
       "total_count": 1,
@@ -13925,25 +14314,6 @@
     {
       "slug": "feminine_audience_targeting",
       "name": "Feminine Audience Targeting",
-      "total_count": 1,
-      "overall_high_eng_rate": 0.0,
-      "overall_lift_vs_baseline": -0.54,
-      "appears_in_n_sectors": 0,
-      "best_sector": null,
-      "best_sector_rate": null,
-      "worst_sector": null,
-      "worst_sector_rate": null,
-      "sector_breakdown": {
-        "f_and_b": {
-          "count": 1,
-          "high_eng_rate": 0.0,
-          "lift_vs_sector_baseline": -0.6
-        }
-      }
-    },
-    {
-      "slug": "brand_collab",
-      "name": "Brand Collab",
       "total_count": 1,
       "overall_high_eng_rate": 0.0,
       "overall_lift_vs_baseline": -0.54,
@@ -15804,25 +16174,6 @@
       }
     },
     {
-      "slug": "eid_campaign",
-      "name": "Eid Campaign",
-      "total_count": 1,
-      "overall_high_eng_rate": 0.0,
-      "overall_lift_vs_baseline": -0.54,
-      "appears_in_n_sectors": 0,
-      "best_sector": null,
-      "best_sector_rate": null,
-      "worst_sector": null,
-      "worst_sector_rate": null,
-      "sector_breakdown": {
-        "f_and_b": {
-          "count": 1,
-          "high_eng_rate": 0.0,
-          "lift_vs_sector_baseline": -0.6
-        }
-      }
-    },
-    {
       "slug": "free_gift_with_purchase",
       "name": "Free Gift With Purchase",
       "total_count": 1,
@@ -16851,25 +17202,6 @@
     {
       "slug": "f_and_b_convenience",
       "name": "F And B Convenience",
-      "total_count": 1,
-      "overall_high_eng_rate": 0.0,
-      "overall_lift_vs_baseline": -0.54,
-      "appears_in_n_sectors": 0,
-      "best_sector": null,
-      "best_sector_rate": null,
-      "worst_sector": null,
-      "worst_sector_rate": null,
-      "sector_breakdown": {
-        "f_and_b": {
-          "count": 1,
-          "high_eng_rate": 0.0,
-          "lift_vs_sector_baseline": -0.6
-        }
-      }
-    },
-    {
-      "slug": "emotional_storytelling",
-      "name": "Emotional Storytelling",
       "total_count": 1,
       "overall_high_eng_rate": 0.0,
       "overall_lift_vs_baseline": -0.54,
@@ -21143,25 +21475,6 @@
       }
     },
     {
-      "slug": "celebrity_collab",
-      "name": "Celebrity Collab",
-      "total_count": 1,
-      "overall_high_eng_rate": 0.0,
-      "overall_lift_vs_baseline": -0.54,
-      "appears_in_n_sectors": 0,
-      "best_sector": null,
-      "best_sector_rate": null,
-      "worst_sector": null,
-      "worst_sector_rate": null,
-      "sector_breakdown": {
-        "f_and_b": {
-          "count": 1,
-          "high_eng_rate": 0.0,
-          "lift_vs_sector_baseline": -0.6
-        }
-      }
-    },
-    {
       "slug": "seasonal_menu",
       "name": "Seasonal Menu",
       "total_count": 1,
@@ -24152,6 +24465,7 @@
     "f_and_b best pattern: 'urgency_without_pressure' (100%, lift +40pp vs sector baseline)",
     "f_and_b avoid: 'warm_najdi_invitational' (25% — well below 60% baseline)",
     "retail best pattern: 'model_centered_frontal_portrait' (66%, lift +30pp vs sector baseline)",
-    "retail avoid: 'product_hero' (20% — well below 36% baseline)"
+    "retail avoid: 'product_hero' (20% — well below 36% baseline)",
+    "fashion best pattern: 'brand_collab' (83%, lift +29pp vs sector baseline)"
   ]
 }

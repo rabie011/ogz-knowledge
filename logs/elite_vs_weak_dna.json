@@ -55,8 +55,8 @@
       {
         "value": "restaurant_indoor",
         "elite_pct": 0.196,
-        "weak_pct": 0.022,
-        "elite_advantage": 0.174
+        "weak_pct": 0.007,
+        "elite_advantage": 0.189
       },
       {
         "value": "outdoor_nature",
@@ -67,46 +67,64 @@
       {
         "value": "heritage_setting",
         "elite_pct": 0.088,
-        "weak_pct": 0.03,
-        "elite_advantage": 0.058
+        "weak_pct": 0.01,
+        "elite_advantage": 0.078
+      },
+      {
+        "value": "digital_graphic",
+        "elite_pct": 0.092,
+        "weak_pct": 0.025,
+        "elite_advantage": 0.067
+      },
+      {
+        "value": "event_venue",
+        "elite_pct": 0.068,
+        "weak_pct": 0.007,
+        "elite_advantage": 0.061
+      },
+      {
+        "value": "home",
+        "elite_pct": 0.0,
+        "weak_pct": 0.057,
+        "elite_advantage": -0.057
+      },
+      {
+        "value": "salon",
+        "elite_pct": 0.0,
+        "weak_pct": 0.109,
+        "elite_advantage": -0.109
       },
       {
         "value": "studio",
         "elite_pct": 0.224,
-        "weak_pct": 0.328,
-        "elite_advantage": -0.104
+        "weak_pct": 0.493,
+        "elite_advantage": -0.269
       }
     ],
     "lighting": [
       {
         "value": "dramatic_moody",
         "elite_pct": 0.2,
-        "weak_pct": 0.037,
-        "elite_advantage": 0.163
-      },
-      {
-        "value": "mixed_ambient",
-        "elite_pct": 0.148,
-        "weak_pct": 0.015,
-        "elite_advantage": 0.133
-      },
-      {
-        "value": "warm_studio",
-        "elite_pct": 0.156,
-        "weak_pct": 0.052,
-        "elite_advantage": 0.104
+        "weak_pct": 0.012,
+        "elite_advantage": 0.188
       },
       {
         "value": "natural_daylight",
         "elite_pct": 0.192,
-        "weak_pct": 0.09,
-        "elite_advantage": 0.102
+        "weak_pct": 0.03,
+        "elite_advantage": 0.162
       },
       {
-        "value": "cold_studio",
-        "elite_pct": 0.116,
-        "weak_pct": 0.366,
-        "elite_advantage": -0.25
+        "value": "mixed_ambient",
+        "elite_pct": 0.148,
+        "weak_pct": 0.005,
+        "elite_advantage": 0.143
+      },
+      {
+        "value": "natural",
+        "elite_pct": 0.0,
+        "weak_pct": 0.428,
+        "elite_advantage": -0.428
       }
     ],
     "composition_style": [
@@ -400,8 +418,15 @@
       "dimension": "setting",
       "value": "restaurant_indoor",
       "elite_pct": 0.196,
-      "weak_pct": 0.022,
-      "elite_advantage": 0.174
+      "weak_pct": 0.007,
+      "elite_advantage": 0.189
+    },
+    {
+      "dimension": "lighting",
+      "value": "dramatic_moody",
+      "elite_pct": 0.2,
+      "weak_pct": 0.012,
+      "elite_advantage": 0.188
     },
     {
       "dimension": "visual_complexity",
@@ -412,10 +437,10 @@
     },
     {
       "dimension": "lighting",
-      "value": "dramatic_moody",
-      "elite_pct": 0.2,
-      "weak_pct": 0.037,
-      "elite_advantage": 0.163
+      "value": "natural_daylight",
+      "elite_pct": 0.192,
+      "weak_pct": 0.03,
+      "elite_advantage": 0.162
     },
     {
       "dimension": "heritage_vs_modern",
@@ -432,6 +457,13 @@
       "elite_advantage": 0.146
     },
     {
+      "dimension": "lighting",
+      "value": "mixed_ambient",
+      "elite_pct": 0.148,
+      "weak_pct": 0.005,
+      "elite_advantage": 0.143
+    },
+    {
       "dimension": "tone",
       "value": "celebratory",
       "elite_pct": 0.287,
@@ -444,13 +476,6 @@
       "elite_pct": 0.136,
       "weak_pct": 0.0,
       "elite_advantage": 0.136
-    },
-    {
-      "dimension": "lighting",
-      "value": "mixed_ambient",
-      "elite_pct": 0.148,
-      "weak_pct": 0.015,
-      "elite_advantage": 0.133
     },
     {
       "dimension": "register",
@@ -467,25 +492,11 @@
       "elite_advantage": 0.11
     },
     {
-      "dimension": "lighting",
-      "value": "warm_studio",
-      "elite_pct": 0.156,
-      "weak_pct": 0.052,
-      "elite_advantage": 0.104
-    },
-    {
       "dimension": "register",
       "value": "visual_only",
       "elite_pct": 0.104,
       "weak_pct": 0.0,
       "elite_advantage": 0.104
-    },
-    {
-      "dimension": "lighting",
-      "value": "natural_daylight",
-      "elite_pct": 0.192,
-      "weak_pct": 0.09,
-      "elite_advantage": 0.102
     },
     {
       "dimension": "content_type",
@@ -509,6 +520,13 @@
       "elite_advantage": 0.08
     },
     {
+      "dimension": "setting",
+      "value": "heritage_setting",
+      "elite_pct": 0.088,
+      "weak_pct": 0.01,
+      "elite_advantage": 0.078
+    },
+    {
       "dimension": "content_type",
       "value": "reel",
       "elite_pct": 0.077,
@@ -530,21 +548,28 @@
       "elite_advantage": 0.068
     },
     {
+      "dimension": "setting",
+      "value": "digital_graphic",
+      "elite_pct": 0.092,
+      "weak_pct": 0.025,
+      "elite_advantage": 0.067
+    },
+    {
       "dimension": "composition_style",
       "value": "overhead_spread",
       "elite_pct": 0.069,
       "weak_pct": 0.003,
       "elite_advantage": 0.066
-    },
-    {
-      "dimension": "register",
-      "value": "educational",
-      "elite_pct": 0.059,
-      "weak_pct": 0.0,
-      "elite_advantage": 0.059
     }
   ],
   "top_weak_tendencies": [
+    {
+      "dimension": "lighting",
+      "value": "natural",
+      "elite_pct": 0.0,
+      "weak_pct": 0.428,
+      "elite_advantage": -0.428
+    },
     {
       "dimension": "register",
       "value": "casual",
@@ -574,11 +599,11 @@
       "elite_advantage": -0.3
     },
     {
-      "dimension": "lighting",
-      "value": "cold_studio",
-      "elite_pct": 0.116,
-      "weak_pct": 0.366,
-      "elite_advantage": -0.25
+      "dimension": "setting",
+      "value": "studio",
+      "elite_pct": 0.224,
+      "weak_pct": 0.493,
+      "elite_advantage": -0.269
     },
     {
       "dimension": "aspect_ratio",
@@ -645,10 +670,10 @@
     },
     {
       "dimension": "setting",
-      "value": "studio",
-      "elite_pct": 0.224,
-      "weak_pct": 0.328,
-      "elite_advantage": -0.104
+      "value": "salon",
+      "elite_pct": 0.0,
+      "weak_pct": 0.109,
+      "elite_advantage": -0.109
     },
     {
       "dimension": "production_quality",
@@ -684,10 +709,17 @@
       "elite_pct": 0.181,
       "weak_pct": 0.245,
       "elite_advantage": -0.064
+    },
+    {
+      "dimension": "setting",
+      "value": "home",
+      "elite_pct": 0.0,
+      "weak_pct": 0.057,
+      "elite_advantage": -0.057
     }
   ],
   "agency_rules": [
     "Elite does more: production_quality=professional | aspect_ratio=square_1x1 | visual_complexity=complex",
-    "Weak does more: register=casual | dialect=saudi_colloquial | visual_complexity=simple"
+    "Weak does more: lighting=natural | register=casual | dialect=saudi_colloquial"
   ]
 }

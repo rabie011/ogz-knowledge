@@ -3,14 +3,114 @@
   "sector": "fashion",
   "sector_key": "fashion",
   "corpus_data": {
-    "obs_in_corpus": 0,
-    "avg_engagement": null,
-    "high_eng_count": 0,
-    "low_eng_count": 0
+    "obs_in_corpus": 37,
+    "avg_engagement": 0.635,
+    "high_eng_count": 15,
+    "low_eng_count": 22
   },
-  "winning_signals": [],
-  "losing_signals": [],
-  "top_patterns": [],
+  "winning_signals": [
+    {
+      "dimension": "hvm",
+      "value": "modern",
+      "count": 15,
+      "pct": 1.0
+    },
+    {
+      "dimension": "composition",
+      "value": "lifestyle_integrated",
+      "count": 12,
+      "pct": 0.8
+    },
+    {
+      "dimension": "visual_complexity",
+      "value": "moderate",
+      "count": 11,
+      "pct": 0.733
+    },
+    {
+      "dimension": "tone",
+      "value": "celebratory",
+      "count": 9,
+      "pct": 0.6
+    },
+    {
+      "dimension": "content_type",
+      "value": "image",
+      "count": 7,
+      "pct": 0.467
+    },
+    {
+      "dimension": "content_type",
+      "value": "video",
+      "count": 6,
+      "pct": 0.4
+    },
+    {
+      "dimension": "visual_complexity",
+      "value": "simple",
+      "count": 4,
+      "pct": 0.267
+    },
+    {
+      "dimension": "tone",
+      "value": "informative",
+      "count": 3,
+      "pct": 0.2
+    }
+  ],
+  "losing_signals": [
+    {
+      "dimension": "hvm",
+      "value": "modern",
+      "count": 21,
+      "pct": 0.955
+    },
+    {
+      "dimension": "visual_complexity",
+      "value": "moderate",
+      "count": 15,
+      "pct": 0.682
+    },
+    {
+      "dimension": "composition",
+      "value": "lifestyle_integrated",
+      "count": 14,
+      "pct": 0.636
+    },
+    {
+      "dimension": "tone",
+      "value": "celebratory",
+      "count": 12,
+      "pct": 0.545
+    }
+  ],
+  "top_patterns": [
+    {
+      "pattern": "occasion_playseid_campaign",
+      "count": 13,
+      "pct": 0.867
+    },
+    {
+      "pattern": "eid_campaign",
+      "count": 2,
+      "pct": 0.133
+    },
+    {
+      "pattern": "voice_techniquesarabic_casual_mood_trigger",
+      "count": 2,
+      "pct": 0.133
+    },
+    {
+      "pattern": "behind_the_scenes",
+      "count": 1,
+      "pct": 0.067
+    },
+    {
+      "pattern": "occasion_playscultural_moment_tie_in",
+      "count": 1,
+      "pct": 0.067
+    }
+  ],
   "top_phrases_in_winners": [],
   "recommended_formula": {
     "format": null,
@@ -30,6 +130,8 @@
     "hospitality_cues": []
   },
   "red_flags": [
+    "AVOID: hvm=modern (found in 95% of low-eng posts)",
+    "AVOID: visual_complexity=moderate (found in 68% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
     "AVOID: video format if images/carousels are viable — video underperforms"
   ],

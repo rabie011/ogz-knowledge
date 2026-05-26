@@ -2,8 +2,8 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 2416,
-  "obs_with_caption": 2165,
+  "total_obs": 2530,
+  "obs_with_caption": 2279,
   "obs_without_caption": 251,
   "caption_length_table": [
     {
@@ -16,18 +16,10 @@
     },
     {
       "caption_length_bucket": "medium_11_30",
-      "count": 1012,
-      "high_engagement_rate": 0.299,
-      "avg_engagement": 0.43,
-      "lift_vs_baseline": -0.241,
-      "top_sector": "f_and_b"
-    },
-    {
-      "caption_length_bucket": "short_1_10",
-      "count": 378,
-      "high_engagement_rate": 0.241,
-      "avg_engagement": 0.405,
-      "lift_vs_baseline": -0.299,
+      "count": 1054,
+      "high_engagement_rate": 0.291,
+      "avg_engagement": 0.42,
+      "lift_vs_baseline": -0.249,
       "top_sector": "f_and_b"
     },
     {
@@ -45,15 +37,23 @@
       "avg_engagement": 0.334,
       "lift_vs_baseline": -0.332,
       "top_sector": "f_and_b"
+    },
+    {
+      "caption_length_bucket": "short_1_10",
+      "count": 450,
+      "high_engagement_rate": 0.202,
+      "avg_engagement": 0.353,
+      "lift_vs_baseline": -0.338,
+      "top_sector": "f_and_b"
     }
   ],
   "hashtag_count_table": [
     {
       "hashtag_count_bucket": "1_5",
-      "count": 1211,
-      "high_engagement_rate": 0.305,
-      "avg_engagement": 0.436,
-      "lift_vs_baseline": -0.235
+      "count": 1302,
+      "high_engagement_rate": 0.286,
+      "avg_engagement": 0.414,
+      "lift_vs_baseline": -0.254
     },
     {
       "hashtag_count_bucket": "6_15",
@@ -64,10 +64,10 @@
     },
     {
       "hashtag_count_bucket": "0",
-      "count": 792,
-      "high_engagement_rate": 0.207,
-      "avg_engagement": 0.374,
-      "lift_vs_baseline": -0.333
+      "count": 815,
+      "high_engagement_rate": 0.201,
+      "avg_engagement": 0.366,
+      "lift_vs_baseline": -0.339
     },
     {
       "hashtag_count_bucket": "16plus",
@@ -80,17 +80,17 @@
   "emoji_presence_table": [
     {
       "emoji_presence": "has_emoji",
-      "count": 1775,
-      "high_engagement_rate": 0.272,
-      "avg_engagement": 0.424,
-      "lift_vs_baseline": -0.268
+      "count": 1887,
+      "high_engagement_rate": 0.258,
+      "avg_engagement": 0.406,
+      "lift_vs_baseline": -0.282
     },
     {
       "emoji_presence": "no_emoji",
-      "count": 390,
-      "high_engagement_rate": 0.205,
-      "avg_engagement": 0.308,
-      "lift_vs_baseline": -0.335
+      "count": 392,
+      "high_engagement_rate": 0.204,
+      "avg_engagement": 0.306,
+      "lift_vs_baseline": -0.336
     }
   ],
   "caption_language_table": [
@@ -112,18 +112,18 @@
     },
     {
       "caption_language": "arabic",
-      "count": 1072,
-      "high_engagement_rate": 0.317,
-      "avg_engagement": 0.457,
-      "lift_vs_baseline": -0.223,
+      "count": 1179,
+      "high_engagement_rate": 0.292,
+      "avg_engagement": 0.427,
+      "lift_vs_baseline": -0.248,
       "top_sector": "f_and_b"
     },
     {
       "caption_language": "bilingual",
-      "count": 856,
-      "high_engagement_rate": 0.22,
-      "avg_engagement": 0.371,
-      "lift_vs_baseline": -0.32,
+      "count": 863,
+      "high_engagement_rate": 0.218,
+      "avg_engagement": 0.369,
+      "lift_vs_baseline": -0.322,
       "top_sector": "f_and_b"
     },
     {
@@ -138,17 +138,17 @@
   "caption_open_style_table": [
     {
       "caption_open_style": "question_open",
-      "count": 342,
-      "high_engagement_rate": 0.287,
-      "avg_engagement": 0.449,
-      "lift_vs_baseline": -0.253
+      "count": 377,
+      "high_engagement_rate": 0.26,
+      "avg_engagement": 0.416,
+      "lift_vs_baseline": -0.28
     },
     {
       "caption_open_style": "statement_open",
-      "count": 1823,
-      "high_engagement_rate": 0.255,
-      "avg_engagement": 0.394,
-      "lift_vs_baseline": -0.285
+      "count": 1902,
+      "high_engagement_rate": 0.246,
+      "avg_engagement": 0.383,
+      "lift_vs_baseline": -0.294
     }
   ],
   "language_by_sector": [
@@ -209,11 +209,18 @@
       "lift": -0.499
     },
     {
+      "language": "arabic",
+      "sector": "beauty_personal_care",
+      "count": 108,
+      "high_eng_rate": 0.037,
+      "lift": -0.503
+    },
+    {
       "language": "bilingual",
       "sector": "beauty_personal_care",
-      "count": 183,
-      "high_eng_rate": 0.033,
-      "lift": -0.507
+      "count": 190,
+      "high_eng_rate": 0.032,
+      "lift": -0.508
     },
     {
       "language": "bilingual",
@@ -254,36 +261,29 @@
     },
     {
       "language": "arabic",
-      "occasion": "founding_day",
-      "count": 22,
+      "occasion": "eid_al_adha",
+      "count": 16,
       "high_eng_rate": 0.5,
       "lift": -0.04
     },
     {
       "language": "arabic",
-      "occasion": "eid_al_adha",
-      "count": 12,
-      "high_eng_rate": 0.5,
-      "lift": -0.04
+      "occasion": "founding_day",
+      "count": 24,
+      "high_eng_rate": 0.458,
+      "lift": -0.082
     },
     {
       "language": "arabic",
       "occasion": "seasonal",
-      "count": 37,
-      "high_eng_rate": 0.486,
-      "lift": -0.054
+      "count": 40,
+      "high_eng_rate": 0.45,
+      "lift": -0.09
     },
     {
       "language": "bilingual",
       "occasion": "brand_campaign",
       "count": 9,
-      "high_eng_rate": 0.333,
-      "lift": -0.207
-    },
-    {
-      "language": "arabic",
-      "occasion": "eid_al_fitr",
-      "count": 33,
       "high_eng_rate": 0.333,
       "lift": -0.207
     },
@@ -310,8 +310,8 @@
     },
     {
       "language": "arabic",
-      "occasion": "evergreen",
-      "count": 750,
+      "occasion": "eid_al_fitr",
+      "count": 40,
       "high_eng_rate": 0.3,
       "lift": -0.24
     },
@@ -332,9 +332,16 @@
     {
       "language": "arabic",
       "occasion": "general",
-      "count": 92,
-      "high_eng_rate": 0.283,
-      "lift": -0.257
+      "count": 94,
+      "high_eng_rate": 0.277,
+      "lift": -0.263
+    },
+    {
+      "language": "arabic",
+      "occasion": "evergreen",
+      "count": 835,
+      "high_eng_rate": 0.271,
+      "lift": -0.269
     },
     {
       "language": "english",
@@ -346,9 +353,9 @@
     {
       "language": "arabic",
       "occasion": "ramadan",
-      "count": 85,
-      "high_eng_rate": 0.235,
-      "lift": -0.305
+      "count": 89,
+      "high_eng_rate": 0.225,
+      "lift": -0.315
     },
     {
       "language": "bilingual",
@@ -360,9 +367,9 @@
     {
       "language": "bilingual",
       "occasion": "evergreen",
-      "count": 656,
-      "high_eng_rate": 0.209,
-      "lift": -0.331
+      "count": 663,
+      "high_eng_rate": 0.207,
+      "lift": -0.333
     },
     {
       "language": "english",
@@ -423,11 +430,11 @@
   ],
   "key_findings": [
     "Best caption length: 'empty' = 41% high-eng (-12pp vs baseline)",
-    "Worst caption length: 'very_long_75plus' = 20%",
-    "Best hashtag count: '1_5' = 30%",
-    "Emoji HELPS: with=27% vs without=20% (+6pp)",
+    "Worst caption length: 'short_1_10' = 20%",
+    "Best hashtag count: '1_5' = 28%",
+    "Emoji HELPS: with=25% vs without=20% (+5pp)",
     "Best caption language: 'other' = 66% (n=3)",
-    "Question-open captions: 28% vs statement-open: 25% (+3pp)"
+    "Question-open captions: 26% vs statement-open: 24% (+1pp)"
   ],
   "agency_rules": [
     "Target caption length: 'empty' — highest engagement bucket",

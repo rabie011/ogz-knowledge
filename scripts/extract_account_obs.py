@@ -156,10 +156,13 @@ def extract_via_apify(
     print(f"  Fetching @{handle} via Apify (limit={results_limit})...", flush=True)
 
     client = ApifyClient(token)
-    run = client.actor(APIFY_ACTOR).call(run_input={
-        "username": [handle],          # actor v0.99+ requires array
-        "resultsLimit": results_limit,
-    })
+    run = client.actor(APIFY_ACTOR).call(
+        run_input={
+            "username": [handle],          # actor v0.99+ requires array
+            "resultsLimit": results_limit,
+        },
+        timeout_secs=600,   # abort Apify run after 10 min — prevents 900s daemon timeout
+    )
 
     TYPE_MAP = {
         "Image":   "image",
@@ -646,11 +649,11 @@ def write_observation(raw: dict, cls: dict, account_ulid: str) -> Path:
         },
         "visual_observations": {
             "composition_style": cls.get("composition_style", ""),
-            "lighting": "",
-            "color_palette_dominant": [],
+            "lighting": cls.get("lighting", ""),
+            "color_palette_dominant": cls.get("color_palette_dominant", []),
             "visual_complexity": cls.get("visual_complexity", "moderate"),
             "human_presence": human_presence,
-            "setting": "",
+            "setting": cls.get("setting", ""),
         },
         "voice_observations": {
             "caption_text": raw["caption_text"],

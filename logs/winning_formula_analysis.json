@@ -5,6 +5,19 @@
   "total_obs": 2894,
   "top_6dim_formulas": [
     {
+      "primary_pattern": "none",
+      "primary_pattern_name": "none",
+      "media_type": "image",
+      "setting": "restaurant",
+      "lighting": "flat_bright",
+      "register": "unknown",
+      "tone": "celebratory",
+      "obs_count": 7,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "lift_vs_baseline": 0.35
+    },
+    {
       "primary_pattern": "product_hero",
       "primary_pattern_name": "Product Hero Static",
       "media_type": "video",
@@ -18,19 +31,6 @@
       "lift_vs_baseline": 0.35
     },
     {
-      "primary_pattern": "food_review",
-      "primary_pattern_name": "Food Review",
-      "media_type": "image",
-      "setting": "unknown",
-      "lighting": "unknown",
-      "register": "unknown",
-      "tone": "casual",
-      "obs_count": 6,
-      "high_engagement_rate": 1.0,
-      "avg_engagement": 1.0,
-      "lift_vs_baseline": 0.35
-    },
-    {
       "primary_pattern": "product_hero",
       "primary_pattern_name": "Product Hero Static",
       "media_type": "carousel_slide",
@@ -38,6 +38,32 @@
       "lighting": "cold_studio",
       "register": "unknown",
       "tone": "unknown",
+      "obs_count": 5,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "lift_vs_baseline": 0.35
+    },
+    {
+      "primary_pattern": "food_review",
+      "primary_pattern_name": "Food Review",
+      "media_type": "image",
+      "setting": "restaurant",
+      "lighting": "natural",
+      "register": "unknown",
+      "tone": "casual",
+      "obs_count": 5,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "lift_vs_baseline": 0.35
+    },
+    {
+      "primary_pattern": "none",
+      "primary_pattern_name": "none",
+      "media_type": "carousel_slide",
+      "setting": "retail_store",
+      "lighting": "natural",
+      "register": "unknown",
+      "tone": "celebratory",
       "obs_count": 5,
       "high_engagement_rate": 1.0,
       "avg_engagement": 1.0,
@@ -83,19 +109,6 @@
       "lift_vs_baseline": 0.35
     },
     {
-      "primary_pattern": "gamification",
-      "primary_pattern_name": "Gamification",
-      "media_type": "video",
-      "setting": "unknown",
-      "lighting": "unknown",
-      "register": "unknown",
-      "tone": "playful",
-      "obs_count": 3,
-      "high_engagement_rate": 1.0,
-      "avg_engagement": 1.0,
-      "lift_vs_baseline": 0.35
-    },
-    {
       "primary_pattern": "brand_collab",
       "primary_pattern_name": "Brand Collab",
       "media_type": "video",
@@ -129,19 +142,6 @@
       "lighting": "cold_studio",
       "register": "promotional",
       "tone": "excited",
-      "obs_count": 2,
-      "high_engagement_rate": 1.0,
-      "avg_engagement": 1.0,
-      "lift_vs_baseline": 0.35
-    },
-    {
-      "primary_pattern": "none",
-      "primary_pattern_name": "none",
-      "media_type": "video",
-      "setting": "studio",
-      "lighting": "natural",
-      "register": "unknown",
-      "tone": "celebratory",
       "obs_count": 2,
       "high_engagement_rate": 1.0,
       "avg_engagement": 1.0,
@@ -558,16 +558,6 @@
       "lift_vs_baseline": 0.35
     },
     {
-      "media_type": "video",
-      "visual_complexity": "complex",
-      "aspect_ratio": "unknown",
-      "setting": "unknown",
-      "obs_count": 3,
-      "high_engagement_rate": 1.0,
-      "avg_engagement": 1.0,
-      "lift_vs_baseline": 0.35
-    },
-    {
       "media_type": "image",
       "visual_complexity": "moderate",
       "aspect_ratio": "square_1x1",
@@ -626,6 +616,16 @@
       "high_engagement_rate": 0.8,
       "avg_engagement": 0.9,
       "lift_vs_baseline": 0.15
+    },
+    {
+      "media_type": "carousel_slide",
+      "visual_complexity": "complex",
+      "aspect_ratio": "portrait_4x5",
+      "setting": "studio",
+      "obs_count": 5,
+      "high_engagement_rate": 0.8,
+      "avg_engagement": 0.9,
+      "lift_vs_baseline": 0.15
     }
   ],
   "best_occasion_formulas": {
@@ -650,16 +650,16 @@
       "setting": "?",
       "register": "?",
       "tone": "playful",
-      "count": 12,
-      "high_eng_rate": 0.583
+      "count": 4,
+      "high_eng_rate": 1.0
     },
     "national_day": {
       "media_type": "image",
-      "setting": "?",
+      "setting": "restaurant",
       "register": "?",
       "tone": "celebratory",
-      "count": 13,
-      "high_eng_rate": 0.615
+      "count": 6,
+      "high_eng_rate": 0.833
     },
     "ramadan": {
       "media_type": "image",
@@ -671,35 +671,35 @@
     },
     "seasonal": {
       "media_type": "image",
-      "setting": "?",
+      "setting": "retail_store",
       "register": "?",
-      "tone": "celebratory",
-      "count": 9,
-      "high_eng_rate": 0.667
+      "tone": "casual",
+      "count": 2,
+      "high_eng_rate": 1.0
     },
     "general": {
       "media_type": "video",
-      "setting": "?",
+      "setting": "restaurant",
       "register": "?",
       "tone": "informative",
+      "count": 2,
+      "high_eng_rate": 1.0
+    },
+    "eid_al_adha": {
+      "media_type": "video",
+      "setting": "restaurant",
+      "register": "?",
+      "tone": "celebratory",
       "count": 3,
       "high_eng_rate": 0.667
     },
-    "eid_al_adha": {
-      "media_type": "carousel_slide",
-      "setting": "?",
-      "register": "?",
-      "tone": "celebratory",
-      "count": 2,
-      "high_eng_rate": 1.0
-    },
     "founding_day": {
       "media_type": "video",
-      "setting": "?",
+      "setting": "outdoor",
       "register": "?",
-      "tone": "playful",
-      "count": 2,
-      "high_eng_rate": 1.0
+      "tone": "celebratory",
+      "count": 4,
+      "high_eng_rate": 0.25
     },
     "summer_campaign": {
       "media_type": "image",
@@ -782,31 +782,31 @@
       },
       {
         "pattern": "none",
-        "media_type": "video",
-        "setting": "?",
-        "count": 3,
-        "high_eng_rate": 0.333
+        "media_type": "image",
+        "setting": "retail_store",
+        "count": 12,
+        "high_eng_rate": 0.167
       },
       {
         "pattern": "none",
-        "media_type": "image",
-        "setting": "retail_store",
-        "count": 11,
-        "high_eng_rate": 0.182
+        "media_type": "video",
+        "setting": "salon",
+        "count": 26,
+        "high_eng_rate": 0.115
       },
       {
         "pattern": "none",
         "media_type": "carousel_slide",
         "setting": "salon",
-        "count": 7,
-        "high_eng_rate": 0.143
+        "count": 10,
+        "high_eng_rate": 0.1
       },
       {
         "pattern": "none",
-        "media_type": "video",
+        "media_type": "image",
         "setting": "salon",
-        "count": 25,
-        "high_eng_rate": 0.08
+        "count": 18,
+        "high_eng_rate": 0.056
       }
     ],
     "f_and_b": [
@@ -849,23 +849,37 @@
     "real_estate": [
       {
         "pattern": "none",
-        "media_type": "video",
-        "setting": "?",
-        "count": 50,
-        "high_eng_rate": 0.04
+        "media_type": "image",
+        "setting": "outdoor",
+        "count": 28,
+        "high_eng_rate": 0.036
       },
       {
         "pattern": "none",
-        "media_type": "image",
-        "setting": "?",
-        "count": 38,
-        "high_eng_rate": 0.026
+        "media_type": "video",
+        "setting": "outdoor",
+        "count": 48,
+        "high_eng_rate": 0.021
       },
       {
         "pattern": "none",
         "media_type": "carousel_slide",
-        "setting": "?",
-        "count": 25,
+        "setting": "outdoor",
+        "count": 21,
+        "high_eng_rate": 0.0
+      },
+      {
+        "pattern": "none",
+        "media_type": "image",
+        "setting": "office",
+        "count": 4,
+        "high_eng_rate": 0.0
+      },
+      {
+        "pattern": "none",
+        "media_type": "image",
+        "setting": "retail_store",
+        "count": 4,
         "high_eng_rate": 0.0
       }
     ],
@@ -888,24 +902,38 @@
     "retail_lifestyle": [
       {
         "pattern": "none",
-        "media_type": "image",
-        "setting": "?",
-        "count": 145,
-        "high_eng_rate": 0.069
+        "media_type": "video",
+        "setting": "outdoor",
+        "count": 4,
+        "high_eng_rate": 0.25
       },
       {
         "pattern": "none",
-        "media_type": "carousel_slide",
+        "media_type": "image",
         "setting": "?",
-        "count": 73,
-        "high_eng_rate": 0.068
+        "count": 127,
+        "high_eng_rate": 0.079
       },
       {
         "pattern": "none",
         "media_type": "video",
         "setting": "?",
-        "count": 140,
-        "high_eng_rate": 0.064
+        "count": 110,
+        "high_eng_rate": 0.073
+      },
+      {
+        "pattern": "none",
+        "media_type": "carousel_slide",
+        "setting": "?",
+        "count": 69,
+        "high_eng_rate": 0.072
+      },
+      {
+        "pattern": "none",
+        "media_type": "video",
+        "setting": "retail_store",
+        "count": 22,
+        "high_eng_rate": 0.0
       }
     ],
     "fashion": [
@@ -947,8 +975,8 @@
     ]
   },
   "key_findings": [
-    "Best 6-dim formula (n≥3): product_hero + video + studio + dramatic_moody + casual + bold → 100% high eng",
+    "Best 6-dim formula (n≥3): none + image + restaurant + flat_bright + unknown + celebratory → 100% high eng",
     "Best visual formula (n≥3): video + studio + dramatic_moody + product_hero_close_up + casual → 100%",
-    "160 unique 6-dim combinations found. 76 have 3+ observations."
+    "225 unique 6-dim combinations found. 140 have 3+ observations."
   ]
 }

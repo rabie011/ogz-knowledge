@@ -11,6 +11,18 @@
   "winning_signals": [],
   "losing_signals": [
     {
+      "dimension": "setting",
+      "value": "outdoor",
+      "count": 3,
+      "pct": 1.0
+    },
+    {
+      "dimension": "lighting",
+      "value": "natural",
+      "count": 3,
+      "pct": 1.0
+    },
+    {
       "dimension": "tone",
       "value": "informative",
       "count": 3,
@@ -21,18 +33,6 @@
       "value": "modern",
       "count": 3,
       "pct": 1.0
-    },
-    {
-      "dimension": "content_type",
-      "value": "video",
-      "count": 2,
-      "pct": 0.667
-    },
-    {
-      "dimension": "composition",
-      "value": "lifestyle_integrated",
-      "count": 2,
-      "pct": 0.667
     }
   ],
   "top_patterns": [],
@@ -57,8 +57,8 @@
     "hospitality_cues": []
   },
   "red_flags": [
-    "AVOID: tone=informative (found in 100% of low-eng posts)",
-    "AVOID: hvm=modern (found in 100% of low-eng posts)",
+    "AVOID: setting=outdoor (found in 100% of low-eng posts)",
+    "AVOID: lighting=natural (found in 100% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
     "AVOID: video format if images/carousels are viable — video underperforms"
   ],
@@ -91,6 +91,6 @@
       "رمضان شهر العبادة والعطاء"
     ],
     "hospitality_cues": [],
-    "playbook_obs_count": 174
+    "playbook_obs_count": 201
   }
 }

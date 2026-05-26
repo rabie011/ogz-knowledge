@@ -22,6 +22,18 @@
       "pct": 0.579
     },
     {
+      "dimension": "lighting",
+      "value": "warm_studio",
+      "count": 21,
+      "pct": 0.553
+    },
+    {
+      "dimension": "setting",
+      "value": "restaurant",
+      "count": 18,
+      "pct": 0.474
+    },
+    {
       "dimension": "hvm",
       "value": "modern",
       "count": 16,
@@ -44,21 +56,21 @@
       "value": "video",
       "count": 11,
       "pct": 0.289
-    },
-    {
-      "dimension": "visual_complexity",
-      "value": "simple",
-      "count": 11,
-      "pct": 0.289
-    },
-    {
-      "dimension": "tone",
-      "value": "playful",
-      "count": 10,
-      "pct": 0.263
     }
   ],
   "losing_signals": [
+    {
+      "dimension": "setting",
+      "value": "restaurant",
+      "count": 71,
+      "pct": 0.724
+    },
+    {
+      "dimension": "lighting",
+      "value": "warm_studio",
+      "count": 66,
+      "pct": 0.673
+    },
     {
       "dimension": "visual_complexity",
       "value": "simple",
@@ -70,18 +82,6 @@
       "value": "image",
       "count": 40,
       "pct": 0.408
-    },
-    {
-      "dimension": "tone",
-      "value": "informative",
-      "count": 40,
-      "pct": 0.408
-    },
-    {
-      "dimension": "hvm",
-      "value": "blended",
-      "count": 39,
-      "pct": 0.398
     }
   ],
   "top_patterns": [
@@ -139,8 +139,8 @@
   },
   "red_flags": [
     "AVOID format: carousel_slide (60% eng for this occasion)",
-    "AVOID: visual_complexity=simple (found in 65% of low-eng posts)",
-    "AVOID: content_type=image (found in 40% of low-eng posts)",
+    "AVOID: setting=restaurant (found in 72% of low-eng posts)",
+    "AVOID: lighting=warm_studio (found in 67% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
     "AVOID: video format if images/carousels are viable — video underperforms"
   ],
@@ -173,6 +173,6 @@
       "رمضان شهر العبادة والعطاء"
     ],
     "hospitality_cues": [],
-    "playbook_obs_count": 174
+    "playbook_obs_count": 201
   }
 }

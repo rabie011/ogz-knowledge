@@ -98,38 +98,38 @@
           ]
         },
         "setting": {
-          "dominant": "studio",
-          "dominant_pct": 0.266,
+          "dominant": "restaurant",
+          "dominant_pct": 0.507,
           "top_3": [
             {
+              "value": "restaurant",
+              "pct": 0.507
+            },
+            {
               "value": "studio",
-              "pct": 0.266
+              "pct": 0.083
             },
             {
-              "value": "digital_graphic",
-              "pct": 0.129
-            },
-            {
-              "value": "restaurant_indoor",
-              "pct": 0.125
+              "value": "retail_store",
+              "pct": 0.081
             }
           ]
         },
         "lighting": {
-          "dominant": "cold_studio",
-          "dominant_pct": 0.186,
+          "dominant": "warm_studio",
+          "dominant_pct": 0.387,
           "top_3": [
             {
-              "value": "cold_studio",
-              "pct": 0.186
+              "value": "warm_studio",
+              "pct": 0.387
             },
             {
-              "value": "natural_daylight",
-              "pct": 0.139
+              "value": "natural",
+              "pct": 0.277
             },
             {
-              "value": "dramatic_moody",
-              "pct": 0.137
+              "value": "flat_bright",
+              "pct": 0.055
             }
           ]
         },
@@ -317,6 +317,42 @@
             {
               "value": "editorial",
               "pct": 0.064
+            }
+          ]
+        },
+        "setting": {
+          "dominant": "retail_store",
+          "dominant_pct": 0.827,
+          "top_3": [
+            {
+              "value": "retail_store",
+              "pct": 0.827
+            },
+            {
+              "value": "outdoor",
+              "pct": 0.096
+            },
+            {
+              "value": "studio",
+              "pct": 0.077
+            }
+          ]
+        },
+        "lighting": {
+          "dominant": "natural",
+          "dominant_pct": 0.635,
+          "top_3": [
+            {
+              "value": "natural",
+              "pct": 0.635
+            },
+            {
+              "value": "warm_studio",
+              "pct": 0.346
+            },
+            {
+              "value": "golden_hour",
+              "pct": 0.019
             }
           ]
         },
@@ -761,37 +797,37 @@
         },
         "setting": {
           "dominant": "studio",
-          "dominant_pct": 0.576,
+          "dominant_pct": 0.557,
           "top_3": [
             {
               "value": "studio",
-              "pct": 0.576
+              "pct": 0.557
             },
             {
               "value": "salon",
-              "pct": 0.164
+              "pct": 0.176
             },
             {
-              "value": "outdoor",
-              "pct": 0.093
+              "value": "home",
+              "pct": 0.094
             }
           ]
         },
         "lighting": {
           "dominant": "natural",
-          "dominant_pct": 0.639,
+          "dominant_pct": 0.616,
           "top_3": [
             {
               "value": "natural",
-              "pct": 0.639
+              "pct": 0.616
             },
             {
               "value": "warm_studio",
-              "pct": 0.271
+              "pct": 0.293
             },
             {
               "value": "golden_hour",
-              "pct": 0.067
+              "pct": 0.068
             }
           ]
         },
@@ -1139,6 +1175,42 @@
             }
           ]
         },
+        "setting": {
+          "dominant": "outdoor",
+          "dominant_pct": 0.858,
+          "top_3": [
+            {
+              "value": "outdoor",
+              "pct": 0.858
+            },
+            {
+              "value": "office",
+              "pct": 0.053
+            },
+            {
+              "value": "retail_store",
+              "pct": 0.044
+            }
+          ]
+        },
+        "lighting": {
+          "dominant": "natural",
+          "dominant_pct": 0.832,
+          "top_3": [
+            {
+              "value": "natural",
+              "pct": 0.832
+            },
+            {
+              "value": "flat_bright",
+              "pct": 0.097
+            },
+            {
+              "value": "golden_hour",
+              "pct": 0.062
+            }
+          ]
+        },
         "visual_complexity": {
           "dominant": "simple",
           "dominant_pct": 0.549,
@@ -1260,15 +1332,28 @@
       "sectors_differ": true
     },
     {
+      "dimension": "setting",
+      "per_sector": {
+        "f_and_b": "restaurant",
+        "retail_lifestyle": "retail_store",
+        "fashion": null,
+        "retail": "studio",
+        "beauty_personal_care": "studio",
+        "beauty": "studio",
+        "real_estate": "outdoor"
+      },
+      "sectors_differ": true
+    },
+    {
       "dimension": "lighting",
       "per_sector": {
-        "f_and_b": "cold_studio",
-        "retail_lifestyle": null,
+        "f_and_b": "warm_studio",
+        "retail_lifestyle": "natural",
         "fashion": null,
         "retail": "cold_studio",
         "beauty_personal_care": "natural",
         "beauty": "studio_soft",
-        "real_estate": null
+        "real_estate": "natural"
       },
       "sectors_differ": true
     },
@@ -1358,9 +1443,9 @@
     "fashion: 67% — leads with lifestyle_integrated + ? + informative tone",
     "retail: 56% — leads with product_hero_closeup + studio + proud tone",
     "beauty: 52% — leads with product_hero_closeup + studio + aspirational tone",
-    "f_and_b: 52% — leads with product_hero_closeup + studio + playful tone",
-    "retail_lifestyle: 16% — leads with product_hero_closeup + ? + informative tone",
+    "f_and_b: 52% — leads with product_hero_closeup + restaurant + playful tone",
+    "retail_lifestyle: 16% — leads with product_hero_closeup + retail_store + informative tone",
     "beauty_personal_care: 9% — leads with product_hero_closeup + studio + informative tone",
-    "real_estate: 6% — leads with text_dominant + ? + informative tone"
+    "real_estate: 6% — leads with text_dominant + outdoor + informative tone"
   ]
 }

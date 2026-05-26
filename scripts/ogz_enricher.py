@@ -231,11 +231,16 @@ def module_extract_accounts() -> int:
             f"quota img={quota['image']} vid={quota['video']} car={quota['carousel']}"
         )
 
-        rc, stdout, stderr = _run([
-            sys.executable, "scripts/extract_account_obs.py",
-            "--handle", handle,
-            "--sector", sector,
-        ], timeout=900)  # Apify: up to 15 min for large accounts (300 posts)
+        try:
+            rc, stdout, stderr = _run([
+                sys.executable, "scripts/extract_account_obs.py",
+                "--handle", handle,
+                "--sector", sector,
+            ], timeout=900)  # Apify: up to 15 min for large accounts (300 posts)
+        except Exception as e:
+            # Timeout or crash on THIS account — log and continue to next
+            log.warning(f"    ⚠ @{handle} extraction error: {e}")
+            continue
 
         m = re.search(r"Extracted (\d+) observations", stdout)
         n = int(m.group(1)) if m else 0

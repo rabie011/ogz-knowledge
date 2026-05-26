@@ -129,11 +129,12 @@ def extract_via_apify(
         raise RuntimeError("APIFY_TOKEN not set in ~/.abraham_env")
 
     # Request enough posts to likely find the right type mix.
-    # Use 5× or minimum 150 to handle skewed type distributions; cap at 300.
+    # Use 3× or minimum 150 to handle skewed type distributions; cap at 200.
+    # 300 caused 900s+ timeouts on large accounts (e.g. ounass). 200 fits within window.
     total_needed = sum(needed.values())
     if total_needed == 0:
         return [], False
-    results_limit = min(max(total_needed * 5, 150), 300)
+    results_limit = min(max(total_needed * 3, 150), 200)
 
     print(f"  Fetching @{handle} via Apify (limit={results_limit})...", flush=True)
 

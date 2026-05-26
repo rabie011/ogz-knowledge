@@ -68,10 +68,12 @@ def get_chain_coverage(chains: list[dict]) -> dict:
         # output_type → content_type mapping
         # Note: chain output_type="video" covers obs content_type="video" AND "reel"
         # (reels are vertical videos — same chain family applies)
+        # TF24 chains use output_type="carousel" (short form) — map to obs "carousel_slide"
         ct_map = {
             "image":          ["image"],
             "carousel_slide": ["carousel_slide"],
-            "video":          ["video", "reel"],  # chains covering video cover reels too
+            "carousel":       ["carousel_slide"],  # TF24 chains use "carousel" short form
+            "video":          ["video", "reel"],   # chains covering video cover reels too
         }
         cts = ct_map.get(ot, [ot])
 

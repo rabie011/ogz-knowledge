@@ -59,8 +59,22 @@ SECTOR_FOLDER = {
     "beauty_personal_care": "beauty",
     "retail":               "retail",
     "retail_lifestyle":     "retail",
+    "fashion":              "retail",       # fashion brands → retail obs folder
     "real_estate":          "real_estate",
+    "telecom":              "retail",       # telecoms go into retail for now
+    "banking_finance":      "retail",
+    "automotive":           "retail",
+    "hospitality":          "f_and_b",     # hotels/restaurants → f_and_b folder
+    "government":           "retail",
 }
+
+# ── Instaloader config (fallback when Apify credit exhausted) ─────────────────
+INSTALOADER_BIN  = str(BASE / ".venv/bin/instaloader")
+if not Path(INSTALOADER_BIN).exists():
+    INSTALOADER_BIN = "/opt/homebrew/bin/instaloader"
+INSTALOADER_COOKIE_FILE = os.path.expanduser(
+    "~/Library/Application Support/Google/Chrome/Profile 1/Cookies"
+)
 
 # ── Apify config ──────────────────────────────────────────────────────────────
 APIFY_ACTOR = "apify/instagram-post-scraper"
@@ -209,6 +223,217 @@ def extract_via_apify(
         flush=True,
     )
     return collected, profile_exhausted
+
+
+# ── Instaloader fallback extraction ──────────────────────────────────────────
+def extract_via_instaloader(
+    handle: str,
+    sector: str,
+    needed: dict,
+    seen_urls: set,
+) -> tuple[list[dict], bool]:
+    """
+    Fallback extractor using instaloader CLI + Chrome Profile 1 cookies.
+    Used automatically when Apify token is missing or credit < $1.00.
+    Same raw_posts output format as extract_via_apify().
+
+    Rate: ~3s between posts. Scrapes up to 300 posts from public profile.
+    Saves no files to disk — uses --no-pictures --no-videos --save-metadata
+    in a tempdir, then parses JSON sidecar files.
+    """
+    import subprocess, tempfile, shutil
+
+    total_needed = sum(needed.values())
+    if total_needed == 0:
+        return [], False
+
+    results_limit = min(max(total_needed * 5, 150), 300)
+    print(f"  Fetching @{handle} via instaloader (limit={results_limit})...", flush=True)
+
+    TYPE_MAP = {
+        "GraphImage":   "image",
+        "GraphVideo":   "video",
+        "GraphSidecar": "carousel_slide",
+        "Image":        "image",
+        "Video":        "video",
+        "Sidecar":      "carousel_slide",
+    }
+
+    collected: list[dict] = []
+    remaining  = dict(needed)
+    total_raw  = 0
+    profile_exhausted = False
+
+    with tempfile.TemporaryDirectory(prefix="ogz_il_") as tmpdir:
+        cmd = [
+            INSTALOADER_BIN,
+            "--cookiefile", INSTALOADER_COOKIE_FILE,
+            "--no-pictures",
+            "--no-videos",
+            "--no-video-thumbnails",
+            "--no-profile-pic",
+            "--save-metadata",
+            "--no-compress-json",
+            "--count", str(results_limit),
+            f"@{handle}",
+        ]
+        try:
+            subprocess.run(
+                cmd, capture_output=True, text=True,
+                timeout=300, cwd=tmpdir, check=False,
+            )
+        except subprocess.TimeoutExpired:
+            print("  instaloader timed out after 300s", flush=True)
+            return [], False
+        except Exception as e:
+            print(f"  instaloader failed: {e}", flush=True)
+            return [], False
+
+        # Collect all .json sidecar files — instaloader saves them as:
+        #   handle/YYYY-MM-DD_HH-MM-SS_UTC_SHORTCODE.json
+        json_files = sorted(Path(tmpdir).rglob("*.json"))
+        total_raw  = len(json_files)
+        profile_exhausted = total_raw < results_limit
+
+        for jf in json_files:
+            if all(v <= 0 for v in remaining.values()):
+                break
+            try:
+                meta = json.loads(jf.read_text())
+                node = meta.get("node", meta)  # top-level node, or flat dict
+
+                short_code = (
+                    node.get("shortcode")
+                    or node.get("shortCode")
+                    or jf.stem.rsplit("_", 1)[-1]   # last part of filename
+                )
+                if not short_code:
+                    continue
+
+                source_url = f"https://www.instagram.com/p/{short_code}/"
+                if source_url in seen_urls:
+                    continue
+
+                typename     = node.get("__typename", "GraphImage")
+                content_type = TYPE_MAP.get(typename, "image")
+                quota_key    = _ct_to_quota_key(content_type)
+                if remaining.get(quota_key, 0) <= 0:
+                    continue
+
+                # Timestamp (unix or ISO)
+                ts = node.get("taken_at_timestamp") or node.get("timestamp", 0)
+                try:
+                    ts_int = int(ts)
+                    capture_date = datetime.utcfromtimestamp(ts_int).strftime("%Y-%m-%d")
+                except (TypeError, ValueError, OSError):
+                    capture_date = str(ts)[:10] if ts else datetime.now().strftime("%Y-%m-%d")
+
+                # Caption — two possible locations in instaloader JSON
+                caption_raw = ""
+                try:
+                    caption_raw = (
+                        node.get("edge_media_to_caption", {})
+                            .get("edges", [{}])[0]
+                            .get("node", {})
+                            .get("text", "")
+                        or node.get("caption_text", "")
+                        or node.get("caption", "")
+                        or ""
+                    )
+                except (IndexError, AttributeError):
+                    pass
+                caption_raw = str(caption_raw)
+
+                # Engagement
+                likes    = int(node.get("edge_media_preview_like", {}).get("count", 0)
+                               or node.get("edge_liked_by", {}).get("count", 0)
+                               or node.get("likesCount", 0) or 0)
+                comments = int(node.get("edge_media_to_comment", {}).get("count", 0)
+                               or node.get("commentsCount", 0) or 0)
+
+                word_count    = len(caption_raw.split()) if caption_raw else 0
+                hashtag_count = len(re.findall(r"#\w+", caption_raw))
+                has_emoji     = bool(re.search(
+                    r"[\U00010000-\U0010ffff\U00002600-\U000027BF]", caption_raw))
+
+                display_url = node.get("display_url", "")
+
+                collected.append({
+                    "short_code":    short_code,
+                    "content_type":  content_type,
+                    "capture_date":  capture_date,
+                    "caption_text":  caption_raw,
+                    "word_count":    word_count,
+                    "hashtag_count": hashtag_count,
+                    "has_emoji":     has_emoji,
+                    "likes":         likes,
+                    "comments":      comments,
+                    "display_url":   display_url,
+                    "filename":      f"{short_code}.jpg",
+                    "sector":        sector,
+                    "handle":        handle,
+                    "source_url":    source_url,
+                })
+                remaining[quota_key] -= 1
+            except Exception:
+                continue
+
+    print(
+        f"  Collected {len(collected)} posts via instaloader "
+        f"(raw={total_raw}, exhausted={profile_exhausted})",
+        flush=True,
+    )
+    return collected, profile_exhausted
+
+
+# ── Apify balance check ────────────────────────────────────────────────────────
+def _get_apify_credit() -> float:
+    """Return remaining Apify prepaid credit in USD. Returns 999.0 on any error."""
+    token = os.environ.get("APIFY_TOKEN", "")
+    if not token:
+        return 0.0
+    try:
+        import urllib.request
+        url = f"https://api.apify.com/v2/users/me?token={token}"
+        resp = urllib.request.urlopen(urllib.request.Request(url), timeout=8)
+        d = json.loads(resp.read()).get("data", {})
+        credit = d.get("availablePrepaidCredit")
+        if credit is not None:
+            return float(credit)
+        return 999.0   # unknown — assume OK
+    except Exception:
+        return 999.0   # on error, let Apify fail naturally (avoids killing on transient)
+
+
+# ── Smart dispatcher: Apify first, instaloader fallback ───────────────────────
+def extract_posts(
+    handle: str,
+    sector: str,
+    needed: dict,
+    seen_urls: set,
+) -> tuple[list[dict], bool]:
+    """
+    Try Apify. Auto-fall back to instaloader if:
+      • APIFY_TOKEN not set
+      • Apify credit < $1.00
+      • Apify raises any exception
+    """
+    token = os.environ.get("APIFY_TOKEN", "")
+
+    if not token:
+        print("  APIFY_TOKEN not set — using instaloader fallback", flush=True)
+        return extract_via_instaloader(handle, sector, needed, seen_urls)
+
+    credit = _get_apify_credit()
+    if credit < 1.0:
+        print(f"  Apify credit low (${credit:.2f}) — switching to instaloader", flush=True)
+        return extract_via_instaloader(handle, sector, needed, seen_urls)
+
+    try:
+        return extract_via_apify(handle, sector, needed, seen_urls)
+    except Exception as e:
+        print(f"  Apify error ({e}) — falling back to instaloader", flush=True)
+        return extract_via_instaloader(handle, sector, needed, seen_urls)
 
 
 # ── OpenAI Batch classification ───────────────────────────────────────────────
@@ -567,17 +792,8 @@ def main():
     seen_urls = _load_existing_source_urls(handle)
     print(f"  Dedup: {len(seen_urls)} existing source URLs loaded")
 
-    # Check Apify token before starting
-    if not os.environ.get("APIFY_TOKEN"):
-        print("❌ APIFY_TOKEN not set in ~/.abraham_env")
-        print("   Get token at console.apify.com → Settings → Integrations → API token")
-        sys.exit(1)
-
-    try:
-        raw_posts, profile_exhausted = extract_via_apify(handle, sector, needed, seen_urls)
-    except RuntimeError as e:
-        print(f"❌ Apify error: {e}")
-        sys.exit(1)
+    # Smart extractor: Apify primary, instaloader fallback (auto when credit < $1)
+    raw_posts, profile_exhausted = extract_posts(handle, sector, needed, seen_urls)
 
     if dry_run:
         print("\nDRY RUN — sample of collected posts:")

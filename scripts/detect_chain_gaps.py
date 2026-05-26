@@ -77,7 +77,13 @@ def get_chain_coverage(chains: list[dict]) -> dict:
         }
         cts = ct_map.get(ot, [ot])
 
-        sectors = sa if "*" not in sa else ["f_and_b", "beauty", "retail"]
+        sectors = sa if "*" not in sa else [
+            "f_and_b", "food_and_beverage",
+            "beauty", "beauty_personal_care",
+            "retail", "retail_lifestyle",
+            "fashion",
+            "real_estate",
+        ]
         for sector in sectors:
             for ct in cts:
                 coverage[(sector, ct)] += 1

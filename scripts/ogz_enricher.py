@@ -85,6 +85,7 @@ ANALYTICS_SCRIPTS = [
     "build_visual_complexity_analysis.py",
     "build_visual_dna_profiles.py",
     "build_visual_decision_tree.py",
+    "build_visual_sector_intel.py",
     "build_composition_analysis.py",
     "build_composition_setting_synergy.py",
     "build_complexity_composition_matrix.py",

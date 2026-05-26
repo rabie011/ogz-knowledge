@@ -2,45 +2,39 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 1747,
-  "obs_with_caption": 1496,
+  "total_obs": 1810,
+  "obs_with_caption": 1559,
   "hashtag_count_table": [
     {
-      "hashtag_count": "6_15",
-      "obs_count": 43,
-      "high_engagement_rate": 0.442,
-      "avg_engagement": 0.593,
-      "lift_vs_baseline": -0.098
+      "hashtag_count": "1_5",
+      "obs_count": 808,
+      "high_engagement_rate": 0.348,
+      "avg_engagement": 0.485,
+      "lift_vs_baseline": -0.192
     },
     {
-      "hashtag_count": "1_5",
-      "obs_count": 806,
-      "high_engagement_rate": 0.347,
-      "avg_engagement": 0.484,
-      "lift_vs_baseline": -0.193
+      "hashtag_count": "6_15",
+      "obs_count": 64,
+      "high_engagement_rate": 0.297,
+      "avg_engagement": 0.398,
+      "lift_vs_baseline": -0.243
     },
     {
       "hashtag_count": "0",
-      "obs_count": 612,
-      "high_engagement_rate": 0.214,
-      "avg_engagement": 0.4,
-      "lift_vs_baseline": -0.326
+      "obs_count": 615,
+      "high_engagement_rate": 0.213,
+      "avg_engagement": 0.398,
+      "lift_vs_baseline": -0.327
     },
     {
       "hashtag_count": "16plus",
-      "obs_count": 35,
-      "high_engagement_rate": 0.171,
-      "avg_engagement": 0.486,
-      "lift_vs_baseline": -0.369
+      "obs_count": 72,
+      "high_engagement_rate": 0.083,
+      "avg_engagement": 0.236,
+      "lift_vs_baseline": -0.457
     }
   ],
   "hashtag_type_table": [
-    {
-      "hashtag_type": "branded_or_other",
-      "obs_count": 733,
-      "high_engagement_rate": 0.398,
-      "lift_vs_baseline": -0.142
-    },
     {
       "hashtag_type": "occasion",
       "obs_count": 99,
@@ -48,22 +42,28 @@
       "lift_vs_baseline": -0.146
     },
     {
-      "hashtag_type": "location",
-      "obs_count": 337,
-      "high_engagement_rate": 0.237,
-      "lift_vs_baseline": -0.303
+      "hashtag_type": "branded_or_other",
+      "obs_count": 793,
+      "high_engagement_rate": 0.369,
+      "lift_vs_baseline": -0.171
     },
     {
-      "hashtag_type": "category_beauty",
-      "obs_count": 48,
-      "high_engagement_rate": 0.208,
-      "lift_vs_baseline": -0.332
+      "hashtag_type": "location",
+      "obs_count": 338,
+      "high_engagement_rate": 0.237,
+      "lift_vs_baseline": -0.303
     },
     {
       "hashtag_type": "category_retail",
       "obs_count": 10,
       "high_engagement_rate": 0.2,
       "lift_vs_baseline": -0.34
+    },
+    {
+      "hashtag_type": "category_beauty",
+      "obs_count": 107,
+      "high_engagement_rate": 0.103,
+      "lift_vs_baseline": -0.437
     },
     {
       "hashtag_type": "category_fnb",
@@ -80,16 +80,16 @@
   ],
   "hashtag_language_table": [
     {
-      "hashtag_language": "english",
-      "obs_count": 140,
-      "high_engagement_rate": 0.371,
-      "lift_vs_baseline": -0.169
+      "hashtag_language": "arabic",
+      "obs_count": 922,
+      "high_engagement_rate": 0.33,
+      "lift_vs_baseline": -0.21
     },
     {
-      "hashtag_language": "arabic",
-      "obs_count": 866,
-      "high_engagement_rate": 0.35,
-      "lift_vs_baseline": -0.19
+      "hashtag_language": "english",
+      "obs_count": 199,
+      "high_engagement_rate": 0.266,
+      "lift_vs_baseline": -0.274
     },
     {
       "hashtag_language": "other",
@@ -502,6 +502,13 @@
   ],
   "hashtag_count_by_sector": [
     {
+      "hashtag_count": "1_5",
+      "sector": "beauty_personal_care",
+      "count": 3,
+      "high_eng_rate": 0.667,
+      "lift": 0.127
+    },
+    {
       "hashtag_count": "6_15",
       "sector": "f_and_b",
       "count": 21,
@@ -546,21 +553,35 @@
     {
       "hashtag_count": "0",
       "sector": "beauty_personal_care",
-      "count": 124,
-      "high_eng_rate": 0.04,
-      "lift": -0.5
+      "count": 127,
+      "high_eng_rate": 0.039,
+      "lift": -0.501
+    },
+    {
+      "hashtag_count": "6_15",
+      "sector": "beauty_personal_care",
+      "count": 21,
+      "high_eng_rate": 0.0,
+      "lift": -0.54
+    },
+    {
+      "hashtag_count": "16plus",
+      "sector": "beauty_personal_care",
+      "count": 37,
+      "high_eng_rate": 0.0,
+      "lift": -0.54
     }
   ],
   "key_findings": [
-    "Optimal hashtag count: '6_15' = 44% (-9pp)",
-    "Worst hashtag count: '16plus' = 17%",
-    "Best hashtag type: 'branded_or_other' = 39%",
-    "Best hashtag language: 'english' = 37%",
+    "Optimal hashtag count: '1_5' = 34% (-19pp)",
+    "Worst hashtag count: '16plus' = 8%",
+    "Best hashtag type: 'occasion' = 39%",
+    "Best hashtag language: 'arabic' = 33%",
     "Top individual hashtag: '#انتم_والبيك_جيران' = 100% (n=14)"
   ],
   "agency_rules": [
-    "Use 6_15 hashtags per post — best engagement count",
-    "Prioritise 'branded_or_other' hashtags — strongest performer",
-    "Use 'english' hashtags — highest engagement language"
+    "Use 1_5 hashtags per post — best engagement count",
+    "Prioritise 'occasion' hashtags — strongest performer",
+    "Use 'arabic' hashtags — highest engagement language"
   ]
 }

@@ -2,8 +2,8 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 1382,
-  "obs_with_caption": 1131,
+  "total_obs": 1507,
+  "obs_with_caption": 1256,
   "hashtag_count_table": [
     {
       "hashtag_count": "6_15",
@@ -14,10 +14,10 @@
     },
     {
       "hashtag_count": "1_5",
-      "obs_count": 601,
-      "high_engagement_rate": 0.413,
-      "avg_engagement": 0.567,
-      "lift_vs_baseline": -0.127
+      "obs_count": 726,
+      "high_engagement_rate": 0.342,
+      "avg_engagement": 0.47,
+      "lift_vs_baseline": -0.198
     },
     {
       "hashtag_count": "0",
@@ -36,28 +36,22 @@
   ],
   "hashtag_type_table": [
     {
-      "hashtag_type": "category_retail",
-      "obs_count": 3,
-      "high_engagement_rate": 0.667,
-      "lift_vs_baseline": 0.127
+      "hashtag_type": "branded_or_other",
+      "obs_count": 653,
+      "high_engagement_rate": 0.398,
+      "lift_vs_baseline": -0.142
     },
     {
       "hashtag_type": "occasion",
-      "obs_count": 90,
-      "high_engagement_rate": 0.433,
-      "lift_vs_baseline": -0.107
-    },
-    {
-      "hashtag_type": "branded_or_other",
-      "obs_count": 609,
-      "high_engagement_rate": 0.427,
-      "lift_vs_baseline": -0.113
+      "obs_count": 98,
+      "high_engagement_rate": 0.398,
+      "lift_vs_baseline": -0.142
     },
     {
       "hashtag_type": "location",
-      "obs_count": 219,
-      "high_engagement_rate": 0.352,
-      "lift_vs_baseline": -0.188
+      "obs_count": 334,
+      "high_engagement_rate": 0.231,
+      "lift_vs_baseline": -0.309
     },
     {
       "hashtag_type": "category_beauty",
@@ -66,10 +60,16 @@
       "lift_vs_baseline": -0.332
     },
     {
+      "hashtag_type": "category_retail",
+      "obs_count": 10,
+      "high_engagement_rate": 0.2,
+      "lift_vs_baseline": -0.34
+    },
+    {
       "hashtag_type": "category_fnb",
-      "obs_count": 109,
-      "high_engagement_rate": 0.147,
-      "lift_vs_baseline": -0.393
+      "obs_count": 219,
+      "high_engagement_rate": 0.073,
+      "lift_vs_baseline": -0.467
     },
     {
       "hashtag_type": "engagement_bait",
@@ -80,20 +80,20 @@
   ],
   "hashtag_language_table": [
     {
-      "hashtag_language": "arabic",
-      "obs_count": 661,
-      "high_engagement_rate": 0.41,
-      "lift_vs_baseline": -0.13
-    },
-    {
       "hashtag_language": "english",
       "obs_count": 140,
       "high_engagement_rate": 0.371,
       "lift_vs_baseline": -0.169
     },
     {
+      "hashtag_language": "arabic",
+      "obs_count": 786,
+      "high_engagement_rate": 0.345,
+      "lift_vs_baseline": -0.195
+    },
+    {
       "hashtag_language": "other",
-      "obs_count": 1,
+      "obs_count": 2,
       "high_engagement_rate": 0.0,
       "lift_vs_baseline": -0.54
     }
@@ -484,18 +484,18 @@
       "top_sector": "f_and_b"
     },
     {
+      "hashtag": "#يوم_العلم_السعودي",
+      "obs_count": 3,
+      "high_engagement_rate": 0.667,
+      "lift_vs_baseline": 0.127,
+      "type": "location",
+      "top_sector": "f_and_b"
+    },
+    {
       "hashtag": "#عينك_على_البحر",
       "obs_count": 9,
       "high_engagement_rate": 0.556,
       "lift_vs_baseline": 0.016,
-      "type": "branded_or_other",
-      "top_sector": "f_and_b"
-    },
-    {
-      "hashtag": "#aseeb",
-      "obs_count": 6,
-      "high_engagement_rate": 0.5,
-      "lift_vs_baseline": -0.04,
       "type": "branded_or_other",
       "top_sector": "f_and_b"
     }
@@ -511,9 +511,9 @@
     {
       "hashtag_count": "1_5",
       "sector": "f_and_b",
-      "count": 599,
-      "high_eng_rate": 0.412,
-      "lift": -0.128
+      "count": 724,
+      "high_eng_rate": 0.341,
+      "lift": -0.199
     },
     {
       "hashtag_count": "6_15",
@@ -547,13 +547,13 @@
   "key_findings": [
     "Optimal hashtag count: '6_15' = 44% (-9pp)",
     "Worst hashtag count: '16plus' = 17%",
-    "Best hashtag type: 'category_retail' = 66%",
-    "Best hashtag language: 'arabic' = 41%",
+    "Best hashtag type: 'branded_or_other' = 39%",
+    "Best hashtag language: 'english' = 37%",
     "Top individual hashtag: '#انتم_والبيك_جيران' = 100% (n=14)"
   ],
   "agency_rules": [
     "Use 6_15 hashtags per post — best engagement count",
-    "Prioritise 'category_retail' hashtags — strongest performer",
-    "Use 'arabic' hashtags — highest engagement language"
+    "Prioritise 'branded_or_other' hashtags — strongest performer",
+    "Use 'english' hashtags — highest engagement language"
   ]
 }

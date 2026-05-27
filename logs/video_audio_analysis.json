@@ -5,7 +5,7 @@
   "total_obs": 2894,
   "video_obs": 1098,
   "with_duration_data": 124,
-  "with_audio_data": 288,
+  "with_audio_data": 338,
   "duration_table": [
     {
       "duration_bucket": "very_long_60plus",
@@ -46,17 +46,17 @@
   "voiceover_table": [
     {
       "voiceover_presence": "has_voiceover",
-      "count": 145,
-      "high_engagement_rate": 0.31,
-      "avg_engagement": 0.552,
-      "lift_vs_baseline": -0.23
+      "count": 185,
+      "high_engagement_rate": 0.249,
+      "avg_engagement": 0.468,
+      "lift_vs_baseline": -0.291
     },
     {
       "voiceover_presence": "no_voiceover",
-      "count": 136,
-      "high_engagement_rate": 0.25,
-      "avg_engagement": 0.485,
-      "lift_vs_baseline": -0.29
+      "count": 146,
+      "high_engagement_rate": 0.24,
+      "avg_engagement": 0.473,
+      "lift_vs_baseline": -0.3
     }
   ],
   "voiceover_language_table": [
@@ -69,24 +69,31 @@
     },
     {
       "voiceover_language": "none",
-      "count": 19,
-      "high_engagement_rate": 0.368,
-      "avg_engagement": 0.658,
-      "lift_vs_baseline": -0.172
+      "count": 22,
+      "high_engagement_rate": 0.318,
+      "avg_engagement": 0.614,
+      "lift_vs_baseline": -0.222
     },
     {
       "voiceover_language": "english",
-      "count": 59,
-      "high_engagement_rate": 0.339,
-      "avg_engagement": 0.542,
-      "lift_vs_baseline": -0.201
+      "count": 84,
+      "high_engagement_rate": 0.25,
+      "avg_engagement": 0.429,
+      "lift_vs_baseline": -0.29
     },
     {
       "voiceover_language": "arabic",
-      "count": 173,
-      "high_engagement_rate": 0.231,
-      "avg_engagement": 0.471,
-      "lift_vs_baseline": -0.309
+      "count": 186,
+      "high_engagement_rate": 0.22,
+      "avg_engagement": 0.454,
+      "lift_vs_baseline": -0.32
+    },
+    {
+      "voiceover_language": "korean",
+      "count": 6,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.25,
+      "lift_vs_baseline": -0.54
     },
     {
       "voiceover_language": "chinese",
@@ -96,10 +103,17 @@
       "lift_vs_baseline": -0.54
     },
     {
-      "voiceover_language": "javanese",
-      "count": 1,
+      "voiceover_language": "french",
+      "count": 2,
       "high_engagement_rate": 0.0,
-      "avg_engagement": 0.5,
+      "avg_engagement": 0.0,
+      "lift_vs_baseline": -0.54
+    },
+    {
+      "voiceover_language": "javanese",
+      "count": 2,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.25,
       "lift_vs_baseline": -0.54
     }
   ],
@@ -113,30 +127,37 @@
     },
     {
       "music_type": "silent",
-      "count": 41,
-      "high_engagement_rate": 0.244,
-      "avg_engagement": 0.476,
-      "lift_vs_baseline": -0.296
-    },
-    {
-      "music_type": "voiceover",
-      "count": 96,
-      "high_engagement_rate": 0.24,
-      "avg_engagement": 0.5,
-      "lift_vs_baseline": -0.3
+      "count": 48,
+      "high_engagement_rate": 0.229,
+      "avg_engagement": 0.448,
+      "lift_vs_baseline": -0.311
     },
     {
       "music_type": "music_only",
-      "count": 69,
-      "high_engagement_rate": 0.188,
-      "avg_engagement": 0.42,
-      "lift_vs_baseline": -0.352
+      "count": 70,
+      "high_engagement_rate": 0.186,
+      "avg_engagement": 0.414,
+      "lift_vs_baseline": -0.354
+    },
+    {
+      "music_type": "voiceover",
+      "count": 136,
+      "high_engagement_rate": 0.176,
+      "avg_engagement": 0.401,
+      "lift_vs_baseline": -0.364
     },
     {
       "music_type": "silence",
       "count": 8,
       "high_engagement_rate": 0.0,
       "avg_engagement": 0.438,
+      "lift_vs_baseline": -0.54
+    },
+    {
+      "music_type": "unknown",
+      "count": 2,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.5,
       "lift_vs_baseline": -0.54
     }
   ],
@@ -265,7 +286,7 @@
   ],
   "key_findings": [
     "Best video duration: 'very_long_60plus' = 61% high-eng (n=13, +7pp)",
-    "Voiceover HELPS: with=31% vs without=25% (+6pp)",
+    "Voiceover NEUTRAL: with=24% vs without=24% (+0pp)",
     "Best music type: 'original_score' = 51% (n=74)"
   ],
   "agency_rules": [

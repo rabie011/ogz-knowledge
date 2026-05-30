@@ -5,7 +5,7 @@
   "total_obs": 2894,
   "video_obs": 1098,
   "with_duration_data": 124,
-  "with_audio_data": 772,
+  "with_audio_data": 821,
   "duration_table": [
     {
       "duration_bucket": "very_long_60plus",
@@ -45,23 +45,30 @@
   ],
   "voiceover_table": [
     {
-      "voiceover_presence": "no_voiceover",
-      "count": 284,
-      "high_engagement_rate": 0.296,
-      "avg_engagement": 0.482,
-      "lift_vs_baseline": -0.244
+      "voiceover_presence": "has_voiceover",
+      "count": 519,
+      "high_engagement_rate": 0.304,
+      "avg_engagement": 0.477,
+      "lift_vs_baseline": -0.236
     },
     {
-      "voiceover_presence": "has_voiceover",
-      "count": 481,
+      "voiceover_presence": "no_voiceover",
+      "count": 295,
       "high_engagement_rate": 0.295,
-      "avg_engagement": 0.474,
+      "avg_engagement": 0.478,
       "lift_vs_baseline": -0.245
     }
   ],
   "voiceover_language_table": [
     {
       "voiceover_language": "telugu",
+      "count": 1,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "lift_vs_baseline": 0.46
+    },
+    {
+      "voiceover_language": "tagalog",
       "count": 1,
       "high_engagement_rate": 1.0,
       "avg_engagement": 1.0,
@@ -82,31 +89,45 @@
       "lift_vs_baseline": 0.11
     },
     {
+      "voiceover_language": "turkish",
+      "count": 2,
+      "high_engagement_rate": 0.5,
+      "avg_engagement": 0.75,
+      "lift_vs_baseline": -0.04
+    },
+    {
+      "voiceover_language": "chinese",
+      "count": 3,
+      "high_engagement_rate": 0.333,
+      "avg_engagement": 0.667,
+      "lift_vs_baseline": -0.207
+    },
+    {
       "voiceover_language": "english",
-      "count": 295,
-      "high_engagement_rate": 0.332,
-      "avg_engagement": 0.481,
-      "lift_vs_baseline": -0.208
+      "count": 311,
+      "high_engagement_rate": 0.325,
+      "avg_engagement": 0.471,
+      "lift_vs_baseline": -0.215
     },
     {
       "voiceover_language": "arabic",
-      "count": 319,
-      "high_engagement_rate": 0.26,
-      "avg_engagement": 0.473,
-      "lift_vs_baseline": -0.28
+      "count": 343,
+      "high_engagement_rate": 0.277,
+      "avg_engagement": 0.484,
+      "lift_vs_baseline": -0.263
     },
     {
       "voiceover_language": "none",
-      "count": 74,
-      "high_engagement_rate": 0.257,
-      "avg_engagement": 0.432,
-      "lift_vs_baseline": -0.283
+      "count": 76,
+      "high_engagement_rate": 0.263,
+      "avg_engagement": 0.434,
+      "lift_vs_baseline": -0.277
     },
     {
       "voiceover_language": "korean",
-      "count": 16,
+      "count": 17,
       "high_engagement_rate": 0.0,
-      "avg_engagement": 0.094,
+      "avg_engagement": 0.088,
       "lift_vs_baseline": -0.54
     },
     {
@@ -114,13 +135,6 @@
       "count": 4,
       "high_engagement_rate": 0.0,
       "avg_engagement": 0.0,
-      "lift_vs_baseline": -0.54
-    },
-    {
-      "voiceover_language": "chinese",
-      "count": 2,
-      "high_engagement_rate": 0.0,
-      "avg_engagement": 0.5,
       "lift_vs_baseline": -0.54
     },
     {
@@ -145,10 +159,17 @@
       "lift_vs_baseline": -0.54
     },
     {
-      "voiceover_language": "turkish",
+      "voiceover_language": "nynorsk",
+      "count": 2,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.0,
+      "lift_vs_baseline": -0.54
+    },
+    {
+      "voiceover_language": "russian",
       "count": 1,
       "high_engagement_rate": 0.0,
-      "avg_engagement": 0.5,
+      "avg_engagement": 0.0,
       "lift_vs_baseline": -0.54
     }
   ],
@@ -162,24 +183,24 @@
     },
     {
       "music_type": "silent",
-      "count": 134,
-      "high_engagement_rate": 0.358,
-      "avg_engagement": 0.53,
-      "lift_vs_baseline": -0.182
+      "count": 143,
+      "high_engagement_rate": 0.35,
+      "avg_engagement": 0.517,
+      "lift_vs_baseline": -0.19
     },
     {
       "music_type": "voiceover",
-      "count": 432,
-      "high_engagement_rate": 0.278,
-      "avg_engagement": 0.454,
-      "lift_vs_baseline": -0.262
+      "count": 470,
+      "high_engagement_rate": 0.289,
+      "avg_engagement": 0.459,
+      "lift_vs_baseline": -0.251
     },
     {
       "music_type": "music_only",
-      "count": 98,
-      "high_engagement_rate": 0.235,
-      "avg_engagement": 0.444,
-      "lift_vs_baseline": -0.305
+      "count": 100,
+      "high_engagement_rate": 0.24,
+      "avg_engagement": 0.445,
+      "lift_vs_baseline": -0.3
     },
     {
       "music_type": "unknown",
@@ -321,7 +342,7 @@
   ],
   "key_findings": [
     "Best video duration: 'very_long_60plus' = 61% high-eng (n=13, +7pp)",
-    "Voiceover NEUTRAL: with=29% vs without=29% (0pp)",
+    "Voiceover NEUTRAL: with=30% vs without=29% (+0pp)",
     "Best music type: 'original_score' = 51% (n=74)"
   ],
   "agency_rules": [

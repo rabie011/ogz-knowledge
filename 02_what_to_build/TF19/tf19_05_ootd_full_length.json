@@ -1,0 +1,54 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSZN30P1TNHQTHFDAH4ASC8B",
+  "chain_id_short": "tf19_05",
+  "family": "TF19",
+  "schema_version": 1,
+  "name_en": "OOTD Full-Length",
+  "name_ar": "أوتفيت اليوم — صورة كاملة",
+  "purpose": "Outfit Of The Day full-body shot showcasing complete modest look — Saudi-market styling, full-length to show head-to-toe coordination.",
+  "models_used": [
+    {"provider": "fal", "model_id": "fal-ai/flux-pro/v1.1", "role": "primary_image_generation"},
+    {"provider": "fal", "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video", "role": "image_to_image_edit"}
+  ],
+  "input_schema": {
+    "duration_seconds": {"type": "integer", "description": "Target video duration in seconds", "required": false, "default": 5},
+    "tone_descriptor": {"type": "string", "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.", "required": false}
+  },
+  "prompt_template": "OOTD outfit of the day full-body fashion photography, Saudi female model wearing complete modest outfit — {outfit_descriptor} including abaya or modest dress, coordinated hijab, footwear visible at bottom, {accessory_highlights}, full-length head-to-toe composition showing entire look, {setting_descriptor} background — neutral studio / architectural exterior / lifestyle setting, confident relaxed posture, face visible from side or three-quarter with perfect hijab coverage, natural authentic expression, professional fashion lighting, hyper-realistic fabric texture and clothing detail, shot on 85mm at f/4 full-body framing, no text, no watermark {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {"width": 1080, "height": 1350, "aspect_ratio_label": "4:5"},
+  "eligibility_filters": {
+    "sectors_allowed": ["fashion", "retail", "retail_lifestyle"],
+    "occasions_allowed": ["*"],
+    "quality_tiers_allowed": ["growth", "enterprise"],
+    "min_brand_maturity_days": 14
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": true,
+    "requires_gesture_check": true,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "starter"
+  },
+  "cost_estimate_usd": 0.025,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": ["cd_01", "cd_03"],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: exposed hair",
+    "Avoid in output: tight or form-fitting clothing",
+    "Avoid in output: exposed skin beyond face and hands"
+  ],
+  "notes": "Intents: launch, grow. Saudi adaptation guidance: OOTD is the highest-frequency content type for Saudi fashion brands. Full-length 4:5 format maximizes screen real estate on Instagram feed. Hijab coverage must be complete and correctly rendered. Model posture should be confident, not provocative. Reference image: Optional. Recommended frequency: 3-5 per week for fashion brands. Compliance level: elevated.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx",
+    "date_added": "2026-05-31T00:00:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

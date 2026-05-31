@@ -1,0 +1,53 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSZN30P1BEK43A0R713RN8T3",
+  "chain_id_short": "tf19_04",
+  "family": "TF19",
+  "schema_version": 1,
+  "name_en": "Lookbook Spread",
+  "name_ar": "لوك بوك",
+  "purpose": "Multiple outfit items or a seasonal collection arranged as a lookbook editorial spread — communicates a complete seasonal story or collection theme.",
+  "models_used": [
+    {"provider": "fal", "model_id": "fal-ai/flux-pro/v1.1", "role": "primary_image_generation"},
+    {"provider": "fal", "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video", "role": "image_to_image_edit"}
+  ],
+  "input_schema": {
+    "duration_seconds": {"type": "integer", "description": "Target video duration in seconds", "required": false, "default": 5},
+    "tone_descriptor": {"type": "string", "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.", "required": false}
+  },
+  "prompt_template": "Fashion lookbook editorial photography, {collection_descriptor} collection spread showing 2-3 complete outfits arranged in editorial grid or side-by-side composition, {styling_direction} — all modest appropriate for Saudi women (abaya, modest dress, hijab styling visible on hanger or mannequin), {color_palette} seasonal color story, premium editorial staging on white studio background or location setting, {setting_mood} atmosphere, hyper-realistic fabric and garment detail, hanger/mannequin styling or flat lay arrangement, no faces required, clean white border spacing between items, shot on 35mm at f/8, no text, no watermark {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {"width": 1080, "height": 1080, "aspect_ratio_label": "1:1"},
+  "eligibility_filters": {
+    "sectors_allowed": ["fashion", "retail", "retail_lifestyle"],
+    "occasions_allowed": ["*"],
+    "quality_tiers_allowed": ["growth", "enterprise"],
+    "min_brand_maturity_days": 14
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": true,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "starter"
+  },
+  "cost_estimate_usd": 0.025,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": ["cd_01", "cd_03"],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: immodest clothing",
+    "Avoid in output: non-Saudi-appropriate silhouettes"
+  ],
+  "notes": "Intents: launch, grow. Saudi adaptation guidance: Lookbooks are used for collection launches and seasonal drops. Modest silhouette is mandatory. Hanger or mannequin styling avoids human modesty compliance entirely. Saudi fashion consumers expect high editorial production quality. Reference image: Optional. Recommended frequency: 1-2 per collection launch. Compliance level: elevated.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx",
+    "date_added": "2026-05-31T00:00:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

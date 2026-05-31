@@ -1,0 +1,53 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSZN30P1150ZSVP6SX7B97DP",
+  "chain_id_short": "tf21_04",
+  "family": "TF21",
+  "schema_version": 1,
+  "name_en": "Drop / Countdown Teaser",
+  "name_ar": "تيزر الإطلاق والعد التنازلي",
+  "purpose": "Pre-launch product teaser — product partially hidden, revealed, or shrouded to build anticipation for a drop or new arrival. Suspense-driven conversion.",
+  "models_used": [
+    {"provider": "fal", "model_id": "fal-ai/flux-pro/v1.1", "role": "primary_image_generation"},
+    {"provider": "fal", "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video", "role": "image_to_image_edit"}
+  ],
+  "input_schema": {
+    "duration_seconds": {"type": "integer", "description": "Target video duration in seconds", "required": false, "default": 5},
+    "tone_descriptor": {"type": "string", "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.", "required": false}
+  },
+  "prompt_template": "Product drop teaser photography creating anticipation and mystery, {product_silhouette_or_partially_hidden} — {reveal_technique}: silhouette behind frosted glass, wrapped in premium fabric, partially emerged from shadow, product-shaped void in contrasting surface, {brand_color_palette} dramatic lighting with high contrast chiaroscuro — single directional light source from side or above, deep shadow areas obscuring product details while hinting at shape, {teaser_mood_descriptor} — mysterious, premium, cinematic, single question mark or glow from behind product optional, composition leaving deliberate empty space for countdown text overlay post-generation, hyper-realistic surface texture on reveal elements, shot on 85mm at f/2.8, no text, no watermark {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {"width": 1080, "height": 1080, "aspect_ratio_label": "1:1"},
+  "eligibility_filters": {
+    "sectors_allowed": ["f_and_b", "food_and_beverage", "retail", "retail_lifestyle", "beauty", "beauty_personal_care", "fashion"],
+    "occasions_allowed": ["*"],
+    "quality_tiers_allowed": ["growth", "enterprise"],
+    "min_brand_maturity_days": 30
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.025,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": ["cd_01", "cd_03"],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: fully visible product (must maintain mystery)",
+    "Avoid in output: bright even lighting (must feel cinematic/dramatic)"
+  ],
+  "notes": "Intents: launch. Saudi adaptation guidance: Drop culture and product reveal is highly effective for Saudi Gen-Z and millennial consumers, particularly in fashion, fragrance, and limited-edition F&B. Reserve countdown aesthetic for genuine drops — overuse dulls urgency signal. Min brand maturity 30 days to ensure audience exists before teaser campaign. Reference image: Optional. Recommended frequency: 1-3 days before launch. Compliance level: standard.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx",
+    "date_added": "2026-05-31T00:00:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

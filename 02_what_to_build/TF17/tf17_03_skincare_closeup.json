@@ -1,0 +1,54 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSZN30P1MSG8BCKQ213RHAFP",
+  "chain_id_short": "tf17_03",
+  "family": "TF17",
+  "schema_version": 1,
+  "name_en": "Skincare Closeup",
+  "name_ar": "لقطة مقربة للعناية بالبشرة",
+  "purpose": "Hero close-up of facial skin showing glow, dewy hydration, or treatment result. Modest framing — jawline to forehead only, no full face required.",
+  "models_used": [
+    {"provider": "fal", "model_id": "fal-ai/flux-pro/v1.1", "role": "primary_image_generation"},
+    {"provider": "fal", "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video", "role": "image_to_image_edit"}
+  ],
+  "input_schema": {
+    "duration_seconds": {"type": "integer", "description": "Target video duration in seconds", "required": false, "default": 5},
+    "tone_descriptor": {"type": "string", "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.", "required": false}
+  },
+  "prompt_template": "Extreme closeup macro beauty photography of healthy glowing skin, {skin_tone} complexion with dewy radiant luminosity, hyper-realistic pore-level skin texture showing {treatment_result} effect from {product_type} skincare, soft diffused natural daylight from left side suggesting morning ritual, clean white or soft neutral background, skin looks plump hydrated and luminous, no full face required (cheek and eye area or forehead only acceptable), skin surface reflective in a natural not greasy way, shot at f/2.8 macro, no text, no watermark {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {"width": 1080, "height": 1080, "aspect_ratio_label": "1:1"},
+  "eligibility_filters": {
+    "sectors_allowed": ["beauty", "beauty_personal_care"],
+    "occasions_allowed": ["*"],
+    "quality_tiers_allowed": ["growth", "enterprise"],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.025,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": ["cd_03", "cd_05"],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: full face if not brand-approved",
+    "Avoid in output: over-retouched plastic skin (must look real)",
+    "Avoid in output: uncovered hair"
+  ],
+  "notes": "Intents: grow, harvest. Saudi adaptation guidance: Saudi and Levantine skin tones (warm olive to deep brown) should be represented. Close-up framing avoids hijab compliance complexity while still delivering aspirational skin content. Reference image: Optional. Recommended frequency: 2-3 per week for skincare brands. Compliance level: standard.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx",
+    "date_added": "2026-05-31T00:00:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

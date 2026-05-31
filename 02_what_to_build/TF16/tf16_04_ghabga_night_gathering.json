@@ -1,0 +1,54 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSZN30P1G4JWQ5383H389D1Z",
+  "chain_id_short": "tf16_04",
+  "family": "TF16",
+  "schema_version": 1,
+  "name_en": "Ghabga Night Gathering",
+  "name_ar": "غبقة رمضان",
+  "purpose": "Late-night Ramadan gathering aesthetic (Ghabga) showcasing snacks, sweets, and socializing spread after Tarawih prayers. Warm, intimate, communal.",
+  "models_used": [
+    {"provider": "fal", "model_id": "fal-ai/flux-pro/v1.1", "role": "primary_image_generation"},
+    {"provider": "fal", "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video", "role": "image_to_image_edit"}
+  ],
+  "input_schema": {
+    "duration_seconds": {"type": "integer", "description": "Target video duration in seconds", "required": false, "default": 5},
+    "tone_descriptor": {"type": "string", "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.", "required": false}
+  },
+  "prompt_template": "Ghabga late-night Ramadan gathering table spread photography, low ambient candlelight and warm Edison bulb lighting suggesting late night after Tarawih, assorted Arabic sweets and pastries, Vimto and lemonade glasses, {featured_snack_or_product} as hero item, Arabic coffee dallah on side, scattered dried fruits and nuts, decorative Ramadan lanterns glowing softly in background, intimate cozy indoor atmosphere, floor seating cushions partially visible at edges, no people seated, top-down or slight 45-degree angle, hyper-realistic detail, shot on 35mm at f/4, no text, no watermark {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {"width": 1080, "height": 1080, "aspect_ratio_label": "1:1"},
+  "eligibility_filters": {
+    "sectors_allowed": ["f_and_b", "food_and_beverage", "retail", "retail_lifestyle"],
+    "occasions_allowed": ["ramadan_(high)", "ramadan"],
+    "quality_tiers_allowed": ["growth", "enterprise"],
+    "min_brand_maturity_days": 14
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": true,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "starter"
+  },
+  "cost_estimate_usd": 0.025,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": ["cd_03", "cd_04"],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: alcohol",
+    "Avoid in output: pork",
+    "Avoid in output: daylight (must feel late night)"
+  ],
+  "notes": "Intents: all. Source code in research corpus: F06. Saudi adaptation guidance: Ghabga is a distinctly Saudi/Gulf Ramadan social tradition (late-night gathering after Tarawih). Lighting must feel like midnight, not evening. Communal spread without faces. Reference image: Optional. Recommended frequency: 2 posts during Ramadan late-night window. Compliance level: elevated.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx",
+    "date_added": "2026-05-31T00:00:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSZN30P1NKX3FVB1A16GK429",
+  "chain_id_short": "tf19_03",
+  "family": "TF19",
+  "schema_version": 1,
+  "name_en": "Accessories Flat Lay",
+  "name_ar": "فلات لاي الاكسسوارات",
+  "purpose": "Editorial flat lay of fashion accessories — handbag, jewelry, belt, sunglasses — arranged artfully on a premium fabric or surface. No people required.",
+  "models_used": [
+    {"provider": "fal", "model_id": "fal-ai/flux-pro/v1.1", "role": "primary_image_generation"},
+    {"provider": "fal", "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video", "role": "image_to_image_edit"}
+  ],
+  "input_schema": {
+    "duration_seconds": {"type": "integer", "description": "Target video duration in seconds", "required": false, "default": 5},
+    "tone_descriptor": {"type": "string", "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.", "required": false}
+  },
+  "prompt_template": "Premium fashion accessories flat lay photography, {hero_accessory} as centerpiece — {accessory_descriptor}, surrounded by complementary accessories {supporting_items}, arranged on {surface_descriptor} — premium linen, marble tile, velvet tray, or desert sand, editorial overhead top-down composition, intentional negative space creating breathing room, {color_palette} color story, soft diffused natural daylight or studio softbox from above, hyper-realistic leather, metal, fabric texture detail, no hands, no people, shot on 50mm at f/8, no text, no watermark {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {"width": 1080, "height": 1080, "aspect_ratio_label": "1:1"},
+  "eligibility_filters": {
+    "sectors_allowed": ["fashion", "retail", "retail_lifestyle"],
+    "occasions_allowed": ["*"],
+    "quality_tiers_allowed": ["growth", "enterprise"],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.025,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": ["cd_01", "cd_03"],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: cluttered messy arrangement",
+    "Avoid in output: hands",
+    "Avoid in output: alcohol or non-halal props"
+  ],
+  "notes": "Intents: launch, grow. Saudi adaptation guidance: Accessories flat lay is highly versatile and culturally safe — no human modesty compliance required. Gold jewelry performs particularly well in Saudi fashion content. Oud bottles and bakhoor can be included for multi-brand lifestyle aesthetic. Reference image: Optional. Recommended frequency: 2-4 per week for accessories and fashion brands. Compliance level: standard.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx",
+    "date_added": "2026-05-31T00:00:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

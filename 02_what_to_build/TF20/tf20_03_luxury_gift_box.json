@@ -1,0 +1,54 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01KSZN30P1Z0K8VXWKK15AV426",
+  "chain_id_short": "tf20_03",
+  "family": "TF20",
+  "schema_version": 1,
+  "name_en": "Luxury Gift Box",
+  "name_ar": "صندوق هدايا فاخر",
+  "purpose": "Premium Saudi gift box showcase — Medjool dates, Belgian chocolates, oud/bakhoor, Arabic sweets — in luxury gift packaging for the Saudi gifting culture.",
+  "models_used": [
+    {"provider": "fal", "model_id": "fal-ai/flux-pro/v1.1", "role": "primary_image_generation"},
+    {"provider": "fal", "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video", "role": "image_to_image_edit"}
+  ],
+  "input_schema": {
+    "duration_seconds": {"type": "integer", "description": "Target video duration in seconds", "required": false, "default": 5},
+    "tone_descriptor": {"type": "string", "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.", "required": false}
+  },
+  "prompt_template": "Luxury Saudi gift box product photography, premium {gift_box_descriptor} packaging in {brand_color_palette} with gold ribbon tied in bow, box open revealing {contents_descriptor} — Medjool dates in gold foil cups, premium chocolates, miniature oud bottles, arranged with intention, rose petals and dried orange slices as styling accents, deep velvet or marble surface, dramatic directional lighting with soft ambient fill, {additional_gift_items} as supporting elements, rich jewel-tone background suggesting premium gifting occasion, hyper-realistic packaging material and food detail, shot on 50mm at f/5.6, no text, no watermark {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {"width": 1080, "height": 1080, "aspect_ratio_label": "1:1"},
+  "eligibility_filters": {
+    "sectors_allowed": ["f_and_b", "food_and_beverage", "retail", "retail_lifestyle", "beauty", "beauty_personal_care"],
+    "occasions_allowed": ["*"],
+    "quality_tiers_allowed": ["growth", "enterprise"],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.025,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": ["cd_03", "cd_04"],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: alcohol",
+    "Avoid in output: pork",
+    "Avoid in output: non-halal items"
+  ],
+  "notes": "Intents: launch, harvest. Saudi adaptation guidance: Gifting is deeply embedded in Saudi culture — corporate gifting, Eid gifting, wedding gifting, hospitality gifting. Dates are the single most important Saudi gift item. Gold and deep jewel tones signal luxury in Saudi market. Box-open reveal is the highest-performing gift content format. Reference image: Optional. Recommended frequency: 2-3 per week for gift and specialty brands. Compliance level: standard.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx",
+    "date_added": "2026-05-31T00:00:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

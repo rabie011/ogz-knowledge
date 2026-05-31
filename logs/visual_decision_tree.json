@@ -2,7 +2,7 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 2710,
+  "total_obs": 2730,
   "sector_occasion_decision_tree": {
     "beauty": {
       "evergreen": {
@@ -1632,17 +1632,17 @@
     },
     "healthcare_wellness": {
       "evergreen": {
-        "obs_count": 61,
-        "occasion_high_eng_rate": 0.361,
+        "obs_count": 80,
+        "occasion_high_eng_rate": 0.275,
         "recommended_production": {
           "setting": "studio",
           "setting_eng_rate": 0.667,
           "lighting": "studio",
           "lighting_eng_rate": 0.522,
           "composition": "text_dominant",
-          "composition_eng_rate": 0.419,
+          "composition_eng_rate": 0.317,
           "register": "unknown",
-          "register_eng_rate": 0.361,
+          "register_eng_rate": 0.275,
           "tone": "celebratory",
           "tone_eng_rate": 0.385
         },
@@ -1669,8 +1669,8 @@
           },
           {
             "value": "unknown",
-            "count": 6,
-            "high_eng_rate": 0.167
+            "count": 25,
+            "high_eng_rate": 0.04
           }
         ],
         "lighting_options": [
@@ -1680,31 +1680,36 @@
             "high_eng_rate": 0.522
           },
           {
-            "value": "flat_bright",
-            "count": 17,
-            "high_eng_rate": 0.353
-          },
-          {
             "value": "neon_pop",
             "count": 3,
             "high_eng_rate": 0.333
           },
           {
+            "value": "flat_bright",
+            "count": 33,
+            "high_eng_rate": 0.182
+          },
+          {
             "value": "natural",
-            "count": 18,
-            "high_eng_rate": 0.167
+            "count": 21,
+            "high_eng_rate": 0.143
           }
         ],
         "composition_options": [
           {
             "value": "text_dominant",
-            "count": 31,
-            "high_eng_rate": 0.419
+            "count": 41,
+            "high_eng_rate": 0.317
           },
           {
             "value": "lifestyle_integrated",
             "count": 30,
             "high_eng_rate": 0.3
+          },
+          {
+            "value": "editorial",
+            "count": 9,
+            "high_eng_rate": 0.0
           }
         ]
       },
@@ -3060,12 +3065,12 @@
       ]
     },
     "unknown": {
-      "total_obs": 87,
-      "high_eng_rate": 0.069,
+      "total_obs": 107,
+      "high_eng_rate": 0.056,
       "best_lighting": "flat_bright",
-      "best_lighting_rate": 0.308,
-      "best_composition": "text_dominant",
-      "best_composition_rate": 0.128,
+      "best_lighting_rate": 0.133,
+      "best_composition": "lifestyle_integrated",
+      "best_composition_rate": 0.111,
       "lighting_options": [
         {
           "value": "cool_studio",
@@ -3074,13 +3079,13 @@
         },
         {
           "value": "flat_bright",
-          "count": 13,
-          "high_eng_rate": 0.308
+          "count": 30,
+          "high_eng_rate": 0.133
         },
         {
           "value": "natural",
-          "count": 67,
-          "high_eng_rate": 0.015
+          "count": 70,
+          "high_eng_rate": 0.014
         },
         {
           "value": "unknown",
@@ -3095,14 +3100,14 @@
       ],
       "composition_options": [
         {
-          "value": "text_dominant",
-          "count": 39,
-          "high_eng_rate": 0.128
-        },
-        {
           "value": "lifestyle_integrated",
           "count": 9,
           "high_eng_rate": 0.111
+        },
+        {
+          "value": "text_dominant",
+          "count": 49,
+          "high_eng_rate": 0.102
         },
         {
           "value": "product_hero_closeup",
@@ -3111,7 +3116,7 @@
         },
         {
           "value": "editorial",
-          "count": 4,
+          "count": 14,
           "high_eng_rate": 0.0
         },
         {
@@ -4842,8 +4847,8 @@
   },
   "lighting_composition_guide": {
     "natural": {
-      "total_obs": 1154,
-      "high_eng_rate": 0.21,
+      "total_obs": 1157,
+      "high_eng_rate": 0.209,
       "best_composition": "overhead_spread",
       "best_composition_rate": 0.5,
       "composition_options": [
@@ -4864,8 +4869,8 @@
         },
         {
           "value": "text_dominant",
-          "count": 160,
-          "high_eng_rate": 0.2
+          "count": 163,
+          "high_eng_rate": 0.196
         },
         {
           "value": "product_hero_closeup",
@@ -4908,15 +4913,15 @@
       ]
     },
     "flat_bright": {
-      "total_obs": 178,
-      "high_eng_rate": 0.354,
+      "total_obs": 195,
+      "high_eng_rate": 0.323,
       "best_composition": "text_dominant",
-      "best_composition_rate": 0.41,
+      "best_composition_rate": 0.391,
       "composition_options": [
         {
           "value": "text_dominant",
-          "count": 144,
-          "high_eng_rate": 0.41
+          "count": 151,
+          "high_eng_rate": 0.391
         },
         {
           "value": "product_hero_closeup",
@@ -4924,13 +4929,13 @@
           "high_eng_rate": 0.129
         },
         {
-          "value": "lifestyle_integrated",
-          "count": 2,
+          "value": "editorial",
+          "count": 11,
           "high_eng_rate": 0.0
         },
         {
-          "value": "editorial",
-          "count": 1,
+          "value": "lifestyle_integrated",
+          "count": 2,
           "high_eng_rate": 0.0
         }
       ]
@@ -5644,7 +5649,7 @@
     "BEAUTY_PERSONAL_CARE × Ramadan (n=13, eng=7%): → studio + natural + lifestyle_integrated",
     "F_AND_B × Evergreen (n=1046, eng=37%): → retail_urban + dramatic_moody + multi_product",
     "F_AND_B × General (n=161, eng=28%): → restaurant + natural + text_dominant",
-    "HEALTHCARE_WELLNESS × Evergreen (n=61, eng=36%): → studio + studio + text_dominant",
+    "HEALTHCARE_WELLNESS × Evergreen (n=80, eng=27%): → studio + studio + text_dominant",
     "HEALTHCARE_WELLNESS × Ramadan (n=5, eng=20%): → unknown + natural + lifestyle_integrated",
     "REAL_ESTATE × Evergreen (n=103, eng=2%): → office + flat_bright + text_dominant",
     "REAL_ESTATE × Ramadan (n=3, eng=0%): → outdoor + natural + lifestyle_integrated",

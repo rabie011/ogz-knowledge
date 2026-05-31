@@ -6,16 +6,16 @@
       0.75
     ],
     [
-      "healthcare_wellness",
-      0.543
-    ],
-    [
       "beauty",
       0.517
     ],
     [
       "f_and_b",
       0.516
+    ],
+    [
+      "healthcare_wellness",
+      0.421
     ],
     [
       "fashion",
@@ -430,6 +430,100 @@
         }
       ]
     },
+    "healthcare_wellness": {
+      "sector": "healthcare_wellness",
+      "current_avg": 0.421,
+      "best_sector_avg": 0.75,
+      "gap_to_close": 0.329,
+      "top_opportunities": [
+        {
+          "dimension": "setting",
+          "adopt_this": "home_domestic",
+          "adopt_from_sector": "retail",
+          "adoption_rate_in_best": 0.25,
+          "target_current": "unknown",
+          "target_current_pct": 0.315,
+          "target_uses_already": 0.0,
+          "expected_eng_if_adopted": 1.0,
+          "current_eng": 0.107,
+          "potential_uplift": 0.893
+        },
+        {
+          "dimension": "lighting",
+          "adopt_this": "natural_daylight",
+          "adopt_from_sector": "retail",
+          "adoption_rate_in_best": 0.375,
+          "target_current": "flat_bright",
+          "target_current_pct": 0.404,
+          "target_uses_already": 0.0,
+          "expected_eng_if_adopted": 0.833,
+          "current_eng": 0.25,
+          "potential_uplift": 0.583
+        },
+        {
+          "dimension": "tone",
+          "adopt_this": "patriotic",
+          "adopt_from_sector": "retail",
+          "adoption_rate_in_best": 0.375,
+          "target_current": "informative",
+          "target_current_pct": 0.775,
+          "target_uses_already": 0.0,
+          "expected_eng_if_adopted": 0.833,
+          "current_eng": 0.406,
+          "potential_uplift": 0.427
+        },
+        {
+          "dimension": "composition",
+          "adopt_this": "product_hero_closeup",
+          "adopt_from_sector": "retail",
+          "adoption_rate_in_best": 0.5,
+          "target_current": "text_dominant",
+          "target_current_pct": 0.494,
+          "target_uses_already": 0.0,
+          "expected_eng_if_adopted": 0.625,
+          "current_eng": 0.386,
+          "potential_uplift": 0.239
+        },
+        {
+          "dimension": "visual_complexity",
+          "adopt_this": "moderate",
+          "adopt_from_sector": "retail",
+          "adoption_rate_in_best": 0.5,
+          "target_current": "simple",
+          "target_current_pct": 0.618,
+          "target_uses_already": 0.382,
+          "expected_eng_if_adopted": 0.5,
+          "current_eng": 0.273,
+          "potential_uplift": 0.227
+        },
+        {
+          "dimension": "production_quality",
+          "adopt_this": "semi_professional",
+          "adopt_from_sector": "retail",
+          "adoption_rate_in_best": 0.875,
+          "target_current": "professional",
+          "target_current_pct": 0.596,
+          "target_uses_already": 0.18,
+          "expected_eng_if_adopted": 0.714,
+          "current_eng": 0.632,
+          "potential_uplift": 0.082
+        }
+      ],
+      "keep_doing": [
+        {
+          "dimension": "production_quality",
+          "value": "professional",
+          "pct": 0.596,
+          "avg_engagement": 0.632
+        },
+        {
+          "dimension": "heritage_framing",
+          "value": "modern",
+          "pct": 0.73,
+          "avg_engagement": 0.554
+        }
+      ]
+    },
     "f_and_b": {
       "sector": "f_and_b",
       "current_avg": 0.516,
@@ -623,87 +717,6 @@
           "avg_engagement": 0.667
         }
       ]
-    },
-    "healthcare_wellness": {
-      "sector": "healthcare_wellness",
-      "current_avg": 0.543,
-      "best_sector_avg": 0.75,
-      "gap_to_close": 0.207,
-      "top_opportunities": [
-        {
-          "dimension": "lighting",
-          "adopt_this": "natural_daylight",
-          "adopt_from_sector": "retail",
-          "adoption_rate_in_best": 0.375,
-          "target_current": "natural",
-          "target_current_pct": 0.348,
-          "target_uses_already": 0.0,
-          "expected_eng_if_adopted": 0.833,
-          "current_eng": 0.438,
-          "potential_uplift": 0.395
-        },
-        {
-          "dimension": "setting",
-          "adopt_this": "home_domestic",
-          "adopt_from_sector": "retail",
-          "adoption_rate_in_best": 0.25,
-          "target_current": "retail_store",
-          "target_current_pct": 0.246,
-          "target_uses_already": 0.0,
-          "expected_eng_if_adopted": 1.0,
-          "current_eng": 0.618,
-          "potential_uplift": 0.382
-        },
-        {
-          "dimension": "tone",
-          "adopt_this": "patriotic",
-          "adopt_from_sector": "retail",
-          "adoption_rate_in_best": 0.375,
-          "target_current": "informative",
-          "target_current_pct": 0.725,
-          "target_uses_already": 0.0,
-          "expected_eng_if_adopted": 0.833,
-          "current_eng": 0.56,
-          "potential_uplift": 0.273
-        },
-        {
-          "dimension": "production_quality",
-          "adopt_this": "semi_professional",
-          "adopt_from_sector": "retail",
-          "adoption_rate_in_best": 0.875,
-          "target_current": "professional",
-          "target_current_pct": 0.768,
-          "target_uses_already": 0.232,
-          "expected_eng_if_adopted": 0.714,
-          "current_eng": 0.632,
-          "potential_uplift": 0.082
-        },
-        {
-          "dimension": "visual_complexity",
-          "adopt_this": "moderate",
-          "adopt_from_sector": "retail",
-          "adoption_rate_in_best": 0.5,
-          "target_current": "simple",
-          "target_current_pct": 0.507,
-          "target_uses_already": 0.493,
-          "expected_eng_if_adopted": 0.5,
-          "current_eng": 0.429,
-          "potential_uplift": 0.071
-        },
-        {
-          "dimension": "heritage_framing",
-          "adopt_this": "blended",
-          "adopt_from_sector": "retail",
-          "adoption_rate_in_best": 0.667,
-          "target_current": "modern",
-          "target_current_pct": 0.942,
-          "target_uses_already": 0.058,
-          "expected_eng_if_adopted": 0.625,
-          "current_eng": 0.554,
-          "potential_uplift": 0.071
-        }
-      ],
-      "keep_doing": []
     }
   },
   "agency_rules": [
@@ -711,8 +724,8 @@
     "beauty_personal_care (9%): adopt setting=home_domestic from retail → +95% potential",
     "retail_lifestyle (16%): adopt setting=home_domestic from retail → +87% potential",
     "fashion (33%): adopt setting=home_domestic from retail → +74% potential",
+    "healthcare_wellness (42%): adopt setting=home_domestic from retail → +89% potential",
     "f_and_b (52%): adopt setting=home_domestic from retail → +60% potential",
-    "beauty (52%): adopt setting=home_domestic from retail → +45% potential",
-    "healthcare_wellness (54%): adopt lighting=natural_daylight from retail → +40% potential"
+    "beauty (52%): adopt setting=home_domestic from retail → +45% potential"
   ]
 }

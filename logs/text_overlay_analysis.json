@@ -2,22 +2,22 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 2894,
-  "obs_with_text_overlay": 409,
+  "total_obs": 2508,
+  "obs_with_text_overlay": 256,
   "overlay_presence_table": [
     {
       "overlay_presence": "has_overlay",
-      "count": 409,
-      "high_engagement_rate": 0.496,
-      "avg_engagement": 0.664,
-      "lift_vs_baseline": -0.044
+      "count": 256,
+      "high_engagement_rate": 0.656,
+      "avg_engagement": 0.791,
+      "lift_vs_baseline": 0.116
     },
     {
       "overlay_presence": "no_overlay",
-      "count": 2485,
-      "high_engagement_rate": 0.242,
-      "avg_engagement": 0.375,
-      "lift_vs_baseline": -0.298
+      "count": 2252,
+      "high_engagement_rate": 0.236,
+      "avg_engagement": 0.361,
+      "lift_vs_baseline": -0.304
     }
   ],
   "overlay_language_table": [
@@ -47,26 +47,26 @@
     },
     {
       "overlay_language": "english",
-      "count": 87,
-      "high_engagement_rate": 0.736,
-      "avg_engagement": 0.856,
-      "lift_vs_baseline": 0.196,
-      "top_sector": "f_and_b"
-    },
-    {
-      "overlay_language": "arabic",
-      "count": 283,
-      "high_engagement_rate": 0.431,
-      "avg_engagement": 0.608,
-      "lift_vs_baseline": -0.109,
+      "count": 74,
+      "high_engagement_rate": 0.811,
+      "avg_engagement": 0.899,
+      "lift_vs_baseline": 0.271,
       "top_sector": "f_and_b"
     },
     {
       "overlay_language": "bilingual",
-      "count": 32,
-      "high_engagement_rate": 0.344,
-      "avg_engagement": 0.578,
-      "lift_vs_baseline": -0.196,
+      "count": 16,
+      "high_engagement_rate": 0.625,
+      "avg_engagement": 0.75,
+      "lift_vs_baseline": 0.085,
+      "top_sector": "f_and_b"
+    },
+    {
+      "overlay_language": "arabic",
+      "count": 159,
+      "high_engagement_rate": 0.579,
+      "avg_engagement": 0.739,
+      "lift_vs_baseline": 0.039,
       "top_sector": "f_and_b"
     },
     {
@@ -80,52 +80,52 @@
   ],
   "overlay_content_type_table": [
     {
-      "overlay_type": "brand_identity",
-      "count": 92,
-      "high_engagement_rate": 0.63,
-      "lift_vs_baseline": 0.09
-    },
-    {
-      "overlay_type": "occasion_title",
-      "count": 33,
-      "high_engagement_rate": 0.606,
-      "lift_vs_baseline": 0.066
-    },
-    {
       "overlay_type": "storytelling",
-      "count": 5,
-      "high_engagement_rate": 0.6,
-      "lift_vs_baseline": 0.06
+      "count": 1,
+      "high_engagement_rate": 1.0,
+      "lift_vs_baseline": 0.46
+    },
+    {
+      "overlay_type": "brand_identity",
+      "count": 80,
+      "high_engagement_rate": 0.713,
+      "lift_vs_baseline": 0.173
     },
     {
       "overlay_type": "price_offer",
-      "count": 30,
-      "high_engagement_rate": 0.533,
-      "lift_vs_baseline": -0.007
-    },
-    {
-      "overlay_type": "product_name",
-      "count": 71,
-      "high_engagement_rate": 0.451,
-      "lift_vs_baseline": -0.089
-    },
-    {
-      "overlay_type": "trivia_question",
-      "count": 27,
-      "high_engagement_rate": 0.444,
-      "lift_vs_baseline": -0.096
-    },
-    {
-      "overlay_type": "other",
-      "count": 143,
-      "high_engagement_rate": 0.42,
-      "lift_vs_baseline": -0.12
+      "count": 16,
+      "high_engagement_rate": 0.688,
+      "lift_vs_baseline": 0.148
     },
     {
       "overlay_type": "cta_overlay",
-      "count": 8,
-      "high_engagement_rate": 0.25,
-      "lift_vs_baseline": -0.29
+      "count": 3,
+      "high_engagement_rate": 0.667,
+      "lift_vs_baseline": 0.127
+    },
+    {
+      "overlay_type": "occasion_title",
+      "count": 17,
+      "high_engagement_rate": 0.647,
+      "lift_vs_baseline": 0.107
+    },
+    {
+      "overlay_type": "product_name",
+      "count": 44,
+      "high_engagement_rate": 0.636,
+      "lift_vs_baseline": 0.096
+    },
+    {
+      "overlay_type": "trivia_question",
+      "count": 11,
+      "high_engagement_rate": 0.636,
+      "lift_vs_baseline": 0.096
+    },
+    {
+      "overlay_type": "other",
+      "count": 84,
+      "high_engagement_rate": 0.607,
+      "lift_vs_baseline": 0.067
     }
   ],
   "language_by_occasion": [
@@ -138,14 +138,28 @@
     },
     {
       "language": "arabic",
-      "occasion": "eid_al_fitr",
-      "count": 5,
+      "occasion": "summer_campaign",
+      "count": 3,
       "high_eng_rate": 1.0,
       "lift": 0.46
     },
     {
       "language": "arabic",
       "occasion": "vision_2030",
+      "count": 2,
+      "high_eng_rate": 1.0,
+      "lift": 0.46
+    },
+    {
+      "language": "arabic",
+      "occasion": "brand_campaign",
+      "count": 4,
+      "high_eng_rate": 1.0,
+      "lift": 0.46
+    },
+    {
+      "language": "arabic",
+      "occasion": "eid_al_fitr",
       "count": 2,
       "high_eng_rate": 1.0,
       "lift": 0.46
@@ -160,13 +174,6 @@
     {
       "language": "english",
       "occasion": "summer_campaign",
-      "count": 2,
-      "high_eng_rate": 1.0,
-      "lift": 0.46
-    },
-    {
-      "language": "english",
-      "occasion": "eid_al_fitr",
       "count": 2,
       "high_eng_rate": 1.0,
       "lift": 0.46
@@ -181,30 +188,23 @@
     {
       "language": "arabic",
       "occasion": "national_day",
-      "count": 8,
-      "high_eng_rate": 0.875,
-      "lift": 0.335
-    },
-    {
-      "language": "arabic",
-      "occasion": "ramadan",
-      "count": 18,
-      "high_eng_rate": 0.778,
-      "lift": 0.238
-    },
-    {
-      "language": "arabic",
-      "occasion": "graduation_season",
-      "count": 4,
-      "high_eng_rate": 0.75,
-      "lift": 0.21
+      "count": 6,
+      "high_eng_rate": 0.833,
+      "lift": 0.293
     },
     {
       "language": "english",
       "occasion": "evergreen",
-      "count": 77,
-      "high_eng_rate": 0.74,
-      "lift": 0.2
+      "count": 66,
+      "high_eng_rate": 0.833,
+      "lift": 0.293
+    },
+    {
+      "language": "arabic",
+      "occasion": "ramadan",
+      "count": 14,
+      "high_eng_rate": 0.786,
+      "lift": 0.246
     },
     {
       "language": "arabic",
@@ -214,51 +214,37 @@
       "lift": 0.127
     },
     {
-      "language": "arabic",
-      "occasion": "summer_campaign",
-      "count": 5,
+      "language": "bilingual",
+      "occasion": "evergreen",
+      "count": 15,
       "high_eng_rate": 0.6,
       "lift": 0.06
     },
     {
       "language": "arabic",
-      "occasion": "brand_campaign",
-      "count": 13,
-      "high_eng_rate": 0.462,
-      "lift": -0.078
+      "occasion": "evergreen",
+      "count": 115,
+      "high_eng_rate": 0.522,
+      "lift": -0.018
     },
     {
       "language": "arabic",
-      "occasion": "evergreen",
-      "count": 201,
-      "high_eng_rate": 0.378,
-      "lift": -0.162
-    },
-    {
-      "language": "bilingual",
-      "occasion": "evergreen",
-      "count": 30,
-      "high_eng_rate": 0.333,
-      "lift": -0.207
-    },
-    {
-      "language": "arabic",
-      "occasion": "eid_al_adha",
-      "count": 8,
-      "high_eng_rate": 0.125,
-      "lift": -0.415
+      "occasion": "graduation_season",
+      "count": 2,
+      "high_eng_rate": 0.5,
+      "lift": -0.04
     },
     {
       "language": "arabic",
       "occasion": "sporting_event",
-      "count": 11,
-      "high_eng_rate": 0.091,
-      "lift": -0.449
+      "count": 4,
+      "high_eng_rate": 0.0,
+      "lift": -0.54
     },
     {
       "language": "arabic",
-      "occasion": "national_sports_day",
-      "count": 3,
+      "occasion": "eid_al_adha",
+      "count": 2,
       "high_eng_rate": 0.0,
       "lift": -0.54
     },
@@ -275,9 +261,9 @@
     "Best overlay language: 'spanish' (100%) — default to this for visual text"
   ],
   "key_findings": [
-    "Text overlay HELPS engagement: with_overlay=49% vs without=24% (+25pp)",
+    "Text overlay HELPS engagement: with_overlay=65% vs without=23% (+42pp)",
     "Best overlay language: 'spanish' = 100% (n=3)",
-    "Best overlay type: 'brand_identity' = 63% (n=92)",
-    "Worst overlay type: 'cta_overlay' = 25% — use sparingly"
+    "Best overlay type: 'storytelling' = 100% (n=1)",
+    "Worst overlay type: 'other' = 60% — use sparingly"
   ]
 }

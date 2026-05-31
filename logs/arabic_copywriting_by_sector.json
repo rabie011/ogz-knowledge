@@ -4,19 +4,19 @@
   "methodology_note": "Phrases are only flagged 'signal' if they exceed their OWN sector baseline by ≥15pp. Cross-sector signals require positive lift in ≥2 sectors. Confound warnings explain why the original analysis was misleading.",
   "sector_baselines": {
     "beauty": {
-      "arabic_caption_obs": 98,
-      "baseline": 0.214,
-      "avg_engagement": 0.52
+      "arabic_caption_obs": 30,
+      "baseline": 0.333,
+      "avg_engagement": 0.517
     },
     "beauty_personal_care": {
-      "arabic_caption_obs": 295,
-      "baseline": 0.031,
-      "avg_engagement": 0.09
+      "arabic_caption_obs": 278,
+      "baseline": 0.029,
+      "avg_engagement": 0.088
     },
     "f_and_b": {
-      "arabic_caption_obs": 1592,
+      "arabic_caption_obs": 1321,
       "baseline": 0.325,
-      "avg_engagement": 0.481
+      "avg_engagement": 0.476
     },
     "real_estate": {
       "arabic_caption_obs": 113,
@@ -36,346 +36,162 @@
   },
   "per_sector_analysis": {
     "beauty": {
-      "arabic_caption_obs": 98,
-      "sector_baseline": 0.214,
+      "arabic_caption_obs": 30,
+      "sector_baseline": 0.333,
       "signal_phrases": [
         {
-          "phrase": "للوجه",
-          "total": 3,
-          "in_high_eng": 3,
-          "in_low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.786
-        },
-        {
-          "phrase": "للوجه بالورد",
-          "total": 3,
-          "in_high_eng": 3,
-          "in_low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.786
-        },
-        {
-          "phrase": "رائحة",
-          "total": 3,
-          "in_high_eng": 3,
-          "in_low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.786
-        },
-        {
-          "phrase": "جمال",
-          "total": 5,
-          "in_high_eng": 4,
-          "in_low_eng": 1,
-          "high_ratio": 0.8,
-          "lift_vs_sector_baseline": 0.586
-        },
-        {
-          "phrase": "ماسكارا",
-          "total": 8,
-          "in_high_eng": 6,
-          "in_low_eng": 2,
-          "high_ratio": 0.75,
-          "lift_vs_sector_baseline": 0.536
-        },
-        {
           "phrase": "الآن",
+          "total": 3,
+          "in_high_eng": 3,
+          "in_low_eng": 0,
+          "high_ratio": 1.0,
+          "lift_vs_sector_baseline": 0.667
+        },
+        {
+          "phrase": "كل",
           "total": 4,
           "in_high_eng": 3,
           "in_low_eng": 1,
           "high_ratio": 0.75,
-          "lift_vs_sector_baseline": 0.536
-        },
-        {
-          "phrase": "فلكسترا",
-          "total": 6,
-          "in_high_eng": 4,
-          "in_low_eng": 2,
-          "high_ratio": 0.667,
-          "lift_vs_sector_baseline": 0.453
-        },
-        {
-          "phrase": "فوليوم",
-          "total": 6,
-          "in_high_eng": 4,
-          "in_low_eng": 2,
-          "high_ratio": 0.667,
-          "lift_vs_sector_baseline": 0.453
-        },
-        {
-          "phrase": "اند",
-          "total": 6,
-          "in_high_eng": 4,
-          "in_low_eng": 2,
-          "high_ratio": 0.667,
-          "lift_vs_sector_baseline": 0.453
-        },
-        {
-          "phrase": "كورف",
-          "total": 6,
-          "in_high_eng": 4,
-          "in_low_eng": 2,
-          "high_ratio": 0.667,
-          "lift_vs_sector_baseline": 0.453
-        },
-        {
-          "phrase": "فلكسترا فوليوم",
-          "total": 6,
-          "in_high_eng": 4,
-          "in_low_eng": 2,
-          "high_ratio": 0.667,
-          "lift_vs_sector_baseline": 0.453
-        },
-        {
-          "phrase": "فوليوم اند",
-          "total": 6,
-          "in_high_eng": 4,
-          "in_low_eng": 2,
-          "high_ratio": 0.667,
-          "lift_vs_sector_baseline": 0.453
-        },
-        {
-          "phrase": "اند كورف",
-          "total": 6,
-          "in_high_eng": 4,
-          "in_low_eng": 2,
-          "high_ratio": 0.667,
-          "lift_vs_sector_baseline": 0.453
-        },
-        {
-          "phrase": "كورف ماسكارا",
-          "total": 6,
-          "in_high_eng": 4,
-          "in_low_eng": 2,
-          "high_ratio": 0.667,
-          "lift_vs_sector_baseline": 0.453
+          "lift_vs_sector_baseline": 0.417
         },
         {
           "phrase": "عبر",
-          "total": 5,
+          "total": 4,
           "in_high_eng": 3,
-          "in_low_eng": 2,
-          "high_ratio": 0.6,
-          "lift_vs_sector_baseline": 0.386
+          "in_low_eng": 1,
+          "high_ratio": 0.75,
+          "lift_vs_sector_baseline": 0.417
         },
         {
-          "phrase": "بالورد الطائفي",
-          "total": 5,
-          "in_high_eng": 3,
-          "in_low_eng": 2,
-          "high_ratio": 0.6,
-          "lift_vs_sector_baseline": 0.386
-        },
-        {
-          "phrase": "الطائفي",
-          "total": 9,
+          "phrase": "ماسكارا",
+          "total": 7,
           "in_high_eng": 5,
-          "in_low_eng": 4,
-          "high_ratio": 0.556,
-          "lift_vs_sector_baseline": 0.342
+          "in_low_eng": 2,
+          "high_ratio": 0.714,
+          "lift_vs_sector_baseline": 0.381
         },
         {
-          "phrase": "إلى",
-          "total": 8,
+          "phrase": "في",
+          "total": 6,
           "in_high_eng": 4,
-          "in_low_eng": 4,
-          "high_ratio": 0.5,
-          "lift_vs_sector_baseline": 0.286
+          "in_low_eng": 2,
+          "high_ratio": 0.667,
+          "lift_vs_sector_baseline": 0.334
         },
         {
-          "phrase": "بالورد",
+          "phrase": "فلكسترا",
+          "total": 5,
+          "in_high_eng": 3,
+          "in_low_eng": 2,
+          "high_ratio": 0.6,
+          "lift_vs_sector_baseline": 0.267
+        },
+        {
+          "phrase": "فوليوم",
+          "total": 5,
+          "in_high_eng": 3,
+          "in_low_eng": 2,
+          "high_ratio": 0.6,
+          "lift_vs_sector_baseline": 0.267
+        },
+        {
+          "phrase": "اند",
+          "total": 5,
+          "in_high_eng": 3,
+          "in_low_eng": 2,
+          "high_ratio": 0.6,
+          "lift_vs_sector_baseline": 0.267
+        },
+        {
+          "phrase": "كورف",
+          "total": 5,
+          "in_high_eng": 3,
+          "in_low_eng": 2,
+          "high_ratio": 0.6,
+          "lift_vs_sector_baseline": 0.267
+        },
+        {
+          "phrase": "فلكسترا فوليوم",
+          "total": 5,
+          "in_high_eng": 3,
+          "in_low_eng": 2,
+          "high_ratio": 0.6,
+          "lift_vs_sector_baseline": 0.267
+        },
+        {
+          "phrase": "فوليوم اند",
+          "total": 5,
+          "in_high_eng": 3,
+          "in_low_eng": 2,
+          "high_ratio": 0.6,
+          "lift_vs_sector_baseline": 0.267
+        },
+        {
+          "phrase": "اند كورف",
+          "total": 5,
+          "in_high_eng": 3,
+          "in_low_eng": 2,
+          "high_ratio": 0.6,
+          "lift_vs_sector_baseline": 0.267
+        },
+        {
+          "phrase": "كورف ماسكارا",
+          "total": 5,
+          "in_high_eng": 3,
+          "in_low_eng": 2,
+          "high_ratio": 0.6,
+          "lift_vs_sector_baseline": 0.267
+        },
+        {
+          "phrase": "ليب",
           "total": 6,
           "in_high_eng": 3,
           "in_low_eng": 3,
           "high_ratio": 0.5,
-          "lift_vs_sector_baseline": 0.286
-        },
-        {
-          "phrase": "يوم",
-          "total": 7,
-          "in_high_eng": 3,
-          "in_low_eng": 4,
-          "high_ratio": 0.429,
-          "lift_vs_sector_baseline": 0.215
-        },
-        {
-          "phrase": "الورد",
-          "total": 7,
-          "in_high_eng": 3,
-          "in_low_eng": 4,
-          "high_ratio": 0.429,
-          "lift_vs_sector_baseline": 0.215
-        },
-        {
-          "phrase": "في",
-          "total": 30,
-          "in_high_eng": 12,
-          "in_low_eng": 18,
-          "high_ratio": 0.4,
-          "lift_vs_sector_baseline": 0.186
+          "lift_vs_sector_baseline": 0.167
         }
       ],
       "avoid_phrases": [
         {
-          "phrase": "البشرة",
-          "total": 10,
+          "phrase": "الشفاه",
+          "total": 5,
           "in_high_eng": 0,
-          "in_low_eng": 10,
+          "in_low_eng": 5,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
+          "lift_vs_sector_baseline": -0.333
         },
         {
           "phrase": "اليوم",
-          "total": 7,
+          "total": 4,
           "in_high_eng": 0,
-          "in_low_eng": 7,
+          "in_low_eng": 4,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
-        },
-        {
-          "phrase": "الوجه",
-          "total": 7,
-          "in_high_eng": 0,
-          "in_low_eng": 7,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
-        },
-        {
-          "phrase": "من بريتي",
-          "total": 7,
-          "in_high_eng": 0,
-          "in_low_eng": 7,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
-        },
-        {
-          "phrase": "نيتشر",
-          "total": 7,
-          "in_high_eng": 0,
-          "in_low_eng": 7,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
-        },
-        {
-          "phrase": "بريتي نيتشر",
-          "total": 7,
-          "in_high_eng": 0,
-          "in_low_eng": 7,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
-        },
-        {
-          "phrase": "سيروم",
-          "total": 6,
-          "in_high_eng": 0,
-          "in_low_eng": 6,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
-        },
-        {
-          "phrase": "عميق",
-          "total": 6,
-          "in_high_eng": 0,
-          "in_low_eng": 6,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
-        },
-        {
-          "phrase": "العالم",
-          "total": 6,
-          "in_high_eng": 0,
-          "in_low_eng": 6,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
-        },
-        {
-          "phrase": "مناسب",
-          "total": 5,
-          "in_high_eng": 0,
-          "in_low_eng": 5,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
-        },
-        {
-          "phrase": "نعومة",
-          "total": 5,
-          "in_high_eng": 0,
-          "in_low_eng": 5,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
-        },
-        {
-          "phrase": "ناعمة",
-          "total": 5,
-          "in_high_eng": 0,
-          "in_low_eng": 5,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
-        },
-        {
-          "phrase": "ترطيب عميق",
-          "total": 5,
-          "in_high_eng": 0,
-          "in_low_eng": 5,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
-        },
-        {
-          "phrase": "غنية",
-          "total": 5,
-          "in_high_eng": 0,
-          "in_low_eng": 5,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
+          "lift_vs_sector_baseline": -0.333
         },
         {
           "phrase": "روتين",
-          "total": 5,
+          "total": 3,
           "in_high_eng": 0,
-          "in_low_eng": 5,
+          "in_low_eng": 3,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
+          "lift_vs_sector_baseline": -0.333
         },
         {
-          "phrase": "الريتينول",
-          "total": 5,
+          "phrase": "يدوم",
+          "total": 3,
           "in_high_eng": 0,
-          "in_low_eng": 5,
+          "in_low_eng": 3,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
+          "lift_vs_sector_baseline": -0.333
         },
         {
-          "phrase": "والوجه",
-          "total": 4,
+          "phrase": "طبيعية",
+          "total": 3,
           "in_high_eng": 0,
-          "in_low_eng": 4,
+          "in_low_eng": 3,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
-        },
-        {
-          "phrase": "غني",
-          "total": 4,
-          "in_high_eng": 0,
-          "in_low_eng": 4,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
-        },
-        {
-          "phrase": "أنواع",
-          "total": 4,
-          "in_high_eng": 0,
-          "in_low_eng": 4,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
-        },
-        {
-          "phrase": "أنواع البشرة",
-          "total": 4,
-          "in_high_eng": 0,
-          "in_low_eng": 4,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.214
+          "lift_vs_sector_baseline": -0.333
         }
       ],
       "top_openers": [
@@ -384,83 +200,51 @@
           "high_eng": 2,
           "low_eng": 0,
           "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.786
+          "lift_vs_sector_baseline": 0.667
         }
       ],
       "opener_formula_table": [
         {
-          "formula": "announcement",
-          "count": 8,
-          "high_engagement_rate": 0.375,
-          "avg_engagement": 0.5,
-          "lift_vs_sector_baseline": 0.161
+          "formula": "sensory_emotive",
+          "count": 2,
+          "high_engagement_rate": 0.5,
+          "avg_engagement": 0.75,
+          "lift_vs_sector_baseline": 0.167
         },
         {
-          "formula": "sensory_emotive",
-          "count": 10,
-          "high_engagement_rate": 0.3,
-          "avg_engagement": 0.65,
-          "lift_vs_sector_baseline": 0.086
+          "formula": "announcement",
+          "count": 5,
+          "high_engagement_rate": 0.4,
+          "avg_engagement": 0.4,
+          "lift_vs_sector_baseline": 0.067
         },
         {
           "formula": "other",
-          "count": 66,
-          "high_engagement_rate": 0.212,
-          "avg_engagement": 0.523,
-          "lift_vs_sector_baseline": -0.002
+          "count": 21,
+          "high_engagement_rate": 0.333,
+          "avg_engagement": 0.548,
+          "lift_vs_sector_baseline": 0.0
         },
         {
           "formula": "question",
-          "count": 11,
-          "high_engagement_rate": 0.091,
-          "avg_engagement": 0.455,
-          "lift_vs_sector_baseline": -0.123
-        },
-        {
-          "formula": "heritage_occasion",
           "count": 2,
           "high_engagement_rate": 0.0,
-          "avg_engagement": 0.5,
-          "lift_vs_sector_baseline": -0.214
-        },
-        {
-          "formula": "community_invite",
-          "count": 1,
-          "high_engagement_rate": 0.0,
-          "avg_engagement": 0.0,
-          "lift_vs_sector_baseline": -0.214
+          "avg_engagement": 0.25,
+          "lift_vs_sector_baseline": -0.333
         }
       ],
       "occasion_keyword_clusters": {
         "eid": [
           {
             "keyword": "عيد",
-            "count": 8
-          }
-        ],
-        "national_day": [
-          {
-            "keyword": "السعودية",
-            "count": 5
-          },
-          {
-            "keyword": "المملكة",
-            "count": 2
-          },
-          {
-            "keyword": "وطن",
-            "count": 2
-          },
-          {
-            "keyword": "فخر",
-            "count": 2
+            "count": 1
           }
         ]
       }
     },
     "beauty_personal_care": {
-      "arabic_caption_obs": 295,
-      "sector_baseline": 0.031,
+      "arabic_caption_obs": 278,
+      "sector_baseline": 0.029,
       "signal_phrases": [
         {
           "phrase": "بالبشرة",
@@ -468,7 +252,7 @@
           "in_high_eng": 3,
           "in_low_eng": 9,
           "high_ratio": 0.25,
-          "lift_vs_sector_baseline": 0.219
+          "lift_vs_sector_baseline": 0.221
         }
       ],
       "avoid_phrases": [
@@ -478,7 +262,7 @@
           "in_high_eng": 0,
           "in_low_eng": 45,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
+          "lift_vs_sector_baseline": -0.029
         },
         {
           "phrase": "البشرة",
@@ -486,7 +270,7 @@
           "in_high_eng": 0,
           "in_low_eng": 23,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
+          "lift_vs_sector_baseline": -0.029
         },
         {
           "phrase": "بس",
@@ -494,7 +278,7 @@
           "in_high_eng": 0,
           "in_low_eng": 18,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
+          "lift_vs_sector_baseline": -0.029
         },
         {
           "phrase": "احصلي",
@@ -502,15 +286,7 @@
           "in_high_eng": 0,
           "in_low_eng": 17,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
-        },
-        {
-          "phrase": "لا",
-          "total": 17,
-          "in_high_eng": 0,
-          "in_low_eng": 17,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
+          "lift_vs_sector_baseline": -0.029
         },
         {
           "phrase": "الآن",
@@ -518,23 +294,7 @@
           "in_high_eng": 0,
           "in_low_eng": 17,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
-        },
-        {
-          "phrase": "لك",
-          "total": 16,
-          "in_high_eng": 0,
-          "in_low_eng": 16,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
-        },
-        {
-          "phrase": "ليب",
-          "total": 16,
-          "in_high_eng": 0,
-          "in_low_eng": 16,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
+          "lift_vs_sector_baseline": -0.029
         },
         {
           "phrase": "متاجرنا",
@@ -542,7 +302,15 @@
           "in_high_eng": 0,
           "in_low_eng": 16,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
+          "lift_vs_sector_baseline": -0.029
+        },
+        {
+          "phrase": "لا",
+          "total": 16,
+          "in_high_eng": 0,
+          "in_low_eng": 16,
+          "high_ratio": 0.0,
+          "lift_vs_sector_baseline": -0.029
         },
         {
           "phrase": "العناية",
@@ -550,15 +318,15 @@
           "in_high_eng": 0,
           "in_low_eng": 15,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
+          "lift_vs_sector_baseline": -0.029
         },
         {
-          "phrase": "ترطيب",
+          "phrase": "لك",
           "total": 14,
           "in_high_eng": 0,
           "in_low_eng": 14,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
+          "lift_vs_sector_baseline": -0.029
         },
         {
           "phrase": "وموقعنا",
@@ -566,7 +334,7 @@
           "in_high_eng": 0,
           "in_low_eng": 14,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
+          "lift_vs_sector_baseline": -0.029
         },
         {
           "phrase": "متاجرنا وموقعنا",
@@ -574,23 +342,7 @@
           "in_high_eng": 0,
           "in_low_eng": 14,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
-        },
-        {
-          "phrase": "يوم",
-          "total": 14,
-          "in_high_eng": 0,
-          "in_low_eng": 14,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
-        },
-        {
-          "phrase": "اليوم",
-          "total": 14,
-          "in_high_eng": 0,
-          "in_low_eng": 14,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
+          "lift_vs_sector_baseline": -0.029
         },
         {
           "phrase": "منتجاتنا",
@@ -598,15 +350,31 @@
           "in_high_eng": 0,
           "in_low_eng": 13,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
+          "lift_vs_sector_baseline": -0.029
         },
         {
-          "phrase": "يدوم",
+          "phrase": "بدون",
           "total": 13,
           "in_high_eng": 0,
           "in_low_eng": 13,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
+          "lift_vs_sector_baseline": -0.029
+        },
+        {
+          "phrase": "يوم",
+          "total": 13,
+          "in_high_eng": 0,
+          "in_low_eng": 13,
+          "high_ratio": 0.0,
+          "lift_vs_sector_baseline": -0.029
+        },
+        {
+          "phrase": "اليوم",
+          "total": 13,
+          "in_high_eng": 0,
+          "in_low_eng": 13,
+          "high_ratio": 0.0,
+          "lift_vs_sector_baseline": -0.029
         },
         {
           "phrase": "أي",
@@ -614,7 +382,7 @@
           "in_high_eng": 0,
           "in_low_eng": 13,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
+          "lift_vs_sector_baseline": -0.029
         },
         {
           "phrase": "سيروم",
@@ -622,60 +390,76 @@
           "in_high_eng": 0,
           "in_low_eng": 13,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
+          "lift_vs_sector_baseline": -0.029
         },
         {
-          "phrase": "لون",
+          "phrase": "ترطيب",
+          "total": 13,
+          "in_high_eng": 0,
+          "in_low_eng": 13,
+          "high_ratio": 0.0,
+          "lift_vs_sector_baseline": -0.029
+        },
+        {
+          "phrase": "الجمال",
           "total": 12,
           "in_high_eng": 0,
           "in_low_eng": 12,
           "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.031
+          "lift_vs_sector_baseline": -0.029
+        },
+        {
+          "phrase": "هذا",
+          "total": 12,
+          "in_high_eng": 0,
+          "in_low_eng": 12,
+          "high_ratio": 0.0,
+          "lift_vs_sector_baseline": -0.029
         }
       ],
       "top_openers": [],
       "opener_formula_table": [
         {
           "formula": "announcement",
-          "count": 6,
-          "high_engagement_rate": 0.333,
-          "avg_engagement": 0.417,
-          "lift_vs_sector_baseline": 0.302
+          "count": 4,
+          "high_engagement_rate": 0.25,
+          "avg_engagement": 0.375,
+          "lift_vs_sector_baseline": 0.221
         },
         {
           "formula": "heritage_occasion",
           "count": 11,
           "high_engagement_rate": 0.182,
           "avg_engagement": 0.273,
-          "lift_vs_sector_baseline": 0.151
+          "lift_vs_sector_baseline": 0.153
         },
         {
           "formula": "other",
-          "count": 193,
-          "high_engagement_rate": 0.021,
-          "avg_engagement": 0.08,
-          "lift_vs_sector_baseline": -0.01
+          "count": 180,
+          "high_engagement_rate": 0.022,
+          "avg_engagement": 0.081,
+          "lift_vs_sector_baseline": -0.007
         },
         {
           "formula": "question",
-          "count": 59,
+          "count": 58,
           "high_engagement_rate": 0.017,
-          "avg_engagement": 0.076,
-          "lift_vs_sector_baseline": -0.014
+          "avg_engagement": 0.078,
+          "lift_vs_sector_baseline": -0.012
         },
         {
           "formula": "sensory_emotive",
-          "count": 24,
+          "count": 23,
           "high_engagement_rate": 0.0,
-          "avg_engagement": 0.042,
-          "lift_vs_sector_baseline": -0.031
+          "avg_engagement": 0.043,
+          "lift_vs_sector_baseline": -0.029
         },
         {
           "formula": "community_invite",
           "count": 2,
           "high_engagement_rate": 0.0,
           "avg_engagement": 0.0,
-          "lift_vs_sector_baseline": -0.031
+          "lift_vs_sector_baseline": -0.029
         }
       ],
       "occasion_keyword_clusters": {
@@ -734,69 +518,29 @@
       }
     },
     "f_and_b": {
-      "arabic_caption_obs": 1592,
+      "arabic_caption_obs": 1321,
       "sector_baseline": 0.325,
       "signal_phrases": [
         {
           "phrase": "وبنختار",
-          "total": 15,
-          "in_high_eng": 15,
+          "total": 13,
+          "in_high_eng": 13,
           "in_low_eng": 0,
           "high_ratio": 1.0,
           "lift_vs_sector_baseline": 0.675
         },
         {
           "phrase": "عشوائي",
-          "total": 13,
-          "in_high_eng": 13,
+          "total": 12,
+          "in_high_eng": 12,
           "in_low_eng": 0,
           "high_ratio": 1.0,
           "lift_vs_sector_baseline": 0.675
         },
         {
           "phrase": "بشكل عشوائي",
-          "total": 13,
-          "in_high_eng": 13,
-          "in_low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "phrase": "صلاة",
           "total": 12,
           "in_high_eng": 12,
-          "in_low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "phrase": "بعد صلاة",
-          "total": 12,
-          "in_high_eng": 12,
-          "in_low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "phrase": "التوأم",
-          "total": 12,
-          "in_high_eng": 12,
-          "in_low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "phrase": "من بعد",
-          "total": 11,
-          "in_high_eng": 11,
-          "in_low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "phrase": "جوابك",
-          "total": 11,
-          "in_high_eng": 11,
           "in_low_eng": 0,
           "high_ratio": 1.0,
           "lift_vs_sector_baseline": 0.675
@@ -826,6 +570,30 @@
           "lift_vs_sector_baseline": 0.675
         },
         {
+          "phrase": "صلاة",
+          "total": 9,
+          "in_high_eng": 9,
+          "in_low_eng": 0,
+          "high_ratio": 1.0,
+          "lift_vs_sector_baseline": 0.675
+        },
+        {
+          "phrase": "بعد صلاة",
+          "total": 9,
+          "in_high_eng": 9,
+          "in_low_eng": 0,
+          "high_ratio": 1.0,
+          "lift_vs_sector_baseline": 0.675
+        },
+        {
+          "phrase": "جوابك",
+          "total": 9,
+          "in_high_eng": 9,
+          "in_low_eng": 0,
+          "high_ratio": 1.0,
+          "lift_vs_sector_baseline": 0.675
+        },
+        {
           "phrase": "هالشخصية",
           "total": 9,
           "in_high_eng": 9,
@@ -842,55 +610,7 @@
           "lift_vs_sector_baseline": 0.675
         },
         {
-          "phrase": "بطل",
-          "total": 8,
-          "in_high_eng": 8,
-          "in_low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "phrase": "فجرا",
-          "total": 8,
-          "in_high_eng": 8,
-          "in_low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "phrase": "محفظتك",
-          "total": 8,
-          "in_high_eng": 8,
-          "in_low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "phrase": "كاش",
-          "total": 8,
-          "in_high_eng": 8,
-          "in_low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "phrase": "شاركنا جوابك",
-          "total": 8,
-          "in_high_eng": 8,
-          "in_low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "phrase": "على كاش",
-          "total": 8,
-          "in_high_eng": 8,
-          "in_low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "phrase": "ضيوف",
+          "phrase": "من بعد",
           "total": 8,
           "in_high_eng": 8,
           "in_low_eng": 0,
@@ -1034,14 +754,6 @@
           "lift_vs_sector_baseline": 0.675
         },
         {
-          "phrase": "إللي",
-          "total": 7,
-          "in_high_eng": 7,
-          "in_low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
           "phrase": "الوطني",
           "total": 7,
           "in_high_eng": 7,
@@ -1056,30 +768,94 @@
           "in_low_eng": 0,
           "high_ratio": 1.0,
           "lift_vs_sector_baseline": 0.675
+        },
+        {
+          "phrase": "كاش",
+          "total": 7,
+          "in_high_eng": 7,
+          "in_low_eng": 0,
+          "high_ratio": 1.0,
+          "lift_vs_sector_baseline": 0.675
+        },
+        {
+          "phrase": "شاركنا جوابك",
+          "total": 7,
+          "in_high_eng": 7,
+          "in_low_eng": 0,
+          "high_ratio": 1.0,
+          "lift_vs_sector_baseline": 0.675
+        },
+        {
+          "phrase": "على كاش",
+          "total": 7,
+          "in_high_eng": 7,
+          "in_low_eng": 0,
+          "high_ratio": 1.0,
+          "lift_vs_sector_baseline": 0.675
+        },
+        {
+          "phrase": "افتتاح في",
+          "total": 7,
+          "in_high_eng": 7,
+          "in_low_eng": 0,
+          "high_ratio": 1.0,
+          "lift_vs_sector_baseline": 0.675
+        },
+        {
+          "phrase": "وعطنا",
+          "total": 6,
+          "in_high_eng": 6,
+          "in_low_eng": 0,
+          "high_ratio": 1.0,
+          "lift_vs_sector_baseline": 0.675
+        },
+        {
+          "phrase": "إللي",
+          "total": 6,
+          "in_high_eng": 6,
+          "in_low_eng": 0,
+          "high_ratio": 1.0,
+          "lift_vs_sector_baseline": 0.675
+        },
+        {
+          "phrase": "كرك",
+          "total": 6,
+          "in_high_eng": 6,
+          "in_low_eng": 0,
+          "high_ratio": 1.0,
+          "lift_vs_sector_baseline": 0.675
+        },
+        {
+          "phrase": "وادخل معنا",
+          "total": 6,
+          "in_high_eng": 6,
+          "in_low_eng": 0,
+          "high_ratio": 1.0,
+          "lift_vs_sector_baseline": 0.675
+        },
+        {
+          "phrase": "التوأم",
+          "total": 6,
+          "in_high_eng": 6,
+          "in_low_eng": 0,
+          "high_ratio": 1.0,
+          "lift_vs_sector_baseline": 0.675
         }
       ],
       "avoid_phrases": [
         {
           "phrase": "بيتزا",
-          "total": 54,
+          "total": 46,
           "in_high_eng": 0,
-          "in_low_eng": 54,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.325
-        },
-        {
-          "phrase": "بيتزاهت",
-          "total": 26,
-          "in_high_eng": 0,
-          "in_low_eng": 26,
+          "in_low_eng": 46,
           "high_ratio": 0.0,
           "lift_vs_sector_baseline": -0.325
         },
         {
           "phrase": "إلى فرع",
-          "total": 26,
+          "total": 25,
           "in_high_eng": 0,
-          "in_low_eng": 26,
+          "in_low_eng": 25,
           "high_ratio": 0.0,
           "lift_vs_sector_baseline": -0.325
         },
@@ -1109,22 +885,14 @@
         },
         {
           "phrase": "بوفيه",
-          "total": 23,
+          "total": 22,
           "in_high_eng": 0,
-          "in_low_eng": 23,
+          "in_low_eng": 22,
           "high_ratio": 0.0,
           "lift_vs_sector_baseline": -0.325
         },
         {
           "phrase": "لقمة",
-          "total": 23,
-          "in_high_eng": 0,
-          "in_low_eng": 23,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.325
-        },
-        {
-          "phrase": "البيتزا",
           "total": 21,
           "in_high_eng": 0,
           "in_low_eng": 21,
@@ -1156,7 +924,7 @@
           "lift_vs_sector_baseline": -0.325
         },
         {
-          "phrase": "ليالي",
+          "phrase": "بيتزاهت",
           "total": 16,
           "in_high_eng": 0,
           "in_low_eng": 16,
@@ -1164,15 +932,7 @@
           "lift_vs_sector_baseline": -0.325
         },
         {
-          "phrase": "هت",
-          "total": 16,
-          "in_high_eng": 0,
-          "in_low_eng": 16,
-          "high_ratio": 0.0,
-          "lift_vs_sector_baseline": -0.325
-        },
-        {
-          "phrase": "ريال للوحدة",
+          "phrase": "البيتزا",
           "total": 16,
           "in_high_eng": 0,
           "in_low_eng": 16,
@@ -1212,10 +972,34 @@
           "lift_vs_sector_baseline": -0.325
         },
         {
-          "phrase": "بدون",
+          "phrase": "ليالي",
           "total": 15,
           "in_high_eng": 0,
           "in_low_eng": 15,
+          "high_ratio": 0.0,
+          "lift_vs_sector_baseline": -0.325
+        },
+        {
+          "phrase": "هت",
+          "total": 14,
+          "in_high_eng": 0,
+          "in_low_eng": 14,
+          "high_ratio": 0.0,
+          "lift_vs_sector_baseline": -0.325
+        },
+        {
+          "phrase": "ريال للوحدة",
+          "total": 14,
+          "in_high_eng": 0,
+          "in_low_eng": 14,
+          "high_ratio": 0.0,
+          "lift_vs_sector_baseline": -0.325
+        },
+        {
+          "phrase": "سفرة",
+          "total": 13,
+          "in_high_eng": 0,
+          "in_low_eng": 13,
           "high_ratio": 0.0,
           "lift_vs_sector_baseline": -0.325
         }
@@ -1229,84 +1013,14 @@
           "lift_vs_sector_baseline": 0.675
         },
         {
-          "opener": "الحمد لله الذي أنعم علينا",
+          "opener": "مبارك عليكم الشهر، تقبل الله",
           "high_eng": 3,
           "low_eng": 0,
           "high_ratio": 1.0,
           "lift_vs_sector_baseline": 0.675
         },
         {
-          "opener": "ومن لا يعرف سالي الجائزة",
-          "high_eng": 2,
-          "low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "opener": "صلصة الجديدة لهاليبو حامض، حلو",
-          "high_eng": 2,
-          "low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "opener": "جهزوا الأعلام تذاكر الديربي وصلت",
-          "high_eng": 2,
-          "low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "opener": "وجبة فيليه من تجربة فريدة",
-          "high_eng": 2,
-          "low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "opener": "لو تذكر احداث النزال اللي",
-          "high_eng": 2,
-          "low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "opener": "التوأم اللذيذ ساندويتشين فيليه الدجاج",
-          "high_eng": 2,
-          "low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "opener": "غرام بروتين بالدوام الراهية النسخة",
-          "high_eng": 2,
-          "low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "opener": "من خيرات مملكتنا الغالية قطع",
-          "high_eng": 2,
-          "low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "opener": "ايفون وبلايستيشن للي يتوقع بطل",
-          "high_eng": 2,
-          "low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "opener": "مرحبا تراحيب المطر الآن لسرعة",
-          "high_eng": 2,
-          "low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "opener": "تعاون الموسم وصل وجبة فتيات",
+          "opener": "من تتوقع يحسمها ويطير للنهائي",
           "high_eng": 2,
           "low_eng": 0,
           "high_ratio": 1.0,
@@ -1320,6 +1034,27 @@
           "lift_vs_sector_baseline": 0.675
         },
         {
+          "opener": "الحمد لله الذي أنعم علينا",
+          "high_eng": 2,
+          "low_eng": 0,
+          "high_ratio": 1.0,
+          "lift_vs_sector_baseline": 0.675
+        },
+        {
+          "opener": "شاركنا جوابك ولا تنسى الفولو",
+          "high_eng": 2,
+          "low_eng": 0,
+          "high_ratio": 1.0,
+          "lift_vs_sector_baseline": 0.675
+        },
+        {
+          "opener": "ينعاد علينا وعليكم وكل عام",
+          "high_eng": 2,
+          "low_eng": 0,
+          "high_ratio": 1.0,
+          "lift_vs_sector_baseline": 0.675
+        },
+        {
           "opener": "شاركنا جوابك على سؤال الأسبوع",
           "high_eng": 2,
           "low_eng": 0,
@@ -1327,102 +1062,74 @@
           "lift_vs_sector_baseline": 0.675
         },
         {
-          "opener": "التوأم المحبوب من رجع اطلبه",
-          "high_eng": 2,
-          "low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "opener": "جاهزين لتوقعات اغلى الكؤوس؟ فولو",
-          "high_eng": 2,
-          "low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "opener": "أصدق مشاعر ممكن تشوفها لما",
-          "high_eng": 2,
-          "low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "opener": "وانتم وش تقولون منشن لخويك",
-          "high_eng": 2,
-          "low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
-        },
-        {
-          "opener": "التوأم المحبوب من مكمل معاك",
-          "high_eng": 2,
-          "low_eng": 0,
-          "high_ratio": 1.0,
-          "lift_vs_sector_baseline": 0.675
+          "opener": "عيدكم مبارك وكل عام وأنتم",
+          "high_eng": 3,
+          "low_eng": 2,
+          "high_ratio": 0.6,
+          "lift_vs_sector_baseline": 0.275
         }
       ],
       "opener_formula_table": [
         {
           "formula": "announcement",
-          "count": 140,
-          "high_engagement_rate": 0.4,
-          "avg_engagement": 0.55,
-          "lift_vs_sector_baseline": 0.075
+          "count": 108,
+          "high_engagement_rate": 0.38,
+          "avg_engagement": 0.523,
+          "lift_vs_sector_baseline": 0.055
         },
         {
           "formula": "other",
-          "count": 736,
-          "high_engagement_rate": 0.342,
-          "avg_engagement": 0.49,
-          "lift_vs_sector_baseline": 0.017
-        },
-        {
-          "formula": "heritage_occasion",
-          "count": 110,
-          "high_engagement_rate": 0.327,
-          "avg_engagement": 0.495,
-          "lift_vs_sector_baseline": 0.002
+          "count": 612,
+          "high_engagement_rate": 0.345,
+          "avg_engagement": 0.492,
+          "lift_vs_sector_baseline": 0.02
         },
         {
           "formula": "community_invite",
-          "count": 48,
-          "high_engagement_rate": 0.312,
-          "avg_engagement": 0.438,
-          "lift_vs_sector_baseline": -0.013
+          "count": 43,
+          "high_engagement_rate": 0.326,
+          "avg_engagement": 0.442,
+          "lift_vs_sector_baseline": 0.001
+        },
+        {
+          "formula": "heritage_occasion",
+          "count": 94,
+          "high_engagement_rate": 0.319,
+          "avg_engagement": 0.479,
+          "lift_vs_sector_baseline": -0.006
         },
         {
           "formula": "question",
-          "count": 343,
-          "high_engagement_rate": 0.3,
-          "avg_engagement": 0.466,
-          "lift_vs_sector_baseline": -0.025
+          "count": 291,
+          "high_engagement_rate": 0.313,
+          "avg_engagement": 0.467,
+          "lift_vs_sector_baseline": -0.012
         },
         {
           "formula": "sensory_emotive",
-          "count": 215,
-          "high_engagement_rate": 0.256,
-          "avg_engagement": 0.43,
-          "lift_vs_sector_baseline": -0.069
+          "count": 173,
+          "high_engagement_rate": 0.243,
+          "avg_engagement": 0.413,
+          "lift_vs_sector_baseline": -0.082
         }
       ],
       "occasion_keyword_clusters": {
         "national_day": [
           {
             "keyword": "السعودية",
-            "count": 222
+            "count": 191
           },
           {
             "keyword": "فخر",
-            "count": 49
+            "count": 38
           },
           {
             "keyword": "وطن",
-            "count": 43
+            "count": 37
           },
           {
             "keyword": "المملكة",
-            "count": 19
+            "count": 18
           },
           {
             "keyword": "اليوم الوطني",
@@ -1432,11 +1139,11 @@
         "ramadan": [
           {
             "keyword": "رمضان",
-            "count": 93
+            "count": 84
           },
           {
             "keyword": "إفطار",
-            "count": 29
+            "count": 27
           },
           {
             "keyword": "الفطر",
@@ -1450,25 +1157,25 @@
         "founding_day": [
           {
             "keyword": "الدرعية",
-            "count": 54
+            "count": 48
           },
           {
             "keyword": "التأسيس",
-            "count": 20
+            "count": 17
           },
           {
             "keyword": "يوم التأسيس",
-            "count": 8
+            "count": 7
           }
         ],
         "eid": [
           {
             "keyword": "عيد",
-            "count": 79
+            "count": 63
           },
           {
             "keyword": "تقبل الله",
-            "count": 8
+            "count": 5
           }
         ]
       }
@@ -2637,31 +2344,7 @@
       }
     }
   },
-  "cross_sector_phrase_signals": [
-    {
-      "phrase": "يوم",
-      "confirmed_in_sectors": [
-        "beauty",
-        "retail_lifestyle"
-      ],
-      "sector_count": 2,
-      "avg_lift_across_sectors": 0.221,
-      "per_sector": [
-        {
-          "sector": "beauty",
-          "lift": 0.215,
-          "count": 7,
-          "high_ratio": 0.429
-        },
-        {
-          "sector": "retail_lifestyle",
-          "lift": 0.227,
-          "count": 10,
-          "high_ratio": 0.3
-        }
-      ]
-    }
-  ],
+  "cross_sector_phrase_signals": [],
   "cross_sector_formula_signals": [
     {
       "formula": "announcement",
@@ -2672,25 +2355,25 @@
         "real_estate",
         "retail_lifestyle"
       ],
-      "avg_lift_across_sectors": 0.134,
+      "avg_lift_across_sectors": 0.095,
       "per_sector": [
         {
           "sector": "beauty",
-          "lift": 0.161,
-          "rate": 0.375,
-          "count": 8
+          "lift": 0.067,
+          "rate": 0.4,
+          "count": 5
         },
         {
           "sector": "beauty_personal_care",
-          "lift": 0.302,
-          "rate": 0.333,
-          "count": 6
+          "lift": 0.221,
+          "rate": 0.25,
+          "count": 4
         },
         {
           "sector": "f_and_b",
-          "lift": 0.075,
-          "rate": 0.4,
-          "count": 140
+          "lift": 0.055,
+          "rate": 0.38,
+          "count": 108
         },
         {
           "sector": "real_estate",
@@ -2710,23 +2393,16 @@
       "formula": "heritage_occasion",
       "confirmed_sectors": [
         "beauty_personal_care",
-        "f_and_b",
         "retail_lifestyle",
         "fashion"
       ],
-      "avg_lift_across_sectors": 0.066,
+      "avg_lift_across_sectors": 0.088,
       "per_sector": [
         {
           "sector": "beauty_personal_care",
-          "lift": 0.151,
+          "lift": 0.153,
           "rate": 0.182,
           "count": 11
-        },
-        {
-          "sector": "f_and_b",
-          "lift": 0.002,
-          "rate": 0.327,
-          "count": 110
         },
         {
           "sector": "retail_lifestyle",
@@ -2765,24 +2441,24 @@
       ]
     },
     {
-      "formula": "sensory_emotive",
+      "formula": "community_invite",
       "confirmed_sectors": [
-        "beauty",
+        "f_and_b",
         "retail_lifestyle"
       ],
-      "avg_lift_across_sectors": 0.069,
+      "avg_lift_across_sectors": 0.214,
       "per_sector": [
         {
-          "sector": "beauty",
-          "lift": 0.086,
-          "rate": 0.3,
-          "count": 10
+          "sector": "f_and_b",
+          "lift": 0.001,
+          "rate": 0.326,
+          "count": 43
         },
         {
           "sector": "retail_lifestyle",
-          "lift": 0.052,
-          "rate": 0.125,
-          "count": 8
+          "lift": 0.427,
+          "rate": 0.5,
+          "count": 6
         }
       ]
     },
@@ -2792,13 +2468,13 @@
         "f_and_b",
         "fashion"
       ],
-      "avg_lift_across_sectors": 0.023,
+      "avg_lift_across_sectors": 0.025,
       "per_sector": [
         {
           "sector": "f_and_b",
-          "lift": 0.017,
-          "rate": 0.342,
-          "count": 736
+          "lift": 0.02,
+          "rate": 0.345,
+          "count": 612
         },
         {
           "sector": "fashion",
@@ -2820,52 +2496,51 @@
     }
   ],
   "key_findings": [
-    "TRUE cross-sector Arabic phrase: 'يوم' — beats baseline in 2 sectors (avg +22pp)",
-    "TRUE cross-sector opener formula: 'announcement' — positive in 5 sectors (avg +13pp)",
-    "BEAUTY — Best opener formula: 'announcement' = 37% (+16pp vs 21% baseline)",
-    "BEAUTY_PERSONAL_CARE — Best opener formula: 'announcement' = 33% (+30pp vs 3% baseline)",
-    "F_AND_B — Best opener formula: 'announcement' = 40% (+7pp vs 32% baseline)",
+    "No single Arabic phrase beats sector baseline in ≥2 sectors. Existing 'signal phrases' are sector artifacts, not language signals.",
+    "TRUE cross-sector opener formula: 'announcement' — positive in 5 sectors (avg +9pp)",
+    "BEAUTY — Best opener formula: 'sensory_emotive' = 50% (+16pp vs 33% baseline)",
+    "BEAUTY_PERSONAL_CARE — Best opener formula: 'announcement' = 25% (+22pp vs 2% baseline)",
+    "F_AND_B — Best opener formula: 'announcement' = 38% (+5pp vs 32% baseline)",
     "REAL_ESTATE — Best opener formula: 'announcement' = 9% (+6pp vs 2% baseline)",
     "RETAIL_LIFESTYLE — Best opener formula: 'community_invite' = 50% (+42pp vs 7% baseline)",
     "FASHION — Best opener formula: 'question' = 73% (+25pp vs 48% baseline)"
   ],
   "agency_rules_universal": [
-    "Arabic phrase 'يوم' — confirmed cross-sector signal (sectors: beauty, retail_lifestyle)",
     "Opener formula 'announcement' — beats baseline in all sectors tested",
     "Opener formula 'heritage_occasion' — beats baseline in all sectors tested",
     "Opener formula 'question' — beats baseline in all sectors tested",
-    "Opener formula 'sensory_emotive' — beats baseline in all sectors tested",
+    "Opener formula 'community_invite' — beats baseline in all sectors tested",
     "Opener formula 'other' — beats baseline in all sectors tested"
   ],
   "agency_rules_by_sector": {
     "beauty": [
-      "Use 'للوجه' — +78pp vs beauty baseline",
-      "Use 'للوجه بالورد' — +78pp vs beauty baseline",
-      "Use 'رائحة' — +78pp vs beauty baseline",
-      "Use 'جمال' — +58pp vs beauty baseline",
-      "Use 'ماسكارا' — +53pp vs beauty baseline",
-      "Avoid 'البشرة' — -21pp vs beauty baseline",
-      "Avoid 'اليوم' — -21pp vs beauty baseline",
-      "Avoid 'الوجه' — -21pp vs beauty baseline",
-      "Lead with 'announcement' opener (37% high-eng)"
+      "Use 'الآن' — +66pp vs beauty baseline",
+      "Use 'كل' — +41pp vs beauty baseline",
+      "Use 'عبر' — +41pp vs beauty baseline",
+      "Use 'ماسكارا' — +38pp vs beauty baseline",
+      "Use 'في' — +33pp vs beauty baseline",
+      "Avoid 'الشفاه' — -33pp vs beauty baseline",
+      "Avoid 'اليوم' — -33pp vs beauty baseline",
+      "Avoid 'روتين' — -33pp vs beauty baseline",
+      "Lead with 'sensory_emotive' opener (50% high-eng)"
     ],
     "beauty_personal_care": [
-      "Use 'بالبشرة' — +21pp vs beauty_personal_care baseline",
-      "Avoid 'بشرتك' — -3pp vs beauty_personal_care baseline",
-      "Avoid 'البشرة' — -3pp vs beauty_personal_care baseline",
-      "Avoid 'بس' — -3pp vs beauty_personal_care baseline",
-      "Lead with 'announcement' opener (33% high-eng)"
+      "Use 'بالبشرة' — +22pp vs beauty_personal_care baseline",
+      "Avoid 'بشرتك' — -2pp vs beauty_personal_care baseline",
+      "Avoid 'البشرة' — -2pp vs beauty_personal_care baseline",
+      "Avoid 'بس' — -2pp vs beauty_personal_care baseline",
+      "Lead with 'announcement' opener (25% high-eng)"
     ],
     "f_and_b": [
       "Use 'وبنختار' — +67pp vs f_and_b baseline",
       "Use 'عشوائي' — +67pp vs f_and_b baseline",
       "Use 'بشكل عشوائي' — +67pp vs f_and_b baseline",
-      "Use 'صلاة' — +67pp vs f_and_b baseline",
-      "Use 'بعد صلاة' — +67pp vs f_and_b baseline",
+      "Use 'جاوبوا' — +67pp vs f_and_b baseline",
+      "Use 'وبنختار الفائز' — +67pp vs f_and_b baseline",
       "Avoid 'بيتزا' — -32pp vs f_and_b baseline",
-      "Avoid 'بيتزاهت' — -32pp vs f_and_b baseline",
       "Avoid 'إلى فرع' — -32pp vs f_and_b baseline",
-      "Lead with 'announcement' opener (40% high-eng)"
+      "Avoid 'فرع الدرعية' — -32pp vs f_and_b baseline",
+      "Lead with 'announcement' opener (38% high-eng)"
     ],
     "real_estate": [
       "Avoid 'ضمن' — -2pp vs real_estate baseline",

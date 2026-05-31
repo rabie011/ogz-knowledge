@@ -3,117 +3,115 @@
   "sector": "food_and_beverage",
   "sector_key": "f_and_b",
   "corpus_data": {
-    "obs_in_corpus": 23,
-    "avg_engagement": 0.565,
-    "high_eng_count": 10,
-    "low_eng_count": 13
+    "obs_in_corpus": 14,
+    "avg_engagement": 0.679,
+    "high_eng_count": 8,
+    "low_eng_count": 6
   },
   "winning_signals": [
     {
       "dimension": "lighting",
       "value": "natural",
       "count": 6,
-      "pct": 0.6
+      "pct": 0.75
     },
     {
       "dimension": "visual_complexity",
       "value": "moderate",
-      "count": 6,
-      "pct": 0.6
+      "count": 5,
+      "pct": 0.625
     },
     {
       "dimension": "tone",
       "value": "celebratory",
-      "count": 6,
-      "pct": 0.6
-    },
-    {
-      "dimension": "setting",
-      "value": "restaurant",
       "count": 5,
-      "pct": 0.5
-    },
-    {
-      "dimension": "composition",
-      "value": "product_hero_closeup",
-      "count": 5,
-      "pct": 0.5
+      "pct": 0.625
     },
     {
       "dimension": "hvm",
       "value": "blended",
       "count": 5,
-      "pct": 0.5
+      "pct": 0.625
     },
     {
       "dimension": "content_type",
       "value": "carousel_slide",
       "count": 4,
-      "pct": 0.4
+      "pct": 0.5
     },
     {
-      "dimension": "visual_complexity",
-      "value": "simple",
+      "dimension": "setting",
+      "value": "restaurant",
       "count": 4,
-      "pct": 0.4
+      "pct": 0.5
+    },
+    {
+      "dimension": "composition",
+      "value": "product_hero_closeup",
+      "count": 4,
+      "pct": 0.5
+    },
+    {
+      "dimension": "composition",
+      "value": "lifestyle_integrated",
+      "count": 3,
+      "pct": 0.375
     }
   ],
   "losing_signals": [
     {
       "dimension": "content_type",
-      "value": "image",
-      "count": 7,
-      "pct": 0.538
+      "value": "video",
+      "count": 4,
+      "pct": 0.667
     },
     {
-      "dimension": "tone",
-      "value": "celebratory",
-      "count": 6,
-      "pct": 0.462
+      "dimension": "visual_complexity",
+      "value": "simple",
+      "count": 4,
+      "pct": 0.667
     },
     {
-      "dimension": "register",
-      "value": "casual",
-      "count": 6,
-      "pct": 0.462
+      "dimension": "hvm",
+      "value": "neutral",
+      "count": 3,
+      "pct": 0.5
     },
     {
       "dimension": "content_type",
-      "value": "video",
-      "count": 5,
-      "pct": 0.385
+      "value": "image",
+      "count": 2,
+      "pct": 0.333
     }
   ],
   "top_patterns": [
     {
-      "pattern": "f_and_b_beverage",
-      "count": 5,
+      "pattern": "arabic_caption",
+      "count": 4,
       "pct": 0.5
     },
     {
-      "pattern": "arabic_caption",
+      "pattern": "f_and_b_beverage",
       "count": 4,
-      "pct": 0.4
+      "pct": 0.5
     },
     {
       "pattern": "holiday_greeting",
       "count": 3,
-      "pct": 0.3
+      "pct": 0.375
     },
     {
       "pattern": "emoji_driven_caption",
       "count": 3,
-      "pct": 0.3
+      "pct": 0.375
     },
     {
-      "pattern": "f_and_b_festive",
-      "count": 3,
-      "pct": 0.3
+      "pattern": "arabic_casual_mood_trigger",
+      "count": 2,
+      "pct": 0.25
     }
   ],
-  "top_phrases_in_winners": [
-    "الذبيحة عليك.. وباقي السفرة علينا احجز ذبيحة العيد وكل ملحقات سفرتك تجيك معها مجانًا"
-  ],
+  "top_phrases_in_winners": [],
   "recommended_formula": {
     "format": "video",
     "predicted_eng": 0.5,
@@ -127,16 +125,16 @@
     "hashtag_count": "1-5",
     "patterns": [],
     "phrases_to_use": [
-      "لفترة محدودة فقط",
-      "اغلى الكؤوس",
-      "ماك مع ججك"
+      "اطلب الآن",
+      "لفترة محدودة",
+      "صناعة سعودية"
     ],
     "hospitality_cues": []
   },
   "red_flags": [
     "AVOID format: video (50% eng for this occasion)",
-    "AVOID: content_type=image (found in 53% of low-eng posts)",
-    "AVOID: tone=celebratory (found in 46% of low-eng posts)",
+    "AVOID: content_type=video (found in 66% of low-eng posts)",
+    "AVOID: visual_complexity=simple (found in 66% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
     "AVOID: video format if images/carousels are viable — video underperforms"
   ],
@@ -164,12 +162,12 @@
     "format_matrix_best": "video",
     "occasion_patterns": [],
     "occasion_phrases": [
-      "لفترة محدودة فقط",
-      "اغلى الكؤوس",
-      "ماك مع ججك",
-      "اطلب الآن"
+      "اطلب الآن",
+      "لفترة محدودة",
+      "صناعة سعودية",
+      "Ask the team about Fundraising"
     ],
     "hospitality_cues": [],
-    "playbook_obs_count": 31
+    "playbook_obs_count": 22
   }
 }

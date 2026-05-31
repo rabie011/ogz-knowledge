@@ -10,7 +10,6 @@
   "quadrant_density": {
     "casual/warm/playful/modern": {
       "accounts": [
-        "OGZ-F-AND-B-Reference-005",
         "OGZ-F-AND-B-Reference-003",
         "OGZ-F-AND-B-Reference-009",
         "OGZ-F-AND-B-Reference-011",
@@ -25,13 +24,14 @@
         "herfyfsc",
         "shawarmersa"
       ],
-      "count": 14
+      "count": 13
     },
     "casual/warm/earnest/modern": {
       "accounts": [
         "asteribeautysa",
         "prettynature.official",
         "niceonesa",
+        "OGZ-F-AND-B-Reference-005",
         "albaik",
         "roshnksa",
         "aldeebajofficial",
@@ -39,18 +39,27 @@
         "noon",
         "maxfashionmena"
       ],
-      "count": 9
+      "count": 10
+    },
+    "casual/cool/playful/modern": {
+      "accounts": [
+        "OGZ-BEAUTY-Reference-002",
+        "goldenscent",
+        "OGZ-F-AND-B-Reference-038",
+        "OGZ-F-AND-B-Reference-006",
+        "OGZ-RETAIL-Reference-001",
+        "centrepointstores"
+      ],
+      "count": 6
     },
     "formal/warm/playful/modern": {
       "accounts": [
         "OGZ-F-AND-B-Reference-002",
         "OGZ-F-AND-B-Reference-007",
         "OGZ-F-AND-B-Reference-008",
-        "OGZ-F-AND-B-Reference-038",
-        "OGZ-F-AND-B-Reference-039",
-        "OGZ-F-AND-B-Reference-006"
+        "OGZ-F-AND-B-Reference-039"
       ],
-      "count": 6
+      "count": 4
     },
     "formal/cool/earnest/modern": {
       "accounts": [
@@ -58,19 +67,6 @@
         "OGZ-F-AND-B-Reference-004"
       ],
       "count": 2
-    },
-    "casual/cool/playful/modern": {
-      "accounts": [
-        "goldenscent",
-        "centrepointstores"
-      ],
-      "count": 2
-    },
-    "formal/warm/earnest/modern": {
-      "accounts": [
-        "OGZ-BEAUTY-Reference-002"
-      ],
-      "count": 1
     },
     "formal/warm/earnest/heritage": {
       "accounts": [
@@ -83,15 +79,10 @@
         "aseeb.najd"
       ],
       "count": 1
-    },
-    "casual/cool/earnest/modern": {
-      "accounts": [
-        "OGZ-RETAIL-Reference-001"
-      ],
-      "count": 1
     }
   },
   "overcrowded_quadrants": [
+    "casual/cool/playful/modern",
     "casual/warm/earnest/modern",
     "formal/warm/playful/modern",
     "casual/warm/playful/modern"
@@ -105,7 +96,7 @@
     "OGZ-BEAUTY-Reference-001": {
       "account": "OGZ-BEAUTY-Reference-001",
       "sector": "beauty",
-      "obs_count": 50,
+      "obs_count": 25,
       "dimensions": {
         "formal_casual": {
           "score": 1.0,
@@ -113,17 +104,17 @@
           "note": "1.0 = fully formal, -1.0 = fully casual"
         },
         "warm_cool": {
-          "score": -0.259,
+          "score": -0.091,
           "label": "cool",
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": 0.4,
+          "score": 0.714,
           "label": "earnest",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.98,
+          "score": -0.96,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
@@ -134,83 +125,63 @@
         "formal"
       ],
       "dominant_tones": [
-        "anticipatory",
-        "artistic",
         "aspirational",
         "confident",
         "conversational",
         "educational",
         "elegant",
         "excited",
-        "genuine",
         "informative",
         "inviting",
         "natural",
         "playful",
         "storytelling",
-        "teasing",
         "warm"
       ]
     },
     "OGZ-BEAUTY-Reference-002": {
       "account": "OGZ-BEAUTY-Reference-002",
       "sector": "beauty",
-      "obs_count": 50,
+      "obs_count": 5,
       "dimensions": {
         "formal_casual": {
-          "score": 0.02,
-          "label": "formal",
+          "score": 0.0,
+          "label": "casual",
           "note": "1.0 = fully formal, -1.0 = fully casual"
         },
         "warm_cool": {
-          "score": 0.429,
-          "label": "warm",
+          "score": 0.0,
+          "label": "cool",
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": 0.167,
-          "label": "earnest",
+          "score": 0.0,
+          "label": "playful",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.89,
+          "score": -0.4,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
       },
-      "voice_fingerprint": "formal/warm/earnest/modern",
+      "voice_fingerprint": "casual/cool/playful/modern",
       "dominant_registers": [
-        "aspirational",
-        "casual",
         "educational",
-        "formal",
-        "informal",
-        "patriotic",
-        "playful",
-        "promotional"
+        "informal"
       ],
       "dominant_tones": [
         "aspirational",
-        "celebratory",
         "educational",
-        "excited",
-        "humorous",
-        "informative",
-        "inviting",
-        "patriotic",
         "playful",
-        "promotional",
-        "proud",
-        "reverent",
         "storytelling",
-        "trustworthy",
         "warm"
       ]
     },
     "asteribeautysa": {
       "account": "asteribeautysa",
       "sector": "beauty_personal_care",
-      "obs_count": 125,
+      "obs_count": 109,
       "dimensions": {
         "formal_casual": {
           "score": 0.0,
@@ -223,12 +194,12 @@
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": 0.66,
+          "score": 0.644,
           "label": "earnest",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.452,
+          "score": -0.445,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
@@ -245,7 +216,7 @@
     "prettynature.official": {
       "account": "prettynature.official",
       "sector": "beauty_personal_care",
-      "obs_count": 63,
+      "obs_count": 62,
       "dimensions": {
         "formal_casual": {
           "score": 0.0,
@@ -258,12 +229,12 @@
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": 0.654,
+          "score": 0.647,
           "label": "earnest",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.46,
+          "score": -0.459,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
@@ -350,7 +321,7 @@
     "OGZ-F-AND-B-Reference-002": {
       "account": "OGZ-F-AND-B-Reference-002",
       "sector": "f_and_b",
-      "obs_count": 50,
+      "obs_count": 48,
       "dimensions": {
         "formal_casual": {
           "score": 1.0,
@@ -358,17 +329,17 @@
           "note": "1.0 = fully formal, -1.0 = fully casual"
         },
         "warm_cool": {
-          "score": 0.871,
+          "score": 0.867,
           "label": "warm",
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": -0.8,
+          "score": -0.778,
           "label": "playful",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.898,
+          "score": -0.905,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
@@ -398,7 +369,7 @@
     "OGZ-F-AND-B-Reference-010": {
       "account": "OGZ-F-AND-B-Reference-010",
       "sector": "f_and_b",
-      "obs_count": 50,
+      "obs_count": 46,
       "dimensions": {
         "formal_casual": {
           "score": 1.0,
@@ -406,7 +377,7 @@
           "note": "1.0 = fully formal, -1.0 = fully casual"
         },
         "warm_cool": {
-          "score": 0.6,
+          "score": 0.556,
           "label": "warm",
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
@@ -416,7 +387,7 @@
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": 0.563,
+          "score": 0.58,
           "label": "heritage",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
@@ -446,7 +417,7 @@
     "OGZ-F-AND-B-Reference-004": {
       "account": "OGZ-F-AND-B-Reference-004",
       "sector": "f_and_b",
-      "obs_count": 50,
+      "obs_count": 48,
       "dimensions": {
         "formal_casual": {
           "score": 1.0,
@@ -459,12 +430,12 @@
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": 0.692,
+          "score": 0.833,
           "label": "earnest",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.766,
+          "score": -0.771,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
@@ -495,10 +466,10 @@
     "OGZ-F-AND-B-Reference-005": {
       "account": "OGZ-F-AND-B-Reference-005",
       "sector": "f_and_b",
-      "obs_count": 50,
+      "obs_count": 44,
       "dimensions": {
         "formal_casual": {
-          "score": -0.692,
+          "score": -0.556,
           "label": "casual",
           "note": "1.0 = fully formal, -1.0 = fully casual"
         },
@@ -508,17 +479,17 @@
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": -0.067,
-          "label": "playful",
+          "score": 0.167,
+          "label": "earnest",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.755,
+          "score": -0.733,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
       },
-      "voice_fingerprint": "casual/warm/playful/modern",
+      "voice_fingerprint": "casual/warm/earnest/modern",
       "dominant_registers": [
         "casual",
         "celebratory",
@@ -592,7 +563,7 @@
     "OGZ-F-AND-B-Reference-007": {
       "account": "OGZ-F-AND-B-Reference-007",
       "sector": "f_and_b",
-      "obs_count": 28,
+      "obs_count": 14,
       "dimensions": {
         "formal_casual": {
           "score": 1.0,
@@ -601,290 +572,6 @@
         },
         "warm_cool": {
           "score": 1.0,
-          "label": "warm",
-          "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
-        },
-        "earnest_playful": {
-          "score": -0.75,
-          "label": "playful",
-          "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
-        },
-        "heritage_modern_voice": {
-          "score": -0.383,
-          "label": "modern",
-          "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
-        }
-      },
-      "voice_fingerprint": "formal/warm/playful/modern",
-      "dominant_registers": [
-        "casual",
-        "formal"
-      ],
-      "dominant_tones": [
-        "celebratory",
-        "energetic",
-        "excited",
-        "informative",
-        "playful",
-        "poetic",
-        "proud",
-        "relatable",
-        "storytelling",
-        "thoughtful",
-        "warm"
-      ]
-    },
-    "OGZ-F-AND-B-Reference-008": {
-      "account": "OGZ-F-AND-B-Reference-008",
-      "sector": "f_and_b",
-      "obs_count": 50,
-      "dimensions": {
-        "formal_casual": {
-          "score": 1.0,
-          "label": "formal",
-          "note": "1.0 = fully formal, -1.0 = fully casual"
-        },
-        "warm_cool": {
-          "score": 0.895,
-          "label": "warm",
-          "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
-        },
-        "earnest_playful": {
-          "score": -1.0,
-          "label": "playful",
-          "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
-        },
-        "heritage_modern_voice": {
-          "score": -0.639,
-          "label": "modern",
-          "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
-        }
-      },
-      "voice_fingerprint": "formal/warm/playful/modern",
-      "dominant_registers": [
-        "casual",
-        "formal"
-      ],
-      "dominant_tones": [
-        "bold",
-        "celebratory",
-        "excited",
-        "friendly",
-        "inviting",
-        "patriotic",
-        "playful",
-        "professional",
-        "proud",
-        "respectful",
-        "reverent",
-        "spiritual",
-        "thoughtful",
-        "warm"
-      ]
-    },
-    "OGZ-F-AND-B-Reference-009": {
-      "account": "OGZ-F-AND-B-Reference-009",
-      "sector": "f_and_b",
-      "obs_count": 25,
-      "dimensions": {
-        "formal_casual": {
-          "score": 0.0,
-          "label": "casual",
-          "note": "1.0 = fully formal, -1.0 = fully casual"
-        },
-        "warm_cool": {
-          "score": 0.429,
-          "label": "warm",
-          "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
-        },
-        "earnest_playful": {
-          "score": -0.538,
-          "label": "playful",
-          "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
-        },
-        "heritage_modern_voice": {
-          "score": -0.441,
-          "label": "modern",
-          "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
-        }
-      },
-      "voice_fingerprint": "casual/warm/playful/modern",
-      "dominant_registers": [
-        "casual"
-      ],
-      "dominant_tones": [
-        "bold",
-        "confident",
-        "excited",
-        "friendly",
-        "humorous",
-        "informative",
-        "matter-of-fact",
-        "nostalgic",
-        "playful",
-        "reassuring",
-        "teasing",
-        "warm",
-        "witty"
-      ]
-    },
-    "OGZ-F-AND-B-Reference-038": {
-      "account": "OGZ-F-AND-B-Reference-038",
-      "sector": "f_and_b",
-      "obs_count": 50,
-      "dimensions": {
-        "formal_casual": {
-          "score": 1.0,
-          "label": "formal",
-          "note": "1.0 = fully formal, -1.0 = fully casual"
-        },
-        "warm_cool": {
-          "score": 0.667,
-          "label": "warm",
-          "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
-        },
-        "earnest_playful": {
-          "score": -1.0,
-          "label": "playful",
-          "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
-        },
-        "heritage_modern_voice": {
-          "score": -1.0,
-          "label": "modern",
-          "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
-        }
-      },
-      "voice_fingerprint": "formal/warm/playful/modern",
-      "dominant_registers": [
-        "casual",
-        "formal"
-      ],
-      "dominant_tones": [
-        "caring",
-        "celebratory",
-        "enthusiasm",
-        "excitement",
-        "humorous",
-        "mystery",
-        "neutral",
-        "patriotic",
-        "playful",
-        "transactional",
-        "warm"
-      ]
-    },
-    "OGZ-F-AND-B-Reference-039": {
-      "account": "OGZ-F-AND-B-Reference-039",
-      "sector": "f_and_b",
-      "obs_count": 50,
-      "dimensions": {
-        "formal_casual": {
-          "score": 1.0,
-          "label": "formal",
-          "note": "1.0 = fully formal, -1.0 = fully casual"
-        },
-        "warm_cool": {
-          "score": 1.0,
-          "label": "warm",
-          "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
-        },
-        "earnest_playful": {
-          "score": -0.778,
-          "label": "playful",
-          "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
-        },
-        "heritage_modern_voice": {
-          "score": -0.344,
-          "label": "modern",
-          "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
-        }
-      },
-      "voice_fingerprint": "formal/warm/playful/modern",
-      "dominant_registers": [
-        "casual",
-        "conversational",
-        "formal",
-        "warm"
-      ],
-      "dominant_tones": [
-        "casual",
-        "celebratory",
-        "direct",
-        "enthusiastic",
-        "excited",
-        "excitement",
-        "exciting",
-        "grateful",
-        "informative",
-        "inspiring",
-        "inviting",
-        "playful",
-        "proud",
-        "teasing",
-        "transactional",
-        "trustworthy",
-        "warm"
-      ]
-    },
-    "OGZ-F-AND-B-Reference-006": {
-      "account": "OGZ-F-AND-B-Reference-006",
-      "sector": "f_and_b",
-      "obs_count": 27,
-      "dimensions": {
-        "formal_casual": {
-          "score": 1.0,
-          "label": "formal",
-          "note": "1.0 = fully formal, -1.0 = fully casual"
-        },
-        "warm_cool": {
-          "score": 1.0,
-          "label": "warm",
-          "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
-        },
-        "earnest_playful": {
-          "score": -0.467,
-          "label": "playful",
-          "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
-        },
-        "heritage_modern_voice": {
-          "score": -0.9,
-          "label": "modern",
-          "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
-        }
-      },
-      "voice_fingerprint": "formal/warm/playful/modern",
-      "dominant_registers": [
-        "casual",
-        "formal"
-      ],
-      "dominant_tones": [
-        "anticipatory",
-        "celebratory",
-        "emotional",
-        "energetic",
-        "enthusiastic",
-        "excited",
-        "humorous",
-        "mysterious",
-        "nostalgic",
-        "playful",
-        "teasing",
-        "urgent",
-        "warm"
-      ]
-    },
-    "OGZ-F-AND-B-Reference-011": {
-      "account": "OGZ-F-AND-B-Reference-011",
-      "sector": "f_and_b",
-      "obs_count": 31,
-      "dimensions": {
-        "formal_casual": {
-          "score": 0.0,
-          "label": "casual",
-          "note": "1.0 = fully formal, -1.0 = fully casual"
-        },
-        "warm_cool": {
-          "score": 0.714,
           "label": "warm",
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
@@ -894,7 +581,245 @@
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.2,
+          "score": -0.25,
+          "label": "modern",
+          "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
+        }
+      },
+      "voice_fingerprint": "formal/warm/playful/modern",
+      "dominant_registers": [
+        "casual",
+        "formal"
+      ],
+      "dominant_tones": [
+        "celebratory",
+        "energetic",
+        "excited",
+        "informative",
+        "playful",
+        "storytelling",
+        "warm"
+      ]
+    },
+    "OGZ-F-AND-B-Reference-008": {
+      "account": "OGZ-F-AND-B-Reference-008",
+      "sector": "f_and_b",
+      "obs_count": 16,
+      "dimensions": {
+        "formal_casual": {
+          "score": 1.0,
+          "label": "formal",
+          "note": "1.0 = fully formal, -1.0 = fully casual"
+        },
+        "warm_cool": {
+          "score": 1.0,
+          "label": "warm",
+          "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
+        },
+        "earnest_playful": {
+          "score": 0.0,
+          "label": "playful",
+          "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
+        },
+        "heritage_modern_voice": {
+          "score": -0.167,
+          "label": "modern",
+          "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
+        }
+      },
+      "voice_fingerprint": "formal/warm/playful/modern",
+      "dominant_registers": [
+        "casual",
+        "formal"
+      ],
+      "dominant_tones": [
+        "bold",
+        "celebratory",
+        "inviting",
+        "patriotic",
+        "reverent",
+        "spiritual",
+        "thoughtful",
+        "warm"
+      ]
+    },
+    "OGZ-F-AND-B-Reference-009": {
+      "account": "OGZ-F-AND-B-Reference-009",
+      "sector": "f_and_b",
+      "obs_count": 14,
+      "dimensions": {
+        "formal_casual": {
+          "score": 0.0,
+          "label": "casual",
+          "note": "1.0 = fully formal, -1.0 = fully casual"
+        },
+        "warm_cool": {
+          "score": 0.5,
+          "label": "warm",
+          "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
+        },
+        "earnest_playful": {
+          "score": -0.778,
+          "label": "playful",
+          "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
+        },
+        "heritage_modern_voice": {
+          "score": -0.334,
+          "label": "modern",
+          "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
+        }
+      },
+      "voice_fingerprint": "casual/warm/playful/modern",
+      "dominant_registers": [
+        "casual"
+      ],
+      "dominant_tones": [
+        "confident",
+        "excited",
+        "friendly",
+        "humorous",
+        "nostalgic",
+        "playful",
+        "teasing",
+        "warm",
+        "witty"
+      ]
+    },
+    "OGZ-F-AND-B-Reference-038": {
+      "account": "OGZ-F-AND-B-Reference-038",
+      "sector": "f_and_b",
+      "obs_count": 9,
+      "dimensions": {
+        "formal_casual": {
+          "score": 0.0,
+          "label": "casual",
+          "note": "1.0 = fully formal, -1.0 = fully casual"
+        },
+        "warm_cool": {
+          "score": 0.0,
+          "label": "cool",
+          "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
+        },
+        "earnest_playful": {
+          "score": -1.0,
+          "label": "playful",
+          "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
+        },
+        "heritage_modern_voice": {
+          "score": -1.0,
+          "label": "modern",
+          "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
+        }
+      },
+      "voice_fingerprint": "casual/cool/playful/modern",
+      "dominant_registers": [
+        "casual"
+      ],
+      "dominant_tones": [
+        "caring",
+        "excitement",
+        "humorous",
+        "transactional"
+      ]
+    },
+    "OGZ-F-AND-B-Reference-039": {
+      "account": "OGZ-F-AND-B-Reference-039",
+      "sector": "f_and_b",
+      "obs_count": 9,
+      "dimensions": {
+        "formal_casual": {
+          "score": 1.0,
+          "label": "formal",
+          "note": "1.0 = fully formal, -1.0 = fully casual"
+        },
+        "warm_cool": {
+          "score": 1.0,
+          "label": "warm",
+          "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
+        },
+        "earnest_playful": {
+          "score": -1.0,
+          "label": "playful",
+          "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
+        },
+        "heritage_modern_voice": {
+          "score": -0.056,
+          "label": "modern",
+          "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
+        }
+      },
+      "voice_fingerprint": "formal/warm/playful/modern",
+      "dominant_registers": [
+        "casual",
+        "conversational",
+        "formal"
+      ],
+      "dominant_tones": [
+        "celebratory",
+        "excitement",
+        "playful",
+        "proud",
+        "warm"
+      ]
+    },
+    "OGZ-F-AND-B-Reference-006": {
+      "account": "OGZ-F-AND-B-Reference-006",
+      "sector": "f_and_b",
+      "obs_count": 5,
+      "dimensions": {
+        "formal_casual": {
+          "score": 0.0,
+          "label": "casual",
+          "note": "1.0 = fully formal, -1.0 = fully casual"
+        },
+        "warm_cool": {
+          "score": 0.0,
+          "label": "cool",
+          "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
+        },
+        "earnest_playful": {
+          "score": -1.0,
+          "label": "playful",
+          "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
+        },
+        "heritage_modern_voice": {
+          "score": -0.5,
+          "label": "modern",
+          "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
+        }
+      },
+      "voice_fingerprint": "casual/cool/playful/modern",
+      "dominant_registers": [
+        "casual"
+      ],
+      "dominant_tones": [
+        "excited",
+        "playful",
+        "teasing"
+      ]
+    },
+    "OGZ-F-AND-B-Reference-011": {
+      "account": "OGZ-F-AND-B-Reference-011",
+      "sector": "f_and_b",
+      "obs_count": 8,
+      "dimensions": {
+        "formal_casual": {
+          "score": 0.0,
+          "label": "casual",
+          "note": "1.0 = fully formal, -1.0 = fully casual"
+        },
+        "warm_cool": {
+          "score": 1.0,
+          "label": "warm",
+          "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
+        },
+        "earnest_playful": {
+          "score": 0.0,
+          "label": "playful",
+          "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
+        },
+        "heritage_modern_voice": {
+          "score": -0.167,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
@@ -905,22 +830,14 @@
       ],
       "dominant_tones": [
         "appetising",
-        "bold",
-        "confident",
         "conversational",
-        "informative",
-        "inviting",
-        "playful",
-        "poetic",
-        "reassuring",
-        "upbeat",
-        "warm"
+        "inviting"
       ]
     },
     "alromansiahksa": {
       "account": "alromansiahksa",
       "sector": "f_and_b",
-      "obs_count": 107,
+      "obs_count": 100,
       "dimensions": {
         "formal_casual": {
           "score": 0.0,
@@ -933,12 +850,12 @@
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": -0.737,
+          "score": -0.72,
           "label": "playful",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.389,
+          "score": -0.387,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
@@ -956,7 +873,7 @@
     "kuduksa": {
       "account": "kuduksa",
       "sector": "f_and_b",
-      "obs_count": 125,
+      "obs_count": 121,
       "dimensions": {
         "formal_casual": {
           "score": 0.0,
@@ -964,12 +881,12 @@
           "note": "1.0 = fully formal, -1.0 = fully casual"
         },
         "warm_cool": {
-          "score": 0.714,
+          "score": 0.756,
           "label": "warm",
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": -0.62,
+          "score": -0.605,
           "label": "playful",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
@@ -993,7 +910,7 @@
     "barnscoffee": {
       "account": "barnscoffee",
       "sector": "f_and_b",
-      "obs_count": 125,
+      "obs_count": 121,
       "dimensions": {
         "formal_casual": {
           "score": 0.0,
@@ -1006,12 +923,12 @@
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": -0.918,
+          "score": -0.915,
           "label": "playful",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.368,
+          "score": -0.372,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
@@ -1067,7 +984,7 @@
     "riyadhfood": {
       "account": "riyadhfood",
       "sector": "f_and_b",
-      "obs_count": 86,
+      "obs_count": 81,
       "dimensions": {
         "formal_casual": {
           "score": 0.0,
@@ -1080,12 +997,12 @@
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": -0.025,
+          "score": -0.053,
           "label": "playful",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.334,
+          "score": -0.336,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
@@ -1103,7 +1020,7 @@
     "albaik": {
       "account": "albaik",
       "sector": "f_and_b",
-      "obs_count": 125,
+      "obs_count": 109,
       "dimensions": {
         "formal_casual": {
           "score": 0.0,
@@ -1111,17 +1028,17 @@
           "note": "1.0 = fully formal, -1.0 = fully casual"
         },
         "warm_cool": {
-          "score": 0.976,
+          "score": 0.973,
           "label": "warm",
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": 0.676,
+          "score": 0.688,
           "label": "earnest",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.296,
+          "score": -0.293,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
@@ -1140,7 +1057,7 @@
     "altazaj_fakieh": {
       "account": "altazaj_fakieh",
       "sector": "f_and_b",
-      "obs_count": 122,
+      "obs_count": 117,
       "dimensions": {
         "formal_casual": {
           "score": 0.0,
@@ -1153,12 +1070,12 @@
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": -0.429,
+          "score": -0.432,
           "label": "playful",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.454,
+          "score": -0.452,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
@@ -1176,7 +1093,7 @@
     "aseeb.najd": {
       "account": "aseeb.najd",
       "sector": "f_and_b",
-      "obs_count": 91,
+      "obs_count": 82,
       "dimensions": {
         "formal_casual": {
           "score": 0.0,
@@ -1189,12 +1106,12 @@
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": 0.522,
+          "score": 0.5,
           "label": "earnest",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": 0.285,
+          "score": 0.262,
           "label": "heritage",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
@@ -1210,7 +1127,7 @@
     "pizzahutsaudi": {
       "account": "pizzahutsaudi",
       "sector": "f_and_b",
-      "obs_count": 125,
+      "obs_count": 117,
       "dimensions": {
         "formal_casual": {
           "score": 0.0,
@@ -1223,12 +1140,12 @@
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": -0.259,
+          "score": -0.28,
           "label": "playful",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.488,
+          "score": -0.487,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
@@ -1246,7 +1163,7 @@
     "mcdonaldsksa": {
       "account": "mcdonaldsksa",
       "sector": "f_and_b",
-      "obs_count": 115,
+      "obs_count": 106,
       "dimensions": {
         "formal_casual": {
           "score": 0.0,
@@ -1259,7 +1176,7 @@
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": -0.422,
+          "score": -0.4,
           "label": "playful",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
@@ -1282,7 +1199,7 @@
     "herfyfsc": {
       "account": "herfyfsc",
       "sector": "f_and_b",
-      "obs_count": 124,
+      "obs_count": 121,
       "dimensions": {
         "formal_casual": {
           "score": 0.0,
@@ -1295,12 +1212,12 @@
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": -0.684,
+          "score": -0.677,
           "label": "playful",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.427,
+          "score": -0.425,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
@@ -1318,7 +1235,7 @@
     "shawarmersa": {
       "account": "shawarmersa",
       "sector": "f_and_b",
-      "obs_count": 112,
+      "obs_count": 108,
       "dimensions": {
         "formal_casual": {
           "score": 0.0,
@@ -1331,12 +1248,12 @@
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": -0.451,
+          "score": -0.5,
           "label": "playful",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.397,
+          "score": -0.393,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
@@ -1387,7 +1304,7 @@
     "OGZ-RETAIL-Reference-001": {
       "account": "OGZ-RETAIL-Reference-001",
       "sector": "retail",
-      "obs_count": 25,
+      "obs_count": 8,
       "dimensions": {
         "formal_casual": {
           "score": 0.0,
@@ -1395,52 +1312,38 @@
           "note": "1.0 = fully formal, -1.0 = fully casual"
         },
         "warm_cool": {
-          "score": -0.25,
+          "score": -1.0,
           "label": "cool",
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": 0.5,
-          "label": "earnest",
+          "score": 0.0,
+          "label": "playful",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.559,
+          "score": -0.5,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }
       },
-      "voice_fingerprint": "casual/cool/earnest/modern",
+      "voice_fingerprint": "casual/cool/playful/modern",
       "dominant_registers": [
         "aspirational",
-        "casual",
-        "educational",
-        "functional",
-        "premium",
-        "professional",
-        "promotional"
+        "professional"
       ],
       "dominant_tones": [
         "aspirational",
         "confident",
-        "elegant",
-        "informative",
-        "inviting",
-        "neutral",
         "patriotic",
-        "playful",
         "proud",
-        "refined",
-        "reflective",
-        "storytelling",
-        "transactional",
-        "warm"
+        "storytelling"
       ]
     },
     "aldeebajofficial": {
       "account": "aldeebajofficial",
       "sector": "retail_lifestyle",
-      "obs_count": 125,
+      "obs_count": 117,
       "dimensions": {
         "formal_casual": {
           "score": 0.0,
@@ -1448,17 +1351,17 @@
           "note": "1.0 = fully formal, -1.0 = fully casual"
         },
         "warm_cool": {
-          "score": 0.571,
+          "score": 0.667,
           "label": "warm",
           "note": "1.0 = warm/welcoming, -1.0 = cool/clinical"
         },
         "earnest_playful": {
-          "score": 0.532,
+          "score": 0.543,
           "label": "earnest",
           "note": "1.0 = earnest/sincere, -1.0 = playful/witty"
         },
         "heritage_modern_voice": {
-          "score": -0.446,
+          "score": -0.46,
           "label": "modern",
           "note": "1.0 = heritage-rooted voice, -1.0 = modern/contemporary voice"
         }

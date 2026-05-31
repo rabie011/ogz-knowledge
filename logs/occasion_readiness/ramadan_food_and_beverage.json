@@ -3,112 +3,112 @@
   "sector": "food_and_beverage",
   "sector_key": "f_and_b",
   "corpus_data": {
-    "obs_in_corpus": 136,
-    "avg_engagement": 0.449,
-    "high_eng_count": 38,
-    "low_eng_count": 98
+    "obs_in_corpus": 123,
+    "avg_engagement": 0.423,
+    "high_eng_count": 33,
+    "low_eng_count": 90
   },
   "winning_signals": [
     {
       "dimension": "content_type",
       "value": "image",
-      "count": 24,
-      "pct": 0.632
-    },
-    {
-      "dimension": "visual_complexity",
-      "value": "moderate",
       "count": 22,
-      "pct": 0.579
+      "pct": 0.667
     },
     {
       "dimension": "lighting",
       "value": "warm_studio",
-      "count": 21,
-      "pct": 0.553
+      "count": 20,
+      "pct": 0.606
+    },
+    {
+      "dimension": "visual_complexity",
+      "value": "moderate",
+      "count": 19,
+      "pct": 0.576
     },
     {
       "dimension": "setting",
       "value": "restaurant",
-      "count": 18,
-      "pct": 0.474
+      "count": 17,
+      "pct": 0.515
     },
     {
       "dimension": "hvm",
       "value": "modern",
-      "count": 16,
-      "pct": 0.421
-    },
-    {
-      "dimension": "hvm",
-      "value": "blended",
-      "count": 13,
-      "pct": 0.342
+      "count": 15,
+      "pct": 0.455
     },
     {
       "dimension": "composition",
       "value": "product_hero_closeup",
       "count": 12,
-      "pct": 0.316
+      "pct": 0.364
     },
     {
-      "dimension": "content_type",
-      "value": "video",
-      "count": 11,
-      "pct": 0.289
+      "dimension": "hvm",
+      "value": "blended",
+      "count": 12,
+      "pct": 0.364
+    },
+    {
+      "dimension": "visual_complexity",
+      "value": "simple",
+      "count": 9,
+      "pct": 0.273
     }
   ],
   "losing_signals": [
     {
       "dimension": "setting",
       "value": "restaurant",
-      "count": 71,
-      "pct": 0.724
+      "count": 67,
+      "pct": 0.744
     },
     {
       "dimension": "lighting",
       "value": "warm_studio",
-      "count": 66,
-      "pct": 0.673
+      "count": 62,
+      "pct": 0.689
     },
     {
       "dimension": "visual_complexity",
       "value": "simple",
-      "count": 64,
-      "pct": 0.653
+      "count": 62,
+      "pct": 0.689
     },
     {
       "dimension": "content_type",
       "value": "image",
-      "count": 40,
-      "pct": 0.408
+      "count": 39,
+      "pct": 0.433
     }
   ],
   "top_patterns": [
     {
       "pattern": "ramadan_iftar_warmth",
-      "count": 9,
-      "pct": 0.237
+      "count": 8,
+      "pct": 0.242
     },
     {
       "pattern": "ramadan_greeting",
       "count": 5,
-      "pct": 0.132
+      "pct": 0.152
     },
     {
       "pattern": "f_and_b_beverage",
       "count": 5,
-      "pct": 0.132
-    },
-    {
-      "pattern": "product_hero",
-      "count": 4,
-      "pct": 0.105
+      "pct": 0.152
     },
     {
       "pattern": "arabic_caption",
       "count": 4,
-      "pct": 0.105
+      "pct": 0.121
+    },
+    {
+      "pattern": "product_hero",
+      "count": 3,
+      "pct": 0.091
     }
   ],
   "top_phrases_in_winners": [
@@ -133,14 +133,16 @@
       "product_hero"
     ],
     "phrases_to_use": [
-      "رمضان شهر العبادة والعطاء"
+      "اطلب الآن",
+      "لفترة محدودة",
+      "صناعة سعودية"
     ],
     "hospitality_cues": []
   },
   "red_flags": [
     "AVOID format: carousel_slide (60% eng for this occasion)",
-    "AVOID: setting=restaurant (found in 72% of low-eng posts)",
-    "AVOID: lighting=warm_studio (found in 67% of low-eng posts)",
+    "AVOID: setting=restaurant (found in 74% of low-eng posts)",
+    "AVOID: lighting=warm_studio (found in 68% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
     "AVOID: video format if images/carousels are viable — video underperforms"
   ],
@@ -170,9 +172,12 @@
       "product_hero"
     ],
     "occasion_phrases": [
-      "رمضان شهر العبادة والعطاء"
+      "اطلب الآن",
+      "لفترة محدودة",
+      "صناعة سعودية",
+      "Ask the team about Fundraising"
     ],
     "hospitality_cues": [],
-    "playbook_obs_count": 201
+    "playbook_obs_count": 188
   }
 }

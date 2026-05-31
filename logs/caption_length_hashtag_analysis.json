@@ -1,104 +1,104 @@
 {
-  "obs_with_caption": 2635,
-  "global_avg": 0.384,
+  "obs_with_caption": 2704,
+  "global_avg": 0.388,
   "by_word_count": {
     "<10": {
       "count": 544,
       "avg_engagement": 0.455,
-      "lift_vs_avg": 0.071
+      "lift_vs_avg": 0.067
     },
     "10-30": {
-      "count": 1169,
+      "count": 1179,
       "avg_engagement": 0.38,
-      "lift_vs_avg": -0.004
+      "lift_vs_avg": -0.008
     },
     "30-60": {
-      "count": 561,
-      "avg_engagement": 0.316,
-      "lift_vs_avg": -0.068
+      "count": 593,
+      "avg_engagement": 0.329,
+      "lift_vs_avg": -0.059
     },
     "60+": {
-      "count": 361,
-      "avg_engagement": 0.399,
-      "lift_vs_avg": 0.015
+      "count": 388,
+      "avg_engagement": 0.411,
+      "lift_vs_avg": 0.023
     }
   },
   "by_hashtag_count": {
     "0": {
-      "count": 1198,
+      "count": 1201,
       "avg_engagement": 0.346,
-      "lift_vs_avg": -0.038
+      "lift_vs_avg": -0.042
     },
     "1-5": {
-      "count": 1260,
-      "avg_engagement": 0.425,
-      "lift_vs_avg": 0.041
+      "count": 1320,
+      "avg_engagement": 0.431,
+      "lift_vs_avg": 0.043
     },
     "6-15": {
-      "count": 136,
-      "avg_engagement": 0.438,
-      "lift_vs_avg": 0.054
+      "count": 142,
+      "avg_engagement": 0.447,
+      "lift_vs_avg": 0.059
     },
     "16+": {
       "count": 41,
       "avg_engagement": 0.061,
-      "lift_vs_avg": -0.323
+      "lift_vs_avg": -0.327
     }
   },
   "by_emoji": {
     "True": {
-      "count": 1839,
-      "avg_engagement": 0.399,
-      "lift_vs_avg": 0.015
+      "count": 1908,
+      "avg_engagement": 0.405,
+      "lift_vs_avg": 0.017
     },
     "False": {
       "count": 796,
       "avg_engagement": 0.349,
-      "lift_vs_avg": -0.035
+      "lift_vs_avg": -0.039
     }
   },
   "by_sentiment": {
     "question": {
       "count": 38,
       "avg_engagement": 0.829,
-      "lift_vs_avg": 0.445
+      "lift_vs_avg": 0.441
     },
     "neutral": {
       "count": 18,
       "avg_engagement": 0.806,
-      "lift_vs_avg": 0.422
+      "lift_vs_avg": 0.418
     },
     "positive": {
       "count": 22,
       "avg_engagement": 0.636,
-      "lift_vs_avg": 0.252
+      "lift_vs_avg": 0.248
     }
   },
   "by_opener_formula": {
     "emoji_open": {
       "count": 2,
       "avg_engagement": 1.0,
-      "lift_vs_avg": 0.616
+      "lift_vs_avg": 0.612
     },
     "number": {
       "count": 1,
       "avg_engagement": 1.0,
-      "lift_vs_avg": 0.616
+      "lift_vs_avg": 0.612
     },
     "command": {
       "count": 1,
       "avg_engagement": 1.0,
-      "lift_vs_avg": 0.616
+      "lift_vs_avg": 0.612
     },
     "question": {
       "count": 3,
       "avg_engagement": 0.833,
-      "lift_vs_avg": 0.449
+      "lift_vs_avg": 0.445
     },
     "statement": {
       "count": 64,
       "avg_engagement": 0.805,
-      "lift_vs_avg": 0.421
+      "lift_vs_avg": 0.417
     }
   },
   "best_wc_by_sector": {
@@ -212,6 +212,23 @@
         "bucket": "30-60",
         "avg_engagement": 0.433,
         "n": 15
+      }
+    ],
+    "healthcare_wellness": [
+      {
+        "bucket": "60+",
+        "avg_engagement": 0.574,
+        "n": 27
+      },
+      {
+        "bucket": "30-60",
+        "avg_engagement": 0.562,
+        "n": 32
+      },
+      {
+        "bucket": "10-30",
+        "avg_engagement": 0.4,
+        "n": 10
       }
     ],
     "real_estate": [
@@ -335,6 +352,23 @@
         "n": 9
       }
     ],
+    "healthcare_wellness": [
+      {
+        "bucket": "6-15",
+        "avg_engagement": 0.667,
+        "n": 6
+      },
+      {
+        "bucket": "1-5",
+        "avg_engagement": 0.558,
+        "n": 60
+      },
+      {
+        "bucket": "0",
+        "avg_engagement": 0.0,
+        "n": 3
+      }
+    ],
     "real_estate": [
       {
         "bucket": "6-15",
@@ -349,8 +383,8 @@
     ]
   },
   "agency_rules": [
-    "Optimal caption length: <10 words (46%) — avoid 30-60 word range (32%)",
-    "Optimal hashtag count: 6-15 (44%) — 16+ tanks to 6%",
+    "Optimal caption length: <10 words (46%) — avoid 30-60 word range (33%)",
+    "Optimal hashtag count: 6-15 (45%) — 16+ tanks to 6%",
     "Emoji: use (40% with vs 35% without)",
     "Best opener: emoji_open (100%)"
   ]

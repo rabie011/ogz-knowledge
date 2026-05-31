@@ -2,31 +2,31 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 2641,
-  "video_obs": 979,
-  "with_duration_data": 133,
+  "total_obs": 2710,
+  "video_obs": 1029,
+  "with_duration_data": 183,
   "with_audio_data": 796,
   "duration_table": [
     {
       "duration_bucket": "long_31_60s",
-      "count": 19,
-      "high_engagement_rate": 0.579,
-      "avg_engagement": 0.737,
-      "lift_vs_baseline": 0.039
+      "count": 30,
+      "high_engagement_rate": 0.5,
+      "avg_engagement": 0.7,
+      "lift_vs_baseline": -0.04
     },
     {
       "duration_bucket": "very_long_60plus",
-      "count": 21,
-      "high_engagement_rate": 0.333,
-      "avg_engagement": 0.429,
-      "lift_vs_baseline": -0.207
+      "count": 26,
+      "high_engagement_rate": 0.346,
+      "avg_engagement": 0.462,
+      "lift_vs_baseline": -0.194
     },
     {
       "duration_bucket": "medium_16_30s",
-      "count": 31,
-      "high_engagement_rate": 0.323,
-      "avg_engagement": 0.452,
-      "lift_vs_baseline": -0.217
+      "count": 62,
+      "high_engagement_rate": 0.339,
+      "avg_engagement": 0.492,
+      "lift_vs_baseline": -0.201
     },
     {
       "duration_bucket": "unknown",
@@ -37,10 +37,10 @@
     },
     {
       "duration_bucket": "short_0_15s",
-      "count": 62,
-      "high_engagement_rate": 0.21,
-      "avg_engagement": 0.331,
-      "lift_vs_baseline": -0.33
+      "count": 65,
+      "high_engagement_rate": 0.2,
+      "avg_engagement": 0.323,
+      "lift_vs_baseline": -0.34
     }
   ],
   "voiceover_table": [
@@ -291,11 +291,32 @@
       "lift": -0.078
     },
     {
+      "duration_bucket": "very_long_60plus",
+      "sector": "healthcare_wellness",
+      "count": 5,
+      "high_eng_rate": 0.4,
+      "lift": -0.14
+    },
+    {
       "duration_bucket": "short_0_15s",
       "sector": "f_and_b",
       "count": 24,
       "high_eng_rate": 0.375,
       "lift": -0.165
+    },
+    {
+      "duration_bucket": "long_31_60s",
+      "sector": "healthcare_wellness",
+      "count": 11,
+      "high_eng_rate": 0.364,
+      "lift": -0.176
+    },
+    {
+      "duration_bucket": "medium_16_30s",
+      "sector": "healthcare_wellness",
+      "count": 31,
+      "high_eng_rate": 0.355,
+      "lift": -0.185
     },
     {
       "duration_bucket": "long_31_60s",
@@ -348,6 +369,13 @@
     },
     {
       "duration_bucket": "short_0_15s",
+      "sector": "healthcare_wellness",
+      "count": 3,
+      "high_eng_rate": 0.0,
+      "lift": -0.54
+    },
+    {
+      "duration_bucket": "short_0_15s",
       "sector": "fashion",
       "count": 30,
       "high_eng_rate": 0.0,
@@ -376,7 +404,7 @@
     }
   ],
   "key_findings": [
-    "Best video duration: 'long_31_60s' = 57% high-eng (n=19, +3pp)",
+    "Best video duration: 'long_31_60s' = 50% high-eng (n=30, -4pp)",
     "Voiceover NEUTRAL: with=28% vs without=23% (+4pp)",
     "Best music type: 'original_score' = 59% (n=57)"
   ],

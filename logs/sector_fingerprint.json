@@ -1,11 +1,11 @@
 {
-  "total_obs": 2641,
-  "global_avg": 0.385,
+  "total_obs": 2710,
+  "global_avg": 0.389,
   "sectors": {
     "f_and_b": {
       "obs_count": 1591,
       "avg_engagement": 0.516,
-      "lift_vs_corpus": 0.131,
+      "lift_vs_corpus": 0.127,
       "profile": {
         "content_type": {
           "dominant": "image",
@@ -282,7 +282,7 @@
     "retail_lifestyle": {
       "obs_count": 351,
       "avg_engagement": 0.158,
-      "lift_vs_corpus": -0.227,
+      "lift_vs_corpus": -0.231,
       "profile": {
         "content_type": {
           "dominant": "image",
@@ -447,7 +447,7 @@
     "fashion": {
       "obs_count": 258,
       "avg_engagement": 0.328,
-      "lift_vs_corpus": -0.057,
+      "lift_vs_corpus": -0.061,
       "profile": {
         "content_type": {
           "dominant": "image",
@@ -630,7 +630,7 @@
     "retail": {
       "obs_count": 8,
       "avg_engagement": 0.75,
-      "lift_vs_corpus": 0.365,
+      "lift_vs_corpus": 0.361,
       "profile": {
         "content_type": {
           "dominant": "video",
@@ -831,7 +831,7 @@
     "beauty_personal_care": {
       "obs_count": 290,
       "avg_engagement": 0.091,
-      "lift_vs_corpus": -0.294,
+      "lift_vs_corpus": -0.298,
       "profile": {
         "content_type": {
           "dominant": "image",
@@ -996,7 +996,7 @@
     "beauty": {
       "obs_count": 30,
       "avg_engagement": 0.517,
-      "lift_vs_corpus": 0.132,
+      "lift_vs_corpus": 0.128,
       "profile": {
         "content_type": {
           "dominant": "video",
@@ -1222,10 +1222,145 @@
         }
       }
     },
+    "healthcare_wellness": {
+      "obs_count": 69,
+      "avg_engagement": 0.543,
+      "lift_vs_corpus": 0.154,
+      "profile": {
+        "content_type": {
+          "dominant": "video",
+          "dominant_pct": 0.725,
+          "top_3": [
+            {
+              "value": "video",
+              "pct": 0.725
+            },
+            {
+              "value": "carousel_slide",
+              "pct": 0.159
+            },
+            {
+              "value": "image",
+              "pct": 0.116
+            }
+          ]
+        },
+        "composition": {
+          "dominant": "lifestyle_integrated",
+          "dominant_pct": 0.507,
+          "top_3": [
+            {
+              "value": "lifestyle_integrated",
+              "pct": 0.507
+            },
+            {
+              "value": "text_dominant",
+              "pct": 0.493
+            }
+          ]
+        },
+        "setting": {
+          "dominant": "retail_store",
+          "dominant_pct": 0.246,
+          "top_3": [
+            {
+              "value": "retail_store",
+              "pct": 0.246
+            },
+            {
+              "value": "digital_graphic",
+              "pct": 0.217
+            },
+            {
+              "value": "event_venue",
+              "pct": 0.159
+            }
+          ]
+        },
+        "lighting": {
+          "dominant": "natural",
+          "dominant_pct": 0.348,
+          "top_3": [
+            {
+              "value": "natural",
+              "pct": 0.348
+            },
+            {
+              "value": "studio",
+              "pct": 0.333
+            },
+            {
+              "value": "flat_bright",
+              "pct": 0.275
+            }
+          ]
+        },
+        "visual_complexity": {
+          "dominant": "simple",
+          "dominant_pct": 0.507,
+          "top_3": [
+            {
+              "value": "simple",
+              "pct": 0.507
+            },
+            {
+              "value": "moderate",
+              "pct": 0.493
+            }
+          ]
+        },
+        "heritage_framing": {
+          "dominant": "modern",
+          "dominant_pct": 0.942,
+          "top_3": [
+            {
+              "value": "modern",
+              "pct": 0.942
+            },
+            {
+              "value": "blended",
+              "pct": 0.058
+            }
+          ]
+        },
+        "tone": {
+          "dominant": "informative",
+          "dominant_pct": 0.725,
+          "top_3": [
+            {
+              "value": "informative",
+              "pct": 0.725
+            },
+            {
+              "value": "celebratory",
+              "pct": 0.246
+            },
+            {
+              "value": "urgent",
+              "pct": 0.014
+            }
+          ]
+        },
+        "production_quality": {
+          "dominant": "professional",
+          "dominant_pct": 0.768,
+          "top_3": [
+            {
+              "value": "professional",
+              "pct": 0.768
+            },
+            {
+              "value": "semi_professional",
+              "pct": 0.232
+            }
+          ]
+        }
+      }
+    },
     "real_estate": {
       "obs_count": 113,
       "avg_engagement": 0.062,
-      "lift_vs_corpus": -0.323,
+      "lift_vs_corpus": -0.327,
       "profile": {
         "content_type": {
           "dominant": "video",
@@ -1394,6 +1529,7 @@
         "retail": "video",
         "beauty_personal_care": "image",
         "beauty": "video",
+        "healthcare_wellness": "video",
         "real_estate": "video"
       },
       "sectors_differ": true
@@ -1407,6 +1543,7 @@
         "retail": "vertical_9x16",
         "beauty_personal_care": null,
         "beauty": "vertical_9x16",
+        "healthcare_wellness": null,
         "real_estate": null
       },
       "sectors_differ": true
@@ -1420,6 +1557,7 @@
         "retail": "friday",
         "beauty_personal_care": null,
         "beauty": "thursday",
+        "healthcare_wellness": null,
         "real_estate": null
       },
       "sectors_differ": true
@@ -1433,6 +1571,7 @@
         "retail": "product_hero_closeup",
         "beauty_personal_care": "product_hero_closeup",
         "beauty": "product_hero_closeup",
+        "healthcare_wellness": "lifestyle_integrated",
         "real_estate": "text_dominant"
       },
       "sectors_differ": true
@@ -1446,6 +1585,7 @@
         "retail": "home_domestic",
         "beauty_personal_care": "studio",
         "beauty": "studio",
+        "healthcare_wellness": "retail_store",
         "real_estate": "outdoor"
       },
       "sectors_differ": true
@@ -1459,6 +1599,7 @@
         "retail": "natural_daylight",
         "beauty_personal_care": "natural",
         "beauty": "warm_natural",
+        "healthcare_wellness": "natural",
         "real_estate": "natural"
       },
       "sectors_differ": true
@@ -1472,6 +1613,7 @@
         "retail": "moderate",
         "beauty_personal_care": "simple",
         "beauty": "moderate",
+        "healthcare_wellness": "simple",
         "real_estate": "simple"
       },
       "sectors_differ": true
@@ -1485,6 +1627,7 @@
         "retail": "blended",
         "beauty_personal_care": "modern",
         "beauty": "modern",
+        "healthcare_wellness": "modern",
         "real_estate": "modern"
       },
       "sectors_differ": true
@@ -1498,6 +1641,7 @@
         "retail": "patriotic",
         "beauty_personal_care": "informative",
         "beauty": "aspirational",
+        "healthcare_wellness": "informative",
         "real_estate": "informative"
       },
       "sectors_differ": true
@@ -1511,6 +1655,7 @@
         "retail": "aspirational",
         "beauty_personal_care": null,
         "beauty": "casual",
+        "healthcare_wellness": null,
         "real_estate": null
       },
       "sectors_differ": true
@@ -1524,6 +1669,7 @@
         "retail": "general_saudi",
         "beauty_personal_care": "msa",
         "beauty": "hejazi",
+        "healthcare_wellness": null,
         "real_estate": "msa"
       },
       "sectors_differ": true
@@ -1537,6 +1683,7 @@
         "retail": "semi_professional",
         "beauty_personal_care": "semi_professional",
         "beauty": "professional",
+        "healthcare_wellness": "professional",
         "real_estate": "professional"
       },
       "sectors_differ": true
@@ -1547,6 +1694,7 @@
     "Beauty underperforms (-23pp) — studio + informative tone — needs tone refresh",
     "Retail sits between: blended heritage, studio setting",
     "retail: 75% — leads with product_hero_closeup + home_domestic + patriotic tone",
+    "healthcare_wellness: 54% — leads with lifestyle_integrated + retail_store + informative tone",
     "beauty: 52% — leads with product_hero_closeup + studio + aspirational tone",
     "f_and_b: 52% — leads with product_hero_closeup + restaurant + playful tone",
     "fashion: 33% — leads with lifestyle_integrated + retail_store + informative tone",

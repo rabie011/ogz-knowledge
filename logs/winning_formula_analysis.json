@@ -2,7 +2,7 @@
   "schema_version": 2,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.65,
-  "total_obs": 2641,
+  "total_obs": 2710,
   "top_6dim_formulas": [
     {
       "primary_pattern": "product_hero",
@@ -77,6 +77,19 @@
       "lighting": "warm_studio",
       "register": "unknown",
       "tone": "urgent",
+      "obs_count": 3,
+      "high_engagement_rate": 1.0,
+      "avg_engagement": 1.0,
+      "lift_vs_baseline": 0.35
+    },
+    {
+      "primary_pattern": "none",
+      "primary_pattern_name": "none",
+      "media_type": "video",
+      "setting": "studio",
+      "lighting": "studio",
+      "register": "unknown",
+      "tone": "informative",
       "obs_count": 3,
       "high_engagement_rate": 1.0,
       "avg_engagement": 1.0,
@@ -244,19 +257,6 @@
       "media_type": "image",
       "setting": "restaurant",
       "lighting": "warm_studio",
-      "register": "unknown",
-      "tone": "informative",
-      "obs_count": 2,
-      "high_engagement_rate": 1.0,
-      "avg_engagement": 1.0,
-      "lift_vs_baseline": 0.35
-    },
-    {
-      "primary_pattern": "f_and_b_beverage",
-      "primary_pattern_name": "F And B Beverage",
-      "media_type": "video",
-      "setting": "restaurant",
-      "lighting": "flat_bright",
       "register": "unknown",
       "tone": "informative",
       "obs_count": 2,
@@ -701,6 +701,43 @@
         "high_eng_rate": 1.0
       }
     ],
+    "healthcare_wellness": [
+      {
+        "pattern": "none",
+        "media_type": "video",
+        "setting": "studio",
+        "count": 8,
+        "high_eng_rate": 0.625
+      },
+      {
+        "pattern": "none",
+        "media_type": "video",
+        "setting": "digital_graphic",
+        "count": 4,
+        "high_eng_rate": 0.5
+      },
+      {
+        "pattern": "limited_time_offer",
+        "media_type": "carousel_slide",
+        "setting": "digital_graphic",
+        "count": 3,
+        "high_eng_rate": 0.333
+      },
+      {
+        "pattern": "none",
+        "media_type": "video",
+        "setting": "retail_store",
+        "count": 8,
+        "high_eng_rate": 0.25
+      },
+      {
+        "pattern": "limited_time_offer",
+        "media_type": "video",
+        "setting": "event_venue",
+        "count": 4,
+        "high_eng_rate": 0.25
+      }
+    ],
     "real_estate": [
       {
         "pattern": "football_occasion_tie_in",
@@ -817,6 +854,6 @@
   "key_findings": [
     "Best 6-dim formula (n≥3): product_hero + carousel_slide + studio + cold_studio + unknown + unknown → 100% high eng",
     "Best visual formula (n≥3): image + digital_graphic + flat_graphic + graphic_text + promotional → 100%",
-    "341 unique 6-dim combinations found. 158 have 3+ observations."
+    "352 unique 6-dim combinations found. 163 have 3+ observations."
   ]
 }

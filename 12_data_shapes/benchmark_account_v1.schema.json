@@ -57,6 +57,11 @@
     "distinctive_visual_traits": {"type": "array", "items": {"type": "string"}},
     "distinctive_voice_traits": {"type": "array", "items": {"type": "string"}},
     "anti_patterns_observed": {"type": "array", "items": {"type": "string"}},
+    "follower_tier": {
+      "type": "string",
+      "enum": ["nano", "micro", "mid", "macro", "mega"],
+      "description": "Audience size tier: nano <10k, micro 10k-100k, mid 100k-500k, macro 500k-1m, mega >1m"
+    },
     "provenance": {"$ref": "provenance_mixin_v1.schema.json"}
   }
 }

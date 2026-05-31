@@ -3,20 +3,45 @@
   "sector": "fashion",
   "sector_key": "fashion",
   "corpus_data": {
-    "obs_in_corpus": 0,
-    "avg_engagement": null,
+    "obs_in_corpus": 29,
+    "avg_engagement": 0.0,
     "high_eng_count": 0,
-    "low_eng_count": 0
+    "low_eng_count": 29
   },
   "winning_signals": [],
-  "losing_signals": [],
+  "losing_signals": [
+    {
+      "dimension": "hvm",
+      "value": "modern",
+      "count": 29,
+      "pct": 1.0
+    },
+    {
+      "dimension": "visual_complexity",
+      "value": "simple",
+      "count": 27,
+      "pct": 0.931
+    },
+    {
+      "dimension": "setting",
+      "value": "retail_store",
+      "count": 25,
+      "pct": 0.862
+    },
+    {
+      "dimension": "tone",
+      "value": "informative",
+      "count": 24,
+      "pct": 0.828
+    }
+  ],
   "top_patterns": [],
   "top_phrases_in_winners": [],
   "recommended_formula": {
     "format": "image",
     "predicted_eng": 0.73,
     "aspect_ratio": "square_1x1",
-    "tone": "exciting",
+    "tone": "bold",
     "register": null,
     "heritage_framing": "blended",
     "visual_complexity": "complex",
@@ -24,8 +49,7 @@
     "caption_length": "10-30 words",
     "hashtag_count": "1-5",
     "patterns": [
-      "prediction_engagement",
-      "sports_giveaway"
+      "prediction_engagement"
     ],
     "phrases_to_use": [
       "اطلب الآن",
@@ -36,6 +60,8 @@
   },
   "red_flags": [
     "AVOID format: carousel_slide (52% eng for this occasion)",
+    "AVOID: hvm=modern (found in 100% of low-eng posts)",
+    "AVOID: visual_complexity=simple (found in 93% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
     "AVOID: video format if images/carousels are viable — video underperforms"
   ],
@@ -50,7 +76,7 @@
       "timing": "peak day",
       "post_type": "hero",
       "format": "image",
-      "tone": "exciting"
+      "tone": "bold"
     },
     {
       "timing": "2 days after",
@@ -62,8 +88,7 @@
   "analytics_support": {
     "format_matrix_best": "image",
     "occasion_patterns": [
-      "prediction_engagement",
-      "sports_giveaway"
+      "prediction_engagement"
     ],
     "occasion_phrases": [
       "اطلب الآن",
@@ -72,6 +97,6 @@
       "Ask the team about Fundraising"
     ],
     "hospitality_cues": [],
-    "playbook_obs_count": 1741
+    "playbook_obs_count": 1820
   }
 }

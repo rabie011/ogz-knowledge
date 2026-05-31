@@ -2,38 +2,31 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 2508,
-  "video_obs": 929,
-  "with_duration_data": 83,
+  "total_obs": 2589,
+  "video_obs": 979,
+  "with_duration_data": 133,
   "with_audio_data": 796,
   "duration_table": [
     {
       "duration_bucket": "long_31_60s",
-      "count": 17,
-      "high_engagement_rate": 0.647,
-      "avg_engagement": 0.824,
-      "lift_vs_baseline": 0.107
+      "count": 19,
+      "high_engagement_rate": 0.579,
+      "avg_engagement": 0.737,
+      "lift_vs_baseline": 0.039
     },
     {
       "duration_bucket": "very_long_60plus",
-      "count": 11,
-      "high_engagement_rate": 0.636,
-      "avg_engagement": 0.773,
-      "lift_vs_baseline": 0.096
+      "count": 21,
+      "high_engagement_rate": 0.333,
+      "avg_engagement": 0.429,
+      "lift_vs_baseline": -0.207
     },
     {
       "duration_bucket": "medium_16_30s",
-      "count": 23,
-      "high_engagement_rate": 0.435,
-      "avg_engagement": 0.609,
-      "lift_vs_baseline": -0.105
-    },
-    {
-      "duration_bucket": "short_0_15s",
-      "count": 32,
-      "high_engagement_rate": 0.406,
-      "avg_engagement": 0.641,
-      "lift_vs_baseline": -0.134
+      "count": 31,
+      "high_engagement_rate": 0.323,
+      "avg_engagement": 0.452,
+      "lift_vs_baseline": -0.217
     },
     {
       "duration_bucket": "unknown",
@@ -41,6 +34,13 @@
       "high_engagement_rate": 0.246,
       "avg_engagement": 0.402,
       "lift_vs_baseline": -0.294
+    },
+    {
+      "duration_bucket": "short_0_15s",
+      "count": 62,
+      "high_engagement_rate": 0.21,
+      "avg_engagement": 0.331,
+      "lift_vs_baseline": -0.33
     }
   ],
   "voiceover_table": [
@@ -345,10 +345,38 @@
       "count": 50,
       "high_eng_rate": 0.04,
       "lift": -0.5
+    },
+    {
+      "duration_bucket": "short_0_15s",
+      "sector": "fashion",
+      "count": 30,
+      "high_eng_rate": 0.0,
+      "lift": -0.54
+    },
+    {
+      "duration_bucket": "long_31_60s",
+      "sector": "fashion",
+      "count": 2,
+      "high_eng_rate": 0.0,
+      "lift": -0.54
+    },
+    {
+      "duration_bucket": "medium_16_30s",
+      "sector": "fashion",
+      "count": 8,
+      "high_eng_rate": 0.0,
+      "lift": -0.54
+    },
+    {
+      "duration_bucket": "very_long_60plus",
+      "sector": "fashion",
+      "count": 10,
+      "high_eng_rate": 0.0,
+      "lift": -0.54
     }
   ],
   "key_findings": [
-    "Best video duration: 'long_31_60s' = 64% high-eng (n=17, +10pp)",
+    "Best video duration: 'long_31_60s' = 57% high-eng (n=19, +3pp)",
     "Voiceover NEUTRAL: with=28% vs without=23% (+4pp)",
     "Best music type: 'original_score' = 59% (n=57)"
   ],

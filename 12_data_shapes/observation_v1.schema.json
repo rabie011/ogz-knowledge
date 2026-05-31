@@ -298,24 +298,46 @@
           "description": "minimal (0-1) / simple (2-3) / moderate (4-6) / complex (7+)"
         },
         "scene_type": {
-          "type": ["string", "null"],
-          "enum": ["indoor", "outdoor", "studio", "graphic", "mixed", null],
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "indoor",
+            "outdoor",
+            "studio",
+            "graphic",
+            "mixed",
+            null
+          ],
           "description": "Video scene environment detected by GPT-4o-mini vision"
         },
         "text_overlay_visible": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "Whether text overlays are visible in the video frame"
         },
         "arabic_text_visible": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "Whether Arabic text is visible in the video frame"
         },
         "product_visible": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "Whether a product is visible in the video frame"
         },
         "brand_logo_visible": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "Whether a brand logo is visible in the video frame"
         }
       }
@@ -455,28 +477,88 @@
           "description": "Opening pattern of caption: question/command/name_drop/number/emoji_open/statement"
         },
         "hook_type": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Caption opening hook pattern (GPT-4o-mini Phase 2 enrichment)",
-          "enum": ["statement","question","command","occasion_reference","emoji_led","arabic_idiom","price_anchor","none",null]
+          "enum": [
+            "statement",
+            "question",
+            "command",
+            "occasion_reference",
+            "emoji_led",
+            "arabic_idiom",
+            "price_anchor",
+            "none",
+            null
+          ]
         },
         "hook_text": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Verbatim opening words used as hook"
         },
         "cta_type": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Primary call-to-action type in caption",
-          "enum": ["none","order_now","visit_store","comment","tag_someone","follow",null]
+          "enum": [
+            "none",
+            "order_now",
+            "visit_store",
+            "comment",
+            "tag_someone",
+            "follow",
+            null
+          ]
         },
         "arabic_technique": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Arabic language register/technique used in caption",
-          "enum": ["colloquial_gulf","bilingual_mix","msa_formal","english_only","none",null]
+          "enum": [
+            "colloquial_gulf",
+            "bilingual_mix",
+            "msa_formal",
+            "english_only",
+            "none",
+            null
+          ]
         },
         "emotion_words": {
-          "type": ["array", "null"],
-          "items": {"type": "string"},
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          },
           "description": "Key emotional or action words extracted from caption"
+        },
+        "has_saudi_dialect": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "local_idiom_flag": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "sarcasm_flag": {
+          "type": [
+            "boolean",
+            "null"
+          ]
         }
       }
     },
@@ -657,6 +739,56 @@
     },
     "provenance": {
       "$ref": "provenance_mixin_v1.schema.json"
+    },
+    "emotion_primary": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "joy",
+        "trust",
+        "anticipation",
+        "surprise",
+        "fear",
+        "sadness",
+        "anger",
+        "neutral",
+        "disgust",
+        null
+      ]
+    },
+    "content_pillar": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "product",
+        "lifestyle",
+        "community",
+        "educational",
+        "entertainment",
+        null
+      ]
+    },
+    "content_pillar_confidence": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "high",
+        "medium",
+        "low",
+        null
+      ]
+    },
+    "data_quality_flag": {
+      "type": [
+        "string",
+        "null"
+      ]
     }
   }
 }

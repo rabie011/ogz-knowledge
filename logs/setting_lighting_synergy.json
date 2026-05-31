@@ -2,7 +2,7 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 2508,
+  "total_obs": 2589,
   "pair_table": [
     {
       "setting": "event_venue",
@@ -567,18 +567,18 @@
     {
       "setting": "retail_store",
       "lighting": "flat_bright",
-      "obs_count": 44,
-      "high_engagement_rate": 0.295,
-      "avg_engagement": 0.398,
-      "lift_vs_baseline": -0.245
+      "obs_count": 46,
+      "high_engagement_rate": 0.283,
+      "avg_engagement": 0.38,
+      "lift_vs_baseline": -0.257
     },
     {
       "setting": "outdoor",
       "lighting": "natural",
-      "obs_count": 285,
-      "high_engagement_rate": 0.277,
-      "avg_engagement": 0.4,
-      "lift_vs_baseline": -0.263
+      "obs_count": 286,
+      "high_engagement_rate": 0.276,
+      "avg_engagement": 0.399,
+      "lift_vs_baseline": -0.264
     },
     {
       "setting": "retail_store",
@@ -639,18 +639,18 @@
     {
       "setting": "kitchen",
       "lighting": "natural",
-      "obs_count": 28,
-      "high_engagement_rate": 0.179,
-      "avg_engagement": 0.339,
-      "lift_vs_baseline": -0.361
+      "obs_count": 29,
+      "high_engagement_rate": 0.172,
+      "avg_engagement": 0.328,
+      "lift_vs_baseline": -0.368
     },
     {
       "setting": "retail_store",
       "lighting": "natural",
-      "obs_count": 219,
-      "high_engagement_rate": 0.174,
-      "avg_engagement": 0.267,
-      "lift_vs_baseline": -0.366
+      "obs_count": 222,
+      "high_engagement_rate": 0.171,
+      "avg_engagement": 0.264,
+      "lift_vs_baseline": -0.369
     },
     {
       "setting": "salon",
@@ -679,18 +679,26 @@
     {
       "setting": "home",
       "lighting": "natural",
-      "obs_count": 57,
-      "high_engagement_rate": 0.035,
-      "avg_engagement": 0.184,
-      "lift_vs_baseline": -0.505
+      "obs_count": 58,
+      "high_engagement_rate": 0.034,
+      "avg_engagement": 0.181,
+      "lift_vs_baseline": -0.506
     },
     {
       "setting": "studio",
       "lighting": "natural",
-      "obs_count": 150,
-      "high_engagement_rate": 0.027,
-      "avg_engagement": 0.083,
-      "lift_vs_baseline": -0.513
+      "obs_count": 154,
+      "high_engagement_rate": 0.026,
+      "avg_engagement": 0.084,
+      "lift_vs_baseline": -0.514
+    },
+    {
+      "setting": "retail_store",
+      "lighting": "studio",
+      "obs_count": 60,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.0,
+      "lift_vs_baseline": -0.54
     },
     {
       "setting": "salon",
@@ -703,9 +711,9 @@
     {
       "setting": "unknown",
       "lighting": "natural",
-      "obs_count": 8,
+      "obs_count": 12,
       "high_engagement_rate": 0.0,
-      "avg_engagement": 0.062,
+      "avg_engagement": 0.042,
       "lift_vs_baseline": -0.54
     },
     {
@@ -770,6 +778,14 @@
       "obs_count": 2,
       "high_engagement_rate": 0.0,
       "avg_engagement": 0.5,
+      "lift_vs_baseline": -0.54
+    },
+    {
+      "setting": "studio",
+      "lighting": "studio",
+      "obs_count": 2,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.0,
       "lift_vs_baseline": -0.54
     },
     {
@@ -1115,6 +1131,30 @@
       "high_engagement_rate": 0.0,
       "avg_engagement": 0.5,
       "lift_vs_baseline": -0.54
+    },
+    {
+      "setting": "event_venue",
+      "lighting": "flat_bright",
+      "obs_count": 1,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.0,
+      "lift_vs_baseline": -0.54
+    },
+    {
+      "setting": "restaurant_indoor",
+      "lighting": "studio",
+      "obs_count": 1,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.0,
+      "lift_vs_baseline": -0.54
+    },
+    {
+      "setting": "event_venue",
+      "lighting": "natural",
+      "obs_count": 1,
+      "high_engagement_rate": 0.0,
+      "avg_engagement": 0.0,
+      "lift_vs_baseline": -0.54
     }
   ],
   "top_20_pairs": [
@@ -1316,8 +1356,8 @@
         },
         {
           "lighting": "natural",
-          "count": 150,
-          "high_eng_rate": 0.027
+          "count": 154,
+          "high_eng_rate": 0.026
         },
         {
           "lighting": "warm_natural",
@@ -1347,6 +1387,11 @@
         {
           "lighting": "cool_studio",
           "count": 1,
+          "high_eng_rate": 0.0
+        },
+        {
+          "lighting": "studio",
+          "count": 2,
           "high_eng_rate": 0.0
         }
       ]
@@ -1384,6 +1429,11 @@
           "lighting": "mixed_ambient",
           "count": 15,
           "high_eng_rate": 0.533
+        },
+        {
+          "lighting": "studio",
+          "count": 1,
+          "high_eng_rate": 0.0
         }
       ]
     },
@@ -1463,8 +1513,8 @@
         },
         {
           "lighting": "natural",
-          "count": 285,
-          "high_eng_rate": 0.277
+          "count": 286,
+          "high_eng_rate": 0.276
         },
         {
           "lighting": "golden_hour",
@@ -1511,12 +1561,12 @@
     },
     "retail_store": {
       "best_lighting": "flat_bright",
-      "best_rate": 0.295,
+      "best_rate": 0.283,
       "all_lightings": [
         {
           "lighting": "flat_bright",
-          "count": 44,
-          "high_eng_rate": 0.295
+          "count": 46,
+          "high_eng_rate": 0.283
         },
         {
           "lighting": "warm_studio",
@@ -1530,8 +1580,8 @@
         },
         {
           "lighting": "natural",
-          "count": 219,
-          "high_eng_rate": 0.174
+          "count": 222,
+          "high_eng_rate": 0.171
         },
         {
           "lighting": "cool_studio",
@@ -1541,6 +1591,11 @@
         {
           "lighting": "dramatic",
           "count": 1,
+          "high_eng_rate": 0.0
+        },
+        {
+          "lighting": "studio",
+          "count": 60,
           "high_eng_rate": 0.0
         }
       ]
@@ -1561,8 +1616,8 @@
         },
         {
           "lighting": "natural",
-          "count": 57,
-          "high_eng_rate": 0.035
+          "count": 58,
+          "high_eng_rate": 0.034
         },
         {
           "lighting": "flat_bright",
@@ -1592,7 +1647,7 @@
         },
         {
           "lighting": "natural",
-          "count": 8,
+          "count": 12,
           "high_eng_rate": 0.0
         },
         {
@@ -1733,6 +1788,16 @@
           "lighting": "natural_daylight",
           "count": 4,
           "high_eng_rate": 0.5
+        },
+        {
+          "lighting": "flat_bright",
+          "count": 1,
+          "high_eng_rate": 0.0
+        },
+        {
+          "lighting": "natural",
+          "count": 1,
+          "high_eng_rate": 0.0
         }
       ]
     },
@@ -2267,8 +2332,8 @@
         },
         {
           "lighting": "natural",
-          "count": 28,
-          "high_eng_rate": 0.179
+          "count": 29,
+          "high_eng_rate": 0.172
         }
       ]
     },
@@ -2799,8 +2864,8 @@
         },
         {
           "setting": "outdoor",
-          "count": 285,
-          "high_eng_rate": 0.277
+          "count": 286,
+          "high_eng_rate": 0.276
         },
         {
           "setting": "office",
@@ -2809,23 +2874,23 @@
         },
         {
           "setting": "kitchen",
-          "count": 28,
-          "high_eng_rate": 0.179
+          "count": 29,
+          "high_eng_rate": 0.172
         },
         {
           "setting": "retail_store",
-          "count": 219,
-          "high_eng_rate": 0.174
+          "count": 222,
+          "high_eng_rate": 0.171
         },
         {
           "setting": "home",
-          "count": 57,
-          "high_eng_rate": 0.035
+          "count": 58,
+          "high_eng_rate": 0.034
         },
         {
           "setting": "studio",
-          "count": 150,
-          "high_eng_rate": 0.027
+          "count": 154,
+          "high_eng_rate": 0.026
         },
         {
           "setting": "salon",
@@ -2834,11 +2899,16 @@
         },
         {
           "setting": "unknown",
-          "count": 8,
+          "count": 12,
           "high_eng_rate": 0.0
         },
         {
           "setting": "drive_thru",
+          "count": 1,
+          "high_eng_rate": 0.0
+        },
+        {
+          "setting": "event_venue",
           "count": 1,
           "high_eng_rate": 0.0
         }
@@ -2865,8 +2935,8 @@
         },
         {
           "setting": "retail_store",
-          "count": 44,
-          "high_eng_rate": 0.295
+          "count": 46,
+          "high_eng_rate": 0.283
         },
         {
           "setting": "office",
@@ -2880,6 +2950,11 @@
         },
         {
           "setting": "home",
+          "count": 1,
+          "high_eng_rate": 0.0
+        },
+        {
+          "setting": "event_venue",
           "count": 1,
           "high_eng_rate": 0.0
         }
@@ -3286,6 +3361,27 @@
         {
           "setting": "restaurant",
           "count": 1,
+          "high_eng_rate": 0.0
+        }
+      ]
+    },
+    "studio": {
+      "best_setting": "retail_store",
+      "best_rate": 0.0,
+      "all_settings": [
+        {
+          "setting": "retail_store",
+          "count": 60,
+          "high_eng_rate": 0.0
+        },
+        {
+          "setting": "restaurant_indoor",
+          "count": 1,
+          "high_eng_rate": 0.0
+        },
+        {
+          "setting": "studio",
+          "count": 2,
           "high_eng_rate": 0.0
         }
       ]

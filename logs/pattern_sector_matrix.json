@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
-  "total_obs": 2508,
+  "total_obs": 2589,
   "sector_baselines": {
     "f_and_b": 0.6,
     "beauty": 0.18,
@@ -3055,25 +3055,11 @@
       "baseline": 0.54,
       "top_10_by_engagement": [
         {
-          "slug": "brand_collab",
-          "name": "Brand Collab",
-          "count": 6,
-          "high_eng_rate": 0.833,
-          "lift_vs_sector_baseline": 0.293
-        },
-        {
           "slug": "limited_time_offer",
           "name": "Limited Time Offer",
           "count": 5,
           "high_eng_rate": 0.8,
           "lift_vs_sector_baseline": 0.26
-        },
-        {
-          "slug": "celebrity_collab",
-          "name": "Celebrity Collab",
-          "count": 4,
-          "high_eng_rate": 0.75,
-          "lift_vs_sector_baseline": 0.21
         },
         {
           "slug": "behind_the_scenes",
@@ -3123,6 +3109,20 @@
           "count": 8,
           "high_eng_rate": 0.5,
           "lift_vs_sector_baseline": -0.04
+        },
+        {
+          "slug": "summer_seasonal_content",
+          "name": "Summer Seasonal Content",
+          "count": 4,
+          "high_eng_rate": 0.5,
+          "lift_vs_sector_baseline": -0.04
+        },
+        {
+          "slug": "summer_modest_fits",
+          "name": "Summer Modest Fits",
+          "count": 51,
+          "high_eng_rate": 0.471,
+          "lift_vs_sector_baseline": -0.069
         }
       ],
       "top_10_by_volume": [
@@ -3169,6 +3169,13 @@
           "lift_vs_sector_baseline": -0.111
         },
         {
+          "slug": "brand_collab",
+          "name": "Brand Collab",
+          "count": 16,
+          "high_eng_rate": 0.312,
+          "lift_vs_sector_baseline": -0.228
+        },
+        {
           "slug": "modest_wear",
           "name": "Modest Wear",
           "count": 15,
@@ -3188,13 +3195,6 @@
           "count": 10,
           "high_eng_rate": 0.5,
           "lift_vs_sector_baseline": -0.04
-        },
-        {
-          "slug": "occasion_plays",
-          "name": "Occasion Plays",
-          "count": 10,
-          "high_eng_rate": 0.4,
-          "lift_vs_sector_baseline": -0.14
         }
       ],
       "avoid": [
@@ -3204,6 +3204,20 @@
           "count": 8,
           "high_eng_rate": 0.25,
           "lift_vs_sector_baseline": -0.29
+        },
+        {
+          "slug": "emotional_storytelling",
+          "name": "Emotional Storytelling",
+          "count": 4,
+          "high_eng_rate": 0.0,
+          "lift_vs_sector_baseline": -0.54
+        },
+        {
+          "slug": "lifestyle_environment_integration",
+          "name": "Lifestyle Environment Integration",
+          "count": 4,
+          "high_eng_rate": 0.0,
+          "lift_vs_sector_baseline": -0.54
         }
       ]
     }
@@ -3381,10 +3395,10 @@
     {
       "slug": "lifestyle_environment_integration",
       "name": "Lifestyle Environment Integration",
-      "total_count": 69,
-      "overall_high_eng_rate": 0.783,
-      "overall_lift_vs_baseline": 0.243,
-      "appears_in_n_sectors": 3,
+      "total_count": 73,
+      "overall_high_eng_rate": 0.74,
+      "overall_lift_vs_baseline": 0.2,
+      "appears_in_n_sectors": 4,
       "best_sector": "f_and_b",
       "best_sector_rate": 0.871,
       "worst_sector": "real_estate",
@@ -3402,6 +3416,11 @@
         },
         "retail_lifestyle": {
           "count": 5,
+          "high_eng_rate": 0.0,
+          "lift_vs_sector_baseline": -0.54
+        },
+        "fashion": {
+          "count": 4,
           "high_eng_rate": 0.0,
           "lift_vs_sector_baseline": -0.54
         }
@@ -4532,6 +4551,40 @@
       }
     },
     {
+      "slug": "lifestyle_environment_integration",
+      "name": "Lifestyle Environment Integration",
+      "total_count": 73,
+      "overall_high_eng_rate": 0.74,
+      "overall_lift_vs_baseline": 0.2,
+      "appears_in_n_sectors": 4,
+      "best_sector": "f_and_b",
+      "best_sector_rate": 0.871,
+      "worst_sector": "real_estate",
+      "worst_sector_rate": 0.0,
+      "sector_breakdown": {
+        "f_and_b": {
+          "count": 62,
+          "high_eng_rate": 0.871,
+          "lift_vs_sector_baseline": 0.271
+        },
+        "real_estate": {
+          "count": 2,
+          "high_eng_rate": 0.0,
+          "lift_vs_sector_baseline": -0.54
+        },
+        "retail_lifestyle": {
+          "count": 5,
+          "high_eng_rate": 0.0,
+          "lift_vs_sector_baseline": -0.54
+        },
+        "fashion": {
+          "count": 4,
+          "high_eng_rate": 0.0,
+          "lift_vs_sector_baseline": -0.54
+        }
+      }
+    },
+    {
       "slug": "metro_setting",
       "name": "Metro Setting",
       "total_count": 71,
@@ -4557,35 +4610,6 @@
           "count": 21,
           "high_eng_rate": 0.095,
           "lift_vs_sector_baseline": -0.445
-        }
-      }
-    },
-    {
-      "slug": "lifestyle_environment_integration",
-      "name": "Lifestyle Environment Integration",
-      "total_count": 69,
-      "overall_high_eng_rate": 0.783,
-      "overall_lift_vs_baseline": 0.243,
-      "appears_in_n_sectors": 3,
-      "best_sector": "f_and_b",
-      "best_sector_rate": 0.871,
-      "worst_sector": "real_estate",
-      "worst_sector_rate": 0.0,
-      "sector_breakdown": {
-        "f_and_b": {
-          "count": 62,
-          "high_eng_rate": 0.871,
-          "lift_vs_sector_baseline": 0.271
-        },
-        "real_estate": {
-          "count": 2,
-          "high_eng_rate": 0.0,
-          "lift_vs_sector_baseline": -0.54
-        },
-        "retail_lifestyle": {
-          "count": 5,
-          "high_eng_rate": 0.0,
-          "lift_vs_sector_baseline": -0.54
         }
       }
     },
@@ -6827,6 +6851,25 @@
       }
     },
     {
+      "slug": "brand_collab",
+      "name": "Brand Collab",
+      "total_count": 16,
+      "overall_high_eng_rate": 0.312,
+      "overall_lift_vs_baseline": -0.228,
+      "appears_in_n_sectors": 1,
+      "best_sector": "fashion",
+      "best_sector_rate": 0.312,
+      "worst_sector": "fashion",
+      "worst_sector_rate": 0.312,
+      "sector_breakdown": {
+        "fashion": {
+          "count": 16,
+          "high_eng_rate": 0.312,
+          "lift_vs_sector_baseline": -0.228
+        }
+      }
+    },
+    {
       "slug": "eid_greeting",
       "name": "Eid Greeting",
       "total_count": 16,
@@ -7361,6 +7404,35 @@
       }
     },
     {
+      "slug": "documentary_btsmoment",
+      "name": "Documentary BTS Moment",
+      "total_count": 13,
+      "overall_high_eng_rate": 0.692,
+      "overall_lift_vs_baseline": 0.152,
+      "appears_in_n_sectors": 2,
+      "best_sector": "f_and_b",
+      "best_sector_rate": 0.778,
+      "worst_sector": "fashion",
+      "worst_sector_rate": 0.333,
+      "sector_breakdown": {
+        "f_and_b": {
+          "count": 9,
+          "high_eng_rate": 0.778,
+          "lift_vs_sector_baseline": 0.178
+        },
+        "retail": {
+          "count": 1,
+          "high_eng_rate": 1.0,
+          "lift_vs_sector_baseline": 0.64
+        },
+        "fashion": {
+          "count": 3,
+          "high_eng_rate": 0.333,
+          "lift_vs_sector_baseline": -0.207
+        }
+      }
+    },
+    {
       "slug": "new_product_launch",
       "name": "New Product Launch",
       "total_count": 13,
@@ -7659,35 +7731,6 @@
           "count": 12,
           "high_eng_rate": 0.833,
           "lift_vs_sector_baseline": 0.233
-        }
-      }
-    },
-    {
-      "slug": "documentary_btsmoment",
-      "name": "Documentary BTS Moment",
-      "total_count": 12,
-      "overall_high_eng_rate": 0.75,
-      "overall_lift_vs_baseline": 0.21,
-      "appears_in_n_sectors": 2,
-      "best_sector": "f_and_b",
-      "best_sector_rate": 0.778,
-      "worst_sector": "fashion",
-      "worst_sector_rate": 0.5,
-      "sector_breakdown": {
-        "f_and_b": {
-          "count": 9,
-          "high_eng_rate": 0.778,
-          "lift_vs_sector_baseline": 0.178
-        },
-        "retail": {
-          "count": 1,
-          "high_eng_rate": 1.0,
-          "lift_vs_sector_baseline": 0.64
-        },
-        "fashion": {
-          "count": 2,
-          "high_eng_rate": 0.5,
-          "lift_vs_sector_baseline": -0.04
         }
       }
     },
@@ -8553,6 +8596,30 @@
           "count": 2,
           "high_eng_rate": 0.0,
           "lift_vs_sector_baseline": -0.54
+        }
+      }
+    },
+    {
+      "slug": "celebrity_collab",
+      "name": "Celebrity Collab",
+      "total_count": 10,
+      "overall_high_eng_rate": 0.3,
+      "overall_lift_vs_baseline": -0.24,
+      "appears_in_n_sectors": 1,
+      "best_sector": "fashion",
+      "best_sector_rate": 0.333,
+      "worst_sector": "fashion",
+      "worst_sector_rate": 0.333,
+      "sector_breakdown": {
+        "f_and_b": {
+          "count": 1,
+          "high_eng_rate": 0.0,
+          "lift_vs_sector_baseline": -0.6
+        },
+        "fashion": {
+          "count": 9,
+          "high_eng_rate": 0.333,
+          "lift_vs_sector_baseline": -0.207
         }
       }
     },
@@ -9974,25 +10041,6 @@
       }
     },
     {
-      "slug": "brand_collab",
-      "name": "Brand Collab",
-      "total_count": 6,
-      "overall_high_eng_rate": 0.833,
-      "overall_lift_vs_baseline": 0.293,
-      "appears_in_n_sectors": 1,
-      "best_sector": "fashion",
-      "best_sector_rate": 0.833,
-      "worst_sector": "fashion",
-      "worst_sector_rate": 0.833,
-      "sector_breakdown": {
-        "fashion": {
-          "count": 6,
-          "high_eng_rate": 0.833,
-          "lift_vs_sector_baseline": 0.293
-        }
-      }
-    },
-    {
       "slug": "local_brand_advocacy",
       "name": "Local Brand Advocacy",
       "total_count": 6,
@@ -10625,30 +10673,6 @@
       }
     },
     {
-      "slug": "celebrity_collab",
-      "name": "Celebrity Collab",
-      "total_count": 5,
-      "overall_high_eng_rate": 0.6,
-      "overall_lift_vs_baseline": 0.06,
-      "appears_in_n_sectors": 1,
-      "best_sector": "fashion",
-      "best_sector_rate": 0.75,
-      "worst_sector": "fashion",
-      "worst_sector_rate": 0.75,
-      "sector_breakdown": {
-        "f_and_b": {
-          "count": 1,
-          "high_eng_rate": 0.0,
-          "lift_vs_sector_baseline": -0.6
-        },
-        "fashion": {
-          "count": 4,
-          "high_eng_rate": 0.75,
-          "lift_vs_sector_baseline": 0.21
-        }
-      }
-    },
-    {
       "slug": "emoji_heavy_caption",
       "name": "Emoji Heavy Caption",
       "total_count": 5,
@@ -11266,6 +11290,30 @@
           "count": 5,
           "high_eng_rate": 0.0,
           "lift_vs_sector_baseline": -0.6
+        }
+      }
+    },
+    {
+      "slug": "emotional_storytelling",
+      "name": "Emotional Storytelling",
+      "total_count": 5,
+      "overall_high_eng_rate": 0.0,
+      "overall_lift_vs_baseline": -0.54,
+      "appears_in_n_sectors": 1,
+      "best_sector": "fashion",
+      "best_sector_rate": 0.0,
+      "worst_sector": "fashion",
+      "worst_sector_rate": 0.0,
+      "sector_breakdown": {
+        "f_and_b": {
+          "count": 1,
+          "high_eng_rate": 0.0,
+          "lift_vs_sector_baseline": -0.6
+        },
+        "fashion": {
+          "count": 4,
+          "high_eng_rate": 0.0,
+          "lift_vs_sector_baseline": -0.54
         }
       }
     },
@@ -13573,30 +13621,6 @@
         },
         "real_estate": {
           "count": 1,
-          "high_eng_rate": 0.0,
-          "lift_vs_sector_baseline": -0.54
-        }
-      }
-    },
-    {
-      "slug": "emotional_storytelling",
-      "name": "Emotional Storytelling",
-      "total_count": 3,
-      "overall_high_eng_rate": 0.0,
-      "overall_lift_vs_baseline": -0.54,
-      "appears_in_n_sectors": 1,
-      "best_sector": "fashion",
-      "best_sector_rate": 0.0,
-      "worst_sector": "fashion",
-      "worst_sector_rate": 0.0,
-      "sector_breakdown": {
-        "f_and_b": {
-          "count": 1,
-          "high_eng_rate": 0.0,
-          "lift_vs_sector_baseline": -0.6
-        },
-        "fashion": {
-          "count": 2,
           "high_eng_rate": 0.0,
           "lift_vs_sector_baseline": -0.54
         }
@@ -27236,7 +27260,7 @@
     "retail best pattern: 'seasonal_collection_drop' (75%, lift +39pp vs sector baseline)",
     "retail_lifestyle best pattern: 'ramadan_promotional' (100%, lift +46pp vs sector baseline)",
     "retail_lifestyle avoid: 'everyday_summer_fits' (4% — well below 54% baseline)",
-    "fashion best pattern: 'brand_collab' (83%, lift +29pp vs sector baseline)",
+    "fashion best pattern: 'limited_time_offer' (80%, lift +26pp vs sector baseline)",
     "fashion avoid: 'beach_lifestyle' (25% — well below 54% baseline)"
   ]
 }

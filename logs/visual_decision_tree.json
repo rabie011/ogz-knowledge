@@ -2,7 +2,7 @@
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
   "corpus_baseline": 0.54,
-  "total_obs": 2508,
+  "total_obs": 2589,
   "sector_occasion_decision_tree": {
     "beauty": {
       "evergreen": {
@@ -2360,64 +2360,84 @@
     },
     "fashion": {
       "evergreen": {
-        "obs_count": 33,
-        "occasion_high_eng_rate": 0.485,
+        "obs_count": 112,
+        "occasion_high_eng_rate": 0.143,
         "recommended_production": {
-          "setting": "retail_store",
-          "setting_eng_rate": 0.583,
-          "lighting": "flat_bright",
-          "lighting_eng_rate": 0.5,
+          "setting": "outdoor",
+          "setting_eng_rate": 0.474,
+          "lighting": "natural",
+          "lighting_eng_rate": 0.318,
           "composition": "text_dominant",
-          "composition_eng_rate": 1.0,
+          "composition_eng_rate": 0.5,
           "register": "unknown",
-          "register_eng_rate": 0.485,
+          "register_eng_rate": 0.143,
           "tone": "playful",
-          "tone_eng_rate": 0.571
+          "tone_eng_rate": 0.333
         },
         "setting_options": [
           {
-            "value": "retail_store",
-            "count": 12,
-            "high_eng_rate": 0.583
+            "value": "outdoor",
+            "count": 19,
+            "high_eng_rate": 0.474
           },
           {
-            "value": "outdoor",
-            "count": 18,
-            "high_eng_rate": 0.5
+            "value": "retail_store",
+            "count": 75,
+            "high_eng_rate": 0.093
           },
           {
             "value": "studio",
-            "count": 3,
+            "count": 9,
+            "high_eng_rate": 0.0
+          },
+          {
+            "value": "unknown",
+            "count": 4,
+            "high_eng_rate": 0.0
+          },
+          {
+            "value": "event_venue",
+            "count": 2,
             "high_eng_rate": 0.0
           }
         ],
         "lighting_options": [
           {
-            "value": "flat_bright",
-            "count": 4,
-            "high_eng_rate": 0.5
+            "value": "natural",
+            "count": 44,
+            "high_eng_rate": 0.318
           },
           {
-            "value": "natural",
-            "count": 29,
-            "high_eng_rate": 0.483
+            "value": "flat_bright",
+            "count": 7,
+            "high_eng_rate": 0.286
+          },
+          {
+            "value": "studio",
+            "count": 61,
+            "high_eng_rate": 0.0
           }
         ],
         "composition_options": [
           {
             "value": "text_dominant",
-            "count": 2,
-            "high_eng_rate": 1.0
-          },
-          {
-            "value": "lifestyle_integrated",
-            "count": 22,
+            "count": 4,
             "high_eng_rate": 0.5
           },
           {
+            "value": "lifestyle_integrated",
+            "count": 40,
+            "high_eng_rate": 0.275
+          },
+          {
             "value": "product_hero_closeup",
-            "count": 9,
-            "high_eng_rate": 0.333
+            "count": 64,
+            "high_eng_rate": 0.047
+          },
+          {
+            "value": "editorial",
+            "count": 4,
+            "high_eng_rate": 0.0
           }
         ]
       },
@@ -2499,8 +2519,8 @@
         ]
       },
       "seasonal": {
-        "obs_count": 26,
-        "occasion_high_eng_rate": 0.423,
+        "obs_count": 28,
+        "occasion_high_eng_rate": 0.393,
         "recommended_production": {
           "setting": "outdoor",
           "setting_eng_rate": 0.45,
@@ -2509,7 +2529,7 @@
           "composition": "lifestyle_integrated",
           "composition_eng_rate": 0.435,
           "register": "unknown",
-          "register_eng_rate": 0.423,
+          "register_eng_rate": 0.393,
           "tone": "playful",
           "tone_eng_rate": 0.556
         },
@@ -2521,8 +2541,8 @@
           },
           {
             "value": "retail_store",
-            "count": 6,
-            "high_eng_rate": 0.333
+            "count": 8,
+            "high_eng_rate": 0.25
           }
         ],
         "lighting_options": [
@@ -2530,6 +2550,11 @@
             "value": "natural",
             "count": 25,
             "high_eng_rate": 0.44
+          },
+          {
+            "value": "studio",
+            "count": 2,
+            "high_eng_rate": 0.0
           },
           {
             "value": "golden_hour",
@@ -2545,8 +2570,13 @@
           },
           {
             "value": "product_hero_closeup",
-            "count": 3,
-            "high_eng_rate": 0.333
+            "count": 4,
+            "high_eng_rate": 0.25
+          },
+          {
+            "value": "editorial",
+            "count": 1,
+            "high_eng_rate": 0.0
           }
         ]
       },
@@ -2703,17 +2733,17 @@
       ]
     },
     "retail_store": {
-      "total_obs": 435,
-      "high_eng_rate": 0.202,
+      "total_obs": 500,
+      "high_eng_rate": 0.176,
       "best_lighting": "flat_bright",
-      "best_lighting_rate": 0.295,
+      "best_lighting_rate": 0.283,
       "best_composition": "text_dominant",
-      "best_composition_rate": 0.388,
+      "best_composition_rate": 0.377,
       "lighting_options": [
         {
           "value": "flat_bright",
-          "count": 44,
-          "high_eng_rate": 0.295
+          "count": 46,
+          "high_eng_rate": 0.283
         },
         {
           "value": "warm_studio",
@@ -2727,45 +2757,45 @@
         },
         {
           "value": "natural",
-          "count": 219,
-          "high_eng_rate": 0.174
+          "count": 222,
+          "high_eng_rate": 0.171
         },
         {
-          "value": "cool_studio",
-          "count": 4,
+          "value": "studio",
+          "count": 60,
           "high_eng_rate": 0.0
         }
       ],
       "composition_options": [
         {
           "value": "text_dominant",
-          "count": 67,
-          "high_eng_rate": 0.388
+          "count": 69,
+          "high_eng_rate": 0.377
         },
         {
           "value": "lifestyle_integrated",
-          "count": 81,
-          "high_eng_rate": 0.185
+          "count": 87,
+          "high_eng_rate": 0.172
         },
         {
           "value": "product_hero_closeup",
-          "count": 271,
-          "high_eng_rate": 0.173
+          "count": 327,
+          "high_eng_rate": 0.144
         },
         {
           "value": "editorial",
-          "count": 16,
+          "count": 17,
           "high_eng_rate": 0.0
         }
       ]
     },
     "outdoor": {
-      "total_obs": 379,
+      "total_obs": 380,
       "high_eng_rate": 0.261,
       "best_lighting": "flat_bright",
       "best_lighting_rate": 0.667,
       "best_composition": "lifestyle_integrated",
-      "best_composition_rate": 0.307,
+      "best_composition_rate": 0.305,
       "lighting_options": [
         {
           "value": "warm_golden",
@@ -2784,8 +2814,8 @@
         },
         {
           "value": "natural",
-          "count": 285,
-          "high_eng_rate": 0.277
+          "count": 286,
+          "high_eng_rate": 0.276
         },
         {
           "value": "golden_hour",
@@ -2801,8 +2831,8 @@
         },
         {
           "value": "lifestyle_integrated",
-          "count": 261,
-          "high_eng_rate": 0.307
+          "count": 262,
+          "high_eng_rate": 0.305
         },
         {
           "value": "text_dominant",
@@ -2822,8 +2852,8 @@
       ]
     },
     "studio": {
-      "total_obs": 322,
-      "high_eng_rate": 0.23,
+      "total_obs": 328,
+      "high_eng_rate": 0.226,
       "best_lighting": "dramatic_moody",
       "best_lighting_rate": 0.905,
       "best_composition": "portrait_face",
@@ -2884,8 +2914,8 @@
       ]
     },
     "home": {
-      "total_obs": 81,
-      "high_eng_rate": 0.062,
+      "total_obs": 82,
+      "high_eng_rate": 0.061,
       "best_lighting": "golden_hour",
       "best_lighting_rate": 0.667,
       "best_composition": "product_hero_closeup",
@@ -2903,8 +2933,8 @@
         },
         {
           "value": "natural",
-          "count": 57,
-          "high_eng_rate": 0.035
+          "count": 58,
+          "high_eng_rate": 0.034
         },
         {
           "value": "flat_bright",
@@ -2925,8 +2955,8 @@
         },
         {
           "value": "lifestyle_integrated",
-          "count": 49,
-          "high_eng_rate": 0.061
+          "count": 50,
+          "high_eng_rate": 0.06
         },
         {
           "value": "text_dominant",
@@ -2936,8 +2966,8 @@
       ]
     },
     "restaurant_indoor": {
-      "total_obs": 62,
-      "high_eng_rate": 0.677,
+      "total_obs": 63,
+      "high_eng_rate": 0.667,
       "best_lighting": "natural_daylight",
       "best_lighting_rate": 0.8,
       "best_composition": "overhead_spread",
@@ -2981,14 +3011,14 @@
           "high_eng_rate": 1.0
         },
         {
-          "value": "lifestyle_integrated",
-          "count": 8,
-          "high_eng_rate": 0.75
-        },
-        {
           "value": "graphic_text",
           "count": 4,
           "high_eng_rate": 0.75
+        },
+        {
+          "value": "lifestyle_integrated",
+          "count": 9,
+          "high_eng_rate": 0.667
         },
         {
           "value": "architectural_frame",
@@ -2998,8 +3028,8 @@
       ]
     },
     "kitchen": {
-      "total_obs": 50,
-      "high_eng_rate": 0.24,
+      "total_obs": 51,
+      "high_eng_rate": 0.235,
       "best_lighting": "warm_studio",
       "best_lighting_rate": 0.318,
       "best_composition": "product_hero_closeup",
@@ -3012,8 +3042,8 @@
         },
         {
           "value": "natural",
-          "count": 28,
-          "high_eng_rate": 0.179
+          "count": 29,
+          "high_eng_rate": 0.172
         }
       ],
       "composition_options": [
@@ -3024,8 +3054,8 @@
         },
         {
           "value": "lifestyle_integrated",
-          "count": 5,
-          "high_eng_rate": 0.2
+          "count": 6,
+          "high_eng_rate": 0.167
         },
         {
           "value": "text_dominant",
@@ -3201,8 +3231,8 @@
       ]
     },
     "unknown": {
-      "total_obs": 23,
-      "high_eng_rate": 0.217,
+      "total_obs": 27,
+      "high_eng_rate": 0.185,
       "best_lighting": "flat_bright",
       "best_lighting_rate": 0.364,
       "best_composition": "text_dominant",
@@ -3220,7 +3250,7 @@
         },
         {
           "value": "natural",
-          "count": 8,
+          "count": 12,
           "high_eng_rate": 0.0
         },
         {
@@ -3247,6 +3277,11 @@
         },
         {
           "value": "lifestyle_integrated",
+          "count": 4,
+          "high_eng_rate": 0.0
+        },
+        {
+          "value": "editorial",
           "count": 1,
           "high_eng_rate": 0.0
         }
@@ -3315,8 +3350,8 @@
       ]
     },
     "event_venue": {
-      "total_obs": 19,
-      "high_eng_rate": 0.789,
+      "total_obs": 21,
+      "high_eng_rate": 0.714,
       "best_lighting": "cold_studio",
       "best_lighting_rate": 1.0,
       "best_composition": "portrait_face",
@@ -4629,8 +4664,8 @@
   },
   "lighting_composition_guide": {
     "natural": {
-      "total_obs": 1068,
-      "high_eng_rate": 0.223,
+      "total_obs": 1083,
+      "high_eng_rate": 0.22,
       "best_composition": "overhead_spread",
       "best_composition_rate": 0.5,
       "composition_options": [
@@ -4646,8 +4681,8 @@
         },
         {
           "value": "lifestyle_integrated",
-          "count": 368,
-          "high_eng_rate": 0.321
+          "count": 380,
+          "high_eng_rate": 0.311
         },
         {
           "value": "text_dominant",
@@ -4656,8 +4691,8 @@
         },
         {
           "value": "product_hero_closeup",
-          "count": 513,
-          "high_eng_rate": 0.164
+          "count": 514,
+          "high_eng_rate": 0.163
         }
       ]
     },
@@ -4695,24 +4730,29 @@
       ]
     },
     "flat_bright": {
-      "total_obs": 154,
-      "high_eng_rate": 0.37,
+      "total_obs": 157,
+      "high_eng_rate": 0.363,
       "best_composition": "text_dominant",
-      "best_composition_rate": 0.434,
+      "best_composition_rate": 0.431,
       "composition_options": [
         {
           "value": "text_dominant",
-          "count": 122,
-          "high_eng_rate": 0.434
+          "count": 123,
+          "high_eng_rate": 0.431
         },
         {
           "value": "product_hero_closeup",
-          "count": 30,
-          "high_eng_rate": 0.133
+          "count": 31,
+          "high_eng_rate": 0.129
         },
         {
           "value": "lifestyle_integrated",
           "count": 2,
+          "high_eng_rate": 0.0
+        },
+        {
+          "value": "editorial",
+          "count": 1,
           "high_eng_rate": 0.0
         }
       ]
@@ -4775,6 +4815,34 @@
           "value": "event on-ground lifestyle",
           "count": 1,
           "high_eng_rate": 1.0
+        }
+      ]
+    },
+    "studio": {
+      "total_obs": 63,
+      "high_eng_rate": 0.0,
+      "best_composition": "product_hero_closeup",
+      "best_composition_rate": 0.0,
+      "composition_options": [
+        {
+          "value": "product_hero_closeup",
+          "count": 54,
+          "high_eng_rate": 0.0
+        },
+        {
+          "value": "lifestyle_integrated",
+          "count": 6,
+          "high_eng_rate": 0.0
+        },
+        {
+          "value": "editorial",
+          "count": 2,
+          "high_eng_rate": 0.0
+        },
+        {
+          "value": "text_dominant",
+          "count": 1,
+          "high_eng_rate": 0.0
         }
       ]
     },
@@ -5380,8 +5448,8 @@
     "RETAIL × Evergreen (n=8, eng=62%): → home_domestic + natural_daylight + product_hero_closeup",
     "RETAIL_LIFESTYLE × Evergreen (n=276, eng=6%): → office + flat_bright + text_dominant",
     "RETAIL_LIFESTYLE × Seasonal (n=26, eng=3%): → outdoor + natural + lifestyle_integrated",
+    "FASHION × Evergreen (n=112, eng=14%): → outdoor + natural + text_dominant",
     "FASHION × Eid Al Fitr (n=37, eng=40%): → studio + golden_hour + lifestyle_integrated",
-    "FASHION × Evergreen (n=33, eng=48%): → retail_store + flat_bright + text_dominant",
     "Best setting: 'retail_urban' (100%) → natural_daylight light + product_hero_closeup frame"
   ],
   "how_to_use": "Step 1: client sector + content occasion → look up sector_occasion_decision_tree → get recommended_production (setting, lighting, composition, register, tone). Step 2: confirm with setting_guide — use best_lighting and best_composition for that setting. Step 3: cross-check lighting_composition_guide to ensure lighting+framing alignment."

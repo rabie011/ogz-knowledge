@@ -3,39 +3,114 @@
   "sector": "fashion",
   "sector_key": "fashion",
   "corpus_data": {
-    "obs_in_corpus": 29,
-    "avg_engagement": 0.0,
-    "high_eng_count": 0,
-    "low_eng_count": 29
+    "obs_in_corpus": 110,
+    "avg_engagement": 0.459,
+    "high_eng_count": 33,
+    "low_eng_count": 77
   },
-  "winning_signals": [],
-  "losing_signals": [
+  "winning_signals": [
     {
       "dimension": "hvm",
       "value": "modern",
-      "count": 29,
+      "count": 33,
       "pct": 1.0
     },
     {
+      "dimension": "lighting",
+      "value": "natural",
+      "count": 28,
+      "pct": 0.848
+    },
+    {
+      "dimension": "composition",
+      "value": "lifestyle_integrated",
+      "count": 25,
+      "pct": 0.758
+    },
+    {
       "dimension": "visual_complexity",
-      "value": "simple",
-      "count": 27,
-      "pct": 0.931
+      "value": "moderate",
+      "count": 23,
+      "pct": 0.697
+    },
+    {
+      "dimension": "content_type",
+      "value": "image",
+      "count": 19,
+      "pct": 0.576
     },
     {
       "dimension": "setting",
-      "value": "retail_store",
-      "count": 25,
-      "pct": 0.862
+      "value": "outdoor",
+      "count": 19,
+      "pct": 0.576
     },
     {
       "dimension": "tone",
       "value": "informative",
-      "count": 24,
-      "pct": 0.828
+      "count": 16,
+      "pct": 0.485
+    },
+    {
+      "dimension": "setting",
+      "value": "retail_store",
+      "count": 12,
+      "pct": 0.364
     }
   ],
-  "top_patterns": [],
+  "losing_signals": [
+    {
+      "dimension": "hvm",
+      "value": "modern",
+      "count": 76,
+      "pct": 0.987
+    },
+    {
+      "dimension": "tone",
+      "value": "informative",
+      "count": 50,
+      "pct": 0.649
+    },
+    {
+      "dimension": "visual_complexity",
+      "value": "simple",
+      "count": 47,
+      "pct": 0.61
+    },
+    {
+      "dimension": "lighting",
+      "value": "natural",
+      "count": 46,
+      "pct": 0.597
+    }
+  ],
+  "top_patterns": [
+    {
+      "pattern": "everyday_summer_fits",
+      "count": 23,
+      "pct": 0.697
+    },
+    {
+      "pattern": "summer_modest_fits",
+      "count": 18,
+      "pct": 0.545
+    },
+    {
+      "pattern": "abaya_outfit",
+      "count": 17,
+      "pct": 0.515
+    },
+    {
+      "pattern": "modest_looks",
+      "count": 13,
+      "pct": 0.394
+    },
+    {
+      "pattern": "trending_now",
+      "count": 13,
+      "pct": 0.394
+    }
+  ],
   "top_phrases_in_winners": [],
   "recommended_formula": {
     "format": "video",
@@ -45,7 +120,7 @@
     "register": null,
     "heritage_framing": "blended",
     "visual_complexity": "complex",
-    "posting_day": "saturday",
+    "posting_day": "sunday",
     "caption_length": "10-30 words",
     "hashtag_count": "1-5",
     "patterns": [
@@ -60,8 +135,8 @@
   },
   "red_flags": [
     "AVOID format: carousel_slide (31% eng for this occasion)",
-    "AVOID: hvm=modern (found in 100% of low-eng posts)",
-    "AVOID: visual_complexity=simple (found in 93% of low-eng posts)",
+    "AVOID: hvm=modern (found in 98% of low-eng posts)",
+    "AVOID: tone=informative (found in 64% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
     "AVOID: video format if images/carousels are viable — video underperforms"
   ],

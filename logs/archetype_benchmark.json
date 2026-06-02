@@ -5,48 +5,49 @@
     "Heritage Anchor",
     "Occasion Specialist",
     "Community Warm",
-    "Modern Premium",
-    "Mass Market Functional"
+    "Mass Market Functional",
+    "Modern Premium"
   ],
   "comparison_matrix": {
     "high_engagement_rate": {
-      "Heritage Anchor": 0.416,
+      "Heritage Anchor": 0.329,
       "Occasion Specialist": 0.32,
       "Community Warm": 0.284,
-      "Modern Premium": 0.245,
-      "Mass Market Functional": 0.222
+      "Mass Market Functional": 0.251,
+      "Modern Premium": 0.245
     },
     "avg_health_score": {
-      "Heritage Anchor": 0.637,
+      "Heritage Anchor": 0.54,
       "Occasion Specialist": 0.427,
       "Community Warm": 0.462,
-      "Modern Premium": 0.525,
-      "Mass Market Functional": 0.371
+      "Mass Market Functional": 0.371,
+      "Modern Premium": 0.525
     },
     "compliance_risk_per_obs": {
-      "Heritage Anchor": 0.08,
+      "Heritage Anchor": 0.06,
       "Occasion Specialist": 0.07,
       "Community Warm": 0.02,
-      "Modern Premium": 0.05,
-      "Mass Market Functional": 0.0
+      "Mass Market Functional": 0.0,
+      "Modern Premium": 0.05
     }
   },
   "archetype_profiles": [
     {
       "archetype": "Heritage Anchor",
-      "account_count": 4,
+      "account_count": 5,
       "accounts": [
         "OGZ-F-AND-B-Reference-004",
         "OGZ-F-AND-B-Reference-009",
         "OGZ-F-AND-B-Reference-010",
-        "aseeb.najd"
+        "aseeb.najd",
+        "hmksa"
       ],
-      "obs_count": 190,
+      "obs_count": 240,
       "performance": {
-        "avg_engagement_score": 0.511,
-        "high_engagement_rate": 0.416,
-        "avg_health_score": 0.637,
-        "compliance_risk_per_obs": 0.08
+        "avg_engagement_score": 0.404,
+        "high_engagement_rate": 0.329,
+        "avg_health_score": 0.54,
+        "compliance_risk_per_obs": 0.06
       },
       "visual_signature": {
         "dominant_setting": "restaurant",
@@ -55,8 +56,8 @@
         "dominant_lighting": "warm_studio",
         "dominant_tone": "informative",
         "dominant_register": "casual",
-        "character_presence_rate": 0.158,
-        "avg_hospitality_cues": 1.13
+        "character_presence_rate": 0.125,
+        "avg_hospitality_cues": 0.9
       },
       "top_5_patterns": [
         {
@@ -179,6 +180,56 @@
       ]
     },
     {
+      "archetype": "Mass Market Functional",
+      "account_count": 5,
+      "accounts": [
+        "OGZ-RETAIL-Reference-001",
+        "altazaj_fakieh",
+        "herfyfsc",
+        "myfitness.sa",
+        "shawarmersa"
+      ],
+      "obs_count": 374,
+      "performance": {
+        "avg_engagement_score": 0.392,
+        "high_engagement_rate": 0.251,
+        "avg_health_score": 0.371,
+        "compliance_risk_per_obs": 0.0
+      },
+      "visual_signature": {
+        "dominant_setting": "restaurant",
+        "dominant_media_type": "image",
+        "dominant_color_family": "amber_gold",
+        "dominant_lighting": "natural",
+        "dominant_tone": "playful",
+        "dominant_register": "aspirational",
+        "character_presence_rate": 0.021,
+        "avg_hospitality_cues": 0.01
+      },
+      "top_5_patterns": [
+        {
+          "slug": "f_and_b_beverage",
+          "count": 294
+        },
+        {
+          "slug": "arabic_caption",
+          "count": 153
+        },
+        {
+          "slug": "food_content",
+          "count": 107
+        },
+        {
+          "slug": "food_beverage_product",
+          "count": 81
+        },
+        {
+          "slug": "food_photography",
+          "count": 68
+        }
+      ]
+    },
+    {
       "archetype": "Modern Premium",
       "account_count": 23,
       "accounts": [
@@ -245,62 +296,11 @@
           "count": 193
         }
       ]
-    },
-    {
-      "archetype": "Mass Market Functional",
-      "account_count": 6,
-      "accounts": [
-        "OGZ-RETAIL-Reference-001",
-        "altazaj_fakieh",
-        "herfyfsc",
-        "hmksa",
-        "myfitness.sa",
-        "shawarmersa"
-      ],
-      "obs_count": 424,
-      "performance": {
-        "avg_engagement_score": 0.346,
-        "high_engagement_rate": 0.222,
-        "avg_health_score": 0.371,
-        "compliance_risk_per_obs": 0.0
-      },
-      "visual_signature": {
-        "dominant_setting": "restaurant",
-        "dominant_media_type": "image",
-        "dominant_color_family": "amber_gold",
-        "dominant_lighting": "natural",
-        "dominant_tone": "playful",
-        "dominant_register": "aspirational",
-        "character_presence_rate": 0.019,
-        "avg_hospitality_cues": 0.01
-      },
-      "top_5_patterns": [
-        {
-          "slug": "f_and_b_beverage",
-          "count": 294
-        },
-        {
-          "slug": "arabic_caption",
-          "count": 153
-        },
-        {
-          "slug": "food_content",
-          "count": 107
-        },
-        {
-          "slug": "food_beverage_product",
-          "count": 81
-        },
-        {
-          "slug": "food_photography",
-          "count": 68
-        }
-      ]
     }
   ],
   "key_findings": [
-    "Best-performing archetype: Heritage Anchor (41% high eng)",
-    "Worst-performing archetype: Mass Market Functional (22% high eng)",
+    "Best-performing archetype: Heritage Anchor (32% high eng)",
+    "Worst-performing archetype: Modern Premium (24% high eng)",
     "Heritage Anchor uses dramatically higher hospitality cue density than Modern Premium",
     "Community Warm archetype relies more on character presence than any other archetype"
   ]

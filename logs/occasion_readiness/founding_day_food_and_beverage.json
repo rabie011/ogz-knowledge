@@ -3,23 +3,17 @@
   "sector": "food_and_beverage",
   "sector_key": "f_and_b",
   "corpus_data": {
-    "obs_in_corpus": 22,
-    "avg_engagement": 0.636,
+    "obs_in_corpus": 13,
+    "avg_engagement": 0.923,
     "high_eng_count": 11,
-    "low_eng_count": 11
+    "low_eng_count": 2
   },
   "winning_signals": [
     {
-      "dimension": "visual_complexity",
-      "value": "moderate",
-      "count": 7,
-      "pct": 0.636
-    },
-    {
-      "dimension": "hvm",
-      "value": "heritage",
-      "count": 7,
-      "pct": 0.636
+      "dimension": "content_type",
+      "value": "image",
+      "count": 6,
+      "pct": 0.545
     },
     {
       "dimension": "composition",
@@ -28,62 +22,43 @@
       "pct": 0.545
     },
     {
-      "dimension": "content_type",
-      "value": "image",
-      "count": 4,
-      "pct": 0.364
+      "dimension": "visual_complexity",
+      "value": "moderate",
+      "count": 6,
+      "pct": 0.545
     },
     {
-      "dimension": "content_type",
-      "value": "video",
-      "count": 4,
-      "pct": 0.364
-    },
-    {
-      "dimension": "setting",
-      "value": "restaurant",
-      "count": 4,
-      "pct": 0.364
+      "dimension": "hvm",
+      "value": "heritage",
+      "count": 6,
+      "pct": 0.545
     },
     {
       "dimension": "visual_complexity",
       "value": "simple",
-      "count": 4,
-      "pct": 0.364
-    },
-    {
-      "dimension": "register",
-      "value": "formal",
-      "count": 4,
-      "pct": 0.364
-    }
-  ],
-  "losing_signals": [
-    {
-      "dimension": "setting",
-      "value": "restaurant",
-      "count": 10,
-      "pct": 0.909
+      "count": 5,
+      "pct": 0.455
     },
     {
       "dimension": "tone",
       "value": "celebratory",
-      "count": 10,
-      "pct": 0.909
+      "count": 5,
+      "pct": 0.455
     },
     {
-      "dimension": "content_type",
-      "value": "image",
-      "count": 6,
-      "pct": 0.545
+      "dimension": "setting",
+      "value": "restaurant",
+      "count": 4,
+      "pct": 0.364
     },
     {
       "dimension": "lighting",
-      "value": "warm_studio",
-      "count": 6,
-      "pct": 0.545
+      "value": "natural",
+      "count": 4,
+      "pct": 0.364
     }
   ],
+  "losing_signals": [],
   "top_patterns": [
     {
       "pattern": "founding_day_dirayyah_heritage",
@@ -92,8 +67,8 @@
     },
     {
       "pattern": "f_and_b_beverage",
-      "count": 4,
-      "pct": 0.364
+      "count": 5,
+      "pct": 0.455
     },
     {
       "pattern": "national_day_campaign",
@@ -101,9 +76,9 @@
       "pct": 0.273
     },
     {
-      "pattern": "arabic_caption",
-      "count": 3,
-      "pct": 0.273
+      "pattern": "brand_promotional",
+      "count": 2,
+      "pct": 0.182
     },
     {
       "pattern": "close_up_macro_texture",
@@ -141,8 +116,6 @@
   },
   "red_flags": [
     "AVOID format: video (75% eng for this occasion)",
-    "AVOID: setting=restaurant (found in 90% of low-eng posts)",
-    "AVOID: tone=celebratory (found in 90% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
     "AVOID: video format if images/carousels are viable — video underperforms"
   ],

@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "generated_at": "2026-06-02T14:31:02Z",
+  "generated_at": "2026-06-02T15:16:40Z",
   "title": "OGZ Saudi Instagram Intelligence Playbook v4",
   "corpus": {
     "total_observations": 648,
@@ -435,28 +435,28 @@
       "heritage_uplift": 0.013,
       "by_dialect": {
         "unknown": {
-          "avg": 0.837,
-          "n": 83
-        },
-        "najdi": {
-          "avg": 0.566,
-          "n": 348
+          "avg": 0.81,
+          "n": 87
         },
         "mixed": {
-          "avg": 0.56,
-          "n": 250
+          "avg": 0.524,
+          "n": 293
+        },
+        "najdi": {
+          "avg": 0.497,
+          "n": 431
         },
         "eastern": {
           "avg": 0.389,
           "n": 18
         },
         "hijazi": {
-          "avg": 0.375,
-          "n": 978
+          "avg": 0.365,
+          "n": 1096
         },
-        "non_arabic": {
-          "avg": 0.294,
-          "n": 51
+        "msa": {
+          "avg": 0.29,
+          "n": 607
         }
       },
       "agency_rules": [
@@ -464,7 +464,7 @@
         "Best register: 'professional' (96%)",
         "Best voice combo: tone='celebratory' + register='visual_only' (100%, n=3)",
         "Heritage beats modern by +1% (39% vs 38%) — use heritage cues in briefs",
-        "Best dialect signal: 'unknown' (84%)",
+        "Best dialect signal: 'unknown' (81%)",
         "Best cultural combo: heritage + mixed (100%, n=5)"
       ]
     },
@@ -784,103 +784,143 @@
         "monday",
         "wednesday",
         "saturday",
-        "sunday",
-        "thursday",
         "tuesday",
-        "friday"
+        "friday",
+        "sunday",
+        "thursday"
       ],
       "by_day": {
         "monday": {
-          "avg": 0.604,
-          "n": 53
+          "avg": 0.414,
+          "n": 396
         },
         "tuesday": {
-          "avg": 0.525,
-          "n": 59
+          "avg": 0.355,
+          "n": 392
         },
         "wednesday": {
-          "avg": 0.591,
-          "n": 44
+          "avg": 0.393,
+          "n": 396
         },
         "thursday": {
-          "avg": 0.533,
-          "n": 46
+          "avg": 0.32,
+          "n": 444
         },
         "friday": {
-          "avg": 0.511,
-          "n": 44
+          "avg": 0.35,
+          "n": 341
         },
         "saturday": {
-          "avg": 0.588,
-          "n": 40
+          "avg": 0.375,
+          "n": 301
         },
         "sunday": {
-          "avg": 0.581,
-          "n": 43
+          "avg": 0.35,
+          "n": 360
         }
       },
       "best_by_sector": {
         "f_and_b": {
-          "best_day": "sunday",
-          "avg_engagement": 0.821,
-          "n": 28
+          "best_day": "monday",
+          "avg_engagement": 0.535,
+          "n": 244
+        },
+        "retail_lifestyle": {
+          "best_day": "wednesday",
+          "avg_engagement": 0.245,
+          "n": 53
         },
         "fashion": {
           "best_day": "monday",
-          "avg_engagement": 0.045,
-          "n": 11
+          "avg_engagement": 0.5,
+          "n": 29
         },
         "retail": {
           "best_day": "friday",
           "avg_engagement": 1.0,
           "n": 2
         },
+        "beauty_personal_care": {
+          "best_day": "friday",
+          "avg_engagement": 0.161,
+          "n": 31
+        },
         "beauty": {
           "best_day": "saturday",
           "avg_engagement": 0.625,
           "n": 4
+        },
+        "healthcare_wellness": {
+          "best_day": "wednesday",
+          "avg_engagement": 0.556,
+          "n": 18
+        },
+        "real_estate": {
+          "best_day": "sunday",
+          "avg_engagement": 0.133,
+          "n": 15
         }
       },
       "best_by_occasion": {
         "evergreen": {
-          "best_day": "saturday",
-          "avg_engagement": 0.672,
-          "n": 222
+          "best_day": "sunday",
+          "avg_engagement": 0.427,
+          "n": 1202
         },
         "ramadan": {
-          "best_day": "sunday",
-          "avg_engagement": 1.0,
-          "n": 20
+          "best_day": "wednesday",
+          "avg_engagement": 0.436,
+          "n": 396
+        },
+        "riyadh_season": {
+          "best_day": "monday",
+          "avg_engagement": 0.351,
+          "n": 681
+        },
+        "jeddah_season": {
+          "best_day": "monday",
+          "avg_engagement": 0.781,
+          "n": 95
         },
         "eid_al_adha": {
           "best_day": "tuesday",
           "avg_engagement": 0.5,
-          "n": 7
+          "n": 10
+        },
+        "eid_al_fitr": {
+          "best_day": "thursday",
+          "avg_engagement": 1.0,
+          "n": 47
         },
         "founding_day": {
           "best_day": "tuesday",
           "avg_engagement": 1.0,
-          "n": 7
+          "n": 13
+        },
+        "national_day": {
+          "best_day": "thursday",
+          "avg_engagement": 1.0,
+          "n": 29
         },
         "sporting_event": {
           "best_day": "tuesday",
           "avg_engagement": 0.5,
           "n": 6
         },
-        "national_day": {
-          "best_day": "sunday",
+        "leap_conference": {
+          "best_day": "monday",
           "avg_engagement": 1.0,
-          "n": 6
+          "n": 76
+        },
+        "hajj_season": {
+          "best_day": "thursday",
+          "avg_engagement": 0.75,
+          "n": 57
         },
         "summer_campaign": {
           "best_day": "monday",
           "avg_engagement": 1.0,
           "n": 5
-        },
-        "riyadh_season": {
-          "best_day": "monday",
-          "avg_engagement": 0.125,
-          "n": 36
         }
       },
       "agency_rules": []
@@ -1043,7 +1083,7 @@
             },
             "dialect": {
               "value": "hijazi",
-              "pct": 0.494
+              "pct": 0.504
             },
             "production_quality": {
               "value": "professional",
@@ -1195,7 +1235,7 @@
               "pct": 0.875
             },
             "dialect": {
-              "value": "general_saudi",
+              "value": "mixed",
               "pct": 1.0
             },
             "production_quality": {
@@ -1239,7 +1279,7 @@
             },
             "dialect": {
               "value": "msa",
-              "pct": 0.482
+              "pct": 0.486
             },
             "production_quality": {
               "value": "semi_professional",
@@ -1293,7 +1333,7 @@
               "pct": 0.733
             },
             "dialect": {
-              "value": "hejazi",
+              "value": "hijazi",
               "pct": 0.667
             },
             "production_quality": {
@@ -1474,8 +1514,8 @@
           "dimension": "dialect",
           "value": "najdi",
           "elite_pct": 0.418,
-          "weak_pct": 0.101,
-          "elite_advantage": 0.317
+          "weak_pct": 0.129,
+          "elite_advantage": 0.289
         },
         {
           "dimension": "visual_complexity",
@@ -1574,8 +1614,8 @@
           "dimension": "dialect",
           "value": "hijazi",
           "elite_pct": 0.224,
-          "weak_pct": 0.449,
-          "elite_advantage": -0.225
+          "weak_pct": 0.433,
+          "elite_advantage": -0.209
         },
         {
           "dimension": "setting",
@@ -1711,15 +1751,6 @@
           "confidence": "high"
         },
         {
-          "dimension": "dialect",
-          "value": "gulf",
-          "count": 13,
-          "avg_engagement": 0.923,
-          "lift_vs_avg": 0.514,
-          "high_rate": 0.846,
-          "confidence": "low"
-        },
-        {
           "dimension": "color_warmth",
           "value": "neutral",
           "count": 13,
@@ -1727,6 +1758,15 @@
           "lift_vs_avg": 0.514,
           "high_rate": 0.923,
           "confidence": "low"
+        },
+        {
+          "dimension": "register",
+          "value": "promotional",
+          "count": 18,
+          "avg_engagement": 0.917,
+          "lift_vs_avg": 0.508,
+          "high_rate": 0.833,
+          "confidence": "medium"
         }
       ],
       "top_killers": [
@@ -2556,32 +2596,74 @@
           "lift_vs_corpus": 0.614
         },
         {
+          "value": "founding_day",
+          "count": 2,
+          "pct": 0.004,
+          "avg_engagement": 0.75,
+          "lift_vs_corpus": 0.364
+        },
+        {
+          "value": "jeddah_season",
+          "count": 29,
+          "pct": 0.057,
+          "avg_engagement": 0.707,
+          "lift_vs_corpus": 0.321
+        },
+        {
+          "value": "national_day",
+          "count": 5,
+          "pct": 0.01,
+          "avg_engagement": 0.5,
+          "lift_vs_corpus": 0.114
+        },
+        {
           "value": "evergreen",
-          "count": 83,
-          "pct": 0.162,
-          "avg_engagement": 0.741,
-          "lift_vs_corpus": 0.355
+          "count": 257,
+          "pct": 0.501,
+          "avg_engagement": 0.455,
+          "lift_vs_corpus": 0.069
         },
         {
           "value": "ramadan",
-          "count": 4,
-          "pct": 0.008,
-          "avg_engagement": 0.625,
-          "lift_vs_corpus": 0.239
+          "count": 64,
+          "pct": 0.125,
+          "avg_engagement": 0.367,
+          "lift_vs_corpus": -0.019
         },
         {
-          "value": "eid_al_adha",
-          "count": 5,
-          "pct": 0.01,
-          "avg_engagement": 0.0,
-          "lift_vs_corpus": -0.386
+          "value": "riyadh_season",
+          "count": 120,
+          "pct": 0.234,
+          "avg_engagement": 0.279,
+          "lift_vs_corpus": -0.107
+        },
+        {
+          "value": "leap_conference",
+          "count": 6,
+          "pct": 0.012,
+          "avg_engagement": 0.25,
+          "lift_vs_corpus": -0.136
+        },
+        {
+          "value": "eid_al_fitr",
+          "count": 6,
+          "pct": 0.012,
+          "avg_engagement": 0.25,
+          "lift_vs_corpus": -0.136
         },
         {
           "value": "hajj_season",
-          "count": 2,
-          "pct": 0.004,
-          "avg_engagement": 0.0,
-          "lift_vs_corpus": -0.386
+          "count": 11,
+          "pct": 0.021,
+          "avg_engagement": 0.227,
+          "lift_vs_corpus": -0.159
+        },
+        {
+          "value": "eid_al_adha",
+          "count": 6,
+          "pct": 0.012,
+          "avg_engagement": 0.167,
+          "lift_vs_corpus": -0.219
         }
       ],
       "high_eng_signals": [
@@ -2628,7 +2710,7 @@
         "visual_complexity": "complex",
         "tone": "aspirational",
         "lighting": "cold_studio",
-        "best_day": "wednesday",
+        "best_day": "monday",
         "predicted_engagement": 0.411
       },
       "agency_rules": [

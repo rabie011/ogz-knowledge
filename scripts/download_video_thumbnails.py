@@ -180,7 +180,7 @@ def main() -> None:
     )
     try:
         L.load_session_from_cookies_txt(
-            "/Users/abarihm/Library/Application Support/Google/Chrome/Default/Cookies"
+            "/Users/abarihm/Library/Application Support/Google/Chrome/Profile 1/Cookies"
         )
         print("  Loaded Chrome cookies ✅")
     except Exception as e:

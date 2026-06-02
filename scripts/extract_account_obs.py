@@ -438,6 +438,65 @@ def _get_apify_credit() -> float:
         return 999.0   # on error, let Apify fail naturally (avoids killing on transient)
 
 
+
+
+# ── HikerAPI extraction (alternative to Apify — pay-per-use, no monthly limit) ─
+def extract_via_hikerapi(
+    handle: str,
+    sector: str,
+    needed: dict,
+    seen_urls: set,
+) -> tuple[list[dict], bool]:
+    """
+    Extract posts via HikerAPI. Set HIKER_API_KEY in ~/.abraham_env to use.
+    Cost: ~$0.0006/request. No monthly limit. Uses residential proxies.
+    """
+    api_key = os.environ.get("HIKER_API_KEY", "")
+    if not api_key:
+        return [], False
+
+    import requests as _req
+    total_needed = sum(needed.values())
+    results_limit = min(max(total_needed * 3, 50), 200)
+
+    print(f"  Fetching @{handle} via HikerAPI (limit={results_limit})...", flush=True)
+    try:
+        r = _req.get(
+            "https://api.hikerapi.com/v1/user/medias/chunk",
+            params={"username": handle, "amount": results_limit},
+            headers={"accept": "application/json", "x-access-key": api_key},
+            timeout=60,
+        )
+        r.raise_for_status()
+        data = r.json()
+        items = data if isinstance(data, list) else data.get("items", data.get("data", []))
+    except Exception as e:
+        print(f"  HikerAPI error: {e}", flush=True)
+        return [], False
+
+    TYPE_MAP = {"1": "image", "2": "video", "8": "carousel_slide"}
+    collected = []
+    for item in items:
+        url = f"https://www.instagram.com/p/{item.get('code', item.get('shortCode', ''))}/"
+        if not url or url in seen_urls: continue
+        ct = TYPE_MAP.get(str(item.get("media_type", "1")), "image")
+        if needed.get(ct, 0) <= 0: continue
+        cap = item.get("caption", {})
+        caption_text = cap.get("text", "") if isinstance(cap, dict) else str(cap or "")
+        collected.append({
+            "source_url": url,
+            "content_type": ct,
+            "capture_date": (item.get("taken_at_datetime", "") or "")[:10],
+            "caption_text": caption_text,
+            "likes_count": item.get("like_count", 0),
+            "comments_count": item.get("comment_count", 0),
+            "video_duration": item.get("video_duration", None),
+        })
+        needed[ct] = max(0, needed[ct] - 1)
+
+    exhausted = sum(needed.values()) > 0 and len(collected) < results_limit
+    return collected, exhausted
+
 # ── Smart dispatcher: Apify first, instaloader fallback ───────────────────────
 def extract_posts(
     handle: str,
@@ -469,8 +528,14 @@ def extract_posts(
         err_str = str(e).lower()
         if any(kw in err_str for kw in ("billing", "credit", "limit", "payment", "quota")):
             print(f"  APIFY BILLING ERROR: {e}", flush=True)
-            print("  APIFY_BUDGET_EXHAUSTED", flush=True)   # sentinel for daemon
-            return [], False
+            # Try HikerAPI if key is set (pay-per-use, no monthly limit)
+            hiker_key = os.environ.get("HIKER_API_KEY", "")
+            if hiker_key:
+                print(f"  Trying HikerAPI fallback...", flush=True)
+                result = extract_via_hikerapi(handle, sector, needed, seen_urls)
+                if result[0]: return result
+            print(f"  Falling back to instaloader...", flush=True)
+            return extract_via_instaloader(handle, sector, needed, seen_urls)
         print(f"  Apify error ({e}) — falling back to instaloader", flush=True)
         return extract_via_instaloader(handle, sector, needed, seen_urls)
 

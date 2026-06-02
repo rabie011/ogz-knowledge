@@ -593,6 +593,14 @@ def validate() -> bool:
         if stderr: log.warning(stderr[-200:])
     else:
         log.info("  ✅ Validation passed")
+    if passed:
+        rc2, stdout2, stderr2 = _run(
+            [sys.executable, "scripts/guard_data_quality.py"],
+            timeout=300,
+        )
+        if rc2 != 0:
+            log.warning("  ⚠️ Data quality guard found issues (non-blocking)")
+            if stdout2: log.warning(stdout2[-500:])
     return passed
 
 

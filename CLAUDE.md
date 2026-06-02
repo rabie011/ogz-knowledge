@@ -2,6 +2,14 @@
 
 **Read this first. Then read `BUILD_PLAN.md`. Then start work.**
 
+## Verification Rule — MANDATORY
+Before claiming ANY data quality work is done, run:
+```
+python3 scripts/verify_ship_ready.py
+```
+Exit code must be 0. If any check fails, fix it before committing.
+This script checks field completeness thresholds, ghost accounts, pattern integrity, chain coverage, embeddings, and DB schema. Do NOT mark work complete based on what you think you did — verify with the script.
+
 This file tells you everything you need to know to continue building `ogz-knowledge` on Mohamed's machine. The repo skeleton, schemas, and the 88 chain library are already built. You'll execute Days 2-5 of the build plan.
 
 ---

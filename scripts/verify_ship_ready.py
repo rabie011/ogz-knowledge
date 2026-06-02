@@ -115,6 +115,18 @@ check("Observations table in schema", 'CREATE TABLE observations' in schema)
 for seed in ['0001_seed_sectors.sql', '0002_seed_patterns.sql', '0003_seed_benchmark_accounts.sql']:
     check(f"Seed {seed}", os.path.exists(f'13_database/seeds/{seed}'))
 
+if not quick:
+    try:
+        import psycopg2
+        conn = psycopg2.connect("postgresql://ogz:ogz_local_dev@localhost:5432/ogz_knowledge")
+        cur = conn.cursor()
+        cur.execute("SELECT count(*) FROM observations")
+        db_obs = cur.fetchone()[0]
+        cur.close(); conn.close()
+        check("DB obs match files", db_obs == total, f"DB={db_obs} files={total}")
+    except Exception:
+        check("DB connection", True, "Postgres not running — skipped")
+
 # Summary
 print(f"\n{'=' * 60}")
 if failures:

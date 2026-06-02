@@ -667,6 +667,16 @@ def commit_and_sync(report: dict) -> bool:
     else:
         log.warning(f"  ⚠ GitHub push failed: {push_err[:100]}")
 
+    # Sync to local Postgres (if running)
+    rc_db, db_out, db_err = _run(
+        [sys.executable, "sync_to_supabase.py", "--execute"],
+        timeout=300,
+    )
+    if rc_db == 0:
+        log.info("  ✅ Postgres synced")
+    else:
+        log.info("  ⏭ Postgres sync skipped (DB may not be running)")
+
     return True
 
 

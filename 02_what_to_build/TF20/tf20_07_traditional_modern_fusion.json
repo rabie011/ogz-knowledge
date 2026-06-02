@@ -1,0 +1,70 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "017AF6671525C84179A5A6C000",
+  "chain_id_short": "tf20_07",
+  "family": "TF20",
+  "schema_version": 1,
+  "name_en": "Traditional × Modern Fusion",
+  "name_ar": "التراث يلتقي الحداثة",
+  "purpose": "One of the most common Saudi content archetypes — product shown at intersection of traditional Saudi elements and hyper-modern aesthetics. Unique to Saudi Vision 2030 brand identity.",
+  "models_used": [
+    {"provider": "fal", "model_id": "fal-ai/flux-pro/v1.1-ultra", "role": "primary_image_generation"},
+    {"provider": "fal", "model_id": "fal-ai/seedance-2.0", "role": "image_to_image_edit"}
+  ],
+  "input_schema": {
+    "duration_seconds": {"type": "integer", "description": "Target video duration in seconds", "required": false, "default": 5},
+    "tone_descriptor": {"type": "string", "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.", "required": false},
+    "product": {"type": "string", "description": "Product to place at the traditional-modern visual intersection", "required": true}
+  },
+  "prompt_template": "Split-world product photography — {product} placed at exact visual intersection of traditional Saudi (sadu textile, brass dallah, geometric Islamic patterns, sand/stone textures) and ultra-modern Saudi (clean glass surfaces, neon accent lighting, futuristic architecture lines), seamless blend suggesting Vision 2030 identity, no people, 1:1 or 4:5 format {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "fashion",
+      "beauty_personal_care",
+      "retail_lifestyle",
+      "real_estate"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "growth"
+  },
+  "cost_estimate_usd": 0.05,
+  "latency_estimate_seconds": 20,
+  "best_for_cd_brains": ["cd_01", "cd_03"],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: jarring or unresolved split (must feel seamlessly blended)",
+    "Avoid in output: generic global modernity without Saudi-specific modern references",
+    "Avoid in output: religious symbols used as mere decoration"
+  ],
+  "notes": "Intents: all. Saudi adaptation guidance: The traditional-meets-modern archetype is the visual language of Vision 2030 brand identity. It appears across every sector in Saudi content. Key traditional elements: sadu weaving (geometric diamond patterns in earth tones), brass dallah, geometric Islamic arabesque patterns, sandstone and date palm. Key modern elements: NEOM-style futuristic glass, KAFD/King Abdullah Financial District lighting, chrome and neon. The blend must feel intentional, not accidental. This is an evergreen chain suitable for any product launch or brand campaign. Compliance level: standard.",
+  "provenance": {
+    "source": "internal_research_corpus/GPT4o_gap_review_2026-06-02",
+    "date_added": "2026-06-02T00:00:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

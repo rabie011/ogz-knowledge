@@ -1,0 +1,73 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01EAA99F804A374A6DBE73697A",
+  "chain_id_short": "tf20_06",
+  "family": "TF20",
+  "schema_version": 1,
+  "name_en": "Saudi Cultural Heritage Showcase",
+  "name_ar": "عرض التراث السعودي",
+  "purpose": "Content that celebrates Saudi historical sites, traditional crafts, AlUla/Diriyah/Hegra aesthetic, traditional music/dance references. Heritage × modern brands.",
+  "models_used": [
+    {"provider": "fal", "model_id": "fal-ai/flux-pro/v1.1-ultra", "role": "primary_image_generation"},
+    {"provider": "fal", "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video", "role": "image_to_image_edit"}
+  ],
+  "input_schema": {
+    "duration_seconds": {"type": "integer", "description": "Target video duration in seconds", "required": false, "default": 5},
+    "tone_descriptor": {"type": "string", "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.", "required": false},
+    "subject_descriptor": {"type": "string", "description": "Subject or product to present within the heritage visual context", "required": true}
+  },
+  "prompt_template": "Saudi cultural heritage visual — {subject_descriptor} presented with authentic Najdi/Hejazi architectural elements, sadu weaving patterns, traditional Saudi crafts as backdrop, warm sandstone and desert palette, golden hour lighting suggesting timelessness, shot evoking AlUla or Diriyah aesthetic, no text, no watermark, hyper-realistic textures {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1350,
+    "aspect_ratio_label": "4:5"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "real_estate",
+      "retail_lifestyle",
+      "fashion"
+    ],
+    "occasions_allowed": [
+      "founding_day",
+      "national_day",
+      "riyadh_season",
+      "winter_tantora",
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "growth"
+  },
+  "cost_estimate_usd": 0.05,
+  "latency_estimate_seconds": 20,
+  "best_for_cd_brains": ["cd_01", "cd_03", "cd_04"],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: stereotyped or inauthentic representations of Saudi heritage",
+    "Avoid in output: modern architectural elements that break the heritage atmosphere",
+    "Avoid in output: harsh or artificial studio lighting"
+  ],
+  "notes": "Intents: all. Saudi adaptation guidance: Heritage content is an evergreen category but peaks around Founding Day (Feb 22), National Day (Sep 23), Winter Tantora at AlUla (Dec–Feb), and Riyadh Season. Key visual anchors: AlUla sandstone formations, Diriyah mud-brick architecture (At-Turaif), sadu weaving geometric patterns, dallah coffee pots, and traditional Najdi/Hejazi motifs. This chain should evoke timelessness and Saudi civilizational pride — not costume or caricature. Recommended frequency: 2-4 times per month as evergreen content. Compliance level: standard.",
+  "provenance": {
+    "source": "internal_research_corpus/GPT4o_gap_review_2026-06-02",
+    "date_added": "2026-06-02T00:00:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

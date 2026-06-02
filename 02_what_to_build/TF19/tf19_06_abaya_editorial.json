@@ -1,0 +1,71 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "0175C4B539FB9842C3802F658E",
+  "chain_id_short": "tf19_06",
+  "family": "TF19",
+  "schema_version": 1,
+  "name_en": "Abaya Editorial",
+  "name_ar": "إديتوريال العباءة",
+  "purpose": "Premium abaya fashion editorial. One of the largest Saudi fashion content categories — requires specific modesty, no face-forward required, architectural framing preferred.",
+  "models_used": [
+    {"provider": "fal", "model_id": "fal-ai/flux-pro/v1.1-ultra", "role": "primary_image_generation"},
+    {"provider": "fal", "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video", "role": "image_to_image_edit"}
+  ],
+  "input_schema": {
+    "duration_seconds": {"type": "integer", "description": "Target video duration in seconds", "required": false, "default": 5},
+    "tone_descriptor": {"type": "string", "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.", "required": false},
+    "abaya_descriptor": {"type": "string", "description": "Abaya style, fabric, color, and design details for the editorial", "required": true}
+  },
+  "prompt_template": "Premium Saudi abaya editorial photography — {abaya_descriptor} worn by faceless or modest model (back-facing, three-quarter, or silhouette preferred), dramatic architectural setting (modern Riyadh interior or Najdi heritage courtyard), dark or neutral background enhancing fabric quality, fabric movement or drape emphasized, no face visible, shot on 85mm at f/2.8, luxury fashion editorial quality {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1350,
+    "aspect_ratio_label": "4:5"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "fashion",
+      "retail_lifestyle",
+      "beauty_personal_care"
+    ],
+    "occasions_allowed": [
+      "*",
+      "eid_al_fitr",
+      "national_day"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 14
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": true,
+    "requires_gesture_check": true,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "starter"
+  },
+  "cost_estimate_usd": 0.04,
+  "latency_estimate_seconds": 18,
+  "best_for_cd_brains": ["cd_01", "cd_03"],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: face-forward shot without proper hijab coverage",
+    "Avoid in output: form-fitting or body-revealing styling",
+    "Avoid in output: exposed hair",
+    "Avoid in output: low-quality or costume-like abaya appearance"
+  ],
+  "notes": "Intents: launch, grow. Saudi adaptation guidance: Abaya is the dominant fashion category on Saudi women's Instagram. Silhouette-first editorial (back, three-quarter, or full silhouette) is the safe default and also produces the most visually striking results — fabric drape and architectural setting become the primary subjects. If a face is shown, hijab must be completely correct with no hair visible. Settings: modern Riyadh marble interiors, Najdi mud-brick doorways, desert dunes at golden hour. Peaks during Eid al-Fitr (new collection season) and National Day (heritage-colored abayas). Recommended frequency: 3-5 per week for modest fashion brands during peak windows. Compliance level: elevated.",
+  "provenance": {
+    "source": "internal_research_corpus/GPT4o_gap_review_2026-06-02",
+    "date_added": "2026-06-02T00:00:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

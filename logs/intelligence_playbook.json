@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "generated_at": "2026-06-02T13:19:38Z",
+  "generated_at": "2026-06-02T14:31:02Z",
   "title": "OGZ Saudi Instagram Intelligence Playbook v4",
   "corpus": {
     "total_observations": 648,
@@ -434,29 +434,29 @@
       },
       "heritage_uplift": 0.013,
       "by_dialect": {
-        "gulf": {
-          "avg": 0.923,
-          "n": 13
-        },
-        "colloquial_arabic": {
-          "avg": 0.909,
-          "n": 11
-        },
-        "general_saudi": {
-          "avg": 0.833,
-          "n": 12
-        },
         "unknown": {
-          "avg": 0.821,
-          "n": 70
-        },
-        "hejazi": {
-          "avg": 0.641,
-          "n": 32
+          "avg": 0.837,
+          "n": 83
         },
         "najdi": {
           "avg": 0.566,
           "n": 348
+        },
+        "mixed": {
+          "avg": 0.56,
+          "n": 250
+        },
+        "eastern": {
+          "avg": 0.389,
+          "n": 18
+        },
+        "hijazi": {
+          "avg": 0.375,
+          "n": 978
+        },
+        "non_arabic": {
+          "avg": 0.294,
+          "n": 51
         }
       },
       "agency_rules": [
@@ -464,8 +464,8 @@
         "Best register: 'professional' (96%)",
         "Best voice combo: tone='celebratory' + register='visual_only' (100%, n=3)",
         "Heritage beats modern by +1% (39% vs 38%) — use heritage cues in briefs",
-        "Best dialect signal: 'gulf' (92%)",
-        "Best cultural combo: heritage + standard (100%, n=3)"
+        "Best dialect signal: 'unknown' (84%)",
+        "Best cultural combo: heritage + mixed (100%, n=5)"
       ]
     },
     "caption": {
@@ -1506,6 +1506,13 @@
           "elite_advantage": 0.176
         },
         {
+          "dimension": "dialect",
+          "value": "unknown",
+          "elite_pct": 0.172,
+          "weak_pct": 0.009,
+          "elite_advantage": 0.163
+        },
+        {
           "dimension": "setting",
           "value": "restaurant_indoor",
           "elite_pct": 0.158,
@@ -1517,13 +1524,6 @@
           "value": "dramatic_moody",
           "elite_pct": 0.141,
           "weak_pct": 0.001,
-          "elite_advantage": 0.14
-        },
-        {
-          "dimension": "lighting",
-          "value": "natural_daylight",
-          "elite_pct": 0.144,
-          "weak_pct": 0.004,
           "elite_advantage": 0.14
         }
       ],
@@ -1564,18 +1564,18 @@
           "elite_advantage": -0.259
         },
         {
-          "dimension": "dialect",
-          "value": "hijazi",
-          "elite_pct": 0.191,
-          "weak_pct": 0.433,
-          "elite_advantage": -0.242
-        },
-        {
           "dimension": "content_type",
           "value": "video",
           "elite_pct": 0.155,
           "weak_pct": 0.388,
           "elite_advantage": -0.233
+        },
+        {
+          "dimension": "dialect",
+          "value": "hijazi",
+          "elite_pct": 0.224,
+          "weak_pct": 0.449,
+          "elite_advantage": -0.225
         },
         {
           "dimension": "setting",

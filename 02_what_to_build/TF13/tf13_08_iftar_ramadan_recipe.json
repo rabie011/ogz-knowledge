@@ -1,0 +1,68 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "014CA76875E8954B42962B7C7B",
+  "chain_id_short": "tf13_08",
+  "family": "TF13",
+  "schema_version": 1,
+  "name_en": "Ramadan Recipe Hero",
+  "name_ar": "وصفة رمضانية",
+  "purpose": "Step-by-step recipe or food hero for Ramadan-specific dishes. Extends the beverage/food TF13 family for the most important F&B content window.",
+  "models_used": [
+    {"provider": "fal", "model_id": "fal-ai/flux-pro/v1.1", "role": "primary_image_generation"},
+    {"provider": "fal", "model_id": "fal-ai/seedance-2.0", "role": "image_to_image_edit"}
+  ],
+  "input_schema": {
+    "duration_seconds": {"type": "integer", "description": "Target video duration in seconds", "required": false, "default": 5},
+    "tone_descriptor": {"type": "string", "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.", "required": false},
+    "dish_name": {"type": "string", "description": "Name of the Ramadan dish to hero — e.g. harees, jareesh, umm ali, samboosa", "required": true}
+  },
+  "prompt_template": "Warm Ramadan recipe hero photography of {dish_name} — traditional Saudi or Levantine dish plated for iftar, warm tungsten amber lighting suggesting post-sunset, steam or freshness visual cues, saffron/gold color accent in styling, authentic serving vessel (brass, ceramic, traditional), one or two garnish elements, no people, overhead or 45-degree angle, f/5.6 depth showing full dish context, just-after-Maghreb warmth {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "food_and_beverage"
+    ],
+    "occasions_allowed": [
+      "ramadan"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 7
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": true,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "starter"
+  },
+  "cost_estimate_usd": 0.025,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": ["cd_03", "cd_04"],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: alcohol",
+    "Avoid in output: pork",
+    "Avoid in output: bright daylight or cold lighting (must feel post-sunset warmth)",
+    "Avoid in output: modern minimalist plating that erases Saudi identity"
+  ],
+  "notes": "Intents: all. Saudi adaptation guidance: Ramadan is the single most important content window for F&B brands in Saudi Arabia. Recipe hero shots should communicate just-after-iftar warmth (post-Maghreb amber light). Key Ramadan dishes for Saudi context: harees, jareesh, saleeg, kabsa, samboosa, umm ali, kunafa, qatayef, dates in all preparations. Saffron and gold color accents are culturally resonant Ramadan styling signals. Serving vessels: brass trays, ceramic bowls, traditional platters. Recommended frequency: daily during Ramadan for active F&B brands. Compliance level: elevated.",
+  "provenance": {
+    "source": "internal_research_corpus/GPT4o_gap_review_2026-06-02",
+    "date_added": "2026-06-02T00:00:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

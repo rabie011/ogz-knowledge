@@ -9,23 +9,14 @@
   },
   "unique_values": {
     "dialects": [
-      "colloquial_arabic",
       "eastern",
-      "english_arabic_mixed",
-      "general_saudi",
-      "gulf",
-      "hejazi",
       "hijazi",
-      "hjazi",
       "mixed",
       "msa",
-      "msа",
       "najdi",
       "non_arabic",
       "null",
-      "saudi_colloquial",
       "southern",
-      "standard",
       "unknown"
     ],
     "registers": [
@@ -63,18 +54,15 @@
       "winter_seasonal"
     ]
   },
-  "anomalies": [],
+  "anomalies": [
+    {
+      "type": "formal_msa_on_casual_occasion",
+      "combo": "msa/formal/evergreen",
+      "count": 6,
+      "note": "MSA formal used on casual occasion — may be overly stiff"
+    }
+  ],
   "dialect_summary": {
-    "colloquial_arabic": {
-      "total_obs": 11,
-      "top_registers": {
-        "casual": 10,
-        "promotional": 1
-      },
-      "top_occasions": {
-        "evergreen": 11
-      }
-    },
     "eastern": {
       "total_obs": 18,
       "top_registers": {
@@ -85,115 +73,53 @@
         "seasonal": 1
       }
     },
-    "english_arabic_mixed": {
-      "total_obs": 1,
+    "hijazi": {
+      "total_obs": 978,
       "top_registers": {
-        "professional": 1
-      },
-      "top_occasions": {
-        "national_day": 1
-      }
-    },
-    "general_saudi": {
-      "total_obs": 12,
-      "top_registers": {
-        "aspirational": 7,
-        "professional": 2,
-        "formal": 1,
-        "casual": 1,
-        "promotional": 1
-      },
-      "top_occasions": {
-        "evergreen": 12
-      }
-    },
-    "gulf": {
-      "total_obs": 13,
-      "top_registers": {
-        "casual": 7,
-        "promotional": 3,
-        "educational": 1,
-        "celebratory": 1,
-        "professional": 1
-      },
-      "top_occasions": {
-        "evergreen": 10,
-        "vision_2030": 1,
-        "national_day": 1,
-        "brand_campaign": 1
-      }
-    },
-    "hejazi": {
-      "total_obs": 32,
-      "top_registers": {
+        "null": 946,
         "casual": 30,
         "formal": 2
       },
       "top_occasions": {
-        "evergreen": 30,
-        "ramadan": 1,
-        "founding_day": 1
-      }
-    },
-    "hijazi": {
-      "total_obs": 945,
-      "top_registers": {
-        "null": 945
-      },
-      "top_occasions": {
-        "null": 655,
+        "null": 656,
         "general": 95,
-        "ramadan": 56,
+        "ramadan": 57,
         "seasonal": 56,
         "eid_al_fitr": 47
       }
     },
-    "hjazi": {
-      "total_obs": 1,
-      "top_registers": {
-        "null": 1
-      },
-      "top_occasions": {
-        "null": 1
-      }
-    },
     "mixed": {
-      "total_obs": 204,
+      "total_obs": 250,
       "top_registers": {
-        "null": 204
+        "null": 204,
+        "casual": 24,
+        "aspirational": 7,
+        "formal": 5,
+        "informal": 4
       },
       "top_occasions": {
         "null": 138,
+        "evergreen": 41,
         "general": 23,
         "ramadan": 17,
-        "eid_al_fitr": 9,
-        "seasonal": 8
+        "eid_al_fitr": 9
       }
     },
     "msa": {
-      "total_obs": 561,
+      "total_obs": 572,
       "top_registers": {
-        "null": 544,
-        "casual": 5,
+        "null": 545,
+        "formal": 10,
+        "casual": 7,
         "celebratory": 4,
-        "promotional": 3,
-        "formal": 2
+        "promotional": 3
       },
       "top_occasions": {
         "null": 384,
-        "ramadan": 54,
+        "ramadan": 56,
         "eid_al_fitr": 39,
         "seasonal": 36,
-        "national_day": 18
-      }
-    },
-    "msа": {
-      "total_obs": 1,
-      "top_registers": {
-        "null": 1
-      },
-      "top_occasions": {
-        "national_day": 1
+        "national_day": 19
       }
     },
     "najdi": {
@@ -238,20 +164,6 @@
         "eid_al_fitr": 9
       }
     },
-    "saudi_colloquial": {
-      "total_obs": 22,
-      "top_registers": {
-        "casual": 13,
-        "informal": 4,
-        "formal": 4,
-        "conversational": 1
-      },
-      "top_occasions": {
-        "evergreen": 18,
-        "sporting_event": 2,
-        "graduation_season": 2
-      }
-    },
     "southern": {
       "total_obs": 3,
       "top_registers": {
@@ -262,34 +174,21 @@
         "seasonal": 1
       }
     },
-    "standard": {
-      "total_obs": 10,
-      "top_registers": {
-        "formal": 8,
-        "casual": 2
-      },
-      "top_occasions": {
-        "evergreen": 6,
-        "ramadan": 2,
-        "brand_campaign": 1,
-        "founding_day": 1
-      }
-    },
     "unknown": {
-      "total_obs": 70,
+      "total_obs": 83,
       "top_registers": {
         "null": 37,
-        "casual": 20,
-        "promotional": 4,
-        "professional": 4,
+        "casual": 27,
+        "promotional": 7,
+        "professional": 5,
         "visual_only": 2
       },
       "top_occasions": {
-        "evergreen": 46,
+        "evergreen": 56,
         "null": 15,
         "seasonal": 3,
         "summer_campaign": 2,
-        "eid_al_adha": 1
+        "brand_campaign": 2
       }
     }
   },
@@ -298,7 +197,7 @@
       "dialect": "hijazi",
       "register": "null",
       "occasion": "null",
-      "count": 655,
+      "count": 656,
       "account_count": 18,
       "accounts": [
         "albaik",
@@ -589,7 +488,7 @@
       ]
     },
     {
-      "dialect": "hejazi",
+      "dialect": "hijazi",
       "register": "casual",
       "occasion": "evergreen",
       "count": 29,
@@ -598,6 +497,19 @@
         "OGZ-BEAUTY-Reference-001",
         "OGZ-F-AND-B-Reference-002",
         "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "unknown",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 23,
+      "account_count": 4,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-003",
+        "OGZ-F-AND-B-Reference-005",
+        "OGZ-F-AND-B-Reference-010"
       ]
     },
     {
@@ -611,6 +523,20 @@
         "kuduksa",
         "niceonesa",
         "riyadhfood"
+      ]
+    },
+    {
+      "dialect": "mixed",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 23,
+      "account_count": 5,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-004",
+        "OGZ-F-AND-B-Reference-005",
+        "OGZ-F-AND-B-Reference-038",
+        "OGZ-F-AND-B-Reference-039"
       ]
     },
     {
@@ -636,6 +562,24 @@
       ]
     },
     {
+      "dialect": "msa",
+      "register": "null",
+      "occasion": "national_day",
+      "count": 18,
+      "account_count": 9,
+      "accounts": [
+        "albaik",
+        "asteribeautysa",
+        "barnscoffee",
+        "kuduksa",
+        "noon",
+        "pizzahutsaudi",
+        "prettynature.official",
+        "roshnksa",
+        "shawarmersa"
+      ]
+    },
+    {
       "dialect": "null",
       "register": "null",
       "occasion": "ramadan",
@@ -652,21 +596,13 @@
       ]
     },
     {
-      "dialect": "msa",
+      "dialect": "unknown",
       "register": "null",
-      "occasion": "national_day",
+      "occasion": "evergreen",
       "count": 17,
-      "account_count": 9,
+      "account_count": 1,
       "accounts": [
-        "albaik",
-        "asteribeautysa",
-        "barnscoffee",
-        "kuduksa",
-        "noon",
-        "pizzahutsaudi",
-        "prettynature.official",
-        "roshnksa",
-        "shawarmersa"
+        "OGZ-F-AND-B-Reference-003"
       ]
     },
     {
@@ -687,26 +623,6 @@
         "noon",
         "riyadhfood",
         "shawarmersa"
-      ]
-    },
-    {
-      "dialect": "unknown",
-      "register": "null",
-      "occasion": "evergreen",
-      "count": 17,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-003"
-      ]
-    },
-    {
-      "dialect": "unknown",
-      "register": "casual",
-      "occasion": "evergreen",
-      "count": 17,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-003"
       ]
     },
     {
@@ -737,6 +653,24 @@
         "barnscoffee",
         "niceonesa",
         "noon"
+      ]
+    },
+    {
+      "dialect": "unknown",
+      "register": "null",
+      "occasion": "null",
+      "count": 15,
+      "account_count": 9,
+      "accounts": [
+        "goldenscent",
+        "herfyfsc",
+        "kuduksa",
+        "mcdonaldsksa",
+        "niceonesa",
+        "noon",
+        "pizzahutsaudi",
+        "prettynature.official",
+        "shawarmersa"
       ]
     },
     {
@@ -785,35 +719,6 @@
       "account_count": 1,
       "accounts": [
         "crumblcookiespr"
-      ]
-    },
-    {
-      "dialect": "unknown",
-      "register": "null",
-      "occasion": "null",
-      "count": 15,
-      "account_count": 9,
-      "accounts": [
-        "goldenscent",
-        "herfyfsc",
-        "kuduksa",
-        "mcdonaldsksa",
-        "niceonesa",
-        "noon",
-        "pizzahutsaudi",
-        "prettynature.official",
-        "shawarmersa"
-      ]
-    },
-    {
-      "dialect": "saudi_colloquial",
-      "register": "casual",
-      "occasion": "evergreen",
-      "count": 12,
-      "account_count": 2,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-038",
-        "OGZ-F-AND-B-Reference-039"
       ]
     },
     {
@@ -882,18 +787,6 @@
       ]
     },
     {
-      "dialect": "colloquial_arabic",
-      "register": "casual",
-      "occasion": "evergreen",
-      "count": 10,
-      "account_count": 3,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-002",
-        "OGZ-F-AND-B-Reference-004",
-        "OGZ-F-AND-B-Reference-005"
-      ]
-    },
-    {
       "dialect": "mixed",
       "register": "null",
       "occasion": "eid_al_fitr",
@@ -933,19 +826,7 @@
       ]
     },
     {
-      "dialect": "najdi",
-      "register": "formal",
-      "occasion": "evergreen",
-      "count": 7,
-      "account_count": 3,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-004",
-        "OGZ-F-AND-B-Reference-005",
-        "OGZ-F-AND-B-Reference-010"
-      ]
-    },
-    {
-      "dialect": "general_saudi",
+      "dialect": "mixed",
       "register": "aspirational",
       "occasion": "evergreen",
       "count": 7,
@@ -955,13 +836,13 @@
       ]
     },
     {
-      "dialect": "gulf",
-      "register": "casual",
+      "dialect": "najdi",
+      "register": "formal",
       "occasion": "evergreen",
-      "count": 6,
+      "count": 7,
       "account_count": 3,
       "accounts": [
-        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-004",
         "OGZ-F-AND-B-Reference-005",
         "OGZ-F-AND-B-Reference-010"
       ]
@@ -978,6 +859,30 @@
         "kuduksa",
         "niceonesa",
         "shawarmersa"
+      ]
+    },
+    {
+      "dialect": "unknown",
+      "register": "promotional",
+      "occasion": "evergreen",
+      "count": 6,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003",
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "formal",
+      "occasion": "evergreen",
+      "count": 6,
+      "account_count": 4,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-001",
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-007",
+        "OGZ-F-AND-B-Reference-010"
       ]
     },
     {
@@ -1030,24 +935,25 @@
       ]
     },
     {
-      "dialect": "najdi",
-      "register": "null",
-      "occasion": "national_day",
+      "dialect": "msa",
+      "register": "casual",
+      "occasion": "evergreen",
       "count": 5,
-      "account_count": 2,
+      "account_count": 3,
       "accounts": [
-        "aseeb.najd",
-        "barnscoffee"
+        "OGZ-BEAUTY-Reference-001",
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-005"
       ]
     }
   ],
-  "all_triples_count": 136,
+  "all_triples_count": 125,
   "all_triples": [
     {
       "dialect": "hijazi",
       "register": "null",
       "occasion": "null",
-      "count": 655,
+      "count": 656,
       "account_count": 18,
       "accounts": [
         "albaik",
@@ -1338,7 +1244,7 @@
       ]
     },
     {
-      "dialect": "hejazi",
+      "dialect": "hijazi",
       "register": "casual",
       "occasion": "evergreen",
       "count": 29,
@@ -1347,6 +1253,19 @@
         "OGZ-BEAUTY-Reference-001",
         "OGZ-F-AND-B-Reference-002",
         "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "unknown",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 23,
+      "account_count": 4,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-003",
+        "OGZ-F-AND-B-Reference-005",
+        "OGZ-F-AND-B-Reference-010"
       ]
     },
     {
@@ -1360,6 +1279,20 @@
         "kuduksa",
         "niceonesa",
         "riyadhfood"
+      ]
+    },
+    {
+      "dialect": "mixed",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 23,
+      "account_count": 5,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-004",
+        "OGZ-F-AND-B-Reference-005",
+        "OGZ-F-AND-B-Reference-038",
+        "OGZ-F-AND-B-Reference-039"
       ]
     },
     {
@@ -1385,6 +1318,24 @@
       ]
     },
     {
+      "dialect": "msa",
+      "register": "null",
+      "occasion": "national_day",
+      "count": 18,
+      "account_count": 9,
+      "accounts": [
+        "albaik",
+        "asteribeautysa",
+        "barnscoffee",
+        "kuduksa",
+        "noon",
+        "pizzahutsaudi",
+        "prettynature.official",
+        "roshnksa",
+        "shawarmersa"
+      ]
+    },
+    {
       "dialect": "null",
       "register": "null",
       "occasion": "ramadan",
@@ -1401,21 +1352,13 @@
       ]
     },
     {
-      "dialect": "msa",
+      "dialect": "unknown",
       "register": "null",
-      "occasion": "national_day",
+      "occasion": "evergreen",
       "count": 17,
-      "account_count": 9,
+      "account_count": 1,
       "accounts": [
-        "albaik",
-        "asteribeautysa",
-        "barnscoffee",
-        "kuduksa",
-        "noon",
-        "pizzahutsaudi",
-        "prettynature.official",
-        "roshnksa",
-        "shawarmersa"
+        "OGZ-F-AND-B-Reference-003"
       ]
     },
     {
@@ -1436,26 +1379,6 @@
         "noon",
         "riyadhfood",
         "shawarmersa"
-      ]
-    },
-    {
-      "dialect": "unknown",
-      "register": "null",
-      "occasion": "evergreen",
-      "count": 17,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-003"
-      ]
-    },
-    {
-      "dialect": "unknown",
-      "register": "casual",
-      "occasion": "evergreen",
-      "count": 17,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-003"
       ]
     },
     {
@@ -1486,6 +1409,24 @@
         "barnscoffee",
         "niceonesa",
         "noon"
+      ]
+    },
+    {
+      "dialect": "unknown",
+      "register": "null",
+      "occasion": "null",
+      "count": 15,
+      "account_count": 9,
+      "accounts": [
+        "goldenscent",
+        "herfyfsc",
+        "kuduksa",
+        "mcdonaldsksa",
+        "niceonesa",
+        "noon",
+        "pizzahutsaudi",
+        "prettynature.official",
+        "shawarmersa"
       ]
     },
     {
@@ -1534,35 +1475,6 @@
       "account_count": 1,
       "accounts": [
         "crumblcookiespr"
-      ]
-    },
-    {
-      "dialect": "unknown",
-      "register": "null",
-      "occasion": "null",
-      "count": 15,
-      "account_count": 9,
-      "accounts": [
-        "goldenscent",
-        "herfyfsc",
-        "kuduksa",
-        "mcdonaldsksa",
-        "niceonesa",
-        "noon",
-        "pizzahutsaudi",
-        "prettynature.official",
-        "shawarmersa"
-      ]
-    },
-    {
-      "dialect": "saudi_colloquial",
-      "register": "casual",
-      "occasion": "evergreen",
-      "count": 12,
-      "account_count": 2,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-038",
-        "OGZ-F-AND-B-Reference-039"
       ]
     },
     {
@@ -1631,18 +1543,6 @@
       ]
     },
     {
-      "dialect": "colloquial_arabic",
-      "register": "casual",
-      "occasion": "evergreen",
-      "count": 10,
-      "account_count": 3,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-002",
-        "OGZ-F-AND-B-Reference-004",
-        "OGZ-F-AND-B-Reference-005"
-      ]
-    },
-    {
       "dialect": "mixed",
       "register": "null",
       "occasion": "eid_al_fitr",
@@ -1682,19 +1582,7 @@
       ]
     },
     {
-      "dialect": "najdi",
-      "register": "formal",
-      "occasion": "evergreen",
-      "count": 7,
-      "account_count": 3,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-004",
-        "OGZ-F-AND-B-Reference-005",
-        "OGZ-F-AND-B-Reference-010"
-      ]
-    },
-    {
-      "dialect": "general_saudi",
+      "dialect": "mixed",
       "register": "aspirational",
       "occasion": "evergreen",
       "count": 7,
@@ -1704,13 +1592,13 @@
       ]
     },
     {
-      "dialect": "gulf",
-      "register": "casual",
+      "dialect": "najdi",
+      "register": "formal",
       "occasion": "evergreen",
-      "count": 6,
+      "count": 7,
       "account_count": 3,
       "accounts": [
-        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-004",
         "OGZ-F-AND-B-Reference-005",
         "OGZ-F-AND-B-Reference-010"
       ]
@@ -1727,6 +1615,30 @@
         "kuduksa",
         "niceonesa",
         "shawarmersa"
+      ]
+    },
+    {
+      "dialect": "unknown",
+      "register": "promotional",
+      "occasion": "evergreen",
+      "count": 6,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003",
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "formal",
+      "occasion": "evergreen",
+      "count": 6,
+      "account_count": 4,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-001",
+        "OGZ-F-AND-B-Reference-002",
+        "OGZ-F-AND-B-Reference-007",
+        "OGZ-F-AND-B-Reference-010"
       ]
     },
     {
@@ -1775,6 +1687,18 @@
       "accounts": [
         "OGZ-F-AND-B-Reference-002",
         "OGZ-F-AND-B-Reference-004",
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "casual",
+      "occasion": "evergreen",
+      "count": 5,
+      "account_count": 3,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-001",
+        "OGZ-F-AND-B-Reference-002",
         "OGZ-F-AND-B-Reference-005"
       ]
     },
@@ -1810,27 +1734,6 @@
       ]
     },
     {
-      "dialect": "standard",
-      "register": "formal",
-      "occasion": "evergreen",
-      "count": 4,
-      "account_count": 2,
-      "accounts": [
-        "OGZ-BEAUTY-Reference-001",
-        "OGZ-F-AND-B-Reference-007"
-      ]
-    },
-    {
-      "dialect": "saudi_colloquial",
-      "register": "informal",
-      "occasion": "evergreen",
-      "count": 4,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-BEAUTY-Reference-002"
-      ]
-    },
-    {
       "dialect": "hijazi",
       "register": "null",
       "occasion": "evergreen",
@@ -1838,6 +1741,27 @@
       "account_count": 1,
       "accounts": [
         "OGZ-F-AND-B-Reference-011"
+      ]
+    },
+    {
+      "dialect": "unknown",
+      "register": "professional",
+      "occasion": "evergreen",
+      "count": 4,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003",
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "mixed",
+      "register": "informal",
+      "occasion": "evergreen",
+      "count": 4,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-BEAUTY-Reference-002"
       ]
     },
     {
@@ -1854,12 +1778,13 @@
     },
     {
       "dialect": "unknown",
-      "register": "promotional",
-      "occasion": "evergreen",
-      "count": 4,
-      "account_count": 1,
+      "register": "null",
+      "occasion": "seasonal",
+      "count": 3,
+      "account_count": 2,
       "accounts": [
-        "OGZ-F-AND-B-Reference-003"
+        "barnscoffee",
+        "crumblcookiespr"
       ]
     },
     {
@@ -1870,17 +1795,6 @@
       "account_count": 1,
       "accounts": [
         "roshnksa"
-      ]
-    },
-    {
-      "dialect": "msa",
-      "register": "casual",
-      "occasion": "evergreen",
-      "count": 3,
-      "account_count": 2,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-002",
-        "OGZ-F-AND-B-Reference-005"
       ]
     },
     {
@@ -1950,63 +1864,32 @@
     },
     {
       "dialect": "unknown",
-      "register": "null",
-      "occasion": "seasonal",
-      "count": 3,
-      "account_count": 2,
-      "accounts": [
-        "barnscoffee",
-        "crumblcookiespr"
-      ]
-    },
-    {
-      "dialect": "unknown",
-      "register": "professional",
-      "occasion": "evergreen",
-      "count": 3,
+      "register": "casual",
+      "occasion": "summer_campaign",
+      "count": 2,
       "account_count": 1,
       "accounts": [
         "OGZ-F-AND-B-Reference-003"
       ]
     },
     {
-      "dialect": "gulf",
-      "register": "promotional",
+      "dialect": "unknown",
+      "register": "visual_only",
       "occasion": "evergreen",
       "count": 2,
       "account_count": 1,
       "accounts": [
-        "OGZ-F-AND-B-Reference-005"
+        "OGZ-F-AND-B-Reference-003"
       ]
     },
     {
-      "dialect": "standard",
-      "register": "casual",
-      "occasion": "evergreen",
-      "count": 2,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-BEAUTY-Reference-001"
-      ]
-    },
-    {
-      "dialect": "standard",
+      "dialect": "msa",
       "register": "formal",
       "occasion": "ramadan",
       "count": 2,
       "account_count": 1,
       "accounts": [
         "OGZ-F-AND-B-Reference-008"
-      ]
-    },
-    {
-      "dialect": "saudi_colloquial",
-      "register": "formal",
-      "occasion": "sporting_event",
-      "count": 2,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-039"
       ]
     },
     {
@@ -2031,17 +1914,6 @@
       ]
     },
     {
-      "dialect": "msa",
-      "register": "formal",
-      "occasion": "evergreen",
-      "count": 2,
-      "account_count": 2,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-002",
-        "OGZ-F-AND-B-Reference-010"
-      ]
-    },
-    {
       "dialect": "mixed",
       "register": "null",
       "occasion": "eid_al_adha",
@@ -2050,6 +1922,48 @@
       "accounts": [
         "niceonesa",
         "noon"
+      ]
+    },
+    {
+      "dialect": "mixed",
+      "register": "formal",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005",
+        "OGZ-F-AND-B-Reference-039"
+      ]
+    },
+    {
+      "dialect": "mixed",
+      "register": "formal",
+      "occasion": "sporting_event",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-039"
+      ]
+    },
+    {
+      "dialect": "mixed",
+      "register": "promotional",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "mixed",
+      "register": "professional",
+      "occasion": "evergreen",
+      "count": 2,
+      "account_count": 2,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-005",
+        "OGZ-RETAIL-Reference-001"
       ]
     },
     {
@@ -2116,37 +2030,6 @@
       ]
     },
     {
-      "dialect": "unknown",
-      "register": "casual",
-      "occasion": "summer_campaign",
-      "count": 2,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-003"
-      ]
-    },
-    {
-      "dialect": "unknown",
-      "register": "visual_only",
-      "occasion": "evergreen",
-      "count": 2,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-003"
-      ]
-    },
-    {
-      "dialect": "general_saudi",
-      "register": "professional",
-      "occasion": "evergreen",
-      "count": 2,
-      "account_count": 2,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-005",
-        "OGZ-RETAIL-Reference-001"
-      ]
-    },
-    {
       "dialect": "southern",
       "register": "null",
       "occasion": "null",
@@ -2158,7 +2041,7 @@
       ]
     },
     {
-      "dialect": "hejazi",
+      "dialect": "hijazi",
       "register": "casual",
       "occasion": "ramadan",
       "count": 1,
@@ -2168,7 +2051,7 @@
       ]
     },
     {
-      "dialect": "hejazi",
+      "dialect": "hijazi",
       "register": "formal",
       "occasion": "evergreen",
       "count": 1,
@@ -2178,7 +2061,7 @@
       ]
     },
     {
-      "dialect": "hejazi",
+      "dialect": "hijazi",
       "register": "formal",
       "occasion": "founding_day",
       "count": 1,
@@ -2188,7 +2071,7 @@
       ]
     },
     {
-      "dialect": "gulf",
+      "dialect": "unknown",
       "register": "educational",
       "occasion": "evergreen",
       "count": 1,
@@ -2198,7 +2081,27 @@
       ]
     },
     {
-      "dialect": "gulf",
+      "dialect": "unknown",
+      "register": "null",
+      "occasion": "eid_al_adha",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "riyadhfood"
+      ]
+    },
+    {
+      "dialect": "unknown",
+      "register": "null",
+      "occasion": "ramadan",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "maxfashionmena"
+      ]
+    },
+    {
+      "dialect": "unknown",
       "register": "casual",
       "occasion": "vision_2030",
       "count": 1,
@@ -2208,7 +2111,17 @@
       ]
     },
     {
-      "dialect": "gulf",
+      "dialect": "unknown",
+      "register": "casual",
+      "occasion": "winter_seasonal",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "unknown",
       "register": "celebratory",
       "occasion": "national_day",
       "count": 1,
@@ -2218,7 +2131,17 @@
       ]
     },
     {
-      "dialect": "gulf",
+      "dialect": "unknown",
+      "register": "celebratory",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "unknown",
       "register": "promotional",
       "occasion": "brand_campaign",
       "count": 1,
@@ -2228,83 +2151,33 @@
       ]
     },
     {
-      "dialect": "gulf",
+      "dialect": "unknown",
       "register": "professional",
-      "occasion": "evergreen",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-005"
-      ]
-    },
-    {
-      "dialect": "standard",
-      "register": "formal",
       "occasion": "brand_campaign",
       "count": 1,
       "account_count": 1,
       "accounts": [
-        "OGZ-F-AND-B-Reference-008"
+        "OGZ-F-AND-B-Reference-003"
       ]
     },
     {
-      "dialect": "standard",
-      "register": "formal",
-      "occasion": "founding_day",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-008"
-      ]
-    },
-    {
-      "dialect": "saudi_colloquial",
-      "register": "casual",
-      "occasion": "graduation_season",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-039"
-      ]
-    },
-    {
-      "dialect": "saudi_colloquial",
+      "dialect": "unknown",
       "register": "formal",
       "occasion": "evergreen",
       "count": 1,
       "account_count": 1,
       "accounts": [
-        "OGZ-F-AND-B-Reference-039"
+        "OGZ-F-AND-B-Reference-003"
       ]
     },
     {
-      "dialect": "saudi_colloquial",
-      "register": "formal",
-      "occasion": "graduation_season",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-039"
-      ]
-    },
-    {
-      "dialect": "saudi_colloquial",
-      "register": "conversational",
+      "dialect": "unknown",
+      "register": "playful",
       "occasion": "evergreen",
       "count": 1,
       "account_count": 1,
       "accounts": [
-        "OGZ-F-AND-B-Reference-039"
-      ]
-    },
-    {
-      "dialect": "msa",
-      "register": "null",
-      "occasion": "eid_campaign",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "maxfashionmena"
+        "OGZ-F-AND-B-Reference-003"
       ]
     },
     {
@@ -2325,6 +2198,36 @@
       "account_count": 1,
       "accounts": [
         "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "formal",
+      "occasion": "brand_campaign",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "formal",
+      "occasion": "founding_day",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "null",
+      "occasion": "eid_campaign",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "maxfashionmena"
       ]
     },
     {
@@ -2385,6 +2288,46 @@
       "account_count": 1,
       "accounts": [
         "kuduksa"
+      ]
+    },
+    {
+      "dialect": "mixed",
+      "register": "casual",
+      "occasion": "graduation_season",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-039"
+      ]
+    },
+    {
+      "dialect": "mixed",
+      "register": "formal",
+      "occasion": "graduation_season",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-039"
+      ]
+    },
+    {
+      "dialect": "mixed",
+      "register": "professional",
+      "occasion": "national_day",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "mixed",
+      "register": "conversational",
+      "occasion": "evergreen",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "OGZ-F-AND-B-Reference-039"
       ]
     },
     {
@@ -2508,136 +2451,6 @@
       ]
     },
     {
-      "dialect": "unknown",
-      "register": "null",
-      "occasion": "eid_al_adha",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "riyadhfood"
-      ]
-    },
-    {
-      "dialect": "unknown",
-      "register": "null",
-      "occasion": "ramadan",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "maxfashionmena"
-      ]
-    },
-    {
-      "dialect": "unknown",
-      "register": "professional",
-      "occasion": "brand_campaign",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-003"
-      ]
-    },
-    {
-      "dialect": "unknown",
-      "register": "casual",
-      "occasion": "winter_seasonal",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-003"
-      ]
-    },
-    {
-      "dialect": "unknown",
-      "register": "formal",
-      "occasion": "evergreen",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-003"
-      ]
-    },
-    {
-      "dialect": "unknown",
-      "register": "celebratory",
-      "occasion": "evergreen",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-003"
-      ]
-    },
-    {
-      "dialect": "unknown",
-      "register": "playful",
-      "occasion": "evergreen",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-003"
-      ]
-    },
-    {
-      "dialect": "msа",
-      "register": "null",
-      "occasion": "national_day",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "prettynature.official"
-      ]
-    },
-    {
-      "dialect": "colloquial_arabic",
-      "register": "promotional",
-      "occasion": "evergreen",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-005"
-      ]
-    },
-    {
-      "dialect": "general_saudi",
-      "register": "formal",
-      "occasion": "evergreen",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-005"
-      ]
-    },
-    {
-      "dialect": "general_saudi",
-      "register": "casual",
-      "occasion": "evergreen",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-005"
-      ]
-    },
-    {
-      "dialect": "general_saudi",
-      "register": "promotional",
-      "occasion": "evergreen",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-005"
-      ]
-    },
-    {
-      "dialect": "english_arabic_mixed",
-      "register": "professional",
-      "occasion": "national_day",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-004"
-      ]
-    },
-    {
       "dialect": "southern",
       "register": "null",
       "occasion": "seasonal",
@@ -2655,16 +2468,6 @@
       "account_count": 1,
       "accounts": [
         "albaik"
-      ]
-    },
-    {
-      "dialect": "hjazi",
-      "register": "null",
-      "occasion": "null",
-      "count": 1,
-      "account_count": 1,
-      "accounts": [
-        "pizzahutsaudi"
       ]
     }
   ]

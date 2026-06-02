@@ -1,0 +1,70 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "01637C6AF3097A464C9A595EAC",
+  "chain_id_short": "tf16_09",
+  "family": "TF16",
+  "schema_version": 1,
+  "name_en": "Hajj Season Hospitality",
+  "name_ar": "ضيافة موسم الحج",
+  "purpose": "Brand content for Hajj/Umrah season. Spiritual, humble, hospitality-focused. F&B and retail brands near Makkah/Madinah regions.",
+  "models_used": [
+    {"provider": "fal", "model_id": "fal-ai/flux-pro/v1.1", "role": "primary_image_generation"},
+    {"provider": "fal", "model_id": "fal-ai/seedance-2.0", "role": "image_to_image_edit"}
+  ],
+  "input_schema": {
+    "duration_seconds": {"type": "integer", "description": "Target video duration in seconds", "required": false, "default": 5},
+    "tone_descriptor": {"type": "string", "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.", "required": false},
+    "brand_product": {"type": "string", "description": "Brand product or hospitality offering to feature", "required": true}
+  },
+  "prompt_template": "Warm hospitality photography for {brand_product} in context of Saudi religious season — clean white and gold palette, dates and zamzam water symbolism where appropriate, no promotional pricing overlay, authentic Saudi hospitality atmosphere, halal certification visible if food, modest framing, warm natural light {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "retail_lifestyle",
+      "real_estate"
+    ],
+    "occasions_allowed": [
+      "hajj_season"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 30
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": true,
+    "requires_gesture_check": true,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": true,
+    "high_gender_sensitivity": true,
+    "human_review_recommended_above_quality_tier": "starter"
+  },
+  "cost_estimate_usd": 0.03,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": ["cd_03", "cd_04"],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: alcohol",
+    "Avoid in output: pork",
+    "Avoid: promotional pricing during Hajj season",
+    "Avoid: celebrity endorsement in Hajj context",
+    "Avoid in output: explicit religious imagery without brand permission"
+  ],
+  "notes": "Intents: defend, grow. Saudi adaptation guidance: Hajj season is the highest-sensitivity content window in the Saudi calendar. Brands near Makkah/Madinah regions use hospitality messaging — generosity, welcome, service. White and gold palette reflects Ihram and sacred space aesthetic. Dates and zamzam are universally appropriate symbols. Avoid any pricing or discount language — hospitality framing only. Compliance level: elevated — requires human review before publishing.",
+  "provenance": {
+    "source": "internal_research_corpus/GPT4o_gap_review_2026-06-02",
+    "date_added": "2026-06-02T00:00:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

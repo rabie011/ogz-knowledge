@@ -1,0 +1,68 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "0173B91226CD6241EA9A7F687E",
+  "chain_id_short": "tf16_08",
+  "family": "TF16",
+  "schema_version": 1,
+  "name_en": "Riyadh Season Activation",
+  "name_ar": "تفعيل موسم الرياض",
+  "purpose": "Brand activation content for Riyadh Season (Oct–Mar). Entertainment-led, experiential, city-energy aesthetic.",
+  "models_used": [
+    {"provider": "fal", "model_id": "fal-ai/flux-pro/v1.1-ultra", "role": "primary_image_generation"},
+    {"provider": "fal", "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video", "role": "image_to_image_edit"}
+  ],
+  "input_schema": {
+    "duration_seconds": {"type": "integer", "description": "Target video duration in seconds", "required": false, "default": 5},
+    "tone_descriptor": {"type": "string", "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.", "required": false},
+    "product_or_service": {"type": "string", "description": "Brand product or service to feature in the activation scene", "required": true}
+  },
+  "prompt_template": "Bold Riyadh nighttime cityscape activation — premium Saudi brand {product_or_service} displayed in dynamic urban Riyadh setting, Riyadh Season visual language (geometric light installations, bold colors, crowd energy implied), modern Saudi aesthetic, no people required, hyper-realistic product hero, shot on 35mm, vibrant warm-cool color contrast {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1350,
+    "aspect_ratio_label": "4:5"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "retail_lifestyle",
+      "fashion",
+      "beauty_personal_care"
+    ],
+    "occasions_allowed": [
+      "riyadh_season"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 14
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "growth"
+  },
+  "cost_estimate_usd": 0.04,
+  "latency_estimate_seconds": 18,
+  "best_for_cd_brains": ["cd_01", "cd_03"],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: daytime lighting (must feel nighttime Riyadh Season energy)",
+    "Avoid in output: generic cityscape without Riyadh-specific visual identity"
+  ],
+  "notes": "Intents: launch, grow, defend. Saudi adaptation guidance: Riyadh Season runs Oct–Mar and is one of the biggest brand activation windows in the Saudi calendar. Geometric light installations and large-format entertainment structures (e.g., Boulevard Riyadh City, KAFD amphitheater) are the primary visual anchors. Brands use this window for OOH activations and product tie-ins. City energy can be implied through lighting atmosphere rather than explicit crowd. Compliance level: standard.",
+  "provenance": {
+    "source": "internal_research_corpus/GPT4o_gap_review_2026-06-02",
+    "date_added": "2026-06-02T00:00:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

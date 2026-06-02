@@ -8,13 +8,34 @@
   "name_ar": "التراث يلتقي الحداثة",
   "purpose": "One of the most common Saudi content archetypes — product shown at intersection of traditional Saudi elements and hyper-modern aesthetics. Unique to Saudi Vision 2030 brand identity.",
   "models_used": [
-    {"provider": "fal", "model_id": "fal-ai/flux-pro/v1.1-ultra", "role": "primary_image_generation"},
-    {"provider": "fal", "model_id": "fal-ai/seedance-2.0", "role": "image_to_image_edit"}
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1-ultra",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/seedance-2.0",
+      "role": "image_to_image_edit"
+    }
   ],
   "input_schema": {
-    "duration_seconds": {"type": "integer", "description": "Target video duration in seconds", "required": false, "default": 5},
-    "tone_descriptor": {"type": "string", "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.", "required": false},
-    "product": {"type": "string", "description": "Product to place at the traditional-modern visual intersection", "required": true}
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 5
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    },
+    "product": {
+      "type": "string",
+      "description": "Product to place at the traditional-modern visual intersection",
+      "required": true
+    }
   },
   "prompt_template": "Split-world product photography — {product} placed at exact visual intersection of traditional Saudi (sadu textile, brass dallah, geometric Islamic patterns, sand/stone textures) and ultra-modern Saudi (clean glass surfaces, neon accent lighting, futuristic architecture lines), seamless blend suggesting Vision 2030 identity, no people, 1:1 or 4:5 format {cultural_constraints_injection}",
   "output_type": "image",
@@ -29,7 +50,8 @@
       "fashion",
       "beauty_personal_care",
       "retail_lifestyle",
-      "real_estate"
+      "real_estate",
+      "healthcare_wellness"
     ],
     "occasions_allowed": [
       "*"
@@ -51,7 +73,10 @@
   },
   "cost_estimate_usd": 0.05,
   "latency_estimate_seconds": 20,
-  "best_for_cd_brains": ["cd_01", "cd_03"],
+  "best_for_cd_brains": [
+    "cd_01",
+    "cd_03"
+  ],
   "anti_patterns": [
     "Avoid in output: text",
     "Avoid in output: watermark",

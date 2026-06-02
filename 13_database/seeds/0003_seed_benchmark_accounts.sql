@@ -1,146 +1,46 @@
--- ╔═══════════════════════════════════════════════════════════════════════╗
--- ║  0003_seed_benchmark_accounts.sql                                     ║
--- ║  Seed data for benchmark_accounts — active extraction accounts.      ║
--- ║  Source: 11_who_to_learn_from/accounts/ (15 active accounts).        ║
--- ╚═══════════════════════════════════════════════════════════════════════╝
+-- Auto-generated seed: benchmark accounts
+-- Source: observations | Count: 42
+-- Generated: 2026-06-02
 
-INSERT INTO benchmark_accounts (
-  account_ulid, account_handle_normalized, account_handle_internal,
-  sector, payload
-)
-VALUES
-
--- ── F&B — Complete (50/50) ───────────────────────────────────────────────────
-
-('01KRKHS8R8SNJ8VJ56WKSQTS28', 'OGZ-F-AND-B-Reference-002', 'barnscoffee', 'f_and_b', '{
-  "obs_count": 50, "status": "complete",
-  "follower_bucket": "<10k", "region": "najdi-primary",
-  "engagement_tier": "average", "saudi_score": 9,
-  "top_patterns": ["foodie_discovery_review","warm_najdi_invitational"],
-  "archetype": "modern_premium"
-}'::JSONB),
-
-('01KRKHS8R8SNJ8VJ56WKSQTS29', 'OGZ-F-AND-B-Reference-003', 'riyadhfood', 'f_and_b', '{
-  "obs_count": 50, "status": "complete",
-  "follower_bucket": ">100k", "region": "najdi-primary",
-  "engagement_tier": "strong", "saudi_score": 8,
-  "top_patterns": ["foodie_discovery_review","hidden_gem_local_spotlight"],
-  "archetype": "community_anchor"
-}'::JSONB),
-
-('01KRKHS8R8SNJ8VJ56WKSQTS30', 'OGZ-F-AND-B-Reference-004', 'altazaj_fakieh', 'f_and_b', '{
-  "obs_count": 50, "status": "complete",
-  "follower_bucket": "10k-50k", "region": "najdi-primary",
-  "engagement_tier": "elite", "saudi_score": 10,
-  "top_patterns": ["heritage_storytelling_hook","family_majlis_hierarchical","cultural_object_hero"],
-  "archetype": "heritage_anchor"
-}'::JSONB),
-
-('01KRKHS8R8SNJ8VJ56WKSQTS31', 'OGZ-F-AND-B-Reference-005', 'crumblcookiespr', 'f_and_b', '{
-  "obs_count": 50, "status": "complete",
-  "follower_bucket": "50k-100k", "region": "najdi-primary",
-  "engagement_tier": "strong", "saudi_score": 7,
-  "top_patterns": ["product_hero_closeup","pattern_repeat_flatlay","limited_time_promo"],
-  "archetype": "modern_premium"
-}'::JSONB),
-
-('01KRKHS8R8SNJ8VJ56WKSQTS32', 'OGZ-F-AND-B-Reference-006', 'herfyfsc', 'f_and_b', '{
-  "obs_count": 27, "status": "in_progress",
-  "follower_bucket": ">100k", "region": "najdi-primary",
-  "engagement_tier": "weak", "saudi_score": 6,
-  "top_patterns": ["product_honest_review","occasion_specific_greeting"],
-  "archetype": "value_leader",
-  "gap": 23
-}'::JSONB),
-
-('01KRKHS8R8SNJ8VJ56WKSQTS33', 'OGZ-F-AND-B-Reference-007', 'kuduksa', 'f_and_b', '{
-  "obs_count": 28, "status": "in_progress",
-  "follower_bucket": ">100k", "region": "najdi-primary",
-  "engagement_tier": "weak", "saudi_score": 7,
-  "top_patterns": ["limited_time_promo","occasion_specific_greeting"],
-  "archetype": "modern_premium",
-  "gap": 22
-}'::JSONB),
-
-('01KRKHS8R8SNJ8VJ56WKSQTS34', 'OGZ-F-AND-B-Reference-008', 'albaik', 'f_and_b', '{
-  "obs_count": 50, "status": "complete",
-  "follower_bucket": ">100k", "region": "hejazi-primary",
-  "engagement_tier": "elite", "saudi_score": 9,
-  "top_patterns": ["cultural_object_hero","heritage_storytelling_hook","occasion_specific_greeting"],
-  "archetype": "heritage_anchor"
-}'::JSONB),
-
-('01KRKHS8R8SNJ8VJ56WKSQTS35', 'OGZ-F-AND-B-Reference-009', 'shawarmersa', 'f_and_b', '{
-  "obs_count": 25, "status": "in_progress",
-  "follower_bucket": ">100k", "region": "najdi-primary",
-  "engagement_tier": "weak", "saudi_score": 5,
-  "top_patterns": ["product_honest_review","price_offer_graphic"],
-  "archetype": "value_leader",
-  "gap": 25
-}'::JSONB),
-
-('01KRKHS8R8SNJ8VJ56WKSQTS36', 'OGZ-F-AND-B-Reference-010', 'aseeb.najd', 'f_and_b', '{
-  "obs_count": 50, "status": "complete",
-  "follower_bucket": "10k-50k", "region": "najdi-primary",
-  "engagement_tier": "elite", "saudi_score": 10,
-  "top_patterns": ["heritage_storytelling_hook","architectural_framing","cultural_object_hero"],
-  "archetype": "heritage_anchor"
-}'::JSONB),
-
-('01KRKHS8R8SNJ8VJ56WKSQTS37', 'OGZ-F-AND-B-Reference-011', 'alromansiahksa', 'f_and_b', '{
-  "obs_count": 31, "status": "in_progress",
-  "follower_bucket": "10k-50k", "region": "najdi-primary",
-  "engagement_tier": "average", "saudi_score": 7,
-  "top_patterns": ["limited_time_promo","occasion_specific_greeting","overhead_spread"],
-  "archetype": "modern_premium",
-  "gap": 19
-}'::JSONB),
-
-('01KRKHS8R8SNJ8VJ56WKSQTS38', 'OGZ-F-AND-B-Reference-038', 'pizzahutsaudi', 'f_and_b', '{
-  "obs_count": 50, "status": "complete",
-  "follower_bucket": ">100k", "region": "najdi-primary",
-  "engagement_tier": "average", "saudi_score": 6,
-  "top_patterns": ["limited_time_promo","product_hero_closeup","entertainment_collab"],
-  "archetype": "modern_premium"
-}'::JSONB),
-
-('01KRKHS8R8SNJ8VJ56WKSQTS39', 'OGZ-F-AND-B-Reference-039', 'mcdonaldsksa', 'f_and_b', '{
-  "obs_count": 50, "status": "complete",
-  "follower_bucket": ">100k", "region": "najdi-primary",
-  "engagement_tier": "average", "saudi_score": 6,
-  "top_patterns": ["entertainment_collab","limited_time_promo","cultural_object_hero"],
-  "archetype": "modern_premium"
-}'::JSONB),
-
--- ── Beauty — Complete (50/50) ─────────────────────────────────────────────────
-
-('01KRKHS8R8SNJ8VJ56WKSQTS41', 'OGZ-BEAUTY-Reference-001', 'asteribeautysa', 'beauty', '{
-  "obs_count": 50, "status": "complete",
-  "follower_bucket": "10k-50k", "region": "najdi-primary",
-  "engagement_tier": "average", "saudi_score": 8,
-  "top_patterns": ["product_hero_closeup","pattern_repeat_flatlay","heritage_storytelling_hook"],
-  "archetype": "modern_premium"
-}'::JSONB),
-
-('01KRKHS8R8SNJ8VJ56WKSQTS42', 'OGZ-BEAUTY-Reference-002', 'prettynature.official', 'beauty', '{
-  "obs_count": 50, "status": "complete",
-  "follower_bucket": "10k-50k", "region": "hejazi-primary",
-  "engagement_tier": "strong", "saudi_score": 8,
-  "top_patterns": ["product_hero_closeup","natural_ingredient_hero","lifestyle_integrated"],
-  "archetype": "modern_premium"
-}'::JSONB),
-
--- ── Retail — In Progress ──────────────────────────────────────────────────────
-
-('01KRKHS8R8SNJ8VJ56WKSQTS51', 'OGZ-RETAIL-Reference-001', 'aldeebajofficial', 'retail', '{
-  "obs_count": 25, "status": "in_progress",
-  "follower_bucket": "10k-50k", "region": "najdi-primary",
-  "engagement_tier": "weak", "saudi_score": 7,
-  "top_patterns": ["product_hero_closeup","occasion_specific_greeting"],
-  "archetype": "modern_premium",
-  "gap": 25
-}'::JSONB)
-
-ON CONFLICT (account_handle_normalized) DO UPDATE SET
-  payload = EXCLUDED.payload,
-  updated_at = NOW();
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KS5PZ5T5J535JPWGJER6R2D1', 'OGZ-BEAUTY-Reference-001', 'beauty', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KRKHS8RFCFV3QA82P4D5VZMA', 'OGZ-BEAUTY-Reference-002', 'beauty', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KRKHS8R8SNJ8VJ56WKSQTS28', 'OGZ-F-AND-B-Reference-002', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KRKHS8R8SNJ8VJ56WKSQTS2G', 'OGZ-F-AND-B-Reference-003', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KRKHS8R8SNJ8VJ56WKSQTS2E', 'OGZ-F-AND-B-Reference-004', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KRKHS8R8SNJ8VJ56WKSQTS2H', 'OGZ-F-AND-B-Reference-005', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KS8MQHR0SVWGFRK2NDA3YT6P', 'OGZ-F-AND-B-Reference-006', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KS8MQHR1WGRTDFZ2NDA3YT7Q', 'OGZ-F-AND-B-Reference-007', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KRKHS8R9HB73WWWGKXVDMC3D', 'OGZ-F-AND-B-Reference-008', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KS5PZ5T5YSN7GNCCVJ7AZ85T', 'OGZ-F-AND-B-Reference-009', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KRKHS8R9HB73WWWGKXVDMC3A', 'OGZ-F-AND-B-Reference-010', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KS5R0A1701GF09TMG4E65H5C', 'OGZ-F-AND-B-Reference-011', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KS5XZ0Y071HFE865V215DE1C', 'OGZ-F-AND-B-Reference-038', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KS5XZ114TEWH0AVNH9DN65R6', 'OGZ-F-AND-B-Reference-039', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KRKHS8RBHMMSCHPYWXGGFKNT', 'OGZ-RETAIL-Reference-001', 'retail', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSGS6VSAXF3RR1NMK3DX83SJ', 'albaik', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSHAAJ3DPCE7RYQHT5408ZY6', 'aldeebajofficial', 'retail_lifestyle', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSGE0PVSQPY6H7C00FHFHFSV', 'alromansiahksa', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSGSNGSWW8M7G6WB25D7K6J3', 'altazaj_fakieh', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSGTT5197DJ6MNETSE2YG81J', 'aseeb.najd', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSGZM8DR5PF3P3ZTZJD3WJHZ', 'asteribeautysa', 'beauty_personal_care', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSGFP8B3VCX2ERSMREG6K9TG', 'barnscoffee', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSHSZTK4V53223V2543Q5CK3', 'centrepointstores', 'fashion', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSGFXPYQXZBX66WZ0VTAGCCX', 'crumblcookiespr', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KT02CPDPAYDE2QBS9ZSHH98T', 'fitnessfirstme', 'healthcare_wellness', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSHR4MS8DJKM50GYGD3HKJ1T', 'goldenscent', 'beauty_personal_care', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSH63BJZ8V7F79CNNDCS4WH8', 'herfyfsc', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSZYHA1BR7SXJWM2BZMEG8SM', 'hmksa', 'fashion', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSGE4GRSGCSREJMHFHN81RM9', 'kuduksa', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSZQVCH1QJWSE7XP131A4M5N', 'levelshoes', 'fashion', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSZYA9CJ3ZMWTQ0A5TG7BVJY', 'mangome', 'fashion', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSHXEKWERPQ6EQQPBTVD8G23', 'maxfashionmena', 'fashion', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSGZAW1ERY1AA8WH8KMPD1Y2', 'mcdonaldsksa', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KT04FFZF97SPGZ3SK5NFQ66E', 'myfitness.sa', 'healthcare_wellness', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSHEHQT5WZ8PY1QHDZPQV4SE', 'niceonesa', 'beauty_personal_care', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSHT6SNJY6D0H2E1RFXD7QPD', 'noon', 'retail_lifestyle', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSHP54KNBPDS7GTNEQMENH2X', 'ounass', 'retail_lifestyle', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSGVSSDVAMDKD7KP0F6PB0HR', 'pizzahutsaudi', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSH1QKRYNKPGNTX959C0XJKY', 'prettynature.official', 'beauty_personal_care', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSGJ64NN0A6SG6P6DY8Z93SE', 'riyadhfood', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSHCF1W8RYZA9ZAB66R02416', 'roshnksa', 'real_estate', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;
+INSERT INTO benchmark_accounts (account_ulid, account_handle_normalized, sector, payload, provenance) VALUES ('01KSH86Z57DJK5W7W8Z7SG1RFJ', 'shawarmersa', 'f_and_b', '{}'::jsonb, '{"source":"ogz-knowledge seed"}'::jsonb) ON CONFLICT (account_handle_normalized) DO NOTHING;

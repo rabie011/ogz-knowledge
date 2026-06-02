@@ -97,7 +97,36 @@ CREATE TABLE benchmark_accounts (
 );
 CREATE INDEX idx_benchmarks_sector ON benchmark_accounts(sector);
 
--- ── Account patterns (40+ from 11_who_to_learn_from/patterns/)
+-- ── Observations (2730+ from 11_who_to_learn_from/observations/)
+CREATE TABLE observations (
+  observation_ulid         ulid PRIMARY KEY,
+  account_ulid             ulid REFERENCES benchmark_accounts(account_ulid),
+  account_handle_normalized TEXT NOT NULL,
+  sector                   TEXT NOT NULL,
+  content_type             TEXT NOT NULL CHECK (content_type IN ('image', 'video', 'carousel_slide', 'story', 'reel')),
+  engagement_potential      TEXT NOT NULL CHECK (engagement_potential IN ('high', 'medium', 'low')),
+  content_pillar           TEXT,
+  emotion_primary          TEXT,
+  occasion                 TEXT,
+  voice_observations       JSONB NOT NULL,
+  visual_observations      JSONB NOT NULL,
+  cultural_notes           JSONB,
+  quality_assessment       JSONB NOT NULL,
+  pattern_matches          JSONB NOT NULL DEFAULT '[]'::jsonb,
+  content_ref              JSONB NOT NULL,
+  compliance_check         JSONB,
+  provenance               JSONB NOT NULL,
+  embedding                vector(1536),
+  created_at               TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX idx_obs_sector ON observations(sector);
+CREATE INDEX idx_obs_account ON observations(account_handle_normalized);
+CREATE INDEX idx_obs_content_type ON observations(content_type);
+CREATE INDEX idx_obs_engagement ON observations(engagement_potential);
+CREATE INDEX idx_obs_occasion ON observations(occasion);
+CREATE INDEX idx_obs_patterns_gin ON observations USING GIN (pattern_matches jsonb_path_ops);
+
+-- ── Account patterns (1255 from 11_who_to_learn_from/patterns/)
 CREATE TABLE account_patterns (
   pattern_ulid     ulid PRIMARY KEY,
   pattern_slug     TEXT UNIQUE NOT NULL,

@@ -8,13 +8,34 @@
   "name_ar": "عرض التراث السعودي",
   "purpose": "Content that celebrates Saudi historical sites, traditional crafts, AlUla/Diriyah/Hegra aesthetic, traditional music/dance references. Heritage × modern brands.",
   "models_used": [
-    {"provider": "fal", "model_id": "fal-ai/flux-pro/v1.1-ultra", "role": "primary_image_generation"},
-    {"provider": "fal", "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video", "role": "image_to_image_edit"}
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1-ultra",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video",
+      "role": "image_to_image_edit"
+    }
   ],
   "input_schema": {
-    "duration_seconds": {"type": "integer", "description": "Target video duration in seconds", "required": false, "default": 5},
-    "tone_descriptor": {"type": "string", "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.", "required": false},
-    "subject_descriptor": {"type": "string", "description": "Subject or product to present within the heritage visual context", "required": true}
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 5
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    },
+    "subject_descriptor": {
+      "type": "string",
+      "description": "Subject or product to present within the heritage visual context",
+      "required": true
+    }
   },
   "prompt_template": "Saudi cultural heritage visual — {subject_descriptor} presented with authentic Najdi/Hejazi architectural elements, sadu weaving patterns, traditional Saudi crafts as backdrop, warm sandstone and desert palette, golden hour lighting suggesting timelessness, shot evoking AlUla or Diriyah aesthetic, no text, no watermark, hyper-realistic textures {cultural_constraints_injection}",
   "output_type": "image",
@@ -28,7 +49,8 @@
       "f_and_b",
       "real_estate",
       "retail_lifestyle",
-      "fashion"
+      "fashion",
+      "healthcare_wellness"
     ],
     "occasions_allowed": [
       "founding_day",
@@ -54,7 +76,11 @@
   },
   "cost_estimate_usd": 0.05,
   "latency_estimate_seconds": 20,
-  "best_for_cd_brains": ["cd_01", "cd_03", "cd_04"],
+  "best_for_cd_brains": [
+    "cd_01",
+    "cd_03",
+    "cd_04"
+  ],
   "anti_patterns": [
     "Avoid in output: text",
     "Avoid in output: watermark",

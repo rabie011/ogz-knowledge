@@ -8,13 +8,34 @@
   "name_ar": "تفعيل موسم الرياض",
   "purpose": "Brand activation content for Riyadh Season (Oct–Mar). Entertainment-led, experiential, city-energy aesthetic.",
   "models_used": [
-    {"provider": "fal", "model_id": "fal-ai/flux-pro/v1.1-ultra", "role": "primary_image_generation"},
-    {"provider": "fal", "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video", "role": "image_to_image_edit"}
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1-ultra",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video",
+      "role": "image_to_image_edit"
+    }
   ],
   "input_schema": {
-    "duration_seconds": {"type": "integer", "description": "Target video duration in seconds", "required": false, "default": 5},
-    "tone_descriptor": {"type": "string", "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.", "required": false},
-    "product_or_service": {"type": "string", "description": "Brand product or service to feature in the activation scene", "required": true}
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 5
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    },
+    "product_or_service": {
+      "type": "string",
+      "description": "Brand product or service to feature in the activation scene",
+      "required": true
+    }
   },
   "prompt_template": "Bold Riyadh nighttime cityscape activation — premium Saudi brand {product_or_service} displayed in dynamic urban Riyadh setting, Riyadh Season visual language (geometric light installations, bold colors, crowd energy implied), modern Saudi aesthetic, no people required, hyper-realistic product hero, shot on 35mm, vibrant warm-cool color contrast {cultural_constraints_injection}",
   "output_type": "image",
@@ -28,7 +49,8 @@
       "f_and_b",
       "retail_lifestyle",
       "fashion",
-      "beauty_personal_care"
+      "beauty_personal_care",
+      "healthcare_wellness"
     ],
     "occasions_allowed": [
       "riyadh_season"
@@ -50,7 +72,10 @@
   },
   "cost_estimate_usd": 0.04,
   "latency_estimate_seconds": 18,
-  "best_for_cd_brains": ["cd_01", "cd_03"],
+  "best_for_cd_brains": [
+    "cd_01",
+    "cd_03"
+  ],
   "anti_patterns": [
     "Avoid in output: text",
     "Avoid in output: watermark",

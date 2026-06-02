@@ -22,7 +22,8 @@
     ],
     "visual_complexity": "moderate",
     "human_presence": false,
-    "setting": "event_venue"
+    "setting": "event_venue",
+    "props_visible": []
   },
   "voice_observations": {
     "caption_text": "Sounds of Design - now playing at @milan.design.week @breradesigndistrict @fuorisalone\n\nAt Via Legnano 14, Milan until April 26",
@@ -37,7 +38,11 @@
       "voiceover_language": "english",
       "music_type": "voiceover"
     },
-    "dialect_detected": "non_arabic"
+    "dialect_detected": "non_arabic",
+    "notable_phrases": [
+      "Sounds of Design - now playing at .design.week",
+      "At Via Legnano 14, Milan until April 26"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -50,7 +55,20 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "modern_minimalist_interior",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "hybrid_modern_heritage",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "cultural_object_hero",
+      "confidence": "moderate"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "low",
     "production_quality": "professional"

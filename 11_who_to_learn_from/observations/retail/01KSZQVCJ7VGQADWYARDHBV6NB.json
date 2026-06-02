@@ -22,7 +22,8 @@
     ],
     "visual_complexity": "simple",
     "human_presence": true,
-    "setting": "retail_store"
+    "setting": "retail_store",
+    "props_visible": []
   },
   "voice_observations": {
     "caption_text": "It’s a mommy & me shopping day! @olafarahat explores the all-new Little Level, finding festive favorites for her daughter and herself. Shop their picks on levelshoes.com✨\n\nOla wears Paris Texas, Lily wears Converse.",
@@ -37,7 +38,11 @@
       "has_voiceover": true,
       "voiceover_language": "english",
       "music_type": "voiceover"
-    }
+    },
+    "notable_phrases": [
+      "It’s a mommy & me shopping day! explores the all-new Little Level, finding festive favorites for her daughter and herself. Shop their picks on levelshoes.com",
+      "Ola wears Paris Texas, Lily wears Converse"
+    ]
   },
   "compliance_check": {
     "hard_blocks_triggered": [],
@@ -50,7 +55,20 @@
     "heritage_vs_modern": "modern",
     "free_notes": ""
   },
-  "pattern_matches": [],
+  "pattern_matches": [
+    {
+      "pattern_slug": "uniform_role_coded",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "occasion_playseid_campaign",
+      "confidence": "moderate"
+    },
+    {
+      "pattern_slug": "hashtag_discovery_heavy",
+      "confidence": "moderate"
+    }
+  ],
   "quality_assessment": {
     "engagement_potential": "low",
     "production_quality": "ugc"

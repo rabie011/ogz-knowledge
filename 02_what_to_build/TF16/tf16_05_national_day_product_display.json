@@ -8,20 +8,56 @@
   "name_ar": "عرض منتج اليوم الوطني",
   "purpose": "Saudi National Day (September 23, 94th) themed product showcase in Saudi green and gold palette with patriotic visual language.",
   "models_used": [
-    {"provider": "fal", "model_id": "fal-ai/flux-pro/v1.1", "role": "primary_image_generation"},
-    {"provider": "fal", "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video", "role": "image_to_image_edit"}
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/v1.1",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video",
+      "role": "image_to_image_edit"
+    }
   ],
   "input_schema": {
-    "duration_seconds": {"type": "integer", "description": "Target video duration in seconds", "required": false, "default": 5},
-    "tone_descriptor": {"type": "string", "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.", "required": false}
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 5
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    }
   },
   "prompt_template": "Saudi National Day product display photography, {featured_product} styled with Saudi national identity colors — Saudi green (#006C35) and warm gold accents, Saudi palm tree or crossed swords motif subtly incorporated in background or surface decoration, dates and traditional elements as supporting props, bold confident lighting with directional key light on product, clean neutral or deep green surface, small Saudi flag element in composition without dominating, hyper-realistic product and material detail, shot on 50mm at f/5.6, no text overlay, no watermark {cultural_constraints_injection}",
   "output_type": "image",
-  "target_dimensions": {"width": 1080, "height": 1080, "aspect_ratio_label": "1:1"},
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
   "eligibility_filters": {
-    "sectors_allowed": ["f_and_b", "food_and_beverage", "retail", "retail_lifestyle", "beauty", "beauty_personal_care", "fashion"],
-    "occasions_allowed": ["national_day", "saudi_national_day"],
-    "quality_tiers_allowed": ["growth", "enterprise"],
+    "sectors_allowed": [
+      "f_and_b",
+      "food_and_beverage",
+      "retail",
+      "retail_lifestyle",
+      "beauty",
+      "beauty_personal_care",
+      "fashion",
+      "healthcare_wellness"
+    ],
+    "occasions_allowed": [
+      "national_day",
+      "saudi_national_day"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
     "min_brand_maturity_days": 0
   },
   "cultural_constraints": {
@@ -35,7 +71,10 @@
   },
   "cost_estimate_usd": 0.025,
   "latency_estimate_seconds": 15,
-  "best_for_cd_brains": ["cd_03", "cd_04"],
+  "best_for_cd_brains": [
+    "cd_03",
+    "cd_04"
+  ],
   "anti_patterns": [
     "Avoid in output: text",
     "Avoid in output: watermark",

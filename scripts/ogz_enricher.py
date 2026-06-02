@@ -677,6 +677,11 @@ def commit_and_sync(report: dict) -> bool:
     else:
         log.info("  ⏭ Postgres sync skipped (DB may not be running)")
 
+    # Update learning analytics (daemon log mining) every 10 cycles
+    if cycle_num % 10 == 0:
+        _run([sys.executable, "scripts/learning_system.py", "--daemon-analytics", "--work-patterns"], timeout=60)
+        log.info("  ✅ Learning analytics updated")
+
     return True
 
 

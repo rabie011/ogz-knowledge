@@ -153,7 +153,23 @@ def main():
     if not schema_ok:
         issues.append(f"Schema: {schema_msg}")
 
-    # 5. Key logs
+    # 5. Embedding drift
+    emb_idx = LOGS / "obs_search_index.json"
+    if emb_idx.exists():
+        import json as _json
+        emb_count = len(_json.loads(emb_idx.read_text()))
+        gap = total - emb_count
+        gap_pct = 100 * gap / total if total else 0
+        if gap_pct > 5:
+            lines.append(f"⚠️ *Embedding drift:* {emb_count}/{total} embedded ({gap_pct:.0f}% gap)")
+            issues.append(f"Embedding drift: {gap} obs not embedded ({gap_pct:.0f}%)")
+        else:
+            lines.append(f"✅ *Embeddings:* {emb_count}/{total}")
+    else:
+        lines.append("⚠️ *Embeddings:* index file missing")
+        issues.append("Embedding index missing")
+
+    # 6. Key logs
     missing_logs = check_key_logs()
     if missing_logs:
         lines.append(f"⚠️ *Missing logs:* {', '.join(missing_logs)}")

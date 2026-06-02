@@ -21,6 +21,7 @@ from collections import Counter
 BASE = Path(__file__).parent.parent
 os.chdir(BASE)
 
+quick = "--quick" in sys.argv
 issues = []
 
 def fail(category, msg):
@@ -184,6 +185,24 @@ if bad_pattern_files:
     fail("PATTERN", f"{len(bad_pattern_files)} pattern files with bad slugs: {bad_pattern_files[:3]}")
 else:
     ok("All pattern file slugs clean")
+
+# ── 4b. Sector Alias Validation
+alias_path = '12_data_shapes/sector_aliases.json'
+if os.path.exists(alias_path):
+    with open(alias_path) as f:
+        sa_config = json.load(f)
+    canonical = set(sa_config.get('canonical', []))
+    non_canonical = set()
+    for _, d in all_obs:
+        s = d.get('sector', '')
+        if s and s not in canonical:
+            non_canonical.add(s)
+    if non_canonical:
+        fail("SECTOR", f"Non-canonical sector values in obs: {non_canonical} — must be one of {canonical}")
+    else:
+        ok(f"All obs use canonical sector names ({len(canonical)} sectors)")
+else:
+    ok("No sector_aliases.json (skipping canonical check)")
 
 # ═══════════════════════════════════════════════════════════
 # 5. COVERAGE GAPS

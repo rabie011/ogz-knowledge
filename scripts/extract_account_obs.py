@@ -770,6 +770,28 @@ def write_observation(raw: dict, cls: dict, account_ulid: str) -> Path:
         },
     }
 
+    # Normalize all GPT-derived fields before writing
+    try:
+        from lib.normalize_gpt import normalize_obs_fields
+        normalize_obs_fields(obs)
+    except ImportError:
+        pass
+
+    # Content hash dedup — catch duplicates that URL dedup misses
+    import hashlib
+    source_url = obs.get("content_ref", {}).get("source_url", "")
+    ct = obs.get("content_ref", {}).get("content_type", "")
+    caption_head = (obs.get("voice_observations", {}).get("caption_text", "") or "")[:100]
+    content_hash = hashlib.md5(f"{source_url}|{ct}|{caption_head}".encode()).hexdigest()
+    hash_marker = obs_dir / f".content_hashes"
+    seen_hashes = set()
+    if hash_marker.exists():
+        seen_hashes = set(hash_marker.read_text().strip().split("\n"))
+    if content_hash in seen_hashes:
+        return None  # duplicate — skip writing
+    seen_hashes.add(content_hash)
+    hash_marker.write_text("\n".join(seen_hashes))
+
     out = obs_dir / f"{obs_ulid}.json"
     out.write_text(json.dumps(obs, ensure_ascii=False, indent=2))
     return out

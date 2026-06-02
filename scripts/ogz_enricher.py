@@ -378,9 +378,18 @@ def module_extract_accounts() -> int:
         m2 = re.search(r"image=(\d+)\s+video=(\d+)\s+carousel=(\d+)", stdout)
         breakdown = f" (img={m2.group(1)} vid={m2.group(2)} car={m2.group(3)})" if m2 else ""
 
-        if rc == 0:
+        if rc == 0 and n > 0:
             total_written += n
+            acct["_zero_count"] = 0
             log.info(f"    ✅ @{handle}: {n} obs written{breakdown}")
+        elif rc == 0 and n == 0:
+            acct["_zero_count"] = acct.get("_zero_count", 0) + 1
+            log.warning(f"    ⚠ @{handle}: 0 obs returned (zero #{acct['_zero_count']})")
+            if acct["_zero_count"] >= 3:
+                log.warning(f"    ⚠ @{handle}: 3 consecutive 0-result extractions — marking force_done")
+                acct["status"] = "force_done"
+                acct["note"] = f"force_done: {acct['_zero_count']} consecutive 0-result extractions. Handle may be wrong, private, or empty."
+            _save_target_accounts(target_accounts)
         else:
             log.warning(f"    ⚠ @{handle} extraction failed (rc={rc})")
             if stderr:

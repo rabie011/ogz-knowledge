@@ -18,6 +18,10 @@ provenance:
 
 **Model:** Claude Sonnet 4.6
 **Role:** CEO — master routing intelligence for OGz AI / OpenClaw platform
+
+{intelligence_context}
+<!-- Runtime injection point: call POST /api/intelligence/context with sector + occasion + role=ceo
+     to get data-backed rules from 4315 benchmark observations. Inject the response here. -->
 **Version:** 1.0 · Phase 1
 **Storage:** n8n credential object only — never in source code or workflow node text
 

@@ -17,6 +17,12 @@ from datetime import datetime
 BASE        = Path(__file__).parent.parent
 LOGS        = BASE / "logs"
 CHAINS_BASE = BASE / "02_what_to_build"
+INTEL_PATH  = BASE / "11_who_to_learn_from" / "intelligence_layer.json"
+
+# ── Load intelligence layer (the holy book) ──────────────────────────────────
+INTELLIGENCE = {}
+if INTEL_PATH.exists():
+    INTELLIGENCE = json.loads(INTEL_PATH.read_text())
 
 # ── Load env (same approach as fill_missing_patterns.py) ──────────────────────
 def _load_env():
@@ -174,7 +180,21 @@ def _top_n(eng_dict, n=3, min_count=2):
 def generate_brief(sector, occasion, goal, account=None):
     sk = SECTOR_KEY_MAP.get(sector, sector)
 
-    # ── Load all analytics logs ──
+    # ── Load intelligence layer (PRIMARY — distilled rules) ──
+    intel_playbook = INTELLIGENCE.get("sector_playbooks", {}).get(sector, {})
+    intel_must_use = intel_playbook.get("must_use", [])
+    intel_never_use = intel_playbook.get("never_use", [])
+    intel_formulas = intel_playbook.get("winning_formulas", [])
+    intel_visual_dna = intel_playbook.get("visual_dna", [])
+    intel_universal = INTELLIGENCE.get("universal_rules", [])
+    intel_anti = INTELLIGENCE.get("anti_patterns", [])
+    intel_occasion = {r["occasion"]: r for r in INTELLIGENCE.get("occasion_rules", [])}
+    intel_visual = INTELLIGENCE.get("visual_rules", [])
+    intel_caption = INTELLIGENCE.get("caption_rules", [])
+    intel_format = INTELLIGENCE.get("format_rules", [])
+    intel_occ_verdict = intel_occasion.get(occasion, {}).get("verdict", "use_selectively")
+
+    # ── Load all analytics logs (SECONDARY — raw detail) ──
     opp      = _load("occasion_playbook.json")
     vdt      = _load("visual_decision_tree.json")
     ct_an    = _load("content_type_analysis.json")
@@ -517,7 +537,22 @@ def generate_brief(sector, occasion, goal, account=None):
         "data_sources": {
             "occasion_obs":    (pb_entry or {}).get("obs_count",0),
             "sector_occ_obs":  (vdt_node or {}).get("obs_count",0),
-            "total_corpus":    648,
+            "total_corpus":    intel_playbook.get("obs_count", 648),
+        },
+        "intelligence_layer": {
+            "must_use_patterns": [p["pattern"] for p in intel_must_use[:5]],
+            "never_use_patterns": [p["pattern"] for p in intel_never_use[:5]],
+            "winning_formulas": [{
+                "formula": f"{f['content_type']} + {f['pattern']} + {f['occasion']}",
+                "engagement": f.get("high_pct", 0),
+            } for f in intel_formulas[:3]],
+            "visual_dna": [{
+                "combo": f"{v['lighting']} + {v['setting']}",
+                "engagement": v.get("high_pct", 0),
+            } for v in intel_visual_dna[:3]],
+            "occasion_verdict": intel_occ_verdict,
+            "universal_rules": [r["pattern"] for r in intel_universal[:3]],
+            "format_ranking": [f"{f['content_type']} ({f['engagement']}%)" for f in intel_format],
         },
     }
 

@@ -123,6 +123,29 @@ def get_sector_rules(sector: str):
     }
 
 
+class ContextRequest(BaseModel):
+    sector: str
+    occasion: str = "evergreen"
+    agent_role: str = "ceo"
+
+
+@app.post("/api/intelligence/context")
+def intelligence_context(req: ContextRequest):
+    """Generate a prompt-ready intelligence context block for any agent role.
+    This is the endpoint every agent calls before thinking."""
+    sys.path.insert(0, str(REPO / "scripts"))
+    from build_agent_context import build_context
+    ctx, tokens, obs = build_context(req.sector, req.occasion, req.agent_role)
+    return {
+        "context_block": ctx,
+        "token_count": tokens,
+        "obs_backing": obs,
+        "sector": req.sector,
+        "occasion": req.occasion,
+        "role": req.agent_role,
+    }
+
+
 def get_db():
     return psycopg2.connect(DB_URL)
 

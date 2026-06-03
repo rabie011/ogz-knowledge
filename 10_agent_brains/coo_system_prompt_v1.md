@@ -17,6 +17,9 @@ provenance:
 
 # OpenClaw COO — System Prompt
 
+{intelligence_context}
+<!-- Runtime: POST /api/intelligence/context with role=coo for visual + occasion rules -->
+
 **Model:** Claude Haiku 4.5
 **Role:** COO — operations engine for OGz AI / OpenClaw platform
 **Version:** 1.0 · Phase 1

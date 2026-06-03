@@ -1,0 +1,2537 @@
+{
+  "meta": {
+    "name": "OGZ Intelligence Layer",
+    "description": "The distilled brain of the platform. Every agent, brief, score, and recommendation draws from this.",
+    "generated_from": "4315 observations across 42 Saudi Instagram accounts in 6 sectors",
+    "version": "1.0",
+    "generated_at": "2026-06-03T23:36:05.300988"
+  },
+  "universal_rules": [
+    {
+      "rule": "ALWAYS use 'youth_culture_collab' — 100% high engagement across all sectors",
+      "pattern": "youth_culture_collab",
+      "engagement": 100,
+      "obs": 10,
+      "priority": "critical"
+    },
+    {
+      "rule": "ALWAYS use 'heritage_storytelling_hook' — 93% high engagement across all sectors",
+      "pattern": "heritage_storytelling_hook",
+      "engagement": 93,
+      "obs": 14,
+      "priority": "high"
+    },
+    {
+      "rule": "ALWAYS use 'overhead_tabletop_spread' — 88% high engagement across all sectors",
+      "pattern": "overhead_tabletop_spread",
+      "engagement": 88,
+      "obs": 41,
+      "priority": "high"
+    },
+    {
+      "rule": "ALWAYS use 'cultural_object_hero' — 86% high engagement across all sectors",
+      "pattern": "cultural_object_hero",
+      "engagement": 86,
+      "obs": 22,
+      "priority": "high"
+    },
+    {
+      "rule": "ALWAYS use 'community_pride_statement' — 85% high engagement across all sectors",
+      "pattern": "community_pride_statement",
+      "engagement": 85,
+      "obs": 13,
+      "priority": "high"
+    },
+    {
+      "rule": "ALWAYS use 'customer_voice_ugc' — 84% high engagement across all sectors",
+      "pattern": "customer_voice_ugc",
+      "engagement": 84,
+      "obs": 32,
+      "priority": "high"
+    },
+    {
+      "rule": "ALWAYS use 'close_up_macro_texture' — 83% high engagement across all sectors",
+      "pattern": "close_up_macro_texture",
+      "engagement": 83,
+      "obs": 35,
+      "priority": "high"
+    },
+    {
+      "rule": "ALWAYS use 'giveaway_contest' — 83% high engagement across all sectors",
+      "pattern": "giveaway_contest",
+      "engagement": 83,
+      "obs": 12,
+      "priority": "high"
+    },
+    {
+      "rule": "ALWAYS use 'model_centered_frontal_portrait' — 82% high engagement across all sectors",
+      "pattern": "model_centered_frontal_portrait",
+      "engagement": 82,
+      "obs": 11,
+      "priority": "high"
+    }
+  ],
+  "anti_patterns": [
+    {
+      "rule": "NEVER use 'cafe_bakery' — only 10% high engagement",
+      "pattern": "cafe_bakery",
+      "engagement": 10,
+      "obs": 10
+    },
+    {
+      "rule": "NEVER use 'casual_marketing' — only 10% high engagement",
+      "pattern": "casual_marketing",
+      "engagement": 10,
+      "obs": 59
+    },
+    {
+      "rule": "NEVER use 'local_pride_signal' — only 10% high engagement",
+      "pattern": "local_pride_signal",
+      "engagement": 10,
+      "obs": 21
+    },
+    {
+      "rule": "NEVER use 'design_community' — only 9% high engagement",
+      "pattern": "design_community",
+      "engagement": 9,
+      "obs": 22
+    },
+    {
+      "rule": "NEVER use 'creative_format_experiment' — only 9% high engagement",
+      "pattern": "creative_format_experiment",
+      "engagement": 9,
+      "obs": 11
+    },
+    {
+      "rule": "NEVER use 'delivery_convenience' — only 8% high engagement",
+      "pattern": "delivery_convenience",
+      "engagement": 8,
+      "obs": 12
+    },
+    {
+      "rule": "NEVER use 'restaurant_promotion' — only 8% high engagement",
+      "pattern": "restaurant_promotion",
+      "engagement": 8,
+      "obs": 12
+    },
+    {
+      "rule": "NEVER use 'luxury_venue' — only 8% high engagement",
+      "pattern": "luxury_venue",
+      "engagement": 8,
+      "obs": 12
+    },
+    {
+      "rule": "NEVER use 'ramadan_food_promo' — only 8% high engagement",
+      "pattern": "ramadan_food_promo",
+      "engagement": 8,
+      "obs": 13
+    },
+    {
+      "rule": "NEVER use 'occasion_playseid_campaign' — only 8% high engagement",
+      "pattern": "occasion_playseid_campaign",
+      "engagement": 8,
+      "obs": 167
+    },
+    {
+      "rule": "NEVER use 'saudi_agriculture' — only 8% high engagement",
+      "pattern": "saudi_agriculture",
+      "engagement": 8,
+      "obs": 12
+    },
+    {
+      "rule": "NEVER use 'local_cuisine' — only 8% high engagement",
+      "pattern": "local_cuisine",
+      "engagement": 8,
+      "obs": 13
+    },
+    {
+      "rule": "NEVER use 'food_photography' — only 8% high engagement",
+      "pattern": "food_photography",
+      "engagement": 8,
+      "obs": 185
+    },
+    {
+      "rule": "NEVER use 'riyadh_f_and_b' — only 7% high engagement",
+      "pattern": "riyadh_f_and_b",
+      "engagement": 7,
+      "obs": 99
+    },
+    {
+      "rule": "NEVER use 'beach_lifestyle' — only 7% high engagement",
+      "pattern": "beach_lifestyle",
+      "engagement": 7,
+      "obs": 27
+    },
+    {
+      "rule": "NEVER use 'occasion_plays' — only 7% high engagement",
+      "pattern": "occasion_plays",
+      "engagement": 7,
+      "obs": 58
+    },
+    {
+      "rule": "NEVER use 'hashtag_restaurant_romantic' — only 7% high engagement",
+      "pattern": "hashtag_restaurant_romantic",
+      "engagement": 7,
+      "obs": 57
+    },
+    {
+      "rule": "NEVER use 'fashion_accessory_integration' — only 7% high engagement",
+      "pattern": "fashion_accessory_integration",
+      "engagement": 7,
+      "obs": 87
+    },
+    {
+      "rule": "NEVER use 'ramadan_f_and_b' — only 6% high engagement",
+      "pattern": "ramadan_f_and_b",
+      "engagement": 6,
+      "obs": 18
+    },
+    {
+      "rule": "NEVER use 'collab_post' — only 6% high engagement",
+      "pattern": "collab_post",
+      "engagement": 6,
+      "obs": 87
+    },
+    {
+      "rule": "NEVER use 'riyadh_dining' — only 5% high engagement",
+      "pattern": "riyadh_dining",
+      "engagement": 5,
+      "obs": 22
+    },
+    {
+      "rule": "NEVER use 'occasion_tie_in' — only 5% high engagement",
+      "pattern": "occasion_tie_in",
+      "engagement": 5,
+      "obs": 61
+    },
+    {
+      "rule": "NEVER use 'beauty_product_launch' — only 5% high engagement",
+      "pattern": "beauty_product_launch",
+      "engagement": 5,
+      "obs": 19
+    },
+    {
+      "rule": "NEVER use 'tutorial_how_to' — only 4% high engagement",
+      "pattern": "tutorial_how_to",
+      "engagement": 4,
+      "obs": 254
+    },
+    {
+      "rule": "NEVER use 'occasion_playscultural_moment_tie_in' — only 4% high engagement",
+      "pattern": "occasion_playscultural_moment_tie_in",
+      "engagement": 4,
+      "obs": 133
+    },
+    {
+      "rule": "NEVER use 'beauty_cosmetics' — only 4% high engagement",
+      "pattern": "beauty_cosmetics",
+      "engagement": 4,
+      "obs": 81
+    },
+    {
+      "rule": "NEVER use 'f_and_b_romantic' — only 4% high engagement",
+      "pattern": "f_and_b_romantic",
+      "engagement": 4,
+      "obs": 75
+    },
+    {
+      "rule": "NEVER use 'beauty_wellness' — only 4% high engagement",
+      "pattern": "beauty_wellness",
+      "engagement": 4,
+      "obs": 124
+    },
+    {
+      "rule": "NEVER use 'natural_ingredient_claim' — only 4% high engagement",
+      "pattern": "natural_ingredient_claim",
+      "engagement": 4,
+      "obs": 24
+    },
+    {
+      "rule": "NEVER use 'tutorial_routine' — only 4% high engagement",
+      "pattern": "tutorial_routine",
+      "engagement": 4,
+      "obs": 192
+    },
+    {
+      "rule": "NEVER use 'educational_content' — only 3% high engagement",
+      "pattern": "educational_content",
+      "engagement": 3,
+      "obs": 265
+    },
+    {
+      "rule": "NEVER use 'poetic_arabic_copy' — only 3% high engagement",
+      "pattern": "poetic_arabic_copy",
+      "engagement": 3,
+      "obs": 38
+    },
+    {
+      "rule": "NEVER use 'women_empowerment_day' — only 3% high engagement",
+      "pattern": "women_empowerment_day",
+      "engagement": 3,
+      "obs": 36
+    },
+    {
+      "rule": "NEVER use 'cultural_venue' — only 2% high engagement",
+      "pattern": "cultural_venue",
+      "engagement": 2,
+      "obs": 42
+    },
+    {
+      "rule": "NEVER use 'lifestyle_embed' — only 2% high engagement",
+      "pattern": "lifestyle_embed",
+      "engagement": 2,
+      "obs": 43
+    },
+    {
+      "rule": "NEVER use 'riyadh_local_commerce' — only 0% high engagement",
+      "pattern": "riyadh_local_commerce",
+      "engagement": 0,
+      "obs": 10
+    },
+    {
+      "rule": "NEVER use 'morning_routine' — only 0% high engagement",
+      "pattern": "morning_routine",
+      "engagement": 0,
+      "obs": 10
+    },
+    {
+      "rule": "NEVER use 'lifestyle_product' — only 0% high engagement",
+      "pattern": "lifestyle_product",
+      "engagement": 0,
+      "obs": 15
+    },
+    {
+      "rule": "NEVER use 'product_results_claim' — only 0% high engagement",
+      "pattern": "product_results_claim",
+      "engagement": 0,
+      "obs": 10
+    },
+    {
+      "rule": "NEVER use 'saudi_colloquial' — only 0% high engagement",
+      "pattern": "saudi_colloquial",
+      "engagement": 0,
+      "obs": 14
+    },
+    {
+      "rule": "NEVER use 'extended_hours' — only 0% high engagement",
+      "pattern": "extended_hours",
+      "engagement": 0,
+      "obs": 23
+    },
+    {
+      "rule": "NEVER use 'summer_promotion' — only 0% high engagement",
+      "pattern": "summer_promotion",
+      "engagement": 0,
+      "obs": 10
+    },
+    {
+      "rule": "NEVER use 'delivery_app_mention' — only 0% high engagement",
+      "pattern": "delivery_app_mention",
+      "engagement": 0,
+      "obs": 14
+    },
+    {
+      "rule": "NEVER use 'enhancement_not_transformation' — only 0% high engagement",
+      "pattern": "enhancement_not_transformation",
+      "engagement": 0,
+      "obs": 15
+    },
+    {
+      "rule": "NEVER use 'italian_cuisine' — only 0% high engagement",
+      "pattern": "italian_cuisine",
+      "engagement": 0,
+      "obs": 52
+    },
+    {
+      "rule": "NEVER use 'eid_family_gathering' — only 0% high engagement",
+      "pattern": "eid_family_gathering",
+      "engagement": 0,
+      "obs": 126
+    },
+    {
+      "rule": "NEVER use 'influencer_review' — only 0% high engagement",
+      "pattern": "influencer_review",
+      "engagement": 0,
+      "obs": 18
+    },
+    {
+      "rule": "NEVER use 'delivery_service_highlight' — only 0% high engagement",
+      "pattern": "delivery_service_highlight",
+      "engagement": 0,
+      "obs": 10
+    },
+    {
+      "rule": "NEVER use 'authenticity_positioning' — only 0% high engagement",
+      "pattern": "authenticity_positioning",
+      "engagement": 0,
+      "obs": 10
+    },
+    {
+      "rule": "NEVER use 'skincare_beauty_bridge' — only 0% high engagement",
+      "pattern": "skincare_beauty_bridge",
+      "engagement": 0,
+      "obs": 16
+    },
+    {
+      "rule": "NEVER use 'ramadan_decorated_night' — only 0% high engagement",
+      "pattern": "ramadan_decorated_night",
+      "engagement": 0,
+      "obs": 10
+    }
+  ],
+  "visual_rules": [
+    {
+      "rule": "USE dramatic_moody + studio — 90% high",
+      "type": "preferred",
+      "lighting": "dramatic_moody",
+      "setting": "studio",
+      "engagement": 90,
+      "obs": 21
+    },
+    {
+      "rule": "USE warm_studio + heritage_setting — 82% high",
+      "type": "preferred",
+      "lighting": "warm_studio",
+      "setting": "heritage_setting",
+      "engagement": 82,
+      "obs": 11
+    },
+    {
+      "rule": "USE mixed_ambient + studio — 81% high",
+      "type": "preferred",
+      "lighting": "mixed_ambient",
+      "setting": "studio",
+      "engagement": 81,
+      "obs": 16
+    },
+    {
+      "rule": "USE natural_daylight + restaurant_indoor — 80% high",
+      "type": "preferred",
+      "lighting": "natural_daylight",
+      "setting": "restaurant_indoor",
+      "engagement": 80,
+      "obs": 15
+    },
+    {
+      "rule": "USE natural_daylight + outdoor_nature — 78% high",
+      "type": "preferred",
+      "lighting": "natural_daylight",
+      "setting": "outdoor_nature",
+      "engagement": 78,
+      "obs": 23
+    },
+    {
+      "rule": "USE flat_graphic + digital_graphic — 68% high",
+      "type": "preferred",
+      "lighting": "flat_graphic",
+      "setting": "digital_graphic",
+      "engagement": 68,
+      "obs": 25
+    },
+    {
+      "rule": "USE warm_studio + restaurant_indoor — 67% high",
+      "type": "preferred",
+      "lighting": "warm_studio",
+      "setting": "restaurant_indoor",
+      "engagement": 67,
+      "obs": 18
+    },
+    {
+      "rule": "USE cold_studio + studio — 61% high",
+      "type": "preferred",
+      "lighting": "cold_studio",
+      "setting": "studio",
+      "engagement": 61,
+      "obs": 31
+    },
+    {
+      "rule": "AVOID warm_studio + salon — only 14% high",
+      "type": "avoid",
+      "lighting": "warm_studio",
+      "setting": "salon",
+      "engagement": 14,
+      "obs": 28
+    },
+    {
+      "rule": "AVOID flat_bright + unknown — only 13% high",
+      "type": "avoid",
+      "lighting": "flat_bright",
+      "setting": "unknown",
+      "engagement": 13,
+      "obs": 30
+    },
+    {
+      "rule": "AVOID warm_studio + home — only 5% high",
+      "type": "avoid",
+      "lighting": "warm_studio",
+      "setting": "home",
+      "engagement": 5,
+      "obs": 19
+    },
+    {
+      "rule": "AVOID natural + studio — only 4% high",
+      "type": "avoid",
+      "lighting": "natural",
+      "setting": "studio",
+      "engagement": 4,
+      "obs": 159
+    },
+    {
+      "rule": "AVOID studio + retail_store — only 4% high",
+      "type": "avoid",
+      "lighting": "studio",
+      "setting": "retail_store",
+      "engagement": 4,
+      "obs": 72
+    },
+    {
+      "rule": "AVOID natural + home — only 3% high",
+      "type": "avoid",
+      "lighting": "natural",
+      "setting": "home",
+      "engagement": 3,
+      "obs": 58
+    },
+    {
+      "rule": "AVOID natural + unknown — only 1% high",
+      "type": "avoid",
+      "lighting": "natural",
+      "setting": "unknown",
+      "engagement": 1,
+      "obs": 70
+    },
+    {
+      "rule": "AVOID natural + salon — only 0% high",
+      "type": "avoid",
+      "lighting": "natural",
+      "setting": "salon",
+      "engagement": 0,
+      "obs": 15
+    }
+  ],
+  "caption_rules": [
+    {
+      "rule": "Write in arabic — 30% high vs 18% for bilingual",
+      "type": "language",
+      "ranking": [
+        {
+          "lang": "arabic",
+          "total": 1558,
+          "high_pct": 30
+        },
+        {
+          "lang": "english",
+          "total": 348,
+          "high_pct": 24
+        },
+        {
+          "lang": "none",
+          "total": 137,
+          "high_pct": 19
+        },
+        {
+          "lang": "bilingual",
+          "total": 653,
+          "high_pct": 18
+        }
+      ]
+    },
+    {
+      "rule": "Caption length matters — medium (50-200 chars) performs best",
+      "type": "length",
+      "ranking": [
+        {
+          "length": "medium",
+          "total": 1403,
+          "high_pct": 25
+        },
+        {
+          "length": "long",
+          "total": 647,
+          "high_pct": 24
+        },
+        {
+          "length": "very_long",
+          "total": 245,
+          "high_pct": 22
+        },
+        {
+          "length": "short",
+          "total": 219,
+          "high_pct": 18
+        }
+      ]
+    }
+  ],
+  "occasion_rules": [
+    {
+      "occasion": "brand_campaign",
+      "engagement": 100,
+      "obs": 5,
+      "verdict": "invest_heavily",
+      "rule": "brand_campaign: GO ALL IN (100%)"
+    },
+    {
+      "occasion": "summer_campaign",
+      "engagement": 100,
+      "obs": 7,
+      "verdict": "invest_heavily",
+      "rule": "summer_campaign: GO ALL IN (100%)"
+    },
+    {
+      "occasion": "founding_day",
+      "engagement": 85,
+      "obs": 13,
+      "verdict": "invest_heavily",
+      "rule": "founding_day: GO ALL IN (85%)"
+    },
+    {
+      "occasion": "jeddah_season",
+      "engagement": 45,
+      "obs": 95,
+      "verdict": "use_selectively",
+      "rule": "jeddah_season: Use carefully (45%)"
+    },
+    {
+      "occasion": "national_day",
+      "engagement": 40,
+      "obs": 30,
+      "verdict": "use_selectively",
+      "rule": "national_day: Use carefully (40%)"
+    },
+    {
+      "occasion": "evergreen",
+      "engagement": 31,
+      "obs": 1293,
+      "verdict": "use_selectively",
+      "rule": "evergreen: Use carefully (31%)"
+    },
+    {
+      "occasion": "ramadan",
+      "engagement": 26,
+      "obs": 399,
+      "verdict": "use_selectively",
+      "rule": "ramadan: Use carefully (26%)"
+    },
+    {
+      "occasion": "eid_al_fitr",
+      "engagement": 23,
+      "obs": 48,
+      "verdict": "reconsider_approach",
+      "rule": "eid_al_fitr: UNDERPERFORMING — fix strategy (23%)"
+    },
+    {
+      "occasion": "leap_conference",
+      "engagement": 22,
+      "obs": 76,
+      "verdict": "reconsider_approach",
+      "rule": "leap_conference: UNDERPERFORMING — fix strategy (22%)"
+    },
+    {
+      "occasion": "riyadh_season",
+      "engagement": 15,
+      "obs": 681,
+      "verdict": "reconsider_approach",
+      "rule": "riyadh_season: UNDERPERFORMING — fix strategy (15%)"
+    },
+    {
+      "occasion": "hajj_season",
+      "engagement": 11,
+      "obs": 57,
+      "verdict": "reconsider_approach",
+      "rule": "hajj_season: UNDERPERFORMING — fix strategy (11%)"
+    },
+    {
+      "occasion": "eid_al_adha",
+      "engagement": 10,
+      "obs": 10,
+      "verdict": "reconsider_approach",
+      "rule": "eid_al_adha: UNDERPERFORMING — fix strategy (10%)"
+    },
+    {
+      "occasion": "sporting_event",
+      "engagement": 0,
+      "obs": 6,
+      "verdict": "reconsider_approach",
+      "rule": "sporting_event: UNDERPERFORMING — fix strategy (0%)"
+    }
+  ],
+  "format_rules": [
+    {
+      "content_type": "reel",
+      "engagement": 71,
+      "obs": 31,
+      "rule": "reel: 71% high engagement (31 obs)"
+    },
+    {
+      "content_type": "carousel_slide",
+      "engagement": 27,
+      "obs": 513,
+      "rule": "carousel_slide: 27% high engagement (513 obs)"
+    },
+    {
+      "content_type": "image",
+      "engagement": 27,
+      "obs": 1180,
+      "rule": "image: 27% high engagement (1180 obs)"
+    },
+    {
+      "content_type": "video",
+      "engagement": 24,
+      "obs": 1006,
+      "rule": "video: 24% high engagement (1006 obs)"
+    }
+  ],
+  "cross_sector_transfers": [
+    {
+      "rule": "Transfer 'occasion_specific_greeting' from f_and_b (100%) to fashion (0%)",
+      "pattern": "occasion_specific_greeting",
+      "strong_in": "f_and_b",
+      "strong_pct": 100,
+      "weak_in": "fashion",
+      "weak_pct": 0
+    },
+    {
+      "rule": "Transfer 'urgency_without_pressure' from f_and_b (100%) to fashion (0%)",
+      "pattern": "urgency_without_pressure",
+      "strong_in": "f_and_b",
+      "strong_pct": 100,
+      "weak_in": "fashion",
+      "weak_pct": 0
+    },
+    {
+      "rule": "Transfer 'lifestyle_environment_integration' from f_and_b (87%) to fashion (0%)",
+      "pattern": "lifestyle_environment_integration",
+      "strong_in": "f_and_b",
+      "strong_pct": 87,
+      "weak_in": "fashion",
+      "weak_pct": 0
+    },
+    {
+      "rule": "Transfer 'lifestyle_environment_integration' from f_and_b (87%) to retail_lifestyle (0%)",
+      "pattern": "lifestyle_environment_integration",
+      "strong_in": "f_and_b",
+      "strong_pct": 87,
+      "weak_in": "retail_lifestyle",
+      "weak_pct": 0
+    },
+    {
+      "rule": "Transfer 'founding_day_dirayyah_heritage' from f_and_b (83%) to real_estate (0%)",
+      "pattern": "founding_day_dirayyah_heritage",
+      "strong_in": "f_and_b",
+      "strong_pct": 83,
+      "weak_in": "real_estate",
+      "weak_pct": 0
+    },
+    {
+      "rule": "Transfer 'seasonal_collection_drop' from f_and_b (78%) to fashion (0%)",
+      "pattern": "seasonal_collection_drop",
+      "strong_in": "f_and_b",
+      "strong_pct": 78,
+      "weak_in": "fashion",
+      "weak_pct": 0
+    },
+    {
+      "rule": "Transfer 'international_achievement' from f_and_b (74%) to beauty_personal_care (0%)",
+      "pattern": "international_achievement",
+      "strong_in": "f_and_b",
+      "strong_pct": 74,
+      "weak_in": "beauty_personal_care",
+      "weak_pct": 0
+    },
+    {
+      "rule": "Transfer 'international_achievement' from f_and_b (74%) to real_estate (0%)",
+      "pattern": "international_achievement",
+      "strong_in": "f_and_b",
+      "strong_pct": 74,
+      "weak_in": "real_estate",
+      "weak_pct": 0
+    },
+    {
+      "rule": "Transfer 'arabic_hospitality_cue' from f_and_b (71%) to real_estate (0%)",
+      "pattern": "arabic_hospitality_cue",
+      "strong_in": "f_and_b",
+      "strong_pct": 71,
+      "weak_in": "real_estate",
+      "weak_pct": 0
+    },
+    {
+      "rule": "Transfer 'occasion_peg' from f_and_b (71%) to healthcare_wellness (19%)",
+      "pattern": "occasion_peg",
+      "strong_in": "f_and_b",
+      "strong_pct": 71,
+      "weak_in": "healthcare_wellness",
+      "weak_pct": 19
+    }
+  ],
+  "sector_playbooks": {
+    "beauty_personal_care": {
+      "must_use": [],
+      "winning_formulas": [],
+      "visual_dna": [
+        {
+          "lighting": "mixed_ambient",
+          "setting": "studio",
+          "total": 5,
+          "high_pct": 40
+        },
+        {
+          "lighting": "warm_studio",
+          "setting": "retail_store",
+          "total": 5,
+          "high_pct": 40
+        },
+        {
+          "lighting": "warm_studio",
+          "setting": "salon",
+          "total": 28,
+          "high_pct": 14
+        },
+        {
+          "lighting": "golden_hour",
+          "setting": "outdoor",
+          "total": 14,
+          "high_pct": 14
+        },
+        {
+          "lighting": "warm_studio",
+          "setting": "studio",
+          "total": 50,
+          "high_pct": 6
+        }
+      ],
+      "never_use": [
+        {
+          "pattern": "arabic_caption",
+          "as": "image",
+          "engagement": 5,
+          "obs": 44
+        },
+        {
+          "pattern": "educational_content",
+          "as": "carousel_slide",
+          "engagement": 5,
+          "obs": 41
+        },
+        {
+          "pattern": "educational_content",
+          "as": "video",
+          "engagement": 5,
+          "obs": 80
+        },
+        {
+          "pattern": "brand_hashtag_promotion",
+          "as": "image",
+          "engagement": 4,
+          "obs": 28
+        },
+        {
+          "pattern": "tutorial_how_to",
+          "as": "carousel_slide",
+          "engagement": 3,
+          "obs": 37
+        },
+        {
+          "pattern": "occasion_tie_in",
+          "as": "image",
+          "engagement": 3,
+          "obs": 38
+        },
+        {
+          "pattern": "tutorial_routine",
+          "as": "video",
+          "engagement": 3,
+          "obs": 73
+        },
+        {
+          "pattern": "tutorial_routine",
+          "as": "image",
+          "engagement": 3,
+          "obs": 78
+        },
+        {
+          "pattern": "tutorial_how_to",
+          "as": "image",
+          "engagement": 2,
+          "obs": 120
+        },
+        {
+          "pattern": "tutorial_how_to",
+          "as": "video",
+          "engagement": 2,
+          "obs": 81
+        },
+        {
+          "pattern": "educational_content",
+          "as": "image",
+          "engagement": 2,
+          "obs": 132
+        },
+        {
+          "pattern": "beauty_wellness",
+          "as": "image",
+          "engagement": 1,
+          "obs": 77
+        },
+        {
+          "pattern": "product_results_claim",
+          "as": "image",
+          "engagement": 0,
+          "obs": 9
+        },
+        {
+          "pattern": "enhancement_not_transformation",
+          "as": "image",
+          "engagement": 0,
+          "obs": 15
+        },
+        {
+          "pattern": "food_beverage_product",
+          "as": "image",
+          "engagement": 0,
+          "obs": 6
+        },
+        {
+          "pattern": "influencer_review",
+          "as": "video",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "food_product_showcase",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 18
+        },
+        {
+          "pattern": "influencer_review",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "beauty_cosmetics",
+          "as": "image",
+          "engagement": 0,
+          "obs": 33
+        },
+        {
+          "pattern": "local_pride_signal",
+          "as": "image",
+          "engagement": 0,
+          "obs": 16
+        },
+        {
+          "pattern": "beauty_wellness",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 11
+        },
+        {
+          "pattern": "beauty_product_launch",
+          "as": "image",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "purification_claim",
+          "as": "image",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "authenticity_positioning",
+          "as": "image",
+          "engagement": 0,
+          "obs": 8
+        },
+        {
+          "pattern": "cultural_pride",
+          "as": "image",
+          "engagement": 0,
+          "obs": 6
+        },
+        {
+          "pattern": "food_photography",
+          "as": "image",
+          "engagement": 0,
+          "obs": 8
+        },
+        {
+          "pattern": "influencer_review",
+          "as": "image",
+          "engagement": 0,
+          "obs": 8
+        },
+        {
+          "pattern": "skincare_beauty_bridge",
+          "as": "image",
+          "engagement": 0,
+          "obs": 11
+        },
+        {
+          "pattern": "beauty_product_launch",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 9
+        },
+        {
+          "pattern": "saudi_pride",
+          "as": "image",
+          "engagement": 0,
+          "obs": 8
+        },
+        {
+          "pattern": "brand_hashtag_promotion",
+          "as": "video",
+          "engagement": 0,
+          "obs": 28
+        },
+        {
+          "pattern": "food_product_showcase",
+          "as": "image",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "food_beverage_product",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 6
+        },
+        {
+          "pattern": "beauty_cosmetics",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 22
+        },
+        {
+          "pattern": "arabic_caption",
+          "as": "video",
+          "engagement": 0,
+          "obs": 45
+        },
+        {
+          "pattern": "natural_ingredient_claim",
+          "as": "image",
+          "engagement": 0,
+          "obs": 23
+        },
+        {
+          "pattern": "arabic_casual_mood_trigger",
+          "as": "image",
+          "engagement": 0,
+          "obs": 5
+        }
+      ],
+      "obs_count": 320
+    },
+    "f_and_b": {
+      "must_use": [
+        {
+          "pattern": "occasion_specific_greeting",
+          "as": "image",
+          "engagement": 100,
+          "obs": 6
+        },
+        {
+          "pattern": "invitation_to_witness",
+          "as": "reel",
+          "engagement": 100,
+          "obs": 3
+        },
+        {
+          "pattern": "fnb_holiday_content",
+          "as": "video",
+          "engagement": 100,
+          "obs": 3
+        },
+        {
+          "pattern": "sports_cultural_moment",
+          "as": "carousel_slide",
+          "engagement": 100,
+          "obs": 3
+        },
+        {
+          "pattern": "pattern_repeat_flatlay",
+          "as": "carousel_slide",
+          "engagement": 100,
+          "obs": 5
+        },
+        {
+          "pattern": "urgency_without_pressure",
+          "as": "image",
+          "engagement": 100,
+          "obs": 5
+        },
+        {
+          "pattern": "sports_passion_peg",
+          "as": "carousel_slide",
+          "engagement": 100,
+          "obs": 3
+        },
+        {
+          "pattern": "eid_occasion_activation",
+          "as": "video",
+          "engagement": 100,
+          "obs": 3
+        },
+        {
+          "pattern": "pricing_transparency",
+          "as": "image",
+          "engagement": 100,
+          "obs": 3
+        },
+        {
+          "pattern": "question_cta",
+          "as": "video",
+          "engagement": 100,
+          "obs": 4
+        },
+        {
+          "pattern": "event_collab_announcement",
+          "as": "carousel_slide",
+          "engagement": 100,
+          "obs": 3
+        },
+        {
+          "pattern": "heritage_storytelling_hook",
+          "as": "image",
+          "engagement": 100,
+          "obs": 7
+        },
+        {
+          "pattern": "cultural_object_hero",
+          "as": "carousel_slide",
+          "engagement": 100,
+          "obs": 9
+        },
+        {
+          "pattern": "split_screen_before_after",
+          "as": "carousel_slide",
+          "engagement": 100,
+          "obs": 4
+        },
+        {
+          "pattern": "youth_culture_collab",
+          "as": "image",
+          "engagement": 100,
+          "obs": 3
+        },
+        {
+          "pattern": "parallel_original_bilingual",
+          "as": "image",
+          "engagement": 100,
+          "obs": 6
+        },
+        {
+          "pattern": "heritage_storytelling_hook",
+          "as": "carousel_slide",
+          "engagement": 100,
+          "obs": 3
+        },
+        {
+          "pattern": "contest_giveaway",
+          "as": "carousel_slide",
+          "engagement": 100,
+          "obs": 4
+        },
+        {
+          "pattern": "price_listing",
+          "as": "image",
+          "engagement": 100,
+          "obs": 3
+        },
+        {
+          "pattern": "seasonal_collection_drop",
+          "as": "carousel_slide",
+          "engagement": 100,
+          "obs": 10
+        },
+        {
+          "pattern": "invitation_to_witness",
+          "as": "carousel_slide",
+          "engagement": 100,
+          "obs": 4
+        },
+        {
+          "pattern": "heritage_storytelling_hook",
+          "as": "reel",
+          "engagement": 100,
+          "obs": 3
+        },
+        {
+          "pattern": "limited_time_promo",
+          "as": "video",
+          "engagement": 100,
+          "obs": 3
+        },
+        {
+          "pattern": "seasonal_summer_heat",
+          "as": "carousel_slide",
+          "engagement": 100,
+          "obs": 3
+        },
+        {
+          "pattern": "seasonal_beverage",
+          "as": "image",
+          "engagement": 100,
+          "obs": 3
+        },
+        {
+          "pattern": "youth_culture_collab",
+          "as": "video",
+          "engagement": 100,
+          "obs": 7
+        },
+        {
+          "pattern": "international_achievement",
+          "as": "carousel_slide",
+          "engagement": 100,
+          "obs": 4
+        },
+        {
+          "pattern": "product_hero",
+          "as": "carousel_slide",
+          "engagement": 95,
+          "obs": 42
+        },
+        {
+          "pattern": "close_up_macro_texture",
+          "as": "carousel_slide",
+          "engagement": 93,
+          "obs": 14
+        },
+        {
+          "pattern": "overhead_tabletop_spread",
+          "as": "carousel_slide",
+          "engagement": 90,
+          "obs": 20
+        },
+        {
+          "pattern": "giveaway_contest",
+          "as": "video",
+          "engagement": 88,
+          "obs": 8
+        },
+        {
+          "pattern": "lifestyle_environment_integration",
+          "as": "image",
+          "engagement": 88,
+          "obs": 26
+        },
+        {
+          "pattern": "lifestyle_environment_integration",
+          "as": "carousel_slide",
+          "engagement": 88,
+          "obs": 33
+        },
+        {
+          "pattern": "community_pride_statement",
+          "as": "image",
+          "engagement": 86,
+          "obs": 7
+        },
+        {
+          "pattern": "food_review",
+          "as": "image",
+          "engagement": 86,
+          "obs": 7
+        },
+        {
+          "pattern": "customer_voice_ugc",
+          "as": "carousel_slide",
+          "engagement": 85,
+          "obs": 13
+        },
+        {
+          "pattern": "overhead_tabletop_spread",
+          "as": "image",
+          "engagement": 84,
+          "obs": 19
+        },
+        {
+          "pattern": "brand_milestone_post",
+          "as": "carousel_slide",
+          "engagement": 83,
+          "obs": 6
+        },
+        {
+          "pattern": "community_pride_statement",
+          "as": "carousel_slide",
+          "engagement": 83,
+          "obs": 6
+        },
+        {
+          "pattern": "product_hero",
+          "as": "image",
+          "engagement": 83,
+          "obs": 58
+        },
+        {
+          "pattern": "pattern_repeat_flatlay",
+          "as": "image",
+          "engagement": 83,
+          "obs": 6
+        },
+        {
+          "pattern": "seasonal_collection_drop",
+          "as": "image",
+          "engagement": 83,
+          "obs": 24
+        },
+        {
+          "pattern": "restaurant_recommendation",
+          "as": "image",
+          "engagement": 83,
+          "obs": 6
+        },
+        {
+          "pattern": "close_up_macro_texture",
+          "as": "image",
+          "engagement": 82,
+          "obs": 11
+        },
+        {
+          "pattern": "customer_voice_ugc",
+          "as": "image",
+          "engagement": 82,
+          "obs": 11
+        },
+        {
+          "pattern": "riyadh_location",
+          "as": "carousel_slide",
+          "engagement": 82,
+          "obs": 11
+        },
+        {
+          "pattern": "cultural_object_hero",
+          "as": "image",
+          "engagement": 82,
+          "obs": 11
+        },
+        {
+          "pattern": "hand_in_motion_pour_or_place",
+          "as": "image",
+          "engagement": 80,
+          "obs": 5
+        },
+        {
+          "pattern": "model_centered_frontal_portrait",
+          "as": "reel",
+          "engagement": 80,
+          "obs": 5
+        },
+        {
+          "pattern": "question_cta",
+          "as": "image",
+          "engagement": 80,
+          "obs": 5
+        },
+        {
+          "pattern": "arabic_hospitality_cue",
+          "as": "video",
+          "engagement": 80,
+          "obs": 5
+        },
+        {
+          "pattern": "f_and_b_brand_promotion",
+          "as": "image",
+          "engagement": 80,
+          "obs": 5
+        },
+        {
+          "pattern": "fnb_brand_promotion",
+          "as": "image",
+          "engagement": 80,
+          "obs": 5
+        },
+        {
+          "pattern": "warm_golden_hour_hero",
+          "as": "reel",
+          "engagement": 80,
+          "obs": 5
+        },
+        {
+          "pattern": "international_achievement",
+          "as": "image",
+          "engagement": 78,
+          "obs": 9
+        },
+        {
+          "pattern": "invitation_to_witness",
+          "as": "image",
+          "engagement": 78,
+          "obs": 23
+        },
+        {
+          "pattern": "specific_dish_naming",
+          "as": "image",
+          "engagement": 78,
+          "obs": 9
+        },
+        {
+          "pattern": "warm_najdi_invitational",
+          "as": "carousel_slide",
+          "engagement": 75,
+          "obs": 4
+        },
+        {
+          "pattern": "classical_arabic_warmth",
+          "as": "image",
+          "engagement": 75,
+          "obs": 4
+        },
+        {
+          "pattern": "gaming_esports",
+          "as": "carousel_slide",
+          "engagement": 75,
+          "obs": 4
+        },
+        {
+          "pattern": "f_and_b_brand_promotion",
+          "as": "video",
+          "engagement": 75,
+          "obs": 8
+        },
+        {
+          "pattern": "saudi_day_content",
+          "as": "carousel_slide",
+          "engagement": 75,
+          "obs": 4
+        },
+        {
+          "pattern": "national_day_campaign",
+          "as": "carousel_slide",
+          "engagement": 75,
+          "obs": 4
+        },
+        {
+          "pattern": "casual_dining_promotion",
+          "as": "image",
+          "engagement": 75,
+          "obs": 4
+        },
+        {
+          "pattern": "behind_the_craft",
+          "as": "video",
+          "engagement": 75,
+          "obs": 4
+        },
+        {
+          "pattern": "gamification",
+          "as": "video",
+          "engagement": 75,
+          "obs": 8
+        },
+        {
+          "pattern": "food_pricing",
+          "as": "image",
+          "engagement": 75,
+          "obs": 4
+        },
+        {
+          "pattern": "flag_imagery",
+          "as": "image",
+          "engagement": 75,
+          "obs": 8
+        },
+        {
+          "pattern": "vision_2030",
+          "as": "carousel_slide",
+          "engagement": 75,
+          "obs": 4
+        },
+        {
+          "pattern": "saudi_sports_rivalry",
+          "as": "image",
+          "engagement": 75,
+          "obs": 4
+        },
+        {
+          "pattern": "warm_golden_hour_hero",
+          "as": "image",
+          "engagement": 75,
+          "obs": 8
+        },
+        {
+          "pattern": "color_block_branded_flood",
+          "as": "image",
+          "engagement": 71,
+          "obs": 7
+        },
+        {
+          "pattern": "youth_entertainment",
+          "as": "video",
+          "engagement": 71,
+          "obs": 7
+        },
+        {
+          "pattern": "occasion_peg",
+          "as": "video",
+          "engagement": 71,
+          "obs": 7
+        },
+        {
+          "pattern": "tone_code_switch",
+          "as": "image",
+          "engagement": 70,
+          "obs": 10
+        }
+      ],
+      "winning_formulas": [
+        {
+          "content_type": "carousel_slide",
+          "pattern": "seasonal_collection_drop",
+          "occasion": "evergreen",
+          "total": 10,
+          "high_pct": 100
+        },
+        {
+          "content_type": "carousel_slide",
+          "pattern": "riyadh_location",
+          "occasion": "evergreen",
+          "total": 8,
+          "high_pct": 100
+        },
+        {
+          "content_type": "carousel_slide",
+          "pattern": "cultural_object_hero",
+          "occasion": "evergreen",
+          "total": 7,
+          "high_pct": 100
+        },
+        {
+          "content_type": "video",
+          "pattern": "saudi_professional",
+          "occasion": "ramadan",
+          "total": 7,
+          "high_pct": 100
+        },
+        {
+          "content_type": "video",
+          "pattern": "giveaway_contest",
+          "occasion": "evergreen",
+          "total": 6,
+          "high_pct": 100
+        },
+        {
+          "content_type": "image",
+          "pattern": "parallel_original_bilingual",
+          "occasion": "evergreen",
+          "total": 6,
+          "high_pct": 100
+        },
+        {
+          "content_type": "video",
+          "pattern": "youth_culture_collab",
+          "occasion": "evergreen",
+          "total": 6,
+          "high_pct": 100
+        },
+        {
+          "content_type": "carousel_slide",
+          "pattern": "pattern_repeat_flatlay",
+          "occasion": "evergreen",
+          "total": 5,
+          "high_pct": 100
+        },
+        {
+          "content_type": "image",
+          "pattern": "food_review",
+          "occasion": "riyadh_season",
+          "total": 5,
+          "high_pct": 100
+        },
+        {
+          "content_type": "carousel_slide",
+          "pattern": "brand_milestone_post",
+          "occasion": "evergreen",
+          "total": 5,
+          "high_pct": 100
+        }
+      ],
+      "visual_dna": [
+        {
+          "lighting": "dramatic_moody",
+          "setting": "studio",
+          "total": 19,
+          "high_pct": 100
+        },
+        {
+          "lighting": "mixed_ambient",
+          "setting": "studio",
+          "total": 11,
+          "high_pct": 100
+        },
+        {
+          "lighting": "natural_daylight",
+          "setting": "restaurant_indoor",
+          "total": 14,
+          "high_pct": 86
+        },
+        {
+          "lighting": "mixed_ambient",
+          "setting": "event_venue",
+          "total": 6,
+          "high_pct": 83
+        },
+        {
+          "lighting": "warm_studio",
+          "setting": "heritage_setting",
+          "total": 11,
+          "high_pct": 82
+        }
+      ],
+      "never_use": [
+        {
+          "pattern": "f_and_b_breakfast_promotion",
+          "as": "carousel_slide",
+          "engagement": 5,
+          "obs": 19
+        },
+        {
+          "pattern": "food_content",
+          "as": "carousel_slide",
+          "engagement": 3,
+          "obs": 35
+        },
+        {
+          "pattern": "f_and_b_romantic",
+          "as": "image",
+          "engagement": 2,
+          "obs": 51
+        },
+        {
+          "pattern": "spanish_language_content",
+          "as": "image",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "poetic_arabic_copy",
+          "as": "image",
+          "engagement": 0,
+          "obs": 29
+        },
+        {
+          "pattern": "riyadh_f_and_b",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 6
+        },
+        {
+          "pattern": "extended_hours",
+          "as": "video",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "food_review",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "restaurant_review",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 7
+        },
+        {
+          "pattern": "italian_cuisine",
+          "as": "video",
+          "engagement": 0,
+          "obs": 17
+        },
+        {
+          "pattern": "location_tagged",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 7
+        },
+        {
+          "pattern": "tutorial_routine",
+          "as": "video",
+          "engagement": 0,
+          "obs": 7
+        },
+        {
+          "pattern": "price_point_mention",
+          "as": "image",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "italian_cuisine",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "traditional_cuisine",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 7
+        },
+        {
+          "pattern": "hashtag_restaurant_romantic",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 7
+        },
+        {
+          "pattern": "food_promotion",
+          "as": "image",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "ramadan_promotion",
+          "as": "image",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "italian_cuisine",
+          "as": "image",
+          "engagement": 0,
+          "obs": 30
+        },
+        {
+          "pattern": "ramadan_f_and_b",
+          "as": "video",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "traditional_saudi_cuisine",
+          "as": "video",
+          "engagement": 0,
+          "obs": 6
+        },
+        {
+          "pattern": "extended_hours",
+          "as": "image",
+          "engagement": 0,
+          "obs": 7
+        },
+        {
+          "pattern": "food_photography",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 8
+        },
+        {
+          "pattern": "saudi_colloquial",
+          "as": "video",
+          "engagement": 0,
+          "obs": 10
+        },
+        {
+          "pattern": "poetic_arabic_copy",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "location_announcement",
+          "as": "image",
+          "engagement": 0,
+          "obs": 7
+        },
+        {
+          "pattern": "f_and_b_ordering",
+          "as": "image",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "food_and_beverage_promotion",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "delivery_app_mention",
+          "as": "image",
+          "engagement": 0,
+          "obs": 9
+        },
+        {
+          "pattern": "restaurant_recommendation",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "restaurant_promotion",
+          "as": "image",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "riyadh_dining",
+          "as": "video",
+          "engagement": 0,
+          "obs": 10
+        },
+        {
+          "pattern": "f_and_b_menu_post",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 12
+        }
+      ],
+      "obs_count": 1591
+    },
+    "fashion": {
+      "must_use": [
+        {
+          "pattern": "limited_time_offer",
+          "as": "image",
+          "engagement": 100,
+          "obs": 3
+        },
+        {
+          "pattern": "fashion_accessory_integration",
+          "as": "image",
+          "engagement": 83,
+          "obs": 6
+        },
+        {
+          "pattern": "winter_comfort_cozy",
+          "as": "video",
+          "engagement": 75,
+          "obs": 4
+        },
+        {
+          "pattern": "collab_post",
+          "as": "image",
+          "engagement": 75,
+          "obs": 4
+        },
+        {
+          "pattern": "cultural_identity_marker",
+          "as": "image",
+          "engagement": 75,
+          "obs": 4
+        },
+        {
+          "pattern": "modest_wear",
+          "as": "image",
+          "engagement": 70,
+          "obs": 10
+        }
+      ],
+      "winning_formulas": [
+        {
+          "content_type": "image",
+          "pattern": "fashion_accessory_integration",
+          "occasion": "evergreen",
+          "total": 4,
+          "high_pct": 100
+        },
+        {
+          "content_type": "video",
+          "pattern": "occasion_playscultural_moment_tie_in",
+          "occasion": "ramadan",
+          "total": 3,
+          "high_pct": 100
+        },
+        {
+          "content_type": "video",
+          "pattern": "brand_collab",
+          "occasion": "ramadan",
+          "total": 5,
+          "high_pct": 80
+        },
+        {
+          "content_type": "video",
+          "pattern": "occasion_playseid_campaign",
+          "occasion": "ramadan",
+          "total": 4,
+          "high_pct": 75
+        },
+        {
+          "content_type": "image",
+          "pattern": "modest_wear",
+          "occasion": "evergreen",
+          "total": 7,
+          "high_pct": 71
+        }
+      ],
+      "visual_dna": [
+        {
+          "lighting": "golden_hour",
+          "setting": "outdoor",
+          "total": 12,
+          "high_pct": 75
+        },
+        {
+          "lighting": "flat_bright",
+          "setting": "retail_store",
+          "total": 9,
+          "high_pct": 56
+        },
+        {
+          "lighting": "natural",
+          "setting": "outdoor",
+          "total": 52,
+          "high_pct": 44
+        },
+        {
+          "lighting": "natural",
+          "setting": "retail_store",
+          "total": 31,
+          "high_pct": 42
+        },
+        {
+          "lighting": "golden_hour",
+          "setting": "retail_store",
+          "total": 6,
+          "high_pct": 33
+        }
+      ],
+      "never_use": [
+        {
+          "pattern": "occasion_playscultural_moment_tie_in",
+          "as": "image",
+          "engagement": 2,
+          "obs": 63
+        },
+        {
+          "pattern": "eid_family_gathering",
+          "as": "image",
+          "engagement": 0,
+          "obs": 55
+        },
+        {
+          "pattern": "eid_family_gathering",
+          "as": "video",
+          "engagement": 0,
+          "obs": 30
+        },
+        {
+          "pattern": "eid_family_gathering",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 12
+        }
+      ],
+      "obs_count": 258
+    },
+    "healthcare_wellness": {
+      "must_use": [],
+      "winning_formulas": [],
+      "visual_dna": [
+        {
+          "lighting": "natural",
+          "setting": "studio",
+          "total": 5,
+          "high_pct": 60
+        },
+        {
+          "lighting": "flat_bright",
+          "setting": "digital_graphic",
+          "total": 10,
+          "high_pct": 30
+        },
+        {
+          "lighting": "studio",
+          "setting": "retail_store",
+          "total": 12,
+          "high_pct": 25
+        },
+        {
+          "lighting": "flat_bright",
+          "setting": "event_venue",
+          "total": 5,
+          "high_pct": 20
+        },
+        {
+          "lighting": "natural",
+          "setting": "unknown",
+          "total": 11,
+          "high_pct": 9
+        }
+      ],
+      "never_use": [
+        {
+          "pattern": "women_empowerment_day",
+          "as": "image",
+          "engagement": 0,
+          "obs": 15
+        },
+        {
+          "pattern": "eid_family_gathering",
+          "as": "video",
+          "engagement": 0,
+          "obs": 8
+        },
+        {
+          "pattern": "eid_family_gathering",
+          "as": "image",
+          "engagement": 0,
+          "obs": 15
+        },
+        {
+          "pattern": "women_empowerment_day",
+          "as": "video",
+          "engagement": 0,
+          "obs": 8
+        }
+      ],
+      "obs_count": 89
+    },
+    "real_estate": {
+      "must_use": [],
+      "winning_formulas": [],
+      "visual_dna": [
+        {
+          "lighting": "flat_bright",
+          "setting": "office",
+          "total": 6,
+          "high_pct": 17
+        },
+        {
+          "lighting": "natural",
+          "setting": "outdoor",
+          "total": 90,
+          "high_pct": 2
+        },
+        {
+          "lighting": "golden_hour",
+          "setting": "outdoor",
+          "total": 7,
+          "high_pct": 0
+        }
+      ],
+      "never_use": [
+        {
+          "pattern": "arabic_caption",
+          "as": "video",
+          "engagement": 5,
+          "obs": 20
+        },
+        {
+          "pattern": "location_tagged_riyadh",
+          "as": "image",
+          "engagement": 5,
+          "obs": 21
+        },
+        {
+          "pattern": "hashtag_restaurant_romantic",
+          "as": "video",
+          "engagement": 0,
+          "obs": 9
+        },
+        {
+          "pattern": "riyadh_location",
+          "as": "video",
+          "engagement": 0,
+          "obs": 14
+        },
+        {
+          "pattern": "sports_passion_peg",
+          "as": "video",
+          "engagement": 0,
+          "obs": 9
+        },
+        {
+          "pattern": "interior_architectural_framing",
+          "as": "image",
+          "engagement": 0,
+          "obs": 7
+        },
+        {
+          "pattern": "design_community",
+          "as": "image",
+          "engagement": 0,
+          "obs": 10
+        },
+        {
+          "pattern": "international_achievement",
+          "as": "image",
+          "engagement": 0,
+          "obs": 8
+        },
+        {
+          "pattern": "interior_architectural_framing",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 11
+        },
+        {
+          "pattern": "metro_setting",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 9
+        },
+        {
+          "pattern": "location_tagged_riyadh",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 14
+        },
+        {
+          "pattern": "local_business",
+          "as": "image",
+          "engagement": 0,
+          "obs": 9
+        },
+        {
+          "pattern": "football_occasion_tie_in",
+          "as": "video",
+          "engagement": 0,
+          "obs": 9
+        },
+        {
+          "pattern": "local_business",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 10
+        },
+        {
+          "pattern": "cultural_venue",
+          "as": "video",
+          "engagement": 0,
+          "obs": 18
+        },
+        {
+          "pattern": "sports_cultural_moment",
+          "as": "video",
+          "engagement": 0,
+          "obs": 9
+        },
+        {
+          "pattern": "cultural_venue",
+          "as": "image",
+          "engagement": 0,
+          "obs": 6
+        },
+        {
+          "pattern": "regional_development",
+          "as": "image",
+          "engagement": 0,
+          "obs": 11
+        },
+        {
+          "pattern": "interior_architectural_framing",
+          "as": "video",
+          "engagement": 0,
+          "obs": 16
+        },
+        {
+          "pattern": "riyadh_location",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 14
+        },
+        {
+          "pattern": "cultural_venue",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 10
+        },
+        {
+          "pattern": "location_tagged_riyadh",
+          "as": "video",
+          "engagement": 0,
+          "obs": 20
+        },
+        {
+          "pattern": "local_business",
+          "as": "video",
+          "engagement": 0,
+          "obs": 6
+        },
+        {
+          "pattern": "hotel_restaurant_promotion",
+          "as": "video",
+          "engagement": 0,
+          "obs": 7
+        },
+        {
+          "pattern": "regional_development",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 6
+        }
+      ],
+      "obs_count": 113
+    },
+    "retail_lifestyle": {
+      "must_use": [
+        {
+          "pattern": "saudi_sports_rivalry",
+          "as": "image",
+          "engagement": 100,
+          "obs": 3
+        },
+        {
+          "pattern": "seasonal_collection_drop",
+          "as": "video",
+          "engagement": 75,
+          "obs": 4
+        }
+      ],
+      "winning_formulas": [
+        {
+          "content_type": "video",
+          "pattern": "seasonal_collection_drop",
+          "occasion": "evergreen",
+          "total": 4,
+          "high_pct": 75
+        }
+      ],
+      "visual_dna": [
+        {
+          "lighting": "natural",
+          "setting": "outdoor",
+          "total": 43,
+          "high_pct": 23
+        },
+        {
+          "lighting": "flat_bright",
+          "setting": "retail_store",
+          "total": 24,
+          "high_pct": 17
+        },
+        {
+          "lighting": "golden_hour",
+          "setting": "outdoor",
+          "total": 18,
+          "high_pct": 11
+        },
+        {
+          "lighting": "natural",
+          "setting": "retail_store",
+          "total": 137,
+          "high_pct": 5
+        },
+        {
+          "lighting": "natural",
+          "setting": "studio",
+          "total": 24,
+          "high_pct": 0
+        }
+      ],
+      "never_use": [
+        {
+          "pattern": "brand_promotional",
+          "as": "video",
+          "engagement": 5,
+          "obs": 37
+        },
+        {
+          "pattern": "trending_now",
+          "as": "image",
+          "engagement": 5,
+          "obs": 37
+        },
+        {
+          "pattern": "everyday_summer_fits",
+          "as": "video",
+          "engagement": 4,
+          "obs": 70
+        },
+        {
+          "pattern": "everyday_summer_fits",
+          "as": "image",
+          "engagement": 3,
+          "obs": 78
+        },
+        {
+          "pattern": "trending_now",
+          "as": "video",
+          "engagement": 2,
+          "obs": 56
+        },
+        {
+          "pattern": "fashion_accessory_integration",
+          "as": "image",
+          "engagement": 2,
+          "obs": 48
+        },
+        {
+          "pattern": "winter_comfort_cozy",
+          "as": "image",
+          "engagement": 0,
+          "obs": 7
+        },
+        {
+          "pattern": "seasonal_collection_drop",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 7
+        },
+        {
+          "pattern": "lifestyle_embed",
+          "as": "image",
+          "engagement": 0,
+          "obs": 19
+        },
+        {
+          "pattern": "occasion_plays",
+          "as": "image",
+          "engagement": 0,
+          "obs": 21
+        },
+        {
+          "pattern": "occasion_playseid_campaign",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 13
+        },
+        {
+          "pattern": "summer_promotion",
+          "as": "image",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "occasion_plays",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 9
+        },
+        {
+          "pattern": "lifestyle_embed",
+          "as": "video",
+          "engagement": 0,
+          "obs": 11
+        },
+        {
+          "pattern": "eid_occasion_activation",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "food_beverage_product",
+          "as": "image",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "occasion_tie_in",
+          "as": "image",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "beach_lifestyle",
+          "as": "video",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "fashion_accessory_integration",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 11
+        },
+        {
+          "pattern": "sunglasses_promotion",
+          "as": "image",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "occasion_playscultural_moment_tie_in",
+          "as": "video",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "eid_greeting",
+          "as": "video",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "ramadan_content",
+          "as": "video",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "collab_post",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 15
+        },
+        {
+          "pattern": "fnb_brand_promotion",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 6
+        },
+        {
+          "pattern": "occasion_plays",
+          "as": "video",
+          "engagement": 0,
+          "obs": 15
+        },
+        {
+          "pattern": "ramadan_operations",
+          "as": "image",
+          "engagement": 0,
+          "obs": 7
+        },
+        {
+          "pattern": "metro_setting",
+          "as": "video",
+          "engagement": 0,
+          "obs": 6
+        },
+        {
+          "pattern": "occasion_playseid_campaign",
+          "as": "image",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "lifestyle_product",
+          "as": "image",
+          "engagement": 0,
+          "obs": 11
+        },
+        {
+          "pattern": "occasion_playscultural_moment_tie_in",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 14
+        },
+        {
+          "pattern": "carousel_format",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 6
+        },
+        {
+          "pattern": "food_photography",
+          "as": "image",
+          "engagement": 0,
+          "obs": 13
+        },
+        {
+          "pattern": "extended_hours",
+          "as": "image",
+          "engagement": 0,
+          "obs": 6
+        },
+        {
+          "pattern": "creative_format_experiment",
+          "as": "video",
+          "engagement": 0,
+          "obs": 7
+        },
+        {
+          "pattern": "beach_lifestyle",
+          "as": "image",
+          "engagement": 0,
+          "obs": 11
+        },
+        {
+          "pattern": "summer_modest_fits",
+          "as": "image",
+          "engagement": 0,
+          "obs": 35
+        },
+        {
+          "pattern": "lifestyle_environment_integration",
+          "as": "image",
+          "engagement": 0,
+          "obs": 5
+        },
+        {
+          "pattern": "ramadan_food_promo",
+          "as": "video",
+          "engagement": 0,
+          "obs": 6
+        },
+        {
+          "pattern": "modest_wear",
+          "as": "image",
+          "engagement": 0,
+          "obs": 21
+        },
+        {
+          "pattern": "fashion_accessory_integration",
+          "as": "video",
+          "engagement": 0,
+          "obs": 17
+        },
+        {
+          "pattern": "collab_post",
+          "as": "video",
+          "engagement": 0,
+          "obs": 26
+        },
+        {
+          "pattern": "lifestyle_embed",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 6
+        },
+        {
+          "pattern": "food_product_showcase",
+          "as": "image",
+          "engagement": 0,
+          "obs": 6
+        },
+        {
+          "pattern": "summer_seasonal_content",
+          "as": "image",
+          "engagement": 0,
+          "obs": 7
+        },
+        {
+          "pattern": "collab_post",
+          "as": "image",
+          "engagement": 0,
+          "obs": 34
+        },
+        {
+          "pattern": "abaya_outfit",
+          "as": "image",
+          "engagement": 0,
+          "obs": 46
+        },
+        {
+          "pattern": "metro_setting",
+          "as": "image",
+          "engagement": 0,
+          "obs": 7
+        },
+        {
+          "pattern": "arabic_caption",
+          "as": "image",
+          "engagement": 0,
+          "obs": 6
+        },
+        {
+          "pattern": "modest_looks",
+          "as": "carousel_slide",
+          "engagement": 0,
+          "obs": 7
+        },
+        {
+          "pattern": "winter_comfort_cozy",
+          "as": "video",
+          "engagement": 0,
+          "obs": 6
+        },
+        {
+          "pattern": "modest_looks",
+          "as": "image",
+          "engagement": 0,
+          "obs": 33
+        }
+      ],
+      "obs_count": 359
+    }
+  }
+}

@@ -82,6 +82,46 @@ def generate_report():
     raise HTTPException(status_code=500, detail=result.stderr[:500])
 
 
+@app.get("/api/intelligence")
+def get_intelligence(sector: str = None):
+    """The Holy Book — complete intelligence layer. Every agent reads this."""
+    intel_path = REPO / "11_who_to_learn_from" / "intelligence_layer.json"
+    if not intel_path.exists():
+        raise HTTPException(status_code=404, detail="Intelligence layer not built yet")
+    data = json.loads(intel_path.read_text())
+    if sector:
+        playbook = data.get("sector_playbooks", {}).get(sector)
+        if not playbook:
+            raise HTTPException(status_code=404, detail=f"No playbook for sector: {sector}")
+        return {
+            "sector": sector,
+            "playbook": playbook,
+            "universal_rules": data["universal_rules"],
+            "anti_patterns": data["anti_patterns"][:10],
+            "visual_rules": [r for r in data["visual_rules"] if r["type"] == "preferred"],
+            "caption_rules": data["caption_rules"],
+            "occasion_rules": data["occasion_rules"],
+            "format_rules": data["format_rules"],
+        }
+    return data
+
+
+@app.get("/api/intelligence/rules/{sector}")
+def get_sector_rules(sector: str):
+    """Get just the rules for one sector — what to ALWAYS do and NEVER do."""
+    intel_path = REPO / "11_who_to_learn_from" / "intelligence_layer.json"
+    data = json.loads(intel_path.read_text())
+    pb = data.get("sector_playbooks", {}).get(sector, {})
+    return {
+        "sector": sector,
+        "must_use": pb.get("must_use", []),
+        "never_use": pb.get("never_use", []),
+        "winning_formulas": pb.get("winning_formulas", []),
+        "visual_dna": pb.get("visual_dna", []),
+        "universal_always": data["universal_rules"],
+        "universal_never": data["anti_patterns"][:10],
+    }
+
 
 def get_db():
     return psycopg2.connect(DB_URL)

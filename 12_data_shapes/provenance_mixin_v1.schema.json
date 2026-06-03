@@ -40,6 +40,11 @@
     "update_reason": {
       "type": "string",
       "description": "Optional. Required if last_updated is set. Why the update happened."
+    },
+    "last_verified_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC timestamp of last verification. Set to date_added initially, updated on re-verification."
     }
   }
 }

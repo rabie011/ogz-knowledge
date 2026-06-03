@@ -370,12 +370,12 @@ def semantic_search(req: SearchRequest):
                 continue
             results.append({
                 "observation_ulid": entry.get("ulid", ""),
-                "account": entry.get("account", ""),
+                "account": entry.get("handle", entry.get("account", "")),
                 "sector": entry.get("sector", ""),
                 "content_type": entry.get("content_type", ""),
-                "engagement": entry.get("engagement", ""),
+                "source_url": entry.get("source_url", ""),
                 "similarity": round(float(scores[idx]), 4),
-                "caption_preview": entry.get("caption", "")[:150],
+                "caption_preview": entry.get("text_snippet", entry.get("caption", ""))[:150],
             })
             if len(results) >= req.top_n:
                 break

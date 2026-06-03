@@ -25,6 +25,8 @@ from typing import Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 import psycopg2
@@ -47,6 +49,38 @@ app.add_middleware(
 
 
 REPO = Path(__file__).parent.parent
+STATIC_DIR = Path(__file__).parent / "static"
+
+
+@app.get("/")
+def root():
+    return FileResponse(STATIC_DIR / "index.html")
+
+
+@app.get("/report")
+def latest_report():
+    """Serve the latest intelligence report."""
+    reports_dir = REPO / "logs" / "reports"
+    if not reports_dir.exists():
+        raise HTTPException(status_code=404, detail="No reports generated yet")
+    reports = sorted(reports_dir.glob("*.html"), reverse=True)
+    if not reports:
+        raise HTTPException(status_code=404, detail="No reports found")
+    return FileResponse(reports[0])
+
+
+@app.post("/api/report/generate")
+def generate_report():
+    """Generate a fresh intelligence report."""
+    import subprocess
+    result = subprocess.run(
+        [sys.executable, "scripts/generate_weekly_report.py"],
+        capture_output=True, text=True, timeout=30, cwd=str(REPO)
+    )
+    if result.returncode == 0:
+        return {"status": "generated", "output": result.stdout.strip()}
+    raise HTTPException(status_code=500, detail=result.stderr[:500])
+
 
 
 def get_db():

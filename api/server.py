@@ -3,10 +3,13 @@
 OGZ Content Intelligence API
 
 Endpoints:
-  POST /api/score       — Score a content idea 0-100
-  POST /api/brief       — Generate a production brief
+  POST /api/score       — Score a content idea 0-100 (heuristic + ML)
+  POST /api/brief       — Generate a production brief (data-driven)
+  POST /api/brief/ai    — AI-written Arabic creative brief (LLM-powered)
   POST /api/recommend   — Recommend what to post next
   POST /api/search      — Semantic search across observations
+  POST /api/calendar    — Generate a month's content calendar
+  POST /api/caption     — Generate Arabic captions
   GET  /api/benchmark/{sector} — Sector benchmark report
   GET  /api/patterns/{sector}  — Top patterns for a sector
   GET  /api/health      — API health check
@@ -43,8 +46,36 @@ app.add_middleware(
 )
 
 
+REPO = Path(__file__).parent.parent
+
+
 def get_db():
     return psycopg2.connect(DB_URL)
+
+
+def get_openai_key():
+    env_path = Path.home() / ".abraham_env"
+    if env_path.exists():
+        for line in env_path.read_text().splitlines():
+            if "OPENAI_API_KEY" in line and "=" in line:
+                return line.split("=", 1)[1].strip().strip('"').strip("'")
+    return None
+
+
+# Load ML model at startup
+_ml_model = None
+_ml_config = None
+try:
+    import pickle, numpy as np
+    model_path = REPO / "models" / "engagement_model.pkl"
+    config_path = REPO / "models" / "engagement_features.json"
+    if model_path.exists():
+        with open(model_path, "rb") as f:
+            _ml_model = pickle.load(f)
+        with open(config_path) as f:
+            _ml_config = json.load(f)
+except Exception:
+    pass
 
 
 # ═══════════════════════════════════════════════════════════
@@ -75,6 +106,27 @@ class SearchRequest(BaseModel):
     query: str
     sector: Optional[str] = None
     top_n: int = 10
+
+class AIBriefRequest(BaseModel):
+    sector: str
+    brand_name: str = "Brand"
+    occasion: str = "evergreen"
+    content_type: str = "carousel_slide"
+    language: str = "arabic"
+
+class CalendarRequest(BaseModel):
+    sector: str
+    month: int = 0
+    year: int = 0
+    posts_per_week: int = 3
+
+class CaptionRequest(BaseModel):
+    sector: str
+    pattern: str
+    occasion: str = "evergreen"
+    tone: str = "inviting"
+    language: str = "arabic"
+    count: int = 3
 
 
 # ═══════════════════════════════════════════════════════════
@@ -157,8 +209,45 @@ def score_content(req: ScoreRequest):
             "Moderate — consider adjusting patterns or format" if final >= 30 else
             "Weak — high risk of low engagement"
         ),
+        "ml_score": _ml_predict(req) if _ml_model else None,
         "data_points": ct_row["total"],
     }
+
+
+def _ml_predict(req: ScoreRequest) -> dict | None:
+    """Run ML model prediction if available."""
+    if not _ml_model or not _ml_config:
+        return None
+    try:
+        import numpy as np
+        cat_features = _ml_config["cat_features"]
+        bool_features = _ml_config["bool_features"]
+        encoders = _ml_config["encoders"]
+
+        vals = {
+            "content_type": req.content_type, "sector": req.sector,
+            "occasion": req.occasion, "lighting": req.lighting or "unknown",
+            "setting": req.setting or "unknown", "dialect": "unknown",
+            "caption_length": "medium",
+            "pattern_0": req.patterns[0] if req.patterns else "none",
+            "pattern_1": req.patterns[1] if len(req.patterns) > 1 else "none",
+            "pattern_2": req.patterns[2] if len(req.patterns) > 2 else "none",
+            "has_emoji": False, "human_presence": False,
+        }
+        x_parts = []
+        for feat in cat_features:
+            classes = encoders[feat]["classes"]
+            val = vals.get(feat, "unknown")
+            idx = classes.index(val) if val in classes else classes.index("__unknown__") if "__unknown__" in classes else 0
+            x_parts.append(idx)
+        for feat in bool_features:
+            x_parts.append(int(vals.get(feat, False)))
+
+        x = np.array(x_parts).reshape(1, -1)
+        prob = float(_ml_model.predict_proba(x)[0][1])
+        return {"high_probability": round(prob * 100), "prediction": "high" if prob > 0.5 else "not_high"}
+    except Exception:
+        return None
 
 
 # ═══════════════════════════════════════════════════════════
@@ -497,6 +586,241 @@ def sector_patterns(sector: str, min_obs: int = 5):
     conn.close()
 
     return {"sector": sector, "patterns": patterns}
+
+
+# ═══════════════════════════════════════════════════════════
+# 7. AI BRIEF WRITER — POST /api/brief/ai
+# ═══════════════════════════════════════════════════════════
+
+@app.post("/api/brief/ai")
+def ai_brief(req: AIBriefRequest):
+    """Generate a full Arabic creative brief using LLM + data insights."""
+    api_key = get_openai_key()
+    if not api_key:
+        raise HTTPException(status_code=500, detail="OPENAI_API_KEY not configured")
+
+    # Get top winning formulas from DB
+    conn = get_db()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    cur.execute("""
+        SELECT pm->>'pattern_slug' as pattern,
+            round(100.0 * count(*) FILTER (WHERE engagement_potential = 'high') / count(*)) as high_pct,
+            count(*) as obs
+        FROM observations, jsonb_array_elements(pattern_matches) as pm
+        WHERE sector = %s
+        GROUP BY pm->>'pattern_slug' HAVING count(*) >= 5
+        ORDER BY high_pct DESC LIMIT 5
+    """, (req.sector,))
+    top_patterns = cur.fetchall()
+
+    cur.execute("""
+        SELECT visual_observations->>'lighting' as lighting,
+               visual_observations->>'setting' as setting,
+               round(100.0 * count(*) FILTER (WHERE engagement_potential = 'high') / count(*)) as high_pct
+        FROM observations WHERE sector = %s
+        GROUP BY 1, 2 HAVING count(*) >= 5
+        ORDER BY high_pct DESC LIMIT 3
+    """, (req.sector,))
+    top_visuals = cur.fetchall()
+
+    cur.execute("""
+        SELECT voice_observations->>'notable_phrases' as phrases
+        FROM observations
+        WHERE sector = %s AND engagement_potential = 'high'
+          AND voice_observations->>'notable_phrases' IS NOT NULL
+        ORDER BY random() LIMIT 5
+    """, (req.sector,))
+    sample_phrases = [r["phrases"][:100] for r in cur.fetchall()]
+    cur.close(); conn.close()
+
+    import openai
+    client = openai.OpenAI(api_key=api_key)
+
+    patterns_text = "\n".join(f"- {p['pattern']} ({p['high_pct']}% high engagement, {p['obs']} examples)" for p in top_patterns)
+    visuals_text = "\n".join(f"- {v['lighting']} + {v['setting']} = {v['high_pct']}% high" for v in top_visuals)
+
+    prompt = f"""You are a Saudi creative director writing a production brief for {req.brand_name} in the {req.sector} sector.
+
+Occasion: {req.occasion}
+Content type: {req.content_type}
+Language: {req.language}
+
+DATA FROM 4315 BENCHMARK OBSERVATIONS:
+Top performing patterns in this sector:
+{patterns_text}
+
+Best visual combinations:
+{visuals_text}
+
+Sample high-engagement Arabic phrases from this sector:
+{chr(10).join(sample_phrases)}
+
+Write a complete production brief in {req.language} with:
+1. CONCEPT: One-line creative concept
+2. VISUAL DIRECTION: Specific lighting, setting, composition instructions
+3. CAPTION: 3 Arabic caption options (different tones: inviting, proud, excited)
+4. HASHTAGS: 5 recommended Arabic hashtags
+5. SHOT LIST: 3-5 specific shots to capture
+6. DO NOT: 2-3 things to avoid based on low-performing patterns
+
+Keep it practical and specific. This is for a production team."""
+
+    resp = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=2000,
+    )
+
+    return {
+        "brief": resp.choices[0].message.content,
+        "data_backing": {
+            "top_patterns": top_patterns,
+            "top_visuals": top_visuals,
+        },
+        "generated_at": datetime.now().isoformat(),
+    }
+
+
+# ═══════════════════════════════════════════════════════════
+# 8. CONTENT CALENDAR — POST /api/calendar
+# ═══════════════════════════════════════════════════════════
+
+@app.post("/api/calendar")
+def content_calendar(req: CalendarRequest):
+    """Generate a month's content calendar based on winning formulas + occasions."""
+    import calendar as cal
+    now = datetime.now()
+    month = req.month or now.month
+    year = req.year or now.year
+
+    conn = get_db()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+
+    # Get top formulas
+    cur.execute("""
+        SELECT content_type, pm->>'pattern_slug' as pattern,
+            round(100.0 * count(*) FILTER (WHERE engagement_potential = 'high') / count(*)) as high_pct,
+            count(*) as obs
+        FROM observations, jsonb_array_elements(pattern_matches) as pm
+        WHERE sector = %s
+        GROUP BY content_type, pm->>'pattern_slug'
+        HAVING count(*) >= 3
+        ORDER BY high_pct DESC, obs DESC LIMIT 20
+    """, (req.sector,))
+    formulas = cur.fetchall()
+    cur.close(); conn.close()
+
+    # Map month to occasion
+    occasion_map = {
+        1: "evergreen", 2: "founding_day", 3: "ramadan", 4: "ramadan",
+        5: "eid_al_fitr", 6: "evergreen", 7: "hajj_season", 8: "evergreen",
+        9: "national_day", 10: "riyadh_season", 11: "riyadh_season", 12: "jeddah_season",
+    }
+    primary_occasion = occasion_map.get(month, "evergreen")
+
+    # Generate calendar entries
+    num_days = cal.monthrange(year, month)[1]
+    posts_per_week = req.posts_per_week
+    post_days = []
+    # Distribute posts across the month (Sun/Tue/Thu pattern — best engagement days)
+    preferred_weekdays = [6, 1, 3]  # Sun, Tue, Thu
+    for day in range(1, num_days + 1):
+        dt = datetime(year, month, day)
+        if dt.weekday() in preferred_weekdays:
+            post_days.append(day)
+
+    entries = []
+    for i, day in enumerate(post_days[:posts_per_week * 4]):
+        formula = formulas[i % len(formulas)] if formulas else {"content_type": "image", "pattern": "product_hero", "high_pct": 30}
+        occasion = primary_occasion if i % 3 == 0 else "evergreen"
+        entries.append({
+            "date": f"{year}-{month:02d}-{day:02d}",
+            "day_of_week": datetime(year, month, day).strftime("%A"),
+            "content_type": formula["content_type"],
+            "pattern": formula["pattern"],
+            "occasion": occasion,
+            "expected_engagement": formula["high_pct"],
+        })
+
+    return {
+        "sector": req.sector,
+        "month": f"{year}-{month:02d}",
+        "primary_occasion": primary_occasion,
+        "total_posts": len(entries),
+        "calendar": entries,
+    }
+
+
+# ═══════════════════════════════════════════════════════════
+# 9. ARABIC CAPTION GENERATOR — POST /api/caption
+# ═══════════════════════════════════════════════════════════
+
+@app.post("/api/caption")
+def generate_caption(req: CaptionRequest):
+    """Generate Arabic captions based on high-engagement patterns."""
+    api_key = get_openai_key()
+    if not api_key:
+        raise HTTPException(status_code=500, detail="OPENAI_API_KEY not configured")
+
+    conn = get_db()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+
+    # Get sample high-engagement captions for this pattern + sector
+    cur.execute("""
+        SELECT voice_observations->>'caption_text' as caption,
+               voice_observations->>'dialect_detected' as dialect
+        FROM observations, jsonb_array_elements(pattern_matches) as pm
+        WHERE pm->>'pattern_slug' = %s AND sector = %s
+          AND engagement_potential = 'high'
+          AND length(voice_observations->>'caption_text') > 20
+        ORDER BY random() LIMIT 5
+    """, (req.pattern, req.sector))
+    samples = cur.fetchall()
+    cur.close(); conn.close()
+
+    samples_text = "\n".join(f"- {s['caption'][:200]}" for s in samples if s["caption"])
+
+    import openai
+    client = openai.OpenAI(api_key=api_key)
+
+    prompt = f"""You are a Saudi social media copywriter. Generate {req.count} Arabic captions for Instagram.
+
+Sector: {req.sector}
+Pattern: {req.pattern}
+Occasion: {req.occasion}
+Tone: {req.tone}
+Language: {req.language}
+
+Here are examples of HIGH-ENGAGEMENT captions from this sector and pattern:
+{samples_text}
+
+Write {req.count} new captions that:
+1. Match the {req.tone} tone
+2. Are written in Gulf Arabic dialect (not formal MSA)
+3. Include 1-2 relevant emojis
+4. Are 50-200 characters (the sweet spot for engagement)
+5. End with a soft call-to-action (question, invitation, or community statement)
+6. Feel natural for Saudi Instagram, not translated
+
+Return ONLY the captions, one per line, numbered."""
+
+    resp = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=1000,
+    )
+
+    captions = resp.choices[0].message.content.strip().split("\n")
+    captions = [c.strip() for c in captions if c.strip() and not c.strip().startswith("---")]
+
+    return {
+        "captions": captions,
+        "pattern": req.pattern,
+        "sector": req.sector,
+        "tone": req.tone,
+        "samples_used": len(samples),
+        "generated_at": datetime.now().isoformat(),
+    }
 
 
 # ═══════════════════════════════════════════════════════════

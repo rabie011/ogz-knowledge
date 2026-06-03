@@ -3,127 +3,21 @@
   "sector": "retail_lifestyle",
   "sector_key": "retail",
   "corpus_data": {
-    "obs_in_corpus": 8,
-    "avg_engagement": 0.75,
-    "high_eng_count": 5,
-    "low_eng_count": 3
+    "obs_in_corpus": 0,
+    "avg_engagement": null,
+    "high_eng_count": 0,
+    "low_eng_count": 0
   },
-  "winning_signals": [
-    {
-      "dimension": "content_type",
-      "value": "video",
-      "count": 5,
-      "pct": 1.0
-    },
-    {
-      "dimension": "aspect_ratio",
-      "value": "vertical_9x16",
-      "count": 5,
-      "pct": 1.0
-    },
-    {
-      "dimension": "visual_complexity",
-      "value": "complex",
-      "count": 4,
-      "pct": 0.8
-    },
-    {
-      "dimension": "register",
-      "value": "aspirational",
-      "count": 4,
-      "pct": 0.8
-    },
-    {
-      "dimension": "setting",
-      "value": "home_domestic",
-      "count": 2,
-      "pct": 0.4
-    },
-    {
-      "dimension": "lighting",
-      "value": "natural_daylight",
-      "count": 2,
-      "pct": 0.4
-    },
-    {
-      "dimension": "composition",
-      "value": "product_hero_closeup",
-      "count": 2,
-      "pct": 0.4
-    },
-    {
-      "dimension": "tone",
-      "value": "patriotic",
-      "count": 2,
-      "pct": 0.4
-    }
-  ],
-  "losing_signals": [
-    {
-      "dimension": "content_type",
-      "value": "video",
-      "count": 3,
-      "pct": 1.0
-    },
-    {
-      "dimension": "aspect_ratio",
-      "value": "vertical_9x16",
-      "count": 3,
-      "pct": 1.0
-    },
-    {
-      "dimension": "visual_complexity",
-      "value": "moderate",
-      "count": 3,
-      "pct": 1.0
-    },
-    {
-      "dimension": "register",
-      "value": "aspirational",
-      "count": 3,
-      "pct": 1.0
-    }
-  ],
-  "top_patterns": [
-    {
-      "pattern": "seasonal_collection_drop",
-      "count": 3,
-      "pct": 0.6
-    },
-    {
-      "pattern": "model_centered_frontal_portrait",
-      "count": 2,
-      "pct": 0.4
-    },
-    {
-      "pattern": "product_hero",
-      "count": 1,
-      "pct": 0.2
-    },
-    {
-      "pattern": "documentary_btsmoment",
-      "count": 1,
-      "pct": 0.2
-    },
-    {
-      "pattern": "invitation_to_witness",
-      "count": 1,
-      "pct": 0.2
-    }
-  ],
-  "top_phrases_in_winners": [
-    "If you believe every occasion deserves a completely different outfit, is your destination. Visited their stunning Lahore outlet today and I am obsessed with the quality and colors",
-    "Watch till the end to see my favorites, and visit them to get yours",
-    "timeless tradition meets modern elegance",
-    "Moroccan Thobe",
-    "speaks class"
-  ],
+  "winning_signals": [],
+  "losing_signals": [],
+  "top_patterns": [],
+  "top_phrases_in_winners": [],
   "recommended_formula": {
     "format": "video",
     "predicted_eng": 0.75,
     "aspect_ratio": "square_1x1",
     "tone": "bold",
-    "register": null,
+    "register": "aspirational",
     "heritage_framing": "blended",
     "visual_complexity": "complex",
     "posting_day": "sunday",
@@ -139,8 +33,6 @@
   },
   "red_flags": [
     "AVOID format: video (75% eng for this occasion)",
-    "AVOID: content_type=video (found in 100% of low-eng posts)",
-    "AVOID: aspect_ratio=vertical_9x16 (found in 100% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
     "AVOID: video format if images/carousels are viable — video underperforms"
   ],

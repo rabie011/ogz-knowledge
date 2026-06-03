@@ -765,7 +765,7 @@
     },
     {
       "account": "OGZ-RETAIL-Reference-001",
-      "sector": "retail",
+      "sector": "retail_lifestyle",
       "obs_count": 8,
       "risk_score": 1,
       "risk_grade": "green",
@@ -782,7 +782,7 @@
     },
     {
       "account": "OGZ-BEAUTY-Reference-001",
-      "sector": "beauty",
+      "sector": "beauty_personal_care",
       "obs_count": 25,
       "risk_score": 0,
       "risk_grade": "green",
@@ -797,7 +797,7 @@
     },
     {
       "account": "OGZ-BEAUTY-Reference-002",
-      "sector": "beauty",
+      "sector": "beauty_personal_care",
       "obs_count": 5,
       "risk_score": 0,
       "risk_grade": "green",
@@ -1232,17 +1232,8 @@
     }
   ],
   "sector_risk_profiles": {
-    "beauty": {
-      "obs_count": 30,
-      "total_hard_blocks": 0,
-      "total_soft_flags": 0,
-      "risk_score_total": 0,
-      "risk_per_obs": 0.0,
-      "top_hard_flag_types": {},
-      "top_soft_flag_types": {}
-    },
     "beauty_personal_care": {
-      "obs_count": 290,
+      "obs_count": 320,
       "total_hard_blocks": 0,
       "total_soft_flags": 0,
       "risk_score_total": 0,
@@ -1292,25 +1283,16 @@
       "top_hard_flag_types": {},
       "top_soft_flag_types": {}
     },
-    "retail": {
-      "obs_count": 8,
+    "retail_lifestyle": {
+      "obs_count": 359,
       "total_hard_blocks": 0,
       "total_soft_flags": 1,
       "risk_score_total": 1,
-      "risk_per_obs": 0.12,
+      "risk_per_obs": 0.0,
       "top_hard_flag_types": {},
       "top_soft_flag_types": {
         "religious_city_as_brand_context": 1
       }
-    },
-    "retail_lifestyle": {
-      "obs_count": 351,
-      "total_hard_blocks": 0,
-      "total_soft_flags": 0,
-      "risk_score_total": 0,
-      "risk_per_obs": 0.0,
-      "top_hard_flag_types": {},
-      "top_soft_flag_types": {}
     }
   },
   "risky_pattern_combinations": []

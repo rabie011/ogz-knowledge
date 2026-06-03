@@ -4,15 +4,15 @@
   "corpus_baseline": 0.54,
   "total_obs": 2730,
   "sector_occasion_decision_tree": {
-    "beauty": {
+    "beauty_personal_care": {
       "evergreen": {
-        "obs_count": 30,
-        "occasion_high_eng_rate": 0.333,
+        "obs_count": 275,
+        "occasion_high_eng_rate": 0.051,
         "recommended_production": {
           "setting": "indoor",
           "setting_eng_rate": 0.667,
-          "lighting": "warm_studio",
-          "lighting_eng_rate": 0.6,
+          "lighting": "mixed_ambient",
+          "lighting_eng_rate": 0.333,
           "composition": "documentary_candid",
           "composition_eng_rate": 0.5,
           "register": "informal",
@@ -27,32 +27,27 @@
             "high_eng_rate": 0.667
           },
           {
+            "value": "retail_store",
+            "count": 12,
+            "high_eng_rate": 0.083
+          },
+          {
+            "value": "salon",
+            "count": 34,
+            "high_eng_rate": 0.059
+          },
+          {
+            "value": "outdoor",
+            "count": 18,
+            "high_eng_rate": 0.056
+          },
+          {
             "value": "studio",
-            "count": 21,
-            "high_eng_rate": 0.381
-          },
-          {
-            "value": "restaurant_indoor",
-            "count": 1,
-            "high_eng_rate": 0.0
-          },
-          {
-            "value": "beauty influencer setup",
-            "count": 1,
-            "high_eng_rate": 0.0
-          },
-          {
-            "value": "natural/ingredient-themed product shot",
-            "count": 1,
-            "high_eng_rate": 0.0
+            "count": 172,
+            "high_eng_rate": 0.047
           }
         ],
         "lighting_options": [
-          {
-            "value": "warm_studio",
-            "count": 5,
-            "high_eng_rate": 0.6
-          },
           {
             "value": "mixed_ambient",
             "count": 6,
@@ -72,14 +67,14 @@
             "value": "studio_soft",
             "count": 3,
             "high_eng_rate": 0.333
+          },
+          {
+            "value": "natural_daylight",
+            "count": 5,
+            "high_eng_rate": 0.2
           }
         ],
         "composition_options": [
-          {
-            "value": "lifestyle_integrated",
-            "count": 1,
-            "high_eng_rate": 1.0
-          },
           {
             "value": "before_after",
             "count": 1,
@@ -99,100 +94,11 @@
             "value": "influencer_product_review",
             "count": 1,
             "high_eng_rate": 1.0
-          }
-        ]
-      }
-    },
-    "beauty_personal_care": {
-      "evergreen": {
-        "obs_count": 245,
-        "occasion_high_eng_rate": 0.016,
-        "recommended_production": {
-          "setting": "retail_store",
-          "setting_eng_rate": 0.083,
-          "lighting": "golden_hour",
-          "lighting_eng_rate": 0.1,
-          "composition": "text_dominant",
-          "composition_eng_rate": 0.095,
-          "register": "unknown",
-          "register_eng_rate": 0.016,
-          "tone": "celebratory",
-          "tone_eng_rate": 0.08
-        },
-        "setting_options": [
-          {
-            "value": "retail_store",
-            "count": 12,
-            "high_eng_rate": 0.083
           },
           {
-            "value": "salon",
-            "count": 34,
-            "high_eng_rate": 0.059
-          },
-          {
-            "value": "outdoor",
-            "count": 17,
-            "high_eng_rate": 0.059
-          },
-          {
-            "value": "studio",
-            "count": 151,
-            "high_eng_rate": 0.0
-          },
-          {
-            "value": "home",
-            "count": 24,
-            "high_eng_rate": 0.0
-          }
-        ],
-        "lighting_options": [
-          {
-            "value": "golden_hour",
-            "count": 10,
-            "high_eng_rate": 0.1
-          },
-          {
-            "value": "warm_studio",
-            "count": 67,
-            "high_eng_rate": 0.045
-          },
-          {
-            "value": "natural",
-            "count": 161,
-            "high_eng_rate": 0.0
-          },
-          {
-            "value": "flat_bright",
-            "count": 6,
-            "high_eng_rate": 0.0
-          },
-          {
-            "value": "dramatic",
+            "value": "product_combo_application",
             "count": 1,
-            "high_eng_rate": 0.0
-          }
-        ],
-        "composition_options": [
-          {
-            "value": "text_dominant",
-            "count": 21,
-            "high_eng_rate": 0.095
-          },
-          {
-            "value": "lifestyle_integrated",
-            "count": 32,
-            "high_eng_rate": 0.031
-          },
-          {
-            "value": "product_hero_closeup",
-            "count": 189,
-            "high_eng_rate": 0.005
-          },
-          {
-            "value": "editorial",
-            "count": 3,
-            "high_eng_rate": 0.0
+            "high_eng_rate": 1.0
           }
         ]
       },
@@ -1944,17 +1850,17 @@
         ]
       }
     },
-    "retail": {
+    "retail_lifestyle": {
       "evergreen": {
-        "obs_count": 8,
-        "occasion_high_eng_rate": 0.625,
+        "obs_count": 284,
+        "occasion_high_eng_rate": 0.077,
         "recommended_production": {
           "setting": "home_domestic",
           "setting_eng_rate": 1.0,
           "lighting": "natural_daylight",
           "lighting_eng_rate": 0.667,
-          "composition": "product_hero_closeup",
-          "composition_eng_rate": 0.5,
+          "composition": "lifestyle_integrated",
+          "composition_eng_rate": 0.124,
           "register": "aspirational",
           "register_eng_rate": 0.571,
           "tone": "patriotic",
@@ -1982,19 +1888,14 @@
             "high_eng_rate": 1.0
           },
           {
-            "value": "studio",
-            "count": 1,
-            "high_eng_rate": 0.0
+            "value": "office",
+            "count": 4,
+            "high_eng_rate": 0.25
           }
         ],
         "lighting_options": [
           {
             "value": "mixed_ambient",
-            "count": 1,
-            "high_eng_rate": 1.0
-          },
-          {
-            "value": "warm_studio",
             "count": 1,
             "high_eng_rate": 1.0
           },
@@ -2009,9 +1910,14 @@
             "high_eng_rate": 0.5
           },
           {
-            "value": "dramatic_moody",
-            "count": 1,
-            "high_eng_rate": 0.0
+            "value": "flat_bright",
+            "count": 26,
+            "high_eng_rate": 0.154
+          },
+          {
+            "value": "natural",
+            "count": 180,
+            "high_eng_rate": 0.067
           }
         ],
         "composition_options": [
@@ -2021,118 +1927,24 @@
             "high_eng_rate": 1.0
           },
           {
-            "value": "lifestyle_integrated",
-            "count": 1,
-            "high_eng_rate": 1.0
-          },
-          {
             "value": "multi-occasion collection reveal",
             "count": 1,
             "high_eng_rate": 1.0
           },
           {
-            "value": "product_hero_closeup",
-            "count": 4,
-            "high_eng_rate": 0.5
+            "value": "lifestyle_integrated",
+            "count": 89,
+            "high_eng_rate": 0.124
           },
-          {
-            "value": "menswear collection reveal flat lay + model",
-            "count": 1,
-            "high_eng_rate": 0.0
-          }
-        ]
-      }
-    },
-    "retail_lifestyle": {
-      "evergreen": {
-        "obs_count": 276,
-        "occasion_high_eng_rate": 0.062,
-        "recommended_production": {
-          "setting": "office",
-          "setting_eng_rate": 0.25,
-          "lighting": "flat_bright",
-          "lighting_eng_rate": 0.154,
-          "composition": "text_dominant",
-          "composition_eng_rate": 0.118,
-          "register": "unknown",
-          "register_eng_rate": 0.062,
-          "tone": "playful",
-          "tone_eng_rate": 0.5
-        },
-        "setting_options": [
-          {
-            "value": "office",
-            "count": 4,
-            "high_eng_rate": 0.25
-          },
-          {
-            "value": "outdoor",
-            "count": 46,
-            "high_eng_rate": 0.174
-          },
-          {
-            "value": "retail_store",
-            "count": 175,
-            "high_eng_rate": 0.046
-          },
-          {
-            "value": "studio",
-            "count": 37,
-            "high_eng_rate": 0.0
-          },
-          {
-            "value": "home",
-            "count": 9,
-            "high_eng_rate": 0.0
-          }
-        ],
-        "lighting_options": [
-          {
-            "value": "flat_bright",
-            "count": 26,
-            "high_eng_rate": 0.154
-          },
-          {
-            "value": "natural",
-            "count": 180,
-            "high_eng_rate": 0.067
-          },
-          {
-            "value": "golden_hour",
-            "count": 15,
-            "high_eng_rate": 0.067
-          },
-          {
-            "value": "warm_studio",
-            "count": 46,
-            "high_eng_rate": 0.0
-          },
-          {
-            "value": "cool_studio",
-            "count": 5,
-            "high_eng_rate": 0.0
-          }
-        ],
-        "composition_options": [
           {
             "value": "text_dominant",
             "count": 17,
             "high_eng_rate": 0.118
           },
           {
-            "value": "lifestyle_integrated",
-            "count": 88,
-            "high_eng_rate": 0.114
-          },
-          {
             "value": "product_hero_closeup",
-            "count": 149,
-            "high_eng_rate": 0.034
-          },
-          {
-            "value": "editorial",
-            "count": 22,
-            "high_eng_rate": 0.0
+            "count": 153,
+            "high_eng_rate": 0.046
           }
         ]
       },
@@ -5644,8 +5456,7 @@
     }
   },
   "key_findings": [
-    "BEAUTY × Evergreen (n=30, eng=33%): → indoor + warm_studio + documentary_candid",
-    "BEAUTY_PERSONAL_CARE × Evergreen (n=245, eng=1%): → retail_store + golden_hour + text_dominant",
+    "BEAUTY_PERSONAL_CARE × Evergreen (n=275, eng=5%): → indoor + mixed_ambient + documentary_candid",
     "BEAUTY_PERSONAL_CARE × Ramadan (n=13, eng=7%): → studio + natural + lifestyle_integrated",
     "F_AND_B × Evergreen (n=1046, eng=37%): → retail_urban + dramatic_moody + multi_product",
     "F_AND_B × General (n=161, eng=28%): → restaurant + natural + text_dominant",
@@ -5653,8 +5464,7 @@
     "HEALTHCARE_WELLNESS × Ramadan (n=5, eng=20%): → unknown + natural + lifestyle_integrated",
     "REAL_ESTATE × Evergreen (n=103, eng=2%): → office + flat_bright + text_dominant",
     "REAL_ESTATE × Ramadan (n=3, eng=0%): → outdoor + natural + lifestyle_integrated",
-    "RETAIL × Evergreen (n=8, eng=62%): → home_domestic + natural_daylight + product_hero_closeup",
-    "RETAIL_LIFESTYLE × Evergreen (n=276, eng=6%): → office + flat_bright + text_dominant",
+    "RETAIL_LIFESTYLE × Evergreen (n=284, eng=7%): → home_domestic + natural_daylight + lifestyle_integrated",
     "RETAIL_LIFESTYLE × Seasonal (n=26, eng=3%): → outdoor + natural + lifestyle_integrated",
     "FASHION × Evergreen (n=164, eng=9%): → outdoor + flat_bright + lifestyle_integrated",
     "FASHION × Eid Al Fitr (n=37, eng=40%): → studio + golden_hour + lifestyle_integrated",

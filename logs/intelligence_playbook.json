@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "generated_at": "2026-06-02T20:21:26Z",
+  "generated_at": "2026-06-03T13:30:54Z",
   "title": "OGZ Saudi Instagram Intelligence Playbook v4",
   "corpus": {
     "total_observations": 648,
@@ -31,16 +31,6 @@
     ],
     "sector_ranking": [
       {
-        "sector": "retail",
-        "avg": 0.75,
-        "lift": 0.364
-      },
-      {
-        "sector": "beauty",
-        "avg": 0.517,
-        "lift": 0.131
-      },
-      {
         "sector": "f_and_b",
         "avg": 0.516,
         "lift": 0.13
@@ -57,13 +47,13 @@
       },
       {
         "sector": "retail_lifestyle",
-        "avg": 0.158,
-        "lift": -0.228
+        "avg": 0.171,
+        "lift": -0.215
       },
       {
         "sector": "beauty_personal_care",
-        "avg": 0.091,
-        "lift": -0.295
+        "avg": 0.131,
+        "lift": -0.255
       },
       {
         "sector": "real_estate",
@@ -165,12 +155,10 @@
         },
         "evergreen": {
           "f_and_b": "reel (82%, n=27)",
-          "retail": "video (75%, n=8)",
           "fashion": "image (72%, n=30)",
-          "beauty": "video (55%, n=21)",
           "healthcare_wellness": "video (53%, n=34)",
-          "retail_lifestyle": "video (18%, n=73)",
-          "beauty_personal_care": "video (14%, n=43)",
+          "beauty_personal_care": "video (27%, n=64)",
+          "retail_lifestyle": "video (24%, n=81)",
           "real_estate": "video (10%, n=20)"
         },
         "ramadan": {
@@ -781,12 +769,10 @@
         },
         "evergreen": {
           "f_and_b": "reel (82%, n=27)",
-          "retail": "video (75%, n=8)",
           "fashion": "image (72%, n=30)",
-          "beauty": "video (55%, n=21)",
           "healthcare_wellness": "video (53%, n=34)",
-          "retail_lifestyle": "video (18%, n=73)",
-          "beauty_personal_care": "video (14%, n=43)",
+          "beauty_personal_care": "video (27%, n=64)",
+          "retail_lifestyle": "video (24%, n=81)",
           "real_estate": "video (10%, n=20)"
         },
         "ramadan": {
@@ -980,28 +966,18 @@
         },
         "retail_lifestyle": {
           "best_day": "wednesday",
-          "avg_engagement": 0.245,
-          "n": 53
+          "avg_engagement": 0.264,
+          "n": 55
         },
         "fashion": {
           "best_day": "monday",
           "avg_engagement": 0.5,
           "n": 29
         },
-        "retail": {
-          "best_day": "friday",
-          "avg_engagement": 1.0,
-          "n": 2
-        },
         "beauty_personal_care": {
           "best_day": "friday",
-          "avg_engagement": 0.161,
-          "n": 31
-        },
-        "beauty": {
-          "best_day": "saturday",
-          "avg_engagement": 0.625,
-          "n": 4
+          "avg_engagement": 0.214,
+          "n": 35
         },
         "healthcare_wellness": {
           "best_day": "wednesday",
@@ -1249,49 +1225,61 @@
           }
         },
         "retail_lifestyle": {
-          "avg_engagement": 0.158,
-          "lift_vs_corpus": -0.228,
-          "obs_count": 351,
+          "avg_engagement": 0.171,
+          "lift_vs_corpus": -0.215,
+          "obs_count": 359,
           "dominant_signals": {
             "content_type": {
               "value": "image",
-              "pct": 0.413
+              "pct": 0.404
+            },
+            "aspect_ratio": {
+              "value": "vertical_9x16",
+              "pct": 1.0
+            },
+            "editing_pace": {
+              "value": "viral_fast",
+              "pct": 0.875
             },
             "day_of_week": {
               "value": "thursday",
-              "pct": 0.191
+              "pct": 0.192
             },
             "composition": {
               "value": "product_hero_closeup",
-              "pct": 0.527
+              "pct": 0.526
             },
             "setting": {
               "value": "retail_store",
-              "pct": 0.63
+              "pct": 0.616
             },
             "lighting": {
               "value": "natural",
-              "pct": 0.627
+              "pct": 0.613
             },
             "visual_complexity": {
               "value": "simple",
-              "pct": 0.715
+              "pct": 0.699
             },
             "heritage_framing": {
               "value": "modern",
-              "pct": 0.903
+              "pct": 0.891
             },
             "tone": {
               "value": "informative",
-              "pct": 0.718
+              "pct": 0.702
+            },
+            "register": {
+              "value": "aspirational",
+              "pct": 0.875
             },
             "dialect": {
               "value": "msa",
-              "pct": 0.435
+              "pct": 0.425
             },
             "production_quality": {
               "value": "professional",
-              "pct": 0.644
+              "pct": 0.632
             }
           }
         },
@@ -1342,164 +1330,58 @@
             }
           }
         },
-        "retail": {
-          "avg_engagement": 0.75,
-          "lift_vs_corpus": 0.364,
-          "obs_count": 8,
-          "dominant_signals": {
-            "content_type": {
-              "value": "video",
-              "pct": 1.0
-            },
-            "aspect_ratio": {
-              "value": "vertical_9x16",
-              "pct": 1.0
-            },
-            "editing_pace": {
-              "value": "viral_fast",
-              "pct": 0.875
-            },
-            "day_of_week": {
-              "value": "friday",
-              "pct": 0.25
-            },
-            "composition": {
-              "value": "product_hero_closeup",
-              "pct": 0.5
-            },
-            "setting": {
-              "value": "home_domestic",
-              "pct": 0.25
-            },
-            "lighting": {
-              "value": "natural_daylight",
-              "pct": 0.375
-            },
-            "visual_complexity": {
-              "value": "moderate",
-              "pct": 0.5
-            },
-            "heritage_framing": {
-              "value": "blended",
-              "pct": 0.667
-            },
-            "tone": {
-              "value": "patriotic",
-              "pct": 0.375
-            },
-            "register": {
-              "value": "aspirational",
-              "pct": 0.875
-            },
-            "dialect": {
-              "value": "mixed",
-              "pct": 1.0
-            },
-            "production_quality": {
-              "value": "semi_professional",
-              "pct": 0.875
-            }
-          }
-        },
         "beauty_personal_care": {
-          "avg_engagement": 0.091,
-          "lift_vs_corpus": -0.295,
-          "obs_count": 290,
+          "avg_engagement": 0.131,
+          "lift_vs_corpus": -0.255,
+          "obs_count": 320,
           "dominant_signals": {
             "content_type": {
               "value": "image",
-              "pct": 0.531
-            },
-            "day_of_week": {
-              "value": "wednesday",
-              "pct": 0.186
-            },
-            "composition": {
-              "value": "product_hero_closeup",
-              "pct": 0.717
-            },
-            "setting": {
-              "value": "studio",
-              "pct": 0.566
-            },
-            "lighting": {
-              "value": "natural",
-              "pct": 0.621
-            },
-            "visual_complexity": {
-              "value": "simple",
-              "pct": 0.928
-            },
-            "heritage_framing": {
-              "value": "modern",
-              "pct": 0.921
-            },
-            "tone": {
-              "value": "informative",
-              "pct": 0.583
-            },
-            "dialect": {
-              "value": "msa",
-              "pct": 0.474
-            },
-            "production_quality": {
-              "value": "semi_professional",
-              "pct": 0.407
-            }
-          }
-        },
-        "beauty": {
-          "avg_engagement": 0.517,
-          "lift_vs_corpus": 0.131,
-          "obs_count": 30,
-          "dominant_signals": {
-            "content_type": {
-              "value": "video",
-              "pct": 0.7
+              "pct": 0.509
             },
             "aspect_ratio": {
               "value": "vertical_9x16",
               "pct": 0.692
             },
             "day_of_week": {
-              "value": "thursday",
-              "pct": 0.167
+              "value": "wednesday",
+              "pct": 0.184
             },
             "composition": {
               "value": "product_hero_closeup",
-              "pct": 0.2
+              "pct": 0.669
             },
             "setting": {
               "value": "studio",
-              "pct": 0.7
+              "pct": 0.578
             },
             "lighting": {
-              "value": "warm_natural",
-              "pct": 0.2
+              "value": "natural",
+              "pct": 0.562
             },
             "visual_complexity": {
-              "value": "moderate",
-              "pct": 0.7
+              "value": "simple",
+              "pct": 0.866
             },
             "heritage_framing": {
               "value": "modern",
-              "pct": 0.933
+              "pct": 0.922
             },
             "tone": {
-              "value": "aspirational",
-              "pct": 0.2
+              "value": "informative",
+              "pct": 0.541
             },
             "register": {
               "value": "casual",
               "pct": 0.733
             },
             "dialect": {
-              "value": "hijazi",
-              "pct": 0.667
+              "value": "msa",
+              "pct": 0.445
             },
             "production_quality": {
-              "value": "professional",
-              "pct": 0.933
+              "value": "semi_professional",
+              "pct": 0.375
             },
             "opener_formula": {
               "value": "statement",
@@ -1609,8 +1491,6 @@
         "composition",
         "setting",
         "lighting",
-        "visual_complexity",
-        "heritage_framing",
         "tone",
         "register",
         "dialect",
@@ -1620,13 +1500,11 @@
         "F&B dominates with restaurant_indoor + product_hero + playful tone",
         "Beauty underperforms (-23pp) — studio + informative tone — needs tone refresh",
         "Retail sits between: blended heritage, studio setting",
-        "retail: 75% — leads with product_hero_closeup + home_domestic + patriotic tone",
-        "beauty: 52% — leads with product_hero_closeup + studio + aspirational tone",
         "f_and_b: 52% — leads with product_hero_closeup + restaurant + playful tone",
         "healthcare_wellness: 42% — leads with text_dominant + unknown + informative tone",
         "fashion: 33% — leads with lifestyle_integrated + retail_store + informative tone",
-        "retail_lifestyle: 16% — leads with product_hero_closeup + retail_store + informative tone",
-        "beauty_personal_care: 9% — leads with product_hero_closeup + studio + informative tone",
+        "retail_lifestyle: 17% — leads with product_hero_closeup + retail_store + informative tone",
+        "beauty_personal_care: 13% — leads with product_hero_closeup + studio + informative tone",
         "real_estate: 6% — leads with text_dominant + outdoor + informative tone"
       ]
     },
@@ -1971,15 +1849,6 @@
           "confidence": "high"
         },
         {
-          "dimension": "sector",
-          "value": "beauty_personal_care",
-          "count": 290,
-          "avg_engagement": 0.091,
-          "lift_vs_avg": -0.314,
-          "high_rate": 0.034,
-          "confidence": "high"
-        },
-        {
           "dimension": "lighting",
           "value": "dramatic",
           "count": 5,
@@ -1998,6 +1867,15 @@
           "confidence": "high"
         },
         {
+          "dimension": "sector",
+          "value": "beauty_personal_care",
+          "count": 320,
+          "avg_engagement": 0.131,
+          "lift_vs_avg": -0.274,
+          "high_rate": 0.062,
+          "confidence": "high"
+        },
+        {
           "dimension": "tone",
           "value": "casual",
           "count": 318,
@@ -2009,10 +1887,10 @@
         {
           "dimension": "sector",
           "value": "retail_lifestyle",
-          "count": 351,
-          "avg_engagement": 0.158,
-          "lift_vs_avg": -0.247,
-          "high_rate": 0.068,
+          "count": 359,
+          "avg_engagement": 0.171,
+          "lift_vs_avg": -0.234,
+          "high_rate": 0.081,
           "confidence": "high"
         },
         {
@@ -2381,7 +2259,7 @@
         }
       },
       "best_by_sector": {
-        "beauty": [
+        "beauty_personal_care": [
           {
             "pattern": "influencer_collab",
             "media_type": "video",
@@ -2416,43 +2294,6 @@
             "setting": "studio",
             "count": 5,
             "high_eng_rate": 0.4
-          }
-        ],
-        "beauty_personal_care": [
-          {
-            "pattern": "educational_content",
-            "media_type": "image",
-            "setting": "retail_store",
-            "count": 5,
-            "high_eng_rate": 0.4
-          },
-          {
-            "pattern": "beauty_cosmetics",
-            "media_type": "video",
-            "setting": "studio",
-            "count": 3,
-            "high_eng_rate": 0.333
-          },
-          {
-            "pattern": "beauty_wellness",
-            "media_type": "image",
-            "setting": "salon",
-            "count": 4,
-            "high_eng_rate": 0.25
-          },
-          {
-            "pattern": "tutorial_how_to",
-            "media_type": "video",
-            "setting": "salon",
-            "count": 13,
-            "high_eng_rate": 0.154
-          },
-          {
-            "pattern": "educational_content",
-            "media_type": "image",
-            "setting": "studio",
-            "count": 58,
-            "high_eng_rate": 0.0
           }
         ],
         "f_and_b": [
@@ -2566,7 +2407,6 @@
             "high_eng_rate": 0.0
           }
         ],
-        "retail": [],
         "retail_lifestyle": [
           {
             "pattern": "metro_setting",
@@ -3321,9 +3161,9 @@
         },
         {
           "sector": "retail_lifestyle",
-          "total_posts": 351,
-          "posts_per_week": 8.53,
-          "avg_engagement": 0.158
+          "total_posts": 359,
+          "posts_per_week": 8.73,
+          "avg_engagement": 0.171
         },
         {
           "sector": "fashion",
@@ -3332,22 +3172,10 @@
           "avg_engagement": 0.328
         },
         {
-          "sector": "retail",
-          "total_posts": 8,
-          "posts_per_week": 9.33,
-          "avg_engagement": 0.75
-        },
-        {
           "sector": "beauty_personal_care",
-          "total_posts": 290,
-          "posts_per_week": 0.66,
-          "avg_engagement": 0.091
-        },
-        {
-          "sector": "beauty",
-          "total_posts": 30,
-          "posts_per_week": 0.27,
-          "avg_engagement": 0.517
+          "total_posts": 320,
+          "posts_per_week": 0.72,
+          "avg_engagement": 0.131
         },
         {
           "sector": "healthcare_wellness",

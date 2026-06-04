@@ -182,6 +182,22 @@ def extract_via_apify(
     total_raw = len(items)
     print(f"  Apify returned {total_raw} raw posts", flush=True)
 
+    # ── RAW ARCHIVE: save full Apify response BEFORE any processing
+    from datetime import datetime as _dt
+    _archive_dir = BASE / "11_who_to_learn_from" / "_raw_archive" / handle / _dt.now().strftime("%Y-%m-%d")
+    _archive_dir.mkdir(parents=True, exist_ok=True)
+    _raw_path = _archive_dir / f"{handle}_{_dt.now().strftime('%Y%m%d')}_apify_raw.jsonl"
+    with open(_raw_path, "w") as _rf:
+        for _item in items:
+            _rf.write(json.dumps(_item, ensure_ascii=False, default=str) + "\n")
+    _meta_path = _archive_dir / f"{handle}_{_dt.now().strftime('%Y%m%d')}_metadata.json"
+    _meta_path.write_text(json.dumps({
+        "handle": handle, "sector": sector, "extraction_date": _dt.now().isoformat(),
+        "apify_run_id": str(getattr(run, "id", "")), "posts_fetched": total_raw,
+        "results_limit": results_limit,
+    }, indent=2))
+    print(f"  Raw archive saved: {_raw_path} ({total_raw} posts)", flush=True)
+
     if total_raw < results_limit:
         profile_exhausted = True  # got fewer than we asked for — profile is thin
 

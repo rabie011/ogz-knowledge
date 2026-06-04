@@ -1,6561 +1,842 @@
 {
   "meta": {
-    "name": "OGZ Intelligence Layer",
-    "description": "The distilled brain of the platform. Every agent, brief, score, and recommendation draws from this.",
-    "generated_from": "4315 observations across 42 Saudi Instagram accounts in 6 sectors",
-    "version": "2.1",
-    "generated_at": "2026-06-04T05:26:34.807275",
-    "levels": "0-12 (complete intelligence stack)",
-    "updated_at": "2026-06-04T17:32:48.835210",
-    "updates": "Added brand-level intelligence, weak brand prescriptions, scoring rules, test learnings"
+    "name": "OGZ Intelligence Layer — Thin Brain",
+    "version": "3.0",
+    "philosophy": "Less but right. Cultural guardrails + real metrics + reference examples. No wrong scores, no bad rules.",
+    "generated_at": "2026-06-04T23:26:04.387421"
   },
-  "universal_rules": [
-    {
-      "rule": "ALWAYS use 'youth_culture_collab' — 100% high engagement across all sectors",
-      "pattern": "youth_culture_collab",
-      "engagement": 100,
-      "obs": 10,
-      "priority": "critical"
-    },
-    {
-      "rule": "ALWAYS use 'heritage_storytelling_hook' — 93% high engagement across all sectors",
-      "pattern": "heritage_storytelling_hook",
-      "engagement": 93,
-      "obs": 14,
-      "priority": "high"
-    },
-    {
-      "rule": "ALWAYS use 'overhead_tabletop_spread' — 88% high engagement across all sectors",
-      "pattern": "overhead_tabletop_spread",
-      "engagement": 88,
-      "obs": 41,
-      "priority": "high"
-    },
-    {
-      "rule": "ALWAYS use 'cultural_object_hero' — 86% high engagement across all sectors",
-      "pattern": "cultural_object_hero",
-      "engagement": 86,
-      "obs": 22,
-      "priority": "high"
-    },
-    {
-      "rule": "ALWAYS use 'community_pride_statement' — 85% high engagement across all sectors",
-      "pattern": "community_pride_statement",
-      "engagement": 85,
-      "obs": 13,
-      "priority": "high"
-    },
-    {
-      "rule": "ALWAYS use 'customer_voice_ugc' — 84% high engagement across all sectors",
-      "pattern": "customer_voice_ugc",
-      "engagement": 84,
-      "obs": 32,
-      "priority": "high"
-    },
-    {
-      "rule": "ALWAYS use 'close_up_macro_texture' — 83% high engagement across all sectors",
-      "pattern": "close_up_macro_texture",
-      "engagement": 83,
-      "obs": 35,
-      "priority": "high"
-    },
-    {
-      "rule": "ALWAYS use 'giveaway_contest' — 83% high engagement across all sectors",
-      "pattern": "giveaway_contest",
-      "engagement": 83,
-      "obs": 12,
-      "priority": "high"
-    },
-    {
-      "rule": "ALWAYS use 'model_centered_frontal_portrait' — 82% high engagement across all sectors",
-      "pattern": "model_centered_frontal_portrait",
-      "engagement": 82,
-      "obs": 11,
-      "priority": "high"
-    }
-  ],
-  "anti_patterns": [
-    {
-      "rule": "NEVER use 'cafe_bakery' — only 10% high engagement",
-      "pattern": "cafe_bakery",
-      "engagement": 10,
-      "obs": 10
-    },
-    {
-      "rule": "NEVER use 'casual_marketing' — only 10% high engagement",
-      "pattern": "casual_marketing",
-      "engagement": 10,
-      "obs": 59
-    },
-    {
-      "rule": "NEVER use 'local_pride_signal' — only 10% high engagement",
-      "pattern": "local_pride_signal",
-      "engagement": 10,
-      "obs": 21
-    },
-    {
-      "rule": "NEVER use 'design_community' — only 9% high engagement",
-      "pattern": "design_community",
-      "engagement": 9,
-      "obs": 22
-    },
-    {
-      "rule": "NEVER use 'creative_format_experiment' — only 9% high engagement",
-      "pattern": "creative_format_experiment",
-      "engagement": 9,
-      "obs": 11
-    },
-    {
-      "rule": "NEVER use 'delivery_convenience' — only 8% high engagement",
-      "pattern": "delivery_convenience",
-      "engagement": 8,
-      "obs": 12
-    },
-    {
-      "rule": "NEVER use 'restaurant_promotion' — only 8% high engagement",
-      "pattern": "restaurant_promotion",
-      "engagement": 8,
-      "obs": 12
-    },
-    {
-      "rule": "NEVER use 'luxury_venue' — only 8% high engagement",
-      "pattern": "luxury_venue",
-      "engagement": 8,
-      "obs": 12
-    },
-    {
-      "rule": "NEVER use 'ramadan_food_promo' — only 8% high engagement",
-      "pattern": "ramadan_food_promo",
-      "engagement": 8,
-      "obs": 13
-    },
-    {
-      "rule": "NEVER use 'occasion_playseid_campaign' — only 8% high engagement",
-      "pattern": "occasion_playseid_campaign",
-      "engagement": 8,
-      "obs": 167
-    },
-    {
-      "rule": "NEVER use 'saudi_agriculture' — only 8% high engagement",
-      "pattern": "saudi_agriculture",
-      "engagement": 8,
-      "obs": 12
-    },
-    {
-      "rule": "NEVER use 'local_cuisine' — only 8% high engagement",
-      "pattern": "local_cuisine",
-      "engagement": 8,
-      "obs": 13
-    },
-    {
-      "rule": "NEVER use 'food_photography' — only 8% high engagement",
-      "pattern": "food_photography",
-      "engagement": 8,
-      "obs": 185
-    },
-    {
-      "rule": "NEVER use 'riyadh_f_and_b' — only 7% high engagement",
-      "pattern": "riyadh_f_and_b",
-      "engagement": 7,
-      "obs": 99
-    },
-    {
-      "rule": "NEVER use 'beach_lifestyle' — only 7% high engagement",
-      "pattern": "beach_lifestyle",
-      "engagement": 7,
-      "obs": 27
-    },
-    {
-      "rule": "NEVER use 'occasion_plays' — only 7% high engagement",
-      "pattern": "occasion_plays",
-      "engagement": 7,
-      "obs": 58
-    },
-    {
-      "rule": "NEVER use 'hashtag_restaurant_romantic' — only 7% high engagement",
-      "pattern": "hashtag_restaurant_romantic",
-      "engagement": 7,
-      "obs": 57
-    },
-    {
-      "rule": "NEVER use 'fashion_accessory_integration' — only 7% high engagement",
-      "pattern": "fashion_accessory_integration",
-      "engagement": 7,
-      "obs": 87
-    },
-    {
-      "rule": "NEVER use 'ramadan_f_and_b' — only 6% high engagement",
-      "pattern": "ramadan_f_and_b",
-      "engagement": 6,
-      "obs": 18
-    },
-    {
-      "rule": "NEVER use 'collab_post' — only 6% high engagement",
-      "pattern": "collab_post",
-      "engagement": 6,
-      "obs": 87
-    },
-    {
-      "rule": "NEVER use 'riyadh_dining' — only 5% high engagement",
-      "pattern": "riyadh_dining",
-      "engagement": 5,
-      "obs": 22
-    },
-    {
-      "rule": "NEVER use 'occasion_tie_in' — only 5% high engagement",
-      "pattern": "occasion_tie_in",
-      "engagement": 5,
-      "obs": 61
-    },
-    {
-      "rule": "NEVER use 'beauty_product_launch' — only 5% high engagement",
-      "pattern": "beauty_product_launch",
-      "engagement": 5,
-      "obs": 19
-    },
-    {
-      "rule": "NEVER use 'tutorial_how_to' — only 4% high engagement",
-      "pattern": "tutorial_how_to",
-      "engagement": 4,
-      "obs": 254
-    },
-    {
-      "rule": "NEVER use 'occasion_playscultural_moment_tie_in' — only 4% high engagement",
-      "pattern": "occasion_playscultural_moment_tie_in",
-      "engagement": 4,
-      "obs": 133
-    },
-    {
-      "rule": "NEVER use 'beauty_cosmetics' — only 4% high engagement",
-      "pattern": "beauty_cosmetics",
-      "engagement": 4,
-      "obs": 81
-    },
-    {
-      "rule": "NEVER use 'f_and_b_romantic' — only 4% high engagement",
-      "pattern": "f_and_b_romantic",
-      "engagement": 4,
-      "obs": 75
-    },
-    {
-      "rule": "NEVER use 'beauty_wellness' — only 4% high engagement",
-      "pattern": "beauty_wellness",
-      "engagement": 4,
-      "obs": 124
-    },
-    {
-      "rule": "NEVER use 'natural_ingredient_claim' — only 4% high engagement",
-      "pattern": "natural_ingredient_claim",
-      "engagement": 4,
-      "obs": 24
-    },
-    {
-      "rule": "NEVER use 'tutorial_routine' — only 4% high engagement",
-      "pattern": "tutorial_routine",
-      "engagement": 4,
-      "obs": 192
-    },
-    {
-      "rule": "NEVER use 'educational_content' — only 3% high engagement",
-      "pattern": "educational_content",
-      "engagement": 3,
-      "obs": 265
-    },
-    {
-      "rule": "NEVER use 'poetic_arabic_copy' — only 3% high engagement",
-      "pattern": "poetic_arabic_copy",
-      "engagement": 3,
-      "obs": 38
-    },
-    {
-      "rule": "NEVER use 'women_empowerment_day' — only 3% high engagement",
-      "pattern": "women_empowerment_day",
-      "engagement": 3,
-      "obs": 36
-    },
-    {
-      "rule": "NEVER use 'cultural_venue' — only 2% high engagement",
-      "pattern": "cultural_venue",
-      "engagement": 2,
-      "obs": 42
-    },
-    {
-      "rule": "NEVER use 'lifestyle_embed' — only 2% high engagement",
-      "pattern": "lifestyle_embed",
-      "engagement": 2,
-      "obs": 43
-    },
-    {
-      "rule": "NEVER use 'riyadh_local_commerce' — only 0% high engagement",
-      "pattern": "riyadh_local_commerce",
-      "engagement": 0,
-      "obs": 10
-    },
-    {
-      "rule": "NEVER use 'morning_routine' — only 0% high engagement",
-      "pattern": "morning_routine",
-      "engagement": 0,
-      "obs": 10
-    },
-    {
-      "rule": "NEVER use 'lifestyle_product' — only 0% high engagement",
-      "pattern": "lifestyle_product",
-      "engagement": 0,
-      "obs": 15
-    },
-    {
-      "rule": "NEVER use 'product_results_claim' — only 0% high engagement",
-      "pattern": "product_results_claim",
-      "engagement": 0,
-      "obs": 10
-    },
-    {
-      "rule": "NEVER use 'saudi_colloquial' — only 0% high engagement",
-      "pattern": "saudi_colloquial",
-      "engagement": 0,
-      "obs": 14
-    },
-    {
-      "rule": "NEVER use 'extended_hours' — only 0% high engagement",
-      "pattern": "extended_hours",
-      "engagement": 0,
-      "obs": 23
-    },
-    {
-      "rule": "NEVER use 'summer_promotion' — only 0% high engagement",
-      "pattern": "summer_promotion",
-      "engagement": 0,
-      "obs": 10
-    },
-    {
-      "rule": "NEVER use 'delivery_app_mention' — only 0% high engagement",
-      "pattern": "delivery_app_mention",
-      "engagement": 0,
-      "obs": 14
-    },
-    {
-      "rule": "NEVER use 'enhancement_not_transformation' — only 0% high engagement",
-      "pattern": "enhancement_not_transformation",
-      "engagement": 0,
-      "obs": 15
-    },
-    {
-      "rule": "NEVER use 'italian_cuisine' — only 0% high engagement",
-      "pattern": "italian_cuisine",
-      "engagement": 0,
-      "obs": 52
-    },
-    {
-      "rule": "NEVER use 'eid_family_gathering' — only 0% high engagement",
-      "pattern": "eid_family_gathering",
-      "engagement": 0,
-      "obs": 126
-    },
-    {
-      "rule": "NEVER use 'influencer_review' — only 0% high engagement",
-      "pattern": "influencer_review",
-      "engagement": 0,
-      "obs": 18
-    },
-    {
-      "rule": "NEVER use 'delivery_service_highlight' — only 0% high engagement",
-      "pattern": "delivery_service_highlight",
-      "engagement": 0,
-      "obs": 10
-    },
-    {
-      "rule": "NEVER use 'authenticity_positioning' — only 0% high engagement",
-      "pattern": "authenticity_positioning",
-      "engagement": 0,
-      "obs": 10
-    },
-    {
-      "rule": "NEVER use 'skincare_beauty_bridge' — only 0% high engagement",
-      "pattern": "skincare_beauty_bridge",
-      "engagement": 0,
-      "obs": 16
-    },
-    {
-      "rule": "NEVER use 'ramadan_decorated_night' — only 0% high engagement",
-      "pattern": "ramadan_decorated_night",
-      "engagement": 0,
-      "obs": 10
-    }
-  ],
-  "visual_rules": [
-    {
-      "rule": "USE dramatic_moody + studio — 90% high",
-      "type": "preferred",
-      "lighting": "dramatic_moody",
-      "setting": "studio",
-      "engagement": 90,
-      "obs": 21
-    },
-    {
-      "rule": "USE warm_studio + heritage_setting — 82% high",
-      "type": "preferred",
-      "lighting": "warm_studio",
-      "setting": "heritage_setting",
-      "engagement": 82,
-      "obs": 11
-    },
-    {
-      "rule": "USE mixed_ambient + studio — 81% high",
-      "type": "preferred",
-      "lighting": "mixed_ambient",
-      "setting": "studio",
-      "engagement": 81,
-      "obs": 16
-    },
-    {
-      "rule": "USE natural_daylight + restaurant_indoor — 80% high",
-      "type": "preferred",
-      "lighting": "natural_daylight",
-      "setting": "restaurant_indoor",
-      "engagement": 80,
-      "obs": 15
-    },
-    {
-      "rule": "USE natural_daylight + outdoor_nature — 78% high",
-      "type": "preferred",
-      "lighting": "natural_daylight",
-      "setting": "outdoor_nature",
-      "engagement": 78,
-      "obs": 23
-    },
-    {
-      "rule": "USE flat_graphic + digital_graphic — 68% high",
-      "type": "preferred",
-      "lighting": "flat_graphic",
-      "setting": "digital_graphic",
-      "engagement": 68,
-      "obs": 25
-    },
-    {
-      "rule": "USE warm_studio + restaurant_indoor — 67% high",
-      "type": "preferred",
-      "lighting": "warm_studio",
-      "setting": "restaurant_indoor",
-      "engagement": 67,
-      "obs": 18
-    },
-    {
-      "rule": "USE cold_studio + studio — 61% high",
-      "type": "preferred",
-      "lighting": "cold_studio",
-      "setting": "studio",
-      "engagement": 61,
-      "obs": 31
-    },
-    {
-      "rule": "AVOID warm_studio + salon — only 14% high",
-      "type": "avoid",
-      "lighting": "warm_studio",
-      "setting": "salon",
-      "engagement": 14,
-      "obs": 28
-    },
-    {
-      "rule": "AVOID flat_bright + unknown — only 13% high",
-      "type": "avoid",
-      "lighting": "flat_bright",
-      "setting": "unknown",
-      "engagement": 13,
-      "obs": 30
-    },
-    {
-      "rule": "AVOID warm_studio + home — only 5% high",
-      "type": "avoid",
-      "lighting": "warm_studio",
-      "setting": "home",
-      "engagement": 5,
-      "obs": 19
-    },
-    {
-      "rule": "AVOID natural + studio — only 4% high",
-      "type": "avoid",
-      "lighting": "natural",
-      "setting": "studio",
-      "engagement": 4,
-      "obs": 159
-    },
-    {
-      "rule": "AVOID studio + retail_store — only 4% high",
-      "type": "avoid",
-      "lighting": "studio",
-      "setting": "retail_store",
-      "engagement": 4,
-      "obs": 72
-    },
-    {
-      "rule": "AVOID natural + home — only 3% high",
-      "type": "avoid",
-      "lighting": "natural",
-      "setting": "home",
-      "engagement": 3,
-      "obs": 58
-    },
-    {
-      "rule": "AVOID natural + unknown — only 1% high",
-      "type": "avoid",
-      "lighting": "natural",
-      "setting": "unknown",
-      "engagement": 1,
-      "obs": 70
-    },
-    {
-      "rule": "AVOID natural + salon — only 0% high",
-      "type": "avoid",
-      "lighting": "natural",
-      "setting": "salon",
-      "engagement": 0,
-      "obs": 15
-    }
-  ],
-  "caption_rules": [
-    {
-      "rule": "Write in arabic — 30% high vs 18% for bilingual",
-      "type": "language",
-      "ranking": [
-        {
-          "lang": "arabic",
-          "total": 1558,
-          "high_pct": 30
-        },
-        {
-          "lang": "english",
-          "total": 348,
-          "high_pct": 24
-        },
-        {
-          "lang": "none",
-          "total": 137,
-          "high_pct": 19
-        },
-        {
-          "lang": "bilingual",
-          "total": 653,
-          "high_pct": 18
-        }
-      ]
-    },
-    {
-      "rule": "Caption length matters — medium (50-200 chars) performs best",
-      "type": "length",
-      "ranking": [
-        {
-          "length": "medium",
-          "total": 1403,
-          "high_pct": 25
-        },
-        {
-          "length": "long",
-          "total": 647,
-          "high_pct": 24
-        },
-        {
-          "length": "very_long",
-          "total": 245,
-          "high_pct": 22
-        },
-        {
-          "length": "short",
-          "total": 219,
-          "high_pct": 18
-        }
-      ]
-    }
-  ],
-  "occasion_rules": [
-    {
-      "occasion": "brand_campaign",
-      "engagement": 100,
-      "obs": 5,
-      "verdict": "invest_heavily",
-      "rule": "brand_campaign: GO ALL IN (100%)"
-    },
-    {
-      "occasion": "summer_campaign",
-      "engagement": 100,
-      "obs": 7,
-      "verdict": "invest_heavily",
-      "rule": "summer_campaign: GO ALL IN (100%)"
-    },
-    {
-      "occasion": "founding_day",
-      "engagement": 85,
-      "obs": 13,
-      "verdict": "invest_heavily",
-      "rule": "founding_day: GO ALL IN (85%)"
-    },
-    {
-      "occasion": "jeddah_season",
-      "engagement": 45,
-      "obs": 95,
-      "verdict": "use_selectively",
-      "rule": "jeddah_season: Use carefully (45%)"
-    },
-    {
-      "occasion": "national_day",
-      "engagement": 40,
-      "obs": 30,
-      "verdict": "use_selectively",
-      "rule": "national_day: Use carefully (40%)"
-    },
-    {
-      "occasion": "evergreen",
-      "engagement": 31,
-      "obs": 1293,
-      "verdict": "use_selectively",
-      "rule": "evergreen: Use carefully (31%)"
-    },
-    {
-      "occasion": "ramadan",
-      "engagement": 26,
-      "obs": 399,
-      "verdict": "use_selectively",
-      "rule": "ramadan: Use carefully (26%)"
-    },
-    {
-      "occasion": "eid_al_fitr",
-      "engagement": 23,
-      "obs": 48,
-      "verdict": "reconsider_approach",
-      "rule": "eid_al_fitr: UNDERPERFORMING — fix strategy (23%)"
-    },
-    {
-      "occasion": "leap_conference",
-      "engagement": 22,
-      "obs": 76,
-      "verdict": "reconsider_approach",
-      "rule": "leap_conference: UNDERPERFORMING — fix strategy (22%)"
-    },
-    {
-      "occasion": "riyadh_season",
-      "engagement": 15,
-      "obs": 681,
-      "verdict": "reconsider_approach",
-      "rule": "riyadh_season: UNDERPERFORMING — fix strategy (15%)"
-    },
-    {
-      "occasion": "hajj_season",
-      "engagement": 11,
-      "obs": 57,
-      "verdict": "reconsider_approach",
-      "rule": "hajj_season: UNDERPERFORMING — fix strategy (11%)"
-    },
-    {
-      "occasion": "eid_al_adha",
-      "engagement": 10,
-      "obs": 10,
-      "verdict": "reconsider_approach",
-      "rule": "eid_al_adha: UNDERPERFORMING — fix strategy (10%)"
-    },
-    {
-      "occasion": "sporting_event",
-      "engagement": 0,
-      "obs": 6,
-      "verdict": "reconsider_approach",
-      "rule": "sporting_event: UNDERPERFORMING — fix strategy (0%)"
-    }
-  ],
-  "format_rules": [
-    {
-      "content_type": "reel",
-      "engagement": 71,
-      "obs": 31,
-      "rule": "reel: 71% high engagement (31 obs)"
-    },
-    {
-      "content_type": "carousel_slide",
-      "engagement": 27,
-      "obs": 513,
-      "rule": "carousel_slide: 27% high engagement (513 obs)"
-    },
-    {
-      "content_type": "image",
-      "engagement": 27,
-      "obs": 1180,
-      "rule": "image: 27% high engagement (1180 obs)"
-    },
-    {
-      "content_type": "video",
-      "engagement": 24,
-      "obs": 1006,
-      "rule": "video: 24% high engagement (1006 obs)"
-    }
-  ],
-  "cross_sector_transfers": [
-    {
-      "rule": "Transfer 'occasion_specific_greeting' from f_and_b (100%) to fashion (0%)",
-      "pattern": "occasion_specific_greeting",
-      "strong_in": "f_and_b",
-      "strong_pct": 100,
-      "weak_in": "fashion",
-      "weak_pct": 0
-    },
-    {
-      "rule": "Transfer 'urgency_without_pressure' from f_and_b (100%) to fashion (0%)",
-      "pattern": "urgency_without_pressure",
-      "strong_in": "f_and_b",
-      "strong_pct": 100,
-      "weak_in": "fashion",
-      "weak_pct": 0
-    },
-    {
-      "rule": "Transfer 'lifestyle_environment_integration' from f_and_b (87%) to fashion (0%)",
-      "pattern": "lifestyle_environment_integration",
-      "strong_in": "f_and_b",
-      "strong_pct": 87,
-      "weak_in": "fashion",
-      "weak_pct": 0
-    },
-    {
-      "rule": "Transfer 'lifestyle_environment_integration' from f_and_b (87%) to retail_lifestyle (0%)",
-      "pattern": "lifestyle_environment_integration",
-      "strong_in": "f_and_b",
-      "strong_pct": 87,
-      "weak_in": "retail_lifestyle",
-      "weak_pct": 0
-    },
-    {
-      "rule": "Transfer 'founding_day_dirayyah_heritage' from f_and_b (83%) to real_estate (0%)",
-      "pattern": "founding_day_dirayyah_heritage",
-      "strong_in": "f_and_b",
-      "strong_pct": 83,
-      "weak_in": "real_estate",
-      "weak_pct": 0
-    },
-    {
-      "rule": "Transfer 'seasonal_collection_drop' from f_and_b (78%) to fashion (0%)",
-      "pattern": "seasonal_collection_drop",
-      "strong_in": "f_and_b",
-      "strong_pct": 78,
-      "weak_in": "fashion",
-      "weak_pct": 0
-    },
-    {
-      "rule": "Transfer 'international_achievement' from f_and_b (74%) to beauty_personal_care (0%)",
-      "pattern": "international_achievement",
-      "strong_in": "f_and_b",
-      "strong_pct": 74,
-      "weak_in": "beauty_personal_care",
-      "weak_pct": 0
-    },
-    {
-      "rule": "Transfer 'international_achievement' from f_and_b (74%) to real_estate (0%)",
-      "pattern": "international_achievement",
-      "strong_in": "f_and_b",
-      "strong_pct": 74,
-      "weak_in": "real_estate",
-      "weak_pct": 0
-    },
-    {
-      "rule": "Transfer 'arabic_hospitality_cue' from f_and_b (71%) to real_estate (0%)",
-      "pattern": "arabic_hospitality_cue",
-      "strong_in": "f_and_b",
-      "strong_pct": 71,
-      "weak_in": "real_estate",
-      "weak_pct": 0
-    },
-    {
-      "rule": "Transfer 'occasion_peg' from f_and_b (71%) to healthcare_wellness (19%)",
-      "pattern": "occasion_peg",
-      "strong_in": "f_and_b",
-      "strong_pct": 71,
-      "weak_in": "healthcare_wellness",
-      "weak_pct": 19
-    }
-  ],
-  "sector_playbooks": {
-    "beauty_personal_care": {
-      "must_use": [],
-      "winning_formulas": [],
-      "visual_dna": [
-        {
-          "lighting": "mixed_ambient",
-          "setting": "studio",
-          "total": 5,
-          "high_pct": 40
-        },
-        {
-          "lighting": "warm_studio",
-          "setting": "retail_store",
-          "total": 5,
-          "high_pct": 40
-        },
-        {
-          "lighting": "warm_studio",
-          "setting": "salon",
-          "total": 28,
-          "high_pct": 14
-        },
-        {
-          "lighting": "golden_hour",
-          "setting": "outdoor",
-          "total": 14,
-          "high_pct": 14
-        },
-        {
-          "lighting": "warm_studio",
-          "setting": "studio",
-          "total": 50,
-          "high_pct": 6
-        }
-      ],
-      "never_use": [
-        {
-          "pattern": "arabic_caption",
-          "as": "image",
-          "engagement": 5,
-          "obs": 44
-        },
-        {
-          "pattern": "educational_content",
-          "as": "carousel_slide",
-          "engagement": 5,
-          "obs": 41
-        },
-        {
-          "pattern": "educational_content",
-          "as": "video",
-          "engagement": 5,
-          "obs": 80
-        },
-        {
-          "pattern": "brand_hashtag_promotion",
-          "as": "image",
-          "engagement": 4,
-          "obs": 28
-        },
-        {
-          "pattern": "tutorial_how_to",
-          "as": "carousel_slide",
-          "engagement": 3,
-          "obs": 37
-        },
-        {
-          "pattern": "occasion_tie_in",
-          "as": "image",
-          "engagement": 3,
-          "obs": 38
-        },
-        {
-          "pattern": "tutorial_routine",
-          "as": "video",
-          "engagement": 3,
-          "obs": 73
-        },
-        {
-          "pattern": "tutorial_routine",
-          "as": "image",
-          "engagement": 3,
-          "obs": 78
-        },
-        {
-          "pattern": "tutorial_how_to",
-          "as": "image",
-          "engagement": 2,
-          "obs": 120
-        },
-        {
-          "pattern": "tutorial_how_to",
-          "as": "video",
-          "engagement": 2,
-          "obs": 81
-        },
-        {
-          "pattern": "educational_content",
-          "as": "image",
-          "engagement": 2,
-          "obs": 132
-        },
-        {
-          "pattern": "beauty_wellness",
-          "as": "image",
-          "engagement": 1,
-          "obs": 77
-        },
-        {
-          "pattern": "product_results_claim",
-          "as": "image",
-          "engagement": 0,
-          "obs": 9
-        },
-        {
-          "pattern": "enhancement_not_transformation",
-          "as": "image",
-          "engagement": 0,
-          "obs": 15
-        },
-        {
-          "pattern": "food_beverage_product",
-          "as": "image",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "influencer_review",
-          "as": "video",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "food_product_showcase",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 18
-        },
-        {
-          "pattern": "influencer_review",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "beauty_cosmetics",
-          "as": "image",
-          "engagement": 0,
-          "obs": 33
-        },
-        {
-          "pattern": "local_pride_signal",
-          "as": "image",
-          "engagement": 0,
-          "obs": 16
-        },
-        {
-          "pattern": "beauty_wellness",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 11
-        },
-        {
-          "pattern": "beauty_product_launch",
-          "as": "image",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "purification_claim",
-          "as": "image",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "authenticity_positioning",
-          "as": "image",
-          "engagement": 0,
-          "obs": 8
-        },
-        {
-          "pattern": "cultural_pride",
-          "as": "image",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "food_photography",
-          "as": "image",
-          "engagement": 0,
-          "obs": 8
-        },
-        {
-          "pattern": "influencer_review",
-          "as": "image",
-          "engagement": 0,
-          "obs": 8
-        },
-        {
-          "pattern": "skincare_beauty_bridge",
-          "as": "image",
-          "engagement": 0,
-          "obs": 11
-        },
-        {
-          "pattern": "beauty_product_launch",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 9
-        },
-        {
-          "pattern": "saudi_pride",
-          "as": "image",
-          "engagement": 0,
-          "obs": 8
-        },
-        {
-          "pattern": "brand_hashtag_promotion",
-          "as": "video",
-          "engagement": 0,
-          "obs": 28
-        },
-        {
-          "pattern": "food_product_showcase",
-          "as": "image",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "food_beverage_product",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "beauty_cosmetics",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 22
-        },
-        {
-          "pattern": "arabic_caption",
-          "as": "video",
-          "engagement": 0,
-          "obs": 45
-        },
-        {
-          "pattern": "natural_ingredient_claim",
-          "as": "image",
-          "engagement": 0,
-          "obs": 23
-        },
-        {
-          "pattern": "arabic_casual_mood_trigger",
-          "as": "image",
-          "engagement": 0,
-          "obs": 5
-        }
-      ],
-      "obs_count": 320
-    },
-    "f_and_b": {
-      "must_use": [
-        {
-          "pattern": "occasion_specific_greeting",
-          "as": "image",
-          "engagement": 100,
-          "obs": 6
-        },
-        {
-          "pattern": "invitation_to_witness",
-          "as": "reel",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "fnb_holiday_content",
-          "as": "video",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "sports_cultural_moment",
-          "as": "carousel_slide",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "pattern_repeat_flatlay",
-          "as": "carousel_slide",
-          "engagement": 100,
-          "obs": 5
-        },
-        {
-          "pattern": "urgency_without_pressure",
-          "as": "image",
-          "engagement": 100,
-          "obs": 5
-        },
-        {
-          "pattern": "sports_passion_peg",
-          "as": "carousel_slide",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "eid_occasion_activation",
-          "as": "video",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "pricing_transparency",
-          "as": "image",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "question_cta",
-          "as": "video",
-          "engagement": 100,
-          "obs": 4
-        },
-        {
-          "pattern": "event_collab_announcement",
-          "as": "carousel_slide",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "heritage_storytelling_hook",
-          "as": "image",
-          "engagement": 100,
-          "obs": 7
-        },
-        {
-          "pattern": "cultural_object_hero",
-          "as": "carousel_slide",
-          "engagement": 100,
-          "obs": 9
-        },
-        {
-          "pattern": "split_screen_before_after",
-          "as": "carousel_slide",
-          "engagement": 100,
-          "obs": 4
-        },
-        {
-          "pattern": "youth_culture_collab",
-          "as": "image",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "parallel_original_bilingual",
-          "as": "image",
-          "engagement": 100,
-          "obs": 6
-        },
-        {
-          "pattern": "heritage_storytelling_hook",
-          "as": "carousel_slide",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "contest_giveaway",
-          "as": "carousel_slide",
-          "engagement": 100,
-          "obs": 4
-        },
-        {
-          "pattern": "price_listing",
-          "as": "image",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "seasonal_collection_drop",
-          "as": "carousel_slide",
-          "engagement": 100,
-          "obs": 10
-        },
-        {
-          "pattern": "invitation_to_witness",
-          "as": "carousel_slide",
-          "engagement": 100,
-          "obs": 4
-        },
-        {
-          "pattern": "heritage_storytelling_hook",
-          "as": "reel",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "limited_time_promo",
-          "as": "video",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "seasonal_summer_heat",
-          "as": "carousel_slide",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "seasonal_beverage",
-          "as": "image",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "youth_culture_collab",
-          "as": "video",
-          "engagement": 100,
-          "obs": 7
-        },
-        {
-          "pattern": "international_achievement",
-          "as": "carousel_slide",
-          "engagement": 100,
-          "obs": 4
-        },
-        {
-          "pattern": "product_hero",
-          "as": "carousel_slide",
-          "engagement": 95,
-          "obs": 42
-        },
-        {
-          "pattern": "close_up_macro_texture",
-          "as": "carousel_slide",
-          "engagement": 93,
-          "obs": 14
-        },
-        {
-          "pattern": "overhead_tabletop_spread",
-          "as": "carousel_slide",
-          "engagement": 90,
-          "obs": 20
-        },
-        {
-          "pattern": "giveaway_contest",
-          "as": "video",
-          "engagement": 88,
-          "obs": 8
-        },
-        {
-          "pattern": "lifestyle_environment_integration",
-          "as": "image",
-          "engagement": 88,
-          "obs": 26
-        },
-        {
-          "pattern": "lifestyle_environment_integration",
-          "as": "carousel_slide",
-          "engagement": 88,
-          "obs": 33
-        },
-        {
-          "pattern": "community_pride_statement",
-          "as": "image",
-          "engagement": 86,
-          "obs": 7
-        },
-        {
-          "pattern": "food_review",
-          "as": "image",
-          "engagement": 86,
-          "obs": 7
-        },
-        {
-          "pattern": "customer_voice_ugc",
-          "as": "carousel_slide",
-          "engagement": 85,
-          "obs": 13
-        },
-        {
-          "pattern": "overhead_tabletop_spread",
-          "as": "image",
-          "engagement": 84,
-          "obs": 19
-        },
-        {
-          "pattern": "brand_milestone_post",
-          "as": "carousel_slide",
-          "engagement": 83,
-          "obs": 6
-        },
-        {
-          "pattern": "community_pride_statement",
-          "as": "carousel_slide",
-          "engagement": 83,
-          "obs": 6
-        },
-        {
-          "pattern": "product_hero",
-          "as": "image",
-          "engagement": 83,
-          "obs": 58
-        },
-        {
-          "pattern": "pattern_repeat_flatlay",
-          "as": "image",
-          "engagement": 83,
-          "obs": 6
-        },
-        {
-          "pattern": "seasonal_collection_drop",
-          "as": "image",
-          "engagement": 83,
-          "obs": 24
-        },
-        {
-          "pattern": "restaurant_recommendation",
-          "as": "image",
-          "engagement": 83,
-          "obs": 6
-        },
-        {
-          "pattern": "close_up_macro_texture",
-          "as": "image",
-          "engagement": 82,
-          "obs": 11
-        },
-        {
-          "pattern": "customer_voice_ugc",
-          "as": "image",
-          "engagement": 82,
-          "obs": 11
-        },
-        {
-          "pattern": "riyadh_location",
-          "as": "carousel_slide",
-          "engagement": 82,
-          "obs": 11
-        },
-        {
-          "pattern": "cultural_object_hero",
-          "as": "image",
-          "engagement": 82,
-          "obs": 11
-        },
-        {
-          "pattern": "hand_in_motion_pour_or_place",
-          "as": "image",
-          "engagement": 80,
-          "obs": 5
-        },
-        {
-          "pattern": "model_centered_frontal_portrait",
-          "as": "reel",
-          "engagement": 80,
-          "obs": 5
-        },
-        {
-          "pattern": "question_cta",
-          "as": "image",
-          "engagement": 80,
-          "obs": 5
-        },
-        {
-          "pattern": "arabic_hospitality_cue",
-          "as": "video",
-          "engagement": 80,
-          "obs": 5
-        },
-        {
-          "pattern": "f_and_b_brand_promotion",
-          "as": "image",
-          "engagement": 80,
-          "obs": 5
-        },
-        {
-          "pattern": "fnb_brand_promotion",
-          "as": "image",
-          "engagement": 80,
-          "obs": 5
-        },
-        {
-          "pattern": "warm_golden_hour_hero",
-          "as": "reel",
-          "engagement": 80,
-          "obs": 5
-        },
-        {
-          "pattern": "international_achievement",
-          "as": "image",
-          "engagement": 78,
-          "obs": 9
-        },
-        {
-          "pattern": "invitation_to_witness",
-          "as": "image",
-          "engagement": 78,
-          "obs": 23
-        },
-        {
-          "pattern": "specific_dish_naming",
-          "as": "image",
-          "engagement": 78,
-          "obs": 9
-        },
-        {
-          "pattern": "warm_najdi_invitational",
-          "as": "carousel_slide",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "classical_arabic_warmth",
-          "as": "image",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "gaming_esports",
-          "as": "carousel_slide",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "f_and_b_brand_promotion",
-          "as": "video",
-          "engagement": 75,
-          "obs": 8
-        },
-        {
-          "pattern": "saudi_day_content",
-          "as": "carousel_slide",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "national_day_campaign",
-          "as": "carousel_slide",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "casual_dining_promotion",
-          "as": "image",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "behind_the_craft",
-          "as": "video",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "gamification",
-          "as": "video",
-          "engagement": 75,
-          "obs": 8
-        },
-        {
-          "pattern": "food_pricing",
-          "as": "image",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "flag_imagery",
-          "as": "image",
-          "engagement": 75,
-          "obs": 8
-        },
-        {
-          "pattern": "vision_2030",
-          "as": "carousel_slide",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "saudi_sports_rivalry",
-          "as": "image",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "warm_golden_hour_hero",
-          "as": "image",
-          "engagement": 75,
-          "obs": 8
-        },
-        {
-          "pattern": "color_block_branded_flood",
-          "as": "image",
-          "engagement": 71,
-          "obs": 7
-        },
-        {
-          "pattern": "youth_entertainment",
-          "as": "video",
-          "engagement": 71,
-          "obs": 7
-        },
-        {
-          "pattern": "occasion_peg",
-          "as": "video",
-          "engagement": 71,
-          "obs": 7
-        },
-        {
-          "pattern": "tone_code_switch",
-          "as": "image",
-          "engagement": 70,
-          "obs": 10
-        }
-      ],
-      "winning_formulas": [
-        {
-          "content_type": "carousel_slide",
-          "pattern": "seasonal_collection_drop",
-          "occasion": "evergreen",
-          "total": 10,
-          "high_pct": 100
-        },
-        {
-          "content_type": "carousel_slide",
-          "pattern": "riyadh_location",
-          "occasion": "evergreen",
-          "total": 8,
-          "high_pct": 100
-        },
-        {
-          "content_type": "carousel_slide",
-          "pattern": "cultural_object_hero",
-          "occasion": "evergreen",
-          "total": 7,
-          "high_pct": 100
-        },
-        {
-          "content_type": "video",
-          "pattern": "saudi_professional",
-          "occasion": "ramadan",
-          "total": 7,
-          "high_pct": 100
-        },
-        {
-          "content_type": "video",
-          "pattern": "giveaway_contest",
-          "occasion": "evergreen",
-          "total": 6,
-          "high_pct": 100
-        },
-        {
-          "content_type": "image",
-          "pattern": "parallel_original_bilingual",
-          "occasion": "evergreen",
-          "total": 6,
-          "high_pct": 100
-        },
-        {
-          "content_type": "video",
-          "pattern": "youth_culture_collab",
-          "occasion": "evergreen",
-          "total": 6,
-          "high_pct": 100
-        },
-        {
-          "content_type": "carousel_slide",
-          "pattern": "pattern_repeat_flatlay",
-          "occasion": "evergreen",
-          "total": 5,
-          "high_pct": 100
-        },
-        {
-          "content_type": "image",
-          "pattern": "food_review",
-          "occasion": "riyadh_season",
-          "total": 5,
-          "high_pct": 100
-        },
-        {
-          "content_type": "carousel_slide",
-          "pattern": "brand_milestone_post",
-          "occasion": "evergreen",
-          "total": 5,
-          "high_pct": 100
-        }
-      ],
-      "visual_dna": [
-        {
-          "lighting": "dramatic_moody",
-          "setting": "studio",
-          "total": 19,
-          "high_pct": 100
-        },
-        {
-          "lighting": "mixed_ambient",
-          "setting": "studio",
-          "total": 11,
-          "high_pct": 100
-        },
-        {
-          "lighting": "natural_daylight",
-          "setting": "restaurant_indoor",
-          "total": 14,
-          "high_pct": 86
-        },
-        {
-          "lighting": "mixed_ambient",
-          "setting": "event_venue",
-          "total": 6,
-          "high_pct": 83
-        },
-        {
-          "lighting": "warm_studio",
-          "setting": "heritage_setting",
-          "total": 11,
-          "high_pct": 82
-        }
-      ],
-      "never_use": [
-        {
-          "pattern": "f_and_b_breakfast_promotion",
-          "as": "carousel_slide",
-          "engagement": 5,
-          "obs": 19
-        },
-        {
-          "pattern": "food_content",
-          "as": "carousel_slide",
-          "engagement": 3,
-          "obs": 35
-        },
-        {
-          "pattern": "f_and_b_romantic",
-          "as": "image",
-          "engagement": 2,
-          "obs": 51
-        },
-        {
-          "pattern": "spanish_language_content",
-          "as": "image",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "poetic_arabic_copy",
-          "as": "image",
-          "engagement": 0,
-          "obs": 29
-        },
-        {
-          "pattern": "riyadh_f_and_b",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "extended_hours",
-          "as": "video",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "food_review",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "restaurant_review",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 7
-        },
-        {
-          "pattern": "italian_cuisine",
-          "as": "video",
-          "engagement": 0,
-          "obs": 17
-        },
-        {
-          "pattern": "location_tagged",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 7
-        },
-        {
-          "pattern": "tutorial_routine",
-          "as": "video",
-          "engagement": 0,
-          "obs": 7
-        },
-        {
-          "pattern": "price_point_mention",
-          "as": "image",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "italian_cuisine",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "traditional_cuisine",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 7
-        },
-        {
-          "pattern": "hashtag_restaurant_romantic",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 7
-        },
-        {
-          "pattern": "food_promotion",
-          "as": "image",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "ramadan_promotion",
-          "as": "image",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "italian_cuisine",
-          "as": "image",
-          "engagement": 0,
-          "obs": 30
-        },
-        {
-          "pattern": "ramadan_f_and_b",
-          "as": "video",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "traditional_saudi_cuisine",
-          "as": "video",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "extended_hours",
-          "as": "image",
-          "engagement": 0,
-          "obs": 7
-        },
-        {
-          "pattern": "food_photography",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 8
-        },
-        {
-          "pattern": "saudi_colloquial",
-          "as": "video",
-          "engagement": 0,
-          "obs": 10
-        },
-        {
-          "pattern": "poetic_arabic_copy",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "location_announcement",
-          "as": "image",
-          "engagement": 0,
-          "obs": 7
-        },
-        {
-          "pattern": "f_and_b_ordering",
-          "as": "image",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "food_and_beverage_promotion",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "delivery_app_mention",
-          "as": "image",
-          "engagement": 0,
-          "obs": 9
-        },
-        {
-          "pattern": "restaurant_recommendation",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "restaurant_promotion",
-          "as": "image",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "riyadh_dining",
-          "as": "video",
-          "engagement": 0,
-          "obs": 10
-        },
-        {
-          "pattern": "f_and_b_menu_post",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 12
-        }
-      ],
-      "obs_count": 1591
-    },
-    "fashion": {
-      "must_use": [
-        {
-          "pattern": "limited_time_offer",
-          "as": "image",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "fashion_accessory_integration",
-          "as": "image",
-          "engagement": 83,
-          "obs": 6
-        },
-        {
-          "pattern": "winter_comfort_cozy",
-          "as": "video",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "collab_post",
-          "as": "image",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "cultural_identity_marker",
-          "as": "image",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "modest_wear",
-          "as": "image",
-          "engagement": 70,
-          "obs": 10
-        }
-      ],
-      "winning_formulas": [
-        {
-          "content_type": "image",
-          "pattern": "fashion_accessory_integration",
-          "occasion": "evergreen",
-          "total": 4,
-          "high_pct": 100
-        },
-        {
-          "content_type": "video",
-          "pattern": "occasion_playscultural_moment_tie_in",
-          "occasion": "ramadan",
-          "total": 3,
-          "high_pct": 100
-        },
-        {
-          "content_type": "video",
-          "pattern": "brand_collab",
-          "occasion": "ramadan",
-          "total": 5,
-          "high_pct": 80
-        },
-        {
-          "content_type": "video",
-          "pattern": "occasion_playseid_campaign",
-          "occasion": "ramadan",
-          "total": 4,
-          "high_pct": 75
-        },
-        {
-          "content_type": "image",
-          "pattern": "modest_wear",
-          "occasion": "evergreen",
-          "total": 7,
-          "high_pct": 71
-        }
-      ],
-      "visual_dna": [
-        {
-          "lighting": "golden_hour",
-          "setting": "outdoor",
-          "total": 12,
-          "high_pct": 75
-        },
-        {
-          "lighting": "flat_bright",
-          "setting": "retail_store",
-          "total": 9,
-          "high_pct": 56
-        },
-        {
-          "lighting": "natural",
-          "setting": "outdoor",
-          "total": 52,
-          "high_pct": 44
-        },
-        {
-          "lighting": "natural",
-          "setting": "retail_store",
-          "total": 31,
-          "high_pct": 42
-        },
-        {
-          "lighting": "golden_hour",
-          "setting": "retail_store",
-          "total": 6,
-          "high_pct": 33
-        }
-      ],
-      "never_use": [
-        {
-          "pattern": "occasion_playscultural_moment_tie_in",
-          "as": "image",
-          "engagement": 2,
-          "obs": 63
-        },
-        {
-          "pattern": "eid_family_gathering",
-          "as": "image",
-          "engagement": 0,
-          "obs": 55
-        },
-        {
-          "pattern": "eid_family_gathering",
-          "as": "video",
-          "engagement": 0,
-          "obs": 30
-        },
-        {
-          "pattern": "eid_family_gathering",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 12
-        }
-      ],
-      "obs_count": 258
-    },
-    "healthcare_wellness": {
-      "must_use": [],
-      "winning_formulas": [],
-      "visual_dna": [
-        {
-          "lighting": "natural",
-          "setting": "studio",
-          "total": 5,
-          "high_pct": 60
-        },
-        {
-          "lighting": "flat_bright",
-          "setting": "digital_graphic",
-          "total": 10,
-          "high_pct": 30
-        },
-        {
-          "lighting": "studio",
-          "setting": "retail_store",
-          "total": 12,
-          "high_pct": 25
-        },
-        {
-          "lighting": "flat_bright",
-          "setting": "event_venue",
-          "total": 5,
-          "high_pct": 20
-        },
-        {
-          "lighting": "natural",
-          "setting": "unknown",
-          "total": 11,
-          "high_pct": 9
-        }
-      ],
-      "never_use": [
-        {
-          "pattern": "women_empowerment_day",
-          "as": "image",
-          "engagement": 0,
-          "obs": 15
-        },
-        {
-          "pattern": "eid_family_gathering",
-          "as": "video",
-          "engagement": 0,
-          "obs": 8
-        },
-        {
-          "pattern": "eid_family_gathering",
-          "as": "image",
-          "engagement": 0,
-          "obs": 15
-        },
-        {
-          "pattern": "women_empowerment_day",
-          "as": "video",
-          "engagement": 0,
-          "obs": 8
-        }
-      ],
-      "obs_count": 89
-    },
-    "real_estate": {
-      "must_use": [],
-      "winning_formulas": [],
-      "visual_dna": [
-        {
-          "lighting": "flat_bright",
-          "setting": "office",
-          "total": 6,
-          "high_pct": 17
-        },
-        {
-          "lighting": "natural",
-          "setting": "outdoor",
-          "total": 90,
-          "high_pct": 2
-        },
-        {
-          "lighting": "golden_hour",
-          "setting": "outdoor",
-          "total": 7,
-          "high_pct": 0
-        }
-      ],
-      "never_use": [
-        {
-          "pattern": "arabic_caption",
-          "as": "video",
-          "engagement": 5,
-          "obs": 20
-        },
-        {
-          "pattern": "location_tagged_riyadh",
-          "as": "image",
-          "engagement": 5,
-          "obs": 21
-        },
-        {
-          "pattern": "hashtag_restaurant_romantic",
-          "as": "video",
-          "engagement": 0,
-          "obs": 9
-        },
-        {
-          "pattern": "riyadh_location",
-          "as": "video",
-          "engagement": 0,
-          "obs": 14
-        },
-        {
-          "pattern": "sports_passion_peg",
-          "as": "video",
-          "engagement": 0,
-          "obs": 9
-        },
-        {
-          "pattern": "interior_architectural_framing",
-          "as": "image",
-          "engagement": 0,
-          "obs": 7
-        },
-        {
-          "pattern": "design_community",
-          "as": "image",
-          "engagement": 0,
-          "obs": 10
-        },
-        {
-          "pattern": "international_achievement",
-          "as": "image",
-          "engagement": 0,
-          "obs": 8
-        },
-        {
-          "pattern": "interior_architectural_framing",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 11
-        },
-        {
-          "pattern": "metro_setting",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 9
-        },
-        {
-          "pattern": "location_tagged_riyadh",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 14
-        },
-        {
-          "pattern": "local_business",
-          "as": "image",
-          "engagement": 0,
-          "obs": 9
-        },
-        {
-          "pattern": "football_occasion_tie_in",
-          "as": "video",
-          "engagement": 0,
-          "obs": 9
-        },
-        {
-          "pattern": "local_business",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 10
-        },
-        {
-          "pattern": "cultural_venue",
-          "as": "video",
-          "engagement": 0,
-          "obs": 18
-        },
-        {
-          "pattern": "sports_cultural_moment",
-          "as": "video",
-          "engagement": 0,
-          "obs": 9
-        },
-        {
-          "pattern": "cultural_venue",
-          "as": "image",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "regional_development",
-          "as": "image",
-          "engagement": 0,
-          "obs": 11
-        },
-        {
-          "pattern": "interior_architectural_framing",
-          "as": "video",
-          "engagement": 0,
-          "obs": 16
-        },
-        {
-          "pattern": "riyadh_location",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 14
-        },
-        {
-          "pattern": "cultural_venue",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 10
-        },
-        {
-          "pattern": "location_tagged_riyadh",
-          "as": "video",
-          "engagement": 0,
-          "obs": 20
-        },
-        {
-          "pattern": "local_business",
-          "as": "video",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "hotel_restaurant_promotion",
-          "as": "video",
-          "engagement": 0,
-          "obs": 7
-        },
-        {
-          "pattern": "regional_development",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 6
-        }
-      ],
-      "obs_count": 113
-    },
-    "retail_lifestyle": {
-      "must_use": [
-        {
-          "pattern": "saudi_sports_rivalry",
-          "as": "image",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "seasonal_collection_drop",
-          "as": "video",
-          "engagement": 75,
-          "obs": 4
-        }
-      ],
-      "winning_formulas": [
-        {
-          "content_type": "video",
-          "pattern": "seasonal_collection_drop",
-          "occasion": "evergreen",
-          "total": 4,
-          "high_pct": 75
-        }
-      ],
-      "visual_dna": [
-        {
-          "lighting": "natural",
-          "setting": "outdoor",
-          "total": 43,
-          "high_pct": 23
-        },
-        {
-          "lighting": "flat_bright",
-          "setting": "retail_store",
-          "total": 24,
-          "high_pct": 17
-        },
-        {
-          "lighting": "golden_hour",
-          "setting": "outdoor",
-          "total": 18,
-          "high_pct": 11
-        },
-        {
-          "lighting": "natural",
-          "setting": "retail_store",
-          "total": 137,
-          "high_pct": 5
-        },
-        {
-          "lighting": "natural",
-          "setting": "studio",
-          "total": 24,
-          "high_pct": 0
-        }
-      ],
-      "never_use": [
-        {
-          "pattern": "brand_promotional",
-          "as": "video",
-          "engagement": 5,
-          "obs": 37
-        },
-        {
-          "pattern": "trending_now",
-          "as": "image",
-          "engagement": 5,
-          "obs": 37
-        },
-        {
-          "pattern": "everyday_summer_fits",
-          "as": "video",
-          "engagement": 4,
-          "obs": 70
-        },
-        {
-          "pattern": "everyday_summer_fits",
-          "as": "image",
-          "engagement": 3,
-          "obs": 78
-        },
-        {
-          "pattern": "trending_now",
-          "as": "video",
-          "engagement": 2,
-          "obs": 56
-        },
-        {
-          "pattern": "fashion_accessory_integration",
-          "as": "image",
-          "engagement": 2,
-          "obs": 48
-        },
-        {
-          "pattern": "winter_comfort_cozy",
-          "as": "image",
-          "engagement": 0,
-          "obs": 7
-        },
-        {
-          "pattern": "seasonal_collection_drop",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 7
-        },
-        {
-          "pattern": "lifestyle_embed",
-          "as": "image",
-          "engagement": 0,
-          "obs": 19
-        },
-        {
-          "pattern": "occasion_plays",
-          "as": "image",
-          "engagement": 0,
-          "obs": 21
-        },
-        {
-          "pattern": "occasion_playseid_campaign",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 13
-        },
-        {
-          "pattern": "summer_promotion",
-          "as": "image",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "occasion_plays",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 9
-        },
-        {
-          "pattern": "lifestyle_embed",
-          "as": "video",
-          "engagement": 0,
-          "obs": 11
-        },
-        {
-          "pattern": "eid_occasion_activation",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "food_beverage_product",
-          "as": "image",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "occasion_tie_in",
-          "as": "image",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "beach_lifestyle",
-          "as": "video",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "fashion_accessory_integration",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 11
-        },
-        {
-          "pattern": "sunglasses_promotion",
-          "as": "image",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "occasion_playscultural_moment_tie_in",
-          "as": "video",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "eid_greeting",
-          "as": "video",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "ramadan_content",
-          "as": "video",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "collab_post",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 15
-        },
-        {
-          "pattern": "fnb_brand_promotion",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "occasion_plays",
-          "as": "video",
-          "engagement": 0,
-          "obs": 15
-        },
-        {
-          "pattern": "ramadan_operations",
-          "as": "image",
-          "engagement": 0,
-          "obs": 7
-        },
-        {
-          "pattern": "metro_setting",
-          "as": "video",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "occasion_playseid_campaign",
-          "as": "image",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "lifestyle_product",
-          "as": "image",
-          "engagement": 0,
-          "obs": 11
-        },
-        {
-          "pattern": "occasion_playscultural_moment_tie_in",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 14
-        },
-        {
-          "pattern": "carousel_format",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "food_photography",
-          "as": "image",
-          "engagement": 0,
-          "obs": 13
-        },
-        {
-          "pattern": "extended_hours",
-          "as": "image",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "creative_format_experiment",
-          "as": "video",
-          "engagement": 0,
-          "obs": 7
-        },
-        {
-          "pattern": "beach_lifestyle",
-          "as": "image",
-          "engagement": 0,
-          "obs": 11
-        },
-        {
-          "pattern": "summer_modest_fits",
-          "as": "image",
-          "engagement": 0,
-          "obs": 35
-        },
-        {
-          "pattern": "lifestyle_environment_integration",
-          "as": "image",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "ramadan_food_promo",
-          "as": "video",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "modest_wear",
-          "as": "image",
-          "engagement": 0,
-          "obs": 21
-        },
-        {
-          "pattern": "fashion_accessory_integration",
-          "as": "video",
-          "engagement": 0,
-          "obs": 17
-        },
-        {
-          "pattern": "collab_post",
-          "as": "video",
-          "engagement": 0,
-          "obs": 26
-        },
-        {
-          "pattern": "lifestyle_embed",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "food_product_showcase",
-          "as": "image",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "summer_seasonal_content",
-          "as": "image",
-          "engagement": 0,
-          "obs": 7
-        },
-        {
-          "pattern": "collab_post",
-          "as": "image",
-          "engagement": 0,
-          "obs": 34
-        },
-        {
-          "pattern": "abaya_outfit",
-          "as": "image",
-          "engagement": 0,
-          "obs": 46
-        },
-        {
-          "pattern": "metro_setting",
-          "as": "image",
-          "engagement": 0,
-          "obs": 7
-        },
-        {
-          "pattern": "arabic_caption",
-          "as": "image",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "modest_looks",
-          "as": "carousel_slide",
-          "engagement": 0,
-          "obs": 7
-        },
-        {
-          "pattern": "winter_comfort_cozy",
-          "as": "video",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "modest_looks",
-          "as": "image",
-          "engagement": 0,
-          "obs": 33
-        }
-      ],
-      "obs_count": 359
+  "cultural_guardrails": {
+    "forbidden_gestures": [
+      "left-hand serving",
+      "palm-up beckoning",
+      "sole-of-foot visible",
+      "OK-circle gesture"
+    ],
+    "forbidden_props": [
+      "alcohol",
+      "pork",
+      "gambling",
+      "other-faith religious symbols",
+      "Quranic text as visual treatment"
+    ],
+    "forbidden_behaviors": [
+      "eating during Ramadan daylight",
+      "cross-gender contact (non-mahram)",
+      "commercial prayer staging"
+    ],
+    "forbidden_visuals": [
+      "Saudi flag misuse",
+      "competitive political imagery",
+      "Kaaba as backdrop",
+      "named royals unauthorized"
+    ],
+    "sacred_occasions": {
+      "hajj_season": "Pull back on promotion. Warm, subtle content only.",
+      "ramadan": "No eating in daylight hours. Suhoor/iftar framing required."
+    },
+    "modesty_rules": {
+      "default": "Conservative. Full sleeves, no cleavage, no tight clothing.",
+      "beauty_sector": "Product focus on hands/face. Avoid body shots.",
+      "fashion_sector": "Modest fashion only. Abaya/hijab styling preferred."
     }
   },
-  "emotion_rules": {
-    "beauty_personal_care": [
+  "real_metrics": {
+    "albaik": {
+      "obs_count": 111,
+      "avg_likes": 2689,
+      "max_likes": 11716,
+      "min_likes": 227,
+      "avg_comments": 114,
+      "sector": "f_and_b",
+      "verified": true,
+      "source": "instagram via Apify"
+    }
+  },
+  "reference_examples": {
+    "albaik": [
       {
-        "emotion": "anticipation",
-        "engagement": 33,
-        "obs": 24,
-        "verdict": "use_carefully"
-      },
-      {
+        "url": "https://www.instagram.com/p/CxYczJBoGZr/",
+        "likes": 11716,
+        "comments": 1002,
+        "content_type": "image",
+        "patterns": [
+          "f_and_b_beverage",
+          "food_photography"
+        ],
         "emotion": "appetite",
-        "engagement": 12,
-        "obs": 43,
-        "verdict": "avoid"
+        "caption_preview": "#برجر_فيليه_سمك.. طعم تغوص فيه 🫧\n#البيك"
       },
       {
-        "emotion": "warmth",
-        "engagement": 7,
-        "obs": 14,
-        "verdict": "avoid"
-      },
-      {
-        "emotion": "pride",
-        "engagement": 6,
-        "obs": 18,
-        "verdict": "avoid"
-      },
-      {
-        "emotion": "aspiration",
-        "engagement": 2,
-        "obs": 202,
-        "verdict": "avoid"
-      },
-      {
-        "emotion": "trust",
-        "engagement": 0,
-        "obs": 11,
-        "verdict": "avoid"
-      }
-    ],
-    "f_and_b": [
-      {
-        "emotion": "anticipation",
-        "engagement": 50,
-        "obs": 212,
-        "verdict": "use_actively"
-      },
-      {
-        "emotion": "pride",
-        "engagement": 49,
-        "obs": 131,
-        "verdict": "use_actively"
-      },
-      {
-        "emotion": "urgency",
-        "engagement": 46,
-        "obs": 28,
-        "verdict": "use_actively"
-      },
-      {
-        "emotion": "trust",
-        "engagement": 35,
-        "obs": 17,
-        "verdict": "use_carefully"
-      },
-      {
-        "emotion": "warmth",
-        "engagement": 31,
-        "obs": 174,
-        "verdict": "use_carefully"
-      },
-      {
-        "emotion": "aspiration",
-        "engagement": 29,
-        "obs": 24,
-        "verdict": "use_carefully"
-      },
-      {
+        "url": "https://www.instagram.com/p/C0mM-Z2Il0S/",
+        "likes": 10684,
+        "comments": 874,
+        "content_type": "image",
+        "patterns": [
+          "f_and_b_beverage",
+          "food_photography"
+        ],
         "emotion": "appetite",
-        "engagement": 25,
-        "obs": 859,
-        "verdict": "use_carefully"
-      }
-    ],
-    "fashion": [
-      {
-        "emotion": "anticipation",
-        "engagement": 71,
-        "obs": 14,
-        "verdict": "use_actively"
+        "caption_preview": "الآن #بيكيز_حراق الجديد من #البيك"
       },
       {
-        "emotion": "aspiration",
-        "engagement": 26,
-        "obs": 169,
-        "verdict": "use_carefully"
+        "url": "https://www.instagram.com/p/CtzlepJI8ew/",
+        "likes": 9707,
+        "comments": 153,
+        "content_type": "carousel_slide",
+        "patterns": [
+          "location_tagged_riyadh",
+          "metro_setting"
+        ],
+        "emotion": "appetite",
+        "caption_preview": "الآن.. ‎#البيك في ‎#المنطقة_المركزية شارع الغزّة جنوب بوابة ‎#الحرم_المكي الشريف"
       },
       {
-        "emotion": "warmth",
-        "engagement": 24,
-        "obs": 17,
-        "verdict": "use_carefully"
-      }
-    ],
-    "healthcare_wellness": [
-      {
-        "emotion": "anticipation",
-        "engagement": 41,
-        "obs": 29,
-        "verdict": "use_actively"
-      },
-      {
-        "emotion": "aspiration",
-        "engagement": 33,
-        "obs": 30,
-        "verdict": "use_carefully"
-      }
-    ],
-    "real_estate": [
-      {
-        "emotion": "aspiration",
-        "engagement": 3,
-        "obs": 70,
-        "verdict": "avoid"
-      },
-      {
+        "url": "https://www.instagram.com/p/C7jthkloMRo/",
+        "likes": 8967,
+        "comments": 979,
+        "content_type": "video",
+        "patterns": [
+          "f_and_b_beverage",
+          "brand_promotional"
+        ],
         "emotion": "pride",
-        "engagement": 0,
-        "obs": 21,
-        "verdict": "avoid"
+        "caption_preview": "#البيك‬⁩.. بيكك \n‏⁧‫#صنع_في_السعودية‬⁩ 🇸🇦"
       },
       {
-        "emotion": "warmth",
-        "engagement": 0,
-        "obs": 12,
-        "verdict": "avoid"
-      }
-    ],
-    "retail_lifestyle": [
-      {
+        "url": "https://www.instagram.com/p/CuICqMTIK3U/",
+        "likes": 8661,
+        "comments": 121,
+        "content_type": "carousel_slide",
+        "patterns": [
+          "hotel_restaurant_promotion",
+          "cafe_beverage_showcase"
+        ],
         "emotion": "pride",
-        "engagement": 23,
-        "obs": 26,
-        "verdict": "use_carefully"
-      },
-      {
-        "emotion": "anticipation",
-        "engagement": 21,
-        "obs": 38,
-        "verdict": "use_carefully"
-      },
-      {
-        "emotion": "urgency",
-        "engagement": 18,
-        "obs": 22,
-        "verdict": "avoid"
-      },
-      {
-        "emotion": "trust",
-        "engagement": 12,
-        "obs": 17,
-        "verdict": "avoid"
-      },
-      {
-        "emotion": "warmth",
-        "engagement": 8,
-        "obs": 24,
-        "verdict": "avoid"
-      },
-      {
-        "emotion": "aspiration",
-        "engagement": 3,
-        "obs": 218,
-        "verdict": "avoid"
+        "caption_preview": "الحمدلله الذي أنعم علينا خدمة ضيوف الرحمن\n#مكه_المكرمة 🕋\n#حج_1444 \n‎#البيك"
       }
     ]
   },
-  "content_pillar_rules": [
-    {
-      "content_pillar": "entertainment",
-      "total": 112,
-      "high_pct": 45
-    },
-    {
-      "content_pillar": "community",
-      "total": 747,
-      "high_pct": 33
-    },
-    {
-      "content_pillar": "educational",
-      "total": 37,
-      "high_pct": 19
-    },
-    {
-      "content_pillar": "product",
-      "total": 1086,
-      "high_pct": 19
-    },
-    {
-      "content_pillar": "lifestyle",
-      "total": 532,
-      "high_pct": 16
-    }
-  ],
-  "pattern_fatigue": [
-    {
-      "pattern": "occasion_peg",
-      "low_freq": 100,
-      "high_freq": 16,
-      "fatigue": -84,
-      "accounts": 3
-    },
-    {
-      "pattern": "collab_post",
-      "low_freq": 56,
-      "high_freq": 0,
-      "fatigue": -56,
-      "accounts": 3
-    },
-    {
-      "pattern": "sports_passion_peg",
-      "low_freq": 60,
-      "high_freq": 6,
-      "fatigue": -54,
-      "accounts": 6
-    },
-    {
-      "pattern": "fashion_accessory_integration",
-      "low_freq": 52,
-      "high_freq": 0,
-      "fatigue": -52,
-      "accounts": 4
-    },
-    {
-      "pattern": "sports_cultural_moment",
-      "low_freq": 50,
-      "high_freq": 0,
-      "fatigue": -50,
-      "accounts": 4
-    },
-    {
-      "pattern": "influencer_collab",
-      "low_freq": 45,
-      "high_freq": 0,
-      "fatigue": -45,
-      "accounts": 4
-    },
-    {
-      "pattern": "food_content",
-      "low_freq": 55,
-      "high_freq": 11,
-      "fatigue": -44,
-      "accounts": 9
-    },
-    {
-      "pattern": "occasion_specific_greeting",
-      "low_freq": 67,
-      "high_freq": 26,
-      "fatigue": -41,
-      "accounts": 4
-    },
-    {
-      "pattern": "ramadan_operations",
-      "low_freq": 40,
-      "high_freq": 0,
-      "fatigue": -40,
-      "accounts": 4
-    },
-    {
-      "pattern": "local_business",
-      "low_freq": 38,
-      "high_freq": 0,
-      "fatigue": -38,
-      "accounts": 4
-    },
-    {
-      "pattern": "football_occasion_tie_in",
-      "low_freq": 56,
-      "high_freq": 21,
-      "fatigue": -35,
-      "accounts": 7
-    },
-    {
-      "pattern": "traditional_cuisine",
-      "low_freq": 50,
-      "high_freq": 16,
-      "fatigue": -34,
-      "accounts": 6
-    },
-    {
-      "pattern": "metro_setting",
-      "low_freq": 35,
-      "high_freq": 5,
-      "fatigue": -30,
-      "accounts": 8
-    },
-    {
-      "pattern": "hotel_restaurant_promotion",
-      "low_freq": 35,
-      "high_freq": 8,
-      "fatigue": -27,
-      "accounts": 6
-    },
-    {
-      "pattern": "burger_content",
-      "low_freq": 42,
-      "high_freq": 15,
-      "fatigue": -27,
-      "accounts": 7
-    },
-    {
-      "pattern": "limited_time_offer",
-      "low_freq": 59,
-      "high_freq": 34,
-      "fatigue": -25,
-      "accounts": 5
-    },
-    {
-      "pattern": "f_and_b_menu_post",
-      "low_freq": 30,
-      "high_freq": 5,
-      "fatigue": -25,
-      "accounts": 5
-    },
-    {
-      "pattern": "riyadh_f_and_b",
-      "low_freq": 25,
-      "high_freq": 4,
-      "fatigue": -21,
-      "accounts": 7
-    },
-    {
-      "pattern": "casual_promotion",
-      "low_freq": 37,
-      "high_freq": 19,
-      "fatigue": -18,
-      "accounts": 9
-    },
-    {
-      "pattern": "iftar_content",
-      "low_freq": 24,
-      "high_freq": 9,
-      "fatigue": -15,
-      "accounts": 5
-    }
-  ],
-  "pattern_reliability": [
-    {
-      "pattern": "cultural_object_hero",
-      "accounts": 4,
-      "avg_pct": 94,
-      "min_pct": 75,
-      "max_pct": 100,
-      "spread": 25
-    },
-    {
-      "pattern": "close_up_macro_texture",
-      "accounts": 5,
-      "avg_pct": 91,
-      "min_pct": 75,
-      "max_pct": 100,
-      "spread": 25
-    },
-    {
-      "pattern": "overhead_tabletop_spread",
-      "accounts": 3,
-      "avg_pct": 90,
-      "min_pct": 82,
-      "max_pct": 100,
-      "spread": 18
-    },
-    {
-      "pattern": "community_pride_statement",
-      "accounts": 3,
-      "avg_pct": 89,
-      "min_pct": 67,
-      "max_pct": 100,
-      "spread": 33
-    },
-    {
-      "pattern": "customer_voice_ugc",
-      "accounts": 4,
-      "avg_pct": 80,
-      "min_pct": 67,
-      "max_pct": 100,
-      "spread": 33
-    },
-    {
-      "pattern": "warm_golden_hour_hero",
-      "accounts": 4,
-      "avg_pct": 75,
-      "min_pct": 33,
-      "max_pct": 100,
-      "spread": 67
-    },
-    {
-      "pattern": "invitation_to_witness",
-      "accounts": 6,
-      "avg_pct": 63,
-      "min_pct": 0,
-      "max_pct": 100,
-      "spread": 100
-    },
-    {
-      "pattern": "saudi_sports_rivalry",
-      "accounts": 3,
-      "avg_pct": 63,
-      "min_pct": 14,
-      "max_pct": 100,
-      "spread": 86
-    },
-    {
-      "pattern": "behind_the_scenes",
-      "accounts": 3,
-      "avg_pct": 61,
-      "min_pct": 17,
-      "max_pct": 100,
-      "spread": 83
-    },
-    {
-      "pattern": "formal_dignified",
-      "accounts": 3,
-      "avg_pct": 61,
-      "min_pct": 13,
-      "max_pct": 100,
-      "spread": 87
-    },
-    {
-      "pattern": "product_hero",
-      "accounts": 9,
-      "avg_pct": 61,
-      "min_pct": 0,
-      "max_pct": 100,
-      "spread": 100
-    },
-    {
-      "pattern": "seasonal_collection_drop",
-      "accounts": 8,
-      "avg_pct": 59,
-      "min_pct": 0,
-      "max_pct": 100,
-      "spread": 100
-    },
-    {
-      "pattern": "lifestyle_environment_integration",
-      "accounts": 6,
-      "avg_pct": 59,
-      "min_pct": 0,
-      "max_pct": 100,
-      "spread": 100
-    },
-    {
-      "pattern": "occasion_specific_greeting",
-      "accounts": 4,
-      "avg_pct": 57,
-      "min_pct": 0,
-      "max_pct": 100,
-      "spread": 100
-    },
-    {
-      "pattern": "sports_passion_peg",
-      "accounts": 6,
-      "avg_pct": 51,
-      "min_pct": 6,
-      "max_pct": 100,
-      "spread": 94
-    },
-    {
-      "pattern": "international_achievement",
-      "accounts": 3,
-      "avg_pct": 51,
-      "min_pct": 0,
-      "max_pct": 92,
-      "spread": 92
-    },
-    {
-      "pattern": "brand_collab",
-      "accounts": 3,
-      "avg_pct": 50,
-      "min_pct": 0,
-      "max_pct": 83,
-      "spread": 83
-    },
-    {
-      "pattern": "limited_time_offer",
-      "accounts": 5,
-      "avg_pct": 49,
-      "min_pct": 17,
-      "max_pct": 80,
-      "spread": 63
-    },
-    {
-      "pattern": "f_and_b_festive",
-      "accounts": 3,
-      "avg_pct": 48,
-      "min_pct": 0,
-      "max_pct": 78,
-      "spread": 78
-    },
-    {
-      "pattern": "behind_the_craft",
-      "accounts": 4,
-      "avg_pct": 48,
-      "min_pct": 0,
-      "max_pct": 86,
-      "spread": 86
-    }
-  ],
-  "pattern_combos": [
-    {
-      "pattern_a": "arabic_caption",
-      "pattern_b": "f_and_b_beverage",
-      "together": 93
-    },
-    {
-      "pattern_a": "f_and_b_beverage",
-      "pattern_b": "food_content",
-      "together": 31
-    },
-    {
-      "pattern_a": "brand_promotional",
-      "pattern_b": "f_and_b_beverage",
-      "together": 31
-    },
-    {
-      "pattern_a": "emoji_heavy",
-      "pattern_b": "f_and_b_beverage",
-      "together": 29
-    },
-    {
-      "pattern_a": "everyday_summer_fits",
-      "pattern_b": "summer_modest_fits",
-      "together": 28
-    },
-    {
-      "pattern_a": "lifestyle_environment_integration",
-      "pattern_b": "product_hero",
-      "together": 28
-    },
-    {
-      "pattern_a": "arabic_caption",
-      "pattern_b": "emoji_heavy",
-      "together": 27
-    },
-    {
-      "pattern_a": "abaya_outfit",
-      "pattern_b": "everyday_summer_fits",
-      "together": 25
-    },
-    {
-      "pattern_a": "f_and_b_beverage",
-      "pattern_b": "food_beverage_product",
-      "together": 25
-    },
-    {
-      "pattern_a": "product_hero",
-      "pattern_b": "seasonal_collection_drop",
-      "together": 25
-    },
-    {
-      "pattern_a": "close_up_macro_texture",
-      "pattern_b": "product_hero",
-      "together": 22
-    },
-    {
-      "pattern_a": "f_and_b_beverage",
-      "pattern_b": "location_tagged_riyadh",
-      "together": 22
-    },
-    {
-      "pattern_a": "arabic_caption",
-      "pattern_b": "brand_hashtag_promotion",
-      "together": 21
-    },
-    {
-      "pattern_a": "overhead_tabletop_spread",
-      "pattern_b": "product_hero",
-      "together": 21
-    },
-    {
-      "pattern_a": "abaya_outfit",
-      "pattern_b": "summer_modest_fits",
-      "together": 21
-    }
-  ],
-  "triple_combos": [
-    {
-      "emotion_primary": "anticipation",
-      "content_pillar": "entertainment",
-      "content_type": "image",
-      "total": 25,
-      "high_pct": 60
-    },
-    {
-      "emotion_primary": "anticipation",
-      "content_pillar": "entertainment",
-      "content_type": "carousel_slide",
-      "total": 7,
-      "high_pct": 57
-    },
-    {
-      "emotion_primary": "anticipation",
-      "content_pillar": "community",
-      "content_type": "image",
-      "total": 69,
-      "high_pct": 55
-    },
-    {
-      "emotion_primary": "anticipation",
-      "content_pillar": "community",
-      "content_type": "video",
-      "total": 72,
-      "high_pct": 50
-    },
-    {
-      "emotion_primary": "anticipation",
-      "content_pillar": "product",
-      "content_type": "video",
-      "total": 50,
-      "high_pct": 44
-    },
-    {
-      "emotion_primary": "appetite",
-      "content_pillar": "entertainment",
-      "content_type": "video",
-      "total": 23,
-      "high_pct": 43
-    },
-    {
-      "emotion_primary": "anticipation",
-      "content_pillar": "community",
-      "content_type": "carousel_slide",
-      "total": 22,
-      "high_pct": 41
-    },
-    {
-      "emotion_primary": "trust",
-      "content_pillar": "community",
-      "content_type": "image",
-      "total": 5,
-      "high_pct": 40
-    },
-    {
-      "emotion_primary": "warmth",
-      "content_pillar": "product",
-      "content_type": "image",
-      "total": 5,
-      "high_pct": 40
-    },
-    {
-      "emotion_primary": "appetite",
-      "content_pillar": "community",
-      "content_type": "image",
-      "total": 62,
-      "high_pct": 39
-    },
-    {
-      "emotion_primary": "appetite",
-      "content_pillar": "entertainment",
-      "content_type": "image",
-      "total": 19,
-      "high_pct": 37
-    },
-    {
-      "emotion_primary": "pride",
-      "content_pillar": "community",
-      "content_type": "image",
-      "total": 89,
-      "high_pct": 36
-    },
-    {
-      "emotion_primary": "pride",
-      "content_pillar": "community",
-      "content_type": "carousel_slide",
-      "total": 36,
-      "high_pct": 36
-    },
-    {
-      "emotion_primary": "anticipation",
-      "content_pillar": "product",
-      "content_type": "carousel_slide",
-      "total": 14,
-      "high_pct": 36
-    },
-    {
-      "emotion_primary": "warmth",
-      "content_pillar": "community",
-      "content_type": "carousel_slide",
-      "total": 32,
-      "high_pct": 34
-    }
-  ],
-  "account_dna_tiers": [
-    {
-      "tier": "bottom",
-      "accounts": 21,
-      "carousel": 15,
-      "reel": 0,
-      "anticipation": 12,
-      "aspiration": 31,
-      "community": 24,
-      "product": 42
-    },
-    {
-      "tier": "top",
-      "accounts": 9,
-      "carousel": 28,
-      "reel": 8,
-      "anticipation": 7,
-      "aspiration": 9,
-      "community": 24,
-      "product": 23
-    }
-  ],
-  "why_analysis": [
-    {
-      "pattern": "youth_culture_collab",
-      "engagement": 100,
-      "dominant_emotion": "warmth",
-      "dominant_pillar": "lifestyle",
-      "dominant_lighting": "warm_studio",
-      "top_combos": [
-        {
-          "lighting": "warm_studio",
-          "setting": "restaurant",
-          "emotion_primary": "warmth",
-          "content_pillar": "community",
-          "content_type": "video",
-          "occasion": "evergreen",
-          "language": "arabic",
-          "n": 4
-        },
-        {
-          "lighting": "warm_studio",
-          "setting": "restaurant",
-          "emotion_primary": "warmth",
-          "content_pillar": "lifestyle",
-          "content_type": "image",
-          "occasion": "evergreen",
-          "language": "arabic",
-          "n": 1
-        }
-      ],
-      "hypothesis": "Works because of warmth emotion + lifestyle pillar delivered in warm_studio lighting"
-    },
-    {
-      "pattern": "heritage_storytelling_hook",
-      "engagement": 93,
-      "dominant_emotion": null,
-      "dominant_pillar": null,
-      "dominant_lighting": "warm_studio",
-      "top_combos": [
-        {
-          "lighting": "warm_studio",
-          "setting": "digital_graphic",
-          "emotion_primary": null,
-          "content_pillar": null,
-          "content_type": "image",
-          "occasion": "ramadan",
-          "language": "arabic",
-          "n": 2
-        },
-        {
-          "lighting": "warm_studio",
-          "setting": "heritage_setting",
-          "emotion_primary": null,
-          "content_pillar": null,
-          "content_type": "image",
-          "occasion": "evergreen",
-          "language": "arabic",
-          "n": 1
-        }
-      ],
-      "hypothesis": "Works because of unknown emotion + unknown pillar delivered in warm_studio lighting"
-    },
-    {
-      "pattern": "overhead_tabletop_spread",
-      "engagement": 88,
-      "dominant_emotion": "appetite",
-      "dominant_pillar": "lifestyle",
-      "dominant_lighting": "warm_studio",
-      "top_combos": [
-        {
-          "lighting": "natural_daylight",
-          "setting": "restaurant_indoor",
-          "emotion_primary": "appetite",
-          "content_pillar": "lifestyle",
-          "content_type": "carousel_slide",
-          "occasion": "evergreen",
-          "language": "arabic",
-          "n": 2
-        },
-        {
-          "lighting": "warm_studio",
-          "setting": "outdoor_nature",
-          "emotion_primary": null,
-          "content_pillar": null,
-          "content_type": "image",
-          "occasion": "evergreen",
-          "language": "english",
-          "n": 1
-        }
-      ],
-      "hypothesis": "Works because of appetite emotion + lifestyle pillar delivered in warm_studio lighting"
-    },
-    {
-      "pattern": "cultural_object_hero",
-      "engagement": 86,
-      "dominant_emotion": null,
-      "dominant_pillar": null,
-      "dominant_lighting": "warm_studio",
-      "top_combos": [
-        {
-          "lighting": "natural_daylight",
-          "setting": "outdoor_nature",
-          "emotion_primary": null,
-          "content_pillar": null,
-          "content_type": "carousel_slide",
-          "occasion": "evergreen",
-          "language": null,
-          "n": 2
-        },
-        {
-          "lighting": "cold_studio",
-          "setting": "event_venue",
-          "emotion_primary": null,
-          "content_pillar": null,
-          "content_type": "carousel_slide",
-          "occasion": "evergreen",
-          "language": null,
-          "n": 1
-        }
-      ],
-      "hypothesis": "Works because of unknown emotion + unknown pillar delivered in warm_studio lighting"
-    },
-    {
-      "pattern": "community_pride_statement",
-      "engagement": 85,
-      "dominant_emotion": null,
-      "dominant_pillar": null,
-      "dominant_lighting": "flat_graphic",
-      "top_combos": [
-        {
-          "lighting": "flat_graphic",
-          "setting": "digital_graphic",
-          "emotion_primary": null,
-          "content_pillar": null,
-          "content_type": "image",
-          "occasion": "brand_campaign",
-          "language": "arabic",
-          "n": 1
-        },
-        {
-          "lighting": "natural_daylight",
-          "setting": "restaurant_indoor",
-          "emotion_primary": null,
-          "content_pillar": null,
-          "content_type": "carousel_slide",
-          "occasion": "evergreen",
-          "language": "arabic",
-          "n": 1
-        }
-      ],
-      "hypothesis": "Works because of unknown emotion + unknown pillar delivered in flat_graphic lighting"
-    },
-    {
-      "pattern": "customer_voice_ugc",
-      "engagement": 84,
-      "dominant_emotion": "anticipation",
-      "dominant_pillar": "entertainment",
-      "dominant_lighting": "natural_daylight",
-      "top_combos": [
-        {
-          "lighting": "mixed_ambient",
-          "setting": "event_venue",
-          "emotion_primary": null,
-          "content_pillar": null,
-          "content_type": "carousel_slide",
-          "occasion": "evergreen",
-          "language": null,
-          "n": 2
-        },
-        {
-          "lighting": "natural_daylight",
-          "setting": "outdoor_nature",
-          "emotion_primary": null,
-          "content_pillar": null,
-          "content_type": "carousel_slide",
-          "occasion": "evergreen",
-          "language": null,
-          "n": 2
-        }
-      ],
-      "hypothesis": "Works because of anticipation emotion + entertainment pillar delivered in natural_daylight lighting"
-    },
-    {
-      "pattern": "close_up_macro_texture",
-      "engagement": 83,
-      "dominant_emotion": "appetite",
-      "dominant_pillar": "product",
-      "dominant_lighting": "cold_studio",
-      "top_combos": [
-        {
-          "lighting": "dramatic_moody",
-          "setting": "studio",
-          "emotion_primary": null,
-          "content_pillar": null,
-          "content_type": "carousel_slide",
-          "occasion": "evergreen",
-          "language": null,
-          "n": 4
-        },
-        {
-          "lighting": "cold_studio",
-          "setting": "studio",
-          "emotion_primary": null,
-          "content_pillar": null,
-          "content_type": "carousel_slide",
-          "occasion": "evergreen",
-          "language": null,
-          "n": 3
-        }
-      ],
-      "hypothesis": "Works because of appetite emotion + product pillar delivered in cold_studio lighting"
-    },
-    {
-      "pattern": "giveaway_contest",
-      "engagement": 83,
-      "dominant_emotion": "anticipation",
-      "dominant_pillar": "community",
-      "dominant_lighting": "warm_studio",
-      "top_combos": [
-        {
-          "lighting": "warm_studio",
-          "setting": "restaurant",
-          "emotion_primary": "anticipation",
-          "content_pillar": "community",
-          "content_type": "video",
-          "occasion": "evergreen",
-          "language": "arabic",
-          "n": 3
-        },
-        {
-          "lighting": "warm_studio",
-          "setting": "retail_store",
-          "emotion_primary": "anticipation",
-          "content_pillar": "community",
-          "content_type": "carousel_slide",
-          "occasion": "riyadh_season",
-          "language": "arabic",
-          "n": 1
-        }
-      ],
-      "hypothesis": "Works because of anticipation emotion + community pillar delivered in warm_studio lighting"
-    },
-    {
-      "pattern": "model_centered_frontal_portrait",
-      "engagement": 82,
-      "dominant_emotion": "appetite",
-      "dominant_pillar": "lifestyle",
-      "dominant_lighting": "dramatic_moody",
-      "top_combos": [
-        {
-          "lighting": "natural_daylight",
-          "setting": "outdoor_nature",
-          "emotion_primary": "appetite",
-          "content_pillar": "lifestyle",
-          "content_type": "image",
-          "occasion": "summer_campaign",
-          "language": "arabic",
-          "n": 1
-        },
-        {
-          "lighting": "dramatic_moody",
-          "setting": "studio",
-          "emotion_primary": "appetite",
-          "content_pillar": "product",
-          "content_type": "reel",
-          "occasion": "evergreen",
-          "language": "arabic",
-          "n": 1
-        }
-      ],
-      "hypothesis": "Works because of appetite emotion + lifestyle pillar delivered in dramatic_moody lighting"
-    }
-  ],
-  "differentiation_opportunities": [
-    {
-      "sector": "beauty_personal_care",
-      "pattern": "close_up_macro_texture",
-      "pct": 100,
-      "uses": 3,
-      "sector_avg": 10,
-      "lift": 90
-    },
-    {
-      "sector": "retail_lifestyle",
-      "pattern": "ramadan_promotional",
-      "pct": 100,
-      "uses": 3,
-      "sector_avg": 11,
-      "lift": 89
-    },
-    {
-      "sector": "retail_lifestyle",
-      "pattern": "saudi_sports_rivalry",
-      "pct": 75,
-      "uses": 4,
-      "sector_avg": 11,
-      "lift": 64
-    },
-    {
-      "sector": "f_and_b",
-      "pattern": "eid_occasion_activation",
-      "pct": 100,
-      "uses": 3,
-      "sector_avg": 37,
-      "lift": 63
-    },
-    {
-      "sector": "f_and_b",
-      "pattern": "interactive_challenge",
-      "pct": 100,
-      "uses": 3,
-      "sector_avg": 37,
-      "lift": 63
-    },
-    {
-      "sector": "f_and_b",
-      "pattern": "f_and_b_seasonal",
-      "pct": 100,
-      "uses": 3,
-      "sector_avg": 37,
-      "lift": 63
-    },
-    {
-      "sector": "f_and_b",
-      "pattern": "nostalgia_play",
-      "pct": 100,
-      "uses": 5,
-      "sector_avg": 37,
-      "lift": 63
-    },
-    {
-      "sector": "f_and_b",
-      "pattern": "heritage_storytelling_hook",
-      "pct": 100,
-      "uses": 13,
-      "sector_avg": 37,
-      "lift": 63
-    },
-    {
-      "sector": "f_and_b",
-      "pattern": "welcoming_summer_indoor_pivot",
-      "pct": 100,
-      "uses": 3,
-      "sector_avg": 37,
-      "lift": 63
-    },
-    {
-      "sector": "f_and_b",
-      "pattern": "seasonal_summer_heat",
-      "pct": 100,
-      "uses": 4,
-      "sector_avg": 37,
-      "lift": 63
-    },
-    {
-      "sector": "f_and_b",
-      "pattern": "interactive_engagement",
-      "pct": 100,
-      "uses": 3,
-      "sector_avg": 37,
-      "lift": 63
-    },
-    {
-      "sector": "f_and_b",
-      "pattern": "seasonal_beverage",
-      "pct": 100,
-      "uses": 3,
-      "sector_avg": 37,
-      "lift": 63
-    },
-    {
-      "sector": "f_and_b",
-      "pattern": "user_generated_engagement",
-      "pct": 100,
-      "uses": 3,
-      "sector_avg": 37,
-      "lift": 63
-    },
-    {
-      "sector": "f_and_b",
-      "pattern": "limited_time_promo",
-      "pct": 100,
-      "uses": 3,
-      "sector_avg": 37,
-      "lift": 63
-    },
-    {
-      "sector": "f_and_b",
-      "pattern": "price_listing",
-      "pct": 100,
-      "uses": 3,
-      "sector_avg": 37,
-      "lift": 63
-    },
-    {
-      "sector": "f_and_b",
-      "pattern": "youth_culture_collab",
-      "pct": 100,
-      "uses": 10,
-      "sector_avg": 37,
-      "lift": 63
-    },
-    {
-      "sector": "f_and_b",
-      "pattern": "parallel_original_bilingual",
-      "pct": 100,
-      "uses": 7,
-      "sector_avg": 37,
-      "lift": 63
-    },
-    {
-      "sector": "f_and_b",
-      "pattern": "urgency_without_pressure",
-      "pct": 100,
-      "uses": 5,
-      "sector_avg": 37,
-      "lift": 63
-    },
-    {
-      "sector": "f_and_b",
-      "pattern": "occasion_specific_greeting",
-      "pct": 100,
-      "uses": 7,
-      "sector_avg": 37,
-      "lift": 63
-    },
-    {
-      "sector": "f_and_b",
-      "pattern": "giveaway_contest_post",
-      "pct": 100,
-      "uses": 3,
-      "sector_avg": 37,
-      "lift": 63
-    }
-  ],
-  "white_space": [
-    {
+  "brand_profiles": {
+    "myfitness.sa": {
       "sector": "healthcare_wellness",
-      "pattern": "youth_culture_collab",
-      "global_pct": 100,
-      "global_n": 10,
-      "sector_uses": 0
-    },
-    {
-      "sector": "real_estate",
-      "pattern": "youth_culture_collab",
-      "global_pct": 100,
-      "global_n": 10,
-      "sector_uses": 0
-    },
-    {
-      "sector": "beauty_personal_care",
-      "pattern": "youth_culture_collab",
-      "global_pct": 100,
-      "global_n": 10,
-      "sector_uses": 0
-    },
-    {
-      "sector": "fashion",
-      "pattern": "youth_culture_collab",
-      "global_pct": 100,
-      "global_n": 10,
-      "sector_uses": 0
-    },
-    {
-      "sector": "retail_lifestyle",
-      "pattern": "youth_culture_collab",
-      "global_pct": 100,
-      "global_n": 10,
-      "sector_uses": 0
-    },
-    {
-      "sector": "real_estate",
-      "pattern": "heritage_storytelling_hook",
-      "global_pct": 93,
-      "global_n": 14,
-      "sector_uses": 0
-    },
-    {
-      "sector": "fashion",
-      "pattern": "heritage_storytelling_hook",
-      "global_pct": 93,
-      "global_n": 14,
-      "sector_uses": 0
-    },
-    {
-      "sector": "retail_lifestyle",
-      "pattern": "heritage_storytelling_hook",
-      "global_pct": 93,
-      "global_n": 14,
-      "sector_uses": 0
-    },
-    {
-      "sector": "beauty_personal_care",
-      "pattern": "heritage_storytelling_hook",
-      "global_pct": 93,
-      "global_n": 14,
-      "sector_uses": 0
-    },
-    {
-      "sector": "healthcare_wellness",
-      "pattern": "overhead_tabletop_spread",
-      "global_pct": 88,
-      "global_n": 41,
-      "sector_uses": 0
-    },
-    {
-      "sector": "real_estate",
-      "pattern": "overhead_tabletop_spread",
-      "global_pct": 88,
-      "global_n": 41,
-      "sector_uses": 0
-    },
-    {
-      "sector": "beauty_personal_care",
-      "pattern": "overhead_tabletop_spread",
-      "global_pct": 88,
-      "global_n": 41,
-      "sector_uses": 0
-    },
-    {
-      "sector": "fashion",
-      "pattern": "overhead_tabletop_spread",
-      "global_pct": 88,
-      "global_n": 41,
-      "sector_uses": 0
-    },
-    {
-      "sector": "retail_lifestyle",
-      "pattern": "overhead_tabletop_spread",
-      "global_pct": 88,
-      "global_n": 41,
-      "sector_uses": 0
-    },
-    {
-      "sector": "retail_lifestyle",
-      "pattern": "cultural_object_hero",
-      "global_pct": 86,
-      "global_n": 22,
-      "sector_uses": 0
-    }
-  ],
-  "campaign_arcs": {
-    "ramadan": {
-      "opening_emotion": "anticipation",
-      "peak_emotion": "urgency",
-      "closing_emotion": "trust",
-      "emotion_ranking": [
-        {
-          "emotion_primary": "anticipation",
-          "pct": 60,
-          "n": 57
-        },
-        {
-          "emotion_primary": "urgency",
-          "pct": 57,
-          "n": 7
-        },
-        {
-          "emotion_primary": "aspiration",
-          "pct": 21,
-          "n": 99
-        },
-        {
-          "emotion_primary": "appetite",
-          "pct": 18,
-          "n": 126
-        },
-        {
-          "emotion_primary": "warmth",
-          "pct": 15,
-          "n": 67
-        },
-        {
-          "emotion_primary": "pride",
-          "pct": 15,
-          "n": 33
-        },
-        {
-          "emotion_primary": "trust",
-          "pct": 0,
-          "n": 5
-        }
+      "voice": "The brand communicates in a casual and informative tone, appealing to a broad audience interested in health and wellness. Their messaging is straightforward, focusing on delivering valuable insights without complex jargon.",
+      "tone": [
+        "informative",
+        "casual"
       ],
-      "arc_description": "Start with anticipation (60%), build to urgency, close with warmth/gratitude"
-    },
-    "founding_day": {
-      "opening_emotion": "pride",
-      "peak_emotion": "appetite",
-      "closing_emotion": "warmth",
-      "emotion_ranking": [
-        {
-          "emotion_primary": "pride",
-          "pct": 89,
-          "n": 9
-        },
-        {
-          "emotion_primary": "appetite",
-          "pct": 75,
-          "n": 4
-        }
+      "language": "arabic-first",
+      "arabic_style": "colloquial_hejazi",
+      "signature_phrases": [
+        "مشاء الله"
       ],
-      "arc_description": "Start with pride (89%), build to appetite, close with warmth/gratitude"
-    },
-    "national_day": {
-      "opening_emotion": "pride",
-      "peak_emotion": "pride",
-      "closing_emotion": "warmth",
-      "emotion_ranking": [
-        {
-          "emotion_primary": "pride",
-          "pct": 28,
-          "n": 18
-        }
-      ],
-      "arc_description": "Start with pride (28%), build to pride, close with warmth/gratitude"
-    },
-    "eid_al_fitr": {
-      "opening_emotion": "anticipation",
-      "peak_emotion": "warmth",
-      "closing_emotion": "pride",
-      "emotion_ranking": [
-        {
-          "emotion_primary": "anticipation",
-          "pct": 80,
-          "n": 5
-        },
-        {
-          "emotion_primary": "warmth",
-          "pct": 17,
-          "n": 18
-        },
-        {
-          "emotion_primary": "appetite",
-          "pct": 14,
-          "n": 14
-        },
-        {
-          "emotion_primary": "aspiration",
-          "pct": 14,
-          "n": 7
-        },
-        {
-          "emotion_primary": "pride",
-          "pct": 0,
-          "n": 3
-        }
-      ],
-      "arc_description": "Start with anticipation (80%), build to warmth, close with warmth/gratitude"
-    },
-    "jeddah_season": {
-      "opening_emotion": "pride",
-      "peak_emotion": "urgency",
-      "closing_emotion": "aspiration",
-      "emotion_ranking": [
-        {
-          "emotion_primary": "pride",
-          "pct": 79,
-          "n": 14
-        },
-        {
-          "emotion_primary": "urgency",
-          "pct": 67,
-          "n": 3
-        },
-        {
-          "emotion_primary": "appetite",
-          "pct": 47,
-          "n": 38
-        },
-        {
-          "emotion_primary": "anticipation",
-          "pct": 40,
-          "n": 15
-        },
-        {
-          "emotion_primary": "warmth",
-          "pct": 25,
-          "n": 8
-        },
-        {
-          "emotion_primary": "trust",
-          "pct": 25,
-          "n": 4
-        },
-        {
-          "emotion_primary": "aspiration",
-          "pct": 17,
-          "n": 12
-        }
-      ],
-      "arc_description": "Start with pride (79%), build to urgency, close with warmth/gratitude"
-    },
-    "riyadh_season": {
-      "opening_emotion": "pride",
-      "peak_emotion": "anticipation",
-      "closing_emotion": "aspiration",
-      "emotion_ranking": [
-        {
-          "emotion_primary": "pride",
-          "pct": 36,
-          "n": 45
-        },
-        {
-          "emotion_primary": "anticipation",
-          "pct": 34,
-          "n": 89
-        },
-        {
-          "emotion_primary": "urgency",
-          "pct": 21,
-          "n": 19
-        },
-        {
-          "emotion_primary": "trust",
-          "pct": 20,
-          "n": 15
-        },
-        {
-          "emotion_primary": "warmth",
-          "pct": 16,
-          "n": 49
-        },
-        {
-          "emotion_primary": "appetite",
-          "pct": 15,
-          "n": 254
-        },
-        {
-          "emotion_primary": "aspiration",
-          "pct": 3,
-          "n": 157
-        }
-      ],
-      "arc_description": "Start with pride (36%), build to anticipation, close with warmth/gratitude"
-    },
-    "evergreen": {
-      "opening_emotion": "anticipation",
-      "peak_emotion": "warmth",
-      "closing_emotion": "aspiration",
-      "emotion_ranking": [
-        {
-          "emotion_primary": "anticipation",
-          "pct": 48,
-          "n": 128
-        },
-        {
-          "emotion_primary": "warmth",
-          "pct": 39,
-          "n": 88
-        },
-        {
-          "emotion_primary": "pride",
-          "pct": 32,
-          "n": 68
-        },
-        {
-          "emotion_primary": "appetite",
-          "pct": 28,
-          "n": 431
-        },
-        {
-          "emotion_primary": "urgency",
-          "pct": 21,
-          "n": 28
-        },
-        {
-          "emotion_primary": "trust",
-          "pct": 18,
-          "n": 22
-        },
-        {
-          "emotion_primary": "aspiration",
-          "pct": 11,
-          "n": 387
-        }
-      ],
-      "arc_description": "Start with anticipation (48%), build to warmth, close with warmth/gratitude"
-    }
-  },
-  "sequencing_rules": [
-    {
-      "rule": "Start campaigns with anticipation (45% high) — tease what's coming",
-      "confidence": "high"
-    },
-    {
-      "rule": "Peak with pride or entertainment (36-45%) — the hero moment",
-      "confidence": "high"
-    },
-    {
-      "rule": "Close with community or warmth (25-33%) — gratitude, togetherness",
-      "confidence": "medium"
-    },
-    {
-      "rule": "Never start with aspiration (11%) — it's the weakest opener",
-      "confidence": "high"
-    },
-    {
-      "rule": "Alternate community and product pillars — avoid product streaks >2 posts",
-      "confidence": "high"
-    },
-    {
-      "rule": "Use carousel for hero moments, reel for teasers, image for closers",
-      "confidence": "medium"
-    },
-    {
-      "rule": "Front-load heritage patterns in Ramadan (first week), shift to brand by week 3",
-      "confidence": "medium"
-    }
-  ],
-  "concept_templates": [
-    {
-      "concept": "Apply youth_culture_collab's driver (warmth) to healthcare_wellness using youth_culture_collab",
-      "source_pattern": "youth_culture_collab",
-      "source_engagement": 100,
-      "target_sector": "healthcare_wellness",
-      "target_pattern": "youth_culture_collab",
-      "expected_outcome": "Transfer warmth emotion to underserved healthcare_wellness market",
-      "novelty": "high"
-    },
-    {
-      "concept": "Apply youth_culture_collab's driver (warmth) to real_estate using youth_culture_collab",
-      "source_pattern": "youth_culture_collab",
-      "source_engagement": 100,
-      "target_sector": "real_estate",
-      "target_pattern": "youth_culture_collab",
-      "expected_outcome": "Transfer warmth emotion to underserved real_estate market",
-      "novelty": "high"
-    },
-    {
-      "concept": "Apply youth_culture_collab's driver (warmth) to beauty_personal_care using youth_culture_collab",
-      "source_pattern": "youth_culture_collab",
-      "source_engagement": 100,
-      "target_sector": "beauty_personal_care",
-      "target_pattern": "youth_culture_collab",
-      "expected_outcome": "Transfer warmth emotion to underserved beauty_personal_care market",
-      "novelty": "high"
-    },
-    {
-      "concept": "Apply heritage_storytelling_hook's driver (None) to healthcare_wellness using youth_culture_collab",
-      "source_pattern": "heritage_storytelling_hook",
-      "source_engagement": 93,
-      "target_sector": "healthcare_wellness",
-      "target_pattern": "youth_culture_collab",
-      "expected_outcome": "Transfer None emotion to underserved healthcare_wellness market",
-      "novelty": "high"
-    },
-    {
-      "concept": "Apply heritage_storytelling_hook's driver (None) to real_estate using youth_culture_collab",
-      "source_pattern": "heritage_storytelling_hook",
-      "source_engagement": 93,
-      "target_sector": "real_estate",
-      "target_pattern": "youth_culture_collab",
-      "expected_outcome": "Transfer None emotion to underserved real_estate market",
-      "novelty": "high"
-    },
-    {
-      "concept": "Apply heritage_storytelling_hook's driver (None) to beauty_personal_care using youth_culture_collab",
-      "source_pattern": "heritage_storytelling_hook",
-      "source_engagement": 93,
-      "target_sector": "beauty_personal_care",
-      "target_pattern": "youth_culture_collab",
-      "expected_outcome": "Transfer None emotion to underserved beauty_personal_care market",
-      "novelty": "high"
-    },
-    {
-      "concept": "Apply overhead_tabletop_spread's driver (appetite) to healthcare_wellness using youth_culture_collab",
-      "source_pattern": "overhead_tabletop_spread",
-      "source_engagement": 88,
-      "target_sector": "healthcare_wellness",
-      "target_pattern": "youth_culture_collab",
-      "expected_outcome": "Transfer appetite emotion to underserved healthcare_wellness market",
-      "novelty": "high"
-    },
-    {
-      "concept": "Apply overhead_tabletop_spread's driver (appetite) to real_estate using youth_culture_collab",
-      "source_pattern": "overhead_tabletop_spread",
-      "source_engagement": 88,
-      "target_sector": "real_estate",
-      "target_pattern": "youth_culture_collab",
-      "expected_outcome": "Transfer appetite emotion to underserved real_estate market",
-      "novelty": "high"
-    },
-    {
-      "concept": "Apply overhead_tabletop_spread's driver (appetite) to beauty_personal_care using youth_culture_collab",
-      "source_pattern": "overhead_tabletop_spread",
-      "source_engagement": 88,
-      "target_sector": "beauty_personal_care",
-      "target_pattern": "youth_culture_collab",
-      "expected_outcome": "Transfer appetite emotion to underserved beauty_personal_care market",
-      "novelty": "high"
-    },
-    {
-      "concept": "Apply cultural_object_hero's driver (None) to healthcare_wellness using youth_culture_collab",
-      "source_pattern": "cultural_object_hero",
-      "source_engagement": 86,
-      "target_sector": "healthcare_wellness",
-      "target_pattern": "youth_culture_collab",
-      "expected_outcome": "Transfer None emotion to underserved healthcare_wellness market",
-      "novelty": "high"
-    },
-    {
-      "concept": "Apply cultural_object_hero's driver (None) to real_estate using youth_culture_collab",
-      "source_pattern": "cultural_object_hero",
-      "source_engagement": 86,
-      "target_sector": "real_estate",
-      "target_pattern": "youth_culture_collab",
-      "expected_outcome": "Transfer None emotion to underserved real_estate market",
-      "novelty": "high"
-    },
-    {
-      "concept": "Apply cultural_object_hero's driver (None) to beauty_personal_care using youth_culture_collab",
-      "source_pattern": "cultural_object_hero",
-      "source_engagement": 86,
-      "target_sector": "beauty_personal_care",
-      "target_pattern": "youth_culture_collab",
-      "expected_outcome": "Transfer None emotion to underserved beauty_personal_care market",
-      "novelty": "high"
-    },
-    {
-      "concept": "Apply community_pride_statement's driver (None) to healthcare_wellness using youth_culture_collab",
-      "source_pattern": "community_pride_statement",
-      "source_engagement": 85,
-      "target_sector": "healthcare_wellness",
-      "target_pattern": "youth_culture_collab",
-      "expected_outcome": "Transfer None emotion to underserved healthcare_wellness market",
-      "novelty": "high"
-    },
-    {
-      "concept": "Apply community_pride_statement's driver (None) to real_estate using youth_culture_collab",
-      "source_pattern": "community_pride_statement",
-      "source_engagement": 85,
-      "target_sector": "real_estate",
-      "target_pattern": "youth_culture_collab",
-      "expected_outcome": "Transfer None emotion to underserved real_estate market",
-      "novelty": "high"
-    },
-    {
-      "concept": "Apply community_pride_statement's driver (None) to beauty_personal_care using youth_culture_collab",
-      "source_pattern": "community_pride_statement",
-      "source_engagement": 85,
-      "target_sector": "beauty_personal_care",
-      "target_pattern": "youth_culture_collab",
-      "expected_outcome": "Transfer None emotion to underserved beauty_personal_care market",
-      "novelty": "high"
-    }
-  ],
-  "emerging_patterns": [
-    {
-      "pattern": "user_generated_engagement",
-      "total": 3,
-      "high_pct": 100
-    },
-    {
-      "pattern": "seasonal_beverage",
-      "total": 3,
-      "high_pct": 100
-    },
-    {
-      "pattern": "f_and_b_seasonal",
-      "total": 3,
-      "high_pct": 100
-    },
-    {
-      "pattern": "nostalgia_play",
-      "total": 5,
-      "high_pct": 100
-    },
-    {
-      "pattern": "giveaway_contest_post",
-      "total": 3,
-      "high_pct": 100
-    },
-    {
-      "pattern": "price_listing",
-      "total": 3,
-      "high_pct": 100
-    },
-    {
-      "pattern": "interactive_challenge",
-      "total": 3,
-      "high_pct": 100
-    },
-    {
-      "pattern": "interactive_engagement",
-      "total": 3,
-      "high_pct": 100
-    },
-    {
-      "pattern": "limited_time_promo",
-      "total": 3,
-      "high_pct": 100
-    },
-    {
-      "pattern": "youth_culture_collab",
-      "total": 10,
-      "high_pct": 100
-    }
-  ],
-  "production_specs": {
-    "reel": {
-      "crew_min": 2,
-      "production_hours": 4,
-      "post_hours": 6,
-      "budget_range_sar": "3000-8000",
-      "engagement": 71
-    },
-    "carousel_slide": {
-      "crew_min": 1,
-      "production_hours": 2,
-      "post_hours": 3,
-      "budget_range_sar": "1500-4000",
-      "engagement": 27
-    },
-    "image": {
-      "crew_min": 1,
-      "production_hours": 1,
-      "post_hours": 1,
-      "budget_range_sar": "500-2000",
-      "engagement": 27
-    },
-    "video": {
-      "crew_min": 3,
-      "production_hours": 6,
-      "post_hours": 8,
-      "budget_range_sar": "5000-15000",
-      "engagement": 24
-    }
-  },
-  "visual_production_guide": {
-    "dramatic_moody_studio": {
-      "equipment": "2-3 lights, black/dark backdrop, product table",
-      "setup_time_min": 45,
-      "engagement": 100
-    },
-    "natural_daylight_restaurant": {
-      "equipment": "reflector, existing light",
-      "setup_time_min": 15,
-      "engagement": 86
-    },
-    "warm_studio_heritage": {
-      "equipment": "warm gels, heritage props (dallah, dates, incense)",
-      "setup_time_min": 60,
-      "engagement": 82
-    },
-    "golden_hour_outdoor": {
-      "equipment": "reflector, golden hour timing (30 min window)",
-      "setup_time_min": 10,
-      "engagement": 75
-    }
-  },
-  "closed_loop": {
-    "description": "Track actual campaign results → compare to predictions → auto-calibrate intelligence",
-    "data_needed": [
-      "campaign_id: which OGZ campaign",
-      "patterns_used: what patterns were in the brief",
-      "predicted_engagement: what the brain predicted",
-      "actual_engagement: what actually happened (likes, comments, reach)",
-      "client_satisfaction: did the client like it (1-5)",
-      "revenue_impact: did it drive sales/leads"
-    ],
-    "feedback_rules": [
-      "If actual > predicted by >20%: upgrade pattern confidence",
-      "If actual < predicted by >20%: downgrade pattern, investigate why",
-      "If pattern fatigue detected: add to fatigue curve, set max_uses",
-      "If new pattern emerges from client work: add to corpus",
-      "If client satisfaction low despite high engagement: engagement ≠ brand fit"
-    ],
-    "calibration_frequency": "After every campaign, batch-update weekly",
-    "status": "framework_ready — needs campaign tracking pipeline to activate"
-  },
-  "predictions": {
-    "2026_q3": {
-      "july": {
-        "primary_occasion": "hajj_season",
-        "prediction": "Low engagement period (11%). Focus on evergreen content. Avoid religious sensitivity.",
-        "recommended_emotion": "warmth",
-        "format": "image"
-      },
-      "august": {
-        "primary_occasion": "evergreen",
-        "prediction": "Recovery period. Build anticipation for National Day (Sep 23).",
-        "recommended_emotion": "anticipation",
-        "format": "carousel_slide"
-      },
-      "september": {
-        "primary_occasion": "national_day",
-        "prediction": "HIGH opportunity (40%). Heritage + pride. Front-load cultural content week of Sep 23.",
-        "recommended_emotion": "pride",
-        "format": "carousel_slide"
-      }
-    },
-    "2026_q4": {
-      "october": {
-        "primary_occasion": "riyadh_season",
-        "prediction": "High volume but low quality period (15%). Differentiation critical — avoid generic event coverage.",
-        "recommended_emotion": "anticipation",
-        "format": "reel"
-      },
-      "november": {
-        "primary_occasion": "riyadh_season",
-        "prediction": "Continued season. Fatigue risk. Switch to community content.",
-        "recommended_emotion": "community_pride",
-        "format": "carousel_slide"
-      },
-      "december": {
-        "primary_occasion": "jeddah_season",
-        "prediction": "STRONG opportunity (45%). Underserved by competitors. Go bold.",
-        "recommended_emotion": "anticipation",
-        "format": "video"
-      }
-    }
-  },
-  "autonomous": {
-    "description": "Self-improving pipeline with minimal human intervention",
-    "components": {
-      "daemon": "ogz_enricher.py — runs 24/7, auto-commits, auto-syncs",
-      "analytics": "92 scripts rebuild automatically every cycle",
-      "intelligence": "intelligence_layer.json regenerated from analytics",
-      "api": "12 endpoints serve intelligence on demand",
-      "guards": "verify_ship_ready.py + guard_data_quality.py block bad data",
-      "learning": "learning_system.py tracks decisions, successes, predictions"
-    },
-    "human_gates": [
-      "New pattern discovery → Mohamed approves before adding",
-      "Cultural rule changes → Mohamed + Cultural Advisor approve",
-      "Client-facing briefs → reviewed before delivery",
-      "Pattern removal → never automatic, always human decision"
-    ],
-    "self_improvement_loop": "daemon extracts → analytics rebuild → intelligence regenerates → API serves updated rules → agents use new context → campaign results feed back → intelligence improves",
-    "status": "partially_autonomous — daemon + analytics + sync running. Closed loop needs campaign data."
-  },
-  "cultural_moat": {
-    "description": "What no foreign company can replicate",
-    "moat_components": [
-      {
-        "asset": "4315 Saudi Instagram observations with cultural annotations",
-        "replicability": "years of work"
-      },
-      {
-        "asset": "80-field cultural spec per sector (modesty, dialect, heritage, props)",
-        "replicability": "requires Saudi cultural expertise"
-      },
-      {
-        "asset": "4 forbidden lists (gestures, props, behaviors, visuals)",
-        "replicability": "requires deep cultural knowledge"
-      },
-      {
-        "asset": "Arabic-first caption intelligence (dialect detection, phrase analysis)",
-        "replicability": "requires Arabic NLP + cultural context"
-      },
-      {
-        "asset": "5 CD brain methodologies calibrated from Saudi benchmark data",
-        "replicability": "unique creative frameworks"
-      },
-      {
-        "asset": "Occasion-specific playbooks (Ramadan, Founding Day, National Day)",
-        "replicability": "requires multi-year seasonal data"
-      },
-      {
-        "asset": "Sector × occasion × emotion × format interaction data",
-        "replicability": "requires 4000+ observations"
-      }
-    ],
-    "competitive_advantage": "Foreign tools can do generic AI content. They cannot do Saudi-native content. The cultural intelligence — forbidden lists, dialect rules, heritage patterns, occasion arcs, modesty thresholds — is the moat. It compounds with every campaign.",
-    "strengthening_strategy": [
-      "Every new campaign adds observations → deeper intelligence",
-      "Every new sector adds coverage → wider moat",
-      "Every cultural shift we capture first → temporal advantage",
-      "Arabic-first approach → linguistic moat (LLMs are English-biased)"
-    ]
-  },
-  "revenue_intelligence": {
-    "description": "Connect content to business outcomes — optimize for money, not likes",
-    "framework": {
-      "engagement_to_revenue_proxy": {
-        "high_engagement_post": "3x more likely to drive profile visits",
-        "carousel_high_eng": "highest save rate → long-term brand recall",
-        "reel_high_eng": "highest reach → brand awareness",
-        "community_pillar": "highest comment rate → relationship building"
-      },
-      "client_value_metrics": [
-        "Brief-to-production time: how fast can we deliver?",
-        "Engagement prediction accuracy: does our score match reality?",
-        "Client renewal rate: do clients come back?",
-        "Campaign ROI: did sales/leads/awareness improve?"
-      ],
-      "pricing_intelligence": {
-        "high_confidence_brief": "Premium pricing — brain predicts >70% high engagement",
-        "experimental_brief": "Standard pricing — brain predicts 30-70%",
-        "low_data_sector": "Discount pricing — building intelligence for new sector"
-      }
-    },
-    "status": "framework_ready — needs real client revenue data to activate"
-  },
-  "brand_intelligence": {
-    "pizzahutsaudi": {
-      "handle": "pizzahutsaudi",
-      "sector": "f_and_b",
-      "obs": 117,
-      "high_pct": 0,
-      "tier": "weak",
-      "best_emotion": null,
-      "best_pillar": null,
-      "best_format": null,
-      "must_use": [],
-      "never_use": [
-        {
-          "pattern": "f_and_b_beverage",
-          "engagement": 0,
-          "obs": 108
-        },
-        {
-          "pattern": "brand_promotional",
-          "engagement": 0,
-          "obs": 96
-        },
-        {
-          "pattern": "food_content",
-          "engagement": 0,
-          "obs": 70
-        },
-        {
-          "pattern": "traditional_cuisine",
-          "engagement": 0,
-          "obs": 38
-        },
-        {
-          "pattern": "riyadh_f_and_b",
-          "engagement": 0,
-          "obs": 37
-        },
-        {
-          "pattern": "location_tagged_riyadh",
-          "engagement": 0,
-          "obs": 23
-        },
-        {
-          "pattern": "f_and_b_breakfast_promotion",
-          "engagement": 0,
-          "obs": 23
-        },
-        {
-          "pattern": "traditional_sweets",
-          "engagement": 0,
-          "obs": 17
-        },
-        {
-          "pattern": "sensory_close_up",
-          "engagement": 0,
-          "obs": 10
-        },
-        {
-          "pattern": "food_product_showcase",
-          "engagement": 0,
-          "obs": 10
-        }
-      ],
-      "prescription": [
-        "PRIORITIZE carousel_slide (93% for elite)",
-        "ADD patterns from elite: ['customer_voice_ugc', 'product_hero', 'seasonal_collection_drop', 'pattern_repeat_flatlay', 'community_pride_statement']"
-      ],
-      "elite_benchmark": {
-        "handle": "OGZ-F-AND-B-Reference-003",
-        "high_pct": 92
-      }
-    },
-    "herfyfsc": {
-      "handle": "herfyfsc",
-      "sector": "f_and_b",
-      "obs": 121,
-      "high_pct": 37,
-      "tier": "strong",
-      "best_emotion": {
-        "emotion": "aspiration",
-        "engagement": 66
-      },
-      "best_pillar": {
-        "pillar": "community",
-        "engagement": 52
-      },
-      "best_format": {
-        "format": "video",
-        "engagement": 54
-      },
-      "must_use": [
-        {
-          "pattern": "f_and_b_breakfast_promotion",
-          "engagement": 53,
-          "obs": 26
-        },
-        {
-          "pattern": "brand_promotional",
-          "engagement": 50,
-          "obs": 20
-        },
-        {
-          "pattern": "nostalgia_cultural_reference",
-          "engagement": 62,
-          "obs": 16
-        },
-        {
-          "pattern": "traditional_cuisine",
-          "engagement": 64,
-          "obs": 14
-        },
-        {
-          "pattern": "youth_culture_collab",
-          "engagement": 100,
-          "obs": 10
-        },
-        {
-          "pattern": "metro_setting",
-          "engagement": 71,
-          "obs": 7
-        },
-        {
-          "pattern": "traditional_sweets",
-          "engagement": 71,
-          "obs": 7
-        },
-        {
-          "pattern": "f_and_b_brand_promotion",
-          "engagement": 100,
-          "obs": 6
-        },
-        {
-          "pattern": "youth_entertainment",
-          "engagement": 83,
-          "obs": 6
-        },
-        {
-          "pattern": "fnb_brand_activation",
-          "engagement": 60,
-          "obs": 5
-        }
-      ],
-      "never_use": [
-        {
-          "pattern": "arabic_casual_mood_trigger",
-          "engagement": 0,
-          "obs": 10
-        },
-        {
-          "pattern": "poetic_arabic_copy",
-          "engagement": 0,
-          "obs": 5
-        }
-      ],
-      "prescription": null
+      "best_format": "video"
     },
     "alromansiahksa": {
-      "handle": "alromansiahksa",
       "sector": "f_and_b",
-      "obs": 100,
-      "high_pct": 9,
-      "tier": "weak",
-      "best_emotion": {
-        "emotion": "anticipation",
-        "engagement": 62
-      },
-      "best_pillar": {
-        "pillar": "community",
-        "engagement": 50
-      },
-      "best_format": {
-        "format": "video",
-        "engagement": 18
-      },
-      "must_use": [
-        {
-          "pattern": "arabic_caption",
-          "engagement": 57,
-          "obs": 7
-        },
-        {
-          "pattern": "giveaway_contest",
-          "engagement": 100,
-          "obs": 5
-        },
-        {
-          "pattern": "question_cta",
-          "engagement": 100,
-          "obs": 4
-        }
+      "voice": "The brand voice of @alromansiahksa is playful and casual, engaging followers with a friendly tone while providing informative content about their offerings. The celebratory tone during special occasions enhances community engagement and brand loyalty.",
+      "tone": [
+        "playful",
+        "casual",
+        "informative",
+        "celebratory"
       ],
-      "never_use": [
-        {
-          "pattern": "italian_cuisine",
-          "engagement": 0,
-          "obs": 45
-        },
-        {
-          "pattern": "f_and_b_romantic",
-          "engagement": 0,
-          "obs": 38
-        },
-        {
-          "pattern": "food_photography",
-          "engagement": 0,
-          "obs": 34
-        },
-        {
-          "pattern": "food_content",
-          "engagement": 0,
-          "obs": 22
-        },
-        {
-          "pattern": "f_and_b_restaurant_review",
-          "engagement": 0,
-          "obs": 18
-        },
-        {
-          "pattern": "f_and_b_menu_post",
-          "engagement": 0,
-          "obs": 16
-        },
-        {
-          "pattern": "iftar_content",
-          "engagement": 0,
-          "obs": 13
-        },
-        {
-          "pattern": "food_promotion",
-          "engagement": 0,
-          "obs": 7
-        },
-        {
-          "pattern": "restaurant_marketing",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "casual_dining",
-          "engagement": 0,
-          "obs": 6
-        }
+      "language": "arabic-first",
+      "arabic_style": "colloquial_gulf",
+      "signature_phrases": [
+        "شاركنا جوابك",
+        "فالك الفوز",
+        "اطلب الحين"
       ],
-      "prescription": [
-        "PRIORITIZE carousel_slide (93% for elite)",
-        "ADD patterns from elite: ['pattern_repeat_flatlay', 'customer_voice_ugc', 'product_hero', 'seasonal_collection_drop', 'community_pride_statement']"
-      ],
-      "elite_benchmark": {
-        "handle": "OGZ-F-AND-B-Reference-003",
-        "high_pct": 92
-      }
-    },
-    "kuduksa": {
-      "handle": "kuduksa",
-      "sector": "f_and_b",
-      "obs": 121,
-      "high_pct": 24,
-      "tier": "mid",
-      "best_emotion": {
-        "emotion": "anticipation",
-        "engagement": 50
-      },
-      "best_pillar": {
-        "pillar": "product",
-        "engagement": 36
-      },
-      "best_format": {
-        "format": "carousel_slide",
-        "engagement": 36
-      },
-      "must_use": [
-        {
-          "pattern": "f_and_b_beverage",
-          "engagement": 62,
-          "obs": 24
-        },
-        {
-          "pattern": "brand_promotional",
-          "engagement": 56,
-          "obs": 16
-        },
-        {
-          "pattern": "fnb_brand_activation",
-          "engagement": 53,
-          "obs": 13
-        },
-        {
-          "pattern": "snack_category",
-          "engagement": 50,
-          "obs": 4
-        },
-        {
-          "pattern": "hotel_restaurant_promotion",
-          "engagement": 50,
-          "obs": 4
-        },
-        {
-          "pattern": "f_and_b_menu_post",
-          "engagement": 50,
-          "obs": 4
-        },
-        {
-          "pattern": "eid_occasion_content",
-          "engagement": 50,
-          "obs": 4
-        },
-        {
-          "pattern": "eid_promotional",
-          "engagement": 50,
-          "obs": 4
-        },
-        {
-          "pattern": "interactive_game",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "food_product_promotion",
-          "engagement": 66,
-          "obs": 3
-        }
-      ],
-      "never_use": [
-        {
-          "pattern": "food_and_beverage",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "international_womens_day",
-          "engagement": 0,
-          "obs": 5
-        }
-      ],
-      "prescription": null
-    },
-    "crumblcookiespr": {
-      "handle": "crumblcookiespr",
-      "sector": "f_and_b",
-      "obs": 97,
-      "high_pct": 21,
-      "tier": "mid",
-      "best_emotion": {
-        "emotion": "appetite",
-        "engagement": 29
-      },
-      "best_pillar": {
-        "pillar": "product",
-        "engagement": 30
-      },
-      "best_format": {
-        "format": "video",
-        "engagement": 38
-      },
-      "must_use": [
-        {
-          "pattern": "new_product_launch",
-          "engagement": 61,
-          "obs": 13
-        },
-        {
-          "pattern": "dessert_promotion",
-          "engagement": 57,
-          "obs": 7
-        },
-        {
-          "pattern": "weekly_menu",
-          "engagement": 60,
-          "obs": 5
-        },
-        {
-          "pattern": "food_and_beverage_promotion",
-          "engagement": 50,
-          "obs": 4
-        },
-        {
-          "pattern": "dessert_focus",
-          "engagement": 50,
-          "obs": 4
-        }
-      ],
-      "never_use": [
-        {
-          "pattern": "location_announcement",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "cookie_product",
-          "engagement": 0,
-          "obs": 5
-        }
-      ],
-      "prescription": null
-    },
-    "albaik": {
-      "handle": "albaik",
-      "sector": "f_and_b",
-      "obs": 109,
-      "high_pct": 88,
-      "tier": "elite",
-      "best_emotion": {
-        "emotion": "urgency",
-        "engagement": 100
-      },
-      "best_pillar": {
-        "pillar": "community",
-        "engagement": 91
-      },
-      "best_format": {
-        "format": "carousel_slide",
-        "engagement": 100
-      },
-      "must_use": [
-        {
-          "pattern": "f_and_b_beverage",
-          "engagement": 92,
-          "obs": 82
-        },
-        {
-          "pattern": "arabic_caption",
-          "engagement": 82,
-          "obs": 50
-        },
-        {
-          "pattern": "location_tagged_riyadh",
-          "engagement": 88,
-          "obs": 27
-        },
-        {
-          "pattern": "national_day_campaign",
-          "engagement": 95,
-          "obs": 21
-        },
-        {
-          "pattern": "riyadh_location",
-          "engagement": 100,
-          "obs": 13
-        },
-        {
-          "pattern": "brand_promotional",
-          "engagement": 92,
-          "obs": 13
-        },
-        {
-          "pattern": "international_achievement",
-          "engagement": 91,
-          "obs": 12
-        },
-        {
-          "pattern": "national_celebration",
-          "engagement": 90,
-          "obs": 11
-        },
-        {
-          "pattern": "local_business",
-          "engagement": 100,
-          "obs": 10
-        },
-        {
-          "pattern": "food_product_showcase",
-          "engagement": 100,
-          "obs": 10
-        }
-      ],
-      "never_use": [],
-      "prescription": null
-    },
-    "OGZ-F-AND-B-Reference-010": {
-      "handle": "OGZ-F-AND-B-Reference-010",
-      "sector": "f_and_b",
-      "obs": 46,
-      "high_pct": 78,
-      "tier": "elite",
-      "best_emotion": {
-        "emotion": "appetite",
-        "engagement": 100
-      },
-      "best_pillar": {
-        "pillar": "community",
-        "engagement": 88
-      },
-      "best_format": {
-        "format": "carousel_slide",
-        "engagement": 85
-      },
-      "must_use": [
-        {
-          "pattern": "interior_architectural_framing",
-          "engagement": 68,
-          "obs": 16
-        },
-        {
-          "pattern": "lifestyle_environment_integration",
-          "engagement": 83,
-          "obs": 12
-        },
-        {
-          "pattern": "cultural_object_hero",
-          "engagement": 75,
-          "obs": 8
-        },
-        {
-          "pattern": "overhead_tabletop_spread",
-          "engagement": 87,
-          "obs": 8
-        },
-        {
-          "pattern": "heritage_storytelling_hook",
-          "engagement": 100,
-          "obs": 7
-        },
-        {
-          "pattern": "warm_golden_hour_hero",
-          "engagement": 66,
-          "obs": 6
-        },
-        {
-          "pattern": "close_up_macro_texture",
-          "engagement": 100,
-          "obs": 5
-        },
-        {
-          "pattern": "founding_day_dirayyah_heritage",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "brand_milestone_post",
-          "engagement": 66,
-          "obs": 3
-        },
-        {
-          "pattern": "documentary_btsmoment",
-          "engagement": 100,
-          "obs": 3
-        }
-      ],
-      "never_use": [],
-      "prescription": null
-    },
-    "altazaj_fakieh": {
-      "handle": "altazaj_fakieh",
-      "sector": "f_and_b",
-      "obs": 117,
-      "high_pct": 3,
-      "tier": "weak",
-      "best_emotion": {
-        "emotion": "anticipation",
-        "engagement": 8
-      },
-      "best_pillar": {
-        "pillar": "lifestyle",
-        "engagement": 4
-      },
-      "best_format": {
-        "format": "video",
-        "engagement": 6
-      },
-      "must_use": [],
-      "never_use": [
-        {
-          "pattern": "f_and_b_beverage",
-          "engagement": 2,
-          "obs": 96
-        },
-        {
-          "pattern": "food_content",
-          "engagement": 3,
-          "obs": 56
-        },
-        {
-          "pattern": "food_beverage_product",
-          "engagement": 5,
-          "obs": 39
-        },
-        {
-          "pattern": "brand_promotional",
-          "engagement": 2,
-          "obs": 37
-        },
-        {
-          "pattern": "food_photography",
-          "engagement": 0,
-          "obs": 30
-        },
-        {
-          "pattern": "arabic_caption",
-          "engagement": 5,
-          "obs": 20
-        },
-        {
-          "pattern": "food_product_showcase",
-          "engagement": 5,
-          "obs": 18
-        },
-        {
-          "pattern": "f_and_b_romantic",
-          "engagement": 5,
-          "obs": 17
-        },
-        {
-          "pattern": "traditional_cuisine",
-          "engagement": 0,
-          "obs": 17
-        },
-        {
-          "pattern": "f_and_b_breakfast_promotion",
-          "engagement": 0,
-          "obs": 15
-        }
-      ],
-      "prescription": [
-        "PRIORITIZE carousel_slide (93% for elite)",
-        "ADD patterns from elite: ['customer_voice_ugc', 'product_hero', 'seasonal_collection_drop', 'pattern_repeat_flatlay', 'community_pride_statement']"
-      ],
-      "elite_benchmark": {
-        "handle": "OGZ-F-AND-B-Reference-003",
-        "high_pct": 92
-      }
-    },
-    "mcdonaldsksa": {
-      "handle": "mcdonaldsksa",
-      "sector": "f_and_b",
-      "obs": 106,
-      "high_pct": 33,
-      "tier": "mid",
-      "best_emotion": {
-        "emotion": "anticipation",
-        "engagement": 52
-      },
-      "best_pillar": {
-        "pillar": "entertainment",
-        "engagement": 50
-      },
-      "best_format": {
-        "format": "video",
-        "engagement": 44
-      },
-      "must_use": [
-        {
-          "pattern": "fnb_brand_activation",
-          "engagement": 50,
-          "obs": 8
-        },
-        {
-          "pattern": "emoji_heavy",
-          "engagement": 71,
-          "obs": 7
-        },
-        {
-          "pattern": "football_occasion_tie_in",
-          "engagement": 66,
-          "obs": 6
-        },
-        {
-          "pattern": "emoji_driven_caption",
-          "engagement": 66,
-          "obs": 6
-        },
-        {
-          "pattern": "sports_passion_peg",
-          "engagement": 80,
-          "obs": 5
-        },
-        {
-          "pattern": "international_achievement",
-          "engagement": 60,
-          "obs": 5
-        },
-        {
-          "pattern": "women_entrepreneurship",
-          "engagement": 50,
-          "obs": 4
-        },
-        {
-          "pattern": "behind_the_scenes",
-          "engagement": 100,
-          "obs": 4
-        },
-        {
-          "pattern": "food_brand_engagement",
-          "engagement": 50,
-          "obs": 4
-        },
-        {
-          "pattern": "influencer_collab",
-          "engagement": 66,
-          "obs": 3
-        }
-      ],
-      "never_use": [],
-      "prescription": null
-    },
-    "OGZ-F-AND-B-Reference-004": {
-      "handle": "OGZ-F-AND-B-Reference-004",
-      "sector": "f_and_b",
-      "obs": 48,
-      "high_pct": 77,
-      "tier": "elite",
-      "best_emotion": {
-        "emotion": "appetite",
-        "engagement": 65
-      },
-      "best_pillar": {
-        "pillar": "community",
-        "engagement": 100
-      },
-      "best_format": {
-        "format": "image",
-        "engagement": 84
-      },
-      "must_use": [
-        {
-          "pattern": "product_hero",
-          "engagement": 91,
-          "obs": 23
-        },
-        {
-          "pattern": "overhead_tabletop_spread",
-          "engagement": 81,
-          "obs": 22
-        },
-        {
-          "pattern": "lifestyle_environment_integration",
-          "engagement": 86,
-          "obs": 22
-        },
-        {
-          "pattern": "interior_architectural_framing",
-          "engagement": 58,
-          "obs": 12
-        },
-        {
-          "pattern": "customer_voice_ugc",
-          "engagement": 100,
-          "obs": 7
-        },
-        {
-          "pattern": "cultural_object_hero",
-          "engagement": 100,
-          "obs": 5
-        },
-        {
-          "pattern": "close_up_macro_texture",
-          "engagement": 80,
-          "obs": 5
-        },
-        {
-          "pattern": "warm_golden_hour_hero",
-          "engagement": 100,
-          "obs": 3
-        }
-      ],
-      "never_use": [],
-      "prescription": null
-    },
-    "aseeb.najd": {
-      "handle": "aseeb.najd",
-      "sector": "f_and_b",
-      "obs": 82,
-      "high_pct": 2,
-      "tier": "weak",
-      "best_emotion": {
-        "emotion": "pride",
-        "engagement": 9
-      },
-      "best_pillar": {
-        "pillar": "community",
-        "engagement": 4
-      },
-      "best_format": {
-        "format": "video",
-        "engagement": 7
-      },
-      "must_use": [],
-      "never_use": [
-        {
-          "pattern": "f_and_b_beverage",
-          "engagement": 1,
-          "obs": 54
-        },
-        {
-          "pattern": "food_content",
-          "engagement": 0,
-          "obs": 34
-        },
-        {
-          "pattern": "riyadh_f_and_b",
-          "engagement": 3,
-          "obs": 31
-        },
-        {
-          "pattern": "traditional_cuisine",
-          "engagement": 0,
-          "obs": 29
-        },
-        {
-          "pattern": "casual_promotion",
-          "engagement": 4,
-          "obs": 21
-        },
-        {
-          "pattern": "location_tagged_riyadh",
-          "engagement": 5,
-          "obs": 20
-        },
-        {
-          "pattern": "food_photography",
-          "engagement": 0,
-          "obs": 18
-        },
-        {
-          "pattern": "brand_promotional",
-          "engagement": 5,
-          "obs": 17
-        },
-        {
-          "pattern": "ramadan_operations",
-          "engagement": 0,
-          "obs": 15
-        },
-        {
-          "pattern": "extended_hours",
-          "engagement": 0,
-          "obs": 12
-        }
-      ],
-      "prescription": [
-        "PRIORITIZE carousel_slide (93% for elite)",
-        "ADD patterns from elite: ['customer_voice_ugc', 'product_hero', 'seasonal_collection_drop', 'pattern_repeat_flatlay', 'community_pride_statement']"
-      ],
-      "elite_benchmark": {
-        "handle": "OGZ-F-AND-B-Reference-003",
-        "high_pct": 92
-      }
-    },
-    "OGZ-F-AND-B-Reference-005": {
-      "handle": "OGZ-F-AND-B-Reference-005",
-      "sector": "f_and_b",
-      "obs": 44,
-      "high_pct": 75,
-      "tier": "elite",
-      "best_emotion": {
-        "emotion": "appetite",
-        "engagement": 58
-      },
-      "best_pillar": {
-        "pillar": "product",
-        "engagement": 55
-      },
-      "best_format": {
-        "format": "carousel_slide",
-        "engagement": 88
-      },
-      "must_use": [
-        {
-          "pattern": "product_hero",
-          "engagement": 95,
-          "obs": 22
-        },
-        {
-          "pattern": "seasonal_collection_drop",
-          "engagement": 92,
-          "obs": 13
-        },
-        {
-          "pattern": "invitation_to_witness",
-          "engagement": 100,
-          "obs": 13
-        },
-        {
-          "pattern": "lifestyle_environment_integration",
-          "engagement": 100,
-          "obs": 8
-        },
-        {
-          "pattern": "interior_architectural_framing",
-          "engagement": 57,
-          "obs": 7
-        },
-        {
-          "pattern": "parallel_original_bilingual",
-          "engagement": 100,
-          "obs": 6
-        },
-        {
-          "pattern": "ramadan_iftar_warmth",
-          "engagement": 80,
-          "obs": 5
-        },
-        {
-          "pattern": "cultural_object_hero",
-          "engagement": 100,
-          "obs": 4
-        },
-        {
-          "pattern": "heritage_storytelling_hook",
-          "engagement": 100,
-          "obs": 4
-        },
-        {
-          "pattern": "brand_milestone_post",
-          "engagement": 100,
-          "obs": 3
-        }
-      ],
-      "never_use": [],
-      "prescription": null
-    },
-    "barnscoffee": {
-      "handle": "barnscoffee",
-      "sector": "f_and_b",
-      "obs": 121,
-      "high_pct": 42,
-      "tier": "strong",
-      "best_emotion": {
-        "emotion": "urgency",
-        "engagement": 75
-      },
-      "best_pillar": {
-        "pillar": "product",
-        "engagement": 52
-      },
-      "best_format": {
-        "format": "carousel_slide",
-        "engagement": 56
-      },
-      "must_use": [
-        {
-          "pattern": "brand_collaboration",
-          "engagement": 62,
-          "obs": 8
-        },
-        {
-          "pattern": "promotional_offer",
-          "engagement": 57,
-          "obs": 7
-        },
-        {
-          "pattern": "brand_partnership",
-          "engagement": 71,
-          "obs": 7
-        },
-        {
-          "pattern": "giveaway_contest",
-          "engagement": 66,
-          "obs": 6
-        },
-        {
-          "pattern": "contest_giveaway",
-          "engagement": 100,
-          "obs": 6
-        },
-        {
-          "pattern": "f_and_b_promotion",
-          "engagement": 50,
-          "obs": 6
-        },
-        {
-          "pattern": "limited_time_offer",
-          "engagement": 80,
-          "obs": 5
-        },
-        {
-          "pattern": "f_and_b_promotional",
-          "engagement": 60,
-          "obs": 5
-        },
-        {
-          "pattern": "limited_time_deal",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "qr_code_engagement",
-          "engagement": 50,
-          "obs": 4
-        }
-      ],
-      "never_use": [
-        {
-          "pattern": "casual_engagement",
-          "engagement": 0,
-          "obs": 5
-        }
-      ],
-      "prescription": null
-    },
-    "OGZ-F-AND-B-Reference-003": {
-      "handle": "OGZ-F-AND-B-Reference-003",
-      "sector": "f_and_b",
-      "obs": 50,
-      "high_pct": 92,
-      "tier": "elite",
-      "best_emotion": null,
-      "best_pillar": null,
-      "best_format": {
-        "format": "carousel_slide",
-        "engagement": 93
-      },
-      "must_use": [
-        {
-          "pattern": "product_hero",
-          "engagement": 94,
-          "obs": 35
-        },
-        {
-          "pattern": "lifestyle_environment_integration",
-          "engagement": 84,
-          "obs": 19
-        },
-        {
-          "pattern": "customer_voice_ugc",
-          "engagement": 84,
-          "obs": 13
-        },
-        {
-          "pattern": "seasonal_collection_drop",
-          "engagement": 100,
-          "obs": 13
-        },
-        {
-          "pattern": "close_up_macro_texture",
-          "engagement": 100,
-          "obs": 8
-        },
-        {
-          "pattern": "pattern_repeat_flatlay",
-          "engagement": 87,
-          "obs": 8
-        },
-        {
-          "pattern": "overhead_tabletop_spread",
-          "engagement": 100,
-          "obs": 7
-        },
-        {
-          "pattern": "behind_the_craft",
-          "engagement": 85,
-          "obs": 7
-        },
-        {
-          "pattern": "invitation_to_witness",
-          "engagement": 100,
-          "obs": 6
-        },
-        {
-          "pattern": "community_pride_statement",
-          "engagement": 100,
-          "obs": 4
-        }
-      ],
-      "never_use": [],
-      "prescription": null
-    },
-    "shawarmersa": {
-      "handle": "shawarmersa",
-      "sector": "f_and_b",
-      "obs": 108,
-      "high_pct": 37,
-      "tier": "strong",
-      "best_emotion": {
-        "emotion": "anticipation",
-        "engagement": 73
-      },
-      "best_pillar": {
-        "pillar": "entertainment",
-        "engagement": 64
-      },
-      "best_format": {
-        "format": "image",
-        "engagement": 42
-      },
-      "must_use": [
-        {
-          "pattern": "emoji_heavy",
-          "engagement": 65,
-          "obs": 23
-        },
-        {
-          "pattern": "formal_dignified",
-          "engagement": 68,
-          "obs": 16
-        },
-        {
-          "pattern": "tone_code_switch",
-          "engagement": 64,
-          "obs": 14
-        },
-        {
-          "pattern": "arabic_casual_mood_trigger",
-          "engagement": 63,
-          "obs": 11
-        },
-        {
-          "pattern": "football_occasion_tie_in",
-          "engagement": 88,
-          "obs": 9
-        },
-        {
-          "pattern": "saudi_professional",
-          "engagement": 77,
-          "obs": 9
-        },
-        {
-          "pattern": "fnb_brand_activation",
-          "engagement": 55,
-          "obs": 9
-        },
-        {
-          "pattern": "cafe_beverage_showcase",
-          "engagement": 57,
-          "obs": 7
-        },
-        {
-          "pattern": "kunafa_content",
-          "engagement": 85,
-          "obs": 7
-        },
-        {
-          "pattern": "sports_passion_peg",
-          "engagement": 80,
-          "obs": 5
-        }
-      ],
-      "never_use": [
-        {
-          "pattern": "food_content",
-          "engagement": 0,
-          "obs": 12
-        },
-        {
-          "pattern": "f_and_b_romantic",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "metro_setting",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "tutorial_routine",
-          "engagement": 0,
-          "obs": 5
-        }
-      ],
-      "prescription": null
-    },
-    "riyadhfood": {
-      "handle": "riyadhfood",
-      "sector": "f_and_b",
-      "obs": 81,
-      "high_pct": 44,
-      "tier": "strong",
-      "best_emotion": {
-        "emotion": "appetite",
-        "engagement": 45
-      },
-      "best_pillar": {
-        "pillar": "educational",
-        "engagement": 66
-      },
-      "best_format": {
-        "format": "image",
-        "engagement": 65
-      },
-      "must_use": [
-        {
-          "pattern": "food_review",
-          "engagement": 53,
-          "obs": 13
-        },
-        {
-          "pattern": "pricing_transparency",
-          "engagement": 50,
-          "obs": 6
-        },
-        {
-          "pattern": "food_pricing",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "casual_dining",
-          "engagement": 50,
-          "obs": 4
-        },
-        {
-          "pattern": "user_generated_content",
-          "engagement": 50,
-          "obs": 4
-        },
-        {
-          "pattern": "price_transparency",
-          "engagement": 66,
-          "obs": 3
-        },
-        {
-          "pattern": "community_engagement",
-          "engagement": 66,
-          "obs": 3
-        },
-        {
-          "pattern": "price_listing",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "luxury_hospitality",
-          "engagement": 66,
-          "obs": 3
-        }
-      ],
-      "never_use": [
-        {
-          "pattern": "promotional_offer",
-          "engagement": 0,
-          "obs": 5
-        }
-      ],
-      "prescription": null
-    },
-    "OGZ-F-AND-B-Reference-002": {
-      "handle": "OGZ-F-AND-B-Reference-002",
-      "sector": "f_and_b",
-      "obs": 48,
-      "high_pct": 75,
-      "tier": "elite",
-      "best_emotion": {
-        "emotion": "warmth",
-        "engagement": 83
-      },
-      "best_pillar": {
-        "pillar": "lifestyle",
-        "engagement": 80
-      },
-      "best_format": {
-        "format": "reel",
-        "engagement": 83
-      },
-      "must_use": [
-        {
-          "pattern": "product_hero",
-          "engagement": 64,
-          "obs": 17
-        },
-        {
-          "pattern": "close_up_macro_texture",
-          "engagement": 75,
-          "obs": 8
-        },
-        {
-          "pattern": "color_block_branded_flood",
-          "engagement": 50,
-          "obs": 8
-        },
-        {
-          "pattern": "cultural_moment_tie_in",
-          "engagement": 50,
-          "obs": 6
-        },
-        {
-          "pattern": "specific_dish_naming",
-          "engagement": 100,
-          "obs": 5
-        },
-        {
-          "pattern": "hand_in_motion_pour_or_place",
-          "engagement": 80,
-          "obs": 5
-        },
-        {
-          "pattern": "model_centered_frontal_portrait",
-          "engagement": 100,
-          "obs": 5
-        },
-        {
-          "pattern": "invitation_to_witness",
-          "engagement": 100,
-          "obs": 4
-        },
-        {
-          "pattern": "seasonal_collection_drop",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "behind_the_craft",
-          "engagement": 66,
-          "obs": 3
-        }
-      ],
-      "never_use": [],
-      "prescription": null
-    },
-    "noon": {
-      "handle": "noon",
-      "sector": "retail_lifestyle",
-      "obs": 120,
-      "high_pct": 15,
-      "tier": "mid",
-      "best_emotion": {
-        "emotion": "pride",
-        "engagement": 23
-      },
-      "best_pillar": {
-        "pillar": "entertainment",
-        "engagement": 66
-      },
-      "best_format": {
-        "format": "image",
-        "engagement": 22
-      },
-      "must_use": [
-        {
-          "pattern": "delivery_promo_sport",
-          "engagement": 50,
-          "obs": 6
-        },
-        {
-          "pattern": "saudi_sports_rivalry",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "regional_expansion",
-          "engagement": 50,
-          "obs": 4
-        },
-        {
-          "pattern": "ramadan_promotional",
-          "engagement": 100,
-          "obs": 3
-        }
-      ],
-      "never_use": [
-        {
-          "pattern": "arabic_caption",
-          "engagement": 5,
-          "obs": 18
-        },
-        {
-          "pattern": "riyadh_local_commerce",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "food_beverage_product",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "creative_format_experiment",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "ramadan_food_promo",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "ramadan_content",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "national_celebration",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "delivery_service_highlight",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "educational_content",
-          "engagement": 0,
-          "obs": 5
-        }
-      ],
-      "prescription": null
-    },
-    "aldeebajofficial": {
-      "handle": "aldeebajofficial",
-      "sector": "retail_lifestyle",
-      "obs": 117,
-      "high_pct": 4,
-      "tier": "weak",
-      "best_emotion": {
-        "emotion": "trust",
-        "engagement": 9
-      },
-      "best_pillar": {
-        "pillar": "lifestyle",
-        "engagement": 7
-      },
-      "best_format": {
-        "format": "carousel_slide",
-        "engagement": 8
-      },
-      "must_use": [],
-      "never_use": [
-        {
-          "pattern": "everyday_summer_fits",
-          "engagement": 4,
-          "obs": 103
-        },
-        {
-          "pattern": "abaya_outfit",
-          "engagement": 5,
-          "obs": 89
-        },
-        {
-          "pattern": "trending_now",
-          "engagement": 5,
-          "obs": 60
-        },
-        {
-          "pattern": "modest_looks",
-          "engagement": 5,
-          "obs": 53
-        },
-        {
-          "pattern": "collab_post",
-          "engagement": 0,
-          "obs": 20
-        },
-        {
-          "pattern": "fashion_accessory_integration",
-          "engagement": 0,
-          "obs": 12
-        },
-        {
-          "pattern": "lifestyle_embed",
-          "engagement": 0,
-          "obs": 10
-        },
-        {
-          "pattern": "extended_hours",
-          "engagement": 0,
-          "obs": 9
-        },
-        {
-          "pattern": "ramadan_operations",
-          "engagement": 0,
-          "obs": 9
-        },
-        {
-          "pattern": "occasion_playscultural_moment_tie_in",
-          "engagement": 0,
-          "obs": 9
-        }
-      ],
-      "prescription": null
-    },
-    "levelshoes": {
-      "handle": "levelshoes",
-      "sector": "fashion",
-      "obs": 81,
-      "high_pct": 0,
-      "tier": "weak",
-      "best_emotion": null,
-      "best_pillar": null,
-      "best_format": null,
-      "must_use": [],
-      "never_use": [
-        {
-          "pattern": "occasion_playseid_campaign",
-          "engagement": 0,
-          "obs": 55
-        },
-        {
-          "pattern": "eid_family_gathering",
-          "engagement": 0,
-          "obs": 45
-        },
-        {
-          "pattern": "occasion_playscultural_moment_tie_in",
-          "engagement": 0,
-          "obs": 45
-        },
-        {
-          "pattern": "brand_collab",
-          "engagement": 0,
-          "obs": 10
-        },
-        {
-          "pattern": "emotional_brand_moment",
-          "engagement": 0,
-          "obs": 6
-        },
-        {
-          "pattern": "occasion_specific_greeting",
-          "engagement": 0,
-          "obs": 5
-        },
-        {
-          "pattern": "celebrity_collab",
-          "engagement": 0,
-          "obs": 5
-        }
-      ],
-      "prescription": [
-        "PRIORITIZE image (61% for elite)",
-        "ADD patterns from elite: ['brand_collab', 'limited_time_offer', 'cultural_identity_marker', 'fashion_accessory_integration', 'eid_campaign']"
-      ],
-      "elite_benchmark": {
-        "handle": "maxfashionmena",
-        "high_pct": 48
-      }
-    },
-    "hmksa": {
-      "handle": "hmksa",
-      "sector": "fashion",
-      "obs": 50,
-      "high_pct": 0,
-      "tier": "weak",
-      "best_emotion": null,
-      "best_pillar": null,
-      "best_format": null,
-      "must_use": [],
-      "never_use": [
-        {
-          "pattern": "occasion_playseid_campaign",
-          "engagement": 0,
-          "obs": 50
-        },
-        {
-          "pattern": "eid_family_gathering",
-          "engagement": 0,
-          "obs": 50
-        },
-        {
-          "pattern": "occasion_playscultural_moment_tie_in",
-          "engagement": 0,
-          "obs": 50
-        }
-      ],
-      "prescription": [
-        "PRIORITIZE image (61% for elite)",
-        "ADD patterns from elite: ['brand_collab', 'limited_time_offer', 'cultural_identity_marker', 'fashion_accessory_integration', 'eid_campaign']"
-      ],
-      "elite_benchmark": {
-        "handle": "maxfashionmena",
-        "high_pct": 48
-      }
-    },
-    "maxfashionmena": {
-      "handle": "maxfashionmena",
-      "sector": "fashion",
-      "obs": 124,
-      "high_pct": 48,
-      "tier": "strong",
-      "best_emotion": {
-        "emotion": "anticipation",
-        "engagement": 83
-      },
-      "best_pillar": {
-        "pillar": "community",
-        "engagement": 88
-      },
-      "best_format": {
-        "format": "image",
-        "engagement": 61
-      },
-      "must_use": [
-        {
-          "pattern": "modest_wear",
-          "engagement": 66,
-          "obs": 15
-        },
-        {
-          "pattern": "collab_post",
-          "engagement": 55,
-          "obs": 9
-        },
-        {
-          "pattern": "cultural_identity_marker",
-          "engagement": 62,
-          "obs": 8
-        },
-        {
-          "pattern": "winter_comfort_cozy",
-          "engagement": 50,
-          "obs": 8
-        },
-        {
-          "pattern": "fashion_accessory_integration",
-          "engagement": 71,
-          "obs": 7
-        },
-        {
-          "pattern": "brand_collab",
-          "engagement": 83,
-          "obs": 6
-        },
-        {
-          "pattern": "limited_time_offer",
-          "engagement": 80,
-          "obs": 5
-        },
-        {
-          "pattern": "celebrity_collab",
-          "engagement": 75,
-          "obs": 4
-        },
-        {
-          "pattern": "eid_campaign",
-          "engagement": 50,
-          "obs": 4
-        },
-        {
-          "pattern": "summer_seasonal_content",
-          "engagement": 50,
-          "obs": 4
-        }
-      ],
-      "never_use": [],
-      "prescription": null
+      "best_format": "video"
     },
     "ounass": {
-      "handle": "ounass",
       "sector": "retail_lifestyle",
-      "obs": 114,
-      "high_pct": 0,
-      "tier": "weak",
-      "best_emotion": null,
-      "best_pillar": null,
-      "best_format": null,
-      "must_use": [],
-      "never_use": [
-        {
-          "pattern": "fashion_accessory_integration",
-          "engagement": 0,
-          "obs": 61
-        },
-        {
-          "pattern": "everyday_summer_fits",
-          "engagement": 0,
-          "obs": 58
-        },
-        {
-          "pattern": "collab_post",
-          "engagement": 0,
-          "obs": 53
-        },
-        {
-          "pattern": "occasion_plays",
-          "engagement": 0,
-          "obs": 43
-        },
-        {
-          "pattern": "trending_now",
-          "engagement": 0,
-          "obs": 42
-        },
-        {
-          "pattern": "lifestyle_embed",
-          "engagement": 0,
-          "obs": 25
-        },
-        {
-          "pattern": "casual_marketing",
-          "engagement": 0,
-          "obs": 19
-        },
-        {
-          "pattern": "beach_lifestyle",
-          "engagement": 0,
-          "obs": 17
-        },
-        {
-          "pattern": "occasion_playseid_campaign",
-          "engagement": 0,
-          "obs": 15
-        },
-        {
-          "pattern": "abaya_outfit",
-          "engagement": 0,
-          "obs": 14
-        }
+      "voice": "Ounass communicates with a blend of playful and informative tones, celebrating fashion and lifestyle through engaging narratives. The bilingual approach enhances accessibility and connects with a diverse audience.",
+      "tone": [
+        "informative",
+        "playful",
+        "celebratory",
+        "casual"
       ],
-      "prescription": null
+      "language": "bilingual",
+      "arabic_style": "mixed",
+      "signature_phrases": [],
+      "best_format": "video"
     },
-    "niceonesa": {
-      "handle": "niceonesa",
-      "sector": "beauty_personal_care",
-      "obs": 114,
-      "high_pct": 3,
-      "tier": "weak",
-      "best_emotion": {
-        "emotion": "anticipation",
-        "engagement": 30
-      },
-      "best_pillar": {
-        "pillar": "community",
-        "engagement": 16
-      },
-      "best_format": {
-        "format": "carousel_slide",
-        "engagement": 7
-      },
-      "must_use": [],
-      "never_use": [
-        {
-          "pattern": "educational_content",
-          "engagement": 2,
-          "obs": 109
-        },
-        {
-          "pattern": "tutorial_how_to",
-          "engagement": 1,
-          "obs": 105
-        },
-        {
-          "pattern": "tutorial_routine",
-          "engagement": 3,
-          "obs": 86
-        },
-        {
-          "pattern": "arabic_caption",
-          "engagement": 4,
-          "obs": 72
-        },
-        {
-          "pattern": "beauty_wellness",
-          "engagement": 3,
-          "obs": 52
-        },
-        {
-          "pattern": "brand_hashtag_promotion",
-          "engagement": 4,
-          "obs": 49
-        },
-        {
-          "pattern": "occasion_tie_in",
-          "engagement": 0,
-          "obs": 19
-        },
-        {
-          "pattern": "food_product_showcase",
-          "engagement": 0,
-          "obs": 13
-        },
-        {
-          "pattern": "food_beverage_product",
-          "engagement": 0,
-          "obs": 8
-        },
-        {
-          "pattern": "food_photography",
-          "engagement": 0,
-          "obs": 5
-        }
+    "mcdonaldsksa": {
+      "sector": "f_and_b",
+      "voice": "McDonald's KSA employs a playful and celebratory tone, engaging its audience through interactive content and promotions. The brand effectively uses Arabic to connect with its local audience, making its messaging relatable and appealing.",
+      "tone": [
+        "playful",
+        "celebratory",
+        "informative",
+        "casual"
       ],
-      "prescription": null
+      "language": "arabic-first",
+      "arabic_style": "colloquial_gulf",
+      "signature_phrases": [
+        "#ماك_مع_ججك",
+        "#ديربي_ماك"
+      ],
+      "best_format": "video"
     },
     "asteribeautysa": {
-      "handle": "asteribeautysa",
       "sector": "beauty_personal_care",
-      "obs": 109,
-      "high_pct": 4,
-      "tier": "weak",
-      "best_emotion": {
-        "emotion": "anticipation",
-        "engagement": 42
-      },
-      "best_pillar": {
-        "pillar": "educational",
-        "engagement": 20
-      },
-      "best_format": {
-        "format": "carousel_slide",
-        "engagement": 8
-      },
-      "must_use": [],
-      "never_use": [
-        {
-          "pattern": "tutorial_how_to",
-          "engagement": 3,
-          "obs": 87
-        },
-        {
-          "pattern": "educational_content",
-          "engagement": 4,
-          "obs": 83
-        },
-        {
-          "pattern": "tutorial_routine",
-          "engagement": 5,
-          "obs": 58
-        },
-        {
-          "pattern": "beauty_cosmetics",
-          "engagement": 2,
-          "obs": 41
-        },
-        {
-          "pattern": "beauty_wellness",
-          "engagement": 2,
-          "obs": 37
-        },
-        {
-          "pattern": "arabic_caption",
-          "engagement": 4,
-          "obs": 23
-        },
-        {
-          "pattern": "influencer_review",
-          "engagement": 0,
-          "obs": 12
-        },
-        {
-          "pattern": "influencer_collab",
-          "engagement": 0,
-          "obs": 11
-        },
-        {
-          "pattern": "food_product_showcase",
-          "engagement": 0,
-          "obs": 8
-        },
-        {
-          "pattern": "beauty_product_launch",
-          "engagement": 0,
-          "obs": 8
-        }
+      "voice": "Asteri Beauty embodies an informative and celebratory tone, engaging its audience with a mix of casual and playful language. The brand effectively communicates its beauty expertise while fostering a sense of community and personal connection.",
+      "tone": [
+        "informative",
+        "celebratory",
+        "casual",
+        "playful"
       ],
-      "prescription": null
-    },
-    "prettynature.official": {
-      "handle": "prettynature.official",
-      "sector": "beauty_personal_care",
-      "obs": 62,
-      "high_pct": 1,
-      "tier": "weak",
-      "best_emotion": {
-        "emotion": "anticipation",
-        "engagement": 20
-      },
-      "best_pillar": {
-        "pillar": "community",
-        "engagement": 7
-      },
-      "best_format": {
-        "format": "video",
-        "engagement": 33
-      },
-      "must_use": [],
-      "never_use": [
-        {
-          "pattern": "educational_content",
-          "engagement": 1,
-          "obs": 55
-        },
-        {
-          "pattern": "tutorial_how_to",
-          "engagement": 0,
-          "obs": 41
-        },
-        {
-          "pattern": "tutorial_routine",
-          "engagement": 0,
-          "obs": 32
-        },
-        {
-          "pattern": "beauty_wellness",
-          "engagement": 3,
-          "obs": 28
-        },
-        {
-          "pattern": "beauty_cosmetics",
-          "engagement": 4,
-          "obs": 23
-        },
-        {
-          "pattern": "natural_ingredient_claim",
-          "engagement": 4,
-          "obs": 22
-        },
-        {
-          "pattern": "occasion_tie_in",
-          "engagement": 0,
-          "obs": 13
-        },
-        {
-          "pattern": "enhancement_not_transformation",
-          "engagement": 0,
-          "obs": 11
-        },
-        {
-          "pattern": "skincare_beauty_bridge",
-          "engagement": 0,
-          "obs": 11
-        },
-        {
-          "pattern": "local_pride_signal",
-          "engagement": 0,
-          "obs": 8
-        }
-      ],
-      "prescription": null
-    },
-    "OGZ-BEAUTY-Reference-001": {
-      "handle": "OGZ-BEAUTY-Reference-001",
-      "sector": "beauty_personal_care",
-      "obs": 25,
-      "high_pct": 32,
-      "tier": "mid",
-      "best_emotion": {
-        "emotion": "appetite",
-        "engagement": 66
-      },
-      "best_pillar": {
-        "pillar": "product",
-        "engagement": 37
-      },
-      "best_format": {
-        "format": "video",
-        "engagement": 35
-      },
-      "must_use": [
-        {
-          "pattern": "seasonal_collection_drop",
-          "engagement": 66,
-          "obs": 3
-        },
-        {
-          "pattern": "close_up_macro_texture",
-          "engagement": 100,
-          "obs": 3
-        },
-        {
-          "pattern": "influencer_collab",
-          "engagement": 66,
-          "obs": 3
-        },
-        {
-          "pattern": "customer_voice_ugc",
-          "engagement": 66,
-          "obs": 3
-        }
-      ],
-      "never_use": [],
-      "prescription": null
-    },
-    "myfitness.sa": {
-      "handle": "myfitness.sa",
-      "sector": "healthcare_wellness",
-      "obs": 20,
-      "high_pct": 0,
-      "tier": "weak",
-      "best_emotion": null,
-      "best_pillar": null,
-      "best_format": null,
-      "must_use": [],
-      "never_use": [
-        {
-          "pattern": "eid_family_gathering",
-          "engagement": 0,
-          "obs": 20
-        },
-        {
-          "pattern": "occasion_peg",
-          "engagement": 0,
-          "obs": 20
-        },
-        {
-          "pattern": "women_empowerment_day",
-          "engagement": 0,
-          "obs": 20
-        }
-      ],
-      "prescription": null
+      "language": "bilingual",
+      "arabic_style": "mixed",
+      "signature_phrases": [],
+      "best_format": "video"
     },
     "fitnessfirstme": {
-      "handle": "fitnessfirstme",
       "sector": "healthcare_wellness",
-      "obs": 69,
-      "high_pct": 33,
-      "tier": "mid",
-      "best_emotion": {
-        "emotion": "anticipation",
-        "engagement": 41
-      },
-      "best_pillar": {
-        "pillar": "product",
-        "engagement": 45
-      },
-      "best_format": {
-        "format": "image",
-        "engagement": 50
-      },
-      "must_use": [
-        {
-          "pattern": "light_hospitality_single",
-          "engagement": 50,
-          "obs": 4
-        },
-        {
-          "pattern": "brand_collab",
-          "engagement": 66,
-          "obs": 3
-        }
+      "voice": "Fitness First ME communicates a vibrant and energetic brand voice that emphasizes community engagement and personal empowerment. Their messaging often combines motivational elements with informative content about fitness and wellness.",
+      "tone": [
+        "informative",
+        "celebratory",
+        "playful",
+        "urgent"
       ],
-      "never_use": [],
-      "prescription": null
+      "language": "english-first",
+      "arabic_style": "colloquial_hejazi",
+      "signature_phrases": [
+        "ONLY AT FITNESS FIRST",
+        "Go Further With Fitness First",
+        "Above and Beyond"
+      ],
+      "best_format": "image"
+    },
+    "OGZ-BEAUTY-Reference-001": {
+      "sector": "beauty",
+      "voice": "The brand communicates in a warm and aspirational tone, blending informative content with a conversational style. This approach resonates well with a diverse audience, particularly in the beauty sector.",
+      "tone": [
+        "aspirational",
+        "warm",
+        "informative",
+        "conversational"
+      ],
+      "language": "bilingual",
+      "arabic_style": "colloquial_hejazi",
+      "signature_phrases": [
+        "جمال يهتم، بما يتجاوز السطح",
+        "شيء جديد قادم"
+      ],
+      "best_format": "video"
+    },
+    "levelshoes": {
+      "sector": "fashion",
+      "voice": "Level Shoes communicates with a playful and celebratory tone, blending informative content with a casual approach. The brand emphasizes lifestyle integration and emotional storytelling, appealing to a fashion-forward audience.",
+      "tone": [
+        "informative",
+        "casual",
+        "playful",
+        "celebratory"
+      ],
+      "language": "english-first",
+      "arabic_style": "none",
+      "signature_phrases": [
+        "Shop now at levelshoes.com",
+        "Discover more at the link in our bio"
+      ],
+      "best_format": "video"
+    },
+    "OGZ-F-AND-B-Reference-004": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates in an informative and aspirational tone, often highlighting the quality and presentation of food experiences. Engaging with the audience through playful and excited language, it effectively showcases the dining atmosphere and culinary offerings.",
+      "tone": [
+        "informative",
+        "aspirational",
+        "playful",
+        "excited"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [],
+      "best_format": "image"
+    },
+    "OGZ-F-AND-B-Reference-005": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates in a playful and inviting manner, often intertwining patriotic themes with informative content. It engages the audience with relatable questions and calls to action that resonate with local culture.",
+      "tone": [
+        "playful",
+        "patriotic",
+        "informative",
+        "inviting"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "اطلبها الحين",
+        "عطنا رايك",
+        "لا طازج إلا الطازج"
+      ],
+      "best_format": "carousel"
+    },
+    "OGZ-F-AND-B-Reference-009": {
+      "sector": "f_and_b",
+      "voice": "The brand voice is playful and confident, engaging the audience with witty and exciting content. It effectively uses Najdi Arabic to connect with the local audience, fostering a sense of community and familiarity.",
+      "tone": [
+        "playful",
+        "excited",
+        "witty",
+        "confident"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "طعم مايترجم",
+        "إعرف شاورمتك"
+      ],
+      "best_format": "image"
+    },
+    "OGZ-F-AND-B-Reference-008": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates with a warm and bold tone, reflecting a strong sense of national pride and spirituality. Their messaging often emphasizes community and shared experiences, particularly during significant cultural occasions.",
+      "tone": [
+        "warm",
+        "bold",
+        "patriotic",
+        "spiritual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "اطلبه الآن",
+        "عرض لفترة محدودة"
+      ],
+      "best_format": "video"
+    },
+    "aldeebajofficial": {
+      "sector": "retail_lifestyle",
+      "voice": "Al Deebaj presents a casual yet informative voice, celebrating modest fashion with a professional touch. The brand effectively communicates its offerings while engaging its audience in a relatable manner.",
+      "tone": [
+        "informative",
+        "casual",
+        "celebratory",
+        "professional"
+      ],
+      "language": "english-first",
+      "arabic_style": "none",
+      "signature_phrases": [],
+      "best_format": "video"
+    },
+    "OGZ-F-AND-B-Reference-003": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates with an excited and celebratory tone, focusing on aspirational messaging that encourages engagement and transactions. The voice is lively and aims to connect with the audience through relatable content.",
+      "tone": [
+        "excited",
+        "celebratory",
+        "aspirational",
+        "transactional"
+      ],
+      "language": "english-first",
+      "arabic_style": "none",
+      "signature_phrases": [],
+      "best_format": "carousel"
+    },
+    "OGZ-F-AND-B-Reference-002": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates in a warm and inviting tone, often using playful language to engage its audience. It effectively combines cultural references with product promotions, creating a relatable and exciting atmosphere.",
+      "tone": [
+        "warm",
+        "playful",
+        "excited",
+        "inviting"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "#مننا_ويفهم_جونا",
+        "#بارنز"
+      ],
+      "best_format": "carousel"
+    },
+    "shawarmersa": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates in a playful and celebratory tone, engaging its audience with interactive content and promotions. The use of Arabic captions and emojis enhances relatability and cultural connection.",
+      "tone": [
+        "playful",
+        "informative",
+        "celebratory",
+        "casual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_gulf",
+      "signature_phrases": [
+        "#شاورمر_هلّت_عزايمه"
+      ],
+      "best_format": "carousel_slide"
+    },
+    "noon": {
+      "sector": "retail_lifestyle",
+      "voice": "Noon's brand voice is vibrant and engaging, often celebrating cultural moments and community involvement. The tone is playful and informative, appealing to a youthful audience with a strong connection to local events.",
+      "tone": [
+        "informative",
+        "celebratory",
+        "playful",
+        "urgent"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "mixed",
+      "signature_phrases": [],
+      "best_format": "image"
+    },
+    "kuduksa": {
+      "sector": "f_and_b",
+      "voice": "Kudu's brand voice is playful and celebratory, effectively engaging its audience with a mix of informative and professional tones. The bilingual approach caters to a diverse audience while maintaining a fun and inviting atmosphere.",
+      "tone": [
+        "playful",
+        "celebratory",
+        "informative",
+        "professional"
+      ],
+      "language": "bilingual",
+      "arabic_style": "mixed",
+      "signature_phrases": [
+        "اطلب الحين من تطبيق كودو",
+        "مع كودو الوضع غير"
+      ],
+      "best_format": "carousel_slide"
+    },
+    "OGZ-F-AND-B-Reference-039": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates with a playful and celebratory tone, engaging its audience through casual and warm interactions. It emphasizes community involvement and employee pride, fostering a sense of belonging among its followers.",
+      "tone": [
+        "playful",
+        "celebratory",
+        "casual",
+        "warm"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_gulf",
+      "signature_phrases": [
+        "#ماك_منكم_وفيكم",
+        "#نكبر_مع_بعض"
+      ],
+      "best_format": "image"
+    },
+    "OGZ-F-AND-B-Reference-038": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates with a warm and playful tone, focusing on excitement and transactional messages that engage the audience. Their voice resonates well with the local culture, making it relatable and appealing to the Saudi audience.",
+      "tone": [
+        "transactional",
+        "playful",
+        "excitement",
+        "warm"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_gulf",
+      "signature_phrases": [
+        "جديدنا غير!",
+        "كل خطوة تفرق.",
+        "هنا الشغف هو اللغة الوحيدة"
+      ],
+      "best_format": "video"
+    },
+    "OGZ-BEAUTY-Reference-002": {
+      "sector": "beauty",
+      "voice": "The brand communicates with a warm and educational tone, focusing on natural ingredients and local pride. Their messaging is aspirational, encouraging consumers to embrace beauty through nature.",
+      "tone": [
+        "warm",
+        "educational",
+        "aspirational",
+        "storytelling"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_gulf",
+      "signature_phrases": [
+        "كل ما تحتاجينه",
+        "بكل حب وحماس"
+      ],
+      "best_format": "image"
     },
     "roshnksa": {
-      "handle": "roshnksa",
       "sector": "real_estate",
-      "obs": 113,
-      "high_pct": 2,
-      "tier": "weak",
-      "best_emotion": {
-        "emotion": "anticipation",
-        "engagement": 20
-      },
-      "best_pillar": {
-        "pillar": "product",
-        "engagement": 6
-      },
-      "best_format": {
-        "format": "video",
-        "engagement": 4
-      },
-      "must_use": [],
-      "never_use": [
-        {
-          "pattern": "location_tagged_riyadh",
-          "engagement": 1,
-          "obs": 55
-        },
-        {
-          "pattern": "riyadh_location",
-          "engagement": 2,
-          "obs": 41
-        },
-        {
-          "pattern": "interior_architectural_framing",
-          "engagement": 0,
-          "obs": 34
-        },
-        {
-          "pattern": "cultural_venue",
-          "engagement": 0,
-          "obs": 34
-        },
-        {
-          "pattern": "regional_development",
-          "engagement": 3,
-          "obs": 28
-        },
-        {
-          "pattern": "local_business",
-          "engagement": 0,
-          "obs": 25
-        },
-        {
-          "pattern": "arabic_caption",
-          "engagement": 4,
-          "obs": 22
-        },
-        {
-          "pattern": "design_community",
-          "engagement": 5,
-          "obs": 19
-        },
-        {
-          "pattern": "sports_passion_peg",
-          "engagement": 5,
-          "obs": 18
-        },
-        {
-          "pattern": "football_occasion_tie_in",
-          "engagement": 5,
-          "obs": 17
-        }
+      "voice": "ROSHN's brand voice is informative and celebratory, reflecting its commitment to enhancing quality of life through real estate development. The bilingual approach allows it to engage a diverse audience effectively.",
+      "tone": [
+        "informative",
+        "celebratory"
       ],
-      "prescription": null
+      "language": "bilingual",
+      "arabic_style": "mixed",
+      "signature_phrases": [
+        "#مجموعة_روشن",
+        "#نبني_الفرق"
+      ],
+      "best_format": "video"
+    },
+    "OGZ-F-AND-B-Reference-007": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates in a warm and celebratory tone, engaging its audience with playful and energetic language. It effectively combines Arabic and English to resonate with a diverse audience while maintaining a local flavor.",
+      "tone": [
+        "warm",
+        "celebratory",
+        "playful",
+        "energetic"
+      ],
+      "language": "bilingual",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "#كودو_شباب_البومب",
+        "Join the challenge now!"
+      ],
+      "best_format": "video"
+    },
+    "OGZ-F-AND-B-Reference-006": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates in a playful and nostalgic tone, often invoking fond memories and emotions related to its products. It engages its audience through interactive content and promotional campaigns, creating a warm and inviting atmosphere.",
+      "tone": [
+        "playful",
+        "nostalgic",
+        "warm",
+        "excited"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [],
+      "best_format": "carousel"
+    },
+    "barnscoffee": {
+      "sector": "f_and_b",
+      "voice": "Barns Coffee communicates in a playful and celebratory tone, engaging its audience with casual and informative content. The brand effectively utilizes gamification and contests to foster community interaction and excitement.",
+      "tone": [
+        "playful",
+        "celebratory",
+        "casual",
+        "informative"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_gulf",
+      "signature_phrases": [
+        "مننا_ويفهم_جونا",
+        "خلك_بارنز"
+      ],
+      "best_format": "carousel_slide"
+    },
+    "prettynature.official": {
+      "sector": "beauty_personal_care",
+      "voice": "Pretty Nature's brand voice is informative and celebratory, with a playful and casual tone that resonates well with its audience. The content focuses on educating consumers about natural ingredients and skincare routines, fostering a sense of community and engagement.",
+      "tone": [
+        "informative",
+        "celebratory",
+        "playful",
+        "casual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_gulf",
+      "signature_phrases": [],
+      "best_format": "video"
+    },
+    "hmksa": {
+      "sector": "fashion",
+      "voice": "The brand communicates in a casual and approachable manner, primarily using Najdi dialect. The lack of structured language suggests a focus on informal engagement with the audience.",
+      "tone": [
+        "casual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "ضضيفوني",
+        "فَـّديٌتِككَ وُآللھہ"
+      ],
+      "best_format": "image"
+    },
+    "OGZ-F-AND-B-Reference-010": {
+      "sector": "f_and_b",
+      "voice": "The brand voice is warm and inviting, emphasizing cultural pride and heritage. It engages the audience with a sense of community and nostalgia, creating a welcoming atmosphere for patrons.",
+      "tone": [
+        "warm",
+        "proud",
+        "aspirational",
+        "inviting"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "حياكم الله",
+        "ننتظركم"
+      ],
+      "best_format": "carousel"
+    },
+    "OGZ-F-AND-B-Reference-011": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates with a warm and inviting tone, effectively engaging its audience through playful and appetizing language. The use of colloquial Najdi dialect enhances relatability and connection with local customers.",
+      "tone": [
+        "warm",
+        "playful",
+        "inviting",
+        "appetising"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "#مطاعم_الرومانسية"
+      ],
+      "best_format": "video"
+    },
+    "altazaj_fakieh": {
+      "sector": "f_and_b",
+      "voice": "The brand voice of Al-Tazaj is playful and celebratory, engaging customers with a casual tone that emphasizes enjoyment and community. It effectively combines informative content with promotional offers, appealing to a wide audience.",
+      "tone": [
+        "playful",
+        "informative",
+        "celebratory",
+        "casual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_gulf",
+      "signature_phrases": [
+        "#دجاجنا_من_ارض_السعودية",
+        "#الطازج"
+      ],
+      "best_format": "carousel_slide"
+    },
+    "pizzahutsaudi": {
+      "sector": "f_and_b",
+      "voice": "Pizza Hut Saudi Arabia adopts a playful and celebratory tone, engaging customers with informative content about their offerings. The brand emphasizes a casual approach, appealing to a wide audience through relatable language and lively expressions.",
+      "tone": [
+        "playful",
+        "informative",
+        "casual",
+        "celebratory"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_gulf",
+      "signature_phrases": [
+        "اطلب الحين",
+        "بيتزا هت توصلك",
+        "غمس وقرمش"
+      ],
+      "best_format": "video"
+    },
+    "maxfashionmena": {
+      "sector": "fashion",
+      "voice": "Max Fashion MENA communicates a vibrant and celebratory tone, blending cultural relevance with modern fashion trends. Their content is engaging and informative, appealing to a diverse audience seeking stylish modest wear.",
+      "tone": [
+        "informative",
+        "celebratory",
+        "playful",
+        "casual"
+      ],
+      "language": "bilingual",
+      "arabic_style": "mixed",
+      "signature_phrases": [],
+      "best_format": "image"
+    },
+    "albaik": {
+      "sector": "f_and_b",
+      "voice": "Albaik's brand voice is celebratory and informative, effectively engaging its audience with a playful tone. The use of Arabic captions and local references strengthens its connection with the community.",
+      "tone": [
+        "celebratory",
+        "informative",
+        "urgent",
+        "playful"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_gulf",
+      "signature_phrases": [
+        "#انتم_والبيك_جيران",
+        "#صنع_في_السعودية"
+      ],
+      "best_format": "carousel_slide"
+    },
+    "herfyfsc": {
+      "sector": "f_and_b",
+      "voice": "Herfy's brand voice is playful and celebratory, engaging its audience with a casual tone that evokes nostalgia. The use of emojis and Arabic captions enhances relatability and connection with the audience.",
+      "tone": [
+        "playful",
+        "celebratory",
+        "casual",
+        "informative"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_gulf",
+      "signature_phrases": [
+        "شباب المستقبل",
+        "وجبة شباب المستقبل"
+      ],
+      "best_format": "video"
+    },
+    "OGZ-RETAIL-Reference-001": {
+      "sector": "retail",
+      "voice": "The brand communicates with a proud and aspirational tone, emphasizing elegance and tradition in its offerings. It aims to resonate with its audience by showcasing quality and cultural significance in its products.",
+      "tone": [
+        "proud",
+        "patriotic",
+        "aspirational",
+        "informative"
+      ],
+      "language": "english-first",
+      "arabic_style": "none",
+      "signature_phrases": [
+        "timeless style",
+        "premium quality",
+        "modern elegance"
+      ],
+      "best_format": "carousel"
+    },
+    "crumblcookiespr": {
+      "sector": "f_and_b",
+      "voice": "Crumbl Cookies PR communicates with a playful and celebratory tone, engaging customers through informative content about new dessert offerings. The bilingual approach enhances accessibility and connection with a diverse audience.",
+      "tone": [
+        "playful",
+        "informative",
+        "celebratory",
+        "casual"
+      ],
+      "language": "bilingual",
+      "arabic_style": "none",
+      "signature_phrases": [],
+      "best_format": "video"
+    },
+    "aseeb.najd": {
+      "sector": "f_and_b",
+      "voice": "The brand voice of Aseeb Najd is warm and inviting, celebrating traditional Najdi cuisine while engaging the audience with informative and celebratory tones. The communication is casual yet professional, reflecting a strong connection to cultural heritage.",
+      "tone": [
+        "informative",
+        "celebratory",
+        "casual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "حياكم الله",
+        "نحتفل بروح من الأصالة"
+      ],
+      "best_format": "video"
+    },
+    "riyadhfood": {
+      "sector": "f_and_b",
+      "voice": "The brand voice of @riyadhfood is informative and casual, appealing to food enthusiasts in Riyadh. It combines playful and celebratory tones, making food exploration engaging and accessible.",
+      "tone": [
+        "informative",
+        "casual",
+        "playful",
+        "celebratory"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_gulf",
+      "signature_phrases": [],
+      "best_format": "image"
+    },
+    "niceonesa": {
+      "sector": "beauty_personal_care",
+      "voice": "The brand communicates in an informative and celebratory tone, engaging its audience with playful and casual language. The focus is on beauty and wellness, often incorporating cultural elements.",
+      "tone": [
+        "informative",
+        "celebratory",
+        "playful",
+        "casual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_gulf",
+      "signature_phrases": [
+        "#نايس_ون",
+        "#نايس_ون_يكمل_فنك"
+      ],
+      "best_format": "carousel"
     }
   },
-  "scoring_rules": {
-    "brand_override": "When brand has >60% high engagement, use brand-specific patterns instead of sector defaults",
-    "sector_fallback": "When brand has <20 obs, fall back to sector intelligence",
-    "emotion_weight": "Emotion is more predictive than pattern for strong brands (AlBaik: pride=93% vs sector anticipation=45%)",
-    "pillar_weight": "Community pillar consistently outperforms product pillar (33% vs 19% sector-wide, 100% vs 23% for AlBaik)"
-  },
-  "test_learnings": [
-    {
-      "finding": "Brain scores don't correlate with actual engagement for elite brands (AlBaik: actual 88% high, brain score 39)",
-      "fix": "Use brand-level intelligence for brands with >60% high engagement rate",
-      "severity": "critical"
+  "occasion_calendar": {
+    "ramadan": {
+      "type": "religious",
+      "duration": "29-30 days",
+      "content_approach": "Spiritual, community, family, food sharing. Suhoor and iftar moments.",
+      "arabic": "رمضان"
     },
-    {
-      "finding": "Sector 'never-use' patterns work fine for strong brands (food_content: 3% sector, 90% AlBaik)",
-      "fix": "Brand overrides sector rules when brand has sufficient data (20+ obs)",
-      "severity": "critical"
+    "eid_al_fitr": {
+      "type": "religious",
+      "duration": "3 days",
+      "content_approach": "Joy, celebration, gifts, sweets, family gatherings.",
+      "arabic": "عيد الفطر"
     },
-    {
-      "finding": "PizzaHut and AlBaik use SAME patterns but get opposite results — the difference is emotional framing",
-      "fix": "Prescribe emotion + pillar changes, not just pattern changes",
-      "severity": "high"
+    "eid_al_adha": {
+      "type": "religious",
+      "duration": "4 days",
+      "content_approach": "Sacrifice, generosity, family, travel.",
+      "arabic": "عيد الأضحى"
     },
-    {
-      "finding": "Same pattern (f_and_b_beverage) = 0% for PizzaHut, 92% for AlBaik",
-      "fix": "Pattern alone doesn't predict — pattern × emotion × pillar is the real formula",
-      "severity": "high"
+    "hajj_season": {
+      "type": "religious",
+      "duration": "~10 days",
+      "content_approach": "Minimal promotion. Respect and spirituality.",
+      "arabic": "موسم الحج"
+    },
+    "national_day": {
+      "type": "national",
+      "date": "September 23",
+      "content_approach": "Green theme, Saudi pride, heritage + modern fusion.",
+      "arabic": "اليوم الوطني"
+    },
+    "founding_day": {
+      "type": "national",
+      "date": "February 22",
+      "content_approach": "Deep heritage, roots, historical pride.",
+      "arabic": "يوم التأسيس"
+    },
+    "riyadh_season": {
+      "type": "entertainment",
+      "months": "Oct-Mar",
+      "content_approach": "Energy, events, nightlife, entertainment.",
+      "arabic": "موسم الرياض"
+    },
+    "jeddah_season": {
+      "type": "entertainment",
+      "months": "Jun-Jul",
+      "content_approach": "Coastal, relaxed, summer vibes.",
+      "arabic": "موسم جدة"
     }
+  },
+  "sector_facts": {
+    "f_and_b": {
+      "obs_count": 1607,
+      "obs_with_real_metrics": 111,
+      "avg_likes": 2689,
+      "accounts": 24
+    },
+    "retail_lifestyle": {
+      "obs_count": 359,
+      "obs_with_real_metrics": 0,
+      "avg_likes": "unknown",
+      "accounts": 4
+    },
+    "fashion": {
+      "obs_count": 258,
+      "obs_with_real_metrics": 0,
+      "avg_likes": "unknown",
+      "accounts": 5
+    },
+    "beauty_personal_care": {
+      "obs_count": 320,
+      "obs_with_real_metrics": 0,
+      "avg_likes": "unknown",
+      "accounts": 6
+    },
+    "healthcare_wellness": {
+      "obs_count": 89,
+      "obs_with_real_metrics": 0,
+      "avg_likes": "unknown",
+      "accounts": 2
+    },
+    "real_estate": {
+      "obs_count": 113,
+      "obs_with_real_metrics": 0,
+      "avg_likes": "unknown",
+      "accounts": 1
+    }
+  },
+  "honest_gaps": [
+    "Beauty sector: only 6% high engagement across 320 obs — intelligence is weak, treat recommendations as experimental",
+    "Real estate: only 3% high engagement across 113 obs — almost no usable patterns",
+    "Healthcare: only 89 obs — too thin for reliable rules",
+    "Reels: only 31 obs — highest engagement format but almost no data",
+    "Engagement scoring: brain scores don't match reality for strong brands — DO NOT trust scores alone",
+    "Emotion/pillar prescriptions: based on sector averages that fail for individual brands — use brand-level data when available"
   ]
 }

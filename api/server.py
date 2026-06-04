@@ -64,7 +64,7 @@ def proof(ulid: str):
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute("""
         SELECT observation_ulid, account_handle_normalized, sector, content_type,
-            engagement_potential,
+            engagement_potential, likes_count, comments_count, engagement_total,
             content_ref, quality_assessment, pattern_matches,
             emotion_primary, occasion, content_pillar
         FROM observations WHERE observation_ulid = %s
@@ -79,8 +79,8 @@ def proof(ulid: str):
     qa = obs.get("quality_assessment", {}) if isinstance(obs.get("quality_assessment"), dict) else json.loads(obs.get("quality_assessment", "{}"))
     pm = obs.get("pattern_matches", []) if isinstance(obs.get("pattern_matches"), list) else json.loads(obs.get("pattern_matches", "[]"))
 
-    likes = obs.get("likes_count") or cr.get("likes_count", 0)
-    comments = obs.get("comments_count") or cr.get("comments_count", 0)
+    likes = obs.get("likes_count", 0) or cr.get("likes_count", 0) or 0
+    comments = obs.get("comments_count", 0) or cr.get("comments_count", 0) or 0
     source_url = cr.get("source_url", "")
 
     has_real_metrics = likes > 0 or comments > 0

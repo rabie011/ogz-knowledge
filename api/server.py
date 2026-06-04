@@ -57,6 +57,65 @@ def root():
     return FileResponse(STATIC_DIR / "index.html")
 
 
+@app.get("/api/proof/{ulid}")
+def proof(ulid: str):
+    """Verifiable proof for any observation — real metrics + clickable Instagram URL."""
+    conn = get_db()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    cur.execute("""
+        SELECT observation_ulid, account_handle_normalized, sector, content_type,
+            engagement_potential,
+            content_ref, quality_assessment, pattern_matches,
+            emotion_primary, occasion, content_pillar
+        FROM observations WHERE observation_ulid = %s
+    """, (ulid,))
+    obs = cur.fetchone()
+    cur.close(); conn.close()
+
+    if not obs:
+        raise HTTPException(status_code=404, detail=f"Observation {ulid} not found")
+
+    cr = obs.get("content_ref", {}) if isinstance(obs.get("content_ref"), dict) else json.loads(obs.get("content_ref", "{}"))
+    qa = obs.get("quality_assessment", {}) if isinstance(obs.get("quality_assessment"), dict) else json.loads(obs.get("quality_assessment", "{}"))
+    pm = obs.get("pattern_matches", []) if isinstance(obs.get("pattern_matches"), list) else json.loads(obs.get("pattern_matches", "[]"))
+
+    likes = obs.get("likes_count") or cr.get("likes_count", 0)
+    comments = obs.get("comments_count") or cr.get("comments_count", 0)
+    source_url = cr.get("source_url", "")
+
+    has_real_metrics = likes > 0 or comments > 0
+
+    return {
+        "observation_ulid": ulid,
+        "account": obs.get("account_handle_normalized", ""),
+        "sector": obs.get("sector", ""),
+        "instagram_url": source_url,
+        "verify": f"Click to verify: {source_url}" if source_url else "No URL available",
+        "real_metrics": {
+            "likes": likes,
+            "comments": comments,
+            "total": likes + comments,
+            "has_real_data": has_real_metrics,
+            "source": "instagram via Apify" if has_real_metrics else "AI-estimated (not verified)",
+        },
+        "engagement": {
+            "tier": obs.get("engagement_potential", ""),
+            "method": qa.get("engagement_method", "ai_estimated" if not has_real_metrics else "real_metrics"),
+        },
+        "content": {
+            "type": obs.get("content_type", ""),
+            "emotion": obs.get("emotion_primary", ""),
+            "pillar": obs.get("content_pillar", ""),
+            "occasion": obs.get("occasion", ""),
+        },
+        "ai_classification": {
+            "patterns": [p.get("pattern_slug", "") if isinstance(p, dict) else p for p in pm[:3]],
+            "confidence_note": "AI-classified by GPT-4o-mini — patterns and emotions are estimates, not verified facts",
+        },
+        "trust_level": "verified" if has_real_metrics else "estimated",
+    }
+
+
 @app.get("/presentation")
 def presentation():
     return FileResponse(STATIC_DIR / "presentation.html")

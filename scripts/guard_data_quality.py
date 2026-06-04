@@ -270,6 +270,23 @@ if thin_sectors:
 else:
     ok("All sectors have sufficient obs for analytics")
 
+# Check for real metrics in recent obs (after 2026-06-04)
+if not quick:
+    no_metrics = 0
+    has_metrics = 0
+    for _, d in all_obs:
+        prov = d.get("provenance", {})
+        date_added = prov.get("date_added", "2026-01-01")
+        cr = d.get("content_ref", {})
+        if date_added >= "2026-06-04" and cr.get("likes_count", 0) == 0 and cr.get("comments_count", 0) == 0:
+            no_metrics += 1
+        elif cr.get("likes_count", 0) > 0:
+            has_metrics += 1
+    if no_metrics > 0:
+        fail("METRICS", f"{no_metrics} recent obs (after Jun 4) missing real engagement metrics")
+    else:
+        ok(f"Real metrics: {has_metrics} obs with likes_count > 0 ({100*has_metrics//total if total else 0}%)")
+
 # ── Summary
 print(f"\n{'=' * 60}")
 if issues:

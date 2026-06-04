@@ -1,178 +1,115 @@
 #!/usr/bin/env python3
 """
-build_agent_context.py — Generate intelligence context blocks for agent prompts.
+build_agent_context.py — Thin brain context for LLM prompts.
 
-The intelligence layer distilled into prompt-ready context that every agent
-reads before thinking. Each block is 500-800 tokens — fits any model's budget.
+Provides REAL context (not commands):
+  - Cultural guardrails (what to avoid)
+  - Real metrics (actual likes, clickable URLs)
+  - Brand voice (tone, dialect, hashtags)
+  - Occasion context (what's happening culturally)
+
+Does NOT provide:
+  - Engagement scores (were wrong)
+  - "Always/Never" pattern rules (blocked good patterns)
+  - Emotion prescriptions (failed for individual brands)
 
 Usage:
-  python3 scripts/build_agent_context.py --sector f_and_b --occasion ramadan --role ceo
-  python3 scripts/build_agent_context.py --sector beauty_personal_care --role cco
-  python3 scripts/build_agent_context.py --all-roles --sector f_and_b --occasion evergreen
-
-Roles: ceo, cco, coo, cd_router, brief_engine, scorer
+  python3 scripts/build_agent_context.py --brand albaik --occasion ramadan
+  python3 scripts/build_agent_context.py --brand pizzahutsaudi --occasion evergreen
 """
-import json, argparse, os
+import json, argparse
 from pathlib import Path
-from datetime import datetime
 
 BASE = Path(__file__).parent.parent
 INTEL_PATH = BASE / "11_who_to_learn_from" / "intelligence_layer.json"
 
 
-def load_intelligence() -> dict:
-    if not INTEL_PATH.exists():
-        raise FileNotFoundError(f"Intelligence layer not found at {INTEL_PATH}")
-    with open(INTEL_PATH) as f:
-        return json.load(f)
+def build_context(brand_handle: str, occasion: str = "evergreen") -> str:
+    """Build a thin context block for LLM prompts."""
+    intel = json.loads(INTEL_PATH.read_text())
 
+    lines = []
 
-def build_context(sector: str, occasion: str = "evergreen", role: str = "ceo") -> str:
-    """Build a prompt-ready intelligence context block for a specific agent role."""
-    intel = load_intelligence()
-    playbook = intel.get("sector_playbooks", {}).get(sector, {})
-    obs_count = playbook.get("obs_count", 0)
-
-    lines = [
-        f"## INTELLIGENCE CONTEXT (from {intel['meta'].get('generated_from', 'benchmark observations')})",
-        "",
-        f"SECTOR: {sector} ({obs_count} obs)",
-        "",
-    ]
-
-    if role in ("ceo", "brief_engine", "scorer"):
-        # Must-use patterns
-        must_use = playbook.get("must_use", [])
-        if must_use:
-            lines.append("### MUST USE (highest engagement patterns):")
-            for p in must_use[:8]:
-                lines.append(f"- {p['pattern']} as {p['as']} = {p['engagement']}% high ({p['obs']} obs)")
-            lines.append("")
-
-        # Winning formulas
-        formulas = playbook.get("winning_formulas", [])
-        if formulas:
-            lines.append("### WINNING FORMULAS:")
-            for f in formulas[:5]:
-                lines.append(f"- {f['content_type']} + {f['pattern']} + {f['occasion']} = {f['high_pct']}%")
-            lines.append("")
-
-        # Universal rules
-        for r in intel.get("universal_rules", [])[:5]:
-            lines.append(f"ALWAYS: {r['pattern']} ({r['engagement']}% high)")
+    # 1. Brand identity (if we have it)
+    brand = intel.get("brand_profiles", {}).get(brand_handle, {})
+    if brand:
+        lines.append(f"## BRAND: @{brand_handle}")
+        lines.append(f"Voice: {brand.get('voice', '')}")
+        lines.append(f"Tone: {', '.join(brand.get('tone', []))}")
+        lines.append(f"Arabic style: {brand.get('arabic_style', '')}")
+        if brand.get("signature_phrases"):
+            lines.append(f"Hashtags: {', '.join(brand['signature_phrases'])}")
         lines.append("")
 
-        # Format rules
-        for f in intel.get("format_rules", []):
-            lines.append(f"FORMAT: {f['content_type']} = {f['engagement']}% high ({f['obs']} obs)")
+    # 2. Real metrics (if we have them)
+    metrics = intel.get("real_metrics", {}).get(brand_handle, {})
+    if metrics and metrics.get("verified"):
+        lines.append(f"## REAL ENGAGEMENT (verified from Instagram)")
+        lines.append(f"Average: {metrics['avg_likes']:,} likes per post")
+        lines.append(f"Best post: {metrics['max_likes']:,} likes")
+        lines.append(f"Based on {metrics['obs_count']} real posts")
         lines.append("")
 
-    if role in ("ceo", "coo", "brief_engine"):
-        # Visual rules
-        visual = playbook.get("visual_dna", [])
-        if visual:
-            lines.append("### VISUAL DIRECTION:")
-            for v in visual[:3]:
-                lines.append(f"- {v['lighting']} + {v['setting']} = {v['high_pct']}% high")
-            lines.append("")
-
-        # Global visual rules
-        preferred = [r for r in intel.get("visual_rules", []) if r.get("type") == "preferred"]
-        avoid = [r for r in intel.get("visual_rules", []) if r.get("type") == "avoid"]
-        if preferred:
-            lines.append("BEST VISUAL COMBOS (global):")
-            for v in preferred[:3]:
-                lines.append(f"- {v['lighting']} + {v['setting']} = {v['engagement']}%")
-        if avoid:
-            lines.append("AVOID:")
-            for v in avoid[:3]:
-                lines.append(f"- {v['lighting']} + {v['setting']} = {v['engagement']}%")
+    # 3. Reference examples (top posts with URLs)
+    examples = intel.get("reference_examples", {}).get(brand_handle, [])
+    if examples:
+        lines.append("## TOP POSTS (click to verify)")
+        for e in examples[:3]:
+            lines.append(f"- {e['likes']:,} likes | {e['content_type']} | {e['url']}")
+            if e.get("caption_preview"):
+                lines.append(f"  \"{e['caption_preview']}\"")
         lines.append("")
 
-    if role in ("cco", "brief_engine"):
-        # Caption rules
-        for cr in intel.get("caption_rules", []):
-            if cr.get("type") == "language":
-                lines.append(f"CAPTION: {cr['rule']}")
-            elif cr.get("type") == "length":
-                ranking = cr.get("ranking", [])
-                if ranking:
-                    best = ranking[0]
-                    lines.append(f"CAPTION LENGTH: {best['length']} performs best ({best['high_pct']}% high)")
+    # 4. Occasion context
+    occ = intel.get("occasion_calendar", {}).get(occasion, {})
+    if occ:
+        lines.append(f"## OCCASION: {occasion}")
+        lines.append(f"{occ.get('content_approach', '')}")
         lines.append("")
 
-    if role in ("ceo", "coo", "brief_engine"):
-        # Occasion rules
-        occ_rules = intel.get("occasion_rules", [])
-        current = [r for r in occ_rules if r["occasion"] == occasion]
-        if current:
-            r = current[0]
-            lines.append(f"OCCASION: {r['occasion']} = {r['engagement']}% high — {r['verdict'].upper()}")
-        else:
-            lines.append(f"OCCASION: {occasion} — no specific data, use evergreen patterns")
-        lines.append("")
+    # 5. Cultural guardrails (always include)
+    cg = intel.get("cultural_guardrails", {})
+    sacred = cg.get("sacred_occasions", {}).get(occasion, "")
+    lines.append("## CULTURAL RULES (hard blocks)")
+    lines.append(f"Forbidden: {', '.join(cg.get('forbidden_behaviors', []))}")
+    if sacred:
+        lines.append(f"⚠️ {occasion}: {sacred}")
+    modesty = cg.get("modesty_rules", {})
+    sector = brand.get("sector", "")
+    sector_modesty = modesty.get(f"{sector}_sector", modesty.get("default", ""))
+    if sector_modesty:
+        lines.append(f"Modesty: {sector_modesty}")
+    lines.append("")
 
-    if role in ("ceo", "brief_engine"):
-        # Anti-patterns (never use)
-        never = playbook.get("never_use", [])
-        if never:
-            lines.append("### NEVER USE (consistently low engagement):")
-            for p in never[:5]:
-                lines.append(f"- {p['pattern']} as {p['as']} = {p['engagement']}% high")
-            lines.append("")
-
-    if role == "cd_router":
-        # Cross-sector transfers
-        transfers = intel.get("cross_sector_transfers", [])
-        relevant = [t for t in transfers if t.get("strong_in") == sector or t.get("weak_in") == sector]
-        if relevant:
-            lines.append("### CROSS-SECTOR INTELLIGENCE:")
-            for t in relevant[:5]:
-                lines.append(f"- {t['pattern']}: {t['strong_pct']}% in {t['strong_in']} → {t['weak_pct']}% in {t['weak_in']}")
+    # 6. Honest gaps
+    gaps = intel.get("honest_gaps", [])
+    if gaps:
+        sector_gaps = [g for g in gaps if sector in g.lower()] if sector else []
+        if sector_gaps:
+            lines.append("## ⚠️ DATA LIMITATIONS")
+            for g in sector_gaps[:2]:
+                lines.append(f"- {g}")
             lines.append("")
 
     context = "\n".join(lines)
-    token_estimate = len(context.split()) * 1.3
+    tokens = int(len(context.split()) * 1.3)
 
-    return context, int(token_estimate), obs_count
-
-
-def build_all_roles(sector: str, occasion: str = "evergreen") -> dict:
-    """Build context blocks for all agent roles."""
-    roles = ["ceo", "cco", "coo", "cd_router", "brief_engine", "scorer"]
-    results = {}
-    for role in roles:
-        ctx, tokens, obs = build_context(sector, occasion, role)
-        results[role] = {"context": ctx, "tokens": tokens, "obs_backing": obs}
-    return results
+    return context, tokens
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--sector", required=True)
+    parser.add_argument("--brand", required=True)
     parser.add_argument("--occasion", default="evergreen")
-    parser.add_argument("--role", default="ceo", choices=["ceo", "cco", "coo", "cd_router", "brief_engine", "scorer"])
-    parser.add_argument("--all-roles", action="store_true")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
 
-    if args.all_roles:
-        results = build_all_roles(args.sector, args.occasion)
-        if args.json:
-            print(json.dumps(results, indent=2))
-        else:
-            for role, data in results.items():
-                print(f"\n{'═' * 50}")
-                print(f"  ROLE: {role.upper()} ({data['tokens']} tokens)")
-                print(f"{'═' * 50}")
-                print(data["context"])
+    ctx, tokens = build_context(args.brand, args.occasion)
+    if args.json:
+        print(json.dumps({"context_block": ctx, "token_count": tokens}))
     else:
-        ctx, tokens, obs = build_context(args.sector, args.occasion, args.role)
-        if args.json:
-            print(json.dumps({"context_block": ctx, "token_count": tokens, "obs_backing": obs}))
-        else:
-            print(ctx)
-            print(f"\n--- {tokens} tokens | backed by {obs} observations ---")
+        print(ctx)
+        print(f"\n--- {tokens} tokens ---")
 
 
 if __name__ == "__main__":

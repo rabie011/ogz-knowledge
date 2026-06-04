@@ -122,6 +122,26 @@ def generate_concept(brand, sector, occasion, product, intel):
     emotion = intel.get("emotion", {}).get("emotion", "anticipation")
     arc = intel.get("campaign_arc", {})
 
+    # Load Brand DNA if available
+    brand_dna_section = ""
+    brand_handle = brand.lower().replace(" ", "").replace("-", "")
+    dna_path = BASE / "logs" / "brand_dna" / f"{brand_handle}_gpt.json"
+    if dna_path.exists():
+        dna = json.loads(dna_path.read_text())
+        bv = dna.get("brand_voice", {})
+        cf = dna.get("content_formula", {})
+        sig = bv.get("signature_phrases", [])
+        brand_dna_section = f"""
+BRAND DNA (from {dna.get('obs_count', 0)} observations of @{brand_handle}):
+- Voice: {bv.get('summary', 'N/A')}
+- Tone: {', '.join(bv.get('tone_tags', []))}
+- Language: {bv.get('language_style', 'arabic-first')}
+- Arabic style: {bv.get('arabic_technique', 'gulf')}
+- Signature phrases: {', '.join(sig[:3]) if sig else 'none'}
+- Best format: {cf.get('best_performing_type', 'N/A')}
+- Top patterns: {', '.join(cf.get('top_patterns', [])[:4])}
+"""
+
     prompt = f"""You are a Saudi creative director. Generate a creative concept for:
 
 Brand: {brand}
@@ -129,6 +149,8 @@ Sector: {sector}
 Occasion: {occasion}
 Product: {product or "brand experience"}
 
+CRITICAL: The brand name is "{brand}" — use this EXACT name. Do NOT change, translate, or modify the brand name. The product is "{product or 'brand experience'}" — use this EXACT product description.
+{brand_dna_section}
 DATA-BACKED INTELLIGENCE (from 4315 benchmark observations):
 Best patterns:
 {must_use}
@@ -141,16 +163,16 @@ Campaign arc: {arc.get('arc_description', 'Start with anticipation, build to pri
 
 Generate a creative concept with:
 
-1. CONCEPT NAME (Arabic + English, 5 words max)
-2. CONCEPT DESCRIPTION (2 sentences — what's the idea?)
+1. CONCEPT NAME (Arabic + English, 5 words max — must include the brand name "{brand}" exactly as written)
+2. CONCEPT DESCRIPTION (2 sentences — what's the idea? Reference the actual product: {product or 'brand experience'})
 3. VISUAL WORLD (specific: lighting, colors, textures, mood — based on the data above)
 4. STORYBOARD (5 frames for a carousel or video):
    Frame 1: [Opening hook — {emotion}]
    Frame 2: [Build tension]
-   Frame 3: [Hero moment — product/brand reveal]
+   Frame 3: [Hero moment — show the actual product: {product or 'brand'}]
    Frame 4: [Cultural connection — heritage/community]
    Frame 5: [Close — call to action]
-5. CAPTION (Arabic, Gulf dialect, inviting tone, 50-150 chars)
+5. CAPTION (Arabic, Gulf dialect, {', '.join(intel.get('emotion', {}).get('emotion', 'inviting').split(',')[:1])} tone, 50-150 chars — reference the product by name)
 6. MOOD REFERENCE (describe the look and feel in one sentence)
 
 Be specific. This goes to a production team who needs to shoot tomorrow."""

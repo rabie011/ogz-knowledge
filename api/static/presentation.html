@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OGZ Content Intelligence — What We Built & Why It Matters</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, 'Segoe UI', sans-serif; background:#0a0a0a; color:#e0e0e0; }
+.slide { min-height:100vh; padding:60px 80px; display:flex; flex-direction:column; justify-content:center; border-bottom:2px solid #F0BE5E; }
+h1 { font-size:48px; color:#F0BE5E; margin-bottom:20px; }
+h2 { font-size:32px; color:#F0BE5E; margin-bottom:16px; }
+h3 { font-size:22px; color:#F0BE5E; margin-bottom:12px; }
+p, li { font-size:18px; line-height:1.8; color:#ccc; }
+.big { font-size:72px; font-weight:700; color:#F0BE5E; }
+.stat-row { display:flex; gap:24px; margin:24px 0; flex-wrap:wrap; }
+.stat { background:#151515; border:1px solid #252525; border-radius:12px; padding:24px 32px; text-align:center; flex:1; min-width:150px; }
+.stat .n { font-size:42px; font-weight:700; color:#F0BE5E; }
+.stat .l { font-size:13px; color:#888; margin-top:4px; }
+table { width:100%; border-collapse:collapse; margin:16px 0; }
+th { text-align:left; padding:12px; border-bottom:2px solid #F0BE5E; color:#F0BE5E; font-size:14px; }
+td { padding:12px; border-bottom:1px solid #252525; font-size:16px; }
+.gold { color:#F0BE5E; font-weight:600; }
+.green { color:#4ade80; }
+.red { color:#f87171; }
+.tag { display:inline-block; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600; }
+.tag-elite { background:#0a2e0a; color:#4ade80; }
+.tag-weak { background:#2e0a0a; color:#f87171; }
+.tag-strong { background:#1a1a00; color:#F0BE5E; }
+.quote { font-size:24px; font-style:italic; color:#F0BE5E; border-left:4px solid #F0BE5E; padding-left:20px; margin:24px 0; }
+.footer { color:#555; font-size:12px; margin-top:40px; }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide">
+  <h1>OGZ Content Intelligence</h1>
+  <p style="font-size:24px; color:#888;">What we built, what it knows, and why it matters.</p>
+  <div class="stat-row" style="margin-top:40px;">
+    <div class="stat"><div class="n">4,315</div><div class="l">Benchmark Observations</div></div>
+    <div class="stat"><div class="n">42</div><div class="l">Saudi Instagram Accounts</div></div>
+    <div class="stat"><div class="n">6</div><div class="l">Sectors Analyzed</div></div>
+    <div class="stat"><div class="n">1,255</div><div class="l">Content Patterns</div></div>
+    <div class="stat"><div class="n">109K</div><div class="l">Characters of Intelligence</div></div>
+  </div>
+  <p class="footer">Presented by Abraham / OGZ Studios — June 2026</p>
+</div>
+
+<!-- SLIDE 2: THE PROBLEM -->
+<div class="slide">
+  <h2>The Problem</h2>
+  <p style="font-size:28px; margin:20px 0;">Every agency in Saudi Arabia guesses what content will work.</p>
+  <div style="margin:30px 0;">
+    <p style="font-size:20px;">Today's workflow:</p>
+    <p style="font-size:18px; color:#888; margin:8px 0;">Client says "we need Ramadan content" → creative team brainstorms → writes brief based on gut feeling → produces → posts → hopes for engagement</p>
+  </div>
+  <div style="margin:30px 0;">
+    <p style="font-size:20px;">The result:</p>
+    <table>
+      <tr><td>PizzaHut Saudi</td><td class="red">0% high engagement</td><td>117 posts analyzed</td></tr>
+      <tr><td>Most beauty brands</td><td class="red">1-4% high engagement</td><td>320 posts analyzed</td></tr>
+      <tr><td>Most retail brands</td><td class="red">4-7% high engagement</td><td>359 posts analyzed</td></tr>
+    </table>
+    <p style="margin-top:16px; color:#888;">Billions of SAR spent on content that doesn't perform.</p>
+  </div>
+</div>
+
+<!-- SLIDE 3: WHAT WE BUILT -->
+<div class="slide">
+  <h2>What We Built</h2>
+  <p style="font-size:22px; margin-bottom:20px;">An AI brain that knows exactly what works in Saudi social media.</p>
+  <table>
+    <tr><th>Layer</th><th>What It Knows</th><th>Data Points</th></tr>
+    <tr><td>Pattern Intelligence</td><td>9 patterns that ALWAYS work, 51 that NEVER work</td><td>4,315 obs</td></tr>
+    <tr><td>Emotion Rules</td><td>Which emotion drives engagement per sector (pride=93% in F&B)</td><td>27 rules</td></tr>
+    <tr><td>Visual DNA</td><td>Exact lighting + setting combos (dramatic_moody + studio = 100%)</td><td>16 rules</td></tr>
+    <tr><td>Campaign Arcs</td><td>Emotional sequencing for Ramadan, Founding Day, National Day</td><td>7 occasions</td></tr>
+    <tr><td>Brand Intelligence</td><td>Per-brand diagnosis and prescription for 30 brands</td><td>30 profiles</td></tr>
+    <tr><td>Production Ready</td><td>127 fal.ai chains with prompt templates</td><td>127 chains</td></tr>
+  </table>
+</div>
+
+<!-- SLIDE 4: THE PROOF — ALBAIK -->
+<div class="slide">
+  <h2>The Proof: AlBaik vs PizzaHut</h2>
+  <p style="font-size:18px; margin-bottom:20px;">Same sector. Same patterns. Opposite results. The brain knows why.</p>
+  <table>
+    <tr><th>Dimension</th><th>PizzaHut (0% high)</th><th>AlBaik (88% high)</th><th>Brain's Insight</th></tr>
+    <tr><td>#1 Emotion</td><td class="red">appetite (102 posts, 0%)</td><td class="green">pride (43 posts, 93%)</td><td class="gold">Switch emotion, not pattern</td></tr>
+    <tr><td>Content Pillar</td><td class="red">product (63%)</td><td class="green">community (73%)</td><td class="gold">Shift to community storytelling</td></tr>
+    <tr><td>Same Pattern</td><td class="red">f_and_b_beverage: 0%</td><td class="green">f_and_b_beverage: 92%</td><td class="gold">Framing matters more than format</td></tr>
+    <tr><td>Carousel</td><td>25 posts, 0% high</td><td class="green">25 posts, 100% high</td><td class="gold">Same format, different soul</td></tr>
+  </table>
+  <div class="quote">The difference isn't what you post — it's how you frame it.</div>
+</div>
+
+<!-- SLIDE 5: WHAT THE BRAIN CAN DO -->
+<div class="slide">
+  <h2>What The Brain Produces</h2>
+  <p style="font-size:18px; margin-bottom:20px;">From "we need content" to production-ready output in seconds.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="n">135</div><div class="l">Unique Posts Generated<br>for 1 brand, 1 year</div></div>
+    <div class="stat"><div class="n">100%</div><div class="l">Unique Captions<br>(Arabic, Gulf dialect)</div></div>
+    <div class="stat"><div class="n">62/100</div><div class="l">Average Brain Score<br>(vs 0-37% without brain)</div></div>
+  </div>
+  <p style="margin-top:20px;">Each post includes:</p>
+  <ul style="margin:12px 0 0 20px;">
+    <li>Data-backed pattern + visual direction + emotional framing</li>
+    <li>Ready-to-use fal.ai prompt for image generation ($0.02-$0.07 per image)</li>
+    <li>Arabic caption in Gulf dialect with brand-specific hashtags</li>
+    <li>Engagement score + ML probability</li>
+    <li>Cultural compliance check (no forbidden content)</li>
+  </ul>
+</div>
+
+<!-- SLIDE 6: THE BRAND LANDSCAPE -->
+<div class="slide">
+  <h2>30 Saudi Brands Analyzed</h2>
+  <p style="font-size:16px; margin-bottom:16px;">Each brand has a diagnosis + prescription. Weak brands get specific fixes.</p>
+  <table>
+    <tr><th>Tier</th><th>Brands</th><th>Avg High %</th><th>Brain Can...</th></tr>
+    <tr><td><span class="tag tag-elite">ELITE</span></td><td>6 brands (AlBaik, OGZ references)</td><td class="green">60-92%</td><td>Learn from them, transfer patterns</td></tr>
+    <tr><td><span class="tag tag-strong">STRONG</span></td><td>5 brands (BarnsCoffee, MaxFashion...)</td><td class="gold">35-59%</td><td>Optimize patterns, fill gaps</td></tr>
+    <tr><td><span class="tag" style="background:#1a1a2e;color:#60a5fa;">MID</span></td><td>6 brands (McDonald's, Noon...)</td><td>15-34%</td><td>Prescribe emotion + pillar switch</td></tr>
+    <tr><td><span class="tag tag-weak">WEAK</span></td><td>13 brands (PizzaHut, NiceOne...)</td><td class="red">0-14%</td><td>Full prescription: emotion, pillar, patterns, format</td></tr>
+  </table>
+  <div class="quote">13 weak brands = 13 potential clients who need exactly what this brain offers.</div>
+</div>
+
+<!-- SLIDE 7: WHY MORE DATA = MORE MONEY -->
+<div class="slide">
+  <h2>Why We Need More Data (Apify Budget)</h2>
+  <p style="font-size:18px; margin-bottom:20px;">42 accounts extracted. 42 accounts paused. The brain gets smarter with every account.</p>
+  <table>
+    <tr><th>What We Have</th><th>What We're Missing</th><th>Impact</th></tr>
+    <tr><td>F&B: 1,591 obs (strong)</td><td>42 more F&B accounts paused</td><td>Double the pattern library</td></tr>
+    <tr><td>Beauty: 320 obs (weak)</td><td>20+ beauty accounts waiting</td><td>Fix beauty intelligence (currently 6%)</td></tr>
+    <tr><td>Fashion: 258 obs (thin)</td><td>15+ fashion accounts waiting</td><td>MaxFashion can't be the only reference</td></tr>
+    <tr><td>Healthcare: 89 obs (minimal)</td><td>New sector, barely started</td><td>Entirely new market to serve</td></tr>
+    <tr><td>Reels: 31 obs</td><td>71% high engagement but almost no data</td><td class="gold">Biggest format gap = biggest opportunity</td></tr>
+  </table>
+  <div style="margin-top:24px;">
+    <p style="font-size:20px;">Cost: <span class="gold">$29/month</span> (Apify Starter plan)</p>
+    <p style="font-size:16px; color:#888;">= ~362 accounts at $0.08/account. Currently paused because monthly budget exhausted.</p>
+    <p style="font-size:20px; margin-top:8px;">Return: Every new account = ~125 observations = deeper intelligence = better briefs = higher engagement = happier clients</p>
+  </div>
+</div>
+
+<!-- SLIDE 8: THE COMPETITIVE MOAT -->
+<div class="slide">
+  <h2>What No One Else Has</h2>
+  <div style="margin:20px 0;">
+    <h3>7 Moat Components</h3>
+    <table>
+      <tr><td>4,315 Saudi Instagram observations with cultural annotations</td><td class="gold">Years of work to replicate</td></tr>
+      <tr><td>80-field cultural spec per sector (modesty, dialect, heritage)</td><td class="gold">Requires Saudi cultural expertise</td></tr>
+      <tr><td>4 forbidden lists (gestures, props, behaviors, visuals)</td><td class="gold">Deep cultural knowledge</td></tr>
+      <tr><td>Arabic-first caption intelligence (dialect, phrases)</td><td class="gold">Arabic NLP + cultural context</td></tr>
+      <tr><td>5 CD brain methodologies calibrated from benchmark data</td><td class="gold">Unique creative frameworks</td></tr>
+      <tr><td>Occasion playbooks (Ramadan, Founding Day, National Day)</td><td class="gold">Multi-year seasonal data</td></tr>
+      <tr><td>Brand-level intelligence for 30 Saudi brands</td><td class="gold">4000+ observations required</td></tr>
+    </table>
+  </div>
+  <div class="quote">Foreign tools can do generic AI content. They cannot do Saudi-native content. That's the moat.</div>
+</div>
+
+<!-- SLIDE 9: THE ASK -->
+<div class="slide">
+  <h2>The Ask</h2>
+  <div class="stat-row" style="margin:40px 0;">
+    <div class="stat" style="border-color:#F0BE5E;">
+      <div class="n">$29/mo</div>
+      <div class="l">Apify Budget<br>(resume 42 paused accounts)</div>
+    </div>
+    <div class="stat" style="border-color:#F0BE5E;">
+      <div class="n">→</div>
+      <div class="l" style="font-size:16px;">Unlocks</div>
+    </div>
+    <div class="stat" style="border-color:#4ade80;">
+      <div class="n">5,000+</div>
+      <div class="l">New Observations<br>(42 accounts × 125 each)</div>
+    </div>
+  </div>
+  <p style="font-size:20px;">What $29/month buys:</p>
+  <ul style="margin:12px 0 0 20px; font-size:18px;">
+    <li>Beauty intelligence goes from 6% → usable (20+ accounts)</li>
+    <li>Fashion intelligence deepens (15+ accounts)</li>
+    <li>Reel data — the biggest engagement gap filled</li>
+    <li>Every new OGZ pitch backed by deeper data than any competitor</li>
+    <li>Brain gets smarter with every account → compounds over time</li>
+  </ul>
+  <p style="font-size:24px; color:#F0BE5E; margin-top:30px;">The brain works. It just needs more data to work for every sector.</p>
+</div>
+
+<!-- SLIDE 10: LIVE DEMO -->
+<div class="slide">
+  <h2>Live Demo</h2>
+  <div style="margin:30px 0;">
+    <p style="font-size:20px;">Try it yourself:</p>
+    <div class="stat-row">
+      <div class="stat"><div class="n" style="font-size:20px;">Demo Page</div><div class="l"><a href="http://100.109.197.4:4100/" style="color:#F0BE5E;">100.109.197.4:4100</a></div></div>
+      <div class="stat"><div class="n" style="font-size:20px;">API Docs</div><div class="l"><a href="http://100.109.197.4:4100/docs" style="color:#F0BE5E;">100.109.197.4:4100/docs</a></div></div>
+      <div class="stat"><div class="n" style="font-size:20px;">Report</div><div class="l"><a href="http://100.109.197.4:4100/report" style="color:#F0BE5E;">100.109.197.4:4100/report</a></div></div>
+    </div>
+    <p style="font-size:16px; color:#888; margin-top:20px;">12 API endpoints | Postgres database | ML predictor | Creative pipeline | Autonomous daemon</p>
+  </div>
+</div>
+
+</body>
+</html>

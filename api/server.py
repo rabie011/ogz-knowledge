@@ -57,6 +57,11 @@ def root():
     return FileResponse(STATIC_DIR / "index.html")
 
 
+@app.get("/presentation")
+def presentation():
+    return FileResponse(STATIC_DIR / "presentation.html")
+
+
 @app.get("/report")
 def latest_report():
     """Serve the latest intelligence report."""

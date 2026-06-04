@@ -94,13 +94,15 @@ def update_obs_metrics(handle: str, sector: str, raw_posts: list[dict]):
         # Calculate engagement
         eng = calculate_engagement(likes, comments, followers)
 
-        # Update content_ref with real metrics
+        # Update content_ref with real metrics + links
         cr = obs.get("content_ref", {})
         cr["likes_count"] = likes
         cr["comments_count"] = comments
         cr["engagement_total"] = likes + comments
         cr["followers_at_capture"] = followers
         cr["engagement_rate"] = eng["rate"]
+        cr["display_url"] = raw.get("displayUrl", "") or cr.get("display_url", "")
+        cr["video_url"] = raw.get("videoUrl", "") or cr.get("video_url", "")
         obs["content_ref"] = cr
 
         # Update engagement_potential from real metrics (not AI guess)

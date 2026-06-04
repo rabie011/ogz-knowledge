@@ -720,6 +720,9 @@ def write_observation(raw: dict, cls: dict, account_ulid: str) -> Path:
             "capture_date": raw["capture_date"],
             "source_url": raw["source_url"],
             "video_duration_seconds": raw.get("video_duration_seconds"),
+            "likes_count": raw.get("likes", 0),
+            "comments_count": raw.get("comments", 0),
+            "engagement_total": raw.get("likes", 0) + raw.get("comments", 0),
         },
         "visual_observations": {
             "composition_style": cls.get("composition_style", ""),

@@ -87,19 +87,24 @@ def upsert_observation(cur, record):
     qa = record.get("quality_assessment", {})
     cur.execute("""
         INSERT INTO observations (observation_ulid, account_ulid, account_handle_normalized,
-            sector, content_type, engagement_potential, content_pillar, emotion_primary,
+            sector, content_type, engagement_potential, likes_count, comments_count, engagement_total,
+            content_pillar, emotion_primary,
             occasion, voice_observations, visual_observations, cultural_notes,
             quality_assessment, pattern_matches, content_ref, compliance_check, provenance)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         ON CONFLICT (observation_ulid) DO UPDATE SET
             voice_observations = EXCLUDED.voice_observations,
             visual_observations = EXCLUDED.visual_observations,
-            pattern_matches = EXCLUDED.pattern_matches
+            pattern_matches = EXCLUDED.pattern_matches,
+            likes_count = EXCLUDED.likes_count,
+            comments_count = EXCLUDED.comments_count,
+            engagement_total = EXCLUDED.engagement_total
     """, (
         record["observation_ulid"], record.get("account_ulid"),
         record.get("account_handle_normalized", ""),
         record.get("sector", ""), cr.get("content_type", ""),
         qa.get("engagement_potential", "medium"),
+        cr.get("likes_count", 0), cr.get("comments_count", 0), cr.get("engagement_total", 0),
         record.get("content_pillar"), record.get("emotion_primary"),
         record.get("occasion"),
         json.dumps(record.get("voice_observations", {})),

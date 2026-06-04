@@ -51,8 +51,18 @@ def load_intelligence(sector, occasion):
     }
 
 
-def select_chains(sector, occasion, count=3):
-    """Select best production chains for this sector + occasion."""
+def select_chains(sector, occasion, intel=None, count=3):
+    """Select best production chains matching intelligence visual recommendations."""
+    # Get visual preferences from intelligence
+    preferred_keywords = set()
+    if intel and intel.get("visual_dna"):
+        for v in intel["visual_dna"]:
+            for word in (v.get("lighting", "") + " " + v.get("setting", "")).lower().split():
+                if len(word) > 3:
+                    preferred_keywords.add(word)
+    # Always prefer these over UGC
+    preferred_keywords.update({"studio", "dramatic", "moody", "hero", "premium", "product", "spotlight"})
+
     candidates = []
     for f in sorted(CHAINS.glob("TF*/tf*.json")):
         d = json.loads(f.read_text())
@@ -64,9 +74,18 @@ def select_chains(sector, occasion, count=3):
         occasion_ok = not oa or "*" in oa or occasion in oa or "evergreen" in oa
 
         if sector_ok and occasion_ok and d.get("prompt_template"):
+            # Score by visual match (higher = better match to intelligence)
+            prompt_lower = d.get("prompt_template", "").lower()
+            visual_score = sum(1 for kw in preferred_keywords if kw in prompt_lower)
+            # Penalize UGC/real-person chains when we have AI generation options
+            model = d.get("models_used", [{}])[0].get("provider", "")
+            if model == "other":
+                visual_score -= 5
+            d["_visual_score"] = visual_score
             candidates.append(d)
 
-    candidates.sort(key=lambda c: c.get("cost_estimate_usd", 99))
+    # Sort by visual match (desc), then cost (asc)
+    candidates.sort(key=lambda c: (-c.get("_visual_score", 0), c.get("cost_estimate_usd", 99)))
     return candidates[:count]
 
 
@@ -189,7 +208,7 @@ def run_pipeline(brand, sector, occasion, product=None):
 
     # 3. Production Chains (fal.ai prompts)
     print("\n── 3. PRODUCTION CHAINS (ready-to-use fal.ai prompts)")
-    chains = select_chains(sector, occasion, count=3)
+    chains = select_chains(sector, occasion, intel=intel, count=3)
     for i, chain in enumerate(chains, 1):
         filled = fill_prompt(
             chain.get("prompt_template", ""),

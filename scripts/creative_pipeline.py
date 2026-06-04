@@ -1,0 +1,243 @@
+#!/usr/bin/env python3
+"""
+creative_pipeline.py — End-to-end: Intelligence → Concept → Prompt → Storyboard
+
+Takes a brand + sector + occasion and produces:
+  1. Intelligence context (what works)
+  2. Creative concept (the idea)
+  3. Ready-to-use fal.ai prompts (the execution)
+  4. Storyboard (the sequence)
+  5. Arabic captions (the voice)
+
+Usage:
+  python3 scripts/creative_pipeline.py --brand AlBaik --sector f_and_b --occasion ramadan
+  python3 scripts/creative_pipeline.py --brand ROSHN --sector real_estate --occasion national_day --product "luxury villa"
+"""
+import json, argparse, glob, os, sys
+from pathlib import Path
+from datetime import datetime
+
+BASE = Path(__file__).parent.parent
+CHAINS = BASE / "02_what_to_build"
+INTEL = BASE / "11_who_to_learn_from" / "intelligence_layer.json"
+
+def _load_env():
+    env_path = Path.home() / ".abraham_env"
+    if env_path.exists():
+        for line in env_path.read_text().splitlines():
+            if "=" in line and not line.startswith("#"):
+                k, v = line.split("=", 1)
+                k = k.strip(); v = v.strip().strip('"').strip("'")
+                if not os.environ.get(k):
+                    os.environ[k] = v
+_load_env()
+
+
+def load_intelligence(sector, occasion):
+    """Load intelligence for this sector + occasion."""
+    intel = json.loads(INTEL.read_text())
+    pb = intel.get("sector_playbooks", {}).get(sector, {})
+    occ_rules = {r["occasion"]: r for r in intel.get("occasion_rules", [])}
+    return {
+        "must_use": pb.get("must_use", [])[:5],
+        "never_use": pb.get("never_use", [])[:5],
+        "visual_dna": pb.get("visual_dna", [])[:3],
+        "winning_formulas": pb.get("winning_formulas", [])[:3],
+        "universal": intel.get("universal_rules", [])[:3],
+        "occasion": occ_rules.get(occasion, {}),
+        "emotion": intel.get("emotion_rules", {}).get(sector, [{}])[0] if intel.get("emotion_rules", {}).get(sector) else {},
+        "campaign_arc": intel.get("campaign_arcs", {}).get(occasion, {}),
+        "obs_count": pb.get("obs_count", 0),
+    }
+
+
+def select_chains(sector, occasion, count=3):
+    """Select best production chains for this sector + occasion."""
+    candidates = []
+    for f in sorted(CHAINS.glob("TF*/tf*.json")):
+        d = json.loads(f.read_text())
+        ef = d.get("eligibility_filters", {})
+        sa = ef.get("sectors_allowed", [])
+        oa = ef.get("occasions_allowed", [])
+
+        sector_ok = not sa or "*" in sa or sector in sa or any(s in sector for s in sa)
+        occasion_ok = not oa or "*" in oa or occasion in oa or "evergreen" in oa
+
+        if sector_ok and occasion_ok and d.get("prompt_template"):
+            candidates.append(d)
+
+    candidates.sort(key=lambda c: c.get("cost_estimate_usd", 99))
+    return candidates[:count]
+
+
+def fill_prompt(template, brand, product, sector, cultural_constraints=""):
+    """Fill a chain prompt template with brand details."""
+    replacements = {
+        "{product_descriptor}": product or f"{brand} product",
+        "{brand_color}": "#000000",
+        "{background_color}": "dark charcoal",
+        "{background_tone}": "deep black",
+        "{beverage_descriptor}": f"{brand} signature drink",
+        "{glass_style}": "traditional Saudi glass",
+        "{quality_tier}": "premium",
+        "{cultural_constraints_injection}": cultural_constraints or "Saudi-appropriate, no alcohol, halal imagery, modest presentation",
+        "{tone_descriptor}": "warm, dignified, inviting",
+    }
+    result = template
+    for k, v in replacements.items():
+        result = result.replace(k, v)
+    return result
+
+
+def generate_concept(brand, sector, occasion, product, intel):
+    """Use LLM to generate a creative concept from intelligence."""
+    import openai
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        return _fallback_concept(brand, sector, occasion, intel)
+
+    client = openai.OpenAI(api_key=api_key)
+
+    must_use = "\n".join(f"- {p['pattern']} ({p['engagement']}% high)" for p in intel["must_use"][:3])
+    visual = "\n".join(f"- {v['lighting']} + {v['setting']} = {v['high_pct']}%" for v in intel["visual_dna"][:2])
+    emotion = intel.get("emotion", {}).get("emotion", "anticipation")
+    arc = intel.get("campaign_arc", {})
+
+    prompt = f"""You are a Saudi creative director. Generate a creative concept for:
+
+Brand: {brand}
+Sector: {sector}
+Occasion: {occasion}
+Product: {product or "brand experience"}
+
+DATA-BACKED INTELLIGENCE (from 4315 benchmark observations):
+Best patterns:
+{must_use}
+
+Best visual combos:
+{visual}
+
+Best emotion: {emotion}
+Campaign arc: {arc.get('arc_description', 'Start with anticipation, build to pride, close with warmth')}
+
+Generate a creative concept with:
+
+1. CONCEPT NAME (Arabic + English, 5 words max)
+2. CONCEPT DESCRIPTION (2 sentences — what's the idea?)
+3. VISUAL WORLD (specific: lighting, colors, textures, mood — based on the data above)
+4. STORYBOARD (5 frames for a carousel or video):
+   Frame 1: [Opening hook — {emotion}]
+   Frame 2: [Build tension]
+   Frame 3: [Hero moment — product/brand reveal]
+   Frame 4: [Cultural connection — heritage/community]
+   Frame 5: [Close — call to action]
+5. CAPTION (Arabic, Gulf dialect, inviting tone, 50-150 chars)
+6. MOOD REFERENCE (describe the look and feel in one sentence)
+
+Be specific. This goes to a production team who needs to shoot tomorrow."""
+
+    resp = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=2000,
+    )
+    return resp.choices[0].message.content
+
+
+def _fallback_concept(brand, sector, occasion, intel):
+    """Generate concept without LLM — from data alone."""
+    mu = intel["must_use"][0] if intel["must_use"] else {"pattern": "product_hero", "engagement": 50}
+    vis = intel["visual_dna"][0] if intel["visual_dna"] else {"lighting": "natural", "setting": "studio", "high_pct": 50}
+    emotion = intel.get("emotion", {}).get("emotion", "anticipation")
+
+    return f"""## Creative Concept (data-driven fallback)
+
+1. CONCEPT: {brand} × {mu['pattern'].replace('_',' ').title()} ({occasion})
+2. DESCRIPTION: Showcase {brand} through {mu['pattern'].replace('_',' ')} pattern ({mu['engagement']}% high engagement).
+   Visual world anchored in {vis['lighting']} lighting with {vis['setting']} setting.
+3. VISUAL WORLD: {vis['lighting']} lighting, {vis['setting']} setting ({vis['high_pct']}% engagement proven)
+4. STORYBOARD:
+   Frame 1: Opening with {emotion} — tease the product/experience
+   Frame 2: Build with visual detail — close-up texture, craftsmanship
+   Frame 3: Hero reveal — full product shot in {vis['lighting']} lighting
+   Frame 4: Cultural moment — heritage connection, Arabic text overlay
+   Frame 5: Close — community/warmth, invitation to visit/try
+5. EMOTION ARC: {emotion} → curiosity → pride → warmth → action
+6. DATA CONFIDENCE: {mu['engagement']}% high engagement for this pattern, backed by {intel['obs_count']} observations"""
+
+
+def run_pipeline(brand, sector, occasion, product=None):
+    """Run the full creative pipeline."""
+    print(f"\n{'═' * 60}")
+    print(f"  CREATIVE PIPELINE: {brand} | {sector} | {occasion}")
+    print(f"{'═' * 60}")
+
+    # 1. Intelligence
+    print("\n── 1. INTELLIGENCE LAYER")
+    intel = load_intelligence(sector, occasion)
+    print(f"  Sector: {sector} ({intel['obs_count']} obs)")
+    print(f"  Must-use: {[p['pattern'] for p in intel['must_use'][:3]]}")
+    print(f"  Emotion: {intel.get('emotion', {}).get('emotion', '?')}")
+    if intel["visual_dna"]:
+        print(f"  Visual: {intel['visual_dna'][0]['lighting']} + {intel['visual_dna'][0]['setting']}")
+    print(f"  Occasion verdict: {intel.get('occasion', {}).get('verdict', '?')}")
+
+    # 2. Creative Concept
+    print("\n── 2. CREATIVE CONCEPT")
+    concept = generate_concept(brand, sector, occasion, product, intel)
+    print(concept)
+
+    # 3. Production Chains (fal.ai prompts)
+    print("\n── 3. PRODUCTION CHAINS (ready-to-use fal.ai prompts)")
+    chains = select_chains(sector, occasion, count=3)
+    for i, chain in enumerate(chains, 1):
+        filled = fill_prompt(
+            chain.get("prompt_template", ""),
+            brand, product, sector,
+        )
+        models = chain.get("models_used", [{}])
+        model = f"{models[0].get('provider', '?')}/{models[0].get('model_id', '?')}" if models else "?"
+        print(f"\n  Chain {i}: {chain['name_en']} ({chain['chain_id_short']})")
+        print(f"  Model: {model}")
+        print(f"  Cost: ${chain.get('cost_estimate_usd', '?')}")
+        print(f"  Output: {chain.get('output_type', '?')}")
+        print(f"  Prompt:")
+        print(f"  {filled[:300]}...")
+
+    # 4. Storyboard Summary
+    print(f"\n── 4. STORYBOARD SEQUENCE")
+    arc = intel.get("campaign_arc", {})
+    print(f"  Opening emotion: {arc.get('opening_emotion', 'anticipation')}")
+    print(f"  Peak emotion: {arc.get('peak_emotion', 'pride')}")
+    print(f"  Closing emotion: {arc.get('closing_emotion', 'warmth')}")
+    print(f"  Arc: {arc.get('arc_description', 'anticipation → pride → warmth')}")
+
+    # Save output
+    output = {
+        "brand": brand, "sector": sector, "occasion": occasion,
+        "product": product, "intelligence": intel,
+        "concept": concept, "chains": [c["chain_id_short"] for c in chains],
+        "timestamp": datetime.now().isoformat(),
+    }
+    out_dir = BASE / "logs" / "creative_runs"
+    out_dir.mkdir(exist_ok=True)
+    out_path = out_dir / f"{brand}_{occasion}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    out_path.write_text(json.dumps(output, indent=2, ensure_ascii=False, default=str))
+    print(f"\n✅ Pipeline saved: {out_path}")
+
+    return output
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--brand", required=True)
+    parser.add_argument("--sector", required=True)
+    parser.add_argument("--occasion", default="evergreen")
+    parser.add_argument("--product", default=None)
+    args = parser.parse_args()
+
+    run_pipeline(args.brand, args.sector, args.occasion, args.product)
+
+
+if __name__ == "__main__":
+    main()

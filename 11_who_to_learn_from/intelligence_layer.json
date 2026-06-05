@@ -1987,5 +1987,27 @@
       "حج",
       "الحرم"
     ]
+  },
+  "quality_gate": {
+    "description": "Post-generation quality check. Every output goes through this before delivery.",
+    "auto_fixes": {
+      "hashtag_limit": "Strip all hashtags beyond the first 2. Keep them woven in text, remove appended walls.",
+      "emoji_limit": "If sector=fashion and emoji>1, strip extras. If any sector and emoji>3, strip extras.",
+      "product_name": "Replace wrong product names with correct ones from brand_product_names.",
+      "language_check": "If English > Arabic character count, flag for rewrite.",
+      "msa_replace": "Replace formal MSA words: تفضلوا→تعالوا, تسحرني→يعجبني, رائع→حلو"
+    },
+    "hard_blocks": [
+      "Cultural violation (forbidden content) → reject entirely",
+      "Wrong brand name → reject",
+      "English-only output for Saudi brand → reject"
+    ],
+    "soft_warnings": [
+      "No Saudi markers → add حيّاكم or الحين naturally",
+      "Missing occasion keyword → add to caption",
+      "Generic question ending → replace with brand hashtag"
+    ],
+    "minimum_score": 70,
+    "note": "Output below 70 gets auto-fixed or rejected. Above 70 passes with warnings logged."
   }
 }

@@ -51,6 +51,9 @@ app.add_middleware(
 REPO = Path(__file__).parent.parent
 STATIC_DIR = Path(__file__).parent / "static"
 
+_intel_path = REPO / "11_who_to_learn_from" / "intelligence_layer.json"
+intel: dict = json.loads(_intel_path.read_text()) if _intel_path.exists() else {}
+
 
 @app.get("/")
 def root():
@@ -992,8 +995,8 @@ Return ONLY the captions, one per line, numbered."""
 def get_templates(sector: str = None, occasion: str = None, tier: str = None, limit: int = 5):
     """Get scored templates from template library."""
     import sys
-    sys.path.insert(0, str(BASE / "scripts"))
-    tlib_path = BASE / "11_who_to_learn_from" / "template_library.json"
+    sys.path.insert(0, str(REPO / "scripts"))
+    tlib_path = REPO / "11_who_to_learn_from" / "template_library.json"
     if not tlib_path.exists():
         raise HTTPException(status_code=404, detail="Template library not built yet. Run: python3 scripts/build_template_library.py")
     data = json.loads(tlib_path.read_text())
@@ -1023,7 +1026,7 @@ class CheckRequest(BaseModel):
 def check_content(req: CheckRequest):
     """Run quality gate checks on a caption."""
     import sys
-    sys.path.insert(0, str(BASE / "scripts"))
+    sys.path.insert(0, str(REPO / "scripts"))
     from lib.quality_gate import check, auto_fix
     result = check(req.text, brand=req.brand, occasion=req.occasion)
     fixed = None
@@ -1043,7 +1046,7 @@ class CreateRequest(BaseModel):
 def create_content(req: CreateRequest):
     """Unified content creation pipeline. Uses brain + templates + quality gate."""
     import sys
-    sys.path.insert(0, str(BASE / "scripts"))
+    sys.path.insert(0, str(REPO / "scripts"))
     from lib.quality_gate import check, auto_fix, log_mistake, get_recent_mistakes
     from build_agent_context import build_context
 
@@ -1059,7 +1062,7 @@ def create_content(req: CreateRequest):
         token_count = 0
 
     # 2. Get templates
-    tlib_path = BASE / "11_who_to_learn_from" / "template_library.json"
+    tlib_path = REPO / "11_who_to_learn_from" / "template_library.json"
     templates = []
     template_tier = 'none'
     if tlib_path.exists():

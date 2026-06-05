@@ -78,15 +78,21 @@ def check(text: str, brand: str = None, occasion: str = 'evergreen') -> dict:
     else:
         checks.append({'check': 'cultural_violation', 'passed': True, 'weight': 20, 'detail': 'Clean'})
 
-    # ── Check 6: Arabic > English ratio (hard block if English-only) ──────
+    # ── Check 6: Arabic > English ratio ──────────────────────────────────
+    # Hard block only for Saudi-dedicated brands. Global/bilingual brands get soft flag.
     ratio = _arabic_ratio(text)
-    if ratio < 0.1:
+    brand_language = profile.get('language', 'arabic-first')
+    is_global_brand = brand_language in ('bilingual', 'english-first') or (
+        brand in ('zara', 'hm', 'randbfashion', 'aldeebajofficial', 'kiabiksa', 'levelshoes')
+    )
+    if ratio < 0.1 and not is_global_brand:
         hard_blocked = True
         checks.append({'check': 'arabic_ratio', 'passed': False, 'weight': 15,
                         'detail': f'Only {ratio:.0%} Arabic — English-only rejected'})
     elif ratio < 0.5:
+        # Soft fail — deduct weight but don't hard block
         checks.append({'check': 'arabic_ratio', 'passed': False, 'weight': 15,
-                        'detail': f'Low Arabic ratio: {ratio:.0%}'})
+                        'detail': f'Low Arabic ratio: {ratio:.0%} — should be Arabic-first'})
         fixes.append('arabic_ratio')
     else:
         checks.append({'check': 'arabic_ratio', 'passed': True, 'weight': 15,
@@ -107,50 +113,45 @@ def check(text: str, brand: str = None, occasion: str = 'evergreen') -> dict:
         checks.append({'check': 'product_name', 'passed': True, 'weight': 20, 'detail': 'OK'})
 
     # ── Check 2: Brand hashtag present ───────────────────────────────────
-    # Pass if: any signature phrase found, OR any hashtag contains brand name,
-    # OR brand has no signature_phrases defined (can't enforce unknown hashtags)
+    # Pass if: any signature phrase present in text, OR ANY hashtag present at all.
+    # The signal we enforce: posts should have at least one hashtag.
+    # The preferred hashtags are advisory (soft warning if not in sig_phrases).
     sig_phrases = profile.get('signature_phrases', [])
     hashtags_in_text = re.findall(r'#\S+', text)
+    exact_match = any(p in text for p in sig_phrases) if sig_phrases else False
+    any_hashtag = bool(hashtags_in_text)
 
-    def _hashtag_matches_brand(brand_handle, hashtags):
-        """Check if any hashtag in text is related to the brand."""
-        if not brand_handle: return False
-        name_parts = brand_handle.lower().replace('_', '').replace('.', '')
-        for tag in hashtags:
-            tag_clean = tag.lstrip('#').lower().replace('_', '')
-            if name_parts in tag_clean or tag_clean in name_parts:
-                return True
-        return False
-
-    if not sig_phrases:
-        # No phrases defined — pass if any hashtag present
-        hashtag_present = bool(hashtags_in_text)
-        checks.append({'check': 'brand_hashtag', 'passed': hashtag_present, 'weight': 15,
-                        'detail': f'No phrases defined — {"hashtag found" if hashtag_present else "no hashtag"}'})
-        if not hashtag_present:
-            fixes.append('brand_hashtag')
+    if exact_match:
+        matched = [p for p in sig_phrases if p in text]
+        checks.append({'check': 'brand_hashtag', 'passed': True, 'weight': 15,
+                        'detail': f'Brand hashtag found: {matched[:2]}'})
+    elif any_hashtag:
+        # Has a hashtag but not the preferred one — pass with note
+        checks.append({'check': 'brand_hashtag', 'passed': True, 'weight': 15,
+                        'detail': f'Has hashtag (preferred: {sig_phrases[:1] if sig_phrases else "none defined"})'})
     else:
-        # Check exact match OR brand-name match
-        exact_match = any(p in text for p in sig_phrases)
-        brand_match = _hashtag_matches_brand(brand, hashtags_in_text)
-        if exact_match or brand_match:
-            matched = [p for p in sig_phrases if p in text] or ['brand-name match']
-            checks.append({'check': 'brand_hashtag', 'passed': True, 'weight': 15,
-                            'detail': f'Found: {matched[:2]}'})
-        else:
-            checks.append({'check': 'brand_hashtag', 'passed': False, 'weight': 15,
-                            'detail': f'Missing brand hashtag (expected one of: {sig_phrases[:2]})'})
-            fixes.append('brand_hashtag')
+        # No hashtag at all — soft fail
+        checks.append({'check': 'brand_hashtag', 'passed': False, 'weight': 15,
+                        'detail': f'No hashtag found (add brand hashtag)'})
+        fixes.append('brand_hashtag')
 
-    # ── Check 3: Saudi markers present ───────────────────────────────────
+    # ── Check 3: Saudi markers — advisory only (weight=5, never blocks)
+    # Data shows: only 9% of gold captions use explicit markers.
+    # Many top posts get 10K+ likes with no markers at all.
+    # This check catches obvious non-Saudi content, not gold-standard absence.
     saudi_found = [w for w in SAUDI_USE if w in text]
-    if not saudi_found:
-        checks.append({'check': 'saudi_markers', 'passed': False, 'weight': 10,
-                        'detail': 'No Saudi markers found'})
+    has_arabic_content = ratio >= 0.6  # Most content is Arabic = Saudi context
+    if not saudi_found and not has_arabic_content:
+        checks.append({'check': 'saudi_markers', 'passed': False, 'weight': 5,
+                        'detail': 'No Saudi markers — content may not be Saudi-specific'})
         fixes.append('saudi_markers')
-    else:
-        checks.append({'check': 'saudi_markers', 'passed': True, 'weight': 10,
+    elif saudi_found:
+        checks.append({'check': 'saudi_markers', 'passed': True, 'weight': 5,
                         'detail': f'Found: {saudi_found[:3]}'})
+    else:
+        # Arabic content without markers — passes (gold captions prove this works)
+        checks.append({'check': 'saudi_markers', 'passed': True, 'weight': 5,
+                        'detail': f'Arabic content present ({ratio:.0%}) — markers optional for gold-tier brands'})
 
     # ── Check 4: No non-Saudi words ───────────────────────────────────────
     bad_words = [w for w in SAUDI_AVOID if w in text]

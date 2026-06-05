@@ -988,6 +988,217 @@ Return ONLY the captions, one per line, numbered."""
 # HEALTH — GET /api/health
 # ═══════════════════════════════════════════════════════════
 
+@app.get("/api/templates")
+def get_templates(sector: str = None, occasion: str = None, tier: str = None, limit: int = 5):
+    """Get scored templates from template library."""
+    import sys
+    sys.path.insert(0, str(BASE / "scripts"))
+    tlib_path = BASE / "11_who_to_learn_from" / "template_library.json"
+    if not tlib_path.exists():
+        raise HTTPException(status_code=404, detail="Template library not built yet. Run: python3 scripts/build_template_library.py")
+    data = json.loads(tlib_path.read_text())
+    templates = data.get('templates', [])
+    if sector:
+        templates = [t for t in templates if t.get('sector') == sector]
+    if occasion:
+        templates = [t for t in templates if t.get('occasion') == occasion]
+    if tier:
+        templates = [t for t in templates if t.get('tier') == tier]
+    # Sort: gold first
+    tier_order = {'gold': 0, 'silver': 1, 'bronze': 2, 'generated': 3}
+    templates.sort(key=lambda t: tier_order.get(t.get('tier', 'generated'), 99))
+    return {
+        'total': len(templates),
+        'returned': min(limit, len(templates)),
+        'templates': templates[:limit],
+    }
+
+
+class CheckRequest(BaseModel):
+    text: str
+    brand: str = None
+    occasion: str = 'evergreen'
+
+@app.post("/api/check")
+def check_content(req: CheckRequest):
+    """Run quality gate checks on a caption."""
+    import sys
+    sys.path.insert(0, str(BASE / "scripts"))
+    from lib.quality_gate import check, auto_fix
+    result = check(req.text, brand=req.brand, occasion=req.occasion)
+    fixed = None
+    if result['fixes_needed']:
+        brand_profiles = intel.get('brand_profiles', {})
+        sector = brand_profiles.get(req.brand, {}).get('sector', '') if req.brand else ''
+        fixed = auto_fix(req.text, brand=req.brand, sector=sector)
+    return {**result, 'fixed_text': fixed}
+
+
+class CreateRequest(BaseModel):
+    brand: str
+    product: str
+    occasion: str = 'evergreen'
+
+@app.post("/api/create")
+def create_content(req: CreateRequest):
+    """Unified content creation pipeline. Uses brain + templates + quality gate."""
+    import sys
+    sys.path.insert(0, str(BASE / "scripts"))
+    from lib.quality_gate import check, auto_fix, log_mistake, get_recent_mistakes
+    from build_agent_context import build_context
+
+    api_key = get_openai_key()
+    if not api_key:
+        raise HTTPException(status_code=500, detail="OPENAI_API_KEY not configured")
+
+    # 1. Load brain context
+    try:
+        context, token_count = build_context(req.brand, req.occasion)
+    except Exception as e:
+        context = f"Brand: {req.brand}, Occasion: {req.occasion}"
+        token_count = 0
+
+    # 2. Get templates
+    tlib_path = BASE / "11_who_to_learn_from" / "template_library.json"
+    templates = []
+    template_tier = 'none'
+    if tlib_path.exists():
+        tlib = json.loads(tlib_path.read_text())
+        brand_profiles = intel.get('brand_profiles', {})
+        sector = brand_profiles.get(req.brand, {}).get('sector', '')
+        all_templates = tlib.get('templates', [])
+        for tier in ['gold', 'silver', 'bronze', 'generated']:
+            filtered = [t for t in all_templates
+                        if t.get('sector') == sector and t.get('tier') == tier
+                        and t.get('occasion') in (req.occasion, 'evergreen')]
+            if filtered:
+                templates.extend(filtered[:3])
+                if not template_tier or template_tier == 'none':
+                    template_tier = tier
+            if len(templates) >= 3:
+                break
+
+    # 3. Get learning store mistakes
+    recent_mistakes = get_recent_mistakes(req.brand, limit=5)
+
+    # 4. Build prompt
+    templates_text = '\n'.join(f'- {t["caption"][:120]}' for t in templates[:3])
+    mistakes_text = '\n'.join(f'- {m["mistake"][:80]}' for m in recent_mistakes) if recent_mistakes else 'None'
+
+    prompt = f"""أنت كاتب محتوى سعودي محترف. اكتب كابشن إنستغرام واحد فقط باللهجة السعودية.
+
+BRAND: @{req.brand}
+PRODUCT: {req.product}
+OCCASION: {req.occasion}
+
+CONTEXT:
+{context[:500]}
+
+TEMPLATE EXAMPLES (adapt the structure, don't copy):
+{templates_text}
+
+AVOID THESE PAST MISTAKES:
+{mistakes_text}
+
+RULES:
+- Saudi Arabic ONLY (not Gulf, not MSA) — use وش/الحين/يالله/حلو
+- Product name in first 5 words
+- Max 2 hashtags, woven into text
+- No more than 2 emojis
+- 80-150 chars for f_and_b, 300+ for fashion
+
+Write ONLY the caption, nothing else:"""
+
+    import openai
+    client = openai.OpenAI(api_key=api_key)
+    resp = client.chat.completions.create(
+        model='gpt-4o-mini',
+        messages=[{'role': 'user', 'content': prompt}],
+        max_tokens=200,
+        temperature=0.7,
+    )
+    caption = resp.choices[0].message.content.strip().strip('"\'')
+
+    # 5. Quality gate + refine loop
+    best_caption = caption
+    best_score = 0
+    best_result = None
+
+    for iteration in range(3):
+        result = check(caption, brand=req.brand, occasion=req.occasion)
+        if result['score'] > best_score:
+            best_score = result['score']
+            best_caption = caption
+            best_result = result
+
+        if result['score'] >= 80:
+            break
+
+        if result['fixes_needed']:
+            brand_profiles = intel.get('brand_profiles', {})
+            sector = brand_profiles.get(req.brand, {}).get('sector', '')
+            caption = auto_fix(caption, brand=req.brand, sector=sector)
+            result2 = check(caption, brand=req.brand, occasion=req.occasion)
+            if result2['score'] > best_score:
+                best_score = result2['score']
+                best_caption = caption
+                best_result = result2
+            if best_score >= 80:
+                break
+
+        if iteration < 2 and best_score < 80:
+            failures = [c['detail'] for c in (best_result or result)['checks'] if not c['passed']]
+            retry_prompt = f"""كابشن سابق: {caption}
+
+مشاكل: {', '.join(failures[:3])}
+
+اكتب كابشن محسّن باللهجة السعودية فقط لنفس المنتج والمناسبة. Caption only:"""
+            resp2 = client.chat.completions.create(
+                model='gpt-4o-mini',
+                messages=[{'role': 'user', 'content': retry_prompt}],
+                max_tokens=200,
+            )
+            caption = resp2.choices[0].message.content.strip().strip('"\'')
+
+    # 6. Log mistake if score < 80
+    if best_score < 80:
+        failed_checks = [c['detail'] for c in (best_result or {}).get('checks', []) if not c.get('passed')]
+        log_mistake(req.brand, best_score, '; '.join(failed_checks[:3]))
+
+    # 7. Get proof
+    proof = {}
+    if templates:
+        t = templates[0]
+        proof = {
+            'template_caption': t.get('caption', '')[:100],
+            'template_likes': t.get('original_likes'),
+            'template_url': t.get('original_url', ''),
+            'template_tier': template_tier,
+        }
+    metrics = intel.get('real_metrics', {}).get(req.brand, {})
+    if metrics:
+        proof['brand_metrics'] = f"{metrics.get('obs_count',0)} verified posts, avg {metrics.get('avg_likes',0):,} likes"
+
+    return {
+        'brand': req.brand,
+        'product': req.product,
+        'occasion': req.occasion,
+        'content': {
+            'caption': best_caption,
+            'hashtags': [w for w in best_caption.split() if w.startswith('#')],
+        },
+        'quality': {
+            'score': best_score,
+            'confidence': 'high' if best_score >= 80 else 'medium' if best_score >= 60 else 'low',
+            'template_tier': template_tier,
+            'fixes_applied': (best_result or {}).get('fixes_needed', []),
+            'passed': best_score >= 70,
+        },
+        'proof': proof,
+        'context_tokens': token_count,
+    }
+
+
 @app.get("/api/health")
 def health():
     """API health check with database stats."""

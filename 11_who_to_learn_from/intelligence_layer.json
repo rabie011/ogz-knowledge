@@ -1847,5 +1847,69 @@
       "Hashtag must be woven INTO the sentence, not appended",
       "Max 80 chars — Saudi top posts are SHORT"
     ]
+  },
+  "caption_data_rules": {
+    "source": "Analysis of 1,244 real Arabic captions with verified likes",
+    "length_by_sector": {
+      "f_and_b": {
+        "optimal": "80-150 chars",
+        "avg": 121,
+        "note": "Short + punchy"
+      },
+      "beauty_personal_care": {
+        "optimal": "200-300 chars",
+        "avg": 276,
+        "note": "Longer with product details"
+      },
+      "fashion": {
+        "optimal": "300-500 chars",
+        "avg": 403,
+        "note": "Longest captions get highest likes in fashion"
+      },
+      "retail_lifestyle": {
+        "optimal": "150-200 chars",
+        "avg": 188
+      }
+    },
+    "emoji_rules": {
+      "finding": "LOW-eng posts use MORE emojis (89%) than HIGH-eng (65%). Overuse hurts.",
+      "f_and_b": "1-2 emojis max. Let the food speak.",
+      "beauty": "Emoji expected (98% use them). 2-3 ok.",
+      "fashion": "LEAST emoji = MOST likes. 0-1 emoji.",
+      "rule": "Less emoji in Saudi high-engagement content than you think."
+    },
+    "hashtag_rules": {
+      "high_eng_avg": 2,
+      "low_eng_avg": 3,
+      "finding": "Fewer hashtags = higher engagement. 2 is optimal.",
+      "placement": "Starting with # works for announcements (10 of top 263 do it). Otherwise weave into sentence.",
+      "never": "Never end with a wall of 5+ hashtags. Saudi audiences skip those."
+    },
+    "ending_rules": {
+      "finding": "Questions (؟) are RARE in top Saudi posts — only 3 of 263 high-eng.",
+      "what_works": "End with brand hashtag (186 of 263 high-eng) or short statement.",
+      "what_fails": "Generic question CTAs (شرايكم؟ منو جرب؟) — overused, feels fake.",
+      "exception": "Genuine questions about NEW products work. Generic ones dont."
+    },
+    "opener_rules": {
+      "high_eng": [
+        "Product/brand name first",
+        "#بروستد_سبايسي (hashtag as product name)",
+        "الآن (urgency)",
+        "عيدكم مبارك (occasion)"
+      ],
+      "low_eng": [
+        "Generic greeting",
+        "نوفر لكم (we provide you)",
+        "تخفيضات (discounts)"
+      ],
+      "rule": "First 3 words determine if people read the rest. Product first, not greeting."
+    },
+    "corrections_to_previous_rules": {
+      "was_wrong": "We recommended ending with شرايكم؟ — data shows questions are rare in top posts",
+      "was_wrong_2": "We recommended 30-80 chars — data shows longer captions (200+) get more likes overall",
+      "was_wrong_3": "We recommended more emojis — data shows high-eng posts use FEWER emojis",
+      "note": "These corrections are from REAL data, not AI estimation"
+    }
   }
 }

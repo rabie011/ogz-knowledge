@@ -1702,44 +1702,130 @@
     "visual_insight": "AlBaik uses dramatic studio lighting with bold product focus. PizzaHut uses flat natural lighting with generic lifestyle framing. 190x engagement difference."
   },
   "arabic_quality_rules": {
-    "gulf_dialect_markers": {
+    "dialect": "saudi",
+    "note": "All accounts are Saudi. Use Saudi Arabic specifically, NOT generic Gulf.",
+    "saudi_markers": {
       "use": [
-        "شرايكم",
-        "منو",
-        "وش",
-        "شنو",
-        "خلك",
-        "تعالوا",
-        "حلو",
-        "مزة",
-        "يفتح النفس"
+        "وش (what — Saudi)",
+        "ايش (what — Saudi Hejazi)",
+        "اللي (which/that — Saudi casual)",
+        "حيّاكم (welcome — Saudi hospitality)",
+        "الحين (now — Saudi)",
+        "كذا (like this — Saudi)",
+        "يالله (lets go — Saudi)",
+        "طيب (ok — Saudi)",
+        "حلو (nice — Saudi)",
+        "اطلبه (order it — Saudi direct)",
+        "جربه (try it — Saudi)",
+        "شرايكم (what do you think — shared)"
       ],
       "avoid": [
-        "تسحرني (literary)",
-        "تفضلوا (formal)",
-        "المناسبات (MSA)",
-        "هيا بنا (Egyptian)",
-        "رائع (MSA)"
+        "شنو (Kuwaiti — NOT Saudi)",
+        "جذي (Kuwaiti — use كذا)",
+        "زين (Emirati — use طيب/حلو)",
+        "ها (Bahraini marker)",
+        "بعد (Emirati emphasis — Saudi uses كمان)",
+        "تسحرني (literary MSA — not spoken)",
+        "تفضلوا (formal MSA — use تعالوا)",
+        "رائع (MSA — use حلو/خطير)",
+        "هيا بنا (Egyptian — use يالله/يلا)"
+      ]
+    },
+    "saudi_regional": {
+      "najdi_riyadh": {
+        "markers": [
+          "وش",
+          "كذا",
+          "يالله",
+          "ذا",
+          "ايوا"
+        ],
+        "when": "Default for national brands, Riyadh-based"
+      },
+      "hejazi_jeddah": {
+        "markers": [
+          "ايش",
+          "كده",
+          "دحين",
+          "أبداً"
+        ],
+        "when": "Jeddah-based brands, western region"
+      }
+    },
+    "saudi_cultural_references": {
+      "food": [
+        "كبسة",
+        "قهوة سعودية",
+        "تمر",
+        "دجاج بروستد",
+        "مندي",
+        "حاشي"
       ],
-      "note": "Real Gulf Arabic uses short, punchy phrases. Formal MSA kills engagement."
+      "places": [
+        "الرياض",
+        "جدة",
+        "مكة",
+        "المدينة",
+        "الظهران",
+        "جازان"
+      ],
+      "occasions": [
+        "اليوم الوطني",
+        "يوم التأسيس",
+        "رمضان",
+        "الحج",
+        "موسم الرياض"
+      ],
+      "pride": [
+        "صنع في السعودية",
+        "مملكتنا",
+        "وطننا",
+        "محلي ١٠٠٪"
+      ],
+      "hashtags": [
+        "#صنع_في_السعودية",
+        "#اليوم_الوطني",
+        "#يوم_التأسيس",
+        "#همة_حتى_القمة"
+      ]
+    },
+    "proven_caption_patterns": {
+      "albaik_style": {
+        "pattern": "Product name + short emotional hook + emoji + brand hashtag",
+        "example": "#برجر_فيليه_سمك.. طعم تغوص فيه 🫧 #البيك",
+        "why_works": "Short, product-first, sensory language, emoji, branded hashtag",
+        "avg_likes": 8000
+      },
+      "announcement_style": {
+        "pattern": "الآن + new product/location + call to try",
+        "example": "الآن #بيكيز_حراق الجديد من #البيك",
+        "why_works": "Urgency (الآن), novelty (الجديد), brand hashtag",
+        "avg_likes": 10000
+      },
+      "heritage_pride": {
+        "pattern": "Saudi pride reference + product tie + national emoji",
+        "example": "من خيرات مملكتنا الغالية قطع دجاج #البيك #محلي١٠٠٪ 🇸🇦",
+        "why_works": "National pride, local sourcing, Saudi flag emoji",
+        "avg_likes": 8000
+      },
+      "hospitality_opening": {
+        "pattern": "حيّاكم + location/occasion + brand",
+        "example": "حيّاكم.. تم افتتاح #البيك بحي الدوحة الجنوبية #انتم_والبيك_جيران",
+        "why_works": "Saudi hospitality greeting, specific location, community hashtag",
+        "avg_likes": 7000
+      }
     },
     "caption_structure": {
-      "opening": "Start with product/experience, not generic greeting",
-      "middle": "One sentence connecting to emotion or occasion",
-      "ending": "Question (شرايكم؟ منو جرب؟) or invitation — NOT command (اطلب الآن)",
-      "length": "50-120 chars optimal. Over 150 chars = engagement drops."
+      "opening": "Product name OR الآن OR حيّاكم (never generic greeting)",
+      "middle": "Sensory/emotional hook in 1 phrase (طعم تغوص فيه, قرمشة أكثر)",
+      "ending": "Brand hashtag OR question (شرايكم؟) — NOT command (اطلب الآن is ok for F&B)",
+      "length": "30-80 chars optimal for Saudi audience. AlBaik top posts are SHORT."
     },
-    "brand_specific_fixes": {
-      "zara": "Replace تفضلوا with تعالوا. Less commercial, more personal.",
-      "mikyajy": "Replace تسحرني with يعجبني. Use للخروجات not عشان تجمعات.",
-      "albaik": "Keep current style — 5/5 dialect. Add more urgency (الحين, اليوم).",
-      "pizzahutsaudi": "Good dialect but needs storytelling hook before CTA."
-    },
-    "proven_patterns": [
-      "Product descriptor + emotional hook + question CTA",
-      "Short announcement + emoji + brand hashtag",
-      "Cultural moment + product tie-in + community invitation"
-    ],
-    "source": "GPT-4o critique of generated captions vs real high-engagement captions"
+    "brand_fixes": {
+      "zara": "Use تعالوا not تفضلوا. Reference السعودية specifically. Short captions.",
+      "mikyajy": "Use يعجبني not تسحرني. Use للخروجات not عشان تجمعات. Saudi beauty = modest + elegant.",
+      "pizzahutsaudi": "Copy AlBaik structure: product + hook + emoji. Current captions are too generic.",
+      "barnscoffee": "Good Saudi tone already. Add more الحين/الآن urgency."
+    }
   }
 }

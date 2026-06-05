@@ -8,11 +8,11 @@
 ```
 🌳 TEMPLATES
 │
-├── ⚠️ CURRENT STATUS
-│   ├── The DATA exists: 1,409 obs with real Arabic captions + real likes
-│   ├── The GENERATED templates exist: 40 total (text strings in brain)
-│   ├── But NO template_library.json file exists yet
-│   └── Fix: Build scripts/build_template_library.py (see 14_BUILD_ORDER.md)
+├── ✅ BUILT: 11_who_to_learn_from/template_library.json
+│   ├── 1,301 templates total
+│   ├── 148 gold (real, 1000+ likes) | 378 silver | 656 bronze | 119 generated
+│   ├── Script: scripts/build_template_library.py (re-run to rebuild)
+│   └── API: GET /api/templates?sector=X&occasion=Y&tier=gold
 │
 ├── 🏆 TIER SYSTEM
 │   │

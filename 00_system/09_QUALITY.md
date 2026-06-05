@@ -8,10 +8,10 @@
 ```
 🌳 QUALITY GATE
 │
-├── ⚠️ CURRENT STATE
-│   ├── Rules: defined in brain (quality_gate section)
-│   ├── Problem: scattered across scripts, not importable
-│   └── Fix needed: scripts/lib/quality_gate.py
+├── ✅ BUILT: scripts/lib/quality_gate.py — importable module
+│   ├── from lib.quality_gate import check, auto_fix, log_mistake
+│   ├── Tested: 21/21 brands pass | 24/24 generated captions pass
+│   └── API: POST /api/check
 │
 ├── 📊 SCORING SYSTEM
 │   ├── Total: 100 points

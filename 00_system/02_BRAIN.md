@@ -6,7 +6,7 @@
 
 ```
 🌳 BRAIN (intelligence_layer.json)
-│   Size: 82,458 bytes | Version: 3.0 | 18 sections
+│   Size: 82,458 bytes | Version: 3.0 | 18 sections | Last updated: 2026-06-05
 │   Philosophy: "Less but right. Context + guardrails. No wrong scores."
 │
 ├── [1] META
@@ -74,22 +74,24 @@
 │   │   URL: https://www.instagram.com/p/CxYczJBoGZr/
 │   └── Clickable proof for every example
 │
-├── [5] BRAND PROFILES — 39 profiles
+├── [5] BRAND PROFILES — 52 profiles ✅ FIXED
 │   │  Fields: sector, voice, tone[], language, arabic_style,
 │   │          signature_phrases[], best_format
-│   │  ⚠️ 3 use wrong sector names (beauty, retail)
-│   │  ⚠️ 8+ verified brands missing profiles
+│   │  ✅ All sectors canonical (beauty_personal_care, retail_lifestyle)
+│   │  ✅ All 23 verified brands have profiles
+│   │  ✅ 7 global brands marked language=bilingual (zara, hm, etc.)
 │   └── See 04_BRANDS.md for full details
 │
 ├── [6] OCCASION CALENDAR — 8 occasions
 │   └── See 05_OCCASIONS.md for full details
 │
-├── [7] SECTOR FACTS — 6 sectors
-│   │  ⚠️ STALE — numbers don't match current obs counts
-│   ├── f_and_b: says 1,607 obs (actual: 1,899)
-│   ├── retail: says 359 obs (actual: 723)
-│   ├── fashion: says 258 obs (actual: 523)
-│   └── beauty: says 320 obs (actual: 469)
+├── [7] SECTOR FACTS — 6 sectors ✅ REBUILT
+│   ├── f_and_b: 1,899 obs, 563 with likes, avg 785 likes
+│   ├── retail_lifestyle: 723 obs, 362 with likes, avg 172 likes
+│   ├── fashion: 523 obs, 346 with likes, avg 11,047 likes
+│   ├── beauty_personal_care: 469 obs, 138 with likes, avg 462 likes
+│   ├── healthcare_wellness: 89 obs, 0 with likes
+│   └── real_estate: 113 obs, 0 with likes
 │
 ├── [8] HONEST GAPS — 6 known limitations
 │   ├── Beauty: only 6% high engagement — intelligence weak
@@ -135,11 +137,11 @@
 │   ├── cultural_guardrails: PASS — but output was English ⚠️
 │   └── occasion_distinction: PASS — but wrong product name ⚠️
 │
-├── [15] BRAND PRODUCT NAMES — only 3 of 23 brands
-│   │  ⚠️ 20 brands MISSING
+├── [15] BRAND PRODUCT NAMES — all 23 brands ✅ FIXED
 │   ├── @albaik: correct=بروستد, wrong=[مشوي, مقلي, grilled]
 │   ├── @pizzahutsaudi: correct=بيتزا, wrong=[pizza]
-│   └── @barnscoffee: correct=قهوة مختصة, wrong=[coffee]
+│   ├── @barnscoffee: correct=قهوة مختصة, wrong=[coffee]
+│   └── + 20 more brands with auto-extracted product word lists
 │
 ├── [16] OCCASION REQUIRED WORDS — 6 occasions
 │   ├── founding_day: [تأسيس, يوم التأسيس]

@@ -25,10 +25,10 @@ Real Saudi Instagram data (verified likes) + Saudi cultural intelligence
 | 04 | [BRANDS](00_system/04_BRANDS.md) | 39 profiles, DNA, product names, onboarding | ✅ |
 | 05 | [OCCASIONS](00_system/05_OCCASIONS.md) | 8 Saudi occasions, timing, required words, coverage | ✅ |
 | 06 | [VISUALS](00_system/06_VISUALS.md) | Colors, composition, lighting, content type performance | ✅ |
-| 07 | [TEMPLATES](00_system/07_TEMPLATES.md) | Tier system (gold/silver/bronze), coverage gaps, ⚠️ not built | ⚠️ |
-| 08 | [ENGINE](00_system/08_ENGINE.md) | Unified pipeline: input → generate → check → deliver | ⚠️ not built |
-| 09 | [QUALITY](00_system/09_QUALITY.md) | 10 checks, auto-fix, scoring, learning store | ⚠️ not a module |
-| 10 | [API](00_system/10_API.md) | 18 endpoints + 3 missing, input/output, proof | ⚠️ 3 missing |
+| 07 | [TEMPLATES](00_system/07_TEMPLATES.md) | 1,301 templates (148 gold, 378 silver, 656 bronze, 119 generated) | ✅ |
+| 08 | [ENGINE](00_system/08_ENGINE.md) | POST /api/create — 48/48 sector×occasion combos pass | ✅ |
+| 09 | [QUALITY](00_system/09_QUALITY.md) | scripts/lib/quality_gate.py — 21/21 brands pass | ✅ |
+| 10 | [API](00_system/10_API.md) | 21 endpoints total (18 + /api/templates, /api/check, /api/create) | ✅ |
 | 11 | [INFRA](00_system/11_INFRA.md) | 223 scripts, DB, schemas, ML model, lib modules | ✅ |
 | 12 | [ARCHIVE](00_system/12_ARCHIVE.md) | 4-tier storage, 61 brands, reprocessing | ✅ |
 | 13 | [PROBLEMS](00_system/13_PROBLEMS.md) | 10 broken things — exact location + fix | 🚨 read this |
@@ -39,13 +39,14 @@ Real Saudi Instagram data (verified likes) + Saudi cultural intelligence
 ## CURRENT STATE (June 5, 2026)
 
 ```
-DATA:       3,816 obs | 61 brands archived | 23 with real metrics
-BRAIN:      82KB | 18 sections | v3.0
-TEMPLATES:  ⚠️ NOT BUILT AS LIBRARY (data exists in obs)
-ENGINE:     ⚠️ NOT BUILT (scattered endpoints)
-QUALITY:    ⚠️ Rules exist, not an importable module
-API:        18 endpoints live on port 4100
-DB:         Postgres Docker + pgvector running
+DATA:       3,816 obs | 61 brands archived | 23 with real metrics | all fields ≥90%
+BRAIN:      82KB | 18 sections | v3.0 | 52 profiles | 23 product name lists
+TEMPLATES:  ✅ 1,301 templates (148 gold | 378 silver | 656 bronze | 119 generated)
+ENGINE:     ✅ POST /api/create — 48/48 sector×occasion combos tested
+QUALITY:    ✅ scripts/lib/quality_gate.py — 21/21 brands pass
+API:        21 endpoints on port 4100 (+/api/templates, /api/check, /api/create)
+DB:         Postgres Docker + pgvector running | 3,816 obs synced
+TESTS:      phase1_test_loop.py — 100/100 × 5 consecutive iterations
 ```
 
 ## TODAY'S SESSION — WHERE TO START

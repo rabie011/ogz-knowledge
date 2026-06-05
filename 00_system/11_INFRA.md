@@ -1,0 +1,145 @@
+# 🏗️ INFRA TREE
+# 223 scripts, DB, schemas, ML model, lib modules
+# ← Back to [SYSTEM_MAP](../SYSTEM_MAP.md)
+
+---
+
+```
+🌳 INFRASTRUCTURE
+│
+├── 🔧 SCRIPTS: 223 Python files
+│   │
+│   ├── build_* (97 scripts) — analytics + intelligence builders
+│   │   ├── build_agent_context.py ← THE brain context builder (REUSE THIS)
+│   │   ├── build_brand_dna_profiles.py
+│   │   ├── build_caption_intelligence.py
+│   │   ├── build_caption_intelligence_by_sector.py
+│   │   ├── build_arabic_copywriting.py
+│   │   ├── build_arabic_copywriting_by_sector.py
+│   │   ├── build_account_archetypes.py
+│   │   ├── build_account_coach_reports.py
+│   │   ├── build_account_consistency.py
+│   │   ├── build_account_performance_analysis.py
+│   │   ├── build_account_similarity.py
+│   │   ├── build_account_themes_index.py
+│   │   ├── build_archetype_benchmark.py
+│   │   └── + 84 more
+│   │
+│   ├── extract_* (7 scripts) — data extraction
+│   │   ├── extract_account_obs.py ← MAIN extraction pipeline
+│   │   │   ├── Calls Apify → receives full JSON
+│   │   │   ├── Saves raw archive FIRST (before processing)
+│   │   │   ├── Stores likes_count, comments_count in content_ref
+│   │   │   ├── Content hash dedup (SHA-256)
+│   │   │   └── Validates schema before saving
+│   │   ├── extract_account_browser_api.py
+│   │   ├── extract_captions_instaloader.py
+│   │   └── + 4 more
+│   │
+│   ├── overnight_* (3 scripts) — automated batch pipelines
+│   │   ├── overnight_full_rebuild.py ← 7-phase pipeline
+│   │   │   Phase 1: re-extract accounts
+│   │   │   Phase 2: GPT-4o Vision on top images
+│   │   │   Phase 3: Deep Arabic caption NLP
+│   │   │   Phase 4: Rebuild brain with real data
+│   │   │   Phase 5: Analytics + DB sync
+│   │   │   Phase 6: Validate everything
+│   │   │   Phase 7: Commit + push
+│   │   ├── overnight_improver.py
+│   │   └── overnight_runner.py
+│   │
+│   ├── quality (4 scripts):
+│   │   ├── guard_data_quality.py — pre-commit guard
+│   │   ├── verify_ship_ready.py — 20+ checks (run before claiming done)
+│   │   ├── validate.py — JSON schema validator
+│   │   └── validate_all.py — validate all files
+│   │
+│   └── generate_* (15 scripts) — schema-based generators
+│       ├── generate_weekly_report.py
+│       ├── generate_brand_dna_gpt.py
+│       └── + 13 more
+│
+├── 📚 LIB MODULES (shared — always import, never rewrite)
+│   │
+│   ├── scripts/lib/normalize_gpt.py
+│   │   ├── CANONICAL_SECTORS:
+│   │   │   {f_and_b, beauty_personal_care, retail_lifestyle,
+│   │   │    fashion, real_estate, healthcare_wellness}
+│   │   ├── SECTOR_ALIASES:
+│   │   │   beauty→beauty_personal_care, retail→retail_lifestyle,
+│   │   │   food→f_and_b, fnb→f_and_b, wellness→healthcare_wellness
+│   │   ├── normalize_sector(raw) → canonical name
+│   │   ├── normalize_obs_fields(d) → fix all enum fields
+│   │   └── Enum maps: CONFIDENCE, ENGAGEMENT, COMPLIANCE, QUALITY, LANGUAGE, CONTENT_TYPE
+│   │
+│   ├── scripts/lib/engagement.py
+│   │   ├── HIGH: total ≥ 500 OR rate ≥ 3.0%
+│   │   ├── MEDIUM: total ≥ 100 OR rate ≥ 1.0%
+│   │   ├── LOW: below medium
+│   │   ├── calculate_engagement(likes, comments, followers) → dict
+│   │   └── tier_from_total(total) → "high"|"medium"|"low"
+│   │
+│   └── ⚠️ NEEDED: scripts/lib/quality_gate.py (see 09_QUALITY.md)
+│
+├── 🗃️ DATABASE
+│   │
+│   ├── Type: PostgreSQL with pgvector
+│   ├── Running: Docker container (local)
+│   ├── Port: standard Postgres
+│   │
+│   ├── 4 Migrations (13_database/migrations/):
+│   │   ├── 0001_initial_schema.sql (10,805 chars) — tables
+│   │   ├── 0002_rls_policies.sql (4,796 chars) — Row-Level Security
+│   │   ├── 0003_materialized_views.sql (2,961 chars) — performance
+│   │   └── 0004_indexes.sql (2,203 chars) — ULID + JSON indexes
+│   │
+│   ├── Sync to Supabase: python3 sync_to_supabase.py --execute
+│   │
+│   └── pgvector: semantic search on observation embeddings
+│
+├── 🤖 ML MODEL
+│   ├── models/engagement_model.pkl — 832KB trained model
+│   ├── models/engagement_features.json — 52KB feature definitions
+│   ├── Used by: POST /api/score endpoint
+│   └── Trained on: obs data with real engagement labels
+│
+├── 📋 14 JSON SCHEMAS (12_data_shapes/)
+│   ├── observation_v1.schema.json ← most important
+│   ├── provenance_mixin_v1.schema.json ← in EVERY record
+│   ├── brand_fingerprint_v1.schema.json
+│   ├── sector_aliases.json ← canonical sector names
+│   ├── cultural_spec_v1.schema.json (80 fields)
+│   ├── chain_v1.schema.json
+│   ├── cd_brain_v1.schema.json
+│   ├── occasion_v1.schema.json
+│   ├── sector_baseline_v1.schema.json
+│   ├── benchmark_account_v1.schema.json
+│   ├── campaign_archive_v1.schema.json
+│   ├── generation_event_v1.schema.json
+│   ├── outcome_event_v1.schema.json
+│   └── account_pattern_v1.schema.json
+│
+└── 📊 ANALYTICS REPORTS (logs/ — 130+ files, 55MB+)
+    ├── Key files:
+    │   ├── pattern_embeddings.json: 38.7MB
+    │   ├── content_health_scores.json: 1.2MB
+    │   ├── competitive_gap.json: 186KB
+    │   └── intelligence_playbook.json: 85KB
+    └── Generated by: python3 scripts/run_all_analytics.py --fast
+```
+
+---
+
+## KEY PATHS
+
+```
+Repo root:          ~/Desktop/ogz-knowledge/
+Brain:              ~/Desktop/ogz-knowledge/11_who_to_learn_from/intelligence_layer.json
+Observations:       ~/Desktop/ogz-knowledge/11_who_to_learn_from/observations/
+Raw archive:        ~/Desktop/ogz-knowledge/11_who_to_learn_from/_raw_archive/
+Scripts:            ~/Desktop/ogz-knowledge/scripts/
+API server:         ~/Desktop/ogz-knowledge/api/server.py
+Lib modules:        ~/Desktop/ogz-knowledge/scripts/lib/
+Learning store:     ~/Desktop/ogz-knowledge/logs/learning_store.jsonl
+ML model:           ~/Desktop/ogz-knowledge/models/engagement_model.pkl
+```

@@ -107,15 +107,40 @@ def check(text: str, brand: str = None, occasion: str = 'evergreen') -> dict:
         checks.append({'check': 'product_name', 'passed': True, 'weight': 20, 'detail': 'OK'})
 
     # ── Check 2: Brand hashtag present ───────────────────────────────────
+    # Pass if: any signature phrase found, OR any hashtag contains brand name,
+    # OR brand has no signature_phrases defined (can't enforce unknown hashtags)
     sig_phrases = profile.get('signature_phrases', [])
-    hashtag_present = any(p in text for p in sig_phrases) if sig_phrases else True
-    if not hashtag_present and sig_phrases:
-        checks.append({'check': 'brand_hashtag', 'passed': False, 'weight': 15,
-                        'detail': f'Missing: {sig_phrases[:2]}'})
-        fixes.append('brand_hashtag')
+    hashtags_in_text = re.findall(r'#\S+', text)
+
+    def _hashtag_matches_brand(brand_handle, hashtags):
+        """Check if any hashtag in text is related to the brand."""
+        if not brand_handle: return False
+        name_parts = brand_handle.lower().replace('_', '').replace('.', '')
+        for tag in hashtags:
+            tag_clean = tag.lstrip('#').lower().replace('_', '')
+            if name_parts in tag_clean or tag_clean in name_parts:
+                return True
+        return False
+
+    if not sig_phrases:
+        # No phrases defined — pass if any hashtag present
+        hashtag_present = bool(hashtags_in_text)
+        checks.append({'check': 'brand_hashtag', 'passed': hashtag_present, 'weight': 15,
+                        'detail': f'No phrases defined — {"hashtag found" if hashtag_present else "no hashtag"}'})
+        if not hashtag_present:
+            fixes.append('brand_hashtag')
     else:
-        checks.append({'check': 'brand_hashtag', 'passed': True, 'weight': 15,
-                        'detail': f'Found or no hashtag defined'})
+        # Check exact match OR brand-name match
+        exact_match = any(p in text for p in sig_phrases)
+        brand_match = _hashtag_matches_brand(brand, hashtags_in_text)
+        if exact_match or brand_match:
+            matched = [p for p in sig_phrases if p in text] or ['brand-name match']
+            checks.append({'check': 'brand_hashtag', 'passed': True, 'weight': 15,
+                            'detail': f'Found: {matched[:2]}'})
+        else:
+            checks.append({'check': 'brand_hashtag', 'passed': False, 'weight': 15,
+                            'detail': f'Missing brand hashtag (expected one of: {sig_phrases[:2]})'})
+            fixes.append('brand_hashtag')
 
     # ── Check 3: Saudi markers present ───────────────────────────────────
     saudi_found = [w for w in SAUDI_USE if w in text]

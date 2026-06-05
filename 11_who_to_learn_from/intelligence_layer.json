@@ -1827,5 +1827,25 @@
       "pizzahutsaudi": "Copy AlBaik structure: product + hook + emoji. Current captions are too generic.",
       "barnscoffee": "Good Saudi tone already. Add more الحين/الآن urgency."
     }
+  },
+  "caption_method": {
+    "approach": "style_transfer",
+    "description": "Use real high-engagement Saudi captions as structural templates. Adapt the product/occasion, keep the structure. Never generate Arabic from scratch.",
+    "why": "GPT generates Arabic with English structure. 45% dialect accuracy when generating freely. Style transfer from real templates preserves authentic Saudi sentence flow.",
+    "process": [
+      "1. Load top 10 real captions for this brand (sorted by likes)",
+      "2. Pass them as TEMPLATES to the LLM",
+      "3. Ask LLM to ADAPT the structure for the new product/occasion",
+      "4. LLM copies word order, punctuation, hashtag placement from templates",
+      "5. Validate: check for MSA words, check brand name correct, check length"
+    ],
+    "rules": [
+      "NEVER ask GPT to generate Saudi Arabic from scratch",
+      "ALWAYS provide 5-10 real captions as structural templates",
+      "Real captions = sentence structure guide, not content to copy",
+      "Product/brand name must appear in first 5 words",
+      "Hashtag must be woven INTO the sentence, not appended",
+      "Max 80 chars — Saudi top posts are SHORT"
+    ]
   }
 }

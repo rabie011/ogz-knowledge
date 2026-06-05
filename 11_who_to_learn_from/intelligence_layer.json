@@ -1700,5 +1700,46 @@
       "source": "GPT-4o Vision on 86-like post image"
     },
     "visual_insight": "AlBaik uses dramatic studio lighting with bold product focus. PizzaHut uses flat natural lighting with generic lifestyle framing. 190x engagement difference."
+  },
+  "arabic_quality_rules": {
+    "gulf_dialect_markers": {
+      "use": [
+        "شرايكم",
+        "منو",
+        "وش",
+        "شنو",
+        "خلك",
+        "تعالوا",
+        "حلو",
+        "مزة",
+        "يفتح النفس"
+      ],
+      "avoid": [
+        "تسحرني (literary)",
+        "تفضلوا (formal)",
+        "المناسبات (MSA)",
+        "هيا بنا (Egyptian)",
+        "رائع (MSA)"
+      ],
+      "note": "Real Gulf Arabic uses short, punchy phrases. Formal MSA kills engagement."
+    },
+    "caption_structure": {
+      "opening": "Start with product/experience, not generic greeting",
+      "middle": "One sentence connecting to emotion or occasion",
+      "ending": "Question (شرايكم؟ منو جرب؟) or invitation — NOT command (اطلب الآن)",
+      "length": "50-120 chars optimal. Over 150 chars = engagement drops."
+    },
+    "brand_specific_fixes": {
+      "zara": "Replace تفضلوا with تعالوا. Less commercial, more personal.",
+      "mikyajy": "Replace تسحرني with يعجبني. Use للخروجات not عشان تجمعات.",
+      "albaik": "Keep current style — 5/5 dialect. Add more urgency (الحين, اليوم).",
+      "pizzahutsaudi": "Good dialect but needs storytelling hook before CTA."
+    },
+    "proven_patterns": [
+      "Product descriptor + emotional hook + question CTA",
+      "Short announcement + emoji + brand hashtag",
+      "Cultural moment + product tie-in + community invitation"
+    ],
+    "source": "GPT-4o critique of generated captions vs real high-engagement captions"
   }
 }

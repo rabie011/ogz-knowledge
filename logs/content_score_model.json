@@ -17,7 +17,7 @@
     "hospitality_cues": 0.02
   },
   "min_obs_threshold": 3,
-  "total_signals_loaded": 1442,
+  "total_signals_loaded": 1440,
   "signal_dimensions": [
     "pattern",
     "occasion",
@@ -30,9 +30,9 @@
     "brand_consistency",
     "dialect",
     "media_type",
-    "sector",
     "heritage_vs_modern",
-    "production_quality"
+    "production_quality",
+    "sector"
   ],
   "signal_lookup": {
     "pattern": {
@@ -8613,56 +8613,6 @@
         "verdict": "weak"
       }
     },
-    "sector": {
-      "retail": {
-        "high_eng_rate": 0.625,
-        "obs_count": 8,
-        "confidence": 0.533,
-        "verdict": "positive"
-      },
-      "f_and_b": {
-        "high_eng_rate": 0.369,
-        "obs_count": 1591,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
-      "beauty": {
-        "high_eng_rate": 0.333,
-        "obs_count": 30,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
-      "healthcare_wellness": {
-        "high_eng_rate": 0.258,
-        "obs_count": 89,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
-      "fashion": {
-        "high_eng_rate": 0.233,
-        "obs_count": 258,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
-      "retail_lifestyle": {
-        "high_eng_rate": 0.068,
-        "obs_count": 351,
-        "confidence": 1.0,
-        "verdict": "avoid"
-      },
-      "beauty_personal_care": {
-        "high_eng_rate": 0.034,
-        "obs_count": 290,
-        "confidence": 1.0,
-        "verdict": "avoid"
-      },
-      "real_estate": {
-        "high_eng_rate": 0.027,
-        "obs_count": 113,
-        "confidence": 1.0,
-        "verdict": "avoid"
-      }
-    },
     "heritage_vs_modern": {
       "blended": {
         "high_eng_rate": 0.46,
@@ -8711,6 +8661,44 @@
       "low": {
         "high_eng_rate": 0.0,
         "obs_count": 351,
+        "confidence": 1.0,
+        "verdict": "avoid"
+      }
+    },
+    "sector": {
+      "f_and_b": {
+        "high_eng_rate": 0.369,
+        "obs_count": 1591,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "healthcare_wellness": {
+        "high_eng_rate": 0.258,
+        "obs_count": 89,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "fashion": {
+        "high_eng_rate": 0.233,
+        "obs_count": 258,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "retail_lifestyle": {
+        "high_eng_rate": 0.081,
+        "obs_count": 359,
+        "confidence": 1.0,
+        "verdict": "avoid"
+      },
+      "beauty_personal_care": {
+        "high_eng_rate": 0.062,
+        "obs_count": 320,
+        "confidence": 1.0,
+        "verdict": "avoid"
+      },
+      "real_estate": {
+        "high_eng_rate": 0.027,
+        "obs_count": 113,
         "confidence": 1.0,
         "verdict": "avoid"
       }

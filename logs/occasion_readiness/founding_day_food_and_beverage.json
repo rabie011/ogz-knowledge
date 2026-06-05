@@ -3,87 +3,112 @@
   "sector": "food_and_beverage",
   "sector_key": "f_and_b",
   "corpus_data": {
-    "obs_in_corpus": 13,
-    "avg_engagement": 0.923,
-    "high_eng_count": 11,
-    "low_eng_count": 2
+    "obs_in_corpus": 21,
+    "avg_engagement": 0.619,
+    "high_eng_count": 12,
+    "low_eng_count": 9
   },
   "winning_signals": [
+    {
+      "dimension": "visual_complexity",
+      "value": "moderate",
+      "count": 7,
+      "pct": 0.583
+    },
     {
       "dimension": "content_type",
       "value": "image",
       "count": 6,
-      "pct": 0.545
+      "pct": 0.5
     },
     {
       "dimension": "composition",
       "value": "product_hero_closeup",
       "count": 6,
-      "pct": 0.545
+      "pct": 0.5
     },
     {
-      "dimension": "visual_complexity",
-      "value": "moderate",
+      "dimension": "tone",
+      "value": "celebratory",
       "count": 6,
-      "pct": 0.545
+      "pct": 0.5
     },
     {
       "dimension": "hvm",
       "value": "heritage",
       "count": 6,
-      "pct": 0.545
+      "pct": 0.5
+    },
+    {
+      "dimension": "setting",
+      "value": "restaurant",
+      "count": 5,
+      "pct": 0.417
+    },
+    {
+      "dimension": "lighting",
+      "value": "natural",
+      "count": 5,
+      "pct": 0.417
     },
     {
       "dimension": "visual_complexity",
       "value": "simple",
       "count": 5,
-      "pct": 0.455
-    },
-    {
-      "dimension": "tone",
-      "value": "celebratory",
-      "count": 5,
-      "pct": 0.455
-    },
-    {
-      "dimension": "setting",
-      "value": "restaurant",
-      "count": 4,
-      "pct": 0.364
-    },
+      "pct": 0.417
+    }
+  ],
+  "losing_signals": [
     {
       "dimension": "lighting",
       "value": "natural",
-      "count": 4,
-      "pct": 0.364
+      "count": 7,
+      "pct": 0.778
+    },
+    {
+      "dimension": "visual_complexity",
+      "value": "simple",
+      "count": 7,
+      "pct": 0.778
+    },
+    {
+      "dimension": "composition",
+      "value": "text_dominant",
+      "count": 6,
+      "pct": 0.667
+    },
+    {
+      "dimension": "content_type",
+      "value": "image",
+      "count": 5,
+      "pct": 0.556
     }
   ],
-  "losing_signals": [],
   "top_patterns": [
     {
       "pattern": "founding_day_dirayyah_heritage",
       "count": 5,
-      "pct": 0.455
+      "pct": 0.417
     },
     {
       "pattern": "f_and_b_beverage",
       "count": 5,
-      "pct": 0.455
+      "pct": 0.417
     },
     {
       "pattern": "national_day_campaign",
       "count": 3,
-      "pct": 0.273
+      "pct": 0.25
     },
     {
       "pattern": "brand_promotional",
       "count": 2,
-      "pct": 0.182
+      "pct": 0.167
     },
     {
       "pattern": "close_up_macro_texture",
       "count": 2,
-      "pct": 0.182
+      "pct": 0.167
     }
   ],
   "top_phrases_in_winners": [
@@ -106,14 +131,16 @@
     "hashtag_count": "1-5",
     "patterns": [],
     "phrases_to_use": [
-      "الحمد لله الذي أنعم علينا شرف خدمة ضيوف الرحمن",
-      "من تتوقع يحسمها ويطير للنهائي",
-      "فولو ولايك وعطنا توقعك المحنك"
+      "#يوم_التأسيس_السعودي",
+      "#حاشي_باشا",
+      "#ممزورلد"
     ],
     "hospitality_cues": []
   },
   "red_flags": [
     "AVOID format: carousel_slide (75% eng for this occasion)",
+    "AVOID: lighting=natural (found in 77% of low-eng posts)",
+    "AVOID: visual_complexity=simple (found in 77% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
     "AVOID: video format if images/carousels are viable — video underperforms"
   ],
@@ -141,10 +168,10 @@
     "format_matrix_best": "image",
     "occasion_patterns": [],
     "occasion_phrases": [
-      "الحمد لله الذي أنعم علينا شرف خدمة ضيوف الرحمن",
-      "من تتوقع يحسمها ويطير للنهائي",
-      "فولو ولايك وعطنا توقعك المحنك",
-      "وبنسحب 30 فايز نغديهم بكرة"
+      "#يوم_التأسيس_السعودي",
+      "#حاشي_باشا",
+      "#ممزورلد",
+      "#mumzworld"
     ],
     "hospitality_cues": [],
     "playbook_obs_count": 27

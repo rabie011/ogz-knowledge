@@ -152,6 +152,34 @@
             null
           ],
           "description": "Day of week the content was posted (derived from capture_date)"
+        },
+        "likes_count": {
+          "type": ["integer", "null"],
+          "description": "Real likes count from Apify extraction"
+        },
+        "comments_count": {
+          "type": ["integer", "null"],
+          "description": "Real comments count from Apify extraction"
+        },
+        "engagement_total": {
+          "type": ["integer", "null"],
+          "description": "likes_count + comments_count"
+        },
+        "followers_at_capture": {
+          "type": ["integer", "null"],
+          "description": "Account followers at time of extraction"
+        },
+        "engagement_rate": {
+          "type": ["number", "null"],
+          "description": "engagement_total / followers_at_capture"
+        },
+        "display_url": {
+          "type": ["string", "null"],
+          "description": "Instagram display image URL from Apify"
+        },
+        "video_url": {
+          "type": ["string", "null"],
+          "description": "Instagram video URL from Apify"
         }
       }
     },
@@ -734,6 +762,10 @@
             "medium",
             "low"
           ]
+        },
+        "engagement_method": {
+          "type": ["string", "null"],
+          "description": "How engagement_potential was determined (e.g. below_all_thresholds, rate_based, total_based)"
         }
       }
     },

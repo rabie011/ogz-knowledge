@@ -2,9 +2,15 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://ogz-knowledge/schemas/provenance_mixin_v1.schema.json",
   "title": "Provenance Mixin v1",
-  "description": "Universal provenance fields embedded in every record. Non-negotiable per CONVENTIONS.md §3.",
+  "description": "Universal provenance fields embedded in every record. Non-negotiable per CONVENTIONS.md \u00a73.",
   "type": "object",
-  "required": ["source", "date_added", "confirmer", "confidence", "scope"],
+  "required": [
+    "source",
+    "date_added",
+    "confirmer",
+    "confidence",
+    "scope"
+  ],
   "additionalProperties": false,
   "properties": {
     "source": {
@@ -24,7 +30,11 @@
     },
     "confidence": {
       "type": "string",
-      "enum": ["confirmed", "inferred", "experimental"],
+      "enum": [
+        "confirmed",
+        "inferred",
+        "experimental"
+      ],
       "description": "confirmed = validated by human authority OR proven through repeated production. inferred = extracted from data signal but not human-validated. experimental = initial seed, not yet validated in production."
     },
     "scope": {
@@ -45,6 +55,10 @@
       "type": "string",
       "format": "date-time",
       "description": "ISO 8601 UTC timestamp of last verification. Set to date_added initially, updated on re-verification."
+    },
+    "metrics_source": {
+      "type": "string",
+      "description": "Source of engagement metrics (apify_raw_archive, ai_estimated)"
     }
   }
 }

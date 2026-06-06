@@ -1,11 +1,20 @@
 {
   "meta": {
     "name": "OGZ Intelligence Layer — Thin Brain",
-    "version": "3.0",
+    "version": "4.0",
     "philosophy": "Less but right. Cultural guardrails + real metrics + reference examples. No wrong scores, no bad rules.",
     "generated_at": "2026-06-04T23:26:04.387421",
-    "updated_at": "2026-06-05T18:24:51.565860",
-    "real_metrics_brands": 23
+    "updated_at": "2026-06-06T01:34:28.575170+00:00",
+    "real_metrics_brands": 23,
+    "v4_additions": [
+      "template_library.json — 1,301+ templates",
+      "quality_gate module — scripts/lib/quality_gate.py",
+      "unified pipeline — POST /api/create",
+      "product names for all 23 brands",
+      "caption_intelligence expanded to 7 brands",
+      "white_friday + singles_day occasions added",
+      "deep_test_loop pass 1: 7,596 runs, 99.9% pass rate"
+    ]
   },
   "cultural_guardrails": {
     "forbidden_gestures": [
@@ -1809,6 +1818,44 @@
       "months": "Jun-Jul",
       "content_approach": "Coastal, relaxed, summer vibes.",
       "arabic": "موسم جدة"
+    },
+    "white_friday": {
+      "type": "commercial",
+      "duration": "1-4 days",
+      "content_approach": "Big sale urgency — countdown, price drops, limited stock. Saudi version of Black Friday. High purchase intent. Direct CTAs.",
+      "arabic": "الجمعة البيضاء",
+      "timing": "November (Friday before or after Nov 11)",
+      "key_themes": [
+        "خصومات",
+        "عروض",
+        "تسوق",
+        "وفّر",
+        "محدود"
+      ],
+      "forbidden": [
+        "religious imagery",
+        "misleading prices"
+      ],
+      "notes": "Commercial occasion — strong price/deal focus. Retail + F&B both active."
+    },
+    "singles_day": {
+      "type": "commercial",
+      "duration": "1 day (Nov 11)",
+      "content_approach": "11.11 — biggest online sale day. Young audience, digital-native. Self-gifting angle common in Saudi. Deal stacking, countdown urgency.",
+      "arabic": "يوم العزّاب",
+      "timing": "November 11",
+      "key_themes": [
+        "١١.١١",
+        "عروض",
+        "خصم",
+        "اطلب",
+        "وفّر"
+      ],
+      "forbidden": [
+        "family gifting angle (it's self-gifting)",
+        "religious imagery"
+      ],
+      "notes": "Adopted from Chinese 11.11. Strong in e-commerce. Self-care angle works for beauty/fashion."
     }
   },
   "sector_facts": {
@@ -1903,6 +1950,115 @@
         "Interactive questions (إيش يكون مكونك المفضل؟)"
       ],
       "source": "GPT-4o comparative analysis against AlBaik winning formula"
+    },
+    "barnscoffee": {
+      "obs_count": 20,
+      "top_likes": 4711,
+      "avg_likes_high_tier": 2291,
+      "proven_openers": [
+        "⁨\t⁨\t⁨\tلا تفوّتوا فرصتكم والعبوا معنا واحصلوا على فرصة الفوز ",
+        "لكل امرأة تكتب قصة نجاحها بطريقتها.​",
+        "-",
+        "⁨\tمن طبعنا الكرم وحب المشاركة ",
+        "قهوة اليوم بعرض جبار 🔥☕​"
+      ],
+      "proven_hashtags": [
+        "#بارنز",
+        "#مننا_ويفهم_جونا",
+        "#يوم_المرأة",
+        "#مننا_يفهم_جونا"
+      ],
+      "high_style": "⁨\t⁨\t⁨\tلا تفوّتوا فرصتكم والعبوا معنا واحصلوا على فرصة الفوز بـ​ COUNTRYMAN​ 😍\n\nهذه المسابقة  بالشراكة مع MINI 💜❄️​⁩\n\nملاحظة: بياناتك ما تكمل .. الا بف",
+      "low_style": "",
+      "source": "auto_extracted_from_real_obs"
+    },
+    "tamimimarkets": {
+      "obs_count": 20,
+      "top_likes": 2522,
+      "avg_likes_high_tier": 2036,
+      "proven_openers": [
+        "مقابلة خفيفة مع أبطال القادسية 😉",
+        "اعشق الكبدة بهذي الطريقة تكون مقلية مع خلطة لذيذة ومتسبككة ص",
+        "فرع \"التميمي جارك\" الجديد موجود في حي التحلية بالخبر 🤩",
+        "⁨\tاول وصفة من سلسة وصفات Skincare خروف العييد! سويت لكم الذ ",
+        "احس لو بمدح لكم هذي الشوربة بتعب من كثر ماهي لذيييذة ومفيدة "
+      ],
+      "proven_hashtags": [
+        "#اسواق_التميمي",
+        "#نادي_القادسية",
+        "#fyp",
+        "#foryou",
+        "#التميمي"
+      ],
+      "high_style": "مقابلة خفيفة مع أبطال القادسية 😉\nA casual chat with the stars of Al-Qadsiah\n@fcqadsiah\n#اسواق_التميمي #نادي_القادسية #fyp #foryou #التميمي",
+      "low_style": "",
+      "source": "auto_extracted_from_real_obs"
+    },
+    "mikyajy": {
+      "obs_count": 20,
+      "top_likes": 48464,
+      "avg_likes_high_tier": 16898,
+      "proven_openers": [
+        "#يوم_المرأة_الإماراتية ",
+        "كود الخصم حقي ALJ20 😍🤍🤍🪄",
+        "24 درجه من احمر الشفاه من @mikyajy اكتشفي لونك المفضل ",
+        "‎صباياااا، تفقدوا مجموعة الأساسيات الجامعية لدينا 🩷 ",
+        "‎لا تمشي، اركضي إلى تخفيضات مكياجي! احصلي على خصم من 25% إلى"
+      ],
+      "proven_hashtags": [
+        "#Mikyajy",
+        "#HighPerformanceBeauty",
+        "#SaudiBrand",
+        "#CleanBeauty",
+        "#SaudiBeauty"
+      ],
+      "high_style": "#يوم_المرأة_الإماراتية \n.\n.\nلوك خفيف خاص بيوم المرأة الاماراتية مع ارواج @mikyajy \n.\n.\nالمرأة الاماراتية ملهمة في جميع المجالات 🙏🇦🇪 وكل مجال يناسب شخص",
+      "low_style": "",
+      "source": "auto_extracted_from_real_obs"
+    },
+    "mcdonaldsksa": {
+      "obs_count": 20,
+      "top_likes": 4238,
+      "avg_likes_high_tier": 3621,
+      "proven_openers": [
+        "الأيفونات بانتظاركم وجبناها لين عندكم! 📱🎁 ركز في الصورة، جاو",
+        "⁨\t#ماك_يعايدكم بأيفونات جديدة! 📱✨ ",
+        "⁨\tمسك الختام وأقوى فرصة للفوز بالأيفون! 📱🏁 ",
+        "عيش التجربة مع الاساطير في ماكدونالدز من قلب #كأس_العالم! 🏆 ",
+        "⁨\t⁨\t⁨#ماكدونالدز يشارككم فرحة العيد بعروض تسعدكم✨🤩"
+      ],
+      "proven_hashtags": [
+        "#ماك_يعايدكم",
+        "#حصريا",
+        "#كأس_العالم",
+        "#ماكدونالدز",
+        "#اكبر_من_جوعك"
+      ],
+      "high_style": "الأيفونات بانتظاركم وجبناها لين عندكم! 📱🎁 ركز في الصورة، جاوب على السؤال، وطبق الشروط عشان تدخل السحب.. الهمة يا كبير! 💪💥\n\nشروط دخول السحب على الأيفون",
+      "low_style": "حفلة تخرج طفلك جاية؟ خلّها علينا! ✨🎈\n\nداخل صالاتنا المجهزة بالكامل 🥳 أو برا المطعم نجيك وين ما كنت بكامل عدتنا ووجباتنا! 🚗💨 فعاليات ووناسة وضحكة من ال",
+      "source": "auto_extracted_from_real_obs"
+    },
+    "hashibasha": {
+      "obs_count": 20,
+      "top_likes": 1158,
+      "avg_likes_high_tier": 1158,
+      "proven_openers": [
+        "عروض تكفي وتوفّي!",
+        "شيء واحد مضمون... بتخلص وجبتك وانت سعيد!",
+        "حاشي باشا.. يعرفك طعم الكبسة الصح!🔥",
+        "مضغوط دجاج مع كل الاضافات اللي تحبها .",
+        "طبقك المفضل ما يكمل الّا مع السلطة!"
+      ],
+      "proven_hashtags": [
+        "#حاشي_باشا",
+        "#نكهة_سعودية",
+        "#تريبل_دجاج_الباشا",
+        "#تريبل_دجاج",
+        "#دبل_حاشي"
+      ],
+      "high_style": "عروض تكفي وتوفّي!\nطعم يحبه قلبك، وجبة مشبعة... وسعر ما يتكرر. لا تفوتونها!\n\n#تريبل_دجاج_الباشا #تريبل_دجاج #دبل_حاشي #دبل_المتعة #دبل_اللذة #لمتنا_غير",
+      "low_style": "اذا كنت تنتظر اللقمه الأولى بشغف! \n😋🍛\n \n\n#حاشي_باشا \n#نكهة_سعودية \n#رحلة_طعم",
+      "source": "auto_extracted_from_real_obs"
     }
   },
   "visual_intelligence": {
@@ -2474,6 +2630,24 @@
     "hajj_season": [
       "حج",
       "الحرم"
+    ],
+    "riyadh_season": [
+      "موسم الرياض",
+      "موسم"
+    ],
+    "jeddah_season": [
+      "موسم جدة",
+      "موسم"
+    ],
+    "white_friday": [
+      "الجمعة البيضاء",
+      "خصم",
+      "عروض"
+    ],
+    "singles_day": [
+      "١١.١١",
+      "11.11",
+      "يوم العزاب"
     ]
   },
   "quality_gate": {

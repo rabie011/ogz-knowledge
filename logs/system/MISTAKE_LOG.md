@@ -42,3 +42,19 @@
   Multiple sessions spent re-exploring state instead of building.
   Fix: Created CURSOR.md in ~/claude_operator_state/ — updated at session end,
   read first at session start. Session-start.sh now prints it automatically.
+
+## 2026-06-05 23:28 UTC — PASS 24 HIGH FAILURE FLAGS
+- [HIGH FAILURE] exception:TimeoutError:timed out: 100.0% failure rate — review brain rules
+
+
+## 2026-06-05 23:59 UTC — PASS 31 HIGH FAILURE FLAGS
+- [HIGH FAILURE] exception:TimeoutError:timed out: 100.0% failure rate — review brain rules
+
+
+## 2026-06-06 00:04 UTC — PASS 32 HIGH FAILURE FLAGS
+- [HIGH FAILURE] exception:TimeoutError:timed out: 100.0% failure rate — review brain rules
+
+
+## 2026-06-06 00:10 UTC — PASS 33 HIGH FAILURE FLAGS
+- [HIGH FAILURE] exception:TimeoutError:timed out: 100.0% failure rate — review brain rules
+

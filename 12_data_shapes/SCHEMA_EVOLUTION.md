@@ -25,6 +25,7 @@ All schemas in this folder are versioned (`schema_version: 1`). These rules gove
 | observation_v1 | 1 | 2026-05-14 | Initial schema — 80+ fields |
 | chain_v1 | 1 | 2026-05-14 | Initial — 23 TF families |
 | All others | 1 | 2026-05-14 | Initial versions |
+| observation_v1 | 1.1 (additive) | 2026-06-06 | Added 8 optional fields to content_ref (likes_count, comments_count, engagement_total, followers_at_capture, engagement_rate, display_url, video_url) and 1 to quality_assessment (engagement_method). All optional. No migration needed — backward compatible. validate_all.py: 40 errors → 0. |
 
 ## When to Bump
 

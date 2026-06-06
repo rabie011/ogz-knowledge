@@ -21,6 +21,7 @@ Usage:
 from __future__ import annotations
 import argparse, json, os, sys, time, signal
 from collections import defaultdict, Counter
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
 import urllib.request
@@ -44,6 +45,7 @@ LEARNING_RELOAD_EVERY  = 50   # re-read mistakes every N runs
 REPORT_EVERY           = 200  # print batch summary every N runs
 CHECKPOINT_EVERY       = 100  # save checkpoint every N runs
 PASS_THRESHOLD         = 70   # score >= this = passing
+CONCURRENCY            = 5    # parallel API calls — keeps total time ~5 min per pass
 
 # Full 23 verified brands from real_metrics
 ALL_BRANDS = [
@@ -406,12 +408,15 @@ def main():
 
     print(f"{'='*60}")
     print(f"OGZ DEEP TEST LOOP")
+    est_minutes = total_planned * 2 / CONCURRENCY / 60
     print(f"  Brands:    {len(brands)}")
     print(f"  Occasions: {len(occasions)}")
     print(f"  Types:     {len(CONTENT_TYPES)}")
     print(f"  Combos:    {len(combos)}")
     print(f"  Iter each: {args.iterations}")
     print(f"  Total:     {total_planned} API calls planned")
+    print(f"  Concurrency: {CONCURRENCY} parallel calls")
+    print(f"  Est. time: ~{est_minutes:.0f} min")
     print(f"  Results → {RESULTS_FILE}")
     print(f"{'='*60}\n")
 
@@ -436,27 +441,36 @@ def main():
     recent_mistakes: list[str] = load_recent_mistakes()
     occasion_passing: dict[str, int] = defaultdict(int, checkpoint.get("occasion_passing_counts", {}))
 
-    for brand, occasion, content_type in combos:
-        if _shutdown:
-            break
+    # Build full task list — (brand, occasion, content_type, iteration)
+    tasks = [
+        (brand, occ, ct, i)
+        for brand, occ, ct in combos
+        if f"{brand}_{occ}_{ct}_{args.iterations}" not in completed_keys or not args.resume
+        for i in range(1, args.iterations + 1)
+    ]
+    print(f"  Tasks queued: {len(tasks)} (concurrency={CONCURRENCY})\n")
 
-        combo_key = f"{brand}_{occasion}_{content_type}_{args.iterations}"
-        if combo_key in completed_keys and args.resume:
-            continue
-
+    def run_task(task):
+        brand, occasion, content_type, iteration = task
         product = BRAND_PRODUCTS.get(brand, "منتج")
+        result = call_create(brand, product, occasion, recent_mistakes)
+        result["iteration"] = iteration
+        result["content_type"] = content_type
+        return result
 
-        for i in range(1, args.iterations + 1):
+    with ThreadPoolExecutor(max_workers=CONCURRENCY) as pool:
+        futures = {pool.submit(run_task, t): t for t in tasks}
+        for future in as_completed(futures):
             if _shutdown:
                 break
 
-            result = call_create(brand, product, occasion, recent_mistakes)
-            result["iteration"] = i
-            result["content_type"] = content_type
+            result = future.result()
             append_result(result)
             batch_results.append(result)
-
             run_count += 1
+
+            brand    = result["brand"]
+            occasion = result["occasion"]
 
             # Track occasion passing
             if result["passed"]:
@@ -469,7 +483,7 @@ def main():
 
             # Progress line
             status = "✅" if result["passed"] else "❌"
-            print(f"  [{run_count:>5}] {status} {brand:<20} {occasion:<20} "
+            print(f"  [{run_count:>5}/{len(tasks)}] {status} {brand:<20} {occasion:<18} "
                   f"score={result['score']:>3} tier={result['template_tier']:<10} {result['ms']}ms")
 
             # Reload mistakes every N runs
@@ -497,9 +511,10 @@ def main():
                 checkpoint["occasion_passing_counts"] = dict(occasion_passing)
                 save_checkpoint(checkpoint)
 
-        # Mark combo complete
-        completed_keys.add(combo_key)
-        checkpoint["completed_combos"] = list(completed_keys)
+    # Mark all combos complete
+    for brand, occ, ct in combos:
+        completed_keys.add(f"{brand}_{occ}_{ct}_{args.iterations}")
+    checkpoint["completed_combos"] = list(completed_keys)
 
     # Final save
     if batch_results:

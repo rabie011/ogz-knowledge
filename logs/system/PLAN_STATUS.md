@@ -15,7 +15,8 @@ PHASE A: FIX FOUNDATION
 
 PHASE B: DEEP TEST LOOP
   [DONE 2026-06-06] B1: scripts/deep_test_loop.py written + smoke-tested (6 runs, 100% pass)
-  [RUNNING]         B2: Pass 1 — full run in background (7,590 calls)
+  [DONE 2026-06-06] B2: Pass 1 — 7,596 runs | 99.9% pass | all 11 occasions ≥150 passing ✅
+  [RUNNING]         B3: Pass 2 — running with brain v4.0 (PID 80620) | new occasions: white_friday, singles_day
   [PENDING]         B3: Pass 2 — after brain updates from Pass 1 failures
   [PENDING]         B4: Pass 3 — all 14 occasions ≥150 passing tests
 

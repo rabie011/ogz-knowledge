@@ -1061,17 +1061,30 @@ def create_content(req: CreateRequest):
         context = f"Brand: {req.brand}, Occasion: {req.occasion}"
         token_count = 0
 
-    # 2. Get templates
+    # 2. Get templates — Arabic-only filter
+    import re as _re
+    ARABIC_RE = _re.compile(r'[؀-ۿ]')
+
     tlib_path = REPO / "11_who_to_learn_from" / "template_library.json"
     templates = []
     template_tier = 'none'
     if tlib_path.exists():
         tlib = json.loads(tlib_path.read_text())
         brand_profiles = intel.get('brand_profiles', {})
-        sector = brand_profiles.get(req.brand, {}).get('sector', '')
+        brand_profile = brand_profiles.get(req.brand, {})
+        sector = brand_profile.get('sector', '')
+
+        # If brand posts in English, use sector defaults instead of brand-specific profile
+        posting_lang = brand_profile.get('posting_language', 'arabic')
+        use_sector_defaults = brand_profile.get('use_sector_defaults', False) or posting_lang == 'english'
+
         all_templates = tlib.get('templates', [])
+
+        # Always filter to Arabic-only captions — English templates never used for Arabic generation
+        arabic_templates = [t for t in all_templates if ARABIC_RE.search(t.get('caption', ''))]
+
         for tier in ['gold', 'silver', 'bronze', 'unverified', 'generated']:
-            filtered = [t for t in all_templates
+            filtered = [t for t in arabic_templates
                         if t.get('sector') == sector and t.get('tier') == tier
                         and t.get('occasion') in (req.occasion, 'evergreen')]
             if filtered:
@@ -1084,33 +1097,69 @@ def create_content(req: CreateRequest):
     # 3. Get learning store mistakes
     recent_mistakes = get_recent_mistakes(req.brand, limit=5)
 
-    # 4. Build prompt
-    templates_text = '\n'.join(f'- {t["caption"][:120]}' for t in templates[:3])
-    mistakes_text = '\n'.join(f'- {m["mistake"][:80]}' for m in recent_mistakes) if recent_mistakes else 'None'
+    # 4. Build prompt — sector-aware, Saudi-first, creativity-enforced
+    templates_text = '\n'.join(f'- {t["caption"][:150]}' for t in templates[:5])
+    mistakes_text = '\n'.join(f'- {m["mistake"][:80]}' for m in recent_mistakes) if recent_mistakes else 'لا يوجد'
 
-    prompt = f"""أنت كاتب محتوى سعودي محترف. اكتب كابشن إنستغرام واحد فقط باللهجة السعودية.
+    # Sector-specific length + style rules
+    sector_rules = {
+        'f_and_b':              'الطول: 80-150 حرف. أسلوب: حسّي مباشر. ابدأ باسم المنتج. مشاعر: شوق، جوع، فخر.',
+        'fashion':              'الطول: 200-400 حرف. أسلوب: طموح وأنيق. بدون إيموجي أو بإيموجي واحد فقط. وصف تجربة الإطلالة.',
+        'beauty_personal_care': 'الطول: 150-300 حرف. أسلوب: فائدة المنتج أولاً. 2-3 إيموجي مقبول. خاطبي المرأة السعودية.',
+        'retail_lifestyle':     'الطول: 100-200 حرف. أسلوب: عروض وتوفير. ابدأ بالفائدة مش بالعلامة.',
+        'real_estate':          'الطول: 150-250 حرف. أسلوب: فخر وطني + جودة حياة. اللغة رسمية أكثر.',
+        'healthcare_wellness':  'الطول: 100-200 حرف. أسلوب: تحفيزي وصحي. ركّز على النتيجة.',
+    }
+    sector_rule = sector_rules.get(sector, 'الطول: 100-200 حرف.')
 
-BRAND: @{req.brand}
-PRODUCT: {req.product}
-OCCASION: {req.occasion}
+    # Brand-specific product names
+    brand_pn = intel.get('brand_product_names', {}).get(req.brand, {})
+    correct_product = brand_pn.get('correct', req.product)
+    wrong_products = brand_pn.get('wrong', [])
+    wrong_str = '، '.join(wrong_products[:3]) if wrong_products else 'لا يوجد'
 
-CONTEXT:
-{context[:500]}
+    # Occasion-specific required words
+    occ_words = intel.get('occasion_required_words', {}).get(req.occasion, [])
+    occ_words_str = '، '.join(occ_words) if occ_words else 'لا يوجد كلمات مطلوبة'
 
-TEMPLATE EXAMPLES (adapt the structure, don't copy):
+    # Brand signature hashtags
+    brand_sig = intel.get('brand_profiles', {}).get(req.brand, {}).get('signature_phrases', [])
+    hashtag_str = ' '.join(brand_sig[:2]) if brand_sig else f'#{req.brand}'
+
+    prompt = f"""أنت كاتب محتوى سعودي محترف تكتب لعلامة @{req.brand}. اكتب كابشن إنستغرام واحد فقط.
+
+═══ المنتج ═══
+المنتج: {req.product}
+الاسم الصحيح بالعربي: {correct_product}
+لا تستخدم هذه الكلمات: {wrong_str}
+
+═══ المناسبة ═══
+{req.occasion}
+الكلمات المطلوبة: {occ_words_str}
+
+═══ قواعد القطاع ═══
+{sector_rule}
+
+═══ السياق ═══
+{context[:400]}
+
+═══ أمثلة حقيقية (التزم بأسلوبها، لا تنسخ) ═══
 {templates_text}
 
-AVOID THESE PAST MISTAKES:
+═══ أخطاء سابقة (تجنبها) ═══
 {mistakes_text}
 
-RULES:
-- Saudi Arabic ONLY (not Gulf, not MSA) — use وش/الحين/يالله/حلو
-- Product name in first 5 words
-- Max 2 hashtags, woven into text
-- No more than 2 emojis
-- 80-150 chars for f_and_b, 300+ for fashion
+═══ القواعد الذهبية ═══
+1. اللهجة السعودية فقط — استخدم: وش، الحين، يالله، حلو، كذا
+2. ممنوع: شنو، جذي، زين (خليجي مش سعودي)، تفضلوا، هيا بنا (فصحى)
+3. ممنوع: لا تفوتون الفرصة، عرض لفترة محدودة (عبارات مستهلكة)
+4. اسم المنتج بالعربي ({correct_product}) في أول 5 كلمات
+5. هاشتاقات: {hashtag_str} — ادمجها في النص، لا تضعها في النهاية
+6. كل إيموجي بحد أقصى 2
+7. لا تستخدم كلمات إنجليزية مكتوبة بالعربي (مثل: فرايز، برغر)
+8. كن مبدع — حس حقيقي مش كلام تسويقي عام
 
-Write ONLY the caption, nothing else:"""
+اكتب الكابشن فقط، بدون شرح:"""
 
     import openai
     client = openai.OpenAI(api_key=api_key)

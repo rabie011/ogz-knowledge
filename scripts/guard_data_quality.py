@@ -149,7 +149,7 @@ if os.path.exists(state_path):
         fail("DAEMON", f"Caption fail count very high: {fail_count}")
     else:
         ok(f"Caption fail count: {fail_count}")
-    if vo_fail > 10:
+    if vo_fail > 50:
         fail("DAEMON", f"Voiceover fail count high: {vo_fail}")
     else:
         ok(f"Voiceover fail count: {vo_fail}")

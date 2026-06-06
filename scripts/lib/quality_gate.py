@@ -86,20 +86,20 @@ def check(text: str, brand: str = None, occasion: str = 'evergreen') -> dict:
         checks.append({'check': 'cultural_violation', 'passed': True, 'weight': 20, 'detail': 'Clean'})
 
     # ── Check 6: Arabic > English ratio ──────────────────────────────────
-    # Hard block only for Saudi-dedicated brands. Global/bilingual brands get soft flag.
+    # All brands must produce Arabic output — even global brands like Zara/H&M.
+    # The engine generates Arabic for the Saudi market regardless of what the brand posts.
     ratio = _arabic_ratio(text)
-    brand_language = profile.get('language', 'arabic-first')
-    is_global_brand = brand_language in ('bilingual', 'english-first') or (
-        brand in ('zara', 'hm', 'randbfashion', 'aldeebajofficial', 'kiabiksa', 'levelshoes')
-    )
-    if ratio < 0.1 and not is_global_brand:
+    posting_lang = profile.get('posting_language', 'arabic')
+
+    if ratio < 0.3:
+        # Hard block — less than 30% Arabic is not acceptable for any Saudi brand
         hard_blocked = True
         checks.append({'check': 'arabic_ratio', 'passed': False, 'weight': 15,
-                        'detail': f'Only {ratio:.0%} Arabic — English-only rejected'})
-    elif ratio < 0.5:
-        # Soft fail — deduct weight but don't hard block
+                        'detail': f'Only {ratio:.0%} Arabic — must be at least 30% Arabic'})
+    elif ratio < 0.6:
+        # Soft fail — should be majority Arabic
         checks.append({'check': 'arabic_ratio', 'passed': False, 'weight': 15,
-                        'detail': f'Low Arabic ratio: {ratio:.0%} — should be Arabic-first'})
+                        'detail': f'Low Arabic ratio: {ratio:.0%} — should be majority Arabic'})
         fixes.append('arabic_ratio')
     else:
         checks.append({'check': 'arabic_ratio', 'passed': True, 'weight': 15,
@@ -200,15 +200,22 @@ def check(text: str, brand: str = None, occasion: str = 'evergreen') -> dict:
         checks.append({'check': 'emoji_limit', 'passed': True, 'weight': 5,
                         'detail': f'{emoji_count} emojis (OK)'})
 
-    # ── Check 9: Hashtag count ≤ 2 ────────────────────────────────────────
-    hashtag_count = _count_hashtags(text)
-    if hashtag_count > 2:
+    # ── Check 9: Hashtag count ≤ 3 + no duplicates ─────────────────────────
+    import re as _re_ht
+    all_tags = _re_ht.findall(r'#[^\s#]+', text)
+    unique_tags = list(dict.fromkeys(all_tags))
+    has_dupes = len(all_tags) != len(unique_tags)
+    if len(unique_tags) > 3:
         checks.append({'check': 'hashtag_count', 'passed': False, 'weight': 5,
-                        'detail': f'{hashtag_count} hashtags (max 2)'})
+                        'detail': f'{len(unique_tags)} unique hashtags (max 3)'})
         fixes.append('hashtag_limit')
+    elif has_dupes:
+        checks.append({'check': 'hashtag_count', 'passed': False, 'weight': 5,
+                        'detail': f'Duplicate hashtags detected: {all_tags}'})
+        fixes.append('hashtag_dedup')
     else:
         checks.append({'check': 'hashtag_count', 'passed': True, 'weight': 5,
-                        'detail': f'{hashtag_count} hashtags (OK)'})
+                        'detail': f'{len(unique_tags)} hashtags (OK)'})
 
     # ── Check 10: No MSA formality ─────────────────────────────────────────
     msa_found = [w for w in MSA_REPLACE if w in text]
@@ -261,10 +268,16 @@ def auto_fix(text: str, brand: str = None, sector: str = None) -> str:
     for msa, saudi in MSA_REPLACE.items():
         fixed = fixed.replace(msa, saudi)
 
-    # Fix 2: Strip excess hashtags (keep first 2)
-    hashtags = re.findall(r'#\S+', fixed)
-    if len(hashtags) > 2:
-        for extra_tag in hashtags[2:]:
+    # Fix 2: Dedup hashtags + strip excess (keep first 3 unique)
+    hashtags = re.findall(r'#[^\s#]+', fixed)
+    seen_tags = []
+    for tag in hashtags:
+        if tag in seen_tags:
+            fixed = fixed.replace(tag, '', 1).strip()
+        else:
+            seen_tags.append(tag)
+    if len(seen_tags) > 3:
+        for extra_tag in seen_tags[3:]:
             fixed = fixed.replace(extra_tag, '').strip()
 
     # Fix 3: Strip excess emojis by sector

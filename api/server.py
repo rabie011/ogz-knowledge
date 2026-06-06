@@ -1008,7 +1008,7 @@ def get_templates(sector: str = None, occasion: str = None, tier: str = None, li
     if tier:
         templates = [t for t in templates if t.get('tier') == tier]
     # Sort: gold first
-    tier_order = {'gold': 0, 'silver': 1, 'bronze': 2, 'generated': 3}
+    tier_order = {'gold': 0, 'silver': 1, 'bronze': 2, 'unverified': 3, 'generated': 4}
     templates.sort(key=lambda t: tier_order.get(t.get('tier', 'generated'), 99))
     return {
         'total': len(templates),
@@ -1070,7 +1070,7 @@ def create_content(req: CreateRequest):
         brand_profiles = intel.get('brand_profiles', {})
         sector = brand_profiles.get(req.brand, {}).get('sector', '')
         all_templates = tlib.get('templates', [])
-        for tier in ['gold', 'silver', 'bronze', 'generated']:
+        for tier in ['gold', 'silver', 'bronze', 'unverified', 'generated']:
             filtered = [t for t in all_templates
                         if t.get('sector') == sector and t.get('tier') == tier
                         and t.get('occasion') in (req.occasion, 'evergreen')]

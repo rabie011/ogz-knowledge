@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>مراجعة المحتوى | OGZ</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #F0BE5E;
+    --black: #000;
+    --dark: #111;
+    --card: #1a1a1a;
+    --border: #2a2a2a;
+    --text: #f0f0f0;
+    --muted: #888;
+  }
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    padding: 0 0 120px;
+  }
+
+  /* Header */
+  .header {
+    background: var(--dark);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header h1 { font-size: 15px; font-weight: 600; color: var(--gold); }
+  .header .progress-text { font-size: 13px; color: var(--muted); }
+
+  /* Progress bar */
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    position: sticky;
+    top: 49px;
+    z-index: 99;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    transition: width 0.3s ease;
+  }
+
+  /* Card */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 16px;
+    overflow: hidden;
+  }
+
+  /* Meta row */
+  .meta {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .tag {
+    background: var(--black);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .tag.brand { color: var(--gold); border-color: var(--gold); }
+  .tag.tier-gold { color: #ffd700; border-color: #ffd700; }
+  .tag.tier-silver { color: #c0c0c0; border-color: #c0c0c0; }
+  .tag.tier-unverified { color: #888; }
+  .tag.tier-generated { color: #666; }
+
+  /* Score badge */
+  .score-badge {
+    margin-left: auto;
+    background: var(--border);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .score-badge.high { color: #4ade80; }
+  .score-badge.mid  { color: var(--gold); }
+  .score-badge.low  { color: #f87171; }
+
+  /* Arabic content */
+  .arabic-content {
+    padding: 20px 16px;
+    font-size: 18px;
+    line-height: 1.8;
+    text-align: right;
+    direction: rtl;
+    border-bottom: 1px solid var(--border);
+    min-height: 100px;
+  }
+
+  /* Rating buttons */
+  .rating-section {
+    padding: 16px;
+  }
+  .rating-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .rating-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .rating-btn {
+    border: 2px solid var(--border);
+    background: var(--black);
+    border-radius: 12px;
+    padding: 16px 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .rating-btn:active { transform: scale(0.96); }
+  .rating-btn .emoji { font-size: 24px; display: block; margin-bottom: 4px; }
+  .rating-btn .label { font-size: 13px; font-weight: 600; }
+  .rating-btn .sublabel { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .rating-btn.r-excellent { border-color: #4ade80; }
+  .rating-btn.r-excellent.selected, .rating-btn.r-excellent:hover { background: rgba(74,222,128,0.15); }
+  .rating-btn.r-excellent .label { color: #4ade80; }
+
+  .rating-btn.r-good { border-color: var(--gold); }
+  .rating-btn.r-good.selected, .rating-btn.r-good:hover { background: rgba(240,190,94,0.15); }
+  .rating-btn.r-good .label { color: var(--gold); }
+
+  .rating-btn.r-weak { border-color: #fb923c; }
+  .rating-btn.r-weak.selected, .rating-btn.r-weak:hover { background: rgba(251,146,60,0.15); }
+  .rating-btn.r-weak .label { color: #fb923c; }
+
+  .rating-btn.r-fail { border-color: #f87171; }
+  .rating-btn.r-fail.selected, .rating-btn.r-fail:hover { background: rgba(248,113,113,0.15); }
+  .rating-btn.r-fail .label { color: #f87171; }
+
+  /* Note input */
+  .note-section {
+    padding: 0 16px 16px;
+  }
+  .note-input {
+    width: 100%;
+    background: var(--black);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-size: 14px;
+    direction: rtl;
+    text-align: right;
+    resize: none;
+    height: 60px;
+    font-family: inherit;
+  }
+  .note-input:focus { outline: none; border-color: var(--gold); }
+
+  /* Navigation */
+  .nav-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    padding: 12px 16px;
+    display: flex;
+    gap: 10px;
+    z-index: 100;
+  }
+  .nav-btn {
+    flex: 1;
+    border: 1px solid var(--border);
+    background: var(--black);
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .nav-btn.primary {
+    background: var(--gold);
+    color: var(--black);
+    border-color: var(--gold);
+  }
+  .nav-btn:disabled { opacity: 0.3; }
+
+  /* Summary screen */
+  .summary {
+    padding: 32px 16px;
+    text-align: center;
+  }
+  .summary h2 { color: var(--gold); font-size: 22px; margin-bottom: 8px; }
+  .summary p { color: var(--muted); margin-bottom: 24px; }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .summary-stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .summary-stat .num { font-size: 28px; font-weight: 700; }
+  .summary-stat .lbl { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .summary-stat.excellent .num { color: #4ade80; }
+  .summary-stat.good .num { color: var(--gold); }
+  .summary-stat.weak .num { color: #fb923c; }
+  .summary-stat.fail .num { color: #f87171; }
+
+  .save-btn {
+    width: 100%;
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    border-radius: 12px;
+    padding: 18px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* Swipe hint */
+  .swipe-hint {
+    text-align: center;
+    color: var(--muted);
+    font-size: 11px;
+    padding: 8px;
+  }
+
+  /* Done check on rated cards */
+  .rated-badge {
+    display: none;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #4ade80;
+    color: #000;
+    border-radius: 20px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>مراجعة المحتوى</h1>
+  <span class="progress-text" id="progressText">1 / 50</span>
+</div>
+<div class="progress-bar">
+  <div class="progress-fill" id="progressFill" style="width:2%"></div>
+</div>
+
+<div id="app"></div>
+
+<script>
+let data = [];
+let current = 0;
+let ratings = {};
+
+// Load saved ratings from localStorage
+function loadSaved() {
+  const saved = localStorage.getItem('ogz_review_ratings');
+  if (saved) {
+    ratings = JSON.parse(saved);
+    // Find first unrated
+    for (let i = 0; i < data.length; i++) {
+      if (!ratings[data[i].id]) { current = i; return; }
+    }
+    current = data.length; // all done
+  }
+}
+
+function saveRatings() {
+  localStorage.setItem('ogz_review_ratings', JSON.stringify(ratings));
+  // POST to server to persist
+  fetch('/api/review/save', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(ratings)
+  }).catch(() => {}); // silent fail ok
+}
+
+function updateProgress() {
+  const idx = Math.min(current + 1, data.length);
+  const pct = (Object.keys(ratings).length / data.length) * 100;
+  document.getElementById('progressText').textContent = `${idx} / ${data.length}`;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function rate(value) {
+  const item = data[current];
+  const note = document.getElementById('noteInput')?.value || '';
+  ratings[item.id] = { rating: value, note, brand: item.brand, occasion: item.occasion, score: item.score };
+
+  // Visual feedback — highlight selected button
+  document.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelector(`.r-${value}`)?.classList.add('selected');
+  saveRatings();
+
+  // Auto-advance after short delay
+  setTimeout(() => {
+    if (current < data.length - 1) {
+      current++;
+      render();
+    } else {
+      showSummary();
+    }
+  }, 400);
+}
+
+function render() {
+  if (current >= data.length) { showSummary(); return; }
+  const item = data[current];
+  const existing = ratings[item.id];
+  updateProgress();
+
+  const tierClass = `tier-${item.tier}`;
+  const scoreClass = item.score >= 80 ? 'high' : item.score >= 60 ? 'mid' : 'low';
+
+  document.getElementById('app').innerHTML = `
+    <div class="card">
+      <div class="meta">
+        <span class="tag brand">@${item.brand}</span>
+        <span class="tag">${item.occasion}</span>
+        <span class="tag">${item.sector}</span>
+        <span class="tag ${tierClass}">${item.tier}</span>
+        <span class="score-badge ${scoreClass}">${item.score}/100</span>
+      </div>
+      <div class="arabic-content" id="arabicContent">${item.arabic || '<span style="color:#666">لا يوجد محتوى</span>'}</div>
+      <div class="rating-section">
+        <div class="rating-label">كيف هذا المحتوى؟</div>
+        <div class="rating-grid">
+          <button class="rating-btn r-excellent ${existing?.rating==='excellent'?'selected':''}" onclick="rate('excellent')">
+            <span class="emoji">🌟</span>
+            <span class="label">ممتاز</span>
+            <span class="sublabel">يبدو سعودي حقيقي</span>
+          </button>
+          <button class="rating-btn r-good ${existing?.rating==='good'?'selected':''}" onclick="rate('good')">
+            <span class="emoji">👍</span>
+            <span class="label">جيد</span>
+            <span class="sublabel">مقبول مع ملاحظات</span>
+          </button>
+          <button class="rating-btn r-weak ${existing?.rating==='weak'?'selected':''}" onclick="rate('weak')">
+            <span class="emoji">😐</span>
+            <span class="label">ضعيف</span>
+            <span class="sublabel">لا يبدو سعودي</span>
+          </button>
+          <button class="rating-btn r-fail ${existing?.rating==='fail'?'selected':''}" onclick="rate('fail')">
+            <span class="emoji">❌</span>
+            <span class="label">فشل</span>
+            <span class="sublabel">لغة خاطئة / خطأ</span>
+          </button>
+        </div>
+      </div>
+      <div class="note-section">
+        <textarea class="note-input" id="noteInput" placeholder="ملاحظة اختيارية...">${existing?.note||''}</textarea>
+      </div>
+    </div>
+    <div class="swipe-hint">اختر تقييم للانتقال التلقائي</div>
+  `;
+}
+
+function showSummary() {
+  const counts = { excellent: 0, good: 0, weak: 0, fail: 0 };
+  Object.values(ratings).forEach(r => { if (r.rating) counts[r.rating]++; });
+  const total = Object.keys(ratings).length;
+
+  document.getElementById('progressText').textContent = `${total} / ${data.length}`;
+  document.getElementById('progressFill').style.width = '100%';
+
+  document.getElementById('app').innerHTML = `
+    <div class="summary">
+      <h2>✅ مراجعة مكتملة</h2>
+      <p>${total} من ${data.length} تم تقييمها</p>
+      <div class="summary-grid">
+        <div class="summary-stat excellent">
+          <div class="num">${counts.excellent}</div>
+          <div class="lbl">🌟 ممتاز</div>
+        </div>
+        <div class="summary-stat good">
+          <div class="num">${counts.good}</div>
+          <div class="lbl">👍 جيد</div>
+        </div>
+        <div class="summary-stat weak">
+          <div class="num">${counts.weak}</div>
+          <div class="lbl">😐 ضعيف</div>
+        </div>
+        <div class="summary-stat fail">
+          <div class="num">${counts.fail}</div>
+          <div class="lbl">❌ فشل</div>
+        </div>
+      </div>
+      <button class="save-btn" onclick="submitAll()">💾 حفظ وإرسال التقييمات</button>
+    </div>
+  `;
+}
+
+function submitAll() {
+  fetch('/api/review/save', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(ratings)
+  })
+  .then(r => r.json())
+  .then(d => {
+    document.querySelector('.save-btn').textContent = '✅ تم الحفظ!';
+    document.querySelector('.save-btn').style.background = '#4ade80';
+  })
+  .catch(() => {
+    document.querySelector('.save-btn').textContent = '✅ محفوظ محلياً';
+    document.querySelector('.save-btn').style.background = '#4ade80';
+  });
+}
+
+// Nav buttons
+function prev() { if (current > 0) { current--; render(); } }
+function next() { if (current < data.length - 1) { current++; render(); } }
+function jump(idx) { current = idx; render(); }
+
+// Bottom nav
+document.addEventListener('DOMContentLoaded', () => {
+  const nav = document.createElement('div');
+  nav.className = 'nav-bar';
+  nav.innerHTML = `
+    <button class="nav-btn" onclick="prev()">◀ السابق</button>
+    <button class="nav-btn" onclick="showSummary()">النتائج</button>
+    <button class="nav-btn primary" onclick="next()">التالي ▶</button>
+  `;
+  document.body.appendChild(nav);
+});
+
+// Load data
+fetch('/api/review/data')
+  .then(r => r.json())
+  .then(d => {
+    data = d;
+    loadSaved();
+    render();
+  })
+  .catch(err => {
+    document.getElementById('app').innerHTML = `<div style="padding:32px;text-align:center;color:#f87171">خطأ في تحميل البيانات<br>${err}</div>`;
+  });
+</script>
+</body>
+</html>

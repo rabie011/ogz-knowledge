@@ -2225,7 +2225,24 @@
       "mikyajy": "Use يعجبني not تسحرني. Use للخروجات not عشان تجمعات. Saudi beauty = modest + elegant.",
       "pizzahutsaudi": "Copy AlBaik structure: product + hook + emoji. Current captions are too generic.",
       "barnscoffee": "Good Saudi tone already. Add more الحين/الآن urgency."
-    }
+    },
+    "forbidden_english_words_in_arabic": [
+      "فرايز",
+      "بيرغر",
+      "hana",
+      "wow",
+      "cool",
+      "amazing",
+      "special",
+      "new"
+    ],
+    "overused_phrases_to_avoid": [
+      "لا تفوتون الفرصة",
+      "لا تفوّتون الفرصة",
+      "عرض لفترة محدودة",
+      "اطلب الآن ولا تتأخر",
+      "أفضل عروض السنة"
+    ]
   },
   "caption_method": {
     "approach": "style_transfer",
@@ -2245,6 +2262,13 @@
       "Product/brand name must appear in first 5 words",
       "Hashtag must be woven INTO the sentence, not appended",
       "Max 80 chars — Saudi top posts are SHORT"
+    ],
+    "creativity_rules": [
+      "Never start with \"لا تفوتون\" — it is overused and generic",
+      "Product name must be in first 5 words — be specific not generic",
+      "Include one sensory or emotional hook specific to the product",
+      "Occasion content must reference the occasion explicitly — not just add a flag emoji",
+      "For Ramadan: mention إفطار, سحور, رمضان or it fails occasion check"
     ]
   },
   "caption_data_rules": {
@@ -2401,9 +2425,13 @@
       "wrong": [
         "mcdonaldsksa",
         "mccafeksa",
-        "oxford"
+        "oxford",
+        "فرايز",
+        "fries",
+        "burger",
+        "bigmac"
       ],
-      "note": "Auto-extracted from top 30 captions by likes. Review and curate manually for best quality gate results.",
+      "note": "Use ماك/ماكدونالدز. Avoid English food names: بطاطس not فرايز, برجر not burger",
       "source": "auto_extracted_from_obs",
       "confidence": "medium"
     },
@@ -2540,7 +2568,7 @@
         "munzworld",
         "neobreez"
       ],
-      "note": "Auto-extracted from top 30 captions by likes. Review and curate manually for best quality gate results.",
+      "note": "All-Arabic captions required. Do NOT use \"mumzworld\" in Arabic text — use \"ممزورلد\" or \"موقعنا\"",
       "source": "auto_extracted_from_obs",
       "confidence": "medium"
     },

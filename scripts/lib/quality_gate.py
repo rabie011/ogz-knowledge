@@ -30,6 +30,13 @@ def _get_brain():
 # ── Saudi markers ──────────────────────────────────────────────────────────
 SAUDI_USE = ['وش', 'ايش', 'اللي', 'حيّاكم', 'الحين', 'كذا', 'يالله', 'طيب', 'حلو', 'اطلبه', 'جربه', 'شرايكم', 'الآن', 'أهلاً', 'تعالوا']
 SAUDI_AVOID = ['شنو', 'جذي', 'زين', 'تسحرني', 'تفضلوا', 'هيا بنا']
+
+# English transliteration words that should be Arabic in Saudi brand captions
+# From human review: "فرايز" should be "بطاطس", English brand names should be Arabic
+ENGLISH_IN_ARABIC = ['فرايز', 'برغر', 'هامبرغر', 'بيتزا هت', 'ماكدونالدز ']
+
+# Overused generic phrases (human review: lacks creativity)
+OVERUSED_PHRASES = ['لا تفوتون الفرصة', 'لا تفوّتون الفرصة', 'عرض لفترة محدودة فقط']
 MSA_REPLACE = {'تفضلوا': 'تعالوا', 'تسحرني': 'يعجبني', 'رائع': 'حلو', 'مذهل': 'خطير', 'هيا بنا': 'يالله'}
 SECTOR_EMOJI_LIMITS = {'fashion': 1, 'f_and_b': 2, 'retail_lifestyle': 3, 'beauty_personal_care': 4}
 
@@ -161,6 +168,15 @@ def check(text: str, brand: str = None, occasion: str = 'evergreen') -> dict:
         fixes.append('msa_replace')
     else:
         checks.append({'check': 'non_saudi_words', 'passed': True, 'weight': 10, 'detail': 'Clean'})
+
+    # ── Check 4b: No overused generic phrases (human review finding) ─────────
+    overused_found = [p for p in OVERUSED_PHRASES if p in text]
+    if overused_found:
+        checks.append({'check': 'overused_phrase', 'passed': False, 'weight': 5,
+                        'detail': f'Generic phrase detected: {overused_found[0]}'})
+        fixes.append('overused_phrase')
+    else:
+        checks.append({'check': 'overused_phrase', 'passed': True, 'weight': 5, 'detail': 'Creative'})
 
     # ── Check 5: Occasion keyword present ─────────────────────────────────
     required = occasion_required.get(occasion, [])

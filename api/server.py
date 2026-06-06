@@ -23,7 +23,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -1231,3 +1231,56 @@ def health():
         }
     except Exception as e:
         return {"status": "unhealthy", "error": str(e)}
+
+
+# ═══════════════════════════════════════════════════════════
+# HUMAN REVIEW — mobile-friendly review UI + save endpoint
+# ═══════════════════════════════════════════════════════════
+
+@app.get("/review")
+def review_page():
+    return FileResponse(STATIC_DIR / "review.html")
+
+@app.get("/api/review/data")
+def review_data():
+    """Return parsed review entries for the mobile UI."""
+    review_file = REPO / "logs" / "system" / "review_data.json"
+    if not review_file.exists():
+        raise HTTPException(status_code=404, detail="Review data not found. Run generate_human_review_set.py first.")
+    return json.loads(review_file.read_text())
+
+class ReviewSaveRequest(BaseModel):
+    pass  # accepts any dict
+
+@app.post("/api/review/save")
+async def review_save(request: Request):
+    """Save review ratings from mobile UI to disk."""
+    ratings = await request.json()
+    results_file = REPO / "logs" / "system" / "review_results.json"
+    # Merge with existing if any
+    existing = json.loads(results_file.read_text()) if results_file.exists() else {}
+    existing.update(ratings)
+    results_file.write_text(json.dumps(existing, ensure_ascii=False, indent=2))
+
+    # Also append to learning store — failed/weak outputs become content lessons
+    learning_store = REPO / "logs" / "learning_store.jsonl"
+    from datetime import datetime as _dt
+    added = 0
+    for item_id, r in ratings.items():
+        if r.get("rating") in ("weak", "fail"):
+            mistake = f"Human rated '{r['rating']}': @{r.get('brand','')} | {r.get('occasion','')} | score={r.get('score','')} | note: {r.get('note','no note')}"
+            entry = {"handle": r.get("brand",""), "score": 0 if r["rating"]=="fail" else 40,
+                     "mistake": mistake, "timestamp": _dt.now().isoformat(), "source": "human_review"}
+            with learning_store.open("a") as f:
+                f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+            added += 1
+
+    total = len(existing)
+    rated = sum(1 for v in existing.values() if v.get("rating"))
+    counts = {}
+    for v in existing.values():
+        r = v.get("rating","")
+        counts[r] = counts.get(r, 0) + 1
+
+    return {"saved": True, "total_rated": rated, "breakdown": counts,
+            "learning_entries_added": added}

@@ -1,10 +1,10 @@
 # BRAIN UPDATE PROPOSALS
 
-Generated: 2026-06-06 01:59 UTC  
+Generated: 2026-06-06 13:48 UTC  
 Source: `logs/learning_store.jsonl`  
-Total entries analyzed: 13  
-Total failures: 11  
-Proposals generated: 1  
+Total entries analyzed: 514  
+Total failures: 512  
+Proposals generated: 2  
 
 > **Workflow:** Mohamed reads this file, marks `[APPROVED]` or `[REJECTED]` on each proposal,
 > then runs `python3 scripts/apply_brain_proposals.py --apply <ID>` to execute approved ones.
@@ -12,7 +12,32 @@ Proposals generated: 1
 
 ---
 
-## PROPOSAL 001 — Pipeline Timeout [EXCEPTION-TYPE — runtime fix, not content fix]
+## PROPOSAL 001 — Uncategorized 
+
+**Category:** `uncategorized`  
+**Frequency:** 501 failure(s)  
+**Brain path:** `arabic_quality_rules (review needed)`  
+
+**Proposed change:**
+> Review 501 uncategorized failures manually. Consider adding a new category rule to brain_update_from_learning.py if a clear pattern emerges.
+
+**Rationale:**
+> 501 failures could not be mapped to a known category. Affected: albaik (100), mcdonaldsksa (91), barnscoffee (48), roshnksa (44), asteribeautysa (43), pizzahutsaudi (40), randbfashion (34), tamimimarkets (31), mumzworld (29), mikyajy (23), pandasaudi (14), myfitness.sa (4). Sample: api_error:HTTP Error 500: Internal Server Error — pandasaudi/hajj_season
+
+**Affected handles:** `albaik` (100), `mcdonaldsksa` (91), `barnscoffee` (48), `roshnksa` (44), `asteribeautysa` (43), `pizzahutsaudi` (40), `randbfashion` (34), `tamimimarkets` (31)  
+
+**Evidence (up to 5 samples):**
+1. `api_error:HTTP Error 500: Internal Server Error — pandasaudi/hajj_season`
+2. `api_error:HTTP Error 500: Internal Server Error — pandasaudi/white_friday`
+3. `api_error:HTTP Error 500: Internal Server Error — pandasaudi/white_friday`
+4. `api_error:HTTP Error 500: Internal Server Error — pandasaudi/white_friday`
+5. `api_error:HTTP Error 500: Internal Server Error — pandasaudi/white_friday`
+
+**Status:** `[PENDING Mohamed approval]`
+
+---
+
+## PROPOSAL 002 — Pipeline Timeout [EXCEPTION-TYPE — runtime fix, not content fix]
 
 **Category:** `timeout_error`  
 **Frequency:** 9 failure(s)  

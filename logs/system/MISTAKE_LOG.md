@@ -58,3 +58,27 @@
 ## 2026-06-06 00:10 UTC — PASS 33 HIGH FAILURE FLAGS
 - [HIGH FAILURE] exception:TimeoutError:timed out: 100.0% failure rate — review brain rules
 
+
+## 2026-06-06 01:54 UTC — PASS 2 HIGH FAILURE FLAGS
+- [HIGH FAILURE] exception:TimeoutError:timed out: 100.0% failure rate — review brain rules
+
+
+## 2026-06-06 01:55 UTC — PASS 3 HIGH FAILURE FLAGS
+- [HIGH FAILURE] exception:TimeoutError:timed out: 100.0% failure rate — review brain rules
+
+
+## 2026-06-06 01:56 UTC — PASS 4 HIGH FAILURE FLAGS
+- [HIGH FAILURE] exception:TimeoutError:timed out: 100.0% failure rate — review brain rules
+
+
+## 2026-06-06 01:57 UTC — PASS 5 HIGH FAILURE FLAGS
+- [HIGH FAILURE] exception:TimeoutError:timed out: 100.0% failure rate — review brain rules
+
+
+## 2026-06-06 01:59 UTC — PASS 8 HIGH FAILURE FLAGS
+- [HIGH FAILURE] exception:TimeoutError:timed out: 100.0% failure rate — review brain rules
+
+
+## 2026-06-06 02:02 UTC — PASS 9 HIGH FAILURE FLAGS
+- [HIGH FAILURE] api_error:HTTP Error 500: Internal Server Error: 100.0% failure rate — review brain rules
+

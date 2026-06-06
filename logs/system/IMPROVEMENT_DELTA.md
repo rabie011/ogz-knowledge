@@ -624,3 +624,427 @@ Manual tests run during Phase 1 build:
     riyadh_season             pass=100.0%  avg_score=98.5  n=30
     singles_day               pass=100.0%  avg_score=99.3  n=30
     white_friday              pass=100.0%  avg_score=99.5  n=30
+
+## PASS 1 — 2026-06-06 01:40 UTC (6 runs)
+
+  Overall pass rate: 100.0%
+  Avg score (all):   97.5
+  Avg score (pass):  97.5
+
+  By occasion:
+    ramadan                   pass=100.0%  avg_score=97.5  n=6
+
+## PASS 1 — 2026-06-06 01:41 UTC (200 runs)
+
+  Overall pass rate: 100.0%
+  Avg score (all):   98.0
+  Avg score (pass):  98.0
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=99.2  n=18
+    eid_al_fitr               pass=100.0%  avg_score=99.2  n=18
+    evergreen                 pass=100.0%  avg_score=99.2  n=20
+    founding_day              pass=100.0%  avg_score=97.5  n=18
+    hajj_season               pass=100.0%  avg_score=98.6  n=18
+    jeddah_season             pass=100.0%  avg_score=97.3  n=18
+    national_day              pass=100.0%  avg_score=96.9  n=18
+    ramadan                   pass=100.0%  avg_score=99.4  n=18
+    riyadh_season             pass=100.0%  avg_score=99.7  n=18
+    singles_day               pass=100.0%  avg_score=93.9  n=18
+    white_friday              pass=100.0%  avg_score=97.2  n=18
+
+## PASS 2 — 2026-06-06 01:42 UTC (200 runs)
+
+  Overall pass rate: 100.0%
+  Avg score (all):   97.4
+  Avg score (pass):  97.4
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=97.5  n=18
+    eid_al_fitr               pass=100.0%  avg_score=96.4  n=18
+    evergreen                 pass=100.0%  avg_score=99.5  n=20
+    founding_day              pass=100.0%  avg_score=96.2  n=18
+    hajj_season               pass=100.0%  avg_score=98.3  n=18
+    jeddah_season             pass=100.0%  avg_score=98.9  n=18
+    national_day              pass=100.0%  avg_score=98.6  n=18
+    ramadan                   pass=100.0%  avg_score=96.9  n=18
+    riyadh_season             pass=100.0%  avg_score=99.2  n=18
+    singles_day               pass=100.0%  avg_score=96.7  n=18
+    white_friday              pass=100.0%  avg_score=93.4  n=18
+
+## PASS 3 — 2026-06-06 01:43 UTC (200 runs)
+
+  Overall pass rate: 100.0%
+  Avg score (all):   99.4
+  Avg score (pass):  99.4
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=98.9  n=18
+    eid_al_fitr               pass=100.0%  avg_score=100.0  n=18
+    evergreen                 pass=100.0%  avg_score=100.0  n=20
+    founding_day              pass=100.0%  avg_score=98.9  n=18
+    hajj_season               pass=100.0%  avg_score=100.0  n=18
+    jeddah_season             pass=100.0%  avg_score=99.4  n=18
+    national_day              pass=100.0%  avg_score=99.4  n=18
+    ramadan                   pass=100.0%  avg_score=100.0  n=18
+    riyadh_season             pass=100.0%  avg_score=100.0  n=18
+    singles_day               pass=100.0%  avg_score=98.9  n=18
+    white_friday              pass=100.0%  avg_score=97.8  n=18
+
+## PASS 4 — 2026-06-06 01:43 UTC (200 runs)
+
+  Overall pass rate: 100.0%
+  Avg score (all):   98.8
+  Avg score (pass):  98.8
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=99.7  n=18
+    eid_al_fitr               pass=100.0%  avg_score=99.7  n=18
+    evergreen                 pass=100.0%  avg_score=99.8  n=20
+    founding_day              pass=100.0%  avg_score=99.4  n=18
+    hajj_season               pass=100.0%  avg_score=100.0  n=18
+    jeddah_season             pass=100.0%  avg_score=97.2  n=18
+    national_day              pass=100.0%  avg_score=100.0  n=18
+    ramadan                   pass=100.0%  avg_score=100.0  n=18
+    riyadh_season             pass=100.0%  avg_score=98.9  n=18
+    singles_day               pass=100.0%  avg_score=96.2  n=18
+    white_friday              pass=100.0%  avg_score=95.8  n=18
+
+## PASS 5 — 2026-06-06 01:44 UTC (200 runs)
+
+  Overall pass rate: 100.0%
+  Avg score (all):   98.5
+  Avg score (pass):  98.5
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=100.0  n=18
+    eid_al_fitr               pass=100.0%  avg_score=99.7  n=18
+    evergreen                 pass=100.0%  avg_score=99.2  n=19
+    founding_day              pass=100.0%  avg_score=98.2  n=19
+    hajj_season               pass=100.0%  avg_score=98.9  n=18
+    jeddah_season             pass=100.0%  avg_score=98.4  n=18
+    national_day              pass=100.0%  avg_score=98.9  n=18
+    ramadan                   pass=100.0%  avg_score=100.0  n=18
+    riyadh_season             pass=100.0%  avg_score=99.4  n=18
+    singles_day               pass=100.0%  avg_score=95.6  n=18
+    white_friday              pass=100.0%  avg_score=95.6  n=18
+
+## PASS 6 — 2026-06-06 01:45 UTC (200 runs)
+
+  Overall pass rate: 100.0%
+  Avg score (all):   98.5
+  Avg score (pass):  98.5
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=99.4  n=18
+    eid_al_fitr               pass=100.0%  avg_score=99.2  n=18
+    evergreen                 pass=100.0%  avg_score=100.0  n=18
+    founding_day              pass=100.0%  avg_score=99.2  n=20
+    hajj_season               pass=100.0%  avg_score=98.9  n=18
+    jeddah_season             pass=100.0%  avg_score=98.3  n=18
+    national_day              pass=100.0%  avg_score=98.7  n=18
+    ramadan                   pass=100.0%  avg_score=98.9  n=18
+    riyadh_season             pass=100.0%  avg_score=98.9  n=18
+    singles_day               pass=100.0%  avg_score=97.2  n=18
+    white_friday              pass=100.0%  avg_score=95.0  n=18
+
+## PASS 7 — 2026-06-06 01:46 UTC (200 runs)
+
+  Overall pass rate: 100.0%
+  Avg score (all):   97.8
+  Avg score (pass):  97.8
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=99.4  n=18
+    eid_al_fitr               pass=100.0%  avg_score=98.9  n=18
+    evergreen                 pass=100.0%  avg_score=99.7  n=18
+    founding_day              pass=100.0%  avg_score=96.5  n=20
+    hajj_season               pass=100.0%  avg_score=98.3  n=18
+    jeddah_season             pass=100.0%  avg_score=98.3  n=18
+    national_day              pass=100.0%  avg_score=98.3  n=18
+    ramadan                   pass=100.0%  avg_score=97.2  n=18
+    riyadh_season             pass=100.0%  avg_score=98.3  n=18
+    singles_day               pass=100.0%  avg_score=96.2  n=18
+    white_friday              pass=100.0%  avg_score=95.1  n=18
+
+## PASS 8 — 2026-06-06 01:47 UTC (200 runs)
+
+  Overall pass rate: 100.0%
+  Avg score (all):   97.8
+  Avg score (pass):  97.8
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=97.6  n=18
+    eid_al_fitr               pass=100.0%  avg_score=98.9  n=18
+    evergreen                 pass=100.0%  avg_score=100.0  n=18
+    founding_day              pass=100.0%  avg_score=98.8  n=20
+    hajj_season               pass=100.0%  avg_score=98.3  n=18
+    jeddah_season             pass=100.0%  avg_score=97.2  n=18
+    national_day              pass=100.0%  avg_score=96.7  n=18
+    ramadan                   pass=100.0%  avg_score=99.4  n=18
+    riyadh_season             pass=100.0%  avg_score=96.5  n=18
+    singles_day               pass=100.0%  avg_score=96.7  n=18
+    white_friday              pass=100.0%  avg_score=95.6  n=18
+
+## PASS 9 — 2026-06-06 01:48 UTC (200 runs)
+
+  Overall pass rate: 100.0%
+  Avg score (all):   98.7
+  Avg score (pass):  98.7
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=98.3  n=18
+    eid_al_fitr               pass=100.0%  avg_score=100.0  n=18
+    evergreen                 pass=100.0%  avg_score=100.0  n=18
+    founding_day              pass=100.0%  avg_score=98.8  n=20
+    hajj_season               pass=100.0%  avg_score=100.0  n=18
+    jeddah_season             pass=100.0%  avg_score=99.4  n=18
+    national_day              pass=100.0%  avg_score=96.7  n=18
+    ramadan                   pass=100.0%  avg_score=97.8  n=18
+    riyadh_season             pass=100.0%  avg_score=98.3  n=18
+    singles_day               pass=100.0%  avg_score=96.7  n=18
+    white_friday              pass=100.0%  avg_score=99.2  n=18
+
+## PASS 10 — 2026-06-06 01:48 UTC (200 runs)
+
+  Overall pass rate: 100.0%
+  Avg score (all):   98.3
+  Avg score (pass):  98.3
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=98.3  n=18
+    eid_al_fitr               pass=100.0%  avg_score=98.9  n=18
+    evergreen                 pass=100.0%  avg_score=100.0  n=18
+    founding_day              pass=100.0%  avg_score=96.1  n=18
+    hajj_season               pass=100.0%  avg_score=98.9  n=18
+    jeddah_season             pass=100.0%  avg_score=99.4  n=18
+    national_day              pass=100.0%  avg_score=97.5  n=18
+    ramadan                   pass=100.0%  avg_score=99.0  n=20
+    riyadh_season             pass=100.0%  avg_score=98.3  n=18
+    singles_day               pass=100.0%  avg_score=96.7  n=18
+    white_friday              pass=100.0%  avg_score=97.8  n=18
+
+## PASS 11 — 2026-06-06 01:49 UTC (200 runs)
+
+  Overall pass rate: 100.0%
+  Avg score (all):   98.5
+  Avg score (pass):  98.5
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=98.9  n=18
+    eid_al_fitr               pass=100.0%  avg_score=97.8  n=18
+    evergreen                 pass=100.0%  avg_score=100.0  n=18
+    founding_day              pass=100.0%  avg_score=98.3  n=18
+    hajj_season               pass=100.0%  avg_score=99.2  n=18
+    jeddah_season             pass=100.0%  avg_score=98.9  n=18
+    national_day              pass=100.0%  avg_score=99.2  n=18
+    ramadan                   pass=100.0%  avg_score=98.5  n=20
+    riyadh_season             pass=100.0%  avg_score=99.4  n=18
+    singles_day               pass=100.0%  avg_score=97.2  n=18
+    white_friday              pass=100.0%  avg_score=96.7  n=18
+
+## PASS 12 — 2026-06-06 01:50 UTC (77 runs)
+
+  Overall pass rate: 100.0%
+  Avg score (all):   98.2
+  Avg score (pass):  98.2
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=100.0  n=9
+    eid_al_fitr               pass=100.0%  avg_score=98.9  n=9
+    hajj_season               pass=100.0%  avg_score=100.0  n=9
+    jeddah_season             pass=100.0%  avg_score=96.7  n=9
+    national_day              pass=100.0%  avg_score=98.9  n=9
+    ramadan                   pass=100.0%  avg_score=96.0  n=5
+    riyadh_season             pass=100.0%  avg_score=96.8  n=9
+    singles_day               pass=100.0%  avg_score=97.8  n=9
+    white_friday              pass=100.0%  avg_score=97.8  n=9
+
+## PASS 1 — 2026-06-06 01:53 UTC (200 runs)
+
+  Overall pass rate: 100.0%
+  Avg score (all):   98.0
+  Avg score (pass):  98.0
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=99.4  n=18
+    eid_al_fitr               pass=100.0%  avg_score=98.9  n=18
+    evergreen                 pass=100.0%  avg_score=99.5  n=20
+    founding_day              pass=100.0%  avg_score=96.7  n=18
+    hajj_season               pass=100.0%  avg_score=97.5  n=18
+    jeddah_season             pass=100.0%  avg_score=98.9  n=18
+    national_day              pass=100.0%  avg_score=97.5  n=18
+    ramadan                   pass=100.0%  avg_score=97.8  n=18
+    riyadh_season             pass=100.0%  avg_score=99.2  n=18
+    singles_day               pass=100.0%  avg_score=96.7  n=18
+    white_friday              pass=100.0%  avg_score=96.1  n=18
+
+## PASS 2 — 2026-06-06 01:54 UTC (200 runs)
+
+  Overall pass rate: 99.5%
+  Avg score (all):   97.3
+  Avg score (pass):  97.8
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=98.1  n=18
+    eid_al_fitr               pass=100.0%  avg_score=97.5  n=18
+    evergreen                 pass=100.0%  avg_score=100.0  n=20
+    founding_day              pass=100.0%  avg_score=95.8  n=18
+    hajj_season               pass=100.0%  avg_score=98.6  n=18
+    jeddah_season             pass=94.4%  avg_score=92.5  n=18
+    national_day              pass=100.0%  avg_score=96.9  n=18
+    ramadan                   pass=100.0%  avg_score=99.2  n=18
+    riyadh_season             pass=100.0%  avg_score=99.2  n=18
+    singles_day               pass=100.0%  avg_score=95.0  n=18
+    white_friday              pass=100.0%  avg_score=97.2  n=18
+
+  Top failures:
+      ⚠️  >20% exception:TimeoutError:timed out    1 (100.0%)
+
+## PASS 3 — 2026-06-06 01:55 UTC (200 runs)
+
+  Overall pass rate: 99.5%
+  Avg score (all):   98.3
+  Avg score (pass):  98.8
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=99.4  n=18
+    eid_al_fitr               pass=100.0%  avg_score=100.0  n=18
+    evergreen                 pass=100.0%  avg_score=100.0  n=20
+    founding_day              pass=100.0%  avg_score=99.4  n=18
+    hajj_season               pass=100.0%  avg_score=100.0  n=18
+    jeddah_season             pass=100.0%  avg_score=98.3  n=18
+    national_day              pass=100.0%  avg_score=98.9  n=18
+    ramadan                   pass=100.0%  avg_score=100.0  n=18
+    riyadh_season             pass=100.0%  avg_score=98.9  n=18
+    singles_day               pass=94.4%  avg_score=90.6  n=18
+    white_friday              pass=100.0%  avg_score=96.1  n=18
+
+  Top failures:
+      ⚠️  >20% exception:TimeoutError:timed out    1 (100.0%)
+
+## PASS 4 — 2026-06-06 01:56 UTC (200 runs)
+
+  Overall pass rate: 99.5%
+  Avg score (all):   97.9
+  Avg score (pass):  98.4
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=98.9  n=18
+    eid_al_fitr               pass=100.0%  avg_score=99.2  n=18
+    evergreen                 pass=100.0%  avg_score=99.8  n=21
+    founding_day              pass=100.0%  avg_score=97.6  n=18
+    hajj_season               pass=100.0%  avg_score=100.0  n=18
+    jeddah_season             pass=100.0%  avg_score=97.6  n=18
+    national_day              pass=100.0%  avg_score=99.4  n=18
+    ramadan                   pass=94.1%  avg_score=93.2  n=17
+    riyadh_season             pass=100.0%  avg_score=98.1  n=18
+    singles_day               pass=100.0%  avg_score=94.3  n=18
+    white_friday              pass=100.0%  avg_score=98.3  n=18
+
+  Top failures:
+      ⚠️  >20% exception:TimeoutError:timed out    1 (100.0%)
+
+## PASS 5 — 2026-06-06 01:57 UTC (200 runs)
+
+  Overall pass rate: 99.5%
+  Avg score (all):   98.1
+  Avg score (pass):  98.6
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=99.7  n=18
+    eid_al_fitr               pass=100.0%  avg_score=99.4  n=18
+    evergreen                 pass=100.0%  avg_score=98.9  n=18
+    founding_day              pass=100.0%  avg_score=98.7  n=19
+    hajj_season               pass=100.0%  avg_score=99.4  n=18
+    jeddah_season             pass=100.0%  avg_score=96.7  n=18
+    national_day              pass=100.0%  avg_score=99.2  n=18
+    ramadan                   pass=94.7%  avg_score=94.7  n=19
+    riyadh_season             pass=100.0%  avg_score=99.4  n=18
+    singles_day               pass=100.0%  avg_score=97.8  n=18
+    white_friday              pass=100.0%  avg_score=95.1  n=18
+
+  Top failures:
+      ⚠️  >20% exception:TimeoutError:timed out    1 (100.0%)
+
+## PASS 6 — 2026-06-06 01:58 UTC (200 runs)
+
+  Overall pass rate: 100.0%
+  Avg score (all):   98.0
+  Avg score (pass):  98.0
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=97.8  n=18
+    eid_al_fitr               pass=100.0%  avg_score=98.9  n=18
+    evergreen                 pass=100.0%  avg_score=100.0  n=18
+    founding_day              pass=100.0%  avg_score=97.8  n=20
+    hajj_season               pass=100.0%  avg_score=97.8  n=18
+    jeddah_season             pass=100.0%  avg_score=99.2  n=18
+    national_day              pass=100.0%  avg_score=97.1  n=18
+    ramadan                   pass=100.0%  avg_score=98.9  n=18
+    riyadh_season             pass=100.0%  avg_score=100.0  n=18
+    singles_day               pass=100.0%  avg_score=97.2  n=18
+    white_friday              pass=100.0%  avg_score=93.3  n=18
+
+## PASS 7 — 2026-06-06 01:59 UTC (200 runs)
+
+  Overall pass rate: 100.0%
+  Avg score (all):   98.2
+  Avg score (pass):  98.2
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=98.9  n=18
+    eid_al_fitr               pass=100.0%  avg_score=97.8  n=18
+    evergreen                 pass=100.0%  avg_score=100.0  n=18
+    founding_day              pass=100.0%  avg_score=98.4  n=21
+    hajj_season               pass=100.0%  avg_score=99.4  n=18
+    jeddah_season             pass=100.0%  avg_score=95.9  n=17
+    national_day              pass=100.0%  avg_score=99.4  n=18
+    ramadan                   pass=100.0%  avg_score=98.3  n=18
+    riyadh_season             pass=100.0%  avg_score=97.8  n=18
+    singles_day               pass=100.0%  avg_score=97.8  n=18
+    white_friday              pass=100.0%  avg_score=96.2  n=18
+
+## PASS 8 — 2026-06-06 01:59 UTC (200 runs)
+
+  Overall pass rate: 99.5%
+  Avg score (all):   96.6
+  Avg score (pass):  97.1
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=95.9  n=18
+    eid_al_fitr               pass=100.0%  avg_score=98.3  n=18
+    evergreen                 pass=100.0%  avg_score=100.0  n=18
+    founding_day              pass=100.0%  avg_score=97.4  n=19
+    hajj_season               pass=100.0%  avg_score=98.3  n=18
+    jeddah_season             pass=94.7%  avg_score=89.5  n=19
+    national_day              pass=100.0%  avg_score=99.4  n=18
+    ramadan                   pass=100.0%  avg_score=99.4  n=18
+    riyadh_season             pass=100.0%  avg_score=95.6  n=18
+    singles_day               pass=100.0%  avg_score=95.0  n=18
+    white_friday              pass=100.0%  avg_score=93.9  n=18
+
+  Top failures:
+      ⚠️  >20% exception:TimeoutError:timed out    1 (100.0%)
+
+## PASS 9 — 2026-06-06 02:02 UTC (200 runs)
+
+  Overall pass rate: 88.0%
+  Avg score (all):   86.5
+  Avg score (pass):  98.3
+
+  By occasion:
+    eid_al_adha               pass=100.0%  avg_score=99.4  n=18
+    eid_al_fitr               pass=100.0%  avg_score=99.4  n=18
+    evergreen                 pass=72.2%  avg_score=72.2  n=18
+    founding_day              pass=75.0%  avg_score=73.8  n=20
+    hajj_season               pass=94.4%  avg_score=94.4  n=18
+    jeddah_season             pass=100.0%  avg_score=97.8  n=18
+    national_day              pass=100.0%  avg_score=97.2  n=18
+    ramadan                   pass=100.0%  avg_score=96.1  n=18
+    riyadh_season             pass=100.0%  avg_score=98.9  n=18
+    singles_day               pass=66.7%  avg_score=63.3  n=18
+    white_friday              pass=61.1%  avg_score=60.6  n=18
+
+  Top failures:
+      ⚠️  >20% api_error:HTTP Error 500: Internal Server Error   24 (100.0%)

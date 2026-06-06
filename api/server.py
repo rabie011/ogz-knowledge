@@ -1114,12 +1114,17 @@ Write ONLY the caption, nothing else:"""
 
     import openai
     client = openai.OpenAI(api_key=api_key)
-    resp = client.chat.completions.create(
-        model='gpt-4o-mini',
-        messages=[{'role': 'user', 'content': prompt}],
-        max_tokens=200,
-        temperature=0.7,
-    )
+    try:
+        resp = client.chat.completions.create(
+            model='gpt-4o-mini',
+            messages=[{'role': 'user', 'content': prompt}],
+            max_tokens=200,
+            temperature=0.7,
+        )
+    except openai.RateLimitError as e:
+        raise HTTPException(status_code=429, detail=f"OpenAI rate limit reached — try again in a few seconds. ({e})")
+    except openai.APIError as e:
+        raise HTTPException(status_code=502, detail=f"OpenAI API error: {e}")
     caption = resp.choices[0].message.content.strip().strip('"\'')
 
     # 5. Quality gate + refine loop

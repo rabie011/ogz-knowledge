@@ -476,8 +476,14 @@ def main():
             if result["passed"]:
                 occasion_passing[occasion] = occasion_passing.get(occasion, 0) + 1
 
-            # Log failure to learning store
-            if not result["passed"] and result.get("error") not in ("api_error", "exception"):
+            # Log failure to learning store — content failures only, not runtime errors
+            error = result.get("error", "")
+            is_runtime = (result["score"] == 0 or
+                          "TimeoutError" in error or
+                          "HTTP Error" in error or
+                          error.startswith("api_error:") or
+                          error.startswith("exception:"))
+            if not result["passed"] and not is_runtime:
                 log_mistake_to_store(brand, result["score"],
                                      f"{result.get('error', 'unknown')} — {brand}/{occasion}")
 

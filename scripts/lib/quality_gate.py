@@ -284,16 +284,37 @@ def log_mistake(brand: str, score: int, mistake: str):
 
 
 def get_recent_mistakes(brand: str = None, limit: int = 10) -> list:
-    """Read recent mistakes from learning store. Inject into prompts."""
+    """Read recent content quality mistakes from learning store.
+
+    Filters out runtime errors (timeouts, HTTP errors) — only returns
+    real content quality failures where score > 0 and mistake is a
+    human-readable content lesson, not an exception trace.
+    """
     if not LEARNING_STORE.exists():
         return []
     lines = LEARNING_STORE.read_text().strip().split('\n')
     entries = [json.loads(l) for l in lines if l.strip()]
+
+    # Filter to real content failures only
+    def is_content_failure(e: dict) -> bool:
+        score = e.get('score', 0)
+        mistake = e.get('mistake', '')
+        # Skip runtime errors — not content lessons
+        if score == 0:
+            return False
+        if any(kw in mistake for kw in ('TimeoutError', 'HTTP Error', 'exception:', 'api_error:')):
+            return False
+        return True
+
+    content_failures = [e for e in entries if is_content_failure(e)]
+
+    # Brand-relevant mistakes first, then others
     if brand:
-        relevant = [e for e in entries if e.get('handle') == brand]
-        other = [e for e in entries if e.get('handle') != brand]
-        entries = relevant + other
-    return entries[-limit:]
+        relevant = [e for e in content_failures if e.get('handle') == brand]
+        other    = [e for e in content_failures if e.get('handle') != brand]
+        content_failures = relevant + other
+
+    return content_failures[-limit:]
 
 
 # ── CLI test ────────────────────────────────────────────────────────────────

@@ -288,7 +288,7 @@ let ratings = {};
 
 // Load saved ratings from localStorage
 function loadSaved() {
-  const saved = localStorage.getItem('ogz_review_r2');
+  const saved = localStorage.getItem('ogz_review_r3');
   if (saved) {
     ratings = JSON.parse(saved);
     // Find first unrated
@@ -300,7 +300,7 @@ function loadSaved() {
 }
 
 function saveRatings() {
-  localStorage.setItem('ogz_review_r2', JSON.stringify(ratings));
+  localStorage.setItem('ogz_review_r3', JSON.stringify(ratings));
   // POST to server to persist
   fetch('/api/review/save', {
     method: 'POST',
@@ -353,7 +353,7 @@ function render() {
         <span class="tag">${item.occasion}</span>
         <span class="tag">${item.sector}</span>
         <span class="tag ${tierClass}">${item.tier}</span>
-        <span class="score-badge ${scoreClass}">${item.score}/100</span>
+        
       </div>
       <div class="arabic-content" id="arabicContent">${item.arabic || '<span style="color:#666">لا يوجد محتوى</span>'}</div>
       <div class="rating-section">

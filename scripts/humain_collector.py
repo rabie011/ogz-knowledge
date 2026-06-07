@@ -137,11 +137,69 @@ def _build_learned_addition() -> str:
         return ""
 
 
+def _build_brand_block(brief: dict, sector_ar: str, occasion_ar: str) -> str:
+    """Build the <BRAND> block — enriched with KB data if available."""
+    ctx = brief.get("brand_context", {})
+    lines = [f"العلامة: {brief['brand']} | القطاع: {sector_ar} | المنتج: {brief['product']} | المناسبة: {occasion_ar}"]
+
+    if ctx.get("bio_tagline"):
+        lines.append(f"شعار العلامة: \"{ctx['bio_tagline']}\"")
+
+    if ctx.get("arabic_style"):
+        style_map = {
+            "colloquial_hejazi": "حجازية عامية",
+            "saudi": "سعودية",
+            "colloquial_gulf": "خليجية عامية",
+            "formal_arabic": "فصحى",
+            "modern_arabic": "عربية حديثة",
+        }
+        style = style_map.get(ctx["arabic_style"], ctx["arabic_style"])
+        lines.append(f"اللهجة: {style}")
+
+    if ctx.get("tone"):
+        tone_map = {
+            "playful": "مرح", "casual": "عفوي", "celebratory": "احتفالي",
+            "informative": "معلوماتي", "warm": "دافئ", "urgent": "عاجل",
+            "friendly": "ودّي", "aspirational": "طموح", "inspirational": "ملهم",
+            "professional": "احترافي",
+        }
+        tones_ar = [tone_map.get(t, t) for t in ctx["tone"][:3]]
+        lines.append(f"النبرة: {' | '.join(tones_ar)}")
+
+    if ctx.get("signature_phrases"):
+        # filter out generic red-line phrases before showing
+        _GENERIC = {"لا تفوت", "اطلب الحين", "اشترك", "متوفر الآن", "منشن", "فولو"}
+        clean = [p for p in ctx["signature_phrases"] if not any(g in p for g in _GENERIC)]
+        if clean:
+            phrases = " | ".join(f'"{p}"' for p in clean[:3])
+            lines.append(f"عبارات مميزة: {phrases}")
+
+    if ctx.get("proven_openers"):
+        openers = " | ".join(f'"{o}"' for o in ctx["proven_openers"][:3])
+        lines.append(f"افتتاحيات ناجحة: {openers}")
+
+    if ctx.get("real_hooks"):
+        lines.append("هوكات حقيقية من حسابهم:")
+        for h in ctx["real_hooks"][:4]:
+            lines.append(f"  - {h[:70]}")
+
+    if ctx.get("high_engagement_style"):
+        lines.append(f"ما ينجح: {ctx['high_engagement_style'][:100]}")
+
+    if ctx.get("avoid_topics"):
+        avoids = " | ".join(ctx["avoid_topics"][:3])
+        lines.append(f"تجنب: {avoids}")
+
+    lines.append(f"الهاشتاقات: {brief['hashtags']}")
+    return "\n".join(lines)
+
+
 def build_prompt(brief: dict) -> str:
-    max_chars  = MAX_CHARS.get(brief["sector"], 160)
-    sector_ar  = SECTOR_AR.get(brief["sector"], brief["sector"])
+    max_chars   = MAX_CHARS.get(brief["sector"], 160)
+    sector_ar   = SECTOR_AR.get(brief["sector"], brief["sector"])
     occasion_ar = OCCASION_AR.get(brief["occasion"], brief["occasion"])
     learned_addition = _build_learned_addition()
+    brand_block = _build_brand_block(brief, sector_ar, occasion_ar)
     return f"""<RED_LINES>
 ممنوع: السرير، خلع الملابس أو الحجاب، استغلال ضعف الناس أو خوفهم.
 ممنوع: وضع مناسبة دينية (رمضان، العيد) أو وطنية (اليوم الوطني، يوم التأسيس) في موقع الانتظار للمنتج.
@@ -153,14 +211,14 @@ def build_prompt(brief: dict) -> str:
 </TECHNIQUES>
 
 <BRAND>
-العلامة: {brief['brand']} | القطاع: {sector_ar} | المنتج: {brief['product']} | المناسبة: {occasion_ar}
-الهاشتاقات: {brief['hashtags']}
+{brand_block}
 </BRAND>
 
 <TASK>
 اكتب 3 كابشنات — كل واحد يطبّق تقنية مختلفة (أ، ب، ج).
 كل كابشن: حد أقصى {max_chars} حرف. نص فقط — بدون علامات اقتباس، بدون شرح، بدون رقم التقنية، بدون اسم التقنية.
 البنية اللغوية لكل خيار يجب أن تختلف — لا تنسخ نفس القالب ثلاث مرات بكلمات مختلفة.
+اكتب من شخصية هذه العلامة تحديداً — مو كابشن عام يصلح لأي علامة.
 ثم اختر الأقوى وضعه في السطر الأخير بعد كلمة: الأفضل:
 </TASK>"""
 

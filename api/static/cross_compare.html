@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مقارنة النماذج — اختر الأفضل</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0a0a0f;
+    color: #e8e8f0;
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    min-height: 100vh;
+    padding: 24px 16px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 1.4rem;
+    color: #a0a8ff;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 24px;
+  }
+
+  /* Model selector */
+  .model-bar {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .model-select {
+    background: #161620;
+    border: 1px solid #2a2a3a;
+    color: #ccc;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .model-select:focus { outline: none; border-color: #5060ff; }
+  label { font-size: 0.8rem; color: #888; margin-left: 6px; }
+
+  /* Stats bar */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    text-align: center;
+    background: #161620;
+    border: 1px solid #2a2a3a;
+    border-radius: 10px;
+    padding: 10px 18px;
+  }
+  .stat-val { font-size: 1.4rem; font-weight: bold; color: #a0a8ff; }
+  .stat-label { font-size: 0.7rem; color: #666; margin-top: 2px; }
+
+  /* Brief card */
+  .brief-card {
+    background: #161620;
+    border: 1px solid #2a2a3a;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .brief-brand {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #e0e4ff;
+  }
+  .brief-occasion {
+    font-size: 0.82rem;
+    color: #7080a0;
+    margin-top: 4px;
+  }
+
+  /* Comparison area */
+  .compare-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  @media(max-width: 600px) {
+    .compare-area { grid-template-columns: 1fr; }
+  }
+
+  .caption-card {
+    background: #12121c;
+    border: 2px solid #2a2a3a;
+    border-radius: 14px;
+    padding: 18px;
+    cursor: pointer;
+    transition: border-color 0.18s, transform 0.12s, background 0.18s;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .caption-card:hover {
+    border-color: #5060ff;
+    background: #161628;
+    transform: translateY(-2px);
+  }
+  .caption-card.winner {
+    border-color: #40ff90;
+    background: #0f1f14;
+  }
+  .caption-card.loser {
+    border-color: #ff4060;
+    background: #1f0f10;
+    opacity: 0.65;
+  }
+
+  .model-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+  }
+  .badge-humain  { background: #1a2a4a; color: #6090ff; border: 1px solid #3050a0; }
+  .badge-gpt4o   { background: #1a3020; color: #40cc70; border: 1px solid #2a6040; }
+  .badge-claude  { background: #2a1a3a; color: #c070ff; border: 1px solid #6030a0; }
+  .badge-gemini  { background: #2a2010; color: #ffb030; border: 1px solid #806020; }
+
+  .caption-text {
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: #dde4ff;
+    text-align: right;
+    flex: 1;
+  }
+
+  .tech-badge {
+    font-size: 0.72rem;
+    color: #909090;
+    text-align: left;
+  }
+  .q-score {
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 12px;
+  }
+  .q-good  { background: #0f3020; color: #40ff90; }
+  .q-mid   { background: #2a2800; color: #ffd050; }
+  .q-low   { background: #301010; color: #ff6060; }
+
+  /* Tech name map */
+  .caption-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Skip button */
+  .btn-skip {
+    display: block;
+    margin: 0 auto 24px;
+    background: transparent;
+    border: 1px solid #333;
+    color: #666;
+    padding: 8px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .btn-skip:hover { border-color: #666; color: #aaa; }
+
+  /* All options panel */
+  .all-options {
+    background: #0f0f18;
+    border: 1px solid #1e1e2e;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  .all-options h3 {
+    font-size: 0.82rem;
+    color: #555;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .option-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #1e1e2e;
+    padding-bottom: 10px;
+  }
+  .option-row:last-child { border-bottom: none; }
+  .opt-label {
+    font-size: 0.8rem;
+    color: #6080c0;
+    font-weight: bold;
+    min-width: 20px;
+  }
+  .opt-text { font-size: 0.9rem; color: #c0c8e0; flex: 1; }
+  .opt-score {
+    font-size: 0.7rem;
+    padding: 1px 6px;
+    border-radius: 8px;
+  }
+
+  /* Win chart */
+  .win-chart {
+    background: #0f0f18;
+    border: 1px solid #1e1e2e;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+  }
+  .win-chart h3 { font-size: 0.82rem; color: #555; margin-bottom: 14px; text-align: center; }
+  .win-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .win-model { font-size: 0.78rem; color: #aaa; min-width: 70px; text-align: right; }
+  .win-bar-wrap { flex: 1; background: #1e1e2e; border-radius: 4px; height: 18px; overflow: hidden; }
+  .win-bar { height: 100%; border-radius: 4px; transition: width 0.4s; }
+  .win-pct { font-size: 0.72rem; color: #888; min-width: 35px; }
+
+  /* Done state */
+  .done-msg {
+    text-align: center;
+    padding: 40px 20px;
+    color: #40ff90;
+    font-size: 1.1rem;
+  }
+  .done-msg p { color: #888; font-size: 0.85rem; margin-top: 8px; }
+
+  /* Loading */
+  .loading { text-align: center; color: #555; padding: 40px; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+
+<h1>⚔️ مقارنة النماذج</h1>
+<p class="subtitle">اختر الكابشن الأفضل — تصويتك يبني بيانات التدريب</p>
+
+<div class="model-bar">
+  <div>
+    <label>النموذج أ:</label>
+    <select class="model-select" id="modelA" onchange="reload()">
+      <option value="humain">HUMAIN/ALLaM</option>
+      <option value="gpt-4o">GPT-4o</option>
+      <option value="claude">Claude</option>
+    </select>
+  </div>
+  <div>
+    <label>النموذج ب:</label>
+    <select class="model-select" id="modelB" onchange="reload()">
+      <option value="gpt-4o">GPT-4o</option>
+      <option value="humain">HUMAIN/ALLaM</option>
+      <option value="claude">Claude</option>
+    </select>
+  </div>
+</div>
+
+<div class="stats-bar" id="statsBar"></div>
+<div id="main">
+  <div class="loading">جاري التحميل...</div>
+</div>
+
+<div class="win-chart" id="winChart" style="display:none">
+  <h3>معدل الفوز</h3>
+  <div id="winRows"></div>
+</div>
+
+<script>
+const TECH_NAMES = {
+  'أ': 'Paradox Hunter',
+  'ب': 'Heritage Decoder',
+  'ج': 'Firaasa',
+  'د': 'Metaphor Architect',
+  'هـ': 'Authenticity Detective',
+};
+
+const MODEL_COLORS = {
+  'humain': '#badge-humain',
+  'gpt-4o': '#badge-gpt4o',
+  'claude':  '#badge-claude',
+  'gemini':  '#badge-gemini',
+};
+
+let currentPair = null;
+
+function badgeClass(model) {
+  if (model === 'humain') return 'badge-humain';
+  if (model === 'gpt-4o') return 'badge-gpt4o';
+  if (model === 'claude')  return 'badge-claude';
+  return 'badge-gemini';
+}
+
+function modelLabel(model) {
+  if (model === 'humain') return 'HUMAIN / ALLaM 34B';
+  if (model === 'gpt-4o') return 'GPT-4o';
+  if (model === 'claude')  return 'Claude Sonnet';
+  if (model === 'gemini')  return 'Gemini';
+  return model;
+}
+
+function qClass(score) {
+  if (!score) return '';
+  if (score >= 70) return 'q-good';
+  if (score >= 50) return 'q-mid';
+  return 'q-low';
+}
+
+async function loadStats() {
+  const resp = await fetch('/api/cross/stats');
+  const data = await resp.json();
+
+  const bar = document.getElementById('statsBar');
+  const pairs = [];
+  for (const [m, n] of Object.entries(data.counts || {})) {
+    pairs.push(`<div class="stat"><div class="stat-val">${n}</div><div class="stat-label">${modelLabel(m)}</div></div>`);
+  }
+  pairs.push(`<div class="stat"><div class="stat-val">${data.total_comparisons || 0}</div><div class="stat-label">مقارنة مكتملة</div></div>`);
+  bar.innerHTML = pairs.join('');
+
+  // Win chart
+  const wr = data.win_rates || {};
+  const wins = data.wins || {};
+  if (Object.keys(wr).length > 0) {
+    const chart = document.getElementById('winChart');
+    chart.style.display = 'block';
+    const rows = document.getElementById('winRows');
+    const maxWins = Math.max(...Object.values(wins), 1);
+    rows.innerHTML = Object.entries(wr)
+      .sort((a, b) => b[1] - a[1])
+      .map(([m, pct]) => {
+        const w = wins[m] || 0;
+        const barColor = m === 'humain' ? '#5070ff' : m === 'gpt-4o' ? '#40cc70' : m === 'claude' ? '#c070ff' : '#ffb030';
+        return `<div class="win-row">
+          <div class="win-model">${modelLabel(m)}</div>
+          <div class="win-bar-wrap"><div class="win-bar" style="width:${Math.round(100*w/maxWins)}%;background:${barColor}"></div></div>
+          <div class="win-pct">${w}W · ${pct}%</div>
+        </div>`;
+      }).join('');
+  }
+}
+
+async function loadPair() {
+  const mA = document.getElementById('modelA').value;
+  const mB = document.getElementById('modelB').value;
+
+  if (mA === mB) {
+    document.getElementById('main').innerHTML = '<div class="loading">اختر نموذجين مختلفين</div>';
+    return;
+  }
+
+  const resp = await fetch(`/api/cross/pairs?model_a=${mA}&model_b=${mB}`);
+  const data = await resp.json();
+  currentPair = data;
+
+  const main = document.getElementById('main');
+
+  if (data.done) {
+    main.innerHTML = `<div class="done-msg">
+      ✅ انتهت المقارنة بين ${modelLabel(mA)} و ${modelLabel(mB)}
+      <p>جرب تغيير النموذجين لمقارنة تركيبة أخرى</p>
+    </div>`;
+    return;
+  }
+
+  // Randomize display order to avoid position bias
+  const flip = Math.random() > 0.5;
+  const [capLeft, modelLeft, techLeft, scoresLeft, optsLeft, capRight, modelRight, techRight, scoresRight, optsRight] = flip
+    ? [data.caption_b, data.model_b, data.tech_b, data.scores_b, data.all_options_b,
+       data.caption_a, data.model_a, data.tech_a, data.scores_a, data.all_options_a]
+    : [data.caption_a, data.model_a, data.tech_a, data.scores_a, data.all_options_a,
+       data.caption_b, data.model_b, data.tech_b, data.scores_b, data.all_options_b];
+
+  const scoreLeft  = scoresLeft[techLeft] || 0;
+  const scoreRight = scoresRight[techRight] || 0;
+
+  const allOptsHtml = (opts, scores, model) => {
+    const keys = ['أ','ب','ج','د','هـ'];
+    return keys.filter(k => opts[k] && opts[k].length > 5).map(k => {
+      const sc = scores[k] || 0;
+      const cls = qClass(sc);
+      return `<div class="option-row">
+        <div class="opt-label">${k}</div>
+        <div class="opt-text">${opts[k]}</div>
+        <div class="opt-score ${cls}">Q${sc}</div>
+      </div>`;
+    }).join('');
+  };
+
+  main.innerHTML = `
+    <div class="brief-card">
+      <div class="brief-brand">${data.brand}</div>
+      <div class="brief-occasion">${data.occasion} · ${data.remaining} مقارنة متبقية</div>
+    </div>
+
+    <div class="compare-area">
+      <div class="caption-card" id="cardLeft" onclick="choose('${modelLeft}', '${modelRight}', ${flip})">
+        <span class="model-badge ${badgeClass(modelLeft)}">${modelLabel(modelLeft)}</span>
+        <div class="caption-text">${capLeft}</div>
+        <div class="caption-footer">
+          <span class="tech-badge">${techLeft} — ${TECH_NAMES[techLeft] || ''}</span>
+          <span class="q-score ${qClass(scoreLeft)}">Q${scoreLeft}</span>
+        </div>
+      </div>
+      <div class="caption-card" id="cardRight" onclick="choose('${modelRight}', '${modelLeft}', ${flip})">
+        <span class="model-badge ${badgeClass(modelRight)}">${modelLabel(modelRight)}</span>
+        <div class="caption-text">${capRight}</div>
+        <div class="caption-footer">
+          <span class="tech-badge">${techRight} — ${TECH_NAMES[techRight] || ''}</span>
+          <span class="q-score ${qClass(scoreRight)}">Q${scoreRight}</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-skip" onclick="skipPair()">تخطّ هذه المقارنة</button>
+
+    <div class="all-options">
+      <h3>جميع الخيارات — ${modelLabel(modelLeft)}</h3>
+      ${allOptsHtml(optsLeft, scoresLeft, modelLeft)}
+    </div>
+    <div class="all-options">
+      <h3>جميع الخيارات — ${modelLabel(modelRight)}</h3>
+      ${allOptsHtml(optsRight, scoresRight, modelRight)}
+    </div>
+  `;
+
+  // Store display order for correct winner resolution
+  currentPair._displayLeft  = { model: modelLeft,  caption: capLeft };
+  currentPair._displayRight = { model: modelRight, caption: capRight };
+}
+
+async function choose(winnerModel, loserModel, flipped) {
+  if (!currentPair) return;
+
+  // Find the actual captions
+  const winCap = winnerModel === currentPair.model_a ? currentPair.caption_a : currentPair.caption_b;
+  const loseCap = loserModel === currentPair.model_a  ? currentPair.caption_a : currentPair.caption_b;
+
+  // Animate
+  const winId = flipped
+    ? (winnerModel === currentPair.model_b ? 'cardLeft' : 'cardRight')
+    : (winnerModel === currentPair.model_a ? 'cardLeft' : 'cardRight');
+  document.getElementById(winId)?.classList.add('winner');
+  const otherId = winId === 'cardLeft' ? 'cardRight' : 'cardLeft';
+  document.getElementById(otherId)?.classList.add('loser');
+
+  await fetch('/api/cross/prefer', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      brief_key:       currentPair.brief_key,
+      model_a:         currentPair.model_a,
+      model_b:         currentPair.model_b,
+      winner_model:    winnerModel,
+      loser_model:     loserModel,
+      winner_caption:  winCap,
+      loser_caption:   loseCap,
+    })
+  });
+
+  await loadStats();
+  setTimeout(() => loadPair(), 700);
+}
+
+async function skipPair() {
+  if (!currentPair) return;
+  // Mark as skipped by recording a draw (no winner stored, just move to next)
+  await fetch('/api/cross/prefer', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      brief_key:    currentPair.brief_key,
+      model_a:      currentPair.model_a,
+      model_b:      currentPair.model_b,
+      winner_model: 'skip',
+      loser_model:  'skip',
+      winner_caption: '',
+      loser_caption:  '',
+    })
+  });
+  await loadPair();
+}
+
+async function reload() {
+  document.getElementById('main').innerHTML = '<div class="loading">جاري التحميل...</div>';
+  await loadPair();
+}
+
+// Init
+(async () => {
+  await loadStats();
+  await loadPair();
+})();
+</script>
+</body>
+</html>

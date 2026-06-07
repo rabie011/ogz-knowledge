@@ -1688,3 +1688,156 @@ async def humain_prefer(request: Request):
 def humain_compare_page():
     from fastapi.responses import FileResponse
     return FileResponse(REPO / "api" / "static" / "humain_compare.html")
+
+
+# ═══════════════════════════════════════════════════════════
+# CROSS-MODEL COMPARISON — HUMAIN vs GPT-4o vs Claude
+# Generates preference pairs for DPO fine-tuning
+# ═══════════════════════════════════════════════════════════
+
+_CROSS_QUEUES = {
+    "humain": REPO / "logs" / "humain_queue.json",
+    "gpt-4o": REPO / "logs" / "gpt4o_queue.json",
+    "claude":  REPO / "logs" / "claude_queue.json",
+}
+_CROSS_PREFS_FILE = REPO / "logs" / "cross_preferences.json"
+
+def _load_cross_queue(model: str) -> list:
+    path = _CROSS_QUEUES.get(model)
+    if not path or not path.exists():
+        return []
+    q = json.loads(path.read_text())
+    return q.get("pending", []) + q.get("approved", [])
+
+
+def _brief_key(item: dict) -> str:
+    return f"{item.get('brand','')}|{item.get('occasion','')}"
+
+
+@app.get("/cross-compare")
+def cross_compare_page():
+    from fastapi.responses import FileResponse
+    return FileResponse(REPO / "api" / "static" / "cross_compare.html")
+
+
+@app.get("/api/cross/stats")
+def cross_stats():
+    """Return counts per model and overall preference win-rates."""
+    counts = {}
+    for model in _CROSS_QUEUES:
+        items = _load_cross_queue(model)
+        counts[model] = len(items)
+
+    prefs = {"comparisons": [], "win_rates": {}}
+    if _CROSS_PREFS_FILE.exists():
+        prefs = json.loads(_CROSS_PREFS_FILE.read_text())
+
+    wins = {}
+    losses = {}
+    for c in prefs.get("comparisons", []):
+        w = c.get("winner_model", "")
+        l = c.get("loser_model", "")
+        wins[w] = wins.get(w, 0) + 1
+        losses[l] = losses.get(l, 0) + 1
+
+    win_rates = {}
+    for m in set(list(wins.keys()) + list(losses.keys())):
+        total = wins.get(m, 0) + losses.get(m, 0)
+        win_rates[m] = round(100 * wins.get(m, 0) / max(total, 1))
+
+    return {
+        "counts": counts,
+        "total_comparisons": len(prefs.get("comparisons", [])),
+        "win_rates": win_rates,
+        "wins": wins,
+    }
+
+
+@app.get("/api/cross/pairs")
+def cross_pairs(model_a: str = "humain", model_b: str = "gpt-4o"):
+    """Return one brief that has outputs from both models — for pairwise comparison."""
+    items_a = {_brief_key(i): i for i in _load_cross_queue(model_a)}
+    items_b = {_brief_key(i): i for i in _load_cross_queue(model_b)}
+
+    # Exclude already-compared briefs
+    prefs = {"comparisons": []}
+    if _CROSS_PREFS_FILE.exists():
+        prefs = json.loads(_CROSS_PREFS_FILE.read_text())
+    compared = {c["brief_key"] for c in prefs.get("comparisons", [])
+                if c.get("model_a") == model_a and c.get("model_b") == model_b}
+
+    overlap = [k for k in items_a if k in items_b and k not in compared]
+    if not overlap:
+        return {"done": True, "remaining": 0}
+
+    key = overlap[0]
+    ia = items_a[key]
+    ib = items_b[key]
+
+    # Pick best caption from each model (highest auto-score or ALLaM's best pick)
+    def _best_cap(item: dict) -> tuple[str, str]:
+        scores = item.get("scores", {})
+        opts = item.get("options", {})
+        if scores:
+            best_k = max(scores, key=lambda k: scores.get(k, 0))
+            return best_k, opts.get(best_k, item.get("best", ""))
+        return "—", item.get("best", "")
+
+    tech_a, cap_a = _best_cap(ia)
+    tech_b, cap_b = _best_cap(ib)
+
+    return {
+        "done": False,
+        "remaining": len(overlap),
+        "brief_key": key,
+        "brand": ia.get("brand"),
+        "occasion": ia.get("occasion"),
+        "sector": ia.get("sector"),
+        "model_a": model_a,
+        "model_b": model_b,
+        "caption_a": cap_a,
+        "caption_b": cap_b,
+        "tech_a": tech_a,
+        "tech_b": tech_b,
+        "all_options_a": ia.get("options", {}),
+        "all_options_b": ib.get("options", {}),
+        "scores_a": ia.get("scores", {}),
+        "scores_b": ib.get("scores", {}),
+    }
+
+
+@app.post("/api/cross/prefer")
+async def cross_prefer(request: Request):
+    """Record which model's caption was preferred for a brief."""
+    body = await request.json()
+    brief_key   = body.get("brief_key", "")
+    winner      = body.get("winner_model", "")
+    loser       = body.get("loser_model", "")
+    win_cap     = body.get("winner_caption", "")
+    lose_cap    = body.get("loser_caption", "")
+    model_a     = body.get("model_a", "")
+    model_b     = body.get("model_b", "")
+
+    prefs = {"comparisons": []}
+    if _CROSS_PREFS_FILE.exists():
+        prefs = json.loads(_CROSS_PREFS_FILE.read_text())
+
+    prefs["comparisons"].append({
+        "brief_key":      brief_key,
+        "model_a":        model_a,
+        "model_b":        model_b,
+        "winner_model":   winner,
+        "loser_model":    loser,
+        "winner_caption": win_cap,
+        "loser_caption":  lose_cap,
+        "timestamp":      _dt.now().isoformat(),
+    })
+    _CROSS_PREFS_FILE.write_text(json.dumps(prefs, ensure_ascii=False, indent=2))
+
+    # Tally win rates
+    wins = {}
+    for c in prefs["comparisons"]:
+        w = c.get("winner_model", "")
+        wins[w] = wins.get(w, 0) + 1
+
+    return {"total_comparisons": len(prefs["comparisons"]), "wins": wins}

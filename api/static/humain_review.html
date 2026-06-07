@@ -446,6 +446,13 @@ function render() {
 
     // Build options HTML
     const optionKeys = ['أ', 'ب', 'ج', 'د', 'هـ'];
+    const scores = item.scores || {};
+    const divOk = item.diversity_ok;
+    const divBadge = divOk === true
+      ? '<span style="color:#4f9;font-size:11px;margin-right:6px">✓ diverse</span>'
+      : divOk === false
+        ? '<span style="color:#f97316;font-size:11px;margin-right:6px">⚠ overlap</span>'
+        : '';
     const optionsHtml = optionKeys.map(key => {
       const text = (item.options || {})[key] || '';
       if (!text) return '';
@@ -453,12 +460,17 @@ function render() {
         item.best === text ||
         item.best.includes(text.slice(0, 20))
       );
+      const sc = scores[key];
+      const scoreBadge = sc != null
+        ? `<span style="font-size:10px;padding:1px 6px;border-radius:10px;background:${sc>=70?'#1a3a1a':sc>=50?'#2a2a1a':'#2a1a1a'};color:${sc>=70?'#4f9':sc>=50?'#fbbf24':'#f87171'}">Q${sc}</span>`
+        : '';
       return `
         <div class="option ${isBest ? 'best' : ''}">
           <div class="option-label">
             ${isBest ? '<span class="star">★</span>' : ''}
             ${techLabel(key)}
             ${isBest ? '— الأفضل (اختيار ALLaM)' : ''}
+            ${scoreBadge}
           </div>
           <div class="caption-text">${escHtml(text)}</div>
           <div class="hashtags">${escHtml(item.hashtags || '')}</div>
@@ -527,6 +539,7 @@ function render() {
             <span class="tag accent">${escHtml(item.occasion_ar || item.occasion)}</span>
             <span class="tag">${escHtml(item.sector_ar || item.sector)}</span>
             <span class="tag">${escHtml(item.product)}</span>
+            ${divBadge}
           </div>
           ${badge}
         </div>

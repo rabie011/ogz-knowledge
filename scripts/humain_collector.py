@@ -404,6 +404,82 @@ def _clean_caption(text: str) -> str:
 
 ALL_KEYS = ("أ", "ب", "ج", "د", "هـ")
 
+# Generic red-line phrases that lower caption quality
+_GENERIC_PHRASES = {
+    "استمتع", "لا تفوت", "أجواء مميزة", "عرض لفترة محدودة",
+    "اطلب الحين", "اشترك الحين", "متوفر الآن", "منشن صديقك",
+    "عروض حصرية", "لمحبي", "لعشاق",
+}
+
+# Correct openers per technique — used for quality scoring
+_CORRECT_OPENERS = {
+    "أ": None,            # any NON-لمّا/إذا/تخيل starter
+    "ب": None,            # double-meaning word (hard to verify automatically)
+    "ج": ("اللي", ),
+    "د": ("إذا", "تخيل"),
+    "هـ": ("لمّا", "لما"),
+}
+
+_BANNED_FOR_TECH = {
+    "أ": ("لمّا", "لما", "إذا", "تخيل"),
+    "ب": ("لمّا", "لما", "إذا", "تخيل"),
+    "ج": ("لمّا", "لما", "إذا"),
+    "د": ("لمّا", "لما"),
+    "هـ": ("إذا", "تخيل"),
+}
+
+
+def _auto_score(caption: str, technique: str, brand: str) -> int:
+    """
+    Score a caption 0-100.
+    Higher = better for Instagram. Used to pick best when ALLaM doesn't.
+    """
+    if not caption or len(caption) < 5:
+        return 0
+
+    score = 50  # baseline
+
+    # Length: sweet spot is 40-90 chars
+    n = len(caption)
+    if 40 <= n <= 90:
+        score += 20
+    elif n < 40:
+        score += 10  # very short can be punchy
+    elif n > 150:
+        score -= 15
+    elif n > 120:
+        score -= 8
+
+    # Technique adherence: starts with correct opener
+    first_word = caption.split()[0].strip("؟!.،-") if caption.split() else ""
+    banned = _BANNED_FOR_TECH.get(technique, ())
+    correct = _CORRECT_OPENERS.get(technique)
+    if any(caption.startswith(b) for b in banned):
+        score -= 25   # wrong technique opener
+    if correct and any(caption.startswith(c) for c in correct):
+        score += 15   # correct technique opener
+
+    # Doesn't start with brand name
+    if brand and caption.startswith(brand):
+        score -= 15
+
+    # No generic phrases
+    for phrase in _GENERIC_PHRASES:
+        if phrase in caption:
+            score -= 10
+            break
+
+    # Has a dash (—) — common in good Saudi captions
+    if "—" in caption or " - " in caption:
+        score += 5
+
+    # Has Arabic verb (good sign of active voice)
+    if re.search(r"[يتنا]\w{3,}", caption):
+        score += 5
+
+    return max(0, min(100, score))
+
+
 def parse_response(raw: str) -> dict:
     """
     Extract the 5 technique options (أ, ب, ج, د, هـ) and الأفضل from ALLaM's response.
@@ -414,6 +490,7 @@ def parse_response(raw: str) -> dict:
     """
     options = {k: "" for k in ALL_KEYS}
     best = ""
+    best_key = ""  # technique key if ALLaM picked by key
 
     lines = [l.strip() for l in raw.splitlines() if l.strip()]
     # Strip UI chrome
@@ -423,21 +500,28 @@ def parse_response(raw: str) -> dict:
             start = i + 1
     lines = lines[start:]
 
-    # Extract الأفضل line
-    for line in lines:
-        if "الأفضل" in line:
-            raw_best = re.sub(r"الأفضل\s*:\s*", "", line).strip()
-            best = _clean_caption(raw_best)
-            break
+    # Note: extract الأفضل AFTER options so we can resolve "الأفضل: أ" by key
+    best_line = next((l for l in lines if "الأفضل" in l), None)
 
     # Format A: أ. / ب. / ج. / د. / هـ. labels
-    for line in lines:
+    # Also handle multi-line captions: if next line is hashtag-only, skip it
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        matched = False
         for key in ALL_KEYS:
             if re.match(rf"^{key}[\.\-\:]\s*", line):
                 text = _clean_caption(re.sub(rf"^{key}[\.\-\:]\s*", "", line))
+                # If caption is empty and next line exists, try it (multi-line edge case)
+                if not text and i + 1 < len(lines) and not any(
+                    re.match(rf"^{k}[\.\-\:]\s*", lines[i+1]) for k in ALL_KEYS
+                ):
+                    text = _clean_caption(lines[i+1])
                 if text and not options[key]:
                     options[key] = text
+                matched = True
                 break
+        i += 1
 
     # Format B: English technique name labels
     if not any(options.values()):
@@ -469,14 +553,28 @@ def parse_response(raw: str) -> dict:
             if i < len(arabic_lines):
                 options[key] = arabic_lines[i]
 
-    if not best:
-        # pick first non-empty option
-        for k in ALL_KEYS:
-            if options[k]:
-                best = options[k]
-                break
+    # Resolve الأفضل line — handles both "الأفضل: أ" (key) and "الأفضل: full caption"
+    if best_line:
+        raw_best = re.sub(r"الأفضل\s*:\s*", "", best_line).strip()
+        # If it's a single technique key, look up that option
+        if raw_best in ALL_KEYS and options.get(raw_best):
+            best = options[raw_best]
+        else:
+            cleaned = _clean_caption(raw_best)
+            if len(cleaned) > 10:
+                best = cleaned
 
-    return {"options": options, "best": best}
+    if not best:
+        # Pick best by auto-score — prefer shorter, technique-adherent captions
+        scored = {k: _auto_score(v, k, "") for k, v in options.items() if v and len(v) > 5}
+        if scored:
+            best_k = max(scored, key=scored.get)
+            best = options[best_k]
+
+    # Compute quality scores for each option
+    scores = {k: _auto_score(v, k, "") for k, v in options.items() if v}
+
+    return {"options": options, "best": best, "scores": scores}
 
 
 def load_queue() -> dict:
@@ -501,6 +599,7 @@ def save_to_queue(brief: dict, raw_response: str) -> None:
     sector_ar   = SECTOR_AR.get(brief["sector"], brief["sector"])
     occasion_ar = OCCASION_AR.get(brief["occasion"], brief["occasion"])
     div_ok = _diversity_ok(parsed["options"])
+    n_opts = len([v for v in parsed["options"].values() if v and len(v) > 5])
 
     # Remove any existing entry for this brief_id (allow re-collection)
     queue["pending"] = [p for p in queue["pending"] if p.get("brief_id") != brief["id"]]
@@ -516,13 +615,15 @@ def save_to_queue(brief: dict, raw_response: str) -> None:
         "hashtags":    brief["hashtags"],
         "raw":         raw_response,
         "options":     parsed["options"],
+        "scores":      parsed.get("scores", {}),
         "best":        parsed["best"],
         "diversity_ok": div_ok,
+        "options_count": n_opts,
         "collected_at": datetime.now().isoformat(),
         "status":      "pending",
     })
     if not div_ok:
-        log(f"  ⚠️  Opener overlap detected for Brief #{brief['id']} — consider re-collecting")
+        log(f"  ⚠️  Opener overlap for Brief #{brief['id']} ({n_opts} opts) — will retry")
 
     QUEUE_FILE.write_text(json.dumps(queue, ensure_ascii=False, indent=2))
     log(f"  💾 Saved to queue: Brief #{brief['id']} — {brief['brand']}")
@@ -816,7 +917,56 @@ async def run_browser(briefs: list[dict]) -> None:
                 log(f"  ❌  No response for Brief #{brief['id']} — skipping.")
                 continue
 
-            # Parse and queue — no terminal input needed
+            # Parse response and check diversity
+            parsed_check = parse_response(response)
+            n_opts = len([v for v in parsed_check["options"].values() if v and len(v) > 5])
+            div_ok = _diversity_ok(parsed_check["options"])
+
+            # Diversity retry: if openers overlap or too few options, try once more in same session
+            if not div_ok or n_opts < 3:
+                log(f"  ⚠️  Diversity issue ({n_opts} opts, div={div_ok}) — sending variation prompt...")
+                openers_seen = []
+                for cap in parsed_check["options"].values():
+                    if cap and cap.split():
+                        openers_seen.append(cap.split()[0].strip("؟!.،"))
+
+                variation_note = ""
+                if openers_seen:
+                    variation_note = f"\nممنوع تبدأ أي كابشن بهذه الكلمات: {' / '.join(set(openers_seen))}"
+
+                variation_prompt = (
+                    f"اكتب مرة أخرى — هذه المرة لازم كل كابشن يبدأ بكلمة مختلفة تماماً.{variation_note}\n"
+                    f"التزم بقواعد الافتتاح لكل تقنية:\n"
+                    f"  أ: جملة خبرية مفاجئة (ممنوع: لمّا / إذا / تخيل)\n"
+                    f"  ب: الكلمة ذات المعنيين (كلمة أو اثنتان)\n"
+                    f"  ج: ابدأ بـ «اللي» أو فعل مضارع\n"
+                    f"  د: ابدأ بـ «إذا» أو «تخيل معي»\n"
+                    f"  هـ: ابدأ بـ «لمّا» (إلزامي)\n"
+                    f"نفس الشكل السابق: أ. / ب. / ج. / د. / هـ. ثم الأفضل:"
+                )
+                try:
+                    chat_input2, _ = await find_chat_input(page)
+                    if chat_input2:
+                        await page.evaluate(f"navigator.clipboard.writeText({json.dumps(variation_prompt)})")
+                        await chat_input2.click()
+                        await page.keyboard.press("Meta+a")
+                        await asyncio.sleep(0.2)
+                        await page.keyboard.press("Meta+v")
+                        await asyncio.sleep(0.5)
+                        await page.keyboard.press("Enter")
+                        retry_response = await wait_for_response(page, timeout_s=120)
+                        if retry_response:
+                            retry_parsed = parse_response(retry_response)
+                            retry_opts = len([v for v in retry_parsed["options"].values() if v and len(v) > 5])
+                            retry_div = _diversity_ok(retry_parsed["options"])
+                            log(f"  🔄  Retry: {retry_opts} opts, div={retry_div}")
+                            if retry_opts > n_opts or (retry_div and not div_ok):
+                                response = retry_response  # use the better response
+                                log(f"  ✅  Using retry response (better quality)")
+                except Exception as e:
+                    log(f"  ⚠️  Variation retry failed: {e}")
+
+            # Save to queue
             save_to_queue(brief, response)
             done_ids.add(brief["id"])
 
@@ -881,9 +1031,91 @@ def dry_run(briefs: list[dict]) -> None:
     print(f"\n\nTotal: {len(briefs)} briefs")
 
 
+def print_quality_report() -> None:
+    """Print a quality analysis of all pending queue items."""
+    if not QUEUE_FILE.exists():
+        print("No queue file.")
+        return
+    q = load_queue()
+    pending = q.get("pending", [])
+    if not pending:
+        print("No pending items.")
+        return
+
+    total = len(pending)
+    has_5_opts = sum(1 for p in pending if p.get("options_count", 0) == 5
+                     or len([v for v in p.get("options",{}).values() if v]) == 5)
+    div_ok = sum(1 for p in pending if p.get("diversity_ok", None) is True)
+    div_fail = sum(1 for p in pending if p.get("diversity_ok", None) is False)
+    div_unknown = total - div_ok - div_fail
+
+    print(f"\n{'='*50}")
+    print(f"  QUALITY REPORT — {total} pending items")
+    print(f"{'='*50}")
+    print(f"  5 options:       {has_5_opts}/{total} ({has_5_opts/total*100:.0f}%)")
+    print(f"  diversity_ok=T:  {div_ok}")
+    print(f"  diversity_ok=F:  {div_fail}")
+    print(f"  not yet scored:  {div_unknown}")
+
+    # Best technique picked by ALLaM
+    from collections import Counter
+    best_techs = Counter()
+    for p in pending:
+        best = p.get("best", "")
+        for k, v in p.get("options", {}).items():
+            if v and best == v:
+                best_techs[k] += 1
+                break
+    if best_techs:
+        print(f"\n  ALLaM best picks:")
+        for k, n in best_techs.most_common():
+            print(f"    {k}: {n}")
+
+    # Score distribution
+    all_scores = []
+    for p in pending:
+        for sc in (p.get("scores") or {}).values():
+            if sc:
+                all_scores.append(sc)
+    if all_scores:
+        avg = sum(all_scores) / len(all_scores)
+        print(f"\n  Avg quality score: {avg:.1f}/100")
+
+    print(f"{'='*50}\n")
+
+
+def mark_for_recollect(min_options: int = 3, require_diversity: bool = True) -> int:
+    """
+    Remove bad pending items from the queue so the loop re-collects them.
+    Returns count of items removed.
+    """
+    if not QUEUE_FILE.exists():
+        return 0
+    q = load_queue()
+    pending = q.get("pending", [])
+    keep = []
+    removed = 0
+    for item in pending:
+        n_opts = len([v for v in item.get("options", {}).values() if v and len(v) > 5])
+        div_ok = item.get("diversity_ok", True)  # unknown = assume ok
+        if n_opts < min_options or (require_diversity and div_ok is False):
+            print(f"  Removing Brief #{item['brief_id']} ({item['brand']}/{item['occasion']}) "
+                  f"— opts={n_opts} div={div_ok}")
+            removed += 1
+        else:
+            keep.append(item)
+    q["pending"] = keep
+    QUEUE_FILE.write_text(json.dumps(q, ensure_ascii=False, indent=2))
+    print(f"Removed {removed} bad items — loop will re-collect them.")
+    return removed
+
+
 def main():
     parser = argparse.ArgumentParser(description="HUMAIN gold output collector")
-    parser.add_argument("--reparse",  action="store_true", help="Re-parse existing queue entries with improved parser")
+    parser.add_argument("--reparse",        action="store_true", help="Re-parse existing queue entries with improved parser")
+    parser.add_argument("--quality-report", action="store_true", help="Print quality analysis of pending queue")
+    parser.add_argument("--recollect-bad",  action="store_true", help="Remove low-quality items so loop re-collects them")
+    parser.add_argument("--min-options",    type=int, default=3,  help="Min options required (default 3, for --recollect-bad)")
     parser.add_argument("--from",    dest="from_id", type=int, default=1,    help="Resume from brief id")
     parser.add_argument("--id",      type=int, default=None,                 help="Run single brief id")
     parser.add_argument("--dry-run", action="store_true",                    help="Print prompts only")
@@ -892,6 +1124,14 @@ def main():
     parser.add_argument("--occasion",default=None,                           help="Filter matrix by occasion (e.g. ramadan)")
     parser.add_argument("--batch",   type=int, default=None,                 help="Limit to N briefs (for batched runs)")
     args = parser.parse_args()
+
+    if args.quality_report:
+        print_quality_report()
+        return
+
+    if args.recollect_bad:
+        mark_for_recollect(min_options=args.min_options, require_diversity=True)
+        return
 
     # Choose brief source
     if args.matrix:

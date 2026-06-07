@@ -1126,7 +1126,19 @@ def create_content(req: CreateRequest):
     brand_sig = intel.get('brand_profiles', {}).get(req.brand, {}).get('signature_phrases', [])
     hashtag_str = ' '.join(brand_sig[:2]) if brand_sig else f'#{req.brand}'
 
-    prompt = f"""أنت كاتب محتوى سعودي محترف تكتب لعلامة @{req.brand}. اكتب كابشن إنستغرام واحد فقط.
+    # ── Route to a Creative Director brain (methodology, not generic writer) ──
+    cd_primary, cd_secondary, cd_scores = None, None, {}
+    cd_block = ''
+    try:
+        from lib.cd_brains import route as cd_route, build_cd_prompt_block
+        cd_primary, cd_secondary, cd_scores = cd_route(sector, req.occasion)
+        cd_block = build_cd_prompt_block(cd_primary)
+    except Exception:
+        pass
+
+    prompt = f"""أنت مخرج إبداعي (Creative Director) سعودي تكتب لعلامة @{req.brand}. لا تكتب ككاتب تسويق عام — اكتب من خلال منهجية إبداعية محددة.
+
+{cd_block}
 
 ═══ المنتج ═══
 المنتج: {req.product}
@@ -1157,7 +1169,7 @@ def create_content(req: CreateRequest):
 5. هاشتاقات: {hashtag_str} — ادمجها في النص، لا تضعها في النهاية
 6. كل إيموجي بحد أقصى 2
 7. لا تستخدم كلمات إنجليزية مكتوبة بالعربي (مثل: فرايز، برغر)
-8. كن مبدع — حس حقيقي مش كلام تسويقي عام
+8. طبّق المنهجية الإبداعية أعلاه — لا تكتب كلام تسويقي عام. اتبع السؤال التشخيصي والتقنية المميزة.
 
 اكتب الكابشن فقط، بدون شرح:"""
 
@@ -1250,6 +1262,11 @@ def create_content(req: CreateRequest):
             'template_tier': template_tier,
             'fixes_applied': (best_result or {}).get('fixes_needed', []),
             'passed': best_score >= 70,
+        },
+        'creative_director': {
+            'primary': cd_primary,
+            'secondary': cd_secondary,
+            'scores': cd_scores,
         },
         'proof': proof,
         'context_tokens': token_count,

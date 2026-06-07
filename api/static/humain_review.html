@@ -58,9 +58,41 @@
     font-weight: 600;
     font-size: 13px;
   }
-  .pill.gold  { background: rgba(245,197,24,0.15); color: var(--gold); }
-  .pill.green { background: rgba(34,197,94,0.15);  color: var(--green); }
-  .pill.muted { background: var(--border);          color: var(--muted); }
+  .pill.gold    { background: rgba(245,197,24,0.15);  color: var(--gold); }
+  .pill.green   { background: rgba(34,197,94,0.15);   color: var(--green); }
+  .pill.muted   { background: var(--border);           color: var(--muted); }
+  .pill.learned { background: rgba(124,106,247,0.15);  color: var(--accent); font-size: 12px; }
+
+  /* ── Reason picker ───────────────────────────────────────── */
+  .reason-picker {
+    margin-top: 8px;
+    padding: 10px 12px;
+    background: rgba(249,115,22,0.08);
+    border: 1px solid rgba(249,115,22,0.25);
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+  .reason-label {
+    font-size: 12px;
+    color: var(--orange);
+    width: 100%;
+    margin-bottom: 2px;
+    font-weight: 600;
+  }
+  .chip {
+    background: rgba(249,115,22,0.15);
+    border: 1px solid rgba(249,115,22,0.3);
+    color: var(--orange);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .chip:hover { background: rgba(249,115,22,0.3); }
 
   /* ── Empty / Loading ─────────────────────────────────────── */
   .center-msg {
@@ -241,6 +273,8 @@
     <span class="pill muted" id="pending-count">—</span> معلّق
     &nbsp;·&nbsp;
     <span class="pill gold"  id="gold-count">—</span> / 300 ذهبي
+    &nbsp;·&nbsp;
+    <span class="pill learned" id="learning-pill" title="أمثلة تم تعلّمها من مراجعتك">🧠 <span id="learning-count">0</span></span>
   </div>
 </div>
 
@@ -282,28 +316,37 @@ async function loadQueue() {
   }
 }
 
+// ── Reason picker ──────────────────────────────────────────
+function showReasonPicker(briefId, caption, tech) {
+  const id = `rp-${briefId}-${tech}`;
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.style.display = el.style.display === 'none' ? 'flex' : 'none';
+}
+
 // ── Approve / Skip ─────────────────────────────────────────
-async function approve(briefId, caption, technique, rating) {
+async function approve(briefId, caption, technique, rating, reason='') {
   try {
     const r = await fetch(`${API}/api/humain/approve`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ brief_id: briefId, caption, technique, rating })
+      body: JSON.stringify({ brief_id: briefId, caption, technique, rating, reason })
     });
     const data = await r.json();
 
     // Update local state
     const item = queue.pending.find(p => p.brief_id === briefId);
-    if (item) {
-      item.status  = rating;
-      item.chosen  = caption;
-    }
+    if (item) { item.status = rating; item.chosen = caption; }
 
     if (rating === 'gold') {
       goldCount = data.num || goldCount + 1;
       showToast(`✅ حُفظ #${goldCount} — ${caption.slice(0,40)}…`);
+      loadLearning();
     } else if (rating === 'weak') {
-      showToast('⚠️ ضعيف — تم التخطي', true);
+      const reasonMap = {قالب_مكرر:'قالب مكرر',معنى_مزدوج:'معنى مزدوج',طويل:'طويل',عام:'عام',لهجة:'لهجة خاطئة'};
+      const label = reasonMap[reason] || 'ضعيف';
+      showToast(`⚠️ مرفوض (${label}) — تم التعلم`, true);
+      loadLearning();
     } else {
       showToast('تم التخطي');
     }
@@ -314,6 +357,16 @@ async function approve(briefId, caption, technique, rating) {
   } catch(e) {
     showToast('❌ خطأ — ' + e.message, true);
   }
+}
+
+// ── Load learning stats ────────────────────────────────────
+async function loadLearning() {
+  try {
+    const r = await fetch(`${API}/api/humain/learning`);
+    if (!r.ok) return;
+    const data = await r.json();
+    document.getElementById('learning-count').textContent = data.total_examples || 0;
+  } catch(e) {}
 }
 
 // ── Update header counters ─────────────────────────────────
@@ -410,10 +463,18 @@ function render() {
               ✅ حفظ كذهبي
             </button>
             <button class="btn btn-weak"
-              onclick="approve(${item.brief_id}, ${JSON.stringify(text)}, '${key}', 'weak')"
+              onclick="showReasonPicker(${item.brief_id}, ${JSON.stringify(text)}, '${key}')"
               ${isDone ? 'disabled' : ''}>
               ⚠️ ضعيف
             </button>
+          </div>
+          <div class="reason-picker" id="rp-${item.brief_id}-${key}" style="display:none">
+            <div class="reason-label">سبب الرفض — يُضاف للتعلم تلقائياً:</div>
+            <span class="chip" onclick="approve(${item.brief_id},${JSON.stringify(text)},'${key}','weak','قالب_مكرر')">قالب مكرر</span>
+            <span class="chip" onclick="approve(${item.brief_id},${JSON.stringify(text)},'${key}','weak','معنى_مزدوج')">معنى مزدوج</span>
+            <span class="chip" onclick="approve(${item.brief_id},${JSON.stringify(text)},'${key}','weak','طويل')">طويل</span>
+            <span class="chip" onclick="approve(${item.brief_id},${JSON.stringify(text)},'${key}','weak','عام')">عام وغير محدد</span>
+            <span class="chip" onclick="approve(${item.brief_id},${JSON.stringify(text)},'${key}','weak','لهجة')">لهجة خاطئة</span>
           </div>
         </div>`;
     }).join('');
@@ -434,9 +495,18 @@ function render() {
           <button class="btn btn-gold"
             onclick="approve(${item.brief_id}, ${JSON.stringify(item.best)}, 'الأفضل', 'gold')"
             ${isDone ? 'disabled' : ''}>✅ حفظ كذهبي</button>
-          <button class="btn btn-weak"
-            onclick="approve(${item.brief_id}, ${JSON.stringify(item.best)}, 'الأفضل', 'weak')"
+            <button class="btn btn-weak"
+            onclick="showReasonPicker(${item.brief_id}, ${JSON.stringify(item.best)}, 'الأفضل')"
             ${isDone ? 'disabled' : ''}>⚠️ ضعيف</button>
+          </div>
+          <div class="reason-picker" id="rp-${item.brief_id}-الأفضل" style="display:none">
+            <div class="reason-label">سبب الرفض:</div>
+            <span class="chip" onclick="approve(${item.brief_id},${JSON.stringify(item.best)},'الأفضل','weak','قالب_مكرر')">قالب مكرر</span>
+            <span class="chip" onclick="approve(${item.brief_id},${JSON.stringify(item.best)},'الأفضل','weak','معنى_مزدوج')">معنى مزدوج</span>
+            <span class="chip" onclick="approve(${item.brief_id},${JSON.stringify(item.best)},'الأفضل','weak','طويل')">طويل</span>
+            <span class="chip" onclick="approve(${item.brief_id},${JSON.stringify(item.best)},'الأفضل','weak','عام')">عام وغير محدد</span>
+            <span class="chip" onclick="approve(${item.brief_id},${JSON.stringify(item.best)},'الأفضل','weak','لهجة')">لهجة خاطئة</span>
+          </div>
         </div>
       </div>` : '';
 
@@ -479,6 +549,7 @@ function escHtml(str) {
 
 // ── Init ───────────────────────────────────────────────────
 loadQueue();
+loadLearning();
 </script>
 </body>
 </html>

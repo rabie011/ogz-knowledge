@@ -22,8 +22,9 @@ from pathlib import Path
 BASE       = Path(__file__).parent.parent
 GOLD_FILE  = BASE / "docs/consultations/GOLD_OUTPUTS_HUMAIN.md"
 QUEUE_FILE = BASE / "logs/humain_queue.json"
-LOG_FILE   = BASE / "logs/humain_collector.log"
-HUMAIN     = "https://chat.humain.ai"
+LOG_FILE      = BASE / "logs/humain_collector.log"
+LEARNING_FILE = BASE / "logs/prompt_learning.json"
+HUMAIN        = "https://chat.humain.ai"
 REVIEW_URL = "http://localhost:4100/humain-review"
 
 # ── Sector display names ───────────────────────────────────────────────────────
@@ -110,10 +111,37 @@ BRIEFS = [
 ]
 
 
+_REASON_LABELS_COLLECTOR = {
+    "قالب_مكرر": "قالب مكرر", "معنى_مزدوج": "معنى مزدوج",
+    "طويل": "طويل جداً",       "عام": "عام وغير محدد",
+    "لهجة": "لهجة خاطئة",
+}
+
+def _build_learned_addition() -> str:
+    """Read human-reviewed examples and return extra prompt lines."""
+    try:
+        if not LEARNING_FILE.exists():
+            return ""
+        ld = json.loads(LEARNING_FILE.read_text())
+        lines = []
+        for tech in ("أ", "ب", "ج"):
+            for p in ld.get("positive", {}).get(tech, [])[-2:]:
+                lines.append(f'[{tech}] ناجح (معتمد بشرياً): "{p["caption"]}"')
+            for n in ld.get("negative", {}).get(tech, [])[-2:]:
+                label = _REASON_LABELS_COLLECTOR.get(n.get("reason", ""), "ضعيف")
+                lines.append(f'[{tech}] مرفوض ({label}): "{n["caption"]}"')
+        if not lines:
+            return ""
+        return "\n\n## أمثلة متعلَّمة من مراجعة بشرية:\n" + "\n".join(lines)
+    except Exception:
+        return ""
+
+
 def build_prompt(brief: dict) -> str:
     max_chars  = MAX_CHARS.get(brief["sector"], 160)
     sector_ar  = SECTOR_AR.get(brief["sector"], brief["sector"])
     occasion_ar = OCCASION_AR.get(brief["occasion"], brief["occasion"])
+    learned_addition = _build_learned_addition()
     return f"""<RED_LINES>
 ممنوع: السرير، خلع الملابس أو الحجاب، استغلال ضعف الناس أو خوفهم.
 ممنوع: وضع مناسبة دينية (رمضان، العيد) أو وطنية (اليوم الوطني، يوم التأسيس) في موقع الانتظار للمنتج.
@@ -121,7 +149,7 @@ def build_prompt(brief: dict) -> str:
 </RED_LINES>
 
 <TECHNIQUES>
-{TECHNIQUES_BLOCK}
+{TECHNIQUES_BLOCK}{learned_addition}
 </TECHNIQUES>
 
 <BRAND>

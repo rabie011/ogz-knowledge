@@ -1184,7 +1184,7 @@ def create_content(req: CreateRequest):
 ← فاشل: "استمتع" / "لا تفوت" / "أجواء مميزة" / "عرض لفترة محدودة"
 ← ممنوع: نسخ أي مثال كما هو مع تغيير الكلمات فقط
 ← ممنوع تماماً: قالب "[المنتج] اللي ما ينتظر [المناسبة] — [المناسبة] ينتظره/ها" بأي شكل
-← ممنوع تماماً: وضع رمضان/العيد/اليوم الوطني/يوم التأسيس في موقع الانتظار — المناسبة لا تنتظر المنتج""",
+← ممنوع تماماً: وضع رمضان/العيد/اليوم الوطني/يوم التأسيس في موقع الانتظار — المناسبة لا تنتظر المنتج""" + _get_learned_lines('أ'),
 
         'ب': """ب. Heritage Decoder — جملة قصيرة تحمل كلمة بمعنيين في آنٍ واحد
 ← ناجح (مالية): الذكاء يستثمر فيك
@@ -1193,7 +1193,7 @@ def create_content(req: CreateRequest):
 ← فاشل وممنوع: اكتب الجملة فقط، بدون علامات اقتباس، بدون شرح للمعنى
 ← فاشل وممنوع: X معك في كل خطوة
 ← تجنب: "يشبك" — معناه الثاني "يعقّد/يُربك" يعكس المقصود
-← تجنب: "يطمن قلبك" في سياق منتج — حميمية غير مقصودة""",
+← تجنب: "يطمن قلبك" في سياق منتج — حميمية غير مقصودة""" + _get_learned_lines('ب'),
 
         'ج': """ج. Firaasa — ملاحظة سلوكية محددة لهذا المنتج تحديداً
 ← ناجح: "اللبن هو اللي يختارك — مو العكس"
@@ -1202,7 +1202,7 @@ def create_content(req: CreateRequest):
 ← فاشل وممنوع: "مش بس لـ X، هي لحظة Y وسط الزحمة"
 ← فاشل وممنوع: "في لحظة X، Y هو اللي..." — لا تستخدم "في لحظة" كبداية
 ← فاشل وممنوع: "لحظة هدوء، تكتشف فيها..." — نفس القالب
-← الصحيح: لحظة سلوكية حقيقية خاصة بهذا المنتج تحديداً — مو قالب يصلح لأي منتج""",
+← الصحيح: لحظة سلوكية حقيقية خاصة بهذا المنتج تحديداً — مو قالب يصلح لأي منتج""" + _get_learned_lines('ج'),
     }
     technique_block = _V3_TECHNIQUES[tech_letter]
 
@@ -1459,6 +1459,43 @@ async def review_save(request: Request):
 
 HUMAIN_QUEUE  = REPO / "logs" / "humain_queue.json"
 HUMAIN_GOLD   = REPO / "docs" / "consultations" / "GOLD_OUTPUTS_HUMAIN.md"
+LEARNING_FILE = REPO / "logs" / "prompt_learning.json"
+
+def _humain_learn(tech: str, caption: str, kind: str, reason: str = None, sector: str = None):
+    """Persist one approved or rejected caption to the learning store."""
+    data = json.loads(LEARNING_FILE.read_text()) if LEARNING_FILE.exists() else {
+        "positive": {"أ": [], "ب": [], "ج": []},
+        "negative": {"أ": [], "ب": [], "ج": []}
+    }
+    entry: dict = {"caption": caption, "sector": sector}
+    if reason:
+        entry["reason"] = reason
+    bucket = data.setdefault(kind, {})
+    bucket.setdefault(tech, []).append(entry)
+    bucket[tech] = bucket[tech][-20:]   # keep last 20 per slot
+    LEARNING_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2))
+
+_REASON_LABELS = {
+    "قالب_مكرر": "قالب مكرر", "معنى_مزدوج": "معنى مزدوج",
+    "طويل": "طويل جداً",       "عام": "عام وغير محدد",
+    "لهجة": "لهجة خاطئة",
+}
+
+def _get_learned_lines(tech: str) -> str:
+    """Return extra few-shot lines for a technique from human-reviewed data."""
+    try:
+        if not LEARNING_FILE.exists():
+            return ""
+        data = json.loads(LEARNING_FILE.read_text())
+        lines = []
+        for p in data.get("positive", {}).get(tech, [])[-2:]:
+            lines.append(f'← ناجح (معتمد بشرياً): "{p["caption"]}"')
+        for n in data.get("negative", {}).get(tech, [])[-2:]:
+            label = _REASON_LABELS.get(n.get("reason", ""), "ضعيف")
+            lines.append(f'← مرفوض ({label}): "{n["caption"]}"')
+        return ("\n" + "\n".join(lines)) if lines else ""
+    except Exception:
+        return ""
 
 @app.get("/humain-review")
 def humain_review_page():
@@ -1486,6 +1523,7 @@ async def humain_approve(request: Request):
     caption   = body.get("caption", "").strip()
     technique = body.get("technique", "؟").strip()
     rating    = body.get("rating", "gold")   # gold | weak | skip
+    reason    = body.get("reason", "")       # for weak: قالب_مكرر | معنى_مزدوج | طويل | عام | لهجة
 
     if not caption or not brief_id:
         raise HTTPException(status_code=400, detail="brief_id and caption required")
@@ -1502,6 +1540,12 @@ async def humain_approve(request: Request):
             brief_data = item
             break
     HUMAIN_QUEUE.write_text(json.dumps(q, ensure_ascii=False, indent=2))
+
+    # Feed learning store — approved becomes positive example, weak becomes negative
+    if rating == "gold" and brief_data:
+        _humain_learn(technique, caption, "positive", sector=brief_data.get("sector"))
+    elif rating == "weak" and caption:
+        _humain_learn(technique, caption, "negative", reason=reason or "عام", sector=brief_data.get("sector"))
 
     if rating != "gold" or not brief_data:
         return {"saved": False, "reason": "skipped or weak"}
@@ -1527,3 +1571,16 @@ async def humain_approve(request: Request):
     HUMAIN_GOLD.write_text(gold_text)
 
     return {"saved": True, "num": next_num, "caption": caption}
+
+@app.get("/api/humain/learning")
+def humain_learning():
+    if not LEARNING_FILE.exists():
+        return {"positive": {}, "negative": {}, "total_examples": 0}
+    data = json.loads(LEARNING_FILE.read_text())
+    pos = {t: len(v) for t, v in data.get("positive", {}).items()}
+    neg = {t: len(v) for t, v in data.get("negative", {}).items()}
+    return {
+        "positive": pos,
+        "negative": neg,
+        "total_examples": sum(pos.values()) + sum(neg.values()),
+    }

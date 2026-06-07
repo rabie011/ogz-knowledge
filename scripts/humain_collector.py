@@ -758,26 +758,39 @@ async def find_chat_input(page):
     return None, None
 
 
-async def wait_for_login(page) -> bool:
-    """Poll until the login form disappears (user logged in). Returns True on success."""
-    print("\n  🔐 HUMAIN requires login.")
-    print("     → Log in via Google/Apple/Email in the browser window.")
-    print("     → Script will continue automatically once you're in.\n")
-    for _ in range(120):  # wait up to 4 minutes
+async def wait_for_login(page, max_minutes: int = 20) -> bool:
+    """
+    Poll until chat input is found (login restored).
+    Also tries navigating to the home URL every 2 minutes to help restore session.
+    max_minutes: how long to wait total (default 20 — enough for Mohamed to see it).
+    """
+    log("🔐 HUMAIN requires login — open browser window and log in. Waiting up to 20 min...")
+    log("   → Browser window should be visible. Log in via Google/Apple/Email.")
+
+    total_polls = max_minutes * 30  # 2s sleep → 30 polls/minute
+    nav_interval = 60   # re-navigate every 60 polls (2 minutes)
+
+    for i in range(total_polls):
         await asyncio.sleep(2)
+
+        # Try to find chat input
         chat_input, _ = await find_chat_input(page)
         if chat_input:
-            print("  ✅ Logged in — chat input detected.")
+            log("✅ Login restored — chat input found.")
             return True
-        # Also check if URL changed (away from login page)
-        url = page.url
-        if "chat.humain.ai" in url and "login" not in url and "auth" not in url:
-            await asyncio.sleep(3)
-            chat_input, _ = await find_chat_input(page)
-            if chat_input:
-                print("  ✅ Logged in (URL changed).")
-                return True
-    print("  ❌ Timed out waiting for login.")
+
+        # Every 2 minutes, try navigating to home (may restore session cookie)
+        if i > 0 and i % nav_interval == 0:
+            minutes_elapsed = (i * 2) // 60
+            log(f"   Still waiting for login... {minutes_elapsed}m elapsed. Reloading HUMAIN...")
+            try:
+                await page.goto(HUMAIN, wait_until="domcontentloaded", timeout=15000)
+                await asyncio.sleep(5)
+                await dismiss_modal(page)
+            except Exception:
+                pass
+
+    log("❌ Login wait timed out after 20 min — session could not be restored this batch.")
     return False
 
 
@@ -897,18 +910,12 @@ async def run_browser(briefs: list[dict]) -> None:
         await page.goto(HUMAIN, wait_until="domcontentloaded", timeout=30000)
         await asyncio.sleep(5)  # extra wait for JS to hydrate
 
-        # Check if login needed — retry up to 3 times with longer waits
-        chat_input, sel = None, None
-        for attempt in range(3):
-            chat_input, sel = await find_chat_input(page)
-            if chat_input:
-                break
-            if attempt == 0:
-                ok = await wait_for_login(page)
-                if ok:
-                    chat_input, sel = await find_chat_input(page)
-                    break
-            await asyncio.sleep(5)
+        # Check if login needed — wait up to 20 min for manual login
+        chat_input, sel = await find_chat_input(page)
+        if chat_input is None:
+            ok = await wait_for_login(page)
+            if ok:
+                chat_input, sel = await find_chat_input(page)
 
         if chat_input is None:
             log("❌ Cannot find chat input after login. Exiting.")

@@ -1111,8 +1111,12 @@ def create_content(req: CreateRequest):
         'healthcare_wellness':  'الطول: 100-200 حرف. أسلوب: تحفيزي وصحي. ركّز على النتيجة.',
     }
     sector_rule = sector_rules.get(sector, 'الطول: 100-200 حرف.')
-    max_chars = {'f_and_b': 160, 'fashion': 400, 'beauty_personal_care': 300,
-                 'retail_lifestyle': 220, 'real_estate': 280, 'healthcare_wellness': 200}.get(sector, 250)
+    max_chars = {
+        'f_and_b': 140, 'fashion': 220, 'real_estate': 200,
+        'retail_lifestyle': 160, 'beauty_personal_care': 150, 'finance': 180,
+        'government': 200, 'food_manufacturing': 140, 'electronics': 160,
+        'telecom': 160, 'healthcare_wellness': 180,
+    }.get(sector, 180)
 
     # Brand-specific product names
     brand_pn = intel.get('brand_product_names', {}).get(req.brand, {})
@@ -1128,74 +1132,119 @@ def create_content(req: CreateRequest):
     brand_sig = intel.get('brand_profiles', {}).get(req.brand, {}).get('signature_phrases', [])
     hashtag_str = ' '.join(brand_sig[:2]) if brand_sig else f'#{req.brand}'
 
-    # ── Route to a Creative Director brain (methodology, not generic writer) ──
-    cd_primary, cd_secondary, cd_scores = None, None, {}
-    cd_block = ''
+    # ── V3: Route to ONE technique (cd_03 Authenticity Detective excluded for captions) ──
+    cd_primary, cd_scores = 'cd_05_paradox_hunter', {}
     try:
-        from lib.cd_brains import route as cd_route, build_cd_prompt_block
-        cd_primary, cd_secondary, cd_scores = cd_route(sector, req.occasion)
-        cd_block = build_cd_prompt_block(cd_primary)
+        from lib.cd_brains import route as cd_route
+        _prim, _sec, cd_scores = cd_route(sector, req.occasion)
+        # cd_03 is a video/script technique — removed from caption generation
+        if _prim == 'cd_03_authenticity_detective':
+            _prim = _sec if _sec and _sec != 'cd_03_authenticity_detective' else 'cd_05_paradox_hunter'
+        cd_primary = _prim
     except Exception:
         pass
 
-    prompt = f"""أنت مخرج إبداعي (Creative Director) سعودي تكتب لعلامة @{req.brand}. لا تكتب ككاتب تسويق عام — اكتب من خلال منهجية إبداعية محددة.
+    # Map CD brain → V3 technique letter
+    _TECH_MAP = {
+        'cd_01_firaasa_architect':  'ج',
+        'cd_02_metaphor_architect': 'أ',
+        'cd_04_heritage_decoder':   'ب',
+        'cd_05_paradox_hunter':     'أ',
+    }
+    tech_letter = _TECH_MAP.get(cd_primary, 'أ')
 
-{cd_block}
+    _V3_TECHNIQUES = {
+        'أ': """أ. Paradox Hunter — قلب التوقع (استلهم الفكرة، لا تنسخ القالب)
+← ناجح 1: "البروستد اللي ما ينتظره اليوم الوطني — اليوم الوطني ينتظره"
+← ناجح 2 (مختلف تماماً): "التوفير اللي ما يحتاج تفكر مرتين"
+← فاشل: "استمتع" / "لا تفوت" / "أجواء مميزة" / "عرض لفترة محدودة"
+← ممنوع: نسخ أي مثال كما هو مع تغيير الكلمات فقط""",
 
-═══ المنتج ═══
-المنتج: {req.product}
-الاسم الصحيح بالعربي: {correct_product}
-لا تستخدم هذه الكلمات: {wrong_str}
+        'ب': """ب. Heritage Decoder — جملة كاملة تحمل كلمة بمعنيين
+← ناجح (مالية): "الذكاء يستثمر فيك" — تستثمر الفكرة + الفكرة تستثمر فيك
+← ناجح (أزياء): "ترتدين المناسبة" — تلبسين + أنتِ هي المناسبة
+← فاشل وممنوع: "X معك في كل خطوة — أنت الخطوة" — لا تستخدمه أبداً""",
 
-═══ المناسبة ═══
-{req.occasion}
-الكلمات المطلوبة: {occ_words_str}
+        'ج': """ج. Firaasa — ملاحظة سلوكية محددة لهذا المنتج تحديداً
+← ناجح: "في لحظة هدوء، اللبن هو اللي يختارك"
+← ناجح: "الأم ما تدور على حليب — تدور على طمأنينة"
+← فاشل وممنوع: "الناس ما تدور على X — تدور على Y"
+← فاشل وممنوع: "مش بس لـ X، هي لحظة Y وسط الزحمة"
+← الصحيح: لحظة حقيقية خاصة بهذا المنتج، مو جملة عامة لأي منتج""",
+    }
+    technique_block = _V3_TECHNIQUES[tech_letter]
 
-═══ قواعد القطاع ═══
-{sector_rule}
+    # V3 Prompt — 4-block XML structure
+    prompt = f"""<RED_LINES>
+ممنوع: السرير، خلع الملابس أو الحجاب، استغلال ضعف الناس أو خوفهم.
+دائماً: لهجة سعودية طبيعية. حد أقصى {max_chars} حرف. بدون إنجليزي.
+</RED_LINES>
 
-═══ السياق ═══
-{context[:400]}
+<TECHNIQUES>
+{technique_block}
+</TECHNIQUES>
 
-═══ أمثلة حقيقية (التزم بأسلوبها، لا تنسخ) ═══
-{templates_text}
+<BRAND>
+العلامة: {req.brand} | القطاع: {sector} | المنتج: {req.product} | المناسبة: {req.occasion}
+الهاشتاقات: {hashtag_str}
+</BRAND>
 
-═══ أخطاء سابقة (تجنبها) ═══
-{mistakes_text}
-
-═══ خطوط حمراء صارمة (رفض فوري إن خالفتها) ═══
-⛔ ممنوع منعاً باتاً: ذكر السرير أو غرفة النوم.
-⛔ ممنوع: خلع أو إزالة أي ملابس أو حجاب أو خمار.
-⛔ ممنوع: استغلال ضعف الناس أو هشاشتهم كخطّاف.
-⛔ أبقِ المشهد دائماً في مكان عام لائق (مجلس، طاولة، تجمّع).
-
-═══ القواعد الذهبية ═══
-1. ⏱️ قصير ومترابط — حد أقصى {max_chars} حرف. لا إطالة، لا حشو، لا تكرار. جملة أو جملتين.
-2. اللهجة السعودية فقط — استخدم: وش، الحين، يالله، حلو، كذا
-3. ممنوع: شنو، جذي، زين (خليجي مش سعودي)، تفضلوا، هيا بنا (فصحى)
-4. ممنوع: لا تفوتون الفرصة، عرض لفترة محدودة (عبارات مستهلكة)
-5. اسم المنتج بالعربي ({correct_product}) في أول 5 كلمات
-6. هاشتاقات: {hashtag_str} — ادمجها في النص، لا تضعها في النهاية
-7. كل إيموجي بحد أقصى 2
-8. لا تستخدم كلمات إنجليزية مكتوبة بالعربي (مثل: فرايز، برغر)
-9. طبّق المنهجية الإبداعية أعلاه باختصار — التقنية في جملة، لا في فقرة.
-
-اكتب الكابشن فقط، بدون شرح:"""
+<TASK>
+اكتب 3 كابشنات — كل واحد يطبّق التقنية بطريقة مختلفة.
+كل كابشن: حد أقصى {max_chars} حرف.
+ثم اختر الأقوى وضعه في السطر الأخير بعد كلمة: الأفضل:
+</TASK>"""
 
     import openai
     client = openai.OpenAI(api_key=api_key)
     try:
         resp = client.chat.completions.create(
-            model='gpt-4o-mini',
+            model='gpt-4o',
             messages=[{'role': 'user', 'content': prompt}],
-            max_tokens=200,
-            temperature=0.7,
+            max_tokens=400,
+            temperature=0.8,
         )
     except openai.RateLimitError as e:
         raise HTTPException(status_code=429, detail=f"OpenAI rate limit reached — try again in a few seconds. ({e})")
     except openai.APIError as e:
         raise HTTPException(status_code=502, detail=f"OpenAI API error: {e}")
-    caption = resp.choices[0].message.content.strip().strip('"\'')
+
+    raw_output = resp.choices[0].message.content.strip()
+
+    # V3: parse الأفضل: selection from the 3-option output
+    all_options_text = raw_output
+    caption = raw_output
+    if 'الأفضل:' in raw_output:
+        parts = raw_output.split('الأفضل:', 1)
+        all_options_text = parts[0].strip()
+        caption = parts[1].strip().strip('"\'')
+
+    # Editor LLM — second call to cross-check model's self-selection
+    if all_options_text and all_options_text != raw_output:
+        try:
+            editor_prompt = f"""أنت محرر إبداعي سعودي. اختر الكابشن الأقوى من هذه الخيارات.
+
+معايير الرفض الفوري:
+- يحتوي "لا تفوت" أو "استمتع" أو "أجواء مميزة"
+- "الناس ما تدور على X — تدور على Y" (قالب مكرر)
+- "X معك في كل خطوة — أنت الخطوة" (قالب مكرر)
+- أطول من {max_chars} حرف
+
+الخيارات:
+{all_options_text}
+
+أعد كتابة الأقوى كما هو بالضبط، بدون شرح:"""
+            editor_resp = client.chat.completions.create(
+                model='gpt-4o',
+                messages=[{'role': 'user', 'content': editor_prompt}],
+                max_tokens=150,
+                temperature=0.2,
+            )
+            editor_pick = editor_resp.choices[0].message.content.strip().strip('"\'')
+            if editor_pick and len(editor_pick) < max_chars * 1.5:
+                caption = editor_pick
+        except Exception:
+            pass  # fall back to self-selected الأفضل
 
     # 5. Quality gate + refine loop
     best_caption = caption
@@ -1232,9 +1281,9 @@ def create_content(req: CreateRequest):
 
 اكتب كابشن محسّن باللهجة السعودية فقط لنفس المنتج والمناسبة. Caption only:"""
             resp2 = client.chat.completions.create(
-                model='gpt-4o-mini',
+                model='gpt-4o',
                 messages=[{'role': 'user', 'content': retry_prompt}],
-                max_tokens=200,
+                max_tokens=150,
             )
             caption = resp2.choices[0].message.content.strip().strip('"\'')
 
@@ -1274,7 +1323,7 @@ def create_content(req: CreateRequest):
         },
         'creative_director': {
             'primary': cd_primary,
-            'secondary': cd_secondary,
+            'technique': tech_letter,
             'scores': cd_scores,
         },
         'proof': proof,

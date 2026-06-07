@@ -1132,6 +1132,30 @@ def create_content(req: CreateRequest):
     brand_sig = intel.get('brand_profiles', {}).get(req.brand, {}).get('signature_phrases', [])
     hashtag_str = ' '.join(brand_sig[:2]) if brand_sig else f'#{req.brand}'
 
+    # Brand Arabic display names — what appears in the prompt and caption
+    _BRAND_AR = {
+        'albaiik': 'البيك', 'albaik': 'البيك',
+        'barns': 'بارنز', 'barnscoffee': 'بارنز',
+        'almarai': 'المراعي',
+        'roshn': 'روشن',
+        'panda': 'بنده', 'pandaksa': 'بنده',
+        'starbucks': 'ستاربكس', 'starbucksar': 'ستاربكس',
+        'jarir': 'جرير', 'jarirbooks': 'جرير',
+        'aljazira_capital': 'الجزيرة كابيتال', 'aljaziracapital': 'الجزيرة كابيتال',
+        'nivea': 'نيفيا', 'niveaarabia': 'نيفيا',
+        'max_fashion': 'ماكس فاشون', 'maxfashion': 'ماكس فاشون',
+        'nhc': 'هيئة الإسكان', 'nhcksa': 'هيئة الإسكان',
+        'sauditelecom': 'STC', 'stc': 'STC',
+        'mobily': 'موبايلي',
+        'tamimi': 'التميمي', 'tamimimarkets': 'التميمي',
+        'extra': 'إكسترا',
+        'xcite': 'اكسايت',
+        'noon': 'نون',
+        'namshi': 'نمشي',
+        'ounass': 'أوناس',
+    }
+    brand_display = _BRAND_AR.get(req.brand.lower(), req.brand)
+
     # ── V3: Route to ONE technique (cd_03 Authenticity Detective excluded for captions) ──
     cd_primary, cd_scores = 'cd_05_paradox_hunter', {}
     try:
@@ -1160,16 +1184,20 @@ def create_content(req: CreateRequest):
 ← فاشل: "استمتع" / "لا تفوت" / "أجواء مميزة" / "عرض لفترة محدودة"
 ← ممنوع: نسخ أي مثال كما هو مع تغيير الكلمات فقط""",
 
-        'ب': """ب. Heritage Decoder — جملة كاملة تحمل كلمة بمعنيين
-← ناجح (مالية): "الذكاء يستثمر فيك" — تستثمر الفكرة + الفكرة تستثمر فيك
-← ناجح (أزياء): "ترتدين المناسبة" — تلبسين + أنتِ هي المناسبة
-← فاشل وممنوع: "X معك في كل خطوة — أنت الخطوة" — لا تستخدمه أبداً""",
+        'ب': """ب. Heritage Decoder — جملة قصيرة تحمل كلمة بمعنيين في آنٍ واحد
+← ناجح (مالية): الذكاء يستثمر فيك
+← ناجح (أزياء): ترتدين المناسبة
+← ناجح (غذاء): اللبن اللي يروبك
+← فاشل وممنوع: اكتب الجملة فقط، بدون علامات اقتباس، بدون شرح للمعنى
+← فاشل وممنوع: X معك في كل خطوة""",
 
         'ج': """ج. Firaasa — ملاحظة سلوكية محددة لهذا المنتج تحديداً
 ← ناجح: "في لحظة هدوء، اللبن هو اللي يختارك"
 ← ناجح: "الأم ما تدور على حليب — تدور على طمأنينة"
 ← فاشل وممنوع: "الناس ما تدور على X — تدور على Y"
 ← فاشل وممنوع: "مش بس لـ X، هي لحظة Y وسط الزحمة"
+← فاشل وممنوع: "في لحظة X، Y هو اللي..." — لا تستخدم "في لحظة" كبداية
+← فاشل وممنوع: "لحظة هدوء، تكتشف فيها..." — نفس القالب
 ← الصحيح: لحظة حقيقية خاصة بهذا المنتج، مو جملة عامة لأي منتج""",
     }
     technique_block = _V3_TECHNIQUES[tech_letter]
@@ -1185,13 +1213,13 @@ def create_content(req: CreateRequest):
 </TECHNIQUES>
 
 <BRAND>
-العلامة: {req.brand} | القطاع: {sector} | المنتج: {req.product} | المناسبة: {req.occasion}
+العلامة: {brand_display} | القطاع: {sector} | المنتج: {req.product} | المناسبة: {req.occasion}
 الهاشتاقات: {hashtag_str}
 </BRAND>
 
 <TASK>
 اكتب 3 كابشنات — كل واحد يطبّق التقنية بطريقة مختلفة.
-كل كابشن: حد أقصى {max_chars} حرف.
+كل كابشن: حد أقصى {max_chars} حرف. نص فقط — بدون علامات اقتباس، بدون شرح، بدون رقم.
 ثم اختر الأقوى وضعه في السطر الأخير بعد كلمة: الأفضل:
 </TASK>"""
 
@@ -1219,6 +1247,9 @@ def create_content(req: CreateRequest):
         all_options_text = parts[0].strip()
         caption = parts[1].strip().strip('"\'')
 
+    caption = caption.strip().strip(chr(34)).strip(chr(39)).strip()
+    caption = caption.replace(chr(8220),"").replace(chr(8221),"").replace(chr(8216),"").replace(chr(8217),"")
+
     # Editor LLM — second call to cross-check model's self-selection
     if all_options_text and all_options_text != raw_output:
         try:
@@ -1241,6 +1272,7 @@ def create_content(req: CreateRequest):
                 temperature=0.2,
             )
             editor_pick = editor_resp.choices[0].message.content.strip().strip('"\'')
+            editor_pick = editor_pick.replace(chr(8220),"").replace(chr(8221),"").replace(chr(8216),"").replace(chr(8217),"")
             if editor_pick and len(editor_pick) < max_chars * 1.5:
                 caption = editor_pick
         except Exception:
@@ -1291,6 +1323,9 @@ def create_content(req: CreateRequest):
     if best_score < 80:
         failed_checks = [c['detail'] for c in (best_result or {}).get('checks', []) if not c.get('passed')]
         log_mistake(req.brand, best_score, '; '.join(failed_checks[:3]))
+
+    # Clean any embedded stray quotes before final output
+    import re as _re2; best_caption = _re2.sub(r'[\u0022\u201c\u201d\u2018\u2019]+(?=\s*#|\s*$)', '', best_caption).strip()
 
     # 7. Get proof
     proof = {}

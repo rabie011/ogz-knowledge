@@ -221,7 +221,31 @@ SEND_BTN_SELECTORS = [
 SESSION_DIR = Path.home() / ".humain_playwright_session"
 
 
+async def dismiss_modal(page) -> None:
+    """Dismiss any onboarding/welcome modal that blocks the chat input."""
+    modal_btns = [
+        "button:has-text(\"Let's get started\")",
+        "button:has-text('ابدأ')",
+        "button:has-text('Continue')",
+        "button:has-text('متابعة')",
+        "button:has-text('Accept')",
+        "button:has-text('موافق')",
+        "[aria-label='Close']",
+        "button.rounded-full svg[data-lucide='x']",
+    ]
+    for sel in modal_btns:
+        try:
+            btn = page.locator(sel).first
+            if await btn.is_visible(timeout=1000):
+                await btn.click()
+                await asyncio.sleep(1)
+                return
+        except Exception:
+            pass
+
+
 async def find_chat_input(page):
+    await dismiss_modal(page)
     for sel in CHAT_INPUT_SELECTORS:
         try:
             el = page.locator(sel).first
@@ -256,41 +280,79 @@ async def wait_for_login(page) -> bool:
 
 
 async def wait_for_response(page, timeout_s: int = 180) -> str | None:
-    """Wait until HUMAIN stops generating, return the last assistant message text."""
-    import asyncio
+    """
+    Wait for HUMAIN to finish generating a response.
+    Strategy: count messages before send, wait for count+1, then wait for stable text.
+    """
+    # Step 1 — snapshot message count before waiting
+    async def count_messages():
+        for sel in ["[data-role='assistant']", ".assistant-message", "article", ".message"]:
+            try:
+                els = page.locator(sel)
+                n = await els.count()
+                if n > 0:
+                    return n, sel
+            except Exception:
+                pass
+        return 0, None
+
+    before_count, msg_sel = await count_messages()
     deadline = asyncio.get_event_loop().time() + timeout_s
+
+    # Step 2 — wait for a new message to appear
+    if msg_sel:
+        while asyncio.get_event_loop().time() < deadline:
+            await asyncio.sleep(2)
+            after_count, _ = await count_messages()
+            if after_count > before_count:
+                break
+        else:
+            pass  # timed out — still try to read
+
+    # Step 3 — wait for text to stabilise (model stops generating)
     prev_text = ""
     stable_rounds = 0
-
     while asyncio.get_event_loop().time() < deadline:
         await asyncio.sleep(3)
-        # Try to grab the last message block
-        # Common patterns: [role='assistant'], .message, .ai-message, article
-        candidates = [
-            "[data-role='assistant']:last-child",
-            "[data-message-author-role='assistant']:last-child",
-            ".assistant-message:last-child",
-            "article:last-child",
-            ".message:last-child",
-            "div.group:last-child",
-        ]
+
         current = ""
-        for sel in candidates:
+        # Try structured assistant message selectors first
+        for sel in [
+            "[data-role='assistant']",
+            "[data-message-author-role='assistant']",
+            ".assistant-message",
+            "article",
+            ".message",
+            "div.group",
+        ]:
             try:
-                el = page.locator(sel).last
-                if await el.is_visible(timeout=1000):
-                    current = (await el.inner_text()).strip()
-                    if current:
-                        break
+                els = page.locator(sel)
+                n = await els.count()
+                if n > 0:
+                    last = els.nth(n - 1)
+                    if await last.is_visible(timeout=1000):
+                        t = (await last.inner_text()).strip()
+                        # Skip if it looks like the user's own prompt
+                        if t and "<RED_LINES>" not in t and "<TECHNIQUES>" not in t:
+                            current = t
+                            break
             except Exception:
                 pass
 
         if not current:
-            # Fallback: grab all text, take last paragraph
+            # Fallback: grab visible body text, skip lines that look like our prompt
             try:
                 body = await page.inner_text("body")
-                lines = [l.strip() for l in body.splitlines() if l.strip()]
-                current = "\n".join(lines[-30:])
+                lines = [
+                    l.strip() for l in body.splitlines()
+                    if l.strip()
+                    and "<RED_LINES>" not in l
+                    and "<TECHNIQUES>" not in l
+                    and "<BRAND>" not in l
+                    and "<TASK>" not in l
+                ]
+                # Take last 30 lines (response area)
+                current = "\n".join(lines[-30:]) if lines else ""
             except Exception:
                 pass
 

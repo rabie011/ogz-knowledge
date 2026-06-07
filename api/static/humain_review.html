@@ -406,7 +406,13 @@ function rerenderCard(briefId, rating) {
 
 // ── Render technique label ────────────────────────────────
 function techLabel(key) {
-  const map = { 'أ': 'أ — Paradox Hunter', 'ب': 'ب — Heritage Decoder', 'ج': 'ج — Firaasa' };
+  const map = {
+    'أ': 'أ — Paradox Hunter',
+    'ب': 'ب — Heritage Decoder',
+    'ج': 'ج — Firaasa',
+    'د': 'د — Metaphor Architect',
+    'هـ': 'هـ — Authenticity Detective',
+  };
   return map[key] || key;
 }
 
@@ -439,7 +445,7 @@ function render() {
       : '';
 
     // Build options HTML
-    const optionKeys = ['أ', 'ب', 'ج'];
+    const optionKeys = ['أ', 'ب', 'ج', 'د', 'هـ'];
     const optionsHtml = optionKeys.map(key => {
       const text = (item.options || {})[key] || '';
       if (!text) return '';

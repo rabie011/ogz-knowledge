@@ -1464,8 +1464,8 @@ LEARNING_FILE = REPO / "logs" / "prompt_learning.json"
 def _humain_learn(tech: str, caption: str, kind: str, reason: str = None, sector: str = None):
     """Persist one approved or rejected caption to the learning store."""
     data = json.loads(LEARNING_FILE.read_text()) if LEARNING_FILE.exists() else {
-        "positive": {"أ": [], "ب": [], "ج": []},
-        "negative": {"أ": [], "ب": [], "ج": []}
+        "positive": {"أ": [], "ب": [], "ج": [], "د": [], "هـ": []},
+        "negative": {"أ": [], "ب": [], "ج": [], "د": [], "هـ": []}
     }
     entry: dict = {"caption": caption, "sector": sector}
     if reason:

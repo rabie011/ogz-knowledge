@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HUMAIN Compare — مقارنة الكابشنات</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0f1117; color: #e8e8e8;
+         min-height: 100vh; display: flex; flex-direction: column; }
+
+  header { background: #1a1d27; border-bottom: 1px solid #2a2d3a; padding: 14px 24px;
+           display: flex; align-items: center; gap: 16px; }
+  .logo   { font-size: 18px; font-weight: 700; color: #fff; }
+  .sub    { font-size: 13px; color: #888; }
+  .pills  { margin-right: auto; display: flex; gap: 8px; align-items: center; }
+  .pill   { background: #252836; border: 1px solid #333; border-radius: 20px;
+            padding: 4px 12px; font-size: 12px; color: #bbb; }
+  .pill.elo  { border-color: #4f9; color: #4f9; }
+
+  main { flex: 1; display: flex; flex-direction: column; align-items: center;
+         justify-content: center; padding: 32px 16px; gap: 24px; }
+
+  .question { font-size: 20px; color: #ccc; text-align: center; }
+  .context  { font-size: 13px; color: #666; text-align: center; margin-top: -16px; }
+
+  .arena { display: flex; gap: 20px; width: 100%; max-width: 900px; }
+
+  .card { flex: 1; background: #1a1d27; border: 2px solid #2a2d3a; border-radius: 16px;
+          padding: 28px 24px; cursor: pointer; transition: all .15s;
+          display: flex; flex-direction: column; gap: 16px; }
+  .card:hover { border-color: #4f8fff; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(79,143,255,.15); }
+  .card.picked { border-color: #4f9 !important; background: #141f14; }
+  .card.lost   { border-color: #444 !important; opacity: .5; }
+
+  .tech-tag { font-size: 11px; color: #888; background: #252836; border-radius: 6px;
+              padding: 2px 8px; align-self: flex-start; }
+  .caption  { font-size: 22px; line-height: 1.7; color: #f0f0f0; flex: 1; }
+  .meta     { font-size: 12px; color: #555; }
+
+  .vs { font-size: 28px; color: #444; align-self: center; flex-shrink: 0; }
+
+  .actions { display: flex; gap: 12px; }
+  button { padding: 12px 28px; border: none; border-radius: 10px; font-size: 15px;
+           cursor: pointer; font-weight: 600; transition: all .15s; }
+  .btn-skip { background: #252836; color: #888; }
+  .btn-skip:hover { background: #2a2d3a; color: #aaa; }
+
+  .elo-board { background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 12px;
+               padding: 20px 28px; width: 100%; max-width: 500px; }
+  .elo-title { font-size: 13px; color: #888; margin-bottom: 12px; }
+  .elo-row   { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid #222; }
+  .elo-row:last-child { border: none; }
+  .elo-rank  { font-size: 12px; color: #555; width: 20px; text-align: center; }
+  .elo-tech  { font-size: 14px; font-weight: 600; width: 32px; }
+  .elo-name  { font-size: 12px; color: #888; flex: 1; }
+  .elo-score { font-size: 14px; color: #4f9; font-weight: 700; }
+  .elo-bar   { height: 4px; background: #252836; border-radius: 2px; flex: 1; }
+  .elo-fill  { height: 100%; background: #4f8fff; border-radius: 2px; }
+
+  .center { text-align: center; color: #555; padding: 40px; }
+  .toast  { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+            background: #252836; border: 1px solid #3a3d4a; border-radius: 10px;
+            padding: 12px 24px; font-size: 14px; opacity: 0; transition: opacity .3s;
+            pointer-events: none; }
+  .toast.show { opacity: 1; }
+
+  @media (max-width: 600px) {
+    .arena { flex-direction: column; }
+    .vs { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="logo">⚡ HUMAIN Compare</span>
+  <span class="sub">قارن — اختار الأقوى — علّم النظام</span>
+  <div class="pills">
+    <span class="pill" id="count-pill">0 مقارنة</span>
+    <span class="pill elo" id="leader-pill">—</span>
+  </div>
+</header>
+
+<main>
+  <div class="question">أيّ الكابشنين أقوى؟</div>
+  <div class="context" id="context-line">جارٍ التحميل...</div>
+
+  <div class="arena" id="arena">
+    <div class="center" id="loading">⏳ جارٍ جلب زوج...</div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-skip" onclick="skip()">تخطى ←</button>
+  </div>
+
+  <div class="elo-board" id="elo-board" style="display:none">
+    <div class="elo-title">🏆 ترتيب التقنيات (Elo)</div>
+    <div id="elo-rows"></div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = '';
+let current = null;
+let totalComparisons = 0;
+
+const TECH_NAMES = {
+  'أ': 'Paradox Hunter',
+  'ب': 'Heritage Decoder',
+  'ج': 'Firaasa',
+  'د': 'Metaphor Architect',
+  'هـ': 'Authenticity Detective',
+};
+
+// ── load pair ─────────────────────────────────────────────────────────────────
+async function loadPair() {
+  document.getElementById('arena').innerHTML = '<div class="center" id="loading">⏳ جارٍ جلب زوج...</div>';
+  document.getElementById('context-line').textContent = 'جارٍ التحميل...';
+
+  try {
+    const r = await fetch(`${API}/api/humain/pairs`);
+    const data = await r.json();
+
+    if (data.error) {
+      document.getElementById('arena').innerHTML = `<div class="center">📭 ${data.error === 'not_enough_candidates' ? 'ما في كابشنات كافية للمقارنة بعد — راجع قائمة الانتظار أولاً.' : data.error}</div>`;
+      document.getElementById('context-line').textContent = '';
+      current = null;
+      return;
+    }
+
+    current = data;
+    render(data.a, data.b);
+  } catch (e) {
+    document.getElementById('arena').innerHTML = `<div class="center">❌ خطأ في الاتصال</div>`;
+  }
+}
+
+// ── render pair ───────────────────────────────────────────────────────────────
+function render(a, b) {
+  const sameOcc = a.occasion === b.occasion;
+  const ctx = sameOcc
+    ? `${a.brand} vs ${b.brand} — ${a.occasion}`
+    : `${a.brand} (${a.occasion}) vs ${b.brand} (${b.occasion})`;
+  document.getElementById('context-line').textContent = ctx;
+
+  document.getElementById('arena').innerHTML = `
+    ${cardHtml(a, 'a')}
+    <div class="vs">VS</div>
+    ${cardHtml(b, 'b')}
+  `;
+}
+
+function cardHtml(item, side) {
+  return `
+    <div class="card" id="card-${side}" onclick="pick('${side}')">
+      <span class="tech-tag">${item.technique} — ${TECH_NAMES[item.technique] || ''}</span>
+      <div class="caption">${item.caption}</div>
+      <div class="meta">${item.brand} · ${item.occasion}</div>
+    </div>`;
+}
+
+// ── pick winner ───────────────────────────────────────────────────────────────
+async function pick(side) {
+  if (!current) return;
+  const winner = current[side];
+  const loser  = current[side === 'a' ? 'b' : 'a'];
+
+  // Animate
+  document.getElementById(`card-${side}`).classList.add('picked');
+  document.getElementById(`card-${side === 'a' ? 'b' : 'a'}`).classList.add('lost');
+
+  try {
+    const r = await fetch(`${API}/api/humain/prefer`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({winner, loser}),
+    });
+    const data = await r.json();
+    totalComparisons = data.total_comparisons;
+    document.getElementById('count-pill').textContent = `${totalComparisons} مقارنة`;
+    updateElo(data.elo);
+    toast(`✅ سُجّل: ${winner.technique} فوق ${loser.technique}`);
+  } catch (e) {
+    toast('❌ خطأ في الحفظ', true);
+  }
+
+  setTimeout(loadPair, 900);
+}
+
+function skip() {
+  loadPair();
+}
+
+// ── elo board ─────────────────────────────────────────────────────────────────
+function updateElo(elo) {
+  if (!elo || !Object.keys(elo).length) return;
+  const board = document.getElementById('elo-board');
+  board.style.display = 'block';
+
+  const sorted = Object.entries(elo).sort((a,b) => b[1] - a[1]);
+  const max = sorted[0][1];
+  const min = Math.min(900, sorted[sorted.length-1][1]);
+  const range = max - min || 1;
+
+  document.getElementById('leader-pill').textContent = `🥇 ${sorted[0][0]} ${TECH_NAMES[sorted[0][0]] || ''}`;
+
+  document.getElementById('elo-rows').innerHTML = sorted.map(([tech, score], i) => `
+    <div class="elo-row">
+      <span class="elo-rank">${i+1}</span>
+      <span class="elo-tech">${tech}</span>
+      <span class="elo-name">${TECH_NAMES[tech] || ''}</span>
+      <div class="elo-bar"><div class="elo-fill" style="width:${Math.round((score-min)/range*100)}%"></div></div>
+      <span class="elo-score">${score}</span>
+    </div>`).join('');
+}
+
+// ── toast ─────────────────────────────────────────────────────────────────────
+function toast(msg, err=false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.borderColor = err ? '#f66' : '#4f9';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── init ──────────────────────────────────────────────────────────────────────
+async function init() {
+  // Load existing elo if any
+  try {
+    const r = await fetch(`${API}/api/humain/routing`);
+    // just to warm up — elo from pairwise is separate
+  } catch {}
+  loadPair();
+}
+
+init();
+</script>
+</body>
+</html>

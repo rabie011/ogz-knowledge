@@ -1547,6 +1547,20 @@ async def humain_approve(request: Request):
     elif rating == "weak" and caption:
         _humain_learn(technique, caption, "negative", reason=reason or "عام", sector=brief_data.get("sector"))
 
+    # Feed routing manager — every decision trains the technique router
+    if brief_data and technique and technique != "؟":
+        try:
+            import sys as _sys; _sys.path.insert(0, str(REPO / "scripts"))
+            from routing_manager import record as _record
+            _record(
+                technique=technique,
+                sector=brief_data.get("sector", ""),
+                occasion=brief_data.get("occasion", ""),
+                approved=(rating == "gold"),
+            )
+        except Exception:
+            pass
+
     if rating != "gold" or not brief_data:
         return {"saved": False, "reason": "skipped or weak"}
 
@@ -1584,3 +1598,93 @@ def humain_learning():
         "negative": neg,
         "total_examples": sum(pos.values()) + sum(neg.values()),
     }
+
+
+@app.get("/api/humain/routing")
+def humain_routing():
+    try:
+        import sys as _sys; _sys.path.insert(0, str(REPO / "scripts"))
+        from routing_manager import summary as _summary, load_scores as _load
+        return {"summary": _summary(), "raw_scores": _load()}
+    except Exception as e:
+        return {"error": str(e), "summary": {}}
+
+
+PAIRWISE_FILE = REPO / "logs" / "pairwise_comparisons.json"
+
+@app.get("/api/humain/pairs")
+def humain_pairs():
+    """Return two random pending captions for pairwise comparison."""
+    import random
+    q = json.loads(HUMAIN_QUEUE.read_text()) if HUMAIN_QUEUE.exists() else {}
+    pending = [p for p in q.get("pending", []) if p.get("status") == "pending"]
+    # Collect all individual caption options
+    candidates = []
+    for item in pending:
+        for tech, cap in (item.get("options") or {}).items():
+            if cap and len(cap) > 10:
+                candidates.append({
+                    "brief_id": item["brief_id"],
+                    "brand":    item.get("brand", ""),
+                    "sector":   item.get("sector", ""),
+                    "occasion": item.get("occasion", ""),
+                    "technique": tech,
+                    "caption":  cap,
+                })
+    if len(candidates) < 2:
+        return {"error": "not_enough_candidates", "count": len(candidates)}
+    a, b = random.sample(candidates, 2)
+    return {"a": a, "b": b}
+
+
+@app.post("/api/humain/prefer")
+async def humain_prefer(request: Request):
+    """Record which caption won a pairwise comparison. Updates Elo scores."""
+    body = await request.json()
+    winner = body.get("winner")  # {"brief_id","technique","sector","occasion","caption"}
+    loser  = body.get("loser")
+
+    if not winner or not loser:
+        raise HTTPException(status_code=400, detail="winner and loser required")
+
+    comp = {
+        "winner_tech":   winner["technique"],
+        "loser_tech":    loser["technique"],
+        "winner_sector": winner["sector"],
+        "winner_occ":    winner["occasion"],
+        "winner_caption": winner["caption"][:80],
+        "loser_caption":  loser["caption"][:80],
+        "ts": datetime.now().isoformat(),
+    }
+
+    data = json.loads(PAIRWISE_FILE.read_text()) if PAIRWISE_FILE.exists() else {"comparisons": [], "elo": {}}
+    data["comparisons"].append(comp)
+
+    # Elo update (K=32)
+    elo = data.setdefault("elo", {})
+    wk = winner["technique"]
+    lk = loser["technique"]
+    elo.setdefault(wk, 1000)
+    elo.setdefault(lk, 1000)
+    ew = 1 / (1 + 10 ** ((elo[lk] - elo[wk]) / 400))
+    elo[wk] = round(elo[wk] + 32 * (1 - ew))
+    elo[lk] = round(elo[lk] + 32 * (0 - (1 - ew)))
+
+    PAIRWISE_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2))
+
+    # Also feed routing manager
+    try:
+        import sys as _sys; _sys.path.insert(0, str(REPO / "scripts"))
+        from routing_manager import record as _record
+        _record(winner["technique"], winner["sector"], winner["occasion"], approved=True)
+        _record(loser["technique"],  loser["sector"],  loser["occasion"],  approved=False)
+    except Exception:
+        pass
+
+    return {"elo": elo, "total_comparisons": len(data["comparisons"])}
+
+
+@app.get("/humain-compare")
+def humain_compare_page():
+    from fastapi.responses import FileResponse
+    return FileResponse(REPO / "api" / "static" / "humain_compare.html")

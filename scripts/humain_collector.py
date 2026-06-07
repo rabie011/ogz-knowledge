@@ -768,12 +768,13 @@ def main():
             print("❌  data/brief_matrix.json not found. Run: python3 scripts/generate_brief_matrix.py")
             sys.exit(1)
         all_briefs = json.loads(matrix_file.read_text())
-        # Skip already-pending or already-processed IDs
+        # Skip briefs already in queue (pending review, approved, or stale)
         queue = load_queue()
-        done_ids_queue = {
-            p["brief_id"] for p in queue.get("pending", [])
-            if p.get("status") != "pending"
-        } | {p["brief_id"] for p in queue.get("approved", [])}
+        done_ids_queue = (
+            {p["brief_id"] for p in queue.get("pending", [])}
+            | {p["brief_id"] for p in queue.get("approved", [])}
+            | {p["brief_id"] for p in queue.get("stale_v1", [])}
+        )
         all_briefs = [b for b in all_briefs if b["id"] not in done_ids_queue]
         if args.sector:
             all_briefs = [b for b in all_briefs if b["sector"] == args.sector]

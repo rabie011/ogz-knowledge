@@ -694,15 +694,44 @@ def dry_run(briefs: list[dict]) -> None:
 def main():
     parser = argparse.ArgumentParser(description="HUMAIN gold output collector")
     parser.add_argument("--reparse",  action="store_true", help="Re-parse existing queue entries with improved parser")
-    parser.add_argument("--from",    dest="from_id", type=int, default=1, help="Resume from brief id")
-    parser.add_argument("--id",      type=int, default=None, help="Run single brief id")
-    parser.add_argument("--dry-run", action="store_true", help="Print prompts only")
+    parser.add_argument("--from",    dest="from_id", type=int, default=1,    help="Resume from brief id")
+    parser.add_argument("--id",      type=int, default=None,                 help="Run single brief id")
+    parser.add_argument("--dry-run", action="store_true",                    help="Print prompts only")
+    parser.add_argument("--matrix",  action="store_true",                    help="Use full brief matrix (data/brief_matrix.json) instead of hardcoded 18 briefs")
+    parser.add_argument("--sector",  default=None,                           help="Filter matrix by sector (e.g. f_and_b)")
+    parser.add_argument("--occasion",default=None,                           help="Filter matrix by occasion (e.g. ramadan)")
+    parser.add_argument("--batch",   type=int, default=None,                 help="Limit to N briefs (for batched runs)")
     args = parser.parse_args()
 
-    if args.id:
-        briefs = [b for b in BRIEFS if b["id"] == args.id]
+    # Choose brief source
+    if args.matrix:
+        matrix_file = BASE / "data" / "brief_matrix.json"
+        if not matrix_file.exists():
+            print("❌  data/brief_matrix.json not found. Run: python3 scripts/generate_brief_matrix.py")
+            sys.exit(1)
+        all_briefs = json.loads(matrix_file.read_text())
+        # Skip already-pending or already-processed IDs
+        queue = load_queue()
+        done_ids_queue = {
+            p["brief_id"] for p in queue.get("pending", [])
+            if p.get("status") != "pending"
+        } | {p["brief_id"] for p in queue.get("approved", [])}
+        all_briefs = [b for b in all_briefs if b["id"] not in done_ids_queue]
+        if args.sector:
+            all_briefs = [b for b in all_briefs if b["sector"] == args.sector]
+        if args.occasion:
+            all_briefs = [b for b in all_briefs if b["occasion"] == args.occasion]
+        source = all_briefs
     else:
-        briefs = [b for b in BRIEFS if b["id"] >= args.from_id]
+        source = BRIEFS
+
+    if args.id:
+        briefs = [b for b in source if b["id"] == args.id]
+    else:
+        briefs = [b for b in source if b["id"] >= args.from_id]
+
+    if args.batch:
+        briefs = briefs[:args.batch]
 
     if not briefs:
         print(f"No briefs found for given arguments.")

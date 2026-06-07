@@ -19,10 +19,12 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-BASE      = Path(__file__).parent.parent
-GOLD_FILE = BASE / "docs/consultations/GOLD_OUTPUTS_HUMAIN.md"
-LOG_FILE  = BASE / "logs/humain_collector.log"
-HUMAIN    = "https://chat.humain.ai"
+BASE       = Path(__file__).parent.parent
+GOLD_FILE  = BASE / "docs/consultations/GOLD_OUTPUTS_HUMAIN.md"
+QUEUE_FILE = BASE / "logs/humain_queue.json"
+LOG_FILE   = BASE / "logs/humain_collector.log"
+HUMAIN     = "https://chat.humain.ai"
+REVIEW_URL = "http://localhost:4100/humain-review"
 
 # ── Sector display names ───────────────────────────────────────────────────────
 SECTOR_AR = {
@@ -188,6 +190,88 @@ def log(msg: str) -> None:
     with open(LOG_FILE, "a") as f:
         f.write(f"[{ts}] {msg}\n")
     print(msg)
+
+
+def parse_response(raw: str) -> dict:
+    """
+    Extract the 3 technique options (أ, ب, ج) and الأفضل from ALLaM's response.
+    ALLaM doesn't always follow exact format — this is lenient.
+    """
+    options = {"أ": "", "ب": "", "ج": ""}
+    best = ""
+
+    lines = [l.strip() for l in raw.splitlines() if l.strip()]
+
+    # Extract الأفضل line
+    for line in lines:
+        if "الأفضل" in line:
+            best = re.sub(r"الأفضل\s*:\s*", "", line).strip()
+            break
+
+    # Try to find lines labeled أ. / ب. / ج.
+    for line in lines:
+        for key in ("أ", "ب", "ج"):
+            if re.match(rf"^{key}[\.\-\:]\s*", line):
+                text = re.sub(rf"^{key}[\.\-\:]\s*", "", line).strip()
+                if text and not options[key]:
+                    options[key] = text
+                break
+
+    # Fallback: if labeling not found, take non-labeled Arabic lines in order
+    if not any(options.values()):
+        arabic_lines = [
+            l for l in lines
+            if any("؀" <= c <= "ۿ" for c in l)
+            and "الأفضل" not in l
+            and "<" not in l
+        ]
+        for i, key in enumerate(("أ", "ب", "ج")):
+            if i < len(arabic_lines):
+                options[key] = arabic_lines[i]
+
+    # If best not found but we have options, use option أ as default
+    if not best and options["أ"]:
+        best = options["أ"]
+
+    return {"options": options, "best": best}
+
+
+def load_queue() -> dict:
+    if QUEUE_FILE.exists():
+        return json.loads(QUEUE_FILE.read_text())
+    return {"pending": [], "approved": []}
+
+
+def save_to_queue(brief: dict, raw_response: str) -> None:
+    """Save a collected HUMAIN response to the review queue."""
+    QUEUE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    queue = load_queue()
+
+    parsed = parse_response(raw_response)
+    sector_ar   = SECTOR_AR.get(brief["sector"], brief["sector"])
+    occasion_ar = OCCASION_AR.get(brief["occasion"], brief["occasion"])
+
+    # Remove any existing entry for this brief_id (allow re-collection)
+    queue["pending"] = [p for p in queue["pending"] if p.get("brief_id") != brief["id"]]
+
+    queue["pending"].append({
+        "brief_id":    brief["id"],
+        "brand":       brief["brand"],
+        "sector":      brief["sector"],
+        "sector_ar":   sector_ar,
+        "occasion":    brief["occasion"],
+        "occasion_ar": occasion_ar,
+        "product":     brief["product"],
+        "hashtags":    brief["hashtags"],
+        "raw":         raw_response,
+        "options":     parsed["options"],
+        "best":        parsed["best"],
+        "collected_at": datetime.now().isoformat(),
+        "status":      "pending",
+    })
+
+    QUEUE_FILE.write_text(json.dumps(queue, ensure_ascii=False, indent=2))
+    log(f"  💾 Saved to queue: Brief #{brief['id']} — {brief['brand']}")
 
 
 # ── Playwright automation ──────────────────────────────────────────────────────
@@ -461,48 +545,12 @@ async def run_browser(briefs: list[dict]) -> None:
             response = await wait_for_response(page, timeout_s=180)
 
             if not response:
-                log("  ❌  No response captured.")
-                print("  Press ENTER to skip to next brief, or Ctrl+C to quit.")
-                input()
+                log(f"  ❌  No response for Brief #{brief['id']} — skipping.")
                 continue
 
-            # Print response for Mohamed
-            print(f"\n  ── ALLaM Response {'─'*40}")
-            print(response)
-            print(f"  {'─'*57}")
-
-            # Identify "الأفضل" line automatically
-            best_line = ""
-            for line in response.splitlines():
-                if "الأفضل" in line:
-                    best_line = re.sub(r"الأفضل\s*:\s*", "", line).strip()
-                    break
-
-            if best_line:
-                print(f"\n  Auto-detected الأفضل: {best_line}")
-
-            print(f"\n  [1] Save الأفضل line above   [2] Enter custom caption   [s] Skip   [q] Quit")
-            pick = input("  → ").strip().lower()
-
-            if pick == "q":
-                log("  Quit requested. Progress saved.")
-                break
-            if pick == "s":
-                log(f"  Brief #{brief['id']} skipped.")
-                done_ids.add(brief["id"])
-                continue
-
-            if pick == "1" and best_line:
-                chosen = best_line
-                technique = input("  Technique (أ/ب/ج — which won?): ").strip() or "الأفضل"
-            else:
-                chosen = input("  Paste the winning caption: ").strip()
-                technique = input("  Technique (أ/ب/ج): ").strip() or "؟"
-
-            if chosen:
-                append_gold(next_num, brief, chosen, technique)
-                next_num += 1
-                done_ids.add(brief["id"])
+            # Parse and queue — no terminal input needed
+            save_to_queue(brief, response)
+            done_ids.add(brief["id"])
 
             # Start new chat to avoid context contamination between briefs
             try:
@@ -523,10 +571,14 @@ async def run_browser(briefs: list[dict]) -> None:
                 await asyncio.sleep(2)
 
         await ctx.close()
-        total = len(load_gold())
+        queue = load_queue()
+        pending = len([p for p in queue["pending"] if p["status"] == "pending"])
+        gold    = len(load_gold())
         log(f"\n{'='*60}")
-        log(f"  Session complete. Total gold: {total}/300")
-        log(f"  Run again to continue from where you left off.")
+        log(f"  Collection complete!")
+        log(f"  {pending} responses queued for review.")
+        log(f"  Gold approved so far: {gold}/300")
+        log(f"\n  ✨ Open review page: {REVIEW_URL}")
         log(f"{'='*60}\n")
 
 

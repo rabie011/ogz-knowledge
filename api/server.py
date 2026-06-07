@@ -1443,3 +1443,79 @@ async def review_save(request: Request):
 
     return {"saved": True, "total_rated": rated, "breakdown": counts,
             "learning_entries_added": added}
+
+
+# ═══════════════════════════════════════════════════════════
+# HUMAIN GOLD REVIEW — web review UI for ALLaM collected outputs
+# ═══════════════════════════════════════════════════════════
+
+HUMAIN_QUEUE  = REPO / "logs" / "humain_queue.json"
+HUMAIN_GOLD   = REPO / "docs" / "consultations" / "GOLD_OUTPUTS_HUMAIN.md"
+
+@app.get("/humain-review")
+def humain_review_page():
+    return FileResponse(STATIC_DIR / "humain_review.html")
+
+@app.get("/api/humain/queue")
+def humain_queue():
+    if not HUMAIN_QUEUE.exists():
+        return {"pending": [], "approved": [], "gold_count": 0}
+    q = json.loads(HUMAIN_QUEUE.read_text())
+    # Count gold from markdown
+    gold_count = 0
+    if HUMAIN_GOLD.exists():
+        for line in HUMAIN_GOLD.read_text().splitlines():
+            parts = [p.strip() for p in line.split("|")]
+            if len(parts) >= 7 and parts[1].isdigit():
+                gold_count += 1
+    q["gold_count"] = gold_count
+    return q
+
+@app.post("/api/humain/approve")
+async def humain_approve(request: Request):
+    body = await request.json()
+    brief_id  = body.get("brief_id")
+    caption   = body.get("caption", "").strip()
+    technique = body.get("technique", "؟").strip()
+    rating    = body.get("rating", "gold")   # gold | weak | skip
+
+    if not caption or not brief_id:
+        raise HTTPException(status_code=400, detail="brief_id and caption required")
+
+    # Load queue and mark item
+    q = json.loads(HUMAIN_QUEUE.read_text()) if HUMAIN_QUEUE.exists() else {"pending": [], "approved": []}
+    brief_data = {}
+    for item in q["pending"]:
+        if item["brief_id"] == brief_id:
+            item["status"]      = rating
+            item["chosen"]      = caption
+            item["technique"]   = technique
+            item["approved_at"] = datetime.now().isoformat()
+            brief_data = item
+            break
+    HUMAIN_QUEUE.write_text(json.dumps(q, ensure_ascii=False, indent=2))
+
+    if rating != "gold" or not brief_data:
+        return {"saved": False, "reason": "skipped or weak"}
+
+    # Append to GOLD_OUTPUTS_HUMAIN.md
+    gold_text  = HUMAIN_GOLD.read_text() if HUMAIN_GOLD.exists() else ""
+    # Count current entries
+    gold_rows  = [l for l in gold_text.splitlines() if "|" in l and l.strip().split("|")[1].strip().isdigit()]
+    next_num   = len(gold_rows) + 1
+    sector_ar  = brief_data.get("sector_ar", brief_data.get("sector",""))
+    occasion_ar = brief_data.get("occasion_ar", brief_data.get("occasion",""))
+    new_row    = f"| {next_num} | {brief_data['brand']} | {sector_ar} | {occasion_ar} | {technique} | {caption} |"
+
+    import re as _re
+    # Replace placeholder row or append
+    if "| — | — |" in gold_text:
+        gold_text = gold_text.replace("| — | — | — | — | — | — |", new_row, 1)
+    else:
+        gold_text = _re.sub(r"(---\n\n## COUNT:)", f"{new_row}\n\n---\n\n## COUNT:", gold_text)
+
+    # Update count
+    gold_text = _re.sub(r"## COUNT: \d+ / 300", f"## COUNT: {next_num} / 300", gold_text)
+    HUMAIN_GOLD.write_text(gold_text)
+
+    return {"saved": True, "num": next_num, "caption": caption}

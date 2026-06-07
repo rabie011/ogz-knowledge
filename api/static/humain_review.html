@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HUMAIN Review — مراجعة المخرجات</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f0f13;
+    --card: #1a1a22;
+    --border: #2a2a38;
+    --accent: #7c6af7;
+    --gold: #f5c518;
+    --green: #22c55e;
+    --orange: #f97316;
+    --red: #ef4444;
+    --text: #e8e8f0;
+    --muted: #6b6b85;
+    --radius: 14px;
+  }
+
+  body {
+    font-family: 'Segoe UI', 'Noto Kufi Arabic', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  /* ── Header ─────────────────────────────────────────────── */
+  .header {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .header-title { font-size: 18px; font-weight: 700; color: var(--accent); }
+  .header-sub   { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+  .progress-ring {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .pill {
+    background: var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .pill.gold  { background: rgba(245,197,24,0.15); color: var(--gold); }
+  .pill.green { background: rgba(34,197,94,0.15);  color: var(--green); }
+  .pill.muted { background: var(--border);          color: var(--muted); }
+
+  /* ── Empty / Loading ─────────────────────────────────────── */
+  .center-msg {
+    text-align: center;
+    padding: 80px 24px;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 2;
+  }
+  .center-msg b { color: var(--text); display: block; font-size: 22px; margin-bottom: 12px; }
+  .center-msg code {
+    background: var(--border);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    direction: ltr;
+    display: inline-block;
+    margin-top: 8px;
+  }
+
+  /* ── Brief cards ─────────────────────────────────────────── */
+  .cards { padding: 20px 16px; max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .card.done  { border-color: var(--green); opacity: 0.5; }
+  .card.skip  { border-color: var(--border); opacity: 0.35; }
+  .card.weak  { border-color: var(--orange); opacity: 0.5; }
+
+  .card-header {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .brief-num { font-size: 12px; color: var(--muted); }
+  .brand-name { font-size: 18px; font-weight: 700; }
+  .brief-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    font-size: 12px;
+  }
+  .tag {
+    background: var(--border);
+    border-radius: 20px;
+    padding: 3px 10px;
+    color: var(--muted);
+  }
+  .tag.accent { background: rgba(124,106,247,0.15); color: var(--accent); }
+
+  .card-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+
+  /* ── Caption option ──────────────────────────────────────── */
+  .option {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    transition: border-color 0.15s, background 0.15s;
+    cursor: default;
+  }
+  .option.best {
+    border-color: rgba(245,197,24,0.4);
+    background: rgba(245,197,24,0.04);
+  }
+  .option-label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .option-label .star { color: var(--gold); font-size: 14px; }
+  .caption-text {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--text);
+    word-break: break-word;
+  }
+  .hashtags { font-size: 13px; color: var(--accent); margin-top: 8px; opacity: 0.7; }
+
+  .option-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* ── Buttons ─────────────────────────────────────────────── */
+  .btn {
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    font-family: inherit;
+  }
+  .btn:active { transform: scale(0.96); }
+  .btn:disabled { opacity: 0.35; cursor: default; }
+
+  .btn-gold  { background: rgba(245,197,24,0.2);  color: var(--gold);   border: 1px solid rgba(245,197,24,0.3); }
+  .btn-weak  { background: rgba(249,115,22,0.15); color: var(--orange); border: 1px solid rgba(249,115,22,0.2); }
+  .btn-skip  { background: transparent;           color: var(--muted);  border: 1px solid var(--border); }
+
+  .btn-gold:hover  { background: rgba(245,197,24,0.3); }
+  .btn-weak:hover  { background: rgba(249,115,22,0.25); }
+  .btn-skip:hover  { background: var(--border); color: var(--text); }
+
+  .card-skip-row {
+    padding: 0 18px 14px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  /* ── Status badge ────────────────────────────────────────── */
+  .status-badge {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+  .status-badge.gold  { background: rgba(245,197,24,0.15); color: var(--gold); }
+  .status-badge.skip  { background: var(--border);          color: var(--muted); }
+  .status-badge.weak  { background: rgba(249,115,22,0.15); color: var(--orange); }
+
+  /* ── Toast ───────────────────────────────────────────────── */
+  #toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--green);
+    color: #fff;
+    font-weight: 700;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 14px;
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.3s;
+    z-index: 999;
+    white-space: nowrap;
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  #toast.warn { background: var(--orange); }
+
+  /* ── Scroll anchor ───────────────────────────────────────── */
+  .scroll-anchor { height: 1px; }
+
+  @media (max-width: 480px) {
+    .header { padding: 12px 16px; }
+    .header-title { font-size: 15px; }
+    .cards { padding: 14px 10px; }
+    .card-header, .card-body { padding: 12px 14px; }
+    .caption-text { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-title">HUMAIN Review</div>
+    <div class="header-sub">مراجعة مخرجات ALLaM 34B</div>
+  </div>
+  <div class="progress-ring">
+    <span class="pill muted" id="pending-count">—</span> معلّق
+    &nbsp;·&nbsp;
+    <span class="pill gold"  id="gold-count">—</span> / 300 ذهبي
+  </div>
+</div>
+
+<div id="root">
+  <div class="center-msg"><b>⏳</b>جاري التحميل...</div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const API = '';  // same origin
+
+let queue = { pending: [], approved: [] };
+let goldCount = 0;
+
+// ── Toast ──────────────────────────────────────────────────
+function showToast(msg, warn=false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show' + (warn ? ' warn' : '');
+  setTimeout(() => { t.className = warn ? 'warn' : ''; }, 2500);
+}
+
+// ── Fetch queue ────────────────────────────────────────────
+async function loadQueue() {
+  try {
+    const r = await fetch(`${API}/api/humain/queue`);
+    if (!r.ok) throw new Error(r.statusText);
+    queue = await r.json();
+    goldCount = queue.gold_count || 0;
+    render();
+  } catch(e) {
+    document.getElementById('root').innerHTML = `
+      <div class="center-msg">
+        <b>لا توجد بيانات بعد</b>
+        شغّل المجمّع أولاً، ثم افتح هذه الصفحة للمراجعة.<br>
+        <code>python3 scripts/humain_collector.py</code>
+      </div>`;
+  }
+}
+
+// ── Approve / Skip ─────────────────────────────────────────
+async function approve(briefId, caption, technique, rating) {
+  try {
+    const r = await fetch(`${API}/api/humain/approve`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ brief_id: briefId, caption, technique, rating })
+    });
+    const data = await r.json();
+
+    // Update local state
+    const item = queue.pending.find(p => p.brief_id === briefId);
+    if (item) {
+      item.status  = rating;
+      item.chosen  = caption;
+    }
+
+    if (rating === 'gold') {
+      goldCount = data.num || goldCount + 1;
+      showToast(`✅ حُفظ #${goldCount} — ${caption.slice(0,40)}…`);
+    } else if (rating === 'weak') {
+      showToast('⚠️ ضعيف — تم التخطي', true);
+    } else {
+      showToast('تم التخطي');
+    }
+
+    updateCounters();
+    rerenderCard(briefId, rating);
+
+  } catch(e) {
+    showToast('❌ خطأ — ' + e.message, true);
+  }
+}
+
+// ── Update header counters ─────────────────────────────────
+function updateCounters() {
+  const pending = queue.pending.filter(p => p.status === 'pending').length;
+  document.getElementById('pending-count').textContent = pending;
+  document.getElementById('gold-count').textContent    = goldCount;
+}
+
+// ── Re-render a single card after action ──────────────────
+function rerenderCard(briefId, rating) {
+  const card = document.querySelector(`[data-brief-id="${briefId}"]`);
+  if (!card) return;
+  card.classList.remove('done','skip','weak');
+  if (rating === 'gold') card.classList.add('done');
+  else if (rating === 'skip') card.classList.add('skip');
+  else if (rating === 'weak') card.classList.add('weak');
+
+  // Disable all buttons in this card
+  card.querySelectorAll('.btn').forEach(b => b.disabled = true);
+
+  // Show status badge
+  const header = card.querySelector('.card-header');
+  const existing = header.querySelector('.status-badge');
+  if (existing) existing.remove();
+  const badge = document.createElement('span');
+  badge.className = `status-badge ${rating}`;
+  badge.textContent = rating === 'gold' ? '✅ محفوظ' : rating === 'weak' ? '⚠️ ضعيف' : '— متخطى';
+  header.appendChild(badge);
+
+  // Scroll to next pending card
+  setTimeout(() => {
+    const next = document.querySelector('.card:not(.done):not(.skip):not(.weak)');
+    if (next) next.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 300);
+}
+
+// ── Render technique label ────────────────────────────────
+function techLabel(key) {
+  const map = { 'أ': 'أ — Paradox Hunter', 'ب': 'ب — Heritage Decoder', 'ج': 'ج — Firaasa' };
+  return map[key] || key;
+}
+
+// ── Render ─────────────────────────────────────────────────
+function render() {
+  updateCounters();
+
+  const items = queue.pending || [];
+  if (!items.length) {
+    document.getElementById('root').innerHTML = `
+      <div class="center-msg">
+        <b>📭 القائمة فارغة</b>
+        شغّل المجمّع لجلب مخرجات جديدة.<br>
+        <code>python3 scripts/humain_collector.py</code>
+      </div>`;
+    return;
+  }
+
+  const html = items.map(item => {
+    const isDone = item.status && item.status !== 'pending';
+    const cardClass = isDone
+      ? (item.status === 'gold' ? 'done' : item.status === 'weak' ? 'weak' : 'skip')
+      : '';
+
+    const badge = isDone
+      ? `<span class="status-badge ${item.status}">${
+          item.status === 'gold' ? '✅ محفوظ' :
+          item.status === 'weak' ? '⚠️ ضعيف' : '— متخطى'
+        }</span>`
+      : '';
+
+    // Build options HTML
+    const optionKeys = ['أ', 'ب', 'ج'];
+    const optionsHtml = optionKeys.map(key => {
+      const text = (item.options || {})[key] || '';
+      if (!text) return '';
+      const isBest = item.best && text && (
+        item.best === text ||
+        item.best.includes(text.slice(0, 20))
+      );
+      return `
+        <div class="option ${isBest ? 'best' : ''}">
+          <div class="option-label">
+            ${isBest ? '<span class="star">★</span>' : ''}
+            ${techLabel(key)}
+            ${isBest ? '— الأفضل (اختيار ALLaM)' : ''}
+          </div>
+          <div class="caption-text">${escHtml(text)}</div>
+          <div class="hashtags">${escHtml(item.hashtags || '')}</div>
+          <div class="option-actions">
+            <button class="btn btn-gold"
+              onclick="approve(${item.brief_id}, ${JSON.stringify(text)}, '${key}', 'gold')"
+              ${isDone ? 'disabled' : ''}>
+              ✅ حفظ كذهبي
+            </button>
+            <button class="btn btn-weak"
+              onclick="approve(${item.brief_id}, ${JSON.stringify(text)}, '${key}', 'weak')"
+              ${isDone ? 'disabled' : ''}>
+              ⚠️ ضعيف
+            </button>
+          </div>
+        </div>`;
+    }).join('');
+
+    // If best line doesn't match any option, show it separately
+    const bestNotInOptions = item.best &&
+      !optionKeys.some(k => {
+        const t = (item.options || {})[k] || '';
+        return t && item.best.includes(t.slice(0, 20));
+      });
+
+    const extraBest = bestNotInOptions ? `
+      <div class="option best">
+        <div class="option-label"><span class="star">★</span> الأفضل (ALLaM auto-pick)</div>
+        <div class="caption-text">${escHtml(item.best)}</div>
+        <div class="hashtags">${escHtml(item.hashtags || '')}</div>
+        <div class="option-actions">
+          <button class="btn btn-gold"
+            onclick="approve(${item.brief_id}, ${JSON.stringify(item.best)}, 'الأفضل', 'gold')"
+            ${isDone ? 'disabled' : ''}>✅ حفظ كذهبي</button>
+          <button class="btn btn-weak"
+            onclick="approve(${item.brief_id}, ${JSON.stringify(item.best)}, 'الأفضل', 'weak')"
+            ${isDone ? 'disabled' : ''}>⚠️ ضعيف</button>
+        </div>
+      </div>` : '';
+
+    return `
+      <div class="card ${cardClass}" data-brief-id="${item.brief_id}">
+        <div class="card-header">
+          <div>
+            <div class="brief-num">Brief #${item.brief_id}</div>
+            <div class="brand-name">${escHtml(item.brand)}</div>
+          </div>
+          <div class="brief-tags">
+            <span class="tag accent">${escHtml(item.occasion_ar || item.occasion)}</span>
+            <span class="tag">${escHtml(item.sector_ar || item.sector)}</span>
+            <span class="tag">${escHtml(item.product)}</span>
+          </div>
+          ${badge}
+        </div>
+        <div class="card-body">
+          ${optionsHtml}
+          ${extraBest}
+        </div>
+        <div class="card-skip-row">
+          <button class="btn btn-skip"
+            onclick="approve(${item.brief_id}, '', '', 'skip')"
+            ${isDone ? 'disabled' : ''}>تخطّ هذا</button>
+        </div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('root').innerHTML = `<div class="cards">${html}</div>`;
+}
+
+function escHtml(str) {
+  return String(str || '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+// ── Init ───────────────────────────────────────────────────
+loadQueue();
+</script>
+</body>
+</html>

@@ -62,22 +62,29 @@ def judge_caption(caption: str, brain_slug: str, api_key: str) -> dict:
     methodology = build_cd_prompt_block(brain_slug)
     prompt = JUDGE_PROMPT.format(methodology=methodology[:1200], caption=caption)
 
-    try:
-        resp = client.chat.completions.create(
-            model="gpt-4o",  # strong model for creative judgment
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=200,
-            temperature=0,
-        )
-        raw = resp.choices[0].message.content.strip()
-        if raw.startswith("```"):
-            raw = re.sub(r"```[a-z]*\n?", "", raw).strip("` ")
-        d = json.loads(raw)
-        axes = ["technique", "register", "anti_pattern", "distinctive"]
-        d["total"] = round(sum(d.get(a, 0) for a in axes) / len(axes), 1)
-        return d
-    except Exception as e:
-        return {"error": str(e)[:100], "total": 0}
+    # Retry on transient failures (rate limit / JSON parse) — a 0 from a judge
+    # crash pollutes comparisons. Up to 3 attempts; None total = real failure.
+    import time
+    last_err = None
+    for attempt in range(3):
+        try:
+            resp = client.chat.completions.create(
+                model="gpt-4o",
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=200,
+                temperature=0,
+            )
+            raw = resp.choices[0].message.content.strip()
+            if raw.startswith("```"):
+                raw = re.sub(r"```[a-z]*\n?", "", raw).strip("` ")
+            d = json.loads(raw)
+            axes = ["technique", "register", "anti_pattern", "distinctive"]
+            d["total"] = round(sum(d.get(a, 0) for a in axes) / len(axes), 1)
+            return d
+        except Exception as e:
+            last_err = str(e)[:100]
+            time.sleep(1.5 * (attempt + 1))
+    return {"error": last_err, "total": None}  # None = judge failed, exclude from stats
 
 
 def generate(brand: str, product: str, occasion: str, use_cd: bool, api_key: str) -> dict:

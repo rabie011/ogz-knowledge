@@ -314,10 +314,12 @@ _QUOTE_STRIP = re.compile(r'^["\'""«»]+|["\'""«»]+$')
 
 
 def _clean_caption(text: str) -> str:
-    """Strip technique name prefixes and surrounding quotes from a caption."""
+    """Strip technique name prefixes, leading punctuation, and surrounding quotes."""
     text = text.strip()
     text = _TECH_PREFIXES.sub("", text).strip()
     text = _QUOTE_STRIP.sub("", text).strip()
+    # Strip any remaining leading ". " or "- " artifacts from ALLaM double-punctuation
+    text = re.sub(r"^[\.\-،]\s+", "", text).strip()
     return text
 
 
@@ -438,18 +440,21 @@ def save_to_queue(brief: dict, raw_response: str) -> None:
 
 # ── Playwright automation ──────────────────────────────────────────────────────
 CHAT_INPUT_SELECTORS = [
-    "textarea",
+    # Most specific first — "Ask me anything..." is the HUMAIN chat box
+    "textarea[placeholder*='Ask me anything' i]",
+    "textarea[placeholder*='message' i]",
+    "textarea[placeholder*='اسأل' i]",
+    "textarea[placeholder*='أرسل' i]",
     "[contenteditable='true']",
     "[role='textbox']",
     ".ProseMirror",
     "[data-placeholder*='message' i]",
-    "[placeholder*='type' i]",
-    "[placeholder*='اكتب' i]",
-    "[placeholder*='أرسل' i]",
     "input[type='text']:not([type='email']):not([type='password'])",
     ".chat-input",
     "#chat-input",
     "div[data-testid='chat-input']",
+    # Fallback: any textarea that isn't the survey "Write your thoughts..." one
+    "textarea:not([placeholder*='thoughts' i]):not([placeholder*='improve' i])",
 ]
 
 SEND_BTN_SELECTORS = [
@@ -470,6 +475,10 @@ SESSION_DIR = Path.home() / ".humain_playwright_session"
 async def dismiss_modal(page) -> None:
     """Dismiss any onboarding/welcome modal that blocks the chat input."""
     modal_btns = [
+        # HUMAIN survey modal — dismiss first
+        "button:has-text('Cancel')",
+        "button:has-text('إلغاء')",
+        # Generic close patterns
         "button:has-text(\"Let's get started\")",
         "button:has-text('ابدأ')",
         "button:has-text('Continue')",
@@ -478,6 +487,9 @@ async def dismiss_modal(page) -> None:
         "button:has-text('موافق')",
         "[aria-label='Close']",
         "button.rounded-full svg[data-lucide='x']",
+        # × button (any close button with × text)
+        "button:has-text('×')",
+        "[data-dismiss]",
     ]
     for sel in modal_btns:
         try:
@@ -639,16 +651,20 @@ async def run_browser(briefs: list[dict]) -> None:
         log(f"{'='*60}\n")
 
         await page.goto(HUMAIN, wait_until="domcontentloaded", timeout=30000)
-        await asyncio.sleep(3)
+        await asyncio.sleep(5)  # extra wait for JS to hydrate
 
-        # Check if login needed
-        chat_input, sel = await find_chat_input(page)
-        if chat_input is None:
-            ok = await wait_for_login(page)
-            if not ok:
-                print("  Could not detect login. Press ENTER to retry once more, or Ctrl+C.")
-                input()
-                chat_input, sel = await find_chat_input(page)
+        # Check if login needed — retry up to 3 times with longer waits
+        chat_input, sel = None, None
+        for attempt in range(3):
+            chat_input, sel = await find_chat_input(page)
+            if chat_input:
+                break
+            if attempt == 0:
+                ok = await wait_for_login(page)
+                if ok:
+                    chat_input, sel = await find_chat_input(page)
+                    break
+            await asyncio.sleep(5)
 
         if chat_input is None:
             log("❌ Cannot find chat input after login. Exiting.")

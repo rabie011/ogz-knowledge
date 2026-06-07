@@ -140,7 +140,7 @@ def _build_learned_addition() -> str:
             return ""
         ld = json.loads(LEARNING_FILE.read_text())
         lines = []
-        for tech in ("أ", "ب", "ج"):
+        for tech in ("أ", "ب", "ج", "د", "هـ"):
             for p in ld.get("positive", {}).get(tech, [])[-2:]:
                 lines.append(f'[{tech}] ناجح (معتمد بشرياً): "{p["caption"]}"')
             for n in ld.get("negative", {}).get(tech, [])[-2:]:
@@ -154,9 +154,11 @@ def _build_learned_addition() -> str:
 
 
 def _build_brand_block(brief: dict, sector_ar: str, occasion_ar: str) -> str:
-    """Build the <BRAND> block — enriched with KB data if available."""
+    """Build the <BRAND> block — enriched with KB data + occasion tension."""
     ctx = brief.get("brand_context", {})
     lines = [f"العلامة: {brief['brand']} | القطاع: {sector_ar} | المنتج: {brief['product']} | المناسبة: {occasion_ar}"]
+    if brief.get("occasion_tension"):
+        lines.append(f"التوتر الإبداعي: {brief['occasion_tension']}")
 
     if ctx.get("bio_tagline"):
         lines.append(f"شعار العلامة: \"{ctx['bio_tagline']}\"")
@@ -211,19 +213,83 @@ def _build_brand_block(brief: dict, sector_ar: str, occasion_ar: str) -> str:
 
 
 def build_prompt(brief: dict) -> str:
+    import sys; sys.path.insert(0, str(Path(__file__).parent))
+    try:
+        from routing_manager import get_route, ALL_TECHNIQUES as _ALL
+        route = get_route(brief["sector"], brief.get("occasion", ""))
+    except Exception:
+        route = None
+
+    active_keys = route if route else ALL_KEYS
+    key_list    = "، ".join(active_keys)
+    n_options   = len(active_keys)
+
+    # Build techniques block — only include active techniques
+    FULL_BLOCKS = {
+        "أ": """أ. Paradox Hunter — قلب التوقع: جملة خبرية تعكس توقع الناس أو تنفي الافتراض
+← الافتتاح: جملة خبرية مفاجئة / نفي يكشف مفارقة / سؤال يقلب الفرضية
+← ممنوع تماماً: تبدأ بـ "لمّا" أو "إذا" أو "تخيل" (هذه لتقنيات أخرى)
+← ممنوع تماماً: تبدأ باسم العلامة أو المنتج
+← ناجح: "قهوة تصحيك — حتى قبل ما تشربها"
+← ناجح: "التوفير اللي ما يحتاج تفكر مرتين"
+← ناجح: "ما كل عيد يحتاج هدية — بس كل عيد يحتاج طعم"
+← فاشل: "استمتع" / "لا تفوت" / "أجواء مميزة" / "عرض لفترة محدودة"
+← ممنوع: "[المنتج] اللي ما ينتظر [المناسبة]" — المناسبة لا تنتظر المنتج""",
+
+        "ب": """ب. Heritage Decoder — كلمة أو كلمتان تحمل معنيين في آنٍ واحد
+← الافتتاح: الكلمة ذات المعنيين مباشرةً (بدون "إذا" أو "لمّا" أو "اللي" كأولى الكلمات)
+← الصحيح: ابدأ بالكلمة المزدوجة نفسها — الجملة تُفسَّر بمعنيين بدون شرح
+← ممنوع تماماً: تبدأ بـ "لمّا" أو "إذا" أو "تخيل"
+← ناجح (أزياء): "ترتدين المناسبة" — تلبسين + تحملين روح اليوم
+← ناجح (غذاء): "اللبن اللي يروبك" — يُعمَّر + يُهدِّئ روحك
+← ناجح (مالية): "الذكاء يستثمر فيك" — الاستثمار المالي + استثمار الطاقة فيك
+← فاشل وممنوع: "X معك في كل خطوة" — تعبير عام بدون معنى مزدوج
+← تجنب: "يشبك" (معناه الثاني سلبي) / "يطمن قلبك" (حميمية غير مقصودة)""",
+
+        "ج": """ج. Firaasa — لحظة سلوكية حقيقية تبدأ بـ "اللي" أو فعل مضارع
+← الافتتاح: "اللي..." أو فعل مضارع يصف سلوكاً محدداً
+← ممنوع تماماً: تبدأ بـ "لمّا" أو "إذا" (هذه لتقنيات أخرى)
+← الصحيح: لحظة سلوكية خاصة بهذا المنتج — مو قالب يصلح لأي علامة
+← ناجح: "اللي يدور على صحة يدور على راحة بال"
+← ناجح: "يختارك البيك قبل ما تختاره — هذا هو الطعم"
+← ممنوع تماماً: "الأم/الناس ما يدور على X — يدور على Y" — قالب مستهلك
+← فاشل: "في لحظة X، Y هو اللي..." — صياغة إعلانية مباشرة""",
+
+        "د": "د. Metaphor Architect — تشبيه إلزامي يبدأ بـ \"إذا\" أو \"تخيل معي\"\n← الافتتاح الإلزامي: \"إذا...\" أو \"تخيل معي...\"\n← ممنوع تماماً: تبدأ بـ \"لمّا\" أو بجملة خبرية بدون تشبيه\n← الصحيح: كل عنصر في التشبيه يطابق عنصراً في الواقع\n← ناجح: \"إذا يومك طريق — القهوة هي اللي تحدد المسار\"\n← ناجح: \"تخيل معي: كل عباءة اخترتيها كانت قرار قبل ما تقرري\"\n← ناجح: \"إذا الصحة بنيان — العلامة هي الأساس اللي ما تشوفه بس تحسه\"\n← فاشل: \"المنتج = الحياة\" — استعارة فضفاضة بدون عمق\n← الصحيح: اربط المنتج بشيء يومي سعودي محدد",
+
+        "هـ": "هـ. Authenticity Detective — لحظة صادقة تبدأ دائماً بـ \"لمّا\"\n← الافتتاح الإلزامي: \"لمّا...\" (بالتشديد، مو \"لما\")\n← ممنوع تماماً: تبدأ بـ \"إذا\" أو \"تخيل\" أو جملة خبرية\n← الصحيح: لحظة إنسانية حقيقية ينكسر فيها الأداء — ليس مشاعر عامة\n← ناجح: \"لمّا الكلمات تضيع — الطعم يقولها\"\n← ناجح: \"لمّا الجوع أكبر من أي تفسير — البيك يفهم\"\n← ناجح: \"لمّا يكون العيد أكبر من الكلام — العلامة تكمّل الجملة\"\n← ممنوع: وصف مشاهد بصرية (غرف، ملابس، لحظات خاصة)\n← فاشل: مشاعر عامة (سعيد، حزين، مميز) — اكتب الحالة المحددة، مو اسمها",
+    }
+
+    active_blocks = "\n\n".join(FULL_BLOCKS[k] for k in active_keys if k in FULL_BLOCKS)
+    learned_addition = _build_learned_addition()
     max_chars   = MAX_CHARS.get(brief["sector"], 160)
     sector_ar   = SECTOR_AR.get(brief["sector"], brief["sector"])
     occasion_ar = OCCASION_AR.get(brief["occasion"], brief["occasion"])
-    learned_addition = _build_learned_addition()
     brand_block = _build_brand_block(brief, sector_ar, occasion_ar)
+    hashtags    = brief.get("hashtags", "")
+
+    routing_note = "" if not route else f"\n[الخبرة تقول: هذه التقنيات الأقوى لهذا القطاع والمناسبة]"
+
+    # Starter requirement per active technique
+    REQUIRED_STARTERS = {
+        "أ": "جملة خبرية مفاجئة (ممنوع: لمّا / إذا / تخيل)",
+        "ب": "الكلمة ذات المعنيين مباشرة (ممنوع: لمّا / إذا / اللي كأول كلمة)",
+        "د": "ابدأ بـ «إذا» أو «تخيل معي»",
+        "ج": "ابدأ بـ «اللي» أو فعل مضارع",
+        "هـ": "ابدأ بـ «لمّا» (إلزامي)",
+    }
+    starter_lines = "\n".join(
+        f"  {k}: {REQUIRED_STARTERS[k]}" for k in active_keys if k in REQUIRED_STARTERS
+    )
+
     return f"""<RED_LINES>
 ممنوع: السرير، خلع الملابس أو الحجاب، استغلال ضعف الناس أو خوفهم.
 ممنوع: وضع مناسبة دينية (رمضان، العيد) أو وطنية (اليوم الوطني، يوم التأسيس) في موقع الانتظار للمنتج.
-دائماً: لهجة سعودية طبيعية. حد أقصى {max_chars} حرف. بدون إنجليزي.
+دائماً: لهجة سعودية طبيعية. حد أقصى {max_chars} حرف للكابشن (بدون الهاشتاقات). بدون إنجليزي.
 </RED_LINES>
 
-<TECHNIQUES>
-{TECHNIQUES_BLOCK}{learned_addition}
+<TECHNIQUES>{routing_note}
+{active_blocks}{learned_addition}
 </TECHNIQUES>
 
 <BRAND>
@@ -231,12 +297,20 @@ def build_prompt(brief: dict) -> str:
 </BRAND>
 
 <TASK>
-اكتب 5 كابشنات — كل واحد يطبّق تقنية مختلفة (أ، ب، ج، د، هـ).
-كل كابشن: ابدأ السطر بحرف التقنية ثم نقطة (أ. / ب. / ج. / د. / هـ.) ثم الكابشن مباشرة.
-حد أقصى {max_chars} حرف للكابشن. بدون علامات اقتباس، بدون شرح، بدون اسم التقنية.
-كل خيار لازم يختلف بنيوياً — مو نفس القالب بكلمات مختلفة.
-اكتب من شخصية هذه العلامة تحديداً — مو كابشن عام يصلح لأي علامة.
-ثم اختر الأقوى وضعه في السطر الأخير بعد كلمة: الأفضل:
+اكتب {n_options} كابشنات — كل واحد يطبّق تقنية مختلفة ({key_list}).
+الشكل المطلوب: ابدأ السطر بحرف التقنية ثم نقطة ({' / '.join(k+'.' for k in active_keys)}) ثم الكابشن مباشرة.
+ثم في السطر التالي اكتب الهاشتاقات: {hashtags}
+
+قاعدة الافتتاح — الأول كلمة مختلفة لكل تقنية (إلزامي):
+{starter_lines}
+
+قواعد إضافية:
+- حد أقصى {max_chars} حرف للكابشن بدون الهاشتاقات
+- بدون علامات اقتباس، بدون شرح، بدون اسم التقنية
+- اكتب من شخصية هذه العلامة تحديداً — مو كابشن عام يصلح لأي علامة
+- لا يجوز أن تبدأ أي تقنيتين بنفس الكلمة الأولى
+
+في السطر الأخير اختر الأقوى وضعه بعد: الأفضل:
 </TASK>"""
 
 
@@ -314,12 +388,17 @@ _QUOTE_STRIP = re.compile(r'^["\'""«»]+|["\'""«»]+$')
 
 
 def _clean_caption(text: str) -> str:
-    """Strip technique name prefixes, leading punctuation, and surrounding quotes."""
+    """Strip technique name prefixes, leading punctuation, surrounding quotes, and trailing hashtags."""
     text = text.strip()
     text = _TECH_PREFIXES.sub("", text).strip()
     text = _QUOTE_STRIP.sub("", text).strip()
-    # Strip any remaining leading ". " or "- " artifacts from ALLaM double-punctuation
+    # Strip leading ". " or "- " artifacts from ALLaM double-punctuation
     text = re.sub(r"^[\.\-،]\s+", "", text).strip()
+    # Strip trailing hashtag block (everything from first # to end, if # appears after caption text)
+    # Keep captions where # appears mid-sentence (unlikely but safe)
+    hash_match = re.search(r"\s#\S+(\s#\S+)*\s*$", text)
+    if hash_match:
+        text = text[:hash_match.start()].strip()
     return text
 
 
@@ -406,6 +485,13 @@ def load_queue() -> dict:
     return {"pending": [], "approved": []}
 
 
+def _diversity_ok(options: dict) -> bool:
+    """Return True if all non-empty captions start with different first words."""
+    captions = [v for v in options.values() if v and len(v) > 5]
+    first_words = [c.split()[0].strip("؟!.،-") for c in captions]
+    return len(set(first_words)) == len(first_words)
+
+
 def save_to_queue(brief: dict, raw_response: str) -> None:
     """Save a collected HUMAIN response to the review queue."""
     QUEUE_FILE.parent.mkdir(parents=True, exist_ok=True)
@@ -414,6 +500,7 @@ def save_to_queue(brief: dict, raw_response: str) -> None:
     parsed = parse_response(raw_response)
     sector_ar   = SECTOR_AR.get(brief["sector"], brief["sector"])
     occasion_ar = OCCASION_AR.get(brief["occasion"], brief["occasion"])
+    div_ok = _diversity_ok(parsed["options"])
 
     # Remove any existing entry for this brief_id (allow re-collection)
     queue["pending"] = [p for p in queue["pending"] if p.get("brief_id") != brief["id"]]
@@ -430,9 +517,12 @@ def save_to_queue(brief: dict, raw_response: str) -> None:
         "raw":         raw_response,
         "options":     parsed["options"],
         "best":        parsed["best"],
+        "diversity_ok": div_ok,
         "collected_at": datetime.now().isoformat(),
         "status":      "pending",
     })
+    if not div_ok:
+        log(f"  ⚠️  Opener overlap detected for Brief #{brief['id']} — consider re-collecting")
 
     QUEUE_FILE.write_text(json.dumps(queue, ensure_ascii=False, indent=2))
     log(f"  💾 Saved to queue: Brief #{brief['id']} — {brief['brand']}")

@@ -192,44 +192,87 @@ def log(msg: str) -> None:
     print(msg)
 
 
+_TECH_PREFIXES = re.compile(
+    r"^(Paradox Hunter|Heritage Decoder|Firaasa|قلب التوقع|أ\.|ب\.|ج\.)"
+    r"[\s\-—–:،.]*"
+    r"(قلب التوقع|Heritage Decoder|Firaasa|Paradox Hunter)?"
+    r"[\s\-—–:،.]*",
+    re.IGNORECASE,
+)
+_QUOTE_STRIP = re.compile(r'^["\'""«»]+|["\'""«»]+$')
+
+
+def _clean_caption(text: str) -> str:
+    """Strip technique name prefixes and surrounding quotes from a caption."""
+    text = text.strip()
+    text = _TECH_PREFIXES.sub("", text).strip()
+    text = _QUOTE_STRIP.sub("", text).strip()
+    return text
+
+
 def parse_response(raw: str) -> dict:
     """
     Extract the 3 technique options (أ, ب, ج) and الأفضل from ALLaM's response.
-    ALLaM doesn't always follow exact format — this is lenient.
+    Handles multiple output formats ALLaM uses:
+      Format A: "أ. caption"  "ب. caption"  "ج. caption"
+      Format B: "Paradox Hunter: caption"  "Heritage Decoder: caption"  "Firaasa: caption"
+      Format C: unlabeled Arabic lines
     """
     options = {"أ": "", "ب": "", "ج": ""}
     best = ""
 
     lines = [l.strip() for l in raw.splitlines() if l.strip()]
+    # Strip UI chrome (chat sidebar text) from beginning
+    start = 0
+    for i, l in enumerate(lines):
+        if any(x in l for x in ["Recent Chats", "Chat history", "MO\n", "New Chat"]):
+            start = i + 1
+    lines = lines[start:]
 
     # Extract الأفضل line
     for line in lines:
         if "الأفضل" in line:
-            best = re.sub(r"الأفضل\s*:\s*", "", line).strip()
+            raw_best = re.sub(r"الأفضل\s*:\s*", "", line).strip()
+            best = _clean_caption(raw_best)
             break
 
-    # Try to find lines labeled أ. / ب. / ج.
+    # Format A: أ. / ب. / ج. labels
     for line in lines:
         for key in ("أ", "ب", "ج"):
             if re.match(rf"^{key}[\.\-\:]\s*", line):
-                text = re.sub(rf"^{key}[\.\-\:]\s*", "", line).strip()
+                text = _clean_caption(re.sub(rf"^{key}[\.\-\:]\s*", "", line))
                 if text and not options[key]:
                     options[key] = text
                 break
 
-    # Fallback: if labeling not found, take non-labeled Arabic lines in order
+    # Format B: Technique name labels → map to أ/ب/ج
+    if not any(options.values()):
+        tech_map = {
+            "Paradox Hunter": "أ",
+            "Heritage Decoder": "ب",
+            "Firaasa": "ج",
+        }
+        for line in lines:
+            for tech, key in tech_map.items():
+                if line.startswith(tech):
+                    text = _clean_caption(re.sub(rf"^{tech}\s*:\s*", "", line))
+                    if text and not options[key]:
+                        options[key] = text
+                    break
+
+    # Format C: unlabeled Arabic lines fallback
     if not any(options.values()):
         arabic_lines = [
-            l for l in lines
+            _clean_caption(l) for l in lines
             if any("؀" <= c <= "ۿ" for c in l)
             and "الأفضل" not in l
             and "<" not in l
         ]
+        arabic_lines = [l for l in arabic_lines if l and len(l) > 5]
         for i, key in enumerate(("أ", "ب", "ج")):
             if i < len(arabic_lines):
                 options[key] = arabic_lines[i]
 
-    # If best not found but we have options, use option أ as default
     if not best and options["أ"]:
         best = options["أ"]
 
@@ -582,6 +625,24 @@ async def run_browser(briefs: list[dict]) -> None:
         log(f"{'='*60}\n")
 
 
+def reparse_queue() -> None:
+    """Re-run parse_response on all queue entries — fixes earlier parser bugs."""
+    if not QUEUE_FILE.exists():
+        print("No queue file found.")
+        return
+    q = load_queue()
+    fixed = 0
+    for item in q["pending"]:
+        raw = item.get("raw", "")
+        if raw:
+            parsed = parse_response(raw)
+            item["options"] = parsed["options"]
+            item["best"]    = parsed["best"]
+            fixed += 1
+    QUEUE_FILE.write_text(json.dumps(q, ensure_ascii=False, indent=2))
+    print(f"Re-parsed {fixed} queue entries.")
+
+
 def dry_run(briefs: list[dict]) -> None:
     """Print all prompts without opening browser — for review."""
     for brief in briefs:
@@ -597,6 +658,7 @@ def dry_run(briefs: list[dict]) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description="HUMAIN gold output collector")
+    parser.add_argument("--reparse",  action="store_true", help="Re-parse existing queue entries with improved parser")
     parser.add_argument("--from",    dest="from_id", type=int, default=1, help="Resume from brief id")
     parser.add_argument("--id",      type=int, default=None, help="Run single brief id")
     parser.add_argument("--dry-run", action="store_true", help="Print prompts only")
@@ -613,6 +675,10 @@ def main():
 
     if args.dry_run:
         dry_run(briefs)
+        return
+
+    if args.reparse:
+        reparse_queue()
         return
 
     asyncio.run(run_browser(briefs))

@@ -56,8 +56,16 @@ SECTOR_MAX_CHARS = {
 }
 
 
+_EMOJI_RANGES = [
+    (0x2300, 0x23FF),  # Misc Technical (⏰, etc.)
+    (0x2600, 0x27BF),  # Misc Symbols + Dingbats (☕ ❤ ✅ ✈)
+    (0x2B00, 0x2BFF),  # Misc Symbols and Arrows (⭐)
+    (0x1F000, 0x1FFFF),  # Main emoji block (😀 👍 🔥)
+]
+
 def _count_emojis(text):
-    return sum(1 for c in text if ord(c) > 0x1F000)
+    return sum(1 for c in text
+               if any(lo <= ord(c) <= hi for lo, hi in _EMOJI_RANGES))
 
 def _count_hashtags(text):
     return len(re.findall(r'#\S+', text))
@@ -381,7 +389,7 @@ def get_recent_mistakes(brand: str = None, limit: int = 10) -> list:
         other    = [e for e in content_failures if e.get('handle') != brand]
         content_failures = relevant + other
 
-    return content_failures[-limit:]
+    return content_failures[:limit]
 
 
 # ── CLI test ────────────────────────────────────────────────────────────────

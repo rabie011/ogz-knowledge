@@ -118,10 +118,8 @@ def export_pairwise_elo(brief_matrix: list, min_conf: int = 1) -> list:
 
         win_cap  = c.get("winner_caption", "")
         lose_cap = c.get("loser_caption", "")
-        brand    = c.get("winner_occ", "").split("|")[0] if "|" in c.get("winner_occ", "") else ""
+        brand    = c.get("winner_brand", "")
         sector   = c.get("winner_sector", "")
-        # Try to get brand/occasion from the comparisons dict structure
-        # Server stores: winner_sector, winner_occ, winner_tech, loser_tech, winner_caption, loser_caption
         occasion = c.get("winner_occ", "")
 
         if not win_cap or not lose_cap:

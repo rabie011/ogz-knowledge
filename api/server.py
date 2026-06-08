@@ -1666,10 +1666,12 @@ async def humain_prefer(request: Request):
         raise HTTPException(status_code=400, detail="winner and loser required")
 
     comp = {
-        "winner_tech":   winner["technique"],
-        "loser_tech":    loser["technique"],
-        "winner_sector": winner["sector"],
-        "winner_occ":    winner["occasion"],
+        "winner_tech":    winner["technique"],
+        "loser_tech":     loser["technique"],
+        "winner_sector":  winner["sector"],
+        "winner_occ":     winner["occasion"],
+        "winner_brand":   winner.get("brand", ""),
+        "loser_brand":    loser.get("brand", ""),
         "winner_caption": winner["caption"][:300],
         "loser_caption":  loser["caption"][:300],
         "ts": datetime.now().isoformat(),

@@ -1872,7 +1872,7 @@ async def cross_prefer(request: Request):
         "loser_model":    loser,
         "winner_caption": win_cap,
         "loser_caption":  lose_cap,
-        "timestamp":      _dt.now().isoformat(),
+        "timestamp":      datetime.now().isoformat(),
     })
     _CROSS_PREFS_FILE.write_text(json.dumps(prefs, ensure_ascii=False, indent=2))
 

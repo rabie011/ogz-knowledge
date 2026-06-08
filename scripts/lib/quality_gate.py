@@ -328,7 +328,7 @@ def auto_fix(text: str, brand: str = None, sector: str = None) -> str:
 
     # Fix 3: Strip excess emojis by sector
     emoji_limit = SECTOR_EMOJI_LIMITS.get(sector, 3)
-    emoji_chars = [c for c in fixed if ord(c) > 0x1F000]
+    emoji_chars = [c for c in fixed if any(lo <= ord(c) <= hi for lo, hi in _EMOJI_RANGES)]
     if len(emoji_chars) > emoji_limit:
         for extra_emoji in emoji_chars[emoji_limit:]:
             fixed = fixed.replace(extra_emoji, '', 1)

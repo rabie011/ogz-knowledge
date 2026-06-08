@@ -157,36 +157,46 @@ def get_intelligence(sector: str = None):
         raise HTTPException(status_code=404, detail="Intelligence layer not built yet")
     data = json.loads(intel_path.read_text())
     if sector:
-        playbook = data.get("sector_playbooks", {}).get(sector)
-        if not playbook:
-            raise HTTPException(status_code=404, detail=f"No playbook for sector: {sector}")
+        sf = data.get("sector_facts", {}).get(sector)
+        if not sf:
+            raise HTTPException(status_code=404, detail=f"No data for sector: {sector}")
+        aqr = data.get("arabic_quality_rules", {})
         return {
             "sector": sector,
-            "playbook": playbook,
-            "universal_rules": data["universal_rules"],
-            "anti_patterns": data["anti_patterns"][:10],
-            "visual_rules": [r for r in data["visual_rules"] if r["type"] == "preferred"],
-            "caption_rules": data["caption_rules"],
-            "occasion_rules": data["occasion_rules"],
-            "format_rules": data["format_rules"],
+            "sector_facts": sf,
+            "cultural_guardrails": data.get("cultural_guardrails", {}),
+            "overused_phrases_avoid": aqr.get("overused_phrases_to_avoid", []),
+            "saudi_markers": aqr.get("saudi_markers", []),
+            "caption_intelligence": data.get("caption_intelligence", {}),
+            "visual_intelligence": data.get("visual_intelligence", {}),
+            "occasion_calendar": data.get("occasion_calendar", {}),
+            "brand_profiles": {k: v for k, v in data.get("brand_profiles", {}).items()
+                               if v.get("sector") == sector},
         }
     return data
 
 
 @app.get("/api/intelligence/rules/{sector}")
 def get_sector_rules(sector: str):
-    """Get just the rules for one sector — what to ALWAYS do and NEVER do."""
+    """Get actionable rules for one sector — always/never, cultural guardrails, brand voice."""
     intel_path = REPO / "11_who_to_learn_from" / "intelligence_layer.json"
     data = json.loads(intel_path.read_text())
-    pb = data.get("sector_playbooks", {}).get(sector, {})
+    sf = data.get("sector_facts", {}).get(sector, {})
+    cg = data.get("cultural_guardrails", {})
+    aqr = data.get("arabic_quality_rules", {})
+    brand_profiles = {k: v for k, v in data.get("brand_profiles", {}).items()
+                      if v.get("sector") == sector}
     return {
         "sector": sector,
-        "must_use": pb.get("must_use", []),
-        "never_use": pb.get("never_use", []),
-        "winning_formulas": pb.get("winning_formulas", []),
-        "visual_dna": pb.get("visual_dna", []),
-        "universal_always": data["universal_rules"],
-        "universal_never": data["anti_patterns"][:10],
+        "sector_facts": sf,
+        "always_use": aqr.get("saudi_markers", []),
+        "overused_avoid": aqr.get("overused_phrases_to_avoid", []),
+        "cultural_forbidden": {
+            "props": cg.get("forbidden_props", []),
+            "behaviors": cg.get("forbidden_behaviors", []),
+            "visuals": cg.get("forbidden_visuals", []),
+        },
+        "brand_profiles": brand_profiles,
     }
 
 
@@ -577,10 +587,9 @@ def recommend_content(req: RecommendRequest):
 
 @app.post("/api/search")
 def semantic_search(req: SearchRequest):
-    """Search observations by natural language similarity."""
+    """Search observations by natural language similarity using pgvector."""
     try:
         import openai
-        import numpy as np
 
         env_path = Path.home() / ".abraham_env"
         api_key = None
@@ -596,47 +605,47 @@ def semantic_search(req: SearchRequest):
 
         # Embed query
         resp = client.embeddings.create(model="text-embedding-3-small", input=req.query)
-        query_vec = np.array(resp.data[0].embedding, dtype=np.float32)
+        query_vec = resp.data[0].embedding
+        vec_str = f"[{','.join(str(x) for x in query_vec)}]"
 
-        # Load index
-        repo = Path(__file__).parent.parent
-        index_path = repo / "logs" / "obs_search_index.json"
-        emb_path = repo / "logs" / "obs_embeddings.npy"
+        conn = get_db()
+        cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
-        with open(index_path) as f:
-            index = json.load(f)
-        embeddings = np.load(emb_path)
+        # Use pgvector cosine similarity — filters work natively in SQL
+        sector_filter = "AND sector = %(sector)s" if req.sector else ""
+        cur.execute(f"""
+            SELECT observation_ulid, account_handle_normalized, sector, content_type,
+                   voice_observations->>'caption_text' as caption_text,
+                   content_ref->>'source_url' as source_url,
+                   1 - (embedding <=> %(vec)s::vector) as similarity
+            FROM observations
+            WHERE embedding IS NOT NULL
+            {sector_filter}
+            ORDER BY embedding <=> %(vec)s::vector
+            LIMIT %(limit)s
+        """, {"vec": vec_str, "sector": req.sector, "limit": req.top_n})
 
-        # Cosine similarity
-        norms = np.linalg.norm(embeddings, axis=1, keepdims=True)
-        norms[norms == 0] = 1
-        normed = embeddings / norms
-        query_normed = query_vec / (np.linalg.norm(query_vec) or 1)
-        scores = normed @ query_normed
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
 
-        # Filter by sector if specified
-        top_indices = np.argsort(scores)[::-1]
-        results = []
-        for idx in top_indices:
-            entry = index[idx]
-            if req.sector and entry.get("sector") != req.sector:
-                continue
-            results.append({
-                "observation_ulid": entry.get("ulid", ""),
-                "account": entry.get("handle", entry.get("account", "")),
-                "sector": entry.get("sector", ""),
-                "content_type": entry.get("content_type", ""),
-                "source_url": entry.get("source_url", ""),
-                "similarity": round(float(scores[idx]), 4),
-                "caption_preview": entry.get("text_snippet", entry.get("caption", ""))[:150],
-            })
-            if len(results) >= req.top_n:
-                break
+        results = [
+            {
+                "observation_ulid": r["observation_ulid"],
+                "account": r["account_handle_normalized"],
+                "sector": r["sector"],
+                "content_type": r["content_type"],
+                "source_url": r.get("source_url", ""),
+                "similarity": round(float(r["similarity"]), 4),
+                "caption_preview": (r.get("caption_text") or "")[:150],
+            }
+            for r in rows
+        ]
 
         return {"query": req.query, "results": results}
 
     except ImportError:
-        raise HTTPException(status_code=500, detail="openai/numpy not installed")
+        raise HTTPException(status_code=500, detail="openai not installed")
 
 
 # ═══════════════════════════════════════════════════════════

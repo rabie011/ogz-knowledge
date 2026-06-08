@@ -1537,9 +1537,10 @@ async def humain_approve(request: Request):
     if not caption or not brief_id:
         raise HTTPException(status_code=400, detail="brief_id and caption required")
 
-    # Load queue and mark item
-    q = json.loads(HUMAIN_QUEUE.read_text()) if HUMAIN_QUEUE.exists() else {"pending": [], "approved": []}
+    # Load queue and move item from pending → approved/stale based on rating
+    q = json.loads(HUMAIN_QUEUE.read_text()) if HUMAIN_QUEUE.exists() else {"pending": [], "approved": [], "stale_v1": []}
     brief_data = {}
+    remaining_pending = []
     for item in q["pending"]:
         if item["brief_id"] == brief_id:
             item["status"]      = rating
@@ -1547,7 +1548,15 @@ async def humain_approve(request: Request):
             item["technique"]   = technique
             item["approved_at"] = datetime.now().isoformat()
             brief_data = item
-            break
+            # Route to correct bucket
+            if rating == "gold":
+                q.setdefault("approved", []).append(item)
+            elif rating == "weak":
+                q.setdefault("stale_v1", []).append(item)
+            # skip: drop entirely (not re-queued)
+        else:
+            remaining_pending.append(item)
+    q["pending"] = remaining_pending
     HUMAIN_QUEUE.write_text(json.dumps(q, ensure_ascii=False, indent=2))
 
     # Feed learning store — approved becomes positive example, weak becomes negative

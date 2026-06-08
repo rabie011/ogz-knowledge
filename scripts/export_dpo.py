@@ -104,24 +104,25 @@ def export_cross_model(brief_matrix: list, min_conf: int = 1) -> list:
 
 def export_pairwise_elo(brief_matrix: list, min_conf: int = 1) -> list:
     """Export within-HUMAIN pairwise Elo comparisons as preference pairs."""
-    pairwise_file = BASE / "logs" / "humain_pairwise.json"
+    pairwise_file = BASE / "logs" / "pairwise_comparisons.json"
     if not pairwise_file.exists():
         return []
 
     data = json.loads(pairwise_file.read_text())
     pairs = []
     for c in data.get("comparisons", []):
-        wk = c.get("winner")
-        lk = c.get("loser")
+        wk = c.get("winner_tech")
+        lk = c.get("loser_tech")
         if not wk or not lk:
             continue
 
-        # winner/loser are technique keys — we need the captions
-        # The comparison record should have caption fields
         win_cap  = c.get("winner_caption", "")
         lose_cap = c.get("loser_caption", "")
-        brand    = c.get("brand", "")
-        occasion = c.get("occasion", "")
+        brand    = c.get("winner_occ", "").split("|")[0] if "|" in c.get("winner_occ", "") else ""
+        sector   = c.get("winner_sector", "")
+        # Try to get brand/occasion from the comparisons dict structure
+        # Server stores: winner_sector, winner_occ, winner_tech, loser_tech, winner_caption, loser_caption
+        occasion = c.get("winner_occ", "")
 
         if not win_cap or not lose_cap:
             continue
@@ -135,6 +136,7 @@ def export_pairwise_elo(brief_matrix: list, min_conf: int = 1) -> list:
             "meta": {
                 "brand":          brand,
                 "occasion":       occasion,
+                "sector":         sector,
                 "winner_tech":    wk,
                 "loser_tech":     lk,
                 "winner_model":   "humain",

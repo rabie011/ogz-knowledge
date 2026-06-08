@@ -1652,8 +1652,8 @@ async def humain_prefer(request: Request):
         "loser_tech":    loser["technique"],
         "winner_sector": winner["sector"],
         "winner_occ":    winner["occasion"],
-        "winner_caption": winner["caption"][:80],
-        "loser_caption":  loser["caption"][:80],
+        "winner_caption": winner["caption"][:300],
+        "loser_caption":  loser["caption"][:300],
         "ts": datetime.now().isoformat(),
     }
 
@@ -1754,7 +1754,7 @@ def cross_stats():
 
 
 @app.get("/api/cross/pairs")
-def cross_pairs(model_a: str = "humain", model_b: str = "gpt-4o"):
+def cross_pairs(model_a: str = "humain", model_b: str = "gpt-4o", technique: str = ""):
     """Return one brief that has outputs from both models — for pairwise comparison."""
     items_a = {_brief_key(i): i for i in _load_cross_queue(model_a)}
     items_b = {_brief_key(i): i for i in _load_cross_queue(model_b)}
@@ -1774,17 +1774,40 @@ def cross_pairs(model_a: str = "humain", model_b: str = "gpt-4o"):
     ia = items_a[key]
     ib = items_b[key]
 
-    # Pick best caption from each model (highest auto-score or ALLaM's best pick)
-    def _best_cap(item: dict) -> tuple[str, str]:
+    # Pick best caption from each model (source-aware: HUMAIN uses ALLaM's own pick)
+    def _best_cap(item: dict, preferred_tech: str = None) -> tuple[str, str]:
+        source = item.get("source", "humain")
+        opts   = item.get("options", {})
         scores = item.get("scores", {})
-        opts = item.get("options", {})
-        if scores:
-            best_k = max(scores, key=lambda k: scores.get(k, 0))
-            return best_k, opts.get(best_k, item.get("best", ""))
-        return "—", item.get("best", "")
+        best_stored = item.get("best", "")
 
-    tech_a, cap_a = _best_cap(ia)
-    tech_b, cap_b = _best_cap(ib)
+        # HUMAIN: use ALLaM's own pick (الأفضل field) — not auto-score
+        if source == "humain" and best_stored and len(best_stored) > 5:
+            for k, v in opts.items():
+                if v and v.strip()[:40] == best_stored.strip()[:40]:
+                    return k, best_stored
+            return "—", best_stored
+
+        # Specific technique requested (same-technique comparison mode)
+        if preferred_tech and preferred_tech in opts and opts[preferred_tech] and len(opts[preferred_tech]) > 5:
+            return preferred_tech, opts[preferred_tech]
+
+        # API models: rotate through techniques to avoid ج always winning
+        # Use a score-weighted random among top-2 instead of always max
+        if scores:
+            sorted_techs = sorted(scores, key=lambda k: scores.get(k, 0), reverse=True)
+            top2 = [t for t in sorted_techs[:2] if opts.get(t) and len(opts.get(t, "")) > 5]
+            if top2:
+                import random
+                winner = random.choice(top2)
+                return winner, opts[winner]
+            best_k = sorted_techs[0]
+            return best_k, opts.get(best_k, best_stored)
+
+        return "—", best_stored
+
+    tech_a, cap_a = _best_cap(ia, technique or None)
+    tech_b, cap_b = _best_cap(ib, technique or None)
 
     return {
         "done": False,
@@ -1799,6 +1822,7 @@ def cross_pairs(model_a: str = "humain", model_b: str = "gpt-4o"):
         "caption_b": cap_b,
         "tech_a": tech_a,
         "tech_b": tech_b,
+        "technique_mode": technique,
         "all_options_a": ia.get("options", {}),
         "all_options_b": ib.get("options", {}),
         "scores_a": ia.get("scores", {}),

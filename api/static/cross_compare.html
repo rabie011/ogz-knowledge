@@ -270,6 +270,17 @@
       <option value="claude">Claude</option>
     </select>
   </div>
+  <div>
+    <label>التقنية:</label>
+    <select class="model-select" id="techMode" onchange="reload()">
+      <option value="">أفضل تلقائي</option>
+      <option value="أ">أ — Paradox Hunter</option>
+      <option value="ب">ب — Heritage Decoder</option>
+      <option value="ج">ج — Firaasa</option>
+      <option value="د">د — Metaphor Architect</option>
+      <option value="هـ">هـ — Authenticity Detective</option>
+    </select>
+  </div>
 </div>
 
 <div class="stats-bar" id="statsBar"></div>
@@ -365,7 +376,8 @@ async function loadPair() {
     return;
   }
 
-  const resp = await fetch(`/api/cross/pairs?model_a=${mA}&model_b=${mB}`);
+  const tech = document.getElementById('techMode').value;
+  const resp = await fetch(`/api/cross/pairs?model_a=${mA}&model_b=${mB}&technique=${encodeURIComponent(tech)}`);
   const data = await resp.json();
   currentPair = data;
 
@@ -406,7 +418,7 @@ async function loadPair() {
   main.innerHTML = `
     <div class="brief-card">
       <div class="brief-brand">${data.brand}</div>
-      <div class="brief-occasion">${data.occasion} · ${data.remaining} مقارنة متبقية</div>
+      <div class="brief-occasion">${data.occasion} · ${data.remaining} مقارنة متبقية${data.technique_mode ? ' · تقنية: ' + data.technique_mode : ''}</div>
     </div>
 
     <div class="compare-area">

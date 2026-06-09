@@ -54,6 +54,48 @@ STATIC_DIR = Path(__file__).parent / "static"
 _intel_path = REPO / "11_who_to_learn_from" / "intelligence_layer.json"
 intel: dict = json.loads(_intel_path.read_text()) if _intel_path.exists() else {}
 
+# Arabic display names — used in prompts and cross-compare UI
+BRAND_AR: dict = {
+    'albaiik': 'البيك', 'albaik': 'البيك',
+    'barns': 'بارنز', 'barnscoffee': 'بارنز',
+    'almarai': 'المراعي',
+    'roshn': 'روشن', 'roshnksa': 'روشن',
+    'panda': 'بنده', 'pandaksa': 'بنده', 'pandasaudi': 'بنده',
+    'starbucks': 'ستاربكس', 'starbucksar': 'ستاربكس',
+    'jarir': 'جرير', 'jarirbooks': 'جرير',
+    'aljazira_capital': 'الجزيرة كابيتال', 'aljaziracapital': 'الجزيرة كابيتال',
+    'nivea': 'نيفيا', 'niveaarabia': 'نيفيا',
+    'max_fashion': 'ماكس فاشون', 'maxfashion': 'ماكس فاشون', 'maxfashionmena': 'ماكس فاشون',
+    'nhc': 'هيئة الإسكان', 'nhcksa': 'هيئة الإسكان',
+    'sauditelecom': 'STC', 'stc': 'STC',
+    'mobily': 'موبايلي',
+    'tamimi': 'التميمي', 'tamimimarkets': 'التميمي',
+    'extra': 'إكسترا',
+    'xcite': 'اكسايت',
+    'noon': 'نون',
+    'namshi': 'نمشي',
+    'ounass': 'أوناس',
+    'mikyajy': 'مكياجي', 'mkj': 'مكياجي',
+    'mcdonaldsksa': 'ماكدونالدز',
+    'shawarmersa': 'شاورمر',
+    'alromansiahksa': 'الرومانسية',
+    'kuduksa': 'كودو',
+    'niceonesa': 'نايس ون',
+    'elixirbunn': 'إليكسير',
+    'ajmalperfumes': 'عجمل',
+    'bathandbodyworksarabia': 'باث آند بودي ووركس',
+    'altazaj_fakieh': 'الطازج فاكيه',
+    'riyadhfood': 'الرياض فود',
+    'herfyfsc': 'هرفي',
+    'hashibasha': 'هاشي باشا',
+    'aseeb.najd': 'عصيب نجد',
+    'mumzworld': 'مامز وورلد',
+    'kiabiksa': 'كيابي',
+    'prettynature.official': 'بريتي نيتشر',
+    'asteribeautysa': 'أستيري',
+    'pizzahutsaudi': 'بيتزا هت',
+}
+
 
 @app.get("/")
 def root():
@@ -1180,28 +1222,7 @@ def create_content(req: CreateRequest):
             brand_voice_block = "\n" + "\n".join(parts)
 
     # Brand Arabic display names — what appears in the prompt and caption
-    _BRAND_AR = {
-        'albaiik': 'البيك', 'albaik': 'البيك',
-        'barns': 'بارنز', 'barnscoffee': 'بارنز',
-        'almarai': 'المراعي',
-        'roshn': 'روشن',
-        'panda': 'بنده', 'pandaksa': 'بنده',
-        'starbucks': 'ستاربكس', 'starbucksar': 'ستاربكس',
-        'jarir': 'جرير', 'jarirbooks': 'جرير',
-        'aljazira_capital': 'الجزيرة كابيتال', 'aljaziracapital': 'الجزيرة كابيتال',
-        'nivea': 'نيفيا', 'niveaarabia': 'نيفيا',
-        'max_fashion': 'ماكس فاشون', 'maxfashion': 'ماكس فاشون',
-        'nhc': 'هيئة الإسكان', 'nhcksa': 'هيئة الإسكان',
-        'sauditelecom': 'STC', 'stc': 'STC',
-        'mobily': 'موبايلي',
-        'tamimi': 'التميمي', 'tamimimarkets': 'التميمي',
-        'extra': 'إكسترا',
-        'xcite': 'اكسايت',
-        'noon': 'نون',
-        'namshi': 'نمشي',
-        'ounass': 'أوناس',
-    }
-    brand_display = _BRAND_AR.get(req.brand.lower(), req.brand)
+    brand_display = BRAND_AR.get(req.brand.lower(), req.brand)
 
     # ── V3: Route to ONE technique (cd_03 Authenticity Detective excluded for captions) ──
     cd_primary, cd_scores = 'cd_05_paradox_hunter', {}
@@ -1400,7 +1421,7 @@ def create_content(req: CreateRequest):
     brand_profile = intel.get('brand_profiles', {}).get(req.brand, {})
     visual_dna = brand_profile.get('visual_dna', {})
     brand_color_hint = visual_dna.get('primary_color', '') if isinstance(visual_dna, dict) else ''
-    brand_display_ar = _BRAND_AR.get(req.brand.lower(), req.brand)
+    brand_display_ar = BRAND_AR.get(req.brand.lower(), req.brand)
     try:
         visual_chain = get_visual_direction(
             cd_primary=cd_primary,
@@ -1930,6 +1951,11 @@ def cross_pairs(model_a: str = "humain", model_b: str = "gpt-4o", technique: str
         "all_options_b": ib.get("options", {}),
         "scores_a": ia.get("scores", {}),
         "scores_b": ib.get("scores", {}),
+        "brand_display": BRAND_AR.get((ia.get("brand") or "").lower(), ia.get("brand", "")),
+        "sector_emoji": {"f_and_b": "🍔", "fashion": "👗", "beauty_personal_care": "💄",
+                         "retail_lifestyle": "🛍️", "healthcare_wellness": "💪", "real_estate": "🏠"
+                         }.get(ia.get("sector", ""), ""),
+        "score_gap": round(_gap(key), 1),
     }
 
 

@@ -35,8 +35,14 @@ SAUDI_AVOID = ['شنو', 'جذي', 'زين', 'تسحرني', 'تفضلوا', 'ه
 # From human review: "فرايز" should be "بطاطس", English brand names should be Arabic
 ENGLISH_IN_ARABIC = ['فرايز', 'برغر', 'هامبرغر', 'بيتزا هت', 'ماكدونالدز ']
 
-# Overused generic phrases (human review: lacks creativity)
-OVERUSED_PHRASES = ['لا تفوتون الفرصة', 'لا تفوّتون الفرصة', 'عرض لفترة محدودة فقط']
+# Overused generic phrases — detected from corpus analysis of 1326 captions
+# اللي يدور على: 61 occurrences (28% of Claude captions — single template bleed)
+# تخيل معي: 35 occurrences
+# لا تفوتون/لا تفوّتون: generic FOMO
+OVERUSED_PHRASES = [
+    'لا تفوتون الفرصة', 'لا تفوّتون الفرصة', 'عرض لفترة محدودة فقط',
+    'اللي يدور على', 'تخيل معي',
+]
 MSA_REPLACE = {'تفضلوا': 'تعالوا', 'تسحرني': 'يعجبني', 'رائع': 'حلو', 'مذهل': 'خطير', 'هيا بنا': 'يالله'}
 SECTOR_EMOJI_LIMITS = {'fashion': 1, 'f_and_b': 2, 'retail_lifestyle': 3, 'beauty_personal_care': 4}
 

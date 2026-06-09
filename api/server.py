@@ -1191,7 +1191,8 @@ def create_content(req: CreateRequest):
     brand_voice_block = ""
     if cap_intel:
         arabic_style = cap_intel.get('arabic_style', '')
-        voice = cap_intel.get('voice', '') or cap_intel.get('high_engagement_style', '')[:80]
+        voice = cap_intel.get('voice', '') or cap_intel.get('high_engagement_style', '') or cap_intel.get('high_style', '')
+        voice = voice[:80] if voice else ''
         # proven_openers: new format = designed hooks; old format = raw Instagram starters
         # Strip Unicode bidirectional/invisible control chars from auto-extracted openers
         import re as _re

@@ -20,6 +20,7 @@ from datetime import datetime
 from pathlib import Path
 
 BASE       = Path(__file__).parent.parent
+INTEL_FILE = BASE / "11_who_to_learn_from/intelligence_layer.json"
 GOLD_FILE  = BASE / "docs/consultations/GOLD_OUTPUTS_HUMAIN.md"
 QUEUE_FILE = BASE / "logs/humain_queue.json"
 LOG_FILE      = BASE / "logs/humain_collector.log"
@@ -270,6 +271,16 @@ def _build_heritage_block(sector: str) -> str:
 ← فاشل: نسخ التعليمات نفسها كجملة — اكتب كابشن حقيقي"""
 
 
+def _get_occasion_words(occasion: str) -> str:
+    """Return comma-separated required words for this occasion from intelligence_layer."""
+    try:
+        intel = json.loads(INTEL_FILE.read_text())
+        words = intel.get('occasion_required_words', {}).get(occasion, [])
+        return '، '.join(words) if words else ''
+    except Exception:
+        return ''
+
+
 def build_prompt(brief: dict) -> str:
     import sys; sys.path.insert(0, str(Path(__file__).parent))
     try:
@@ -323,6 +334,8 @@ def build_prompt(brief: dict) -> str:
     hashtags    = brief.get("hashtags", "")
 
     routing_note = "" if not route else f"\n[الخبرة تقول: هذه التقنيات الأقوى لهذا القطاع والمناسبة]"
+    occ_words = _get_occasion_words(brief.get('occasion', ''))
+    occ_line = f"\n- الكلمات المطلوبة للمناسبة (يجب أن تذكرها أحد الكابشنات): {occ_words}" if occ_words else ""
 
     # Starter requirement per active technique
     REQUIRED_STARTERS = {
@@ -362,7 +375,7 @@ def build_prompt(brief: dict) -> str:
 - حد أقصى {max_chars} حرف للكابشن بدون الهاشتاقات
 - بدون علامات اقتباس، بدون شرح، بدون اسم التقنية
 - اكتب من شخصية هذه العلامة تحديداً — مو كابشن عام يصلح لأي علامة
-- لا يجوز أن تبدأ أي تقنيتين بنفس الكلمة الأولى
+- لا يجوز أن تبدأ أي تقنيتين بنفس الكلمة الأولى{occ_line}
 
 في السطر الأخير اختر الأقوى وضعه بعد: الأفضل:
 </TASK>"""

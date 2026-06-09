@@ -225,6 +225,17 @@ def fill_prompt(
     # Resolve food/packaging descriptor: brand-specific > sector product fallback
     food_sig = _brand_food_sig.get(brand.lower(), effective_product)
 
+    # Process descriptor for behind-the-scenes / cd_03 Authenticity Detective chains
+    _sector_process = {
+        "fashion":              "garment selection and styling preparation",
+        "beauty_personal_care": "skincare and makeup preparation routine",
+        "retail_lifestyle":     "product curation and sourcing selection",
+        "f_and_b":              "fresh ingredient preparation and cooking",
+        "real_estate":          "interior design and finishing walkthrough",
+        "healthcare_wellness":  "trainer-led warmup and wellness preparation",
+    }
+    process_desc = _sector_process.get(sector, effective_product)
+
     vars_map = {
         "brand_name":                    bd,
         "brand_display":                 bd,
@@ -233,6 +244,7 @@ def fill_prompt(
         "fragrance_descriptor":          effective_product,
         "material_descriptor":           effective_product,
         "texture_descriptor":            effective_product,
+        "process_descriptor":            process_desc,
         "brand_product":                 effective_product,
         "featured_product":              effective_product,
         "product":                       effective_product,

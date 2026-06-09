@@ -4824,6 +4824,73 @@
         "long explanatory text",
         "purely English (bilingual is the brand DNA)"
       ]
+    },
+    "namshi": {
+      "obs_count": 200,
+      "arabic_pct": 62,
+      "voice": "community_celebration",
+      "tone": "celebratory_aspirational",
+      "arabic_style": "msa_with_gulf_warmth",
+      "high_engagement_style": "Event-driven collab moments. Saudi pride. Community belonging. Bilingual: English + Arabic translation.",
+      "proven_openers": [
+        "نرجع بالذاكرة ليوم مميز",
+        "أناقة وطنية 💚",
+        "فين تتوقعو مسافرة؟ 👀",
+        "كيف وصل بريدنا لك",
+        "في يوم التأسيس هذا، نحتفل"
+      ],
+      "real_hooks": [
+        "نرجع بالذاكرة ليوم مميز جمعنا عند برج خليفة✨ لحظة نمشي x ترتر… ما تتنسي وباقية بالقلب ♥️"
+      ],
+      "signature_phrases": [
+        "مجتمعنا السعودي",
+        "لا تفوّت الفرصة",
+        "وقت التألق"
+      ],
+      "avoid_patterns": [
+        "corporate/promotional tone without emotional hook",
+        "English-only (always include Arabic)",
+        "generic discount language without story"
+      ],
+      "hashtag_signature": [
+        "#نمشي",
+        "#namshi"
+      ]
+    },
+    "ounass": {
+      "obs_count": 150,
+      "arabic_pct": 99,
+      "voice": "luxury_editorial",
+      "tone": "elevated_informative",
+      "arabic_style": "formal_msa_literary",
+      "high_engagement_style": "Poetic 2-word headline: X colon Y. Editorial descriptions of craftsmanship and luxury detail. No emojis or very few. Feminine grammar for premium product.",
+      "proven_openers": [
+        "بريق الصيف:",
+        "فساتينٌ وذكريات:",
+        "أيقونات الماس:",
+        "مشهدٌ من الصيف يبقى معكم:",
+        "نقدّم لكم:"
+      ],
+      "real_hooks": [
+        "نقدّم لكم ايميه ليون دور في أُناس ستيج. الأبواب تُفتح غدًا عند الساعة 10 صباحًا."
+      ],
+      "signature_phrases": [
+        "أُناس ستيج",
+        "الفخامة تُلامس",
+        "إطلالة",
+        "تُعيد تعريف"
+      ],
+      "avoid_patterns": [
+        "casual dialect (najdi/hijazi slang)",
+        "emoji-heavy posts",
+        "price/discount language",
+        "anything not luxury-coded"
+      ],
+      "hashtag_signature": [
+        "#ounass",
+        "#أوناس"
+      ],
+      "caption_format": "headline_colon_body"
     }
   },
   "visual_intelligence": {
@@ -5478,6 +5545,61 @@
     "healthcare_wellness": {
       "templates": "1. تعالوا جربوا {product} من {brand}، صحتكم أولى! 💪  \n   \n2. انطلق نحو حياة صحية مع {brand}، جربوا {product} اليوم! 🌱  \n\n3. خلك دايمًا نشيط مع {product} من {brand}، النشاط يبدأ من هنا! ✨  \n\n4. حجزوا عضويتكم مع {brand} وعيشوا أسلوب حياة صحي مع {product}! 🏋️‍♂️  \n\n5. لأن صحتك تهمنا، جرب {product} من {brand} وعيش الفارق! 🍏  \n\n6. ابدأ يومك مع {product} من {brand}، صحتك حنانها على طول! ☀️  \n\n7. للرياضيين ولكل محب للصحة، {product} من {brand} هو الخيار! 🔥  \n\n8. لأسلوب حياة صحي، ما في مثل {product} من {brand}! جربوه! 🌼  \n\n9. لياقتك وصحتك كانوا يستحقوا الأفضل، جرب {product} من {brand}! 💚  \n\n10. استثمر في صحتك مع {brand}، وعيش طعم الحياة مع {product}! 😍",
       "count": 10
+    }
+  },
+  "data_quality_flags": {
+    "levelshoes": {
+      "flag": "ENGLISH_ONLY",
+      "reason": "150 raw posts, 0 Arabic. Luxury shoe brand, English-only Instagram.",
+      "old": "ENGLISH_ONLY — 165 raw posts, 0 Arabic characters. Posts exclusively in English."
+    },
+    "fitnessfirstme": {
+      "flag": "ENGLISH_ONLY",
+      "reason": "168 raw posts, 0 Arabic. Global English account.",
+      "old": "ENGLISH_ONLY — 166 raw posts, 0 Arabic. Fitness brand posting English-only."
+    },
+    "aldeebajofficial": {
+      "flag": "ENGLISH_ONLY",
+      "reason": "150 raw posts, 0 Arabic. Abaya brand posting in English/Levantine.",
+      "old": "ENGLISH_ONLY — 150 raw posts, 0 Arabic. Abaya brand but posts in English/Levantine only."
+    },
+    "hm": {
+      "flag": "ENGLISH_ONLY",
+      "reason": "150 raw posts, 0 Arabic. H&M global account (not KSA).",
+      "old": "ENGLISH_ONLY — 150 raw posts, 0 Arabic. H&M global account, not KSA-specific."
+    },
+    "hmksa": {
+      "flag": "ENGLISH_ONLY",
+      "reason": "103 raw posts, 2 Arabic (user tags, likes≤5). Not brand Arabic voice.",
+      "old": "ENGLISH_ONLY — 103 raw posts, 2 Arabic (user captions, likes≤5). Not brand Arabic voice."
+    },
+    "myfitness.sa": {
+      "flag": "ENGLISH_ONLY",
+      "reason": "200 raw posts, 0 Arabic. English-only fitness brand."
+    },
+    "zara": {
+      "flag": "WRONG_HANDLE",
+      "reason": "Global zara account posts English. Correct Saudi handle: zaraksa.",
+      "correct_handle": "zaraksa"
+    },
+    "lcwaikiki": {
+      "flag": "WRONG_ACCOUNT",
+      "reason": "200 posts, 0 Arabic. Turkish account. Correct Saudi handle: lcwaikiki_ksa.",
+      "correct_handle": "lcwaikiki_ksa"
+    },
+    "crumblcookiespr": {
+      "flag": "WRONG_HANDLE",
+      "reason": "150 posts, 0 Arabic. US franchise account. Correct Saudi handle: crumblksa.",
+      "correct_handle": "crumblksa"
+    },
+    "goldenscent": {
+      "flag": "WRONG_HANDLE",
+      "reason": "5 obs, Levantine dialect. Correct Saudi handle: goldenscent_sa.",
+      "correct_handle": "goldenscent_sa"
+    },
+    "kyancafe": {
+      "flag": "WRONG_DIALECT",
+      "reason": "177 posts, mostly Iraqi Arabic (not Saudi Najdi). Strong engagement but wrong market voice."
     }
   }
 }

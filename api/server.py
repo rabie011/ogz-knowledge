@@ -1057,6 +1057,7 @@ def create_content(req: CreateRequest):
     import sys
     sys.path.insert(0, str(REPO / "scripts"))
     from lib.quality_gate import check, auto_fix, log_mistake, get_recent_mistakes
+    from lib.chain_router import get_visual_direction
     from build_agent_context import build_context
 
     api_key = get_openai_key()
@@ -1358,6 +1359,24 @@ def create_content(req: CreateRequest):
     if metrics:
         proof['brand_metrics'] = f"{metrics.get('obs_count',0)} verified posts, avg {metrics.get('avg_likes',0):,} likes"
 
+    # ── Step 7: Visual chain selection (CD technique → TF family) ─────────────
+    brand_profile = intel.get('brand_profiles', {}).get(req.brand, {})
+    visual_dna = brand_profile.get('visual_dna', {})
+    brand_color_hint = visual_dna.get('primary_color', '') if isinstance(visual_dna, dict) else ''
+    brand_display_ar = _BRAND_AR.get(req.brand.lower(), req.brand)
+    try:
+        visual_chain = get_visual_direction(
+            cd_primary=cd_primary,
+            sector=sector,
+            occasion=req.occasion,
+            brand=req.brand,
+            product=req.product or brand_display_ar,
+            brand_color=brand_color_hint,
+            brand_display=brand_display_ar,
+        )
+    except Exception as _ve:
+        visual_chain = {"error": str(_ve)}
+
     return {
         'brand': req.brand,
         'product': req.product,
@@ -1378,6 +1397,7 @@ def create_content(req: CreateRequest):
             'technique': tech_letter,
             'scores': cd_scores,
         },
+        'visual_chain': visual_chain,
         'proof': proof,
         'context_tokens': token_count,
     }

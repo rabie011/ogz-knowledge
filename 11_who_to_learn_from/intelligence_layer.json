@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "OGZ Intelligence Layer — Thin Brain",
-    "version": "4.0",
+    "version": "4.2",
     "philosophy": "Less but right. Cultural guardrails + real metrics + reference examples. No wrong scores, no bad rules.",
     "generated_at": "2026-06-04T23:26:04.387421",
     "updated_at": "2026-06-06T01:34:28.575170+00:00",
@@ -14,7 +14,12 @@
       "caption_intelligence expanded to 7 brands",
       "white_friday + singles_day occasions added",
       "deep_test_loop pass 1: 7,596 runs, 99.9% pass rate"
-    ]
+    ],
+    "brain_v41_date": "2026-06-09",
+    "brain_v41_changes": "Added caption_intelligence for 9 new brands (total 16). Fixed 4 broken profiles. Added voice/tone/arabic_style to ajmalperfumes + bathandbodyworksarabia.",
+    "brain_v42_date": "2026-06-09",
+    "caption_intelligence_count": 26,
+    "data_quality_flags": 12
   },
   "cultural_guardrails": {
     "forbidden_gestures": [
@@ -970,7 +975,9 @@
         "image": 11
       },
       "top_cta_types": [],
-      "sample_real_hooks": []
+      "sample_real_hooks": [],
+      "data_quality": "NO_ARABIC_ENGLISH_ONLY",
+      "data_quality_note": "200 posts, 0% Arabic. Saudi .sa domain but posts entirely in English. Needs Arabic social media audit — may have separate Arabic account."
     },
     "alromansiahksa": {
       "sector": "f_and_b",
@@ -1238,7 +1245,9 @@
         "Just another post",
         "Limited time offer",
         "Check out our website"
-      ]
+      ],
+      "data_quality": "GLOBAL_ENGLISH_ACCOUNT",
+      "data_quality_note": "166 posts, 0% Arabic. Middle East HQ account in English. Need Saudi Fitness First account for Arabic content."
     },
     "OGZ-BEAUTY-Reference-001": {
       "sector": "beauty_personal_care",
@@ -1347,7 +1356,9 @@
         "Check it out",
         "Don't miss out",
         "Limited time offer"
-      ]
+      ],
+      "data_quality": "GLOBAL_ENGLISH_ACCOUNT",
+      "data_quality_note": "165 posts, 0% Arabic. Global Level Shoes account. GCC-specific account needed."
     },
     "OGZ-F-AND-B-Reference-004": {
       "sector": "f_and_b",
@@ -1615,7 +1626,9 @@
         "X @aldeebajofficial",
         "This beautiful amazing",
         "so comfortable and good fabric"
-      ]
+      ],
+      "data_quality": "NO_ARABIC_ENGLISH_ONLY",
+      "data_quality_note": "165 posts, 0% Arabic. Fashion account posts in English only despite Saudi market. Sector default applies."
     },
     "OGZ-F-AND-B-Reference-003": {
       "sector": "f_and_b",
@@ -2305,7 +2318,9 @@
         "مرحبا بكم",
         "تسوق الآن",
         "لا تفوتوا"
-      ]
+      ],
+      "data_quality": "LOW_ARABIC_7PCT",
+      "data_quality_note": "103 posts, only 7% Arabic. Saudi H&M account posts mostly in English even for Saudi audience. Very thin Arabic signal."
     },
     "OGZ-F-AND-B-Reference-010": {
       "sector": "f_and_b",
@@ -2788,7 +2803,9 @@
         "No te puedes perder",
         "Delicioso el menú de esta semana!",
         "Perfect menu"
-      ]
+      ],
+      "data_quality": "WRONG_ACCOUNT_PUERTO_RICO",
+      "data_quality_note": "176 posts in Spanish/English — this is the Puerto Rico franchise. Scrape Saudi Crumbl account (@crumblcookiessa) instead."
     },
     "aseeb.najd": {
       "sector": "f_and_b",
@@ -3052,7 +3069,9 @@
         "لا تفوتوا الفرصة",
         "جربوا الآن",
         "معلومات إضافية"
-      ]
+      ],
+      "data_quality": "IRAQI_CONTENT_HEAVY",
+      "data_quality_note": "Scraped account posts heavily from Iraq branches (\"فروعنا في العراق\"). Saudi dialect coverage thin. Use general Gulf Arabic defaults."
     },
     "hashibasha": {
       "sector": "f_and_b",
@@ -3275,7 +3294,9 @@
         "Collection is out now.",
         "Launching Spring 2026.",
         "Available in selected stores and online."
-      ]
+      ],
+      "data_quality": "GLOBAL_ENGLISH_ACCOUNT",
+      "data_quality_note": "160 posts, 0% Arabic. Global H&M account. Use @hmksa for Saudi-specific data."
     },
     "randbfashion": {
       "sector": "fashion",
@@ -3493,7 +3514,9 @@
         "Check out our latest",
         "Don't miss out on",
         "Limited time offer"
-      ]
+      ],
+      "data_quality": "GLOBAL_ENGLISH_ACCOUNT",
+      "data_quality_note": "200 posts, 0% Arabic. Global Zara account. Need to scrape Saudi/GCC Zara account (@zaraksa) for meaningful Arabic content."
     },
     "mikyajy": {
       "sector": "beauty_personal_care",
@@ -3623,7 +3646,9 @@
         "carousel_slide": 3
       },
       "top_cta_types": [],
-      "sample_real_hooks": []
+      "sample_real_hooks": [],
+      "data_quality": "NO_ARABIC_CONTENT",
+      "data_quality_note": "17 observations, 0 Arabic captions. Perfume brand with non-Arabic posts. Use beauty_personal_care sector defaults."
     },
     "ajmalperfumes": {
       "sector": "beauty_personal_care",
@@ -3645,24 +3670,32 @@
         "تعرف اللي يحب يتفلسف وما يجاوب ويعطي الزبدة 😂"
       ],
       "proven_openers": [
-        "رشّة واحدة… والدنيا كلّها تلين",
-        "أوروم إليكسير من أجمل — تركيز 30% قوّة صج.",
-        "انتو لو مكاني مين بتختارو؟!!",
-        "لمن يتركون بصمةً تهمس بالرقيّ.",
-        "هذه فرصتك للفوز 🎁​"
+        "هناك مَن يمرّون بالمكان.. وهناك مَن يتملّكونه",
+        "ثقةٌ تفرضُ نفسَها",
+        "هناك حضورٌ لا يستأذن",
+        "لا تعبر بهدوء"
       ],
       "real_hooks": [
-        "عطر مو بس ريحة… قوة تغيّر كل لحظة حوالك.",
-        "شكرا عيلتي الحلوه انتو اجمل لجنة تحكيم بحياتي🙈",
-        "سر حضورك الآسر.",
-        "هذه ليست زيارة، بل تجربة غامرة حيث تبدأ القصة.",
-        "العود في صفائه النادر، إرثُ تفرّدٍ وصنعةٍ متقنة."
+        "إيفوك ريد من أجمل دبي",
+        "في عالمٍ يضجّ بكل شيء، كن أنت البصمة الوحيدة"
       ],
-      "high_engagement_style": "The brand employs a poetic and evocative style that emphasizes the sensory experience of their perfumes, often using metaphors and vivid imagery to create an emotional connection with the audience.",
+      "high_engagement_style": "Short poetic Arabic declaration + product name + bilingual hashtags. Average 1–2 sentences, formal register, no emojis.",
       "avoid_patterns": [
-        "تبدأ الأناقة بعطر.",
-        "عطر فخم وراقي.",
-        "الاصدار الجديد من اجمل لازم تجربوا .."
+        "colloquial saudi",
+        "humor",
+        "emojis heavy",
+        "promotions/discounts"
+      ],
+      "voice": "formal_msa_poetic",
+      "tone": "aspirational_luxury",
+      "language": "arabic_formal_msa",
+      "arabic_style": "فصحى with tashkeel — literary openers, philosophical statements about presence and identity",
+      "signature_phrases": [
+        "حضورٌ يُلمس",
+        "أثرٌ يستحيل نسيانه",
+        "يفرض سطوته",
+        "هيبةٌ تملأ المكان",
+        "لا يدخل الجميع بالطريقة ذاتها"
       ]
     },
     "lcwaikiki": {
@@ -3703,7 +3736,12 @@
         "Sadece ürün tanıtımı",
         "Aşırı resmi dil",
         "Kısa ve etkisiz cümleler"
-      ]
+      ],
+      "data_quality": "WRONG_ACCOUNT_TURKISH",
+      "data_quality_note": "All 200 scraped posts are in Turkish from Turkey HQ account. Arabic captions: 0. Use sector defaults for generation.",
+      "voice": "N/A — see sector defaults",
+      "tone": "aspirational",
+      "arabic_style": "sector_default"
     },
     "namshi": {
       "sector": "fashion",
@@ -3769,24 +3807,33 @@
         "بمناسبة اليوم العالمي للعطور"
       ],
       "proven_openers": [
-        "✨ مسابقة العيد ✨",
-        "🎁 موسم الهدايا هنا…",
-        "توقفي شوي:",
-        "كل شي تلمسونه يصير ذهب ✨",
-        "تنبيه مسابقة 🎉"
+        "جهّزوا لها",
+        "اختاري",
+        "مو قاعدين نقول",
+        "إذا كانت سعادتكم",
+        "توقفي شوي:"
       ],
       "real_hooks": [
-        "اربحوا مجموعة لمسة من الذهب كاملة من باث & بودي وركس 💛",
-        "شو يلي رح تضيفينه إلى القائمة؟ 📝",
-        "فرصتك للفوز بمجموعة هدايا مصغّرة 🎁",
-        "أضِف لمسة من التألّق إلى أجواء رمضان 🌙 مع لمسة من الذهب الجديدة ✨",
-        "صار وقت نتسوق بضمير مرتاح 😌💅"
+        "شمعة لكل مشروب تحبينه",
+        "موسم السلال وصل",
+        "العطور الرائعة تبدأ بمكوّنات رائعة"
       ],
-      "high_engagement_style": "The brand effectively uses engaging and festive language, often incorporating emojis and direct calls to action that encourage participation and interaction. The posts frequently highlight giveaways and seasonal promotions, creating a sense of urgency and excitement.",
+      "high_engagement_style": "Bilingual (Arabic first), casual Gulf register, 1–3 short lines, ✨ emoji common, gifting/self-care theme.",
       "avoid_patterns": [
-        "شيء كبير قادم…",
-        "استمتعوا بتشكيلة واسعة من العطور",
-        "الفرصة الأخيرة: ما تبغى تفوّت هذا العرض"
+        "formal arabic",
+        "long paragraphs",
+        "product specs only"
+      ],
+      "voice": "warm_bilingual_playful",
+      "tone": "celebratory_casual",
+      "language": "arabic_bilingual",
+      "arabic_style": "Gulf casual Arabic — \"مو قاعدين نقول\", \"أكيد مو ناوي\" — bilingual posts with Arabic leading, English mirroring",
+      "signature_phrases": [
+        "✨ يستاهلها",
+        "روائح منعشة",
+        "موسم الهدايا",
+        "بتلات فاخرة",
+        "كل عطرك المفضل"
       ]
     },
     "goldenscent": {
@@ -3818,7 +3865,9 @@
         "لا تفوتوا الفرصة",
         "منتجاتنا رائعة",
         "تسوقوا الآن"
-      ]
+      ],
+      "data_quality": "LEVANTINE_DIALECT_5_OBS",
+      "data_quality_note": "5 observations only. Posts use Levantine markers (\"عم\"). Saudi-dialect generation should use beauty sector defaults."
     }
   },
   "occasion_calendar": {
@@ -4110,6 +4159,671 @@
       "high_style": "عروض تكفي وتوفّي!\nطعم يحبه قلبك، وجبة مشبعة... وسعر ما يتكرر. لا تفوتونها!\n\n#تريبل_دجاج_الباشا #تريبل_دجاج #دبل_حاشي #دبل_المتعة #دبل_اللذة #لمتنا_غير",
       "low_style": "اذا كنت تنتظر اللقمه الأولى بشغف! \n😋🍛\n \n\n#حاشي_باشا \n#نكهة_سعودية \n#رحلة_طعم",
       "source": "auto_extracted_from_real_obs"
+    },
+    "shawarmersa": {
+      "obs_count": 108,
+      "top_likes": 40,
+      "avg_likes_high_tier": 22,
+      "proven_openers": [
+        "ما تحبين الثوم؟ اطلبيها بدون ثوم",
+        "روتين النظافة عند موظفيننا",
+        "بهالحر☀️",
+        "POV: موظف في شاورمر",
+        "الخضروات عندنا لاتشيل همها🥬",
+        "عشان خااااطر الشاورمرية🫵🏼♥️"
+      ],
+      "proven_hashtags": [
+        "#شاورمر_هلّت_عزايمه",
+        "#الاحد_الشاورمري",
+        "#إعرف_شاورمتك",
+        "#ربع_قرن",
+        "#اعرف_شاورمتك"
+      ],
+      "high_style": "ما تحبين الثوم؟ اطلبيها بدون ثوم \nبدلي الثوم بشاورمتك اللي تحبينها بـ شطة وإلا طحينه!📲",
+      "low_style": "",
+      "source": "obs_search_index_full_corpus"
+    },
+    "alromansiahksa": {
+      "obs_count": 100,
+      "top_likes": 9,
+      "avg_likes_high_tier": 5,
+      "proven_openers": [
+        "حجزت ذبيحة العيد ولا لسّى؟🐑",
+        "سهّلناها عليك ✋🏼",
+        "⁨\tازهلها بضغطة زر ذبيحة عيدكم جاهزة 🐑",
+        "تدوّر على الملغّم نكهات وتوابل؟",
+        "السفرة اللي تسعد الكل، أساسها بوكس واحد🥩🧡",
+        "فروع الرومانسية تستقبلكم حتى الساعة الثالثة فجرًا،"
+      ],
+      "proven_hashtags": [
+        "#مطاعم_الرومانسية",
+        "#مطاعم_ٰالرومانسية",
+        "#تطبيق_الرومانسية",
+        "#ثلوثية_الرومانسية",
+        "#ثلوثية_الرومانسية،"
+      ],
+      "high_style": "حجزت ذبيحة العيد ولا لسّى؟🐑\nالحق على العرض.. ترى الباقي علينا ✋🧡\n \n#مطاعم_الرومانسية",
+      "low_style": "",
+      "source": "obs_search_index_full_corpus"
+    },
+    "kuduksa": {
+      "obs_count": 121,
+      "top_likes": 30,
+      "avg_likes_high_tier": 17,
+      "proven_openers": [
+        "خلّوا الإجازة ألذ مع كودو 🍦✨",
+        "التحميص مو مرحلة بسيطة… 💫",
+        "العيد صار احلى مع بوكس اللحم!!🔥😍",
+        "القهوة تمر برحلة طويلة قبل ما توصل لك 🌿",
+        "بين الغرسة وفنجالك… فيه مرحلة تصنع الفرق 🤝",
+        "العيد جاب معه شي ما يتفوت 😋🔥"
+      ],
+      "proven_hashtags": [
+        "#شباب_البومب_بلس",
+        "#ماراثون_الرياض",
+        "#كودو_من_ربعك",
+        "#باص_كودو_شباب_البومب",
+        "#بوكس_شباب_البومب_بلس"
+      ],
+      "high_style": "خلّوا الإجازة ألذ مع كودو 🍦✨\nاطلبوا وجبة أطفال وخذوا آيس كريم مجاني للصغار وجبتهم المفضلة… وحلى يبرد القلب 🤍\n\nلفترة محدو…",
+      "low_style": "",
+      "source": "obs_search_index_full_corpus"
+    },
+    "niceonesa": {
+      "obs_count": 116,
+      "top_likes": 4,
+      "avg_likes_high_tier": 2,
+      "proven_openers": [
+        "خلونا نحسمها بالكومنت… من بين اجوبتهم مين تميلون له اكثر؟👀",
+        "شارك من حولك توزيعات تجمّلك! جمعناها لك بمكان واحد📲",
+        "نعايدك بطريقتنا مع #نايس_ون ! عيديتك جاهزة 🎁",
+        "تجهيزات العيد بطريقتك من #نايس_ون ❤️",
+        "محتارين بعطر الويكند؟👀",
+        "الجهاز اللي خفيف بوزنه ورهيب بنتيجته 😎🔥"
+      ],
+      "proven_hashtags": [
+        "#نايس_ون",
+        "#نايس_ون_يكمل_فنك",
+        "#البركة_فيكم",
+        "#سمفاي",
+        "#الفرحة_فيكم"
+      ],
+      "high_style": "خلونا نحسمها بالكومنت… من بين اجوبتهم مين تميلون له اكثر؟👀",
+      "low_style": "",
+      "source": "obs_search_index_full_corpus"
+    },
+    "noon": {
+      "obs_count": 120,
+      "top_likes": 19,
+      "avg_likes_high_tier": 10,
+      "proven_openers": [
+        "متأخر بتجهيزات العيد؟ 👀",
+        "وش الجواب اللي طلع معك؟👀",
+        "عيدك اتحادي 💛🖤",
+        "سفرتك قربت؟ ✈️",
+        "نهاية حلوة لبطولة مسك ✨🏆",
+        "الأخضر موضة الموسم 😮‍💨💚"
+      ],
+      "proven_hashtags": [
+        "#نون",
+        "#صيف",
+        "#واقي",
+        "#PIF_PrivateSectorForum",
+        "#نونها_هالعيد"
+      ],
+      "high_style": "متأخر بتجهيزات العيد؟ 👀\n\nنون يلحق عليك بأزياء تهبل، هدايا صغيرة تفرّحهم، وأكثر بأقل من 200 ريال💛\nنوّنها الحين",
+      "low_style": "",
+      "source": "obs_search_index_full_corpus"
+    },
+    "pandasaudi": {
+      "obs_count": 113,
+      "top_likes": 10,
+      "avg_likes_high_tier": 5,
+      "proven_openers": [
+        "احتفلوا بـ #يوم_الجبن_العالمي مع تشكيلة متنوعة من أنواع الجبن المفضلة لديكم 🧀✨",
+        "لأن التفاصيل تصنع الفرق 🌟!",
+        "من صدفة بسيطة… بدأت قصة عشق العالم للجبنة 😍!",
+        "باقي 8 أيام وتكمل التشكيلة، جهز ملعبك مع عروض كأس العالم. 🤩",
+        "شعرك يتغير حسب الروتين اللي تعطينه 🌸",
+        "في أوقات ما تحتاج أكثر من شيء خفيف. 🧃"
+      ],
+      "proven_hashtags": [
+        "#بنده",
+        "#هايبربنده",
+        "#بنده_معك_تفرق",
+        "#كليكس",
+        "#العروض_معك_تفرق،"
+      ],
+      "high_style": "احتفلوا بـ #يوم_الجبن_العالمي مع تشكيلة متنوعة من أنواع الجبن المفضلة لديكم 🧀✨\nمن الفطور إلى ألذ الوصفات، استمتعوا بأفضل…",
+      "low_style": "",
+      "source": "obs_search_index_full_corpus"
+    },
+    "elixirbunn": {
+      "obs_count": 88,
+      "top_likes": 4,
+      "avg_likes_high_tier": 2,
+      "proven_openers": [
+        "قهوة اليوم… حكاية بدأت ببساطة ☕️",
+        "في السِكّة، القهوة ليست وحدها ما يجمعنا.",
+        "⁨\t⁨\tعيدٌ يزهو بكم. ✨",
+        "⁨\tتجربة القهوة المختصّة… ببساطة.",
+        "ومع مرور الساعات، يبقى المكان حاضرًا",
+        "إسبريسو فريدو وصل إلى إكسير البن ☕️❄️"
+      ],
+      "proven_hashtags": [
+        "#رمضان",
+        "#riyadhexpo2030",
+        "#شاي",
+        "#الما",
+        "#منتدى_صندوق_الاستثمارات_العام_والقطاع_الخاص"
+      ],
+      "high_style": "قهوة اليوم… حكاية بدأت ببساطة ☕️\nوُلدت من رغبة في تقديم قهوة سريعة، تحمل في كل يوم نكهة جديدة وتجربة مختلفة\nومع الوقت، ت…",
+      "low_style": "",
+      "source": "obs_search_index_full_corpus"
+    },
+    "ajmalperfumes": {
+      "obs_count": 200,
+      "top_likes": 193,
+      "avg_likes_high_tier": 106,
+      "proven_openers": [
+        "تعبيران مختلِفان.. وحضورٌ واحدٌ لا يُنكر. إيفوك ريد من أجمل دبي.",
+        "لا يدخلُ الجميعُ المكانَ بالطريقةِ ذاتِها.. فالبعضُ ببساطة، يغيّرونَ طابعَه.​",
+        "ثقةٌ تفرضُ نفسَها، وهيبةٌ تملأُ المكان. إيفوك ريد له.. حضورٌ يُلمسُ في اللحظةِ الأولى، وأث",
+        "هناك أشياءٌ نملكُها بأيدينا.. وأشياءٌ أخرى هي مَن تملكُنا وتستحوذُ على حواسِنا.",
+        "هناك قصصٌ تُكتبُ بالأبيض والأسود..أما الحكايات التي لا تُنسى، فتأتي دائماً باللون الأحمر.",
+        "هناك نداءٌ لا يمكنُ تجاهله.. يسحبُ الحواس، ويفرضُ حضورَه دون استئذان."
+      ],
+      "proven_hashtags": [
+        "#أجمل_دبي",
+        "#أجمل_للعطور",
+        "#أجمل",
+        "#فن_الإهداء",
+        "#شيري_وود"
+      ],
+      "high_style": "تعبيران مختلِفان.. وحضورٌ واحدٌ لا يُنكر. إيفوك ريد من أجمل دبي. \n\n#إيفوك_ريد #أجمل_للعطور\n\nTwo expressions.\nOne undenia…",
+      "low_style": "",
+      "source": "obs_search_index_full_corpus"
+    },
+    "bathandbodyworksarabia": {
+      "obs_count": 198,
+      "top_likes": 184,
+      "avg_likes_high_tier": 101,
+      "proven_openers": [
+        "وجهة نظرك: شريكتك/شريكك في السكن عندها/عنده أروع ذوق في الشموع 🕯️✨",
+        "العطور الرائعة تبدأ بمكوّنات رائعة. ✨",
+        "اطلبوا أونلاين اليوم واستمتعوا بتشكيلة واسعة من العطور، بما فيها روائح 🆕 جديدة",
+        "✨ موسم السلال وصل! احفظوا هذا الدليل لتجعلوا هداياكم لا تُنسى 👀💐",
+        "إشارتك تبدأي تتسوقي هدايا العيد (وتوفّري بنفس الوقت) حتى 31 مايو",
+        "كل عطوركم المفضلة ملفوفة 🎀 ضمن مجموعات هدايا العيد المثالية ✨ لأحبابكم"
+      ],
+      "proven_hashtags": [
+        "#لمسة_من_الذهب",
+        "#يوم_الشموع_السنوي",
+        "#bat",
+        "#bathandbodyworksarabia",
+        "#t"
+      ],
+      "high_style": "وجهة نظرك: شريكتك/شريكك في السكن عندها/عنده أروع ذوق في الشموع 🕯️✨\n\nPOV: your roomie has the best taste in Candles​",
+      "low_style": "",
+      "source": "obs_search_index_full_corpus"
+    },
+    "altazaj_fakieh": {
+      "obs_count": 187,
+      "arabic_pct": 100,
+      "voice": "playful_challenger",
+      "tone": "cheeky_warm_competitive",
+      "arabic_style": "saudi_casual_najdi",
+      "signature_phrases": [
+        "طازجي",
+        "لا طازج إلا الطازج",
+        "توك ما ذقت",
+        "الأصل ثابت"
+      ],
+      "proven_openers": [
+        "لو كنت",
+        "ما سمعت",
+        "هل انت",
+        "نفس الفروج",
+        "الأصل ثابت",
+        "العربي سبايسي"
+      ],
+      "real_hooks": [
+        "لو كنتي تحسبين إنك ذقت السبايسي من قبل 👀 الطازج يقولك توك ما ذقتي شيء",
+        "هل انت طازجي متخفي ؟ ومين الطازجيين المتخفيين اللي تعرفهم",
+        "الأصل ثابت، بس الحرارة زادت! 🔥",
+        "نفس الفروج اللي تعودت عليه، بس بحرارة غيّرت الموازين"
+      ],
+      "high_engagement_style": "Challenges audience: 'have you REALLY tasted spicy?' / community identity as 'طازجي' members / product comparison that demotes competitors indirectly / call to action: download app طلب الحين",
+      "hashtag_signature": [
+        "#الطازج",
+        "#دجاجنا_من_ارض_السعودية",
+        "#لا_طازج_إلا_الطازج"
+      ],
+      "emoji_signature": [
+        "🐓",
+        "😋",
+        "🧡",
+        "🔥",
+        "🇸🇦"
+      ],
+      "avoid_patterns": [
+        "formal MSA",
+        "تشكيلة/مجموعة language",
+        "real estate vocabulary",
+        "passive voice — this brand is ACTIVE and direct"
+      ]
+    },
+    "riyadhfood": {
+      "obs_count": 183,
+      "arabic_pct": 98,
+      "voice": "curious_foodie_guide",
+      "tone": "informal_inquisitive_warm",
+      "arabic_style": "saudi_casual_mixed",
+      "signature_phrases": [
+        "من وين أفضل",
+        "وين أحسن",
+        "ما هو مشروبك"
+      ],
+      "proven_openers": [
+        "إفطار",
+        "رمضان",
+        "مطعم",
+        "عشاق",
+        "وين أفضل",
+        "ما هو"
+      ],
+      "real_hooks": [
+        "عشاق الخلية — من وين أفضل خلية؟",
+        "ما هو مشروبك المفضل في رمضان؟",
+        "عيدكم مبارك — وين أفضل فطور للعيد؟",
+        "الجو يبي له فطور في خيمة كافد الرمضانية 🌙"
+      ],
+      "high_engagement_style": "Audience questions ('وين أفضل X?') drive comments. Location-tagging (📍) for restaurant credibility. Community-sourced recommendations. Seasonal occasion hooks (رمضان / عيد) dominate.",
+      "hashtag_signature": [
+        "location-based hashtags",
+        "restaurant name + city"
+      ],
+      "emoji_signature": [
+        "📍",
+        "🌙",
+        "😍",
+        "👌"
+      ],
+      "avoid_patterns": [
+        "corporate brand voice",
+        "price-first language",
+        "generic 'order now' CTAs without context",
+        "non-Saudi food references"
+      ]
+    },
+    "herfyfsc": {
+      "obs_count": 171,
+      "arabic_pct": 100,
+      "voice": "riddle_master_playful",
+      "tone": "fun_challenge_youth",
+      "arabic_style": "saudi_casual_urban",
+      "signature_phrases": [
+        "فزّورة",
+        "وجبة فتيات القوة",
+        "توستي كلوب",
+        "الطعم اللي يجمع"
+      ],
+      "proven_openers": [
+        "فزّورة",
+        "وجبة",
+        "طعم",
+        "لما يجتمع",
+        "مقرمش",
+        "جديدنا مو عادي",
+        "الطعم اللي"
+      ],
+      "real_hooks": [
+        "لما يجتمع الطعم مع القوة 💫 بطاطس بثلاث صوصات مستوحاة من فتيات القوة",
+        "الطعم اللي يجمع اللذاذة والقرمشة بساندوتش واحد #توستي_كلوب",
+        "جديدنا مو عادي! توستي كلوب جاي يرفع مستوى اللذّة 🤩",
+        "فزّورة: من منكم عنده فطاير حسابية؟"
+      ],
+      "high_engagement_style": "Riddles (فزّورة) drive comments. Co-branded character campaigns (Spacetoon). Sensory language: مقرمش/لذيذ/طعم. Short declarative punch lines. Youth culture connection.",
+      "hashtag_signature": [
+        "#هرفي",
+        "#Herfy",
+        "#توستي_كلوب",
+        "#وجبة_فتيات_القوة"
+      ],
+      "emoji_signature": [
+        "🔥",
+        "😋",
+        "💖",
+        "🤩",
+        "👀"
+      ],
+      "avoid_patterns": [
+        "long captions — Herfy is punchy",
+        "formal/aspirational language",
+        "heritage themes",
+        "MSA — always Saudi casual"
+      ]
+    },
+    "roshnksa": {
+      "obs_count": 167,
+      "arabic_pct": 99,
+      "voice": "aspirational_community_builder",
+      "tone": "formal_visionary_warm",
+      "arabic_style": "modern_msa_accessible",
+      "signature_phrases": [
+        "أكثر من مجرّد مسكن",
+        "تتحوّل فيه اللحظات اليومية إلى ذكريات",
+        "بيئة متكاملة",
+        "تجربة عيش"
+      ],
+      "proven_openers": [
+        "صُمّمت",
+        "تملّك",
+        "أكثر من مجرّد",
+        "حين يلتقي",
+        "مجتمع"
+      ],
+      "real_hooks": [
+        "أكثر من مجرّد مسكن — هو مجتمع متكامل تتحوّل فيه اللحظات اليومية إلى ذكريات تدوم",
+        "حين يلتقي الموقع المثالي بمفهوم العيش المجتمعي المتكامل",
+        "صُمّمت لتحتضن تفاصيل يومك، بمساحات مدروسة تتناسب مع مختلف الاحتياجات",
+        "تملّك منزل الأحلام — مع وجود عدد محدود من الوحدات المتبقية"
+      ],
+      "high_engagement_style": "Vision 2030 vocabulary: مجتمع متكامل/تجربة عيش/مستدام. Scarcity signals: 'عدد محدود من الوحدات'. Multiple named project hashtags per post. Community event tie-ins (#دوري_روشن_السعودي). Long, dignified captions.",
+      "hashtag_signature": [
+        "#مجموعة_روشن",
+        "#سدرة",
+        "#الدانة",
+        "#المنار",
+        "#سدرة_ريزيدنس"
+      ],
+      "emoji_signature": [
+        "🌙",
+        "🏡"
+      ],
+      "avoid_patterns": [
+        "casual dialect",
+        "emoji-heavy posts",
+        "food/F&B analogies",
+        "price-focused language — ROSHN never mentions price",
+        "short punchy captions"
+      ]
+    },
+    "aseeb.najd": {
+      "obs_count": 166,
+      "arabic_pct": 100,
+      "voice": "heritage_host_storyteller",
+      "tone": "warm_proud_najdi",
+      "arabic_style": "najdi_poetic_authentic",
+      "signature_phrases": [
+        "ريحة العود اللي تسبق حضورها",
+        "سفرة عسيب مفروشة بالطيب والكرم",
+        "تجربة نجدية",
+        "من المطبخ السعودي"
+      ],
+      "proven_openers": [
+        "ريحة",
+        "سفرة",
+        "من المطبخ",
+        "تجربة نجدية",
+        "مسخن عسيب",
+        "في زوايا عسيب"
+      ],
+      "real_hooks": [
+        "ريحة العود اللي تسبق حضورها، عنوانها عسيب ✨🤎",
+        "سفرة عسيب مفروشة بالطيب والكرم 😍🤎",
+        "من المطبخ السعودي إلى الترشيح في دليل ميشلان، تمتد رحلتنا إلى آفاق عالمية",
+        "تجربة نجدية تعيشها بكل تفاصيلها في زوايا عسيب"
+      ],
+      "high_engagement_style": "Sensory evocation: smell (ريحة العود), hospitality (سفرة/كرم), pride (تجربة نجدية). Short, poetic lines. Michelin credential woven in naturally. Heritage hashtag trio (#عسيب #نجدي #مطاعم_الرياض) on every post.",
+      "hashtag_signature": [
+        "#عسيب",
+        "#نجدي",
+        "#مطاعم_الرياض",
+        "#الدرعية"
+      ],
+      "emoji_signature": [
+        "🤎",
+        "😍",
+        "🌙",
+        "📍"
+      ],
+      "avoid_patterns": [
+        "modern/trendy language",
+        "direct CTAs",
+        "price/discount messaging",
+        "anything non-Najdi in dialect",
+        "casual Saudi (Jeddawi/Gulf) — this is specifically Najdi"
+      ]
+    },
+    "mumzworld": {
+      "obs_count": 159,
+      "arabic_pct": 99,
+      "voice": "trusted_maternal_advisor",
+      "tone": "warm_educational_supportive",
+      "arabic_style": "saudi_maternal_gulf_blend",
+      "signature_phrases": [
+        "تسوقي الآن",
+        "نصائح منا لك",
+        "لأن أطفالنا يستحقون الأفضل",
+        "الهدف مو منع"
+      ],
+      "proven_openers": [
+        "رمضان",
+        "وقت",
+        "يوم",
+        "تذكري",
+        "الهدف",
+        "بدء التدريب",
+        "عيدكم مبارك"
+      ],
+      "real_hooks": [
+        "الهدف مو منع الشاشات بالكامل — الهدف إن الطفل يلقى توازن صحي",
+        "بدء التدريب على الحمام هو وقت مليء بالتحديات، نهايته فرح وإنجاز كبير ⭐️",
+        "تذكري: البدء مبكراً جداً بدون ظهور علامات جاهزية الطفل سيؤدي إلى الإحباط",
+        "مبعيدكم مبارك — تقبل الله منا ومنكم صالح الأعمال"
+      ],
+      "high_engagement_style": "Educational myth-busting (الهدف مو X — الهدف Y). Seasonal religious greetings. Product + parenting tip combo. Reassurance tone: 'كوني صبورة'. Milestone celebration: first steps, potty training.",
+      "hashtag_signature": [
+        "#ممزورلد",
+        "#mumzworld"
+      ],
+      "emoji_signature": [
+        "🎉",
+        "🤍",
+        "🌙",
+        "🌟",
+        "💕"
+      ],
+      "avoid_patterns": [
+        "aggressive promotional language",
+        "fear-based parenting advice",
+        "non-educational posts",
+        "long lists without emotional hook — Mumzworld leads with empathy then info"
+      ]
+    },
+    "kiabiksa": {
+      "obs_count": 152,
+      "arabic_pct": 91,
+      "voice": "family_stylist_enabler",
+      "tone": "warm_celebratory_inclusive",
+      "arabic_style": "saudi_family_casual",
+      "signature_phrases": [
+        "أيام تسبق رمضان وتفاصيل نختارها بحب",
+        "لكل عائلة أسلوبها المميز",
+        "جاهزين تتسوقون معنا"
+      ],
+      "proven_openers": [
+        "تشكيلة",
+        "مع",
+        "جاهزين",
+        "كيابي",
+        "تسوقوا",
+        "لكل شخص",
+        "أيام تسبق"
+      ],
+      "real_hooks": [
+        "أيام تسبق رمضان، وتفاصيل نختارها بحب 🤍",
+        "لكل شخص استعداداته لرمضان، ولكل عائلة أسلوبها المميز",
+        "جاهزين تتسوقون معنا؟ 💪🛍️",
+        "استعدي لرمضان ونسّقي إطلالات أطفالك بكل سهولة"
+      ],
+      "high_engagement_style": "Family unity framing (الأسرة/لكل عائلة). Seasonal preparation urgency (أيام تسبق X). Mixed Arabic + English hashtag strategy (#كيابي_السعودية + #فن_الأزياء + Al-Othaim mall tie-ins). Shopping basket icon 🛍 signals deal content.",
+      "hashtag_signature": [
+        "#كيابي_السعودية",
+        "#كيابي",
+        "#فن_الأزياء",
+        "#العثيم_لايف"
+      ],
+      "emoji_signature": [
+        "🛍",
+        "🤩",
+        "📢",
+        "😉",
+        "🌙"
+      ],
+      "avoid_patterns": [
+        "individual/single woman focus — Kookai is FAMILY",
+        "luxury positioning",
+        "English-only captions",
+        "abstract/philosophical openers"
+      ]
+    },
+    "maxfashionmena": {
+      "obs_count": 181,
+      "arabic_pct": 96,
+      "voice": "accessible_style_curator",
+      "tone": "aspirational_approachable",
+      "arabic_style": "gulf_fashion_arabic",
+      "signature_phrases": [
+        "إطلالات تناسب",
+        "اللمسة الأخيرة",
+        "تعتقدين أن إطلالاتك جاهزة؟ فكري مرة أخرى",
+        "منظورك الآن"
+      ],
+      "proven_openers": [
+        "إطلالات",
+        "مجموعة",
+        "تفاصيل",
+        "كل",
+        "اللمسة",
+        "تعتقدين",
+        "منظورك الآن"
+      ],
+      "real_hooks": [
+        "إطلالات تناسب زيارات العيد… وتتحمل كل مغامراتهم بعدها ✨",
+        "اللمسة الأخيرة التي تحتاجها كل إطلالة صيفية ✨🕶️ — تسوّقوا بأسعار تبدأ من 19 ريال",
+        "تعتقدين أن إطلالات العيد أصبحت جاهزة؟ فكري مرة أخرى ✨",
+        "ألوان ناعمة وليالٍ أكثر راحة — درجات الباستيل تجتمع في أطقم نوم مريحة"
+      ],
+      "high_engagement_style": "Style challenge opener (فكري مرة أخرى). Soft color vocabulary (ناعم/باستيل/هادئ). Price anchoring (بأسعار تبدأ من X ريال/درهم). Family size range callouts. Engagement-bait: 'اكتبوا في التعليقات'.",
+      "hashtag_signature": [
+        "#MaxFashion",
+        "#MyMaxStyle",
+        "#ماكس_فاشن"
+      ],
+      "emoji_signature": [
+        "🌴",
+        "🤍",
+        "🌊",
+        "🌙",
+        "💛",
+        "✨"
+      ],
+      "avoid_patterns": [
+        "harsh/loud promotions",
+        "overly casual slang",
+        "single-product focus without styling context",
+        "non-Gulf GCC Arabic"
+      ]
+    },
+    "prettynature.official": {
+      "obs_count": 111,
+      "arabic_pct": 82,
+      "voice": "natural_ingredients_advocate",
+      "tone": "proud_scientific_warm",
+      "arabic_style": "saudi_beauty_clean",
+      "signature_phrases": [
+        "فائز بجائزة Beauty Shortlist",
+        "معتمد من أفضل خبراء العناية",
+        "تجديد طبيعي",
+        "مكونات منعشة"
+      ],
+      "proven_openers": [
+        "مرطب",
+        "فخورين",
+        "زيت",
+        "إذا",
+        "دللي",
+        "زبدة",
+        "خلي بشرتك"
+      ],
+      "real_hooks": [
+        "مرطب الشفاه بالكرز — فائز بجائزة Beauty Shortlist Awards 2023! 🏆",
+        "خلي بشرتك تعيش التجديد الطبيعي! سيروم باكوتشيول غني بمضادات الأكسدة",
+        "فخورين ببلادنا وهي تستعد لاستضافة أكبر حدث كروي في العالم 🇸🇦",
+        "قد ما كانت بشرتك مرهقة، ماسك الورد من بريتي نيتشر ينقذها! 🌸"
+      ],
+      "high_engagement_style": "Award credentials as social proof (فائز بجائزة X). Ingredient storytelling (باكوتشيول/الورد/الكرز). National pride moments woven into beauty context. Problem → solution structure ('قد ما كانت بشرتك مرهقة... ينقذها').",
+      "hashtag_signature": [
+        "#prettynature",
+        "#الطبيعية",
+        "#طبيعي"
+      ],
+      "emoji_signature": [
+        "🍃",
+        "🏆",
+        "🌸",
+        "🇸🇦"
+      ],
+      "avoid_patterns": [
+        "synthetic/chemical focus",
+        "generic beauty clichés (ناعمة/جميلة without specifics)",
+        "celebrity-driven language — this brand is ingredient-first",
+        "harsh promotion without ingredient context"
+      ]
+    },
+    "asteribeautysa": {
+      "obs_count": 172,
+      "arabic_pct": 69,
+      "voice": "professional_studio_beauty",
+      "tone": "elevated_artsy_bilingual",
+      "arabic_style": "bilingual_beauty_arabic_english",
+      "signature_phrases": [
+        "إطلالة تستحق الأضواء",
+        "ثلاث درجات. ثلاث مزاجات.",
+        "لمسة مضيئة"
+      ],
+      "proven_openers": [
+        "شاهدوا",
+        "إطلالة",
+        "ثلاث درجات",
+        "💋 شفاه ممتلئة",
+        "👄 نوع جديد"
+      ],
+      "real_hooks": [
+        "ثلاث درجات. ثلاث مزاجات. ✨ هوس واحد بتركيبة غنية بمكونات منعشة",
+        "💋 شفاه ممتلئة… بدون فيلر — تركيبة غنية بزيت النعناع",
+        "إطلالة تستحق الأضواء ✨ — منتجاتنا المفضلة بلمسة الفنانين المبدعين",
+        "شاهدوا @nani_s_makeup تضيف اللمسات الأخيرة لإطلالتها ✨"
+      ],
+      "high_engagement_style": "Influencer tagging + product tie-in. Short punchy Arabic mirror of English caption. Studio/artistry positioning. Before/after implicit (without showing skin). Product focus: lip, skin.",
+      "hashtag_signature": [
+        "#ليلة_أصالة",
+        "#موسم_الرياض"
+      ],
+      "emoji_signature": [
+        "💄",
+        "🤍",
+        "🌙",
+        "👄"
+      ],
+      "avoid_patterns": [
+        "casual everyday language — Astéri is elevated studio",
+        "price/discount focus",
+        "long explanatory text",
+        "purely English (bilingual is the brand DNA)"
+      ]
     }
   },
   "visual_intelligence": {

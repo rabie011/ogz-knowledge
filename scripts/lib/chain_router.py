@@ -172,16 +172,37 @@ def fill_prompt(
     }
     bd = brand_display or _brand_ar.get(brand.lower(), brand)
 
-    # Known brand signatures — for food_descriptor / packaging_descriptor vars
+    # Known brand signatures — for food_descriptor / packaging_descriptor / product_descriptor vars
     _brand_food_sig = {
-        "albaik":         "بروستد الدجاج في علبة البيك الخضراء مع الصلصة",
-        "barnscoffee":    "قهوة عربية مخصصة مع كرواسون محمر",
-        "mcdonaldsksa":   "برغر ماك مع البطاطس المقرمشة والصلصة",
-        "shawarmersa":    "شاورما لحم في خبز رقيق مع الصلصات",
-        "altazaj_fakieh": "دجاج مشوي طازج مع الأرز وسلطة التبولة",
-        "herfyfsc":       "وجبة هرفي من الدجاج المقلي",
-        "aseeb.najd":     "قهوة نجدية فاخرة مع تمر",
-        "kiabiksa":       "وجبة كيابي مع الأرز البسمتي",
+        # F&B
+        "albaik":                 "بروستد الدجاج في علبة البيك الخضراء مع الصلصة",
+        "barnscoffee":            "قهوة عربية مخصصة مع كرواسون محمر طازج",
+        "mcdonaldsksa":           "برغر ماك مع البطاطس المقرمشة والصلصة الخاصة",
+        "shawarmersa":            "شاورما لحم في خبز رقيق طازج مع الصلصات",
+        "altazaj_fakieh":         "دجاج مشوي طازج مع الأرز وسلطة التبولة",
+        "herfyfsc":               "وجبة هرفي من الدجاج المقلي المقرمش",
+        "aseeb.najd":             "قهوة نجدية فاخرة محضّرة بالطريقة التقليدية مع تمر",
+        "alromansiahksa":         "سمك طازج مشوي على الفحم مع الأرز والصلصة الحارة",
+        "elixirbunn":             "قهوة إليكسير المختصة مع حلويات طازجة",
+        "hashibasha":             "مشاوي حطابية مع أرز بخاري وخبز رقيق",
+        "kuduksa":                "كبسة دجاج بيتية تقليدية بالتوابل السعودية",
+        "pizzahutsaudi":          "بيتزا هت بالجبنة الموتزاريلا والإضافات الحصرية",
+        "riyadhfood":             "أطباق الرياض الشهية والمطابخ المتنوعة",
+        # Fashion
+        "maxfashionmena":         "تشكيلة ماكس الموسمية الحصرية بأسعار مناسبة",
+        "kiabiksa":               "قطع كيابي العائلية الملوّنة بأسعار مناسبة",
+        # Beauty & Personal Care
+        "mikyajy":                "مكياجي للمكياج الفاخر والعناية بالبشرة",
+        "niceonesa":              "نايس ون لمنتجات الشعر والعناية اليومية",
+        "ajmalperfumes":          "عطر عجمل الفاخر بنفحات عربية أصيلة",
+        "asteribeautysa":         "أستيري للعناية بالبشرة بمكونات طبيعية فاخرة",
+        "bathandbodyworksarabia": "باث آند بودي ووركس العطور وكريمات اليدين",
+        "prettynature.official":  "بريتي نيتشر للعناية الطبيعية بالبشرة والعطور",
+        # Retail & Lifestyle
+        "noon":                   "منتجات نون بتوصيل سريع وأسعار تنافسية",
+        "pandasaudi":             "منتجات بندة الطازجة والعروض اليومية",
+        "tamimimarkets":          "مواد غذائية طازجة ومنتجات التميمي المختارة",
+        "mumzworld":              "منتجات الأمومة والأطفال من ممزورلد",
     }
 
     # Sector-specific product fallbacks — used when product input = brand name or empty

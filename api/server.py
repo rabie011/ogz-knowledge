@@ -1806,10 +1806,18 @@ def cross_pairs(model_a: str = "humain", model_b: str = "gpt-4o", technique: str
     compared = {c["brief_key"] for c in prefs.get("comparisons", [])
                 if c.get("model_a") == model_a and c.get("model_b") == model_b}
 
-    # Filter: both models must have at least one non-empty caption option
+    # Filter: at least one option must have real Arabic content (not parse-failure garbage)
     def _has_valid_cap(item):
+        import re as _re
         opts = item.get("options", {})
-        return any(v and len(str(v).strip()) > 10 for v in (opts.values() if isinstance(opts, dict) else []))
+        for v in (opts.values() if isinstance(opts, dict) else []):
+            text = str(v).strip() if v else ""
+            if len(text) < 10: continue
+            # Must contain ≥2 Arabic words of length 3+ (catches "ب. . ج. . هـ." failures)
+            arabic_words = _re.findall(r'[؀-ۿ]{3,}', text)
+            if len(arabic_words) >= 2:
+                return True
+        return False
 
     overlap = [
         k for k in items_a

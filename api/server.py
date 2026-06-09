@@ -1806,9 +1806,27 @@ def cross_pairs(model_a: str = "humain", model_b: str = "gpt-4o", technique: str
     compared = {c["brief_key"] for c in prefs.get("comparisons", [])
                 if c.get("model_a") == model_a and c.get("model_b") == model_b}
 
-    overlap = [k for k in items_a if k in items_b and k not in compared]
+    # Filter: both models must have at least one non-empty caption option
+    def _has_valid_cap(item):
+        opts = item.get("options", {})
+        return any(v and len(str(v).strip()) > 10 for v in (opts.values() if isinstance(opts, dict) else []))
+
+    overlap = [
+        k for k in items_a
+        if k in items_b and k not in compared
+        and _has_valid_cap(items_a[k]) and _has_valid_cap(items_b[k])
+    ]
     if not overlap:
         return {"done": True, "remaining": 0}
+
+    # Sort by score gap (highest gap = clearest DPO signal = review first)
+    def _gap(k):
+        sa = items_a[k].get("scores", {})
+        sb = items_b[k].get("scores", {})
+        ma = max((v for v in sa.values() if isinstance(v, (int, float))), default=0)
+        mb = max((v for v in sb.values() if isinstance(v, (int, float))), default=0)
+        return abs(ma - mb)
+    overlap.sort(key=_gap, reverse=True)
 
     key = overlap[0]
     ia = items_a[key]

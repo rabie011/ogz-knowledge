@@ -1142,6 +1142,43 @@ def create_content(req: CreateRequest):
     brand_sig = intel.get('brand_profiles', {}).get(req.brand, {}).get('signature_phrases', [])
     hashtag_str = ' '.join(brand_sig[:2]) if brand_sig else f'#{req.brand}'
 
+    # Brand-specific caption intelligence — inject voice/openers/avoid into prompt
+    # Handles both new format (v4.2: voice/tone/arabic_style) and old format (auto-extracted)
+    cap_intel = intel.get('caption_intelligence', {}).get(req.brand, {})
+    brand_voice_block = ""
+    if cap_intel:
+        arabic_style = cap_intel.get('arabic_style', '')
+        voice = cap_intel.get('voice', '') or cap_intel.get('high_engagement_style', '')[:80]
+        # proven_openers: new format = designed hooks; old format = raw Instagram starters
+        # Strip Unicode bidirectional/invisible control chars from auto-extracted openers
+        import re as _re
+        _ctrl_re = _re.compile('[\u200B-\u200F\u202A-\u202E\u2060-\u2069\uFEFF\t]')
+        raw_openers = cap_intel.get('proven_openers', [])
+        openers = [_ctrl_re.sub('', str(o)).strip() for o in raw_openers[:3]]
+        openers = [o for o in openers if len(o) > 5][:3]
+        # New format fields
+        hooks = [h[:80] for h in cap_intel.get('real_hooks', [])[:1] if h]
+        sigs = [s for s in cap_intel.get('signature_phrases', [])[:3] if s]
+        avoid_new = [a for a in cap_intel.get('avoid_patterns', [])[:2] if a]
+        # Old format fallbacks
+        avoid_old = [a for a in cap_intel.get('avoid_topics', [])[:2] if a]
+        avoids = avoid_new or avoid_old
+        opt_len = cap_intel.get('optimal_length', '')
+        # Prescription format (pizzahutsaudi-style)
+        prescription = [p[:60] for p in cap_intel.get('prescription', [])[:2] if p]
+
+        parts = []
+        if arabic_style: parts.append(f"اللهجة: {arabic_style.replace('_', ' ')}")
+        if voice: parts.append(f"الصوت: {voice.replace('_', ' ')}")
+        if openers: parts.append(f"بدايات مثبتة: {' | '.join(str(o)[:50] for o in openers)}")
+        if hooks: parts.append(f"خطاف: {hooks[0]}")
+        if sigs: parts.append(f"عبارات مميزة: {' | '.join(sigs)}")
+        if avoids: parts.append(f"تجنب: {' | '.join(str(a)[:40] for a in avoids)}")
+        if prescription: parts.append(f"توجيه: {' | '.join(prescription)}")
+        if opt_len: parts.append(f"الطول المثالي: {opt_len}")
+        if parts:
+            brand_voice_block = "\n" + "\n".join(parts)
+
     # Brand Arabic display names — what appears in the prompt and caption
     _BRAND_AR = {
         'albaiik': 'البيك', 'albaik': 'البيك',
@@ -1229,7 +1266,7 @@ def create_content(req: CreateRequest):
 
 <BRAND>
 العلامة: {brand_display} | القطاع: {sector} | المنتج: {req.product} | المناسبة: {req.occasion}
-الهاشتاقات: {hashtag_str}
+الهاشتاقات: {hashtag_str}{brand_voice_block}
 </BRAND>
 
 <TASK>

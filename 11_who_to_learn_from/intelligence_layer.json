@@ -4891,6 +4891,67 @@
         "#أوناس"
       ],
       "caption_format": "headline_colon_body"
+    },
+    "_sector_healthcare_wellness": {
+      "_type": "sector_fallback",
+      "_sector": "healthcare_wellness",
+      "voice": "reassuring_motivator",
+      "tone": "calm_empowering",
+      "arabic_style": "msa_with_warm_direct",
+      "high_engagement_style": "Personal transformation story. Achievable goal framing. Vision 2030 health = national pride. No medical claims. Results-oriented language.",
+      "proven_openers": [
+        "ابدأ رحلتك اليوم",
+        "صحتك هي استثمارك الأول",
+        "ما ينقصك إلا الخطوة الأولى",
+        "كل يوم أفضل من اللي قبله",
+        "قرار صغير، تغيير كبير"
+      ],
+      "real_hooks": [
+        "صحتك هي أغلى ما تملك — استثمر فيها قبل أي شيء"
+      ],
+      "signature_phrases": [
+        "رحلة العافية",
+        "نمط حياة صحي",
+        "قوة الإرادة"
+      ],
+      "avoid_patterns": [
+        "medical claims or treatment promises",
+        "before/after with implied outcomes",
+        "alarmist or fear-based language",
+        "comparison of bodies or weight"
+      ],
+      "optimal_length": "80-150 chars",
+      "notes": "Sector fallback — used when no brand-specific entry. Vision 2030 health pillar context."
+    },
+    "_sector_fashion": {
+      "_type": "sector_fallback",
+      "_sector": "fashion",
+      "voice": "aspirational_saudi_chic",
+      "tone": "elegant_confident",
+      "arabic_style": "msa_with_najdi_aspiration",
+      "high_engagement_style": "Visual-led caption. Short punchy opener + product detail. Occasion tie-in. Modest fashion celebrated. Luxury framing even for mid-range brands.",
+      "proven_openers": [
+        "طلّتك هذا الموسم",
+        "إطلالة تستحق",
+        "الأناقة تبدأ من هنا",
+        "اختيارك يعكس شخصيتك",
+        "من أجمل اللحظات"
+      ],
+      "real_hooks": [
+        "طلّتك هذا الموسم تستحق كل الاهتمام"
+      ],
+      "signature_phrases": [
+        "تألقي",
+        "بأسلوبك",
+        "إطلالة مميزة"
+      ],
+      "avoid_patterns": [
+        "body-focused language (size, shape)",
+        "revealing clothing language",
+        "aggressive discount language without style context"
+      ],
+      "optimal_length": "100-200 chars",
+      "notes": "Sector fallback — used when no brand-specific entry. Saudi modest fashion + aspiration context."
     }
   },
   "visual_intelligence": {
@@ -5600,6 +5661,18 @@
     "kyancafe": {
       "flag": "WRONG_DIALECT",
       "reason": "177 posts, mostly Iraqi Arabic (not Saudi Najdi). Strong engagement but wrong market voice."
+    },
+    "gissahperfumes": {
+      "flag": "ENGLISH_ONLY",
+      "reason": "17 raw posts, 0 Arabic. Perfume brand, English-only. Already had NO_ARABIC flag in brand_profiles."
+    },
+    "lifestyleshops": {
+      "flag": "ENGLISH_ONLY",
+      "reason": "17 raw posts, 0 Arabic. Lifestyle/retail, English-only."
+    },
+    "randbfashion": {
+      "flag": "ENGLISH_ONLY",
+      "reason": "31 raw posts, 0 Arabic. Fashion brand, English-only."
     }
   }
 }

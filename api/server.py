@@ -1185,8 +1185,9 @@ def create_content(req: CreateRequest):
     hashtag_str = ' '.join(brand_sig[:2]) if brand_sig else f'#{req.brand}'
 
     # Brand-specific caption intelligence — inject voice/openers/avoid into prompt
-    # Handles both new format (v4.2: voice/tone/arabic_style) and old format (auto-extracted)
-    cap_intel = intel.get('caption_intelligence', {}).get(req.brand, {})
+    # Falls back to sector-level entry (_sector_X) when no brand entry exists
+    _ci_all = intel.get('caption_intelligence', {})
+    cap_intel = _ci_all.get(req.brand, {}) or _ci_all.get(f'_sector_{sector}', {})
     brand_voice_block = ""
     if cap_intel:
         arabic_style = cap_intel.get('arabic_style', '')

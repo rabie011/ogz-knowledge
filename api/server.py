@@ -1092,6 +1092,7 @@ class CreateRequest(BaseModel):
     brand: str
     product: str
     occasion: str = 'evergreen'
+    language: str = 'arabic'  # 'arabic' | 'english'
 
 @app.post("/api/create")
 def create_content(req: CreateRequest):
@@ -1276,13 +1277,23 @@ def create_content(req: CreateRequest):
 ← الصحيح: لحظة سلوكية حقيقية خاصة بهذا المنتج تحديداً — مو قالب يصلح لأي منتج""" + _get_learned_lines('ج'),
     }
     technique_block = _V3_TECHNIQUES[tech_letter]
+    is_english = getattr(req, 'language', 'arabic').lower() == 'english'
 
     # V3 Prompt — 4-block XML structure
-    prompt = f"""<RED_LINES>
+    if is_english:
+        red_lines_block = f"""<RED_LINES>
+Forbidden: beds, removing clothing/hijab, exploiting fear or weakness.
+Forbidden: placing religious (Ramadan, Eid) or national (National Day, Founding Day) occasions in a waiting position for the product.
+Always: natural Saudi/Gulf tone in English. Max {max_chars} characters. No Arabic.
+</RED_LINES>"""
+    else:
+        red_lines_block = f"""<RED_LINES>
 ممنوع: السرير، خلع الملابس أو الحجاب، استغلال ضعف الناس أو خوفهم.
 ممنوع: وضع مناسبة دينية (رمضان، العيد) أو وطنية (اليوم الوطني، يوم التأسيس) في موقع الانتظار للمنتج.
 دائماً: لهجة سعودية طبيعية. حد أقصى {max_chars} حرف. بدون إنجليزي.
-</RED_LINES>
+</RED_LINES>"""
+
+    prompt = f"""{red_lines_block}
 
 <TECHNIQUES>
 {technique_block}
@@ -1294,11 +1305,11 @@ def create_content(req: CreateRequest):
 </BRAND>
 
 <TASK>
-اكتب 3 كابشنات — كل واحد يطبّق التقنية بطريقة مختلفة.
-كل كابشن: حد أقصى {max_chars} حرف. نص فقط — بدون علامات اقتباس، بدون شرح، بدون رقم، بدون اسم التقنية.
-البنية اللغوية لكل خيار يجب أن تختلف — لا تنسخ نفس القالب ثلاث مرات بكلمات مختلفة.
-الكلمات المطلوبة للمناسبة (يجب أن تظهر في أحد الكابشنات على الأقل): {occ_words_str}
-ثم اختر الأقوى وضعه في السطر الأخير بعد كلمة: الأفضل:
+{"Write 3 captions — each applying the technique differently." if is_english else "اكتب 3 كابشنات — كل واحد يطبّق التقنية بطريقة مختلفة."}
+{"Each caption: max " + str(max_chars) + " characters. Plain text only — no quotes, no explanation, no numbering." if is_english else "كل كابشن: حد أقصى " + str(max_chars) + " حرف. نص فقط — بدون علامات اقتباس، بدون شرح، بدون رقم، بدون اسم التقنية."}
+{"Each caption must use a different sentence structure." if is_english else "البنية اللغوية لكل خيار يجب أن تختلف — لا تنسخ نفس القالب ثلاث مرات بكلمات مختلفة."}
+{"Occasion vocabulary required (at least one caption must include one of): " + occ_words_str if is_english else "الكلمات المطلوبة للمناسبة (يجب أن تظهر في أحد الكابشنات على الأقل): " + occ_words_str}
+{"Then choose the strongest and place it on the last line after: Best:" if is_english else "ثم اختر الأقوى وضعه في السطر الأخير بعد كلمة: الأفضل:"}
 </TASK>"""
 
     import openai

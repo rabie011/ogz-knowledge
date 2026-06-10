@@ -29,6 +29,8 @@ LOG_DIR = BASE / "logs"
 
 # Inject scripts/ into path so we can import from humain_collector
 sys.path.insert(0, str(BASE / "scripts"))
+from v5_prompt import build_messages_v5
+from caption_filter import filter_options
 from humain_collector import (
     build_prompt,
     parse_response,
@@ -96,7 +98,7 @@ def _load_env() -> dict:
 _ENV = _load_env()
 
 
-async def _call_gpt4o(prompt: str, semaphore: asyncio.Semaphore) -> str:
+async def _call_gpt4o(prompt, semaphore: asyncio.Semaphore) -> str:
     import openai
     client = openai.AsyncOpenAI(api_key=_ENV.get("OPENAI_API_KEY", ""))
     async with semaphore:
@@ -104,7 +106,7 @@ async def _call_gpt4o(prompt: str, semaphore: asyncio.Semaphore) -> str:
             try:
                 resp = await client.chat.completions.create(
                     model="gpt-4o",
-                    messages=[{"role": "user", "content": prompt}],
+                    messages=(prompt if isinstance(prompt, list) else [{"role": "user", "content": prompt}]),
                     temperature=0.9,
                     max_tokens=800,
                 )
@@ -145,16 +147,23 @@ async def _call_gemini(prompt: str, semaphore: asyncio.Semaphore) -> str:
     return ""
 
 
-async def _call_claude(prompt: str, semaphore: asyncio.Semaphore) -> str:
+async def _call_claude(prompt, semaphore: asyncio.Semaphore) -> str:
     import anthropic
     client = anthropic.AsyncAnthropic(api_key=_ENV.get("ANTHROPIC_API_KEY", ""))
+    if isinstance(prompt, list):  # V5 doctrine: messages with system + few-shot pairs
+        system = "\n".join(m["content"] for m in prompt if m["role"] == "system")
+        msgs = [m for m in prompt if m["role"] != "system"]
+        kwargs = {"system": system, "messages": msgs}
+    else:
+        kwargs = {"messages": [{"role": "user", "content": prompt}]}
     async with semaphore:
         for attempt in range(MAX_RETRIES):
             try:
                 resp = await client.messages.create(
                     model="claude-sonnet-4-6",
                     max_tokens=800,
-                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.9,
+                    **kwargs,
                 )
                 return resp.content[0].text or ""
             except Exception as e:
@@ -180,8 +189,13 @@ def _log(msg: str):
 
 async def _collect_brief(brief: dict, model: str, semaphore: asyncio.Semaphore) -> dict | None:
     caller = _CALLERS[model]
-    prompt = build_prompt(brief)
-    _log(f"  → {model}: {brief['brand']} × {brief['occasion']}")
+    # V5 doctrine path: messages w/ DNA few-shot when the brand has DNA v2
+    from humain_collector import MAX_CHARS, OCCASION_AR
+    _max = MAX_CHARS.get(brief["sector"], 160)
+    _occ = OCCASION_AR.get(brief.get("occasion",""), brief.get("occasion",""))
+    prompt = build_messages_v5(brief, _occ, _max) or build_prompt(brief)
+    _v5 = isinstance(prompt, list)
+    _log(f"  → {model}{' [V5]' if _v5 else ''}: {brief['brand']} × {brief['occasion']}")
     try:
         raw = await caller(prompt, semaphore)
     except Exception as e:
@@ -189,6 +203,23 @@ async def _collect_brief(brief: dict, model: str, semaphore: asyncio.Semaphore) 
         return None
 
     parsed = parse_response(raw)
+    # DOCTRINE: bans live here, not in the prompt — filter + one regeneration
+    survivors, dropped = filter_options(parsed["options"])
+    if dropped:
+        _log(f"    filter dropped {list(dropped)}: {[r for rs in dropped.values() for r in rs]}")
+    if len(survivors) < 2:
+        try:
+            raw2 = await caller(prompt, semaphore)
+            parsed2 = parse_response(raw2)
+            s2, d2 = filter_options(parsed2["options"])
+            if len(s2) > len(survivors):
+                parsed, survivors, dropped = parsed2, s2, d2
+        except Exception:
+            pass
+    parsed["options"] = survivors
+    if parsed.get("best") and not filter_options({"x": parsed["best"]})[0]:
+        parsed["best"] = next(iter(survivors.values()), "")
+    parsed["v5_dropped"] = dropped
     n_opts = len([v for v in parsed["options"].values() if v and len(v) > 5])
     div_ok = _diversity_ok(parsed["options"])
 
@@ -205,12 +236,12 @@ async def _collect_brief(brief: dict, model: str, semaphore: asyncio.Semaphore) 
             if cap and len(cap) > 5:
                 first_words.append(cap.split()[0].strip("؟!.،-"))
         banned_openers = " / ".join(set(first_words))
-        variation_prompt = prompt + f"""
-
----
-المشكلة: الكابشنات تبدأ بكلمات متشابهة ({banned_openers}).
-أعد الكتابة — لازم كل كابشن يبدأ بكلمة مختلفة تماماً عن البقية.
-"""
+        _vary_note = f"""المشكلة: الكابشنات تبدأ بكلمات متشابهة ({banned_openers}).
+أعد الكتابة — لازم كل كابشن يبدأ بكلمة مختلفة تماماً عن البقية."""
+        if isinstance(prompt, list):  # V5 messages — append as a new user turn
+            variation_prompt = prompt + [{"role": "user", "content": _vary_note}]
+        else:
+            variation_prompt = prompt + "\n\n---\n" + _vary_note
         try:
             raw2 = await caller(variation_prompt, semaphore)
             parsed2 = parse_response(raw2)

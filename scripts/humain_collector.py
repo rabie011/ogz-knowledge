@@ -39,6 +39,11 @@ SECTOR_AR = {
 }
 
 OCCASION_AR = {
+    "new_product": "إطلاق منتج جديد",
+    "weekly_offer": "عرض الأسبوع",
+    "new_branch": "افتتاح فرع جديد",
+    "daily_post": "منشور يومي عادي",
+
     "national_day":   "اليوم الوطني",
     "ramadan":        "رمضان",
     "eid_al_fitr":    "عيد الفطر",

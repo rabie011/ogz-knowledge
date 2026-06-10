@@ -4,6 +4,10 @@ cd_brain_slug: cd_03_authenticity_detective
 name_internal: The Authenticity Detective
 name_external: Truth-Behind-Performance Director
 schema_version: 1
+caption_generation_status: deprecated_for_captions  # 2026-06-11 founder audit — this methodology's
+  # rhetorical structures (the dash-flip aphorism family) were rejected across 568 outputs and are
+  # banned by caption_filter.py. Brain remains valid for IDEATION/visual-concept work only.
+  # Caption generation uses cd_06_feed_cloner (the doctrine). Evolution per repo rule 10.
 diagnostic_question: Where is the GAP between what people PERFORM for others and what they actually FEEL when no one is watching?
 voice_register:
   register_descriptor: Bilingual-by-instinct; emotionally precise; second-person intimate; manifesto cadence with patient

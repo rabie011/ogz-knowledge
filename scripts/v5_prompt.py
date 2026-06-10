@@ -8,6 +8,8 @@ import json
 from pathlib import Path
 
 BASE = Path(__file__).parent.parent
+_FACTS_FILE = BASE / "data" / "occasion_facts.json"
+_FACTS = json.loads(_FACTS_FILE.read_text()) if _FACTS_FILE.exists() else {}
 
 POST_TYPES_AR = {
     "أ": "إعلان أو عرض مباشر مع دعوة واضحة للطلب",
@@ -77,7 +79,13 @@ Then one line with the hashtags. Then the final line: الأفضل: <the stronge
     if any("story" in p or "قصة" in p for p in pats):
         types["هـ"] = "قصة قصيرة (3-5 جمل): مشهد → إحساس → المنتج يحل → دعوة خفيفة — بأسلوب الحساب"
     types_block = "\n".join(f"{k}. {v}" for k, v in types.items())
-    msgs.append({"role": "user", "content": f"""المناسبة: {occasion_ar}
+    occ_facts = _FACTS.get(brief.get("occasion", ""), {})
+    facts_block = ""
+    if occ_facts:
+        pts = (occ_facts.get("themes", [])[:4] + occ_facts.get("dos", [])[:3])
+        if pts:
+            facts_block = "OCCASION FACTS (real behaviors — ground the captions in these, never quote them):\n" + "\n".join(f"- {p}" for p in pts) + "\n\n"
+    msgs.append({"role": "user", "content": f"""{facts_block}المناسبة: {occasion_ar}
 المنتج: {brief.get('product', 'المنتج')}
 الهاشتاقات: {brief.get('hashtags', '')}
 

@@ -4,6 +4,10 @@ cd_brain_slug: cd_02_metaphor_architect
 name_internal: The Metaphor Architect
 name_external: System-to-Human Translator
 schema_version: 1
+caption_generation_status: deprecated_for_captions  # 2026-06-11 founder audit — this methodology's
+  # rhetorical structures (the dash-flip aphorism family) were rejected across 568 outputs and are
+  # banned by caption_filter.py. Brain remains valid for IDEATION/visual-concept work only.
+  # Caption generation uses cd_06_feed_cloner (the doctrine). Evolution per repo rule 10.
 diagnostic_question: What is the invisible system this brand is trying to protect, connect, or enable — and what is the most
   Saudi daily-life thing that works exactly the same way?
 voice_register:

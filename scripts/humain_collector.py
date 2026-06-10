@@ -164,7 +164,7 @@ def _build_brand_block(brief: dict, sector_ar: str, occasion_ar: str) -> str:
     ctx = brief.get("brand_context", {})
     lines = [f"العلامة: {brief['brand']} | القطاع: {sector_ar} | المنتج: {brief['product']} | المناسبة: {occasion_ar}"]
     if brief.get("occasion_tension"):
-        lines.append(f"التوتر الإبداعي: {brief['occasion_tension']}")
+        pass  # occasion_tension DEPRECATED 2026-06-11 — poetry seed poisoned generations (founding-day "أجداد" caption traced to it). Occasion FACTS injected via V5 path instead.
 
     if ctx.get("bio_tagline"):
         lines.append(f"شعار العلامة: \"{ctx['bio_tagline']}\"")

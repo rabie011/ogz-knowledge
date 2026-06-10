@@ -4,6 +4,10 @@ cd_brain_slug: cd_05_paradox_hunter
 name_internal: The Paradox Hunter
 name_external: Counterintuitive-Mechanism Director
 schema_version: 1
+caption_generation_status: deprecated_for_captions  # 2026-06-11 founder audit — this methodology's
+  # rhetorical structures (the dash-flip aphorism family) were rejected across 568 outputs and are
+  # banned by caption_filter.py. Brain remains valid for IDEATION/visual-concept work only.
+  # Caption generation uses cd_06_feed_cloner (the doctrine). Evolution per repo rule 10.
 diagnostic_question: What is the PARADOX? What's the counterintuitive truth hiding in the brief that makes the obvious answer
   wrong?
 voice_register:

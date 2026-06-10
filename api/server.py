@@ -2000,6 +2000,9 @@ async def cross_prefer(request: Request):
         "loser_model":    loser,
         "winner_caption": win_cap,
         "loser_caption":  lose_cap,
+        # June 10: founder review upgrade — "both bad" verdict + 1-5 winner rating
+        "verdict":        body.get("verdict", ""),       # "" | "both_bad"
+        "rating":         body.get("rating", None),       # 1-5 of the winner (None = unrated)
         "timestamp":      datetime.now().isoformat(),
     })
     _CROSS_PREFS_FILE.write_text(json.dumps(prefs, ensure_ascii=False, indent=2))

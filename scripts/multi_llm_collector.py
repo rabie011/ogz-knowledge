@@ -16,6 +16,8 @@ Usage:
 
 import asyncio
 import argparse
+
+FORCE_RECOLLECT = False
 import json
 import re
 import sys
@@ -254,6 +256,8 @@ async def _collect_brief(brief: dict, model: str, semaphore: asyncio.Semaphore) 
 async def collect_model(model: str, briefs: list, batch: int | None = None, dry_run: bool = False):
     q = _load_queue(model)
     already = _collected_keys(q)
+    if globals().get("FORCE_RECOLLECT"):
+        already = set()
 
     remaining = [b for b in briefs if f"{b['brand']}|{b['occasion']}" not in already]
     if batch:
@@ -407,6 +411,10 @@ def main():
                         help="Which model(s) to collect from")
     parser.add_argument("--batch", type=int, default=None,
                         help="Limit to N new briefs (default: all remaining)")
+    parser.add_argument("--brand", type=str, default=None,
+                        help="Only collect briefs for this brand_en (e.g. albaik)")
+    parser.add_argument("--force", action="store_true",
+                        help="Re-collect even if brief already in queue (V4 testing)")
     parser.add_argument("--dry-run", action="store_true", help="Print prompts, no API calls")
     parser.add_argument("--report", action="store_true", help="Show quality report")
     parser.add_argument("--recollect-bad", action="store_true",
@@ -426,6 +434,12 @@ def main():
         return
 
     briefs = json.loads((BASE / "data/brief_matrix.json").read_text())
+    if args.brand:
+        briefs = [b for b in briefs if b.get("brand_en") == args.brand]
+        print(f"--brand {args.brand}: {len(briefs)} briefs")
+    if args.force:
+        global FORCE_RECOLLECT
+        FORCE_RECOLLECT = True
 
     if args.report:
         models = ["gpt-4o", "gemini", "claude"] if model == "all" else [model]

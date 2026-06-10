@@ -281,72 +281,77 @@ def _get_occasion_words(occasion: str) -> str:
         return ''
 
 
+
+def _load_brand_exemplars(brand_en: str, n: int = 6) -> list[dict]:
+    """V4 feed-mind: the brand's REAL top-engagement captions from the raw archive.
+    Engagement-first, then diversity (top 4 by likes + 2 mid-list), per consult 2026-06-10."""
+    import glob as _glob
+    base = Path(__file__).parent.parent / "11_who_to_learn_from" / "_raw_archive" / brand_en
+    files = sorted(_glob.glob(str(base / "*" / "*apify_raw.jsonl")), reverse=True)
+    if not files:
+        return []
+    posts = []
+    for line in open(files[0], encoding="utf-8"):
+        try:
+            p = json.loads(line)
+        except Exception:
+            continue
+        cap = (p.get("caption") or "").strip()
+        if len(cap) < 6:
+            continue
+        # require real Arabic content
+        if len(re.findall(r"[\u0600-\u06FF]{2,}", cap)) < 1:
+            continue
+        posts.append({"caption": cap[:220], "likes": int(p.get("likesCount") or 0)})
+    posts.sort(key=lambda x: x["likes"], reverse=True)
+    # dedupe near-identical (same first 25 chars)
+    seen, out = set(), []
+    for p in posts:
+        k = p["caption"][:25]
+        if k in seen:
+            continue
+        seen.add(k)
+        out.append(p)
+    top = out[:4]
+    mid = out[len(out)//3 : len(out)//3 + max(0, n - len(top))]
+    return (top + mid)[:n]
+
+
 def build_prompt(brief: dict) -> str:
-    import sys; sys.path.insert(0, str(Path(__file__).parent))
-    try:
-        from routing_manager import get_route, ALL_TECHNIQUES as _ALL
-        route = get_route(brief["sector"], brief.get("occasion", ""))
-    except Exception:
-        route = None
-
-    active_keys = route if route else ALL_KEYS
-    key_list    = "، ".join(active_keys)
-    n_options   = len(active_keys)
-
-    # Build techniques block — only include active techniques
-    FULL_BLOCKS = {
-        "أ": """أ. Paradox Hunter — قلب التوقع: جملة خبرية تعكس توقع الناس أو تنفي الافتراض
-← الافتتاح: جملة خبرية مفاجئة / نفي يكشف مفارقة / سؤال يقلب الفرضية
-← ممنوع تماماً: تبدأ بـ "لمّا" أو "إذا" أو "تخيل" (هذه لتقنيات أخرى)
-← ممنوع تماماً: تبدأ باسم العلامة أو المنتج
-← ناجح: "قهوة تصحيك — حتى قبل ما تشربها"
-← ناجح: "التوفير اللي ما يحتاج تفكر مرتين"
-← ناجح: "ما كل عيد يحتاج هدية — بس كل عيد يحتاج طعم"
-← فاشل: "استمتع" / "لا تفوت" / "أجواء مميزة" / "عرض لفترة محدودة"
-← ممنوع: "[المنتج] اللي ما ينتظر [المناسبة]" — المناسبة لا تنتظر المنتج""",
-
-        "ب": "__HERITAGE_BLOCK__",
-
-        "ج": """ج. Firaasa — لحظة سلوكية حقيقية تبدأ بـ "اللي" أو فعل مضارع
-← الافتتاح: "اللي..." أو فعل مضارع يصف سلوكاً محدداً
-← ممنوع تماماً: تبدأ بـ "لمّا" أو "إذا" (هذه لتقنيات أخرى)
-← الصحيح: لحظة سلوكية خاصة بهذا المنتج — مو قالب يصلح لأي علامة
-← ناجح: "يختارك البيك قبل ما تختاره — هذا هو الطعم"
-← ناجح: "اللي تفتح الباب لريحته — قبل ما تجلس"
-← ممنوع تماماً: "اللي يدور على X" كبداية — قالب مكرر 48 مرة في الكوربس
-← ممنوع تماماً: "الأم/الناس ما يدور على X — يدور على Y" — قالب مستهلك
-← فاشل: "في لحظة X، Y هو اللي..." — صياغة إعلانية مباشرة""",
-
-        "د": "د. Metaphor Architect — تشبيه إلزامي يبدأ بـ \"إذا\"\n← الافتتاح الإلزامي: \"إذا...\" فقط\n← ممنوع تماماً: تبدأ بـ \"تخيل معي\" — قالب مكرر 35 مرة في الكوربس\n← ممنوع تماماً: تبدأ بـ \"لمّا\" أو بجملة خبرية بدون تشبيه\n← الصحيح: كل عنصر في التشبيه يطابق عنصراً في الواقع\n← ناجح: \"إذا يومك طريق — القهوة هي اللي تحدد المسار\"\n← ناجح: \"إذا الصحة بنيان — العلامة هي الأساس اللي ما تشوفه بس تحسه\"\n← ناجح: \"إذا العيد مائدة — هذا الطعم هو الكرسي اللي ما أحد يقوم عنه\"\n← فاشل: \"المنتج = الحياة\" — استعارة فضفاضة بدون عمق\n← الصحيح: اربط المنتج بشيء يومي سعودي محدد",
-
-        "هـ": "هـ. Authenticity Detective — لحظة صادقة تبدأ دائماً بـ \"لمّا\"\n← الافتتاح الإلزامي: \"لمّا...\" (بالتشديد، مو \"لما\")\n← ممنوع تماماً: تبدأ بـ \"إذا\" أو \"تخيل\" أو جملة خبرية\n← الصحيح: لحظة إنسانية حقيقية ينكسر فيها الأداء — ليس مشاعر عامة\n← ناجح: \"لمّا الكلمات تضيع — الطعم يقولها\"\n← ناجح: \"لمّا الجوع أكبر من أي تفسير — البيك يفهم\"\n← ناجح: \"لمّا يكون العيد أكبر من الكلام — العلامة تكمّل الجملة\"\n← ممنوع: وصف مشاهد بصرية (غرف، ملابس، لحظات خاصة)\n← فاشل: مشاعر عامة (سعيد، حزين، مميز) — اكتب الحالة المحددة، مو اسمها",
-    }
-
-    # Inject sector-aware heritage block
-    FULL_BLOCKS["ب"] = _build_heritage_block(brief["sector"])
-
-    active_blocks = "\n\n".join(FULL_BLOCKS[k] for k in active_keys if k in FULL_BLOCKS)
-    learned_addition = _build_learned_addition()
+    """V4 — THE FEED MIND (2026-06-10, founder-approved redesign).
+    Principle: stop teaching rhetoric, start cloning feeds. The brand's real
+    top-engagement posts are the style spec; we own the structure (4 real post
+    types); hard voice contract from the fingerprint; the em-dash aphorism is
+    banned (documented AI-tell). Method: think→search→plan→check→consult→work.
+    Output format unchanged (أ./ب./ج./د. + hashtags + الأفضل) — parser-compatible."""
     max_chars   = MAX_CHARS.get(brief["sector"], 160)
     sector_ar   = SECTOR_AR.get(brief["sector"], brief["sector"])
     occasion_ar = OCCASION_AR.get(brief["occasion"], brief["occasion"])
     brand_block = _build_brand_block(brief, sector_ar, occasion_ar)
     hashtags    = brief.get("hashtags", "")
+    learned     = _build_learned_addition()
+    ctx         = brief.get("brand_context", {}) or {}
+    openers     = ctx.get("proven_openers", []) or []
+    openers_line = "، ".join(f"«{o}»" for o in openers[:6]) if openers else ""
 
-    routing_note = "" if not route else f"\n[الخبرة تقول: هذه التقنيات الأقوى لهذا القطاع والمناسبة]"
-    occ_words = _get_occasion_words(brief.get('occasion', ''))
-    occ_line = f"\n- الكلمات المطلوبة للمناسبة (يجب أن تذكرها أحد الكابشنات): {occ_words}" if occ_words else ""
+    # THE FEED — real exemplars, engagement-first
+    exemplars = _load_brand_exemplars(brief.get("brand_en", ""))
+    if exemplars:
+        feed_lines = "\n".join(
+            f"- ({e['likes']:,} إعجاب) {e['caption']}" for e in exemplars
+        )
+        feed_block = f"""<THE_FEED>
+منشورات حقيقية من حساب {brief['brand']} — الأعلى تفاعلاً عند جمهوره الفعلي.
+هذي هي الجودة والصوت والطول المطلوب. منشورك الجاي لازم يبدو أخوهم:
+{feed_lines}
+</THE_FEED>
+"""
+    else:
+        feed_block = ""
 
-    # Starter requirement per active technique
-    REQUIRED_STARTERS = {
-        "أ": "جملة خبرية مفاجئة (ممنوع: لمّا / إذا / تخيل)",
-        "ب": "الكلمة ذات المعنيين مباشرة (ممنوع: لمّا / إذا / اللي كأول كلمة)",
-        "د": "ابدأ بـ «إذا» فقط (ممنوع: تخيل معي)",
-        "ج": "ابدأ بـ «اللي» أو فعل مضارع",
-        "هـ": "ابدأ بـ «لمّا» (إلزامي)",
-    }
-    starter_lines = "\n".join(
-        f"  {k}: {REQUIRED_STARTERS[k]}" for k in active_keys if k in REQUIRED_STARTERS
+    opener_rule = (
+        f"\n- خيار واحد على الأقل يبدأ بافتتاحية مجرّبة من الحساب نفسه: {openers_line}"
+        if openers_line else ""
     )
 
     return f"""<RED_LINES>
@@ -355,27 +360,34 @@ def build_prompt(brief: dict) -> str:
 دائماً: لهجة سعودية طبيعية. حد أقصى {max_chars} حرف للكابشن (بدون الهاشتاقات). بدون إنجليزي.
 </RED_LINES>
 
-<TECHNIQUES>{routing_note}
-{active_blocks}{learned_addition}
-</TECHNIQUES>
-
-<BRAND>
+{feed_block}<BRAND>
 {brand_block}
 </BRAND>
 
+<BANNED_STRUCTURES>
+أنت أدمن الحساب — مو كاتب إعلانات. كل سطر منك لازم يقدر ينزل على الفيد بكرة بدون ما أحد يحس إنه "إعلان مكتوب".
+ممنوع نهائياً (هذي بصمة الذكاء الاصطناعي اللي نهرب منها):
+- بنية الشرطة والقلب: «X — اللي/حتى/قبل ما Y» بكل صيغها
+- الافتتاحيات الفلسفية: «لمّا...» / «إذا...» / «تخيل...»
+- الكليشيهات: «أكبر من الكلام»، «الشوق»، «ما ينتهي»، «يحكي حكاية»، «حكاية أجدادنا»، «الطعم يقول»، «يكمّل اللحظة»
+- أي جملة تصلح سكريبت إعلان تلفزيوني — إذا حسّيتها كذا، اكتبها من جديد كمنشور عادي
+- نفس أول كلمة في خيارين{learned}
+</BANNED_STRUCTURES>
+
 <TASK>
-اكتب {n_options} كابشنات — كل واحد يطبّق تقنية مختلفة ({key_list}).
-الشكل المطلوب: ابدأ السطر بحرف التقنية ثم نقطة ({' / '.join(k+'.' for k in active_keys)}) ثم الكابشن مباشرة.
-ثم في السطر التالي اكتب الهاشتاقات: {hashtags}
+اكتب 4 منشورات لحساب {brief['brand']} بمناسبة {occasion_ar} عن {brief.get('product','المنتج')} — كل واحد نوع منشور مختلف:
 
-قاعدة الافتتاح — الأول كلمة مختلفة لكل تقنية (إلزامي):
-{starter_lines}
+أ. إعلان/عرض مباشر — خبر أو عرض يُقال بصراحة وحماس، بأسلوب الحساب («الآن»، «جرب»، «وصل»...) مع دعوة فعل واضحة
+ب. سؤال/نداء للجمهور — سؤال حقيقي قصير يخلي الناس تعلق (وش/مين/كم...)
+ج. لحظة من الحياة — موقف يومي حقيقي محدد (مو فلسفة) يظهر فيه المنتج طبيعي، جملة أو جملتين
+د. تهنئة بصوت البراند — تهنئة المناسبة كما ينزلها هذا الحساب فعلاً: قصيرة، دافئة، بإيموجيه وهاشتاقاته
 
-قواعد إضافية:
-- حد أقصى {max_chars} حرف للكابشن بدون الهاشتاقات
-- بدون علامات اقتباس، بدون شرح، بدون اسم التقنية
-- اكتب من شخصية هذه العلامة تحديداً — مو كابشن عام يصلح لأي علامة
-- لا يجوز أن تبدأ أي تقنيتين بنفس الكلمة الأولى{occ_line}
+قواعد:
+- حد أقصى {max_chars} حرف للكابشن بدون الهاشتاقات — والأقصر أفضل (شوف أطوال THE_FEED){opener_rule}
+- الإيموجي والهاشتاقات بنفس أسلوب الحساب الحقيقي
+- اختبار ذاتي قبل ما تكتب أي خيار: «لو نزل هذا حرفياً على حساب {brief['brand']} بكرة — يمر كأنه منهم؟» إذا لا، أعد كتابته
+- الشكل: ابدأ كل سطر بحرف النوع ثم نقطة (أ. / ب. / ج. / د.) ثم الكابشن مباشرة
+- بعدها سطر الهاشتاقات: {hashtags}
 
 في السطر الأخير اختر الأقوى وضعه بعد: الأفضل:
 </TASK>"""

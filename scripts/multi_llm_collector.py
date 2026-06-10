@@ -31,6 +31,7 @@ LOG_DIR = BASE / "logs"
 sys.path.insert(0, str(BASE / "scripts"))
 from v5_prompt import build_messages_v5
 from caption_filter import filter_options
+from scorer_v2 import score_v2, pick_best
 from humain_collector import (
     build_prompt,
     parse_response,
@@ -223,11 +224,15 @@ async def _collect_brief(brief: dict, model: str, semaphore: asyncio.Semaphore) 
     n_opts = len([v for v in parsed["options"].values() if v and len(v) > 5])
     div_ok = _diversity_ok(parsed["options"])
 
-    # Auto-score each option
+    # Scorer v2 — DNA-aligned judge (June 11). No structural bonuses.
     scores = {}
     for key, cap in parsed["options"].items():
         if cap and len(cap) > 5:
-            scores[key] = _auto_score(cap, key, brief["brand"])
+            scores[key] = score_v2(cap, brief.get("brand_en",""), brief["brand"])
+    # best = highest v2 score among survivors (the old scorer buried clean options 240x)
+    if scores:
+        _bk = max(scores, key=scores.get)
+        parsed["best"] = parsed["options"][_bk]
 
     # Diversity retry if openers overlap (inline — same API call for consistency)
     if not div_ok and n_opts >= 3:
@@ -279,6 +284,7 @@ async def _collect_brief(brief: dict, model: str, semaphore: asyncio.Semaphore) 
         "options_count": n_opts,
         "avg_score":     avg_score,
         "raw_response":  raw[:1200],
+        "prompt_version": "v6" if _v5 else "v4",
         "collected_at":  datetime.now().isoformat(),
         "status":        "pending",
     }

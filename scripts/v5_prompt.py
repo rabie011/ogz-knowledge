@@ -18,10 +18,11 @@ POST_TYPES_AR = {
 
 
 def load_dna(brand_en: str) -> dict | None:
-    f = BASE / "logs" / "brand_dna" / f"{brand_en}_dna_v2.json"
-    if not f.exists():
-        return None
-    return json.loads(f.read_text())
+    for v in ("v3", "v2"):  # v3 = the join (patterns + traits); v2 fallback
+        f = BASE / "logs" / "brand_dna" / f"{brand_en}_dna_{v}.json"
+        if f.exists():
+            return json.loads(f.read_text())
+    return None
 
 
 def build_messages_v5(brief: dict, occasion_ar: str, max_chars: int) -> list | None:
@@ -44,7 +45,7 @@ VOICE DNA (from the brand's real feed):
 - Dialect: {dna.get('dialect','saudi')} — natural Saudi Arabic only
 - Tone: {', '.join(dna.get('tone', []))}
 - Emoji: {emoji.get('density','medium')} density, favorites {', '.join(emoji.get('favorites', [])[:6])}
-- Typical length: ~{length.get('typical_chars', 80)} chars, {length.get('style','one-liner')} — shorter wins
+- Length: FREE — match this feed's natural range (study the examples); typical ~{length.get('typical_chars', 80)} chars but real posts vary, never pad
 - This feed always:
 {always}
 
@@ -54,15 +55,13 @@ SIGNATURE PHRASES/TAGS: {sigs}
 HARD RULES:
 - Religious/national occasions are honored, never positioned as waiting for the product.
 - Never reference beds, removal of clothing/hijab, or exploit fear/weakness.
-- Max {max_chars} characters per caption (hashtags excluded).
 - Every line must pass: "if posted on {brand}'s account tomorrow, followers would assume the brand wrote it."
 
 OUTPUT FORMAT (exact — a parser reads it):
-Four lines, each starting with the type letter + period, then the caption directly:
+One line PER REQUESTED TYPE in the final task, each starting with its Arabic type letter + period, then the caption directly:
 أ. ...
 ب. ...
-ج. ...
-د. ...
+(etc — exactly the letters the task lists)
 Then one line with the hashtags. Then the final line: الأفضل: <the strongest caption text>"""
 
     # TRUE FEW-SHOT — the model becomes the admin (doctrine §3)
@@ -73,12 +72,16 @@ Then one line with the hashtags. Then the final line: الأفضل: <the stronge
         msgs.append({"role": "assistant", "content": ex.get("caption", "")})
 
     # THE TASK — last (doctrine §5), Arabic data, positive-only (doctrine §2)
-    types_block = "\n".join(f"{k}. {v}" for k, v in POST_TYPES_AR.items())
+    types = dict(POST_TYPES_AR)
+    pats = [str(p).lower() for p in dna.get("patterns_used", [])]
+    if any("story" in p or "قصة" in p for p in pats):
+        types["هـ"] = "قصة قصيرة (3-5 جمل): مشهد → إحساس → المنتج يحل → دعوة خفيفة — بأسلوب الحساب"
+    types_block = "\n".join(f"{k}. {v}" for k, v in types.items())
     msgs.append({"role": "user", "content": f"""المناسبة: {occasion_ar}
 المنتج: {brief.get('product', 'المنتج')}
 الهاشتاقات: {brief.get('hashtags', '')}
 
-اكتب 4 منشورات لحساب {brand} — كل واحد نوع مختلف:
+اكتب منشوراً لكل نوع من الأنواع التالية لحساب {brand}:
 {types_block}
 
 بنفس صوت الحساب اللي كتبته فوق بالضبط — قصير، حي، طبيعي.

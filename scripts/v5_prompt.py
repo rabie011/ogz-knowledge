@@ -67,8 +67,14 @@ One line PER REQUESTED TYPE in the final task, each starting with its Arabic typ
 Then one line with the hashtags. Then the final line: الأفضل: <the strongest caption text>"""
 
     # TRUE FEW-SHOT — the model becomes the admin (doctrine §3)
+    # GOLD first: founder-rated captions (>=4/5) outrank engagement-ranked exemplars
+    gold_f = BASE / "logs" / "brand_gold" / f"{brief.get('brand_en','')}_gold.json"
+    gold = json.loads(gold_f.read_text())[-3:] if gold_f.exists() else []
     msgs = [{"role": "system", "content": system}]
-    for ex in dna.get("exemplars", [])[:6]:
+    for g in gold:
+        msgs.append({"role": "user", "content": f"اكتب منشور ({g.get('occasion','')}) لحساب {brand}"})
+        msgs.append({"role": "assistant", "content": g["caption"]})
+    for ex in dna.get("exemplars", [])[: max(3, 6 - len(gold))]:
         pt = ex.get("post_type", "post")
         msgs.append({"role": "user", "content": f"اكتب منشور ({pt}) لحساب {brand}"})
         msgs.append({"role": "assistant", "content": ex.get("caption", "")})

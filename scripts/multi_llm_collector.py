@@ -250,6 +250,11 @@ async def _collect_brief(brief: dict, model: str, semaphore: asyncio.Semaphore) 
         try:
             raw2 = await caller(variation_prompt, semaphore)
             parsed2 = parse_response(raw2)
+            # BUG FIX 2026-06-11: this path replaced FILTERED options with unfiltered
+            # ones — banned/empty captions leaked back in. Filter here too.
+            s2, d2 = filter_options(parsed2["options"])
+            parsed2["options"] = s2
+            parsed2["v5_dropped"] = d2
             n2 = len([v for v in parsed2["options"].values() if v and len(v) > 5])
             div2 = _diversity_ok(parsed2["options"])
             # Use whichever round had better diversity + more options

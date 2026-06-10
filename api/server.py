@@ -1860,7 +1860,30 @@ def cross_stats():
         total = wins.get(m, 0) + losses.get(m, 0)
         win_rates[m] = round(100 * wins.get(m, 0) / max(total, 1))
 
+    # SCOREBOARD (June 11): both-bad rate + ratings + prompt-version breakdown
+    comps = prefs.get("comparisons", [])
+    rated = [c for c in comps if c.get("rating")]
+    both_bad = [c for c in comps if c.get("verdict") == "both_bad"]
+    ratings_by_model = {}
+    for c in rated:
+        m = c.get("winner_model", "?")
+        ratings_by_model.setdefault(m, []).append(c["rating"])
+    version_counts = {}
+    for model in _CROSS_QUEUES:
+        for it in _load_cross_queue(model):
+            v = it.get("prompt_version", "v3-era")
+            version_counts.setdefault(v, {}).setdefault(model, 0)
+            version_counts[v][model] += 1
+    scoreboard = {
+        "judged": len(comps),
+        "both_bad": len(both_bad),
+        "both_bad_rate_pct": round(100 * len(both_bad) / max(len(comps), 1)),
+        "avg_rating_by_model": {m: round(sum(r) / len(r), 2) for m, r in ratings_by_model.items()},
+        "queue_by_prompt_version": version_counts,
+    }
+
     return {
+        "scoreboard": scoreboard,
         "counts": counts,
         "total_comparisons": len(prefs.get("comparisons", [])),
         "win_rates": win_rates,

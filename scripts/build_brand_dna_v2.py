@@ -60,7 +60,7 @@ def build_dna(brand: str) -> dict:
     posts.sort(key=lambda x: x["likes"], reverse=True)
     sample = posts[:60] + posts[60::4][:40]  # engagement-first + spread for recency/diversity
     corpus = "\n".join(f"[{p['likes']} likes] {p['caption']}" for p in sample)
-    body = {"model": "gpt-4o", "temperature": 0.2, "max_tokens": 2200,
+    body = {"model": "gpt-4o", "temperature": 0.2, "max_tokens": 3200,
             "response_format": {"type": "json_object"},
             "messages": [{"role": "system", "content": DNA_SPEC},
                           {"role": "user", "content": f"BRAND: {brand}\nPOSTS ({len(sample)}):\n{corpus}"}]}
@@ -79,6 +79,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--brand", required=True)
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--min-exemplars", type=int, default=6)
     a = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     out = OUT / f"{a.brand}_dna_v2.json"
@@ -88,7 +89,7 @@ def main():
     dna = build_dna(a.brand)
     # verification before claiming done (the law): required keys + exemplar count
     missing = [k for k in ("voice_summary_en", "proven_openers_ar", "exemplars", "always_does_en") if k not in dna]
-    if missing or len(dna.get("exemplars", [])) < 6:
+    if missing or len(dna.get("exemplars", [])) < a.min_exemplars:
         sys.exit(f"DNA INCOMPLETE for {a.brand}: missing={missing} exemplars={len(dna.get('exemplars', []))}")
     out.write_text(json.dumps(dna, ensure_ascii=False, indent=2))
     print(f"✓ {a.brand}: {len(dna['exemplars'])} exemplars · openers={dna['proven_openers_ar'][:4]} · {out.name}")

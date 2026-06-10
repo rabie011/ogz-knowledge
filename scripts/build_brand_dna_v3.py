@@ -94,8 +94,11 @@ def main():
 
     posts = load_posts(a.brand)        # RAW layer
     lens = sorted(len(p["caption"]) for p in posts)
-    dna["length_distribution"] = {"p25": lens[len(lens)//4], "p50": lens[len(lens)//2],
-                                   "p90": lens[int(len(lens)*0.9)], "n": len(lens)}
+    if lens:
+        dna["length_distribution"] = {"p25": lens[len(lens)//4], "p50": lens[len(lens)//2],
+                                       "p90": lens[int(len(lens)*0.9)], "n": len(lens)}
+    else:
+        dna["length_distribution"] = {"p25": 0, "p50": 0, "p90": 0, "n": 0, "note": "thin captions"}
 
     pats = pattern_library()           # MINED layer
     cls = classify_patterns(a.brand, posts, pats)

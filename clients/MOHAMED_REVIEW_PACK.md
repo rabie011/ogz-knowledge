@@ -24,7 +24,7 @@ Each = idea (concrete scene) + 3 captions + phone shoot-card + pro chain ref. Br
 1. Scene rule — captions were zooming out to greeting-card mode → now they live INSIDE the scene.
 2. Event-claim guard — a caption invited people to a yoga session that doesn't exist → code kill.
 3. Offers-on-emotional kill — عرض leaked onto national day → code kill.
-4. KNOWN LIMIT (open): invented product NAMING inside copy («التوأم كرسبي x2») — fake hashtags/events are caught, fake promo names are not yet.
+4. ~~KNOWN LIMIT: invented product naming («التوأم كرسبي x2»)~~ **REVERSED + CLOSED (same night):** التوأم is a REAL albaik product — 7 of his own captions say it. Claude flagged it without grepping the corpus (verify-before-claiming broken, owned). The noun-grounding guard got built anyway — it correctly kills the real class (mangled names like «Liaqti.tu», ungrounded promo constructions) and is punctuation-safe. The system audited its auditor.
 
 ## YOUR 60-SECOND GATE
 1. Rate 5 cards (any 5 from `clients/*/posts/`) — your eyes are the only judge.

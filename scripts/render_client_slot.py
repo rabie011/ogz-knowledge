@@ -60,10 +60,15 @@ def load_client(handle: str) -> dict:
         va = next((x for x in v.get("voices", []) if x.get("id") in ("A", "voice_a")), None)
         if va:
             exemplars = va.get("posts", [])[:3] + exemplars[:2]
+    truth = p("truth_pack")
+    # grounding corpus for the noun guard: everything the client has actually said
+    corpus_text = " ".join([x.get("caption") or "" for x in posts] + [prof.get("biography", "")]
+                            + [x["name"] for x in truth["product_candidates"]]
+                            + truth.get("recurring_caption_terms", []))
     return {"handle": handle, "brand_ar": prof.get("fullName") or handle,
-            "bio": prof.get("biography", ""), "truth": p("truth_pack"),
+            "bio": prof.get("biography", ""), "truth": truth,
             "moments": p("moments_bank")["moments"][:6], "fingerprint": p("fingerprint"),
-            "state": p("state"), "exemplars": exemplars,
+            "state": p("state"), "exemplars": exemplars, "corpus_text": corpus_text,
             "en_led": (p("fingerprint")["l2_voice"].get("dialect") == "non_arabic")}
 
 
@@ -130,6 +135,26 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     EMOTIONAL = {"ramadan", "eid_al_fitr", "eid_al_adha", "saudi_national_day", "saudi_founding_day", "arab_mothers_day"}
     OFFER = re.compile(r"عرض|خصم|تخفيض|كود|discount|offer|% ?off|promo", re.I)
     is_emotional = slot.get("occasion") in EMOTIONAL
+    # truth guard 4 (June 11, RABIE-ruled): NOUN GROUNDING — invented product/promo NAMES
+    # («التوأم كرسبي بيك x2», mangled app names) must trace to the client's own corpus.
+    # Deterministic: suspect tokens = Latin names with digits/dots/caps, or Arabic promo-name
+    # constructions; killed unless the client's real captions/bio/truth pack contain them.
+    corpus = (c.get("corpus_text") or "").lower()
+    PROMO_AR = re.compile(r"(التوأم|كومبو|دبل|ميجا|تريبل)\s+\S+")
+    LATIN_NAME = re.compile(r"\b([A-Za-z]+\.[A-Za-z]+|[A-Za-z]*\d+[A-Za-z]*|[A-Z]{3,})\b")
+
+    strip_punct = lambda s: re.sub(r"[^\wء-ي\s]", "", s).strip()  # «دبل القرمشة،» == «دبل القرمشة»
+
+    def ungrounded(text: str) -> str | None:
+        for m in PROMO_AR.finditer(text):
+            if strip_punct(m.group(0)).lower() not in corpus:
+                return m.group(0)
+        for m in LATIN_NAME.finditer(text):
+            t = strip_punct(m.group(0)).lower()
+            if t and t not in corpus and t not in {"x", "ksa"} and not t.isdigit():
+                return m.group(0)
+        return None
+
     cleaned = []
     for o in opts:
         o = re.sub(r"#([\wء-ي_]+)", lambda m: m.group(0) if m.group(1) in real_tags else "", o).strip()
@@ -140,6 +165,10 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
             continue
         if is_emotional and OFFER.search(o):
             print(f"  ✂️ offer-on-emotional killed: {o[:60]}…", file=sys.stderr)
+            continue
+        bad = ungrounded(o)
+        if bad:
+            print(f"  ✂️ ungrounded name killed [{bad}]: {o[:50]}…", file=sys.stderr)
             continue
         cleaned.append(o)
     surv, _ = filter_options({f"opt_{i}": o for i, o in enumerate(cleaned)})

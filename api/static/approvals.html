@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>قرارات محمد — OGZ</title>
+<style>
+  body{background:#0d1117;color:#e6edf3;font-family:-apple-system,"Segoe UI",Tahoma,sans-serif;margin:0;padding:24px;max-width:760px;margin-inline:auto}
+  h1{font-size:22px;margin:0 0 4px} .sub{color:#8b949e;font-size:13px;margin-bottom:24px}
+  .card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:18px;margin-bottom:16px}
+  .card.done{opacity:.45;border-color:#238636}
+  .tag{font-size:11px;color:#f0883e;letter-spacing:.5px} .clock{color:#f85149;font-weight:700}
+  h2{font-size:16px;margin:6px 0 10px} .desc{color:#8b949e;font-size:13px;line-height:1.7;margin-bottom:12px;white-space:pre-line}
+  .opt{display:block;width:100%;text-align:right;background:#21262d;border:1px solid #30363d;color:#e6edf3;
+       border-radius:8px;padding:12px 14px;margin:6px 0;font-size:14px;cursor:pointer;line-height:1.6}
+  .opt:hover{border-color:#58a6ff} .opt.sel{border-color:#238636;background:#0f2418}
+  input[type=number],input[type=text]{background:#0d1117;border:1px solid #30363d;color:#e6edf3;border-radius:8px;padding:10px;width:110px;font-size:15px;text-align:center}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0}
+  .send{background:#238636;border:none;color:#fff;border-radius:8px;padding:11px 22px;font-size:14px;cursor:pointer;font-weight:600}
+  .send:disabled{opacity:.4} .saved{color:#3fb950;font-size:13px;margin-top:8px}
+  textarea{background:#0d1117;border:1px solid #30363d;color:#e6edf3;border-radius:8px;padding:10px;width:100%;box-sizing:border-box;font-size:13px;min-height:44px;font-family:inherit}
+  .small{font-size:12px;color:#8b949e}
+</style>
+</head>
+<body>
+<h1>🟢 قرارات محمد</h1>
+<div class="sub">كل إجابة تُحفظ فوراً في النظام · كل شيء قبل موافقتك = PROVISIONAL</div>
+<div id="items">جار التحميل…</div>
+<script>
+async function load(){
+  const r = await fetch('/api/approvals/items'); const items = await r.json();
+  const root = document.getElementById('items'); root.innerHTML='';
+  for(const it of items){
+    const c = document.createElement('div'); c.className='card'+(it.answered?' done':''); c.id=it.id;
+    let h = `<div class="tag">${it.tag||''} ${it.clock?'<span class=clock>'+it.clock+'</span>':''}</div><h2>${it.title}</h2>`;
+    if(it.desc) h += `<div class="desc">${it.desc}</div>`;
+    if(it.kind==='buttons'){
+      for(const o of it.options) h += `<button class="opt" onclick="answer('${it.id}','${o.v}',this)">${o.label}</button>`;
+      h += `<textarea id="note_${it.id}" placeholder="ملاحظة (اختياري)…"></textarea>`;
+    }
+    if(it.kind==='numbers'){
+      h += '<div class="row">';
+      for(const n of it.fields) h += `<label class="small">${n.label}<br><input type="number" id="${it.id}_${n.k}" value="${n.v}"></label>`;
+      h += `</div><button class="send" onclick="answerNumbers('${it.id}',${JSON.stringify(it.fields.map(f=>f.k)).replace(/"/g,'&quot;')})">ثبّت الأرقام</button>
+            <button class="opt" style="width:auto;display:inline-block;margin-inline-start:8px" onclick="answer('${it.id}','adjust',this)">عدّلوها — مو هالأرقام</button>`;
+    }
+    if(it.kind==='text'){
+      h += `<textarea id="txt_${it.id}" placeholder="${it.placeholder||'اكتب هنا…'}"></textarea>
+            <button class="send" onclick="answerText('${it.id}')">أرسل</button>`;
+    }
+    if(it.answered) h += `<div class="saved">✓ محفوظ: ${it.answered}</div>`;
+    c.innerHTML = h; root.appendChild(c);
+  }
+}
+async function post(id, answer, note){
+  await fetch('/api/approvals/answer',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({item_id:id, answer:answer, note:note||''})});
+  document.getElementById(id).classList.add('done');
+  load();
+}
+function answer(id,v,btn){ if(btn)btn.classList.add('sel');
+  const n=document.getElementById('note_'+id); post(id,v,n?n.value:''); }
+function answerNumbers(id,keys){ const vals={};
+  for(const k of keys) vals[k]=document.getElementById(id+'_'+k).value;
+  post(id, JSON.stringify(vals)); }
+function answerText(id){ post(id, document.getElementById('txt_'+id).value); }
+load();
+</script>
+</body>
+</html>

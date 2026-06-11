@@ -161,8 +161,12 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     try:
         # pen diversity (June 12): the second pen enters the scene from its least
         # obvious angle — different DOOR, same truth. Two pens, two temperaments.
-        diversity = ("\nYOUR PEN'S TEMPERAMENT: enter the scene through its LEAST obvious door — "
-                     "the side character, the sound, the second before or after the expected moment. "
+        DOORS = ["the SOUND of the moment (what you hear before you see)",
+                 "the SIDE CHARACTER (the little sister, the neighbor, the delivery man)",
+                 "the second AFTER the expected moment (the empty plate, the closed door)",
+                 "the OBJECT's point of view (the pot, the box, the doorbell)"]
+        door = DOORS[sum(ord(ch) for ch in slot.get("date", "")) % 4]
+        diversity = (f"\nYOUR PEN'S TEMPERAMENT: enter the scene through {door}. "
                      "Same scene, same truth, unexpected entry.")
         txt = sonnet(sys_p + diversity + "\nReturn ONLY the JSON object.", few + [{"role": "user", "content": user}])
         m = re.search(r"\{.*\}", txt, re.S)
@@ -241,6 +245,11 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     # a flyer. Of the 3 options, at most ONE keeps an order-CTA tail — the rest stand on
     # the scene. Deterministic: keep the first CTA, strip CTA sentences from the others.
     CTA = re.compile(r"[^.!؟\n]*\b(اطلب(?:وا|ها|وه)?|حمّ?ل التطبيق|اطلبيها?)\b[^.!؟\n]*[.!؟]?")
+    # bilingual filler ban (June 12, RABIE law: journey leaked as رحلة — ban both twins)
+    FILLER = re.compile(r"(journey|unleash|conquer|roar|new heights|stronger than ever|"
+                         r"رحلة(?!\s+لسوق)|أطلق(?:وا)? العنان|نقهر|القمم الجديدة|أقوى من أي وقت|لحظات لا تُنسى)", re.I)
+    cleaned2 = [o for o in final if not FILLER.search(o)] or final[:1]  # never return zero
+    final = cleaned2
     kept_cta = False
     out = []
     import re as _re

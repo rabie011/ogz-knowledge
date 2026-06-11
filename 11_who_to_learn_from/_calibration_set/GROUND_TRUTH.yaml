@@ -1,9 +1,9 @@
 # GROUND_TRUTH.yaml — calibration set expected results
-# item_02 PENDING (left-hand violation test — will be filled once Tier 4 media downloaded)
+# item_02 FILLED 2026-06-11 (left-hand serving negative-control). See CRITICAL_FINDING_item_02.md.
 ---
 schema_version: 1
 created_at: "2026-05-20"
-note: "item_02 PENDING. Items 1,3-10 are clean Saudi branded content — expect all clean."
+note: "item_02 = the negative control (left-hand serving violation). Items 1,3-10 are clean Saudi branded content — expect all clean."
 
 items:
   - id: item_01
@@ -11,12 +11,24 @@ items:
     expected_compliance: clean
     expected_hard_blocks: []
   - id: item_02
-    source: "PENDING — left-hand serving violation image"
+    # NOTE: test_extraction_accuracy.py looks items up by `item_id` (not `id`).
+    # Adding item_id here so the grader actually locates the extraction for item_02.
+    # The id-vs-item_id mismatch is a harness bug logged in CRITICAL_FINDING_item_02.md.
+    item_id: item_02
+    source: "Pizza Hut-style 'dip & crunch' (غمس و قرمش) ad — model's hand dipping a stuffed-crust piece; left hand used to handle/serve food"
+    # Task wording was 'expected_compliance: violation'; mapped to the system enum
+    # (clean | soft_flagged | hard_blocked) for consistency with the rest of this file.
     expected_compliance: hard_blocked
     expected_hard_blocks:
       - entry_name: left_hand_serving
+        rule_id: 01KRKH1N2YF8H7F60EGJYQS3EW
+        rule_source: 15_cultural_specs/forbidden_lists/universal_gestures_forbidden.yaml
         severity: severe
-    notes: "CRITICAL TEST — must trigger left_hand_serving"
+    key_visual_observations:
+      composition_style: product_hero_with_human_hand
+      props_visible: ["pizza", "dipping sauces"]
+    date_filled: "2026-06-11"
+    notes: "CRITICAL NEGATIVE CONTROL — must trigger left_hand_serving. Ground truth = LEFT hand (dorsal view, wrist-from-left, thumb-down toward food; image sourced specifically as the left-hand violation). Filled 2026-06-11 from GPT-4o vision run — see claude_extractions/item_02_extraction.json + CRITICAL_FINDING_item_02.md."
   - id: item_03
     source: "@barnscoffee B8sunNeFypp.jpg"
     expected_compliance: clean
@@ -49,8 +61,10 @@ items:
     source: "@riyadhfood first image"
     expected_compliance: clean
     expected_hard_blocks: []
-# ⚠️ 2026-06-11 (P4): item_02 STILL PENDING — the negative-control compliance test
-# (left-hand serving) has its image on disk but was never extracted/graded, 3 weeks open.
-# This is the ONLY proof the compliance moat detects violations. FOLLOW-UP: extract
-# item_02 via the vision pipeline, fill expected_compliance: violation + the specific
-# rule, run test_extraction_accuracy.py. Flagged to Mohamed — not run blind at session end.
+# ✅ 2026-06-11 RESOLVED-but-FAILING: item_02 extracted via GPT-4o vision and graded.
+# RESULT: ❌ Level 1 FAILED. GPT-4o read the hand as a RIGHT hand ("thumb on the left
+# side") and returned overall_compliance: clean with hard_blocks_triggered: []. The
+# negative control was NOT caught. This means the compliance moat is NOT proven to
+# detect violations — it passed the one item built to prove it does. Full write-up +
+# extraction output in CRITICAL_FINDING_item_02.md. Escalated to Mohamed; NOT committed
+# as a pass. Do not proceed to real extraction on the strength of calibration.

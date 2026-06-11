@@ -127,7 +127,11 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     taste = json.loads((BASE / "data/founder_taste.json").read_text())
     products = [x["name"] for x in c["truth"]["product_candidates"]][:5]
     channels = [x["name"] for x in c["truth"]["channels"] if x["name"] != "linktree"]
-    bilingual = "Write EN hook + Arabic idea (bilingual, NOT translation)." if c["en_led"] else "Write Saudi Arabic only."
+    bilingual = ("Write EN hook + Arabic idea (bilingual, NOT translation). "
+                 "English lines carry a CONCRETE moment or real instruction — never fitness-influencer filler "
+                 "('Feeling strong!', 'Ready for more!', 'New week, new you'). The bar: "
+                 "'Your Friday just got better — تحرّك مع لياقتي، الكابتن في جيبك'."
+                 if c["en_led"] else "Write Saudi Arabic only.")
     sys_p = (f"You write Instagram captions for {c['brand_ar']}. ONE angle, given below — every caption is that angle. "
              "The caption LIVES INSIDE the scene: write from inside that exact moment (its person, its time, its gesture). "
              "The PHOTO already shows the scene — so the caption NEVER narrates it (never 'الأم تضغط الزر، الجد يملأ الأطباق'). "

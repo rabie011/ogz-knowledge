@@ -97,8 +97,14 @@ def render(brand_en, brand_ar, occasion, angle, pack):
     openers = "، ".join(dna.get("proven_openers_ar", [])[:5])
     exemplars = "\n".join(f"- {e.get('caption','')[:160]}" for e in dna.get("exemplars", [])[:5])
     dialect = dna.get("dialect", "saudi")
-    bilingual = "english" in str(dna.get("voice_summary_en", "")).lower() or any(
-        sum(c.isascii() and c.isalpha() for c in e.get("caption", "")) > 20 for e in dna.get("exemplars", [])[:5])
+    # bilingual ONLY when the feed is genuinely English-led (majority of exemplars
+    # are >50% Latin) — not when one caption happens to have a hashtag. (mcdonalds
+    # has Arabic hashtags but Arabic body → stays Arabic.)
+    def _en_share(t):
+        letters = [c for c in t if c.isalpha()]
+        return sum(c.isascii() for c in letters) / max(len(letters), 1)
+    exs = [e.get("caption", "") for e in dna.get("exemplars", [])[:6]]
+    bilingual = sum(_en_share(e) > 0.5 for e in exs) >= 3
     occ_ar = OCCASION_AR.get(occasion, occasion)
     lang_rule = ("This brand lives in BOTH languages: write a designed bilingual post — one short English hook line + one Arabic line that carries the idea (not a translation). Both halves must stand alone."
                  if bilingual else

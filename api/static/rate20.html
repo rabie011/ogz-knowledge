@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>قيّم الـ20</title>
+<style>
+  *{margin:0;box-sizing:border-box;font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif}
+  body{background:#0F0F0E;color:#F4F5F0;padding:20px;max-width:760px;margin:auto}
+  h1{font-size:22px;margin-bottom:4px}
+  .sub{color:#A2A599;font-size:14px;margin-bottom:18px}
+  .card{background:#1A1A18;border:1px solid #2E2E2B;border-radius:14px;padding:16px;margin-bottom:14px}
+  .meta{font-size:13px;color:#6E7166;margin-bottom:8px}
+  .cap{font-size:18px;line-height:1.7;margin-bottom:12px}
+  .rates{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .rates button{width:42px;height:42px;border-radius:10px;border:1px solid #454840;background:#222220;
+    color:#F4F5F0;font-weight:700;font-size:16px;cursor:pointer}
+  .rates button.on{background:#33EB05;color:#000;border-color:#000}
+  .rates .bad{font-size:13px;width:auto;padding:0 12px}
+  .rates .bad.on{background:#E602BB;color:#fff}
+  .note{margin-top:10px;width:100%;background:#222220;border:1px solid #2E2E2B;color:#F4F5F0;
+    border-radius:8px;padding:8px;font-family:inherit;font-size:14px;display:none}
+  .bar{position:sticky;bottom:0;background:#0F0F0E;padding:14px 0;border-top:1px solid #2E2E2B;
+    display:flex;gap:12px;align-items:center}
+  .save{background:#33EB05;color:#000;border:2px solid #000;font-weight:800;font-size:16px;
+    padding:12px 28px;border-radius:10px;cursor:pointer;font-family:inherit}
+  .count{color:#A2A599;font-size:14px}
+  #done{display:none;background:#10241B;border:1px solid #1E9B6B;border-radius:12px;padding:16px;color:#1E9B6B;font-weight:700}
+</style>
+</head>
+<body>
+<h1>قيّم الـ20 كابشن 🇸🇦</h1>
+<p class="sub">العقل الجديد — فكرة أول، صوت ثاني (Creative Line). 💡 = الفكرة، تحتها التنفيذ. قيّم 1–5 أو ✗، واكتب وش الغلط.</p>
+<div id="list"></div>
+<div id="done">✓ تم الحفظ — تقييماتك دخلت النظام. تقدر تسكّر الصفحة.</div>
+<div class="bar">
+  <button class="save" onclick="save()">احفظ التقييمات</button>
+  <span class="count" id="count">0 / 20 مقيّم</span>
+</div>
+<script>
+const OCC={national_day:"اليوم الوطني",daily_post:"يومي",ramadan:"رمضان",weekly_offer:"عرض الأسبوع",eid_al_fitr:"عيد الفطر",summer_campaign:"الصيف",founding_day:"يوم التأسيس",new_product:"منتج جديد",white_friday:"الجمعة البيضاء",eid_al_adha:"عيد الأضحى",back_to_school:"العودة للمدارس"};
+let items=[], state={};
+fetch('/api/rate20/items').then(r=>r.json()).then(d=>{items=d;render();});
+function render(){
+  const L=document.getElementById('list');L.innerHTML='';
+  items.forEach((c,i)=>{
+    const div=document.createElement('div');div.className='card';
+    div.innerHTML=`<div class="meta">${i+1}. ${c.brand} · ${OCC[c.occasion]||c.occasion}</div>
+      <div style="font-size:12px;color:#33EB05;margin-bottom:6px">💡 ${c.angle||""}</div><div class="cap">${c.caption}</div>
+      <div class="rates" id="r${i}">
+        ${[1,2,3,4,5].map(n=>`<button onclick="setS(${i},${n})">${n}</button>`).join('')}
+        <button class="bad" onclick="setS(${i},0)">✗ ضعيف</button>
+      </div>
+      <input class="note" id="n${i}" placeholder="وش الغلط؟ (اختياري)" oninput="state[${i}]&&(state[${i}].note=this.value)">`;
+    L.appendChild(div);
+  });
+}
+function setS(i,n){
+  state[i]=state[i]||{};state[i].score=n;
+  document.querySelectorAll(`#r${i} button`).forEach(b=>b.classList.remove('on'));
+  const btns=document.querySelectorAll(`#r${i} button`);
+  if(n===0){btns[5].classList.add('on');}else{btns[n-1].classList.add('on');}
+  document.getElementById('n'+i).style.display='block';
+  document.getElementById('count').textContent=Object.keys(state).length+' / 20 مقيّم';
+}
+function save(){
+  const ratings=items.map((c,i)=>({i:i+1,brand:c.brand,brand_en:c.brand_en,occasion:c.occasion,
+    caption:c.caption,score:state[i]?state[i].score:null,note:state[i]?(state[i].note||''):''}));
+  fetch('/api/rate20/save',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({ratings})}).then(r=>r.json()).then(d=>{
+    document.getElementById('done').style.display='block';
+    document.getElementById('done').textContent=`✓ تم الحفظ — ${d.saved} تقييم · ${d.promoted_to_gold} دخلت GOLD`;
+    window.scrollTo(0,document.body.scrollHeight);
+  });
+}
+</script>
+</body>
+</html>

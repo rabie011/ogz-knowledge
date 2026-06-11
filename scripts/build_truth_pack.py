@@ -30,7 +30,7 @@ def real_products(brand_en: str, top=8) -> list[str]:
             cap = (json.loads(line).get("caption") or "")
         except Exception:
             continue
-        for h in re.findall(r"#[؀-ۿ_]{3,}", cap):
+        for h in re.findall(r"#[؀-ۿ_]{3,}", cap) + re.findall(r"#[A-Za-z][A-Za-z0-9_]{2,}", cap):
             tags[h] += 1
     # drop the brand's own name tag + generic nation tags; keep product/campaign tags
     drop = {f"#{brand_en}"}
@@ -82,12 +82,10 @@ def build(brand_en: str, brand_ar: str, sector: str, occasion: str) -> dict:
 
 def validate(pack: dict) -> list[str]:
     errs = []
-    if not pack["real_products"]:
-        errs.append("no real products extracted")
     if any(p in PLACEHOLDERS for p in pack["real_products"]):
         errs.append("placeholder product present")
-    if not pack["voice"]["openers"]:
-        errs.append("no DNA voice (brand not covered)")
+    if not pack["real_products"] and not pack["voice"]["openers"]:
+        errs.append("no products AND no DNA voice — nothing real to ground on")
     return errs
 
 

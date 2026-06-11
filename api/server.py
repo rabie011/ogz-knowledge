@@ -1196,6 +1196,45 @@ def api_angles(req: AnglesRequest):
             "truth_pack": json.loads((REPO / "data/truth_packs" / f"{brand_en}__{req.occasion}.json").read_text())}
 
 
+
+@app.get("/rate20")
+def rate20_page():
+    from fastapi.responses import FileResponse
+    return FileResponse(REPO / "api" / "static" / "rate20.html")
+
+
+@app.get("/api/rate20/items")
+def rate20_items():
+    f = REPO / "logs" / "test20_v2.json"
+    return json.loads(f.read_text()) if f.exists() else []
+
+
+class Rate20Save(BaseModel):
+    ratings: list  # [{i, brand, occasion, caption, score, note}]
+
+
+@app.post("/api/rate20/save")
+def rate20_save(req: Rate20Save):
+    out = REPO / "logs" / "test20_v2_ratings.json"
+    out.write_text(json.dumps(req.ratings, ensure_ascii=False, indent=2))
+    # ratings >=4 also flow to GOLD (the loop), via the same store shape gold_from_ratings reads
+    gold_dir = REPO / "logs" / "brand_gold"; gold_dir.mkdir(exist_ok=True)
+    promoted = 0
+    for r in req.ratings:
+        if (r.get("score") or 0) >= 4 and r.get("caption"):
+            # map brand_ar -> brand_en via matrix
+            m = json.loads((REPO / "data/brief_matrix.json").read_text())
+            be = next((b["brand_en"] for b in m if b["brand"] == r.get("brand")), None)
+            if not be: continue
+            gf = gold_dir / f"{be}_gold.json"
+            g = json.loads(gf.read_text()) if gf.exists() else []
+            if r["caption"] not in [x.get("caption") for x in g]:
+                g.append({"caption": r["caption"], "occasion": r.get("occasion",""),
+                          "rating": r["score"], "model": "v6", "ts": "2026-06-11-rate20"})
+                gf.write_text(json.dumps(g, ensure_ascii=False, indent=2)); promoted += 1
+    return {"saved": len(req.ratings), "promoted_to_gold": promoted}
+
+
 @app.post("/api/create")
 def create_content(req: CreateRequest):
     """Unified content creation pipeline.

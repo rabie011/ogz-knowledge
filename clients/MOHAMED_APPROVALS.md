@@ -191,9 +191,9 @@ YOUR TAP: Pick A (harden prompt) / B (second model vote) / C (expand control set
 (backlog B128 · Immune System · ~5 min · after B127)
 
 ### A-04 Ratify the deadly-defaults table
-TO-PREP: `brand_override_defaults_v1.yaml` was never authored (B105 todo) — nothing on disk. Claim was false.
-YOUR TAP (when staged): Yes/no per row (7 rows). Parked rows stay parked.
-(backlog B107 · Immune System · ~10 min · after B105)
+PREPARED (verified, B105 done 2026-06-12): `15_cultural_specs/defaults/brand_override_defaults_v1.yaml` exists and parses — **14 rows: 12 deadly / 2 survivable** (dialect_register, brand_signature_hero_prop), 3 parked → mohamed (family_voice_lines, masculinity_framing, ai_imagery_of_real_products — same 3 as A-05). Each row: strictest_default + deadly-why + relax_requires + example violation. Wired: `scripts/visual_gate_checklist.py` now READS its 5 visual rows from this table (hardcoded list = fallback only); re-run on albaik verified identical + idempotent.
+YOUR TAP: Ratify or amend the deadly set — yes/no per row (14 rows). Parked rows stay parked until A-05.
+(backlog B107 · Immune System · ~10 min)
 
 ### A-07 Armor guards become law in /api/create
 TO-PREP: the before/after kill diff on 3 brands was never measured (B131 todo); no example-kill sheet on disk. Claim was false.

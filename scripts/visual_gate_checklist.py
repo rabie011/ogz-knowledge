@@ -13,7 +13,10 @@ from pathlib import Path
 
 BASE = Path(__file__).parent.parent
 
-# the ~10 brand-must-override cultural fields, pinned strictest until the client relaxes
+# the deadly-defaults table (B105) — single source of truth for the strict checks
+DEADLY_DEFAULTS_TABLE = BASE / "15_cultural_specs" / "defaults" / "brand_override_defaults_v1.yaml"
+
+# fallback ONLY if the table file is missing — must stay in sync with the table's visual_gate rows
 STRICT_CHECKS = [
     ("faces", "لا وجوه ظاهرة (الافتراضي الصارم — ما لم يرخّص العميل كتابةً)"),
     ("family_visibility", "لا أفراد عائلة العميل في الصورة (ترخيص العميل فقط)"),
@@ -21,6 +24,20 @@ STRICT_CHECKS = [
     ("modesty", "اللبس محتشم بالمعيار السعودي المحافظ"),
     ("music_context", "إن كان فيديو: المقطع بلا موسيقى أو بإيقاع مسموح"),
 ]
+
+
+def load_strict_checks():
+    """Read the strict checks from the deadly-defaults table (rows carrying
+    visual_gate_check_ar). Falls back to the hardcoded STRICT_CHECKS if the
+    file is missing or unreadable — behavior stays identical either way."""
+    try:
+        import yaml
+        rows = yaml.safe_load(DEADLY_DEFAULTS_TABLE.read_text())["fields"]
+        checks = [(r["visual_gate_id"], r["visual_gate_check_ar"])
+                  for r in rows if r.get("visual_gate_check_ar")]
+        return checks or STRICT_CHECKS
+    except Exception:
+        return STRICT_CHECKS
 FOOD_CHECKS = [
     ("left_hand", "لا تقديم/تناول طعام باليد اليسرى في أي لقطة"),
     ("alcohol_lookalike", "لا كؤوس/قوارير توحي بمشروبات محظورة"),
@@ -37,7 +54,7 @@ def checklist_for(handle: str, card: dict) -> dict:
     red = json.loads((pdir / "red_lines.json").read_text())
     state = json.loads((pdir / "state.json").read_text())
     sector = json.loads((BASE / "clients" / handle / "year_map.json").read_text()).get("sector", "")
-    items = [{"id": k, "check": v, "source": "cultural_spec strictest default"} for k, v in STRICT_CHECKS]
+    items = [{"id": k, "check": v, "source": "cultural_spec strictest default"} for k, v in load_strict_checks()]
     if sector == "f_and_b":
         items += [{"id": k, "check": v, "source": "forbidden_lists (food)"} for k, v in FOOD_CHECKS]
     items += [{"id": k, "check": v, "source": "truth/parked-ruling"} for k, v in ALWAYS]

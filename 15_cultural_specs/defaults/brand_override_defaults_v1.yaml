@@ -1,0 +1,164 @@
+# brand_override_defaults_v1.yaml — THE DEADLY-DEFAULTS TABLE (B105)
+# The deadly-vs-survivable defaults for the ~10 brand-must-override fields.
+# Cited by: clients/THE_CLIENT_PYRAMID.md §5 Layer-3 (DEADLY-DEFAULTS TABLE — TO BUILD, now built)
+#           clients/MOHAMED_APPROVALS.md card A-04 (ratification pending)
+# Read by:  scripts/visual_gate_checklist.py (rows carrying visual_gate_check_ar feed the visual gate;
+#           the script falls back to its hardcoded list only if this file is missing)
+#
+# LAW (from the pyramid): every field below is PINNED to strictest_default at onboarding.
+# Any deadly field running non-conservative without a covering relax event = RELEASE BLOCK.
+# relax_requires values: client_event (an explicit, logged client relaxation)
+#                        cultural_advisor (advisor sign-off per advisor_playbook)
+#                        mohamed (parked ruling — only Mohamed may unpark; machine ruling = the scar)
+#
+# Confidence: experimental — awaiting Mohamed's per-row ratification (A-04). No formal schema
+# (same convention as forbidden_lists/); provenance block enforced.
+
+---
+schema_version: 1
+table_kind: brand_override_defaults
+title: Brand-override defaults — deadly vs survivable, pinned strictest until relaxed
+law: >-
+  Every field is pinned to strictest_default at brand onboarding. A deadly field running
+  non-conservative without a covering relax event (per relax_requires) is a RELEASE BLOCK.
+  Survivable fields running on default cost at most one bland post. Parked rows stay parked:
+  generation routes AROUND parked themes until Mohamed rules.
+deadly_definition: screenshotable public embarrassment or trust death — unrecoverable in public
+survivable_definition: one bland or off-voice post — recoverable, no public breach
+
+fields:
+
+- field: face_visibility
+  cultural_spec_v1_path: characters.face_visibility_women_rule
+  strictest_default: never
+  deadly_if_wrong: true
+  why: A shown face the client never licensed is a screenshotable family/privacy breach — trust death, not a style miss.
+  relax_requires: client_event
+  example_violation: Generated image shows a woman's face for a brand whose owner holds a وجوه-العائلة red line and never licensed faces in writing.
+  visual_gate_id: faces
+  visual_gate_check_ar: لا وجوه ظاهرة (الافتراضي الصارم — ما لم يرخّص العميل كتابةً)
+
+- field: family_member_visibility
+  cultural_spec_v1_path: null   # client red-line domain — clients/<handle>/profile/red_lines.json; not in the 80-field spec
+  strictest_default: never
+  deadly_if_wrong: true
+  why: Publishing the client's family members uninvited is the «how did you know that?» privacy moment — unrecoverable.
+  relax_requires: client_event
+  example_violation: A post card reuses a scraped photo in which the owner's daughter is visible, without written license.
+  visual_gate_id: family_visibility
+  visual_gate_check_ar: لا أفراد عائلة العميل في الصورة (ترخيص العميل فقط)
+
+- field: mixed_gender_scenes
+  cultural_spec_v1_path: characters.mixed_gender_scene_rule
+  strictest_default: family-only-mixing
+  deadly_if_wrong: true
+  why: A non-mahram mixed scene published under a conservative brand's name is screenshotable public embarrassment.
+  relax_requires: client_event
+  example_violation: Café scene renders unrelated men and women at one table for a conservative Najdi family brand.
+  visual_gate_id: mixed_gender
+  visual_gate_check_ar: لا اختلاط رجال/نساء في مشهد واحد (الافتراضي العائلي)
+
+- field: modesty_dress
+  cultural_spec_v1_path: social_dynamics.modesty_threshold
+  strictest_default: conservative
+  deadly_if_wrong: true
+  why: Below-threshold dress breaks the hard Saudi red line (no veil/clothing relaxation) — instant culture_breach.
+  relax_requires: client_event
+  example_violation: Lifestyle shot with uncovered hair for a brand that never relaxed the hijab/abaya default.
+  visual_gate_id: modesty
+  visual_gate_check_ar: اللبس محتشم بالمعيار السعودي المحافظ
+
+- field: music_in_video
+  cultural_spec_v1_path: null   # brand-level sensitivity; not in the 80-field spec
+  strictest_default: no_music   # silent, or permitted percussion/nasheed only
+  deadly_if_wrong: true
+  why: Music under a conservative client's logo is religiously screenshotable; the strict default offends no one.
+  relax_requires: client_event
+  example_violation: Reel published with a trending pop track for a client positioned as conservative.
+  visual_gate_id: music_context
+  visual_gate_check_ar: 'إن كان فيديو: المقطع بلا موسيقى أو بإيقاع مسموح'
+
+- field: prices_in_copy
+  cultural_spec_v1_path: null   # truth-pack domain — client_truth_pack_v1; pyramid §4 ground-truth facts
+  strictest_default: off_until_truth_confirmed
+  deadly_if_wrong: true
+  why: A wrong price is a confident lie in public — the trust-death class of error (pyramid §4 «defaulted = confident lie»).
+  relax_requires: client_event
+  example_violation: Caption claims «وجبة بـ ١٢ ريال» from a stale scrape after the client changed the menu.
+
+- field: offers_on_emotional_occasions
+  cultural_spec_v1_path: null   # occasion routing rule; pyramid Layer-3 spec row
+  strictest_default: "off"
+  deadly_if_wrong: true
+  why: A عرض pasted onto a grief/national-emotion moment is tone-deafness people screenshot (the crystallize-queue «عرض on national day» scar).
+  relax_requires: client_event
+  example_violation: Discount CTA attached to a mourning-register national-day post.
+
+- field: comment_quoting
+  cultural_spec_v1_path: null   # privacy wall — pyramid §5 Layer-3: commenter identities aggregate-only, never quoted back
+  strictest_default: "off"
+  deadly_if_wrong: true
+  why: Quoting an identifiable commenter back in brand copy is a privacy breach with a name attached.
+  relax_requires: client_event
+  example_violation: Caption opens «مثل ما قالت أم فهد في التعليقات…» quoting a real commenter verbatim.
+
+- field: real_person_mentions
+  cultural_spec_v1_path: null   # truth gate; the 4x factual_error scar (real person, fabricated event)
+  strictest_default: "off"
+  deadly_if_wrong: true
+  why: Naming a real person in fabricated copy was a 4x factual_error kill across 3 clients — fabrication about a named human.
+  relax_requires: client_event
+  example_violation: Caption invents a visit/quote by a real, named customer or public figure that never happened.
+
+- field: dialect_register
+  cultural_spec_v1_path: null   # brand voice domain — dialect_default brand-override per 15_cultural_specs/README; lands in fingerprint l2_voice
+  strictest_default: neutral_saudi   # white dialect, no regional markers, no slang
+  deadly_if_wrong: false
+  why: Wrong register reads bland or slightly off-voice — one weak post, not a public breach.
+  relax_requires: client_event
+  example_violation: Hejazi idioms in copy for a Najdi family brand — off_voice, survivable.
+
+- field: brand_signature_hero_prop
+  cultural_spec_v1_path: props_objects.brand_signature_hero_prop
+  strictest_default: none   # no signature prop assumed until the client names one
+  deadly_if_wrong: false
+  why: A missing or generic prop costs distinctiveness only — bland, not breach.
+  relax_requires: client_event
+  example_violation: Generic coffee dallah staged as «signature» for a brand whose real hero prop is its clay oven.
+
+- field: family_voice_lines
+  cultural_spec_v1_path: null   # copy theme — PARKED ruling family_voice_rule (MOHAMED_APPROVALS A-05 #2)
+  strictest_default: "off"
+  deadly_if_wrong: true
+  why: «أمي جابت البيك»-style lines fabricate family testimony — born from Mohamed's own rate-20 kill note.
+  relax_requires: mohamed
+  parked: true
+  parked_ruling: family_voice_rule
+  example_violation: Caption voices the client's mother endorsing the product when no such statement exists.
+
+- field: masculinity_framing
+  cultural_spec_v1_path: null   # copy theme — PARKED ruling masculinity_framing (MOHAMED_APPROVALS A-05 #3)
+  strictest_default: "off"
+  deadly_if_wrong: true
+  why: «رجال» framing is a charged gender lever — wrong use is screenshotable in either direction.
+  relax_requires: mohamed
+  parked: true
+  parked_ruling: masculinity_framing
+  example_violation: Caption leads with «قهوة الرجال» framing for a mixed-audience brand without a ruling.
+
+- field: ai_imagery_of_real_products
+  cultural_spec_v1_path: null   # visual truth — PARKED ruling FLANK-01 (MOHAMED_APPROVALS A-05 #1)
+  strictest_default: "off"   # no AI render of a real product may publish until the ruling lands
+  deadly_if_wrong: true
+  why: An AI image of a real product can lie about the product itself — truth death if the ruling lands the other way.
+  relax_requires: mohamed
+  parked: true
+  parked_ruling: FLANK-01
+  example_violation: AI-rendered burger published as the client's actual menu item before Mohamed's never/disclosure/per-client ruling.
+
+provenance:
+  source: clients/THE_CLIENT_PYRAMID.md (§4 only-the-client-can-give + §5 Layer-3 DEADLY-DEFAULTS spec) + 15_cultural_specs/README.md (~10 brand-override fields) + 12_data_shapes/cultural_spec_v1.schema.json (field paths)
+  date_added: '2026-06-12T00:00:00Z'
+  confirmer: pending_mohamed
+  confidence: experimental
+  scope: universal

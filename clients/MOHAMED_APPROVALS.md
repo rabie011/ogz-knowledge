@@ -61,8 +61,8 @@ YOUR TAP: Name the list (you, Alhareth, +who else?).
 (backlog B139 · Flanks · ~5 min)
 
 ### A-12 Set package tiers + prices (FLANK-03 — money)
-PREPARED: 3 tier options drafted from existing rates intel + real cadences, recommendation marked; commercial_terms.json stubs waiting for numbers.
-YOUR TAP: Pick or edit one tier per pilot client.
+PREPARED: Full pricing pack exists at data/pricing_draft.md — 3 tiers with market-anchored SAR ranges (Starter self-serve 500–900 · Growth managed 1,800–3,500 · Enterprise 6,000–12,000, all PROPOSED), revenue projection at 10/50/200 clients with honest API cost basis, 3-states→tier map, VAT/PDPL/contract checklist, pilot rollout (50% founding rate for the 3 pilots). commercial_terms.json stubs waiting for the pinned numbers.
+YOUR TAP: Pin the three numbers (or say adjust).
 (backlog B148 · Flanks · ~15 min · after B147)
 
 ### A-13 Approve referral-ask wording + trigger

@@ -1165,6 +1165,37 @@ def _try_create_v6(req) -> dict | None:
     }
 
 
+
+class AnglesRequest(BaseModel):
+    brand: str
+    occasion: str = "national_day"
+
+
+@app.post("/api/angles")
+def api_angles(req: AnglesRequest):
+    """THE CREATIVE LINE surface (P2, June 11): truth pack -> 5 ranked angles (ideas).
+    Idea-first: founder gates angles (cheap) before render (expensive). Cached if built."""
+    import subprocess, sys as _sys
+    m = json.loads((REPO / "data/brief_matrix.json").read_text())
+    b = next((x for x in m if x.get("brand_en") == req.brand or x.get("brand") == req.brand), None)
+    if not b:
+        raise HTTPException(status_code=404, detail=f"brand not in matrix: {req.brand}")
+    brand_en = b["brand_en"]
+    cards = REPO / "data/angle_cards" / f"{brand_en}__{req.occasion}.json"
+    if not cards.exists():
+        env = dict(**__import__("os").environ)
+        for step in (["build_truth_pack.py"], ["build_angle_cards.py"]):
+            r = subprocess.run([_sys.executable, str(REPO / "scripts" / step[0]),
+                                "--brand", brand_en, "--occasion", req.occasion],
+                               capture_output=True, text=True, cwd=str(REPO), env=env)
+            if r.returncode != 0:
+                raise HTTPException(status_code=500, detail=f"{step[0]}: {(r.stderr or r.stdout)[-200:]}")
+    data = json.loads(cards.read_text())
+    return {"brand": req.brand, "occasion": req.occasion,
+            "angles": data.get("angles", []),
+            "truth_pack": json.loads((REPO / "data/truth_packs" / f"{brand_en}__{req.occasion}.json").read_text())}
+
+
 @app.post("/api/create")
 def create_content(req: CreateRequest):
     """Unified content creation pipeline.

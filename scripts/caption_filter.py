@@ -33,6 +33,9 @@ def check(caption: str) -> tuple[bool, list[str]]:
         if c in cap:
             reasons.append(f"cliche:{c}")
             break
+    cult_ok, cult_hits = cultural_check(cap)
+    if not cult_ok:
+        reasons.extend(f"cultural:{h}" for h in cult_hits)
     return (len(reasons) == 0), reasons
 
 
@@ -46,3 +49,24 @@ def filter_options(options: dict) -> tuple[dict, dict]:
         else:
             dropped[k] = reasons
     return ok, dropped
+
+# ── Cultural gate (P2, June 11): the 80-field moat, connected ──────────────────
+import json as _json
+from pathlib import Path as _Path
+_GATE_F = _Path(__file__).parent.parent / "data" / "cultural_gate.json"
+_GATE = _json.loads(_GATE_F.read_text()) if _GATE_F.exists() else {"hard_block": []}
+# Arabic surface terms that signal a hard-block topic IN TEXT (visual entries are
+# enforced at the render stage, not here). Conservative — text captions rarely
+# describe these, but red-line topics must never slip through.
+_CULTURAL_TERMS = {
+    "خمر": "alcohol", "بيرة": "alcohol", "نبيذ": "alcohol",
+    "قمار": "gambling", "رهان": "gambling",
+    "تدخين": "smoking_family_context", "سيجارة": "smoking_family_context",
+    "عُري": "immodest", "عاري": "immodest",
+}
+
+
+def cultural_check(caption: str) -> tuple[bool, list[str]]:
+    cap = caption or ""
+    hits = [v for term, v in _CULTURAL_TERMS.items() if term in cap]
+    return (len(hits) == 0, hits)

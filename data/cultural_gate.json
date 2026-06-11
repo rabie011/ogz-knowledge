@@ -1,0 +1,187 @@
+{
+  "_meta": {
+    "built": "2026-06-11",
+    "source": "15_cultural_specs/forbidden_lists + 04_saudi_rules",
+    "note": "caption-relevant entries (text-detectable); visual-only entries kept for the render stage"
+  },
+  "hard_block": [
+    {
+      "name": "cross_gender_physical_contact_non_mahram",
+      "kind": "behaviors",
+      "severity": "severe",
+      "description": "Physical contact between non-mahrams of different genders (handshake, embrace, casual touch).",
+      "hints": [
+        "mixed-gender scene QC"
+      ]
+    },
+    {
+      "name": "smoking_family_context",
+      "kind": "behaviors",
+      "severity": "moderate",
+      "description": "Smoking depicted in family-context content.",
+      "hints": []
+    },
+    {
+      "name": "prayer_as_commercial_backdrop",
+      "kind": "behaviors",
+      "severity": "severe",
+      "description": "Prayer or supplication shown as commercial backdrop or trivialized for promotional effect.",
+      "hints": [
+        "religious-imagery scene QC"
+      ]
+    },
+    {
+      "name": "left_hand_serving",
+      "kind": "gestures",
+      "severity": "severe",
+      "description": "Left hand used as primary hand for serving food, drink, or gifts.",
+      "hints": [
+        "check hand-handedness in human-frame chains"
+      ]
+    },
+    {
+      "name": "western_palm_up_beckon",
+      "kind": "gestures",
+      "severity": "moderate",
+      "description": "Palm-up curling-finger beckoning (Western style).",
+      "hints": [
+        "check gesture orientation in interactive scenes"
+      ]
+    },
+    {
+      "name": "pointing_finger_at_person",
+      "kind": "gestures",
+      "severity": "moderate",
+      "description": "Pointing index finger directly at another person.",
+      "hints": [
+        "scenes with direct-address gesture toward talent"
+      ]
+    },
+    {
+      "name": "sole_of_foot_visible",
+      "kind": "gestures",
+      "severity": "severe",
+      "description": "Soles of feet or shoes visible toward another person.",
+      "hints": [
+        "check seated postures, cross-leg positions"
+      ]
+    },
+    {
+      "name": "shoes_on_seating",
+      "kind": "gestures",
+      "severity": "severe",
+      "description": "Shoes placed on or above seating surfaces or majlis cushions.",
+      "hints": [
+        "majlis interior chains"
+      ]
+    },
+    {
+      "name": "thumbs_up_to_elder_or_religious",
+      "kind": "gestures",
+      "severity": "moderate",
+      "description": "Thumbs-up directed at religious authorities or elders.",
+      "hints": []
+    },
+    {
+      "name": "ok_circle_gesture",
+      "kind": "gestures",
+      "severity": "moderate",
+      "description": "Western 'OK' circle hand gesture.",
+      "hints": []
+    },
+    {
+      "name": "saudi_flag_misuse",
+      "kind": "visuals",
+      "severity": "severe",
+      "description": "Saudi flag used as disposable decoration, on disposable items, upside-down, overlaid on faces, or in any disrespectful framing.",
+      "hints": [
+        "flag placement audit on all national-day content"
+      ]
+    },
+    {
+      "name": "political_imagery_competitive",
+      "kind": "visuals",
+      "severity": "severe",
+      "description": "Imagery competitively contrasting with neighbouring states (flags, leaders, territories).",
+      "hints": []
+    },
+    {
+      "name": "sectarian_iconography",
+      "kind": "visuals",
+      "severity": "severe",
+      "description": "Sectarian or denominational religious iconography in commercial framing.",
+      "hints": []
+    },
+    {
+      "name": "kaaba_or_mecca_as_backdrop",
+      "kind": "visuals",
+      "severity": "severe",
+      "description": "Kaaba, Mecca crowds, or Hajj imagery used as commercial backdrop for non-Hajj brand.",
+      "hints": [
+        "Hajj-period content QC"
+      ]
+    },
+    {
+      "name": "named_historical_royal_unauthorized",
+      "kind": "visuals",
+      "severity": "moderate",
+      "description": "Named historical royal figures depicted without official endorsement.",
+      "hints": []
+    },
+    {
+      "name": "alcohol_product",
+      "kind": "props",
+      "severity": "severe",
+      "description": "Alcohol product imagery (any brand, any visibility level).",
+      "hints": [
+        "bottle silhouettes, glasses with amber liquid in social contexts"
+      ]
+    },
+    {
+      "name": "pork_product",
+      "kind": "props",
+      "severity": "severe",
+      "description": "Pork product imagery — bacon, ham, pork chops, etc.",
+      "hints": [
+        "meat in F&B context — verify category"
+      ]
+    },
+    {
+      "name": "gambling_imagery",
+      "kind": "props",
+      "severity": "severe",
+      "description": "Gambling references — casino chips, dice, playing-card suits used in betting context, slot machines.",
+      "hints": []
+    },
+    {
+      "name": "other_faith_religious_symbols",
+      "kind": "props",
+      "severity": "moderate",
+      "description": "Religious symbols of other faiths used decoratively (cross, star of David, Buddha statue, etc.).",
+      "hints": [
+        "decoration in interior scenes"
+      ]
+    },
+    {
+      "name": "quranic_overlay_commercial",
+      "kind": "props",
+      "severity": "severe",
+      "description": "Quranic verses overlaid on commercial / promotional imagery.",
+      "hints": [
+        "typography over product shots"
+      ]
+    }
+  ],
+  "ramadan_only": [
+    {
+      "name": "eating_during_ramadan_daylight",
+      "kind": "behaviors",
+      "severity": "severe",
+      "description": "Eating or drinking visible during Ramadan daylight hours (between Fajr and Maghreb).",
+      "hints": [
+        "F&B captions and imagery during Ramadan dates only"
+      ]
+    }
+  ],
+  "red_lines": []
+}

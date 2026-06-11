@@ -1,0 +1,2777 @@
+{
+  "meta": {
+    "name": "OGZ Intelligence Layer — Thin Brain",
+    "version": "4.0",
+    "philosophy": "Less but right. Cultural guardrails + real metrics + reference examples. No wrong scores, no bad rules.",
+    "generated_at": "2026-06-04T23:26:04.387421",
+    "updated_at": "2026-06-06T01:34:28.575170+00:00",
+    "real_metrics_brands": 23,
+    "v4_additions": [
+      "template_library.json — 1,301+ templates",
+      "quality_gate module — scripts/lib/quality_gate.py",
+      "unified pipeline — POST /api/create",
+      "product names for all 23 brands",
+      "caption_intelligence expanded to 7 brands",
+      "white_friday + singles_day occasions added",
+      "deep_test_loop pass 1: 7,596 runs, 99.9% pass rate"
+    ]
+  },
+  "cultural_guardrails": {
+    "forbidden_gestures": [
+      "left-hand serving",
+      "palm-up beckoning",
+      "sole-of-foot visible",
+      "OK-circle gesture"
+    ],
+    "forbidden_props": [
+      "alcohol",
+      "pork",
+      "gambling",
+      "other-faith religious symbols",
+      "Quranic text as visual treatment"
+    ],
+    "forbidden_behaviors": [
+      "eating during Ramadan daylight",
+      "cross-gender contact (non-mahram)",
+      "commercial prayer staging",
+      "خلع الملابس",
+      "إزالة الحجاب",
+      "تفك الخمار",
+      "نزع الملابس",
+      "المشاهد على السرير",
+      "استغلال ضعف الناس"
+    ],
+    "forbidden_visuals": [
+      "Saudi flag misuse",
+      "competitive political imagery",
+      "Kaaba as backdrop",
+      "named royals unauthorized"
+    ],
+    "sacred_occasions": {
+      "hajj_season": "Pull back on promotion. Warm, subtle content only.",
+      "ramadan": "No eating in daylight hours. Suhoor/iftar framing required."
+    },
+    "modesty_rules": {
+      "default": "Conservative. Full sleeves, no cleavage, no tight clothing.",
+      "beauty_sector": "Product focus on hands/face. Avoid body shots.",
+      "fashion_sector": "Modest fashion only. Abaya/hijab styling preferred."
+    },
+    "language_rule": "ALL output must be in Saudi Arabic. Never output English for Saudi brands. Even cultural disclaimers must be in Arabic.",
+    "output_language": {
+      "rule": "ALL creative output (caption, visual direction, production notes) must be in Saudi Arabic. English only for technical terms (Instagram, fal.ai model names).",
+      "visual_direction": "Write in Arabic: إضاءة طبيعية, خلفية تراثية, تصوير المنتج",
+      "production_notes": "Write in Arabic: تصوير الطبق مع التركيز على التفاصيل"
+    },
+    "mohamed_red_lines": {
+      "source": "human review 2026-06-07",
+      "rules": [
+        "no clothing/veil removal",
+        "no bed/bedroom scenes",
+        "no exploiting vulnerability",
+        "keep scenes public/appropriate",
+        "captions must be short — too long was the #1 complaint"
+      ]
+    }
+  },
+  "real_metrics": {
+    "albaik": {
+      "obs_count": 111,
+      "avg_likes": 2689,
+      "max_likes": 11716,
+      "sector": "f_and_b",
+      "verified": true
+    },
+    "barnscoffee": {
+      "obs_count": 110,
+      "avg_likes": 660,
+      "max_likes": 4711,
+      "sector": "f_and_b",
+      "verified": true
+    },
+    "pizzahutsaudi": {
+      "obs_count": 120,
+      "avg_likes": 14,
+      "max_likes": 86,
+      "sector": "f_and_b",
+      "verified": true
+    },
+    "maxfashionmena": {
+      "obs_count": 92,
+      "avg_likes": 886,
+      "max_likes": 7668,
+      "sector": "fashion",
+      "verified": true
+    },
+    "elixirbunn": {
+      "obs_count": 30,
+      "avg_likes": 175,
+      "max_likes": 632,
+      "sector": "f_and_b",
+      "verified": true
+    },
+    "kyancafe": {
+      "obs_count": 66,
+      "avg_likes": 327,
+      "max_likes": 2684,
+      "sector": "f_and_b",
+      "verified": true
+    },
+    "mcdonaldsksa": {
+      "obs_count": 12,
+      "avg_likes": 1090,
+      "max_likes": 4238,
+      "sector": "f_and_b",
+      "verified": true
+    },
+    "hashibasha": {
+      "obs_count": 102,
+      "avg_likes": 82,
+      "max_likes": 1158,
+      "sector": "f_and_b",
+      "verified": true
+    },
+    "herfyfsc": {
+      "obs_count": 4,
+      "avg_likes": 88,
+      "max_likes": 194,
+      "sector": "f_and_b",
+      "verified": true
+    },
+    "riyadhfood": {
+      "obs_count": 4,
+      "avg_likes": 243,
+      "max_likes": 444,
+      "sector": "f_and_b",
+      "verified": true
+    },
+    "altazaj_fakieh": {
+      "obs_count": 3,
+      "avg_likes": 6530,
+      "max_likes": 19210,
+      "sector": "f_and_b",
+      "verified": true
+    },
+    "tamimimarkets": {
+      "obs_count": 125,
+      "avg_likes": 167,
+      "max_likes": 2522,
+      "sector": "retail_lifestyle",
+      "verified": true
+    },
+    "aldeebajofficial": {
+      "obs_count": 6,
+      "avg_likes": 122,
+      "max_likes": 282,
+      "sector": "retail_lifestyle",
+      "verified": true
+    },
+    "pandasaudi": {
+      "obs_count": 113,
+      "avg_likes": 205,
+      "max_likes": 3749,
+      "sector": "retail_lifestyle",
+      "verified": true
+    },
+    "hm": {
+      "obs_count": 88,
+      "avg_likes": 6074,
+      "max_likes": 70771,
+      "sector": "fashion",
+      "verified": true
+    },
+    "randbfashion": {
+      "obs_count": 31,
+      "avg_likes": 8,
+      "max_likes": 26,
+      "sector": "fashion",
+      "verified": true
+    },
+    "mumzworld": {
+      "obs_count": 118,
+      "avg_likes": 150,
+      "max_likes": 2715,
+      "sector": "retail_lifestyle",
+      "verified": true
+    },
+    "kiabiksa": {
+      "obs_count": 72,
+      "avg_likes": 44,
+      "max_likes": 1496,
+      "sector": "fashion",
+      "verified": true
+    },
+    "zara": {
+      "obs_count": 63,
+      "avg_likes": 50836,
+      "max_likes": 1022609,
+      "sector": "fashion",
+      "verified": true
+    },
+    "mikyajy": {
+      "obs_count": 96,
+      "avg_likes": 636,
+      "max_likes": 48464,
+      "sector": "beauty_personal_care",
+      "verified": true
+    },
+    "asteribeautysa": {
+      "obs_count": 16,
+      "avg_likes": 169,
+      "max_likes": 1718,
+      "sector": "beauty_personal_care",
+      "verified": true
+    },
+    "lifestyleshops": {
+      "obs_count": 17,
+      "avg_likes": 1,
+      "max_likes": 3,
+      "sector": "beauty_personal_care",
+      "verified": true
+    },
+    "gissahperfumes": {
+      "obs_count": 7,
+      "avg_likes": 1,
+      "max_likes": 6,
+      "sector": "beauty_personal_care",
+      "verified": true
+    }
+  },
+  "reference_examples": {
+    "albaik": [
+      {
+        "url": "https://www.instagram.com/p/CxYczJBoGZr/",
+        "likes": 11716,
+        "content_type": "image",
+        "caption_preview": "#برجر_فيليه_سمك.. طعم تغوص فيه 🫧\n#البيك"
+      },
+      {
+        "url": "https://www.instagram.com/p/C0mM-Z2Il0S/",
+        "likes": 10684,
+        "content_type": "image",
+        "caption_preview": "الآن #بيكيز_حراق الجديد من #البيك"
+      },
+      {
+        "url": "https://www.instagram.com/p/CtzlepJI8ew/",
+        "likes": 9707,
+        "content_type": "carousel_slide",
+        "caption_preview": "الآن.. ‎#البيك في ‎#المنطقة_المركزية شارع الغزّة جنوب بوابة ‎#الحرم_المكي الشريف"
+      },
+      {
+        "url": "https://www.instagram.com/p/C7jthkloMRo/",
+        "likes": 8967,
+        "content_type": "video",
+        "caption_preview": "#البيك‬⁩.. بيكك \n‏⁧‫#صنع_في_السعودية‬⁩ 🇸🇦"
+      },
+      {
+        "url": "https://www.instagram.com/p/CuICqMTIK3U/",
+        "likes": 8661,
+        "content_type": "carousel_slide",
+        "caption_preview": "الحمدلله الذي أنعم علينا خدمة ضيوف الرحمن\n#مكه_المكرمة 🕋\n#حج_1444 \n‎#البيك"
+      }
+    ],
+    "barnscoffee": [
+      {
+        "url": "https://www.instagram.com/p/DQjq-VlCcxT/",
+        "likes": 4711,
+        "content_type": "video",
+        "caption_preview": "⁨\t⁨\t⁨\tلا تفوّتوا فرصتكم والعبوا معنا واحصلوا على فرصة الفوز بـ​ COUNTRYMAN​ 😍\n\nه"
+      },
+      {
+        "url": "https://www.instagram.com/p/DVoQNHhFKz4/",
+        "likes": 4573,
+        "content_type": "image",
+        "caption_preview": "لكل امرأة تكتب قصة نجاحها بطريقتها.​\n شاركينا… وش أكبر إنجاز حققتِه؟ ✨​\n#مننا_وي"
+      },
+      {
+        "url": "https://www.instagram.com/p/DRcmSZQjMN3/",
+        "likes": 4121,
+        "content_type": "image",
+        "caption_preview": "-\nمشروبات @barnscoffee الشتوية ومع جوائز! ☕️❄️\n \nالراعي بارنز مضبّطكم، اطلب ماتش"
+      },
+      {
+        "url": "https://www.instagram.com/p/DO3shBsESjQ/",
+        "likes": 3403,
+        "content_type": "image",
+        "caption_preview": "⁨\tمن طبعنا الكرم وحب المشاركة \n\nشاركنا فرحتك باليوم الوطني ولا يفوتك العرض ليوم "
+      },
+      {
+        "url": "https://www.instagram.com/p/DXMY3FqDj6U/",
+        "likes": 3322,
+        "content_type": "image",
+        "caption_preview": "قهوة اليوم بعرض جبار 🔥☕​\n​\nعرض شهر أبريل على قهوة اليوم:​\nخذ كوبك بـ 5 ريال فقط​"
+      }
+    ],
+    "pizzahutsaudi": [
+      {
+        "url": "https://www.instagram.com/p/DW8vq-jE5M9/",
+        "likes": 86,
+        "content_type": "video",
+        "caption_preview": "2 عليك ووحدة مننا هدية، اعزم اهلك أو اخوياك على بيتزاهت 🍕3️⃣\n\n#بيتزاهت #بيتزاهت_"
+      },
+      {
+        "url": "https://www.instagram.com/p/DTx8J_yk3RB/",
+        "likes": 69,
+        "content_type": "video",
+        "caption_preview": "أركد، هدّي، وأطلب غمّس وقرمش من التطبيق، الحل\nبسيط⚠️🍕\n\n#بيتزاهت #بيتزاهت_السعودي"
+      },
+      {
+        "url": "https://www.instagram.com/p/DUDvb-pE5tG/",
+        "likes": 67,
+        "content_type": "video",
+        "caption_preview": "تدرون مين دخل فجأة؟\nالكل حسبه تايه بس شهيته كانت على بيتزا🐧🍕\n\n#بيتزاهت #بيتزاهت_"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYCWGKdjGRd/",
+        "likes": 60,
+        "content_type": "carousel_slide",
+        "caption_preview": "مو منطقي كل المكونات تطيح عشان طريقة مسكك للبيتزا؟\nها بشروا تعلمتوا؟🍕❤️\n\n#بيتزاه"
+      },
+      {
+        "url": "https://www.instagram.com/p/DW34izrDPNf/",
+        "likes": 58,
+        "content_type": "image",
+        "caption_preview": "يا حي الله العروض الزينة، 2 بيتزا كبير بـ29 ريال للوحدة، اطلب الحين\nمتوفر في الم"
+      }
+    ],
+    "maxfashionmena": [
+      {
+        "url": "https://www.instagram.com/p/DXl345pDjwg/",
+        "likes": 7668,
+        "content_type": "image",
+        "caption_preview": "البني الشوكولاتة يتصدر إطلالات هذا الصيف. 🤎\nلون يمنحك ثباتًا وثقة  بتنسيق أحادي "
+      },
+      {
+        "url": "https://www.instagram.com/p/DXUNmRCCdsN/",
+        "likes": 5845,
+        "content_type": "image",
+        "caption_preview": ".هذا هو صيفك السهل والسريع\nفستان مريح بقماش محبوك يبرز جمال القوام، مع شباشب خفي"
+      },
+      {
+        "url": "https://www.instagram.com/p/DX5858hCnfd/",
+        "likes": 4320,
+        "content_type": "video",
+        "caption_preview": "اختيارات خفيفة من الراحة والنقوش… مع لمسات من ألوان الصيف التي ترافق يومك بسهولة"
+      },
+      {
+        "url": "https://www.instagram.com/p/DWokob2jb_5/",
+        "likes": 4064,
+        "content_type": "video",
+        "caption_preview": "إطلالات تنساب مع إيقاع يومك.\nتصاميم مريحة، فساتين خفيفة، وقطع بنقوش لافتة بخامات"
+      },
+      {
+        "url": "https://www.instagram.com/p/DWJHEHxD5Ah/",
+        "likes": 3231,
+        "content_type": "video",
+        "caption_preview": ".مجموعة صممت للأيام الدافئة والحركة المستمرة\nمن الفساتين الناعمة إلى الأطقم المر"
+      }
+    ],
+    "elixirbunn": [
+      {
+        "url": "https://www.instagram.com/p/DNks-0cIUHH/",
+        "likes": 632,
+        "content_type": "carousel_slide",
+        "caption_preview": ".\nعبري ولومي المشروبات الصيفية الجديدة☀️\nحصريًا في جميع فروع إكسير البن."
+      },
+      {
+        "url": "https://www.instagram.com/p/CpxojDKDye-/",
+        "likes": 509,
+        "content_type": "carousel_slide",
+        "caption_preview": "من ‎ طاولات محاربي الساموراي، ومن بلاط الامبراطوريات العظيمه وطقوس “السادو” اليا"
+      },
+      {
+        "url": "https://www.instagram.com/p/C0Od5pAIemn/",
+        "likes": 490,
+        "content_type": "video",
+        "caption_preview": "مبارك لاكسبو الرياض 💚🇸🇦 عاصمة الطموح الذي ليس له حدّ.. دمت لنا وطنا آمنا، مزدهرا"
+      },
+      {
+        "url": "https://www.instagram.com/p/DGlD3oTNfw9/",
+        "likes": 481,
+        "content_type": "carousel_slide",
+        "caption_preview": "في إكسير البن، نؤمن بأن كل نكهة تحمل إرثًا من الحكايا، نبدع من خلالها في سرد قصص"
+      },
+      {
+        "url": "https://www.instagram.com/p/DFkkN8OtifH/",
+        "likes": 353,
+        "content_type": "carousel_slide",
+        "caption_preview": "في تعاون مميز بين إكسير البن والمقلط، نقدم لكم مشروبًا فريدًا يأسر الحواس بتوليف"
+      }
+    ],
+    "kyancafe": [
+      {
+        "url": "https://www.instagram.com/p/DXKqo0PDEiS/",
+        "likes": 2684,
+        "content_type": "image",
+        "caption_preview": "أي مشروب من هالمشروبات اللي تبرّد على قلبك ، بثمانية ريال بس !\n\nملاحظة: تم تمديد"
+      },
+      {
+        "url": "https://www.instagram.com/p/DXb2KSQDIWG/",
+        "likes": 1760,
+        "content_type": "image",
+        "caption_preview": "وفّرنا لكم الكوب المضيء من جديد! \nوبعدّة ألـوان بعد .."
+      },
+      {
+        "url": "https://www.instagram.com/p/DV_5mOojK2q/",
+        "likes": 1496,
+        "content_type": "image",
+        "caption_preview": "عشرتك علينا، وحلاوة عيدك علينا لأنه فرحة وكيان وعيد سعيد 🩵"
+      },
+      {
+        "url": "https://www.instagram.com/p/DX_9kt8jCDL/",
+        "likes": 1447,
+        "content_type": "image",
+        "caption_preview": "كوبـنا المضيء مو كـوب عادي! نزل بألوان جديدة وبعرض🤩🩵!\nأختار مشروبك المفضل.. وخله"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYj4XFKs11B/",
+        "likes": 1428,
+        "content_type": "image",
+        "caption_preview": "أضحى سعيد\nوكيان يسعد جمعاتكم🩵"
+      }
+    ],
+    "mcdonaldsksa": [
+      {
+        "url": "https://www.instagram.com/p/DYzffaEILcF/",
+        "likes": 4238,
+        "content_type": "image",
+        "caption_preview": "الأيفونات بانتظاركم وجبناها لين عندكم! 📱🎁 ركز في الصورة، جاوب على السؤال، وطبق ا"
+      },
+      {
+        "url": "https://www.instagram.com/p/DY4-hoqOqk2/",
+        "likes": 3343,
+        "content_type": "image",
+        "caption_preview": "⁨\t#ماك_يعايدكم بأيفونات جديدة! 📱✨ \nلا تضيع الفرصة، الإجابة سهلة والشروط أسهل.. ج"
+      },
+      {
+        "url": "https://www.instagram.com/p/DY-ZfGvOsW5/",
+        "likes": 3282,
+        "content_type": "image",
+        "caption_preview": "⁨\tمسك الختام وأقوى فرصة للفوز بالأيفون! 📱🏁 \nالسؤال سهل والكل يعرفه.. فولو وجاوب "
+      },
+      {
+        "url": "https://www.instagram.com/p/DZE4mdcjiXY/",
+        "likes": 950,
+        "content_type": "carousel_slide",
+        "caption_preview": "عيش التجربة مع الاساطير في ماكدونالدز من قلب #كأس_العالم! 🏆 وعشان تكمل المتعة، ت"
+      },
+      {
+        "url": "https://www.instagram.com/p/DY0LbLvDpjW/",
+        "likes": 365,
+        "content_type": "carousel_slide",
+        "caption_preview": "⁨\t⁨\t⁨#ماكدونالدز يشارككم فرحة العيد بعروض تسعدكم✨🤩\nشيكوا التطبيق واستمتعوا 📲… وع"
+      }
+    ],
+    "hashibasha": [
+      {
+        "url": "https://www.instagram.com/p/DGfzWIWNtA4/",
+        "likes": 1158,
+        "content_type": "video",
+        "caption_preview": "عروض تكفي وتوفّي!\nطعم يحبه قلبك، وجبة مشبعة... وسعر ما يتكرر. لا تفوتونها!\n\n#تري"
+      },
+      {
+        "url": "https://www.instagram.com/p/DGd6eDONUQe/",
+        "likes": 892,
+        "content_type": "video",
+        "caption_preview": "شيء واحد مضمون... بتخلص وجبتك وانت سعيد!\nعروض قوية وخيارات لذيذة، اللمة صارت أسه"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYpOosEEXS4/",
+        "likes": 690,
+        "content_type": "image",
+        "caption_preview": "حاشي باشا.. يعرفك طعم الكبسة الصح!🔥\n #حاشي_باشا"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYzBNuiEeUM/",
+        "likes": 688,
+        "content_type": "image",
+        "caption_preview": "مضغوط دجاج مع كل الاضافات اللي تحبها .\n\n #حاشي_باشا"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYhXmw3tj46/",
+        "likes": 279,
+        "content_type": "image",
+        "caption_preview": "طبقك المفضل ما يكمل الّا مع السلطة!\nاختر سلطتك المفضلة\n#حاشي_باشا"
+      }
+    ],
+    "herfyfsc": [
+      {
+        "url": "https://www.instagram.com/p/DY6rCpdoFFD/",
+        "likes": 194,
+        "content_type": "carousel_slide",
+        "caption_preview": "لكل شخصية لعبتها الخاصة… مين طلع لك؟💫⁣\n⁣\n⁣\n#وجبة_فتيات_القوة #هرفي #Herfy⁣"
+      },
+      {
+        "url": "https://www.instagram.com/p/DY4GO-_E4I1/",
+        "likes": 78,
+        "content_type": "video",
+        "caption_preview": "3 صوصات مستوحاة من شخصيات فتيات القوة 💙💖💚⁣\nكل نكهة تعكس طابع بلوسوم، بابلز، وبات"
+      },
+      {
+        "url": "https://www.instagram.com/p/DY9JBDelDlo/",
+        "likes": 57,
+        "content_type": "video",
+        "caption_preview": "جرّب حظك مع وجبة فتيات القوة! 🌟⁣\n من تتوقّع بتطلع لك؟ بلوسوم 💖 ,بابلز 💙 ,باتركاب"
+      },
+      {
+        "url": "https://www.instagram.com/p/DZCZZ_yFqrk/",
+        "likes": 25,
+        "content_type": "image",
+        "caption_preview": "توستي كلوب 🥪⁣\nالطعم اللي يضبّط يومك 👌!⁣\n⁣\n#توستي_كلوب #هرفي #Herfy"
+      }
+    ],
+    "riyadhfood": [
+      {
+        "url": "https://www.instagram.com/p/C6ZEH2DK5FF/",
+        "likes": 444,
+        "content_type": "carousel_slide",
+        "caption_preview": "ليزي كات | Lazy cat\n📍ليسن فالي\n\n @riyadh_bloggy\n\n Lazy Cat\nللشيف أحمد الزامل من "
+      },
+      {
+        "url": "https://www.instagram.com/p/C5OqhNzq3TT/",
+        "likes": 258,
+        "content_type": "carousel_slide",
+        "caption_preview": "‏رمضان مبارك\nبوفيه إفطار سمار📍 العماريية\n\nالشخص 💵 ١٧٥ ريال\n@moudi_ar22"
+      },
+      {
+        "url": "https://www.instagram.com/p/C5JEQR8K1do/",
+        "likes": 159,
+        "content_type": "carousel_slide",
+        "caption_preview": "رمضان مبارك 🌙\nإفطار فندق الرتز كارلتون الرياض\n\n@ashwag.live"
+      },
+      {
+        "url": "https://www.instagram.com/p/C5T1QB0K0FM/",
+        "likes": 112,
+        "content_type": "carousel_slide",
+        "caption_preview": "رمضان مبارك\nخيمة ليالي نجد🌙\nفندق الانتركونتيننتال\n\n@riyadh_places2 .\n.حي المؤتمر"
+      }
+    ],
+    "altazaj_fakieh": [
+      {
+        "url": "https://www.instagram.com/p/DW_TK7FiNLe/",
+        "likes": 19210,
+        "content_type": "video",
+        "caption_preview": "أصدق مشاعر ممكن تشوفها 🔥\nلما التتبيلة تكون على الجرح وبالضبط زي ما تحبها مثل تتب"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYzl7J8CJde/",
+        "likes": 231,
+        "content_type": "carousel_slide",
+        "caption_preview": "يسرّنا الإعلان عن افتتاح فرع الطازج في حي التيسير 📍\nخطوة جديدة ضمن توسّعنا المست"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYUN3RiILkv/",
+        "likes": 150,
+        "content_type": "video",
+        "caption_preview": "عربي سبايسي دخل بهدوء… وولّع الدنيا 🌶️🔥 \nانتوا طلبتوا… وإحنا نفذنا😋\n\nمتوفر في جم"
+      }
+    ],
+    "tamimimarkets": [
+      {
+        "url": "https://www.instagram.com/p/DYUSGtaArkt/",
+        "likes": 2522,
+        "content_type": "video",
+        "caption_preview": "مقابلة خفيفة مع أبطال القادسية 😉\nA casual chat with the stars of Al-Qadsiah\n@fcq"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYzcwjao_Ee/",
+        "likes": 2496,
+        "content_type": "video",
+        "caption_preview": "اعشق الكبدة بهذي الطريقة تكون مقلية مع خلطة لذيذة ومتسبككة صح .. جربوها وعطوني ر"
+      },
+      {
+        "url": "https://www.instagram.com/p/DWmQTBPCu_B/",
+        "likes": 2259,
+        "content_type": "video",
+        "caption_preview": "فرع \"التميمي جارك\" الجديد موجود في حي التحلية بالخبر 🤩\n.\n.\n.\n.\nAď\n#اسواق_التميمي"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYh0N9_IeJd/",
+        "likes": 1852,
+        "content_type": "video",
+        "caption_preview": "⁨\tاول وصفة من سلسة وصفات Skincare خروف العييد! سويت لكم الذ مقلقل محمر ولذيييذ.\n"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYwpgeaIY7g/",
+        "likes": 1053,
+        "content_type": "video",
+        "caption_preview": "احس لو بمدح لكم هذي الشوربة بتعب من كثر ماهي لذيييذة ومفيدة للبشرة .\n\nوثالث وصفة"
+      }
+    ],
+    "aldeebajofficial": [
+      {
+        "url": "https://www.instagram.com/p/DZDAuOpMK9S/",
+        "likes": 282,
+        "content_type": "video",
+        "caption_preview": "X @aldeebajofficial 📸🌷🪽💌\n-\n-\n-\n-\n-\n-\n-\n#summer #instagram #trending #reels #fyp"
+      },
+      {
+        "url": "https://www.instagram.com/p/DZFmxOSM8ok/",
+        "likes": 252,
+        "content_type": "video",
+        "caption_preview": "Abaya from @aldeebajofficial 🩵🧺🪽"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYcQ8gCsB9s/",
+        "likes": 133,
+        "content_type": "video",
+        "caption_preview": "If you believe every occasion deserves a completely different outfit, @aldeebajo"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYTKbBTIP_I/",
+        "likes": 39,
+        "content_type": "video",
+        "caption_preview": "MashaAllah ✨\n#faizanshaikh  spotted wearing Al Deebaj⁠� Thobe in the beautiful s"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYXpXxpIEUD/",
+        "likes": 17,
+        "content_type": "video",
+        "caption_preview": "Minimal design. Premium feel. Powerful presence.\nDiscover the all-new Cairo Coll"
+      }
+    ],
+    "pandasaudi": [
+      {
+        "url": "https://www.instagram.com/p/DYZ2AmQDYkF/",
+        "likes": 3749,
+        "content_type": "image",
+        "caption_preview": "الآن اطلب أضحيتك بخطوات بسيطة وأنت في مكانك ✨\nاستعد للعيد مع #بنده بكل سهولة\n#بن"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYofOu5ChMp/",
+        "likes": 2036,
+        "content_type": "video",
+        "caption_preview": "كأس العالم له جو ثاني مع أقوى عروض التلفزيونات من #كليكس ! 📺✨\n#بنده_معك_تفرق\n#بن"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYRlN_UicGn/",
+        "likes": 1624,
+        "content_type": "image",
+        "caption_preview": "لا تشيل هم اضحيتك عندنا 😎🐑\n يفتح باب الطلب قريباً من #بنده 👌🏼\n#بنده_معك_تفرق\n#ها"
+      },
+      {
+        "url": "https://www.instagram.com/p/DSojjj8FBFe/",
+        "likes": 1597,
+        "content_type": "image",
+        "caption_preview": "مع #بنده و #الفرسان، الكاش باك يتحوّل لأميال 🛒✈️\nمشترياتك تقرّبك أكثر من رحلتك ا"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYhNtJgDfOC/",
+        "likes": 959,
+        "content_type": "video",
+        "caption_preview": "أضحيتك هالسنة من #بنده ..\nلأننا نوفر لك الجودة الأعلى من مصادر معتمدة وطريقة طلب"
+      }
+    ],
+    "hm": [
+      {
+        "url": "https://www.instagram.com/p/DYKMHcnClGV/",
+        "likes": 70771,
+        "content_type": "carousel_slide",
+        "caption_preview": "H&M&RIO is an exploration of the city’s vibrant soul, captured through the lens "
+      },
+      {
+        "url": "https://www.instagram.com/p/DVvrsdVCufl/",
+        "likes": 32336,
+        "content_type": "video",
+        "caption_preview": "Partnership @giveon @hm “It’s easy going to the studio in just a tank top and sw"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYFJ8xsivIG/",
+        "likes": 22862,
+        "content_type": "carousel_slide",
+        "caption_preview": "Coming to Rio with @hm reminded me what it means to simply be yourself.\nThere’s "
+      },
+      {
+        "url": "https://www.instagram.com/p/DYl6g4kigoM/",
+        "likes": 18268,
+        "content_type": "carousel_slide",
+        "caption_preview": "Seen at the H&M Studio Resort event in Los Angeles.\n\nCollection is out now.\n\n@la"
+      },
+      {
+        "url": "https://www.instagram.com/p/DRy5kRTjA-v/",
+        "likes": 15910,
+        "content_type": "video",
+        "caption_preview": "Stella McCartney H&M. Launching Spring 2026.\n\nWe are proud to announce our colla"
+      }
+    ],
+    "randbfashion": [
+      {
+        "url": "https://www.instagram.com/p/CFQY-46HtMA/",
+        "likes": 26,
+        "content_type": "image",
+        "caption_preview": "GIVEWAY TIME!\nR & B Fashion is teaming up with Tania V Jewellery to give away th"
+      },
+      {
+        "url": "https://www.instagram.com/p/CExmBQGBCxV/",
+        "likes": 22,
+        "content_type": "carousel_slide",
+        "caption_preview": "Rainbow ribbed sweater perfect for spring. Available in S, M and L. #rainbowswea"
+      },
+      {
+        "url": "https://www.instagram.com/p/CFJ3EcUnjVa/",
+        "likes": 12,
+        "content_type": "image",
+        "caption_preview": "So many great knits available and only $99 each including postage Australia Wide"
+      },
+      {
+        "url": "https://www.instagram.com/p/CGJeg-mHovy/",
+        "likes": 12,
+        "content_type": "image",
+        "caption_preview": "Perfect rainbow day X #randbfashion #rainbowsweater #knit #knitwear #fashion #cl"
+      },
+      {
+        "url": "https://www.instagram.com/p/CGroi0yrqhe/",
+        "likes": 11,
+        "content_type": "carousel_slide",
+        "caption_preview": "Still some of these stunning striped heart knits available. Only $79 including p"
+      }
+    ],
+    "mumzworld": [
+      {
+        "url": "https://www.instagram.com/p/DWJpbr4jX2B/",
+        "likes": 2715,
+        "content_type": "image",
+        "caption_preview": "⁨\t⁨\t✨ عيدية ممزورلد ✨\n\nمن ممزورلد إلى أمهاتنا الغاليات لأننا معك في كل خطوة 🤍 لل"
+      },
+      {
+        "url": "https://www.instagram.com/p/DWMdfvPDXW9/",
+        "likes": 2318,
+        "content_type": "image",
+        "caption_preview": "⁨\t⁨\t✨عيدية ممزورلد ✨\n\nمن ممزورلد إلى أمهاتنا الغاليات لأننا معك في كل خطوة 🤍 للد"
+      },
+      {
+        "url": "https://www.instagram.com/p/DRMxRw4CBNd/",
+        "likes": 1333,
+        "content_type": "image",
+        "caption_preview": "لأن احتفال ممزورلد مميز .. هديتنا في المناسبة لازم تكون مميزة 🎂🎈\n\nنحتفل اليوم ب "
+      },
+      {
+        "url": "https://www.instagram.com/p/DWHOfHIDQ9_/",
+        "likes": 1117,
+        "content_type": "image",
+        "caption_preview": "⁨\t⁨\t✨ عيديه ممزورلد ✨\n\nمن ممزورلد إلى أمهاتنا الغاليات لأننا معك في كل خطوة 🤍 لل"
+      },
+      {
+        "url": "https://www.instagram.com/p/DXBnWo_gETE/",
+        "likes": 814,
+        "content_type": "image",
+        "caption_preview": "إلى الأم المرضعة .. ممزورلد معك في كل خطوة و انتي قدها 💪🏼\n\nاكتبي لنا بالكومنت أك"
+      }
+    ],
+    "kiabiksa": [
+      {
+        "url": "https://www.instagram.com/p/DQ1tcR0DOr_/",
+        "likes": 1496,
+        "content_type": "video",
+        "caption_preview": "⁨\tشاركوا معنا في مسابقة كيابي!\nالمسابقة إلى 2 ديسمبر والمشاركة مفتوحة لكل سكان ا"
+      },
+      {
+        "url": "https://www.instagram.com/p/DSmshC1lVaC/",
+        "likes": 298,
+        "content_type": "video",
+        "caption_preview": "زورونا في موقعنا الإلكتروني أو فروعنا وضيفوا لتسوّقكم متعة بأفضل الأسعار من كياب"
+      },
+      {
+        "url": "https://www.instagram.com/p/DWgyTTHDNkR/",
+        "likes": 207,
+        "content_type": "video",
+        "caption_preview": "تخفيضات كيابي لغاية ٥٠٪؜ شوفوا الفيديو ومتنسوش تتابعونا ❤️\n#عروض #تخفيضات #sale "
+      },
+      {
+        "url": "https://www.instagram.com/p/DTiLJaNimZQ/",
+        "likes": 179,
+        "content_type": "video",
+        "caption_preview": "ميّزي طفلك بستايلات مختلفة مع تشكيلة كيابي الآن 😉🛍️!\n#كيابي_السعودية #كيابي #فن_"
+      },
+      {
+        "url": "https://www.instagram.com/p/DRPO4vnDEzW/",
+        "likes": 88,
+        "content_type": "video",
+        "caption_preview": "لاتفوتون عليكم عروضنا في الجمعة البيضاء حتى 29 نوفمبر في فروعنا أو موقعنا الإلكت"
+      }
+    ],
+    "zara": [
+      {
+        "url": "https://www.instagram.com/p/DYkJNTMt3VO/",
+        "likes": 1022609,
+        "content_type": "video",
+        "caption_preview": "ZARA presents BENITO ANTONIO, a collection born in Puerto Rico and rooted in the"
+      },
+      {
+        "url": "https://www.instagram.com/p/DWQoJl0jcd-/",
+        "likes": 166947,
+        "content_type": "video",
+        "caption_preview": "ZARA AND WILLY CHAVARRIA PRESENT VATÍSIMO\n \nA collaboration that celebrates cult"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYbj0RCNJag/",
+        "likes": 147412,
+        "content_type": "image",
+        "caption_preview": "ZARA presents BENITO ANTONIO\nLaunching May 21"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYlwhEjDOpv/",
+        "likes": 136627,
+        "content_type": "carousel_slide",
+        "caption_preview": "Zara presents BENITO ANTONIO, a collection born in Puerto Rico and rooted in the"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYmPRq7DM5j/",
+        "likes": 114408,
+        "content_type": "carousel_slide",
+        "caption_preview": "Zara presents BENITO ANTONIO, a collection born in Puerto Rico and rooted in the"
+      }
+    ],
+    "mikyajy": [
+      {
+        "url": "https://www.instagram.com/p/C_OfrE6hapQ/",
+        "likes": 48464,
+        "content_type": "video",
+        "caption_preview": "#يوم_المرأة_الإماراتية \n.\n.\nلوك خفيف خاص بيوم المرأة الاماراتية مع ارواج @mikyaj"
+      },
+      {
+        "url": "https://www.instagram.com/p/C95c29EuiF5/",
+        "likes": 1131,
+        "content_type": "video",
+        "caption_preview": "كود الخصم حقي ALJ20 😍🤍🤍🪄"
+      },
+      {
+        "url": "https://www.instagram.com/p/C-ah5Y-S2ba/",
+        "likes": 1100,
+        "content_type": "video",
+        "caption_preview": "24 درجه من احمر الشفاه من @mikyajy اكتشفي لونك المفضل \nموجودين بسنتر بوينت واون "
+      },
+      {
+        "url": "https://www.instagram.com/p/C_TdZWCCN5w/",
+        "likes": 331,
+        "content_type": "video",
+        "caption_preview": "‎صباياااا، تفقدوا مجموعة الأساسيات الجامعية لدينا 🩷 \n‎تسوقوا أونلاين وفي المتاجر"
+      },
+      {
+        "url": "https://www.instagram.com/p/C79cJbhNU-V/",
+        "likes": 265,
+        "content_type": "video",
+        "caption_preview": "‎لا تمشي، اركضي إلى تخفيضات مكياجي! احصلي على خصم من 25% إلى 75% على منتجاتك الم"
+      }
+    ],
+    "asteribeautysa": [
+      {
+        "url": "https://www.instagram.com/p/DXzb3Z2ARnY/",
+        "likes": 1718,
+        "content_type": "video",
+        "caption_preview": "💉امتلاء أكثر بدون فيلر.. المفضل الجديد لشفاهك في الطريق \r\nFuller without the fil"
+      },
+      {
+        "url": "https://www.instagram.com/p/DZDQY_nMNkL/",
+        "likes": 165,
+        "content_type": "video",
+        "caption_preview": "أساسيات الجمال للصيف : مصممة للحرارة ومصممة لتدوم☀️\r\nمختارة بعناية لأيام الصيف ا"
+      },
+      {
+        "url": "https://www.instagram.com/p/DX2MM3wsjEe/",
+        "likes": 157,
+        "content_type": "video",
+        "caption_preview": "شفاه ممتلئة أكثر… بدون فيلر💉\n\nFuller-looking lips… no filler needed 💉"
+      },
+      {
+        "url": "https://www.instagram.com/p/DYUznfijvJi/",
+        "likes": 89,
+        "content_type": "video",
+        "caption_preview": "💋 نظرة أقرب على روتين الشفاه مع  رولا \r\nتحديد دقيق يدوم طويلاً مع  اكستند ليب لا"
+      },
+      {
+        "url": "https://www.instagram.com/p/DXSEaf-DO6x/",
+        "likes": 83,
+        "content_type": "video",
+        "caption_preview": "Asteri day with @talaalakeel 🛍️\nTesting, swatching, glowing !\n\nيوم أستيري مع تال"
+      }
+    ],
+    "lifestyleshops": [
+      {
+        "url": "https://www.instagram.com/p/eYnHvBKE1t/",
+        "likes": 3,
+        "content_type": "image",
+        "caption_preview": ""
+      },
+      {
+        "url": "https://www.instagram.com/p/eepXFZqE8s/",
+        "likes": 3,
+        "content_type": "image",
+        "caption_preview": "Review กางเกงthe dude มีแบบหลานกระดุมและกระดุมเดียว มีทุกสีทุกsize: s  m  l  xl "
+      },
+      {
+        "url": "https://www.instagram.com/p/eXYxFQKE2v/",
+        "likes": 3,
+        "content_type": "image",
+        "caption_preview": "แอดไลน์มาสอบถามก่อนได้เลยจร้า มีทุกสีทุกขนาด"
+      },
+      {
+        "url": "https://www.instagram.com/p/eXFwY8KE_v/",
+        "likes": 3,
+        "content_type": "image",
+        "caption_preview": ""
+      },
+      {
+        "url": "https://www.instagram.com/p/eXEivpKE-Q/",
+        "likes": 2,
+        "content_type": "image",
+        "caption_preview": ""
+      }
+    ],
+    "gissahperfumes": [
+      {
+        "url": "https://www.instagram.com/p/DIiZCfcOKM4/",
+        "likes": 6,
+        "content_type": "video",
+        "caption_preview": ""
+      },
+      {
+        "url": "https://www.instagram.com/p/DMapuDLJSQI/",
+        "likes": 2,
+        "content_type": "video",
+        "caption_preview": ""
+      },
+      {
+        "url": "https://www.instagram.com/p/DMapjh-utRb/",
+        "likes": 1,
+        "content_type": "video",
+        "caption_preview": ""
+      },
+      {
+        "url": "https://www.instagram.com/p/DIiIFL4q5iZ/",
+        "likes": 1,
+        "content_type": "image",
+        "caption_preview": ""
+      },
+      {
+        "url": "https://www.instagram.com/p/DMap1KluD7C/",
+        "likes": 1,
+        "content_type": "video",
+        "caption_preview": ""
+      }
+    ]
+  },
+  "brand_profiles": {
+    "myfitness.sa": {
+      "sector": "healthcare_wellness",
+      "voice": "The brand communicates in a casual and informative tone, appealing to a broad audience interested in health and wellness. Their messaging is straightforward, focusing on delivering valuable insights without complex jargon.",
+      "tone": [
+        "informative",
+        "casual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_hejazi",
+      "signature_phrases": [
+        "مشاء الله"
+      ],
+      "best_format": "video"
+    },
+    "alromansiahksa": {
+      "sector": "f_and_b",
+      "voice": "The brand voice of @alromansiahksa is playful and casual, engaging followers with a friendly tone while providing informative content about their offerings. The celebratory tone during special occasions enhances community engagement and brand loyalty.",
+      "tone": [
+        "playful",
+        "casual",
+        "informative",
+        "celebratory"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "شاركنا جوابك",
+        "فالك الفوز",
+        "اطلب الحين"
+      ],
+      "best_format": "video"
+    },
+    "ounass": {
+      "sector": "retail_lifestyle",
+      "voice": "Ounass communicates with a blend of playful and informative tones, celebrating fashion and lifestyle through engaging narratives. The bilingual approach enhances accessibility and connects with a diverse audience.",
+      "tone": [
+        "informative",
+        "playful",
+        "celebratory",
+        "casual"
+      ],
+      "language": "bilingual",
+      "arabic_style": "mixed",
+      "signature_phrases": [],
+      "best_format": "video"
+    },
+    "mcdonaldsksa": {
+      "sector": "f_and_b",
+      "voice": "Giveaway-engine brand. Drives engagement through interactive prize mechanics (iPhone giveaways, World Cup tie-ins). Casual Gulf colloquial. Calls to action are direct: follow, like, answer the question.",
+      "tone": [
+        "playful",
+        "celebratory",
+        "urgent"
+      ],
+      "language": "arabic",
+      "arabic_style": "saudi_colloquial",
+      "signature_phrases": [
+        "#ماك_يعايدكم",
+        "#حصرياً_عبر_تطبيق_ماكدونالدز",
+        "#اكبر_من_جوعك",
+        "#ماك_مع_ججك",
+        "جاوب الحين في التعليقات"
+      ],
+      "best_format": "image",
+      "confidence": "curated_from_real_obs",
+      "curation_notes": "12 total obs. Top-3 all giveaway posts (4238–3282 likes) are images. Playful 5/10, celebratory 3/10. All 10 obs tagged mixed dialect."
+    },
+    "asteribeautysa": {
+      "sector": "beauty_personal_care",
+      "voice": "Asteri Beauty embodies an informative and celebratory tone, engaging its audience with a mix of casual and playful language. The brand effectively communicates its beauty expertise while fostering a sense of community and personal connection.",
+      "tone": [
+        "informative",
+        "celebratory",
+        "casual",
+        "playful"
+      ],
+      "language": "bilingual",
+      "arabic_style": "mixed",
+      "signature_phrases": [
+        "#استيري"
+      ],
+      "best_format": "video"
+    },
+    "fitnessfirstme": {
+      "sector": "healthcare_wellness",
+      "voice": "Fitness First ME communicates a vibrant and energetic brand voice that emphasizes community engagement and personal empowerment. Their messaging often combines motivational elements with informative content about fitness and wellness.",
+      "tone": [
+        "informative",
+        "celebratory",
+        "playful",
+        "urgent"
+      ],
+      "language": "english",
+      "arabic_style": "colloquial_hejazi",
+      "signature_phrases": [
+        "#فيتنس_فيرست",
+        "ONLY AT FITNESS FIRST"
+      ],
+      "best_format": "image",
+      "posting_language": "english",
+      "use_sector_defaults": true,
+      "note": "Fitness First — 166 posts, 0 Arabic. Use sector defaults."
+    },
+    "OGZ-BEAUTY-Reference-001": {
+      "sector": "beauty_personal_care",
+      "voice": "The brand communicates in a warm and aspirational tone, blending informative content with a conversational style. This approach resonates well with a diverse audience, particularly in the beauty sector.",
+      "tone": [
+        "aspirational",
+        "warm",
+        "informative",
+        "conversational"
+      ],
+      "language": "bilingual",
+      "arabic_style": "colloquial_hejazi",
+      "signature_phrases": [
+        "جمال يهتم، بما يتجاوز السطح",
+        "شيء جديد قادم"
+      ],
+      "best_format": "video"
+    },
+    "levelshoes": {
+      "sector": "fashion",
+      "voice": "Level Shoes communicates with a playful and celebratory tone, blending informative content with a casual approach. The brand emphasizes lifestyle integration and emotional storytelling, appealing to a fashion-forward audience.",
+      "tone": [
+        "informative",
+        "casual",
+        "playful",
+        "celebratory"
+      ],
+      "language": "english",
+      "arabic_style": "none",
+      "signature_phrases": [
+        "#ليفل",
+        "Shop now at levelshoes.com"
+      ],
+      "best_format": "video",
+      "posting_language": "english",
+      "use_sector_defaults": true,
+      "note": "Level Shoes — 84 posts, 0 Arabic. Use sector defaults."
+    },
+    "OGZ-F-AND-B-Reference-004": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates in an informative and aspirational tone, often highlighting the quality and presentation of food experiences. Engaging with the audience through playful and excited language, it effectively showcases the dining atmosphere and culinary offerings.",
+      "tone": [
+        "informative",
+        "aspirational",
+        "playful",
+        "excited"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [],
+      "best_format": "image"
+    },
+    "OGZ-F-AND-B-Reference-005": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates in a playful and inviting manner, often intertwining patriotic themes with informative content. It engages the audience with relatable questions and calls to action that resonate with local culture.",
+      "tone": [
+        "playful",
+        "patriotic",
+        "informative",
+        "inviting"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "اطلبها الحين",
+        "عطنا رايك",
+        "لا طازج إلا الطازج"
+      ],
+      "best_format": "carousel"
+    },
+    "OGZ-F-AND-B-Reference-009": {
+      "sector": "f_and_b",
+      "voice": "The brand voice is playful and confident, engaging the audience with witty and exciting content. It effectively uses Najdi Arabic to connect with the local audience, fostering a sense of community and familiarity.",
+      "tone": [
+        "playful",
+        "excited",
+        "witty",
+        "confident"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "طعم مايترجم",
+        "إعرف شاورمتك"
+      ],
+      "best_format": "image"
+    },
+    "OGZ-F-AND-B-Reference-008": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates with a warm and bold tone, reflecting a strong sense of national pride and spirituality. Their messaging often emphasizes community and shared experiences, particularly during significant cultural occasions.",
+      "tone": [
+        "warm",
+        "bold",
+        "patriotic",
+        "spiritual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "اطلبه الآن",
+        "عرض لفترة محدودة"
+      ],
+      "best_format": "video"
+    },
+    "aldeebajofficial": {
+      "sector": "retail_lifestyle",
+      "voice": "Al Deebaj presents a casual yet informative voice, celebrating modest fashion with a professional touch. The brand effectively communicates its offerings while engaging its audience in a relatable manner.",
+      "tone": [
+        "informative",
+        "casual",
+        "celebratory",
+        "professional"
+      ],
+      "language": "english",
+      "arabic_style": "none",
+      "signature_phrases": [
+        "#الديباج"
+      ],
+      "best_format": "video",
+      "posting_language": "english",
+      "use_sector_defaults": true,
+      "note": "Al Deebaj — 121 posts, 0 Arabic. Use sector defaults."
+    },
+    "OGZ-F-AND-B-Reference-003": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates with an excited and celebratory tone, focusing on aspirational messaging that encourages engagement and transactions. The voice is lively and aims to connect with the audience through relatable content.",
+      "tone": [
+        "excited",
+        "celebratory",
+        "aspirational",
+        "transactional"
+      ],
+      "language": "english-first",
+      "arabic_style": "none",
+      "signature_phrases": [],
+      "best_format": "carousel"
+    },
+    "OGZ-F-AND-B-Reference-002": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates in a warm and inviting tone, often using playful language to engage its audience. It effectively combines cultural references with product promotions, creating a relatable and exciting atmosphere.",
+      "tone": [
+        "warm",
+        "playful",
+        "excited",
+        "inviting"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "#مننا_ويفهم_جونا",
+        "#بارنز"
+      ],
+      "best_format": "carousel"
+    },
+    "shawarmersa": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates in a playful and celebratory tone, engaging its audience with interactive content and promotions. The use of Arabic captions and emojis enhances relatability and cultural connection.",
+      "tone": [
+        "playful",
+        "informative",
+        "celebratory",
+        "casual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "#شاورمر_هلّت_عزايمه"
+      ],
+      "best_format": "carousel_slide"
+    },
+    "noon": {
+      "sector": "retail_lifestyle",
+      "voice": "Noon's brand voice is vibrant and engaging, often celebrating cultural moments and community involvement. The tone is playful and informative, appealing to a youthful audience with a strong connection to local events.",
+      "tone": [
+        "informative",
+        "celebratory",
+        "playful",
+        "urgent"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "mixed",
+      "signature_phrases": [],
+      "best_format": "image"
+    },
+    "kuduksa": {
+      "sector": "f_and_b",
+      "voice": "Kudu's brand voice is playful and celebratory, effectively engaging its audience with a mix of informative and professional tones. The bilingual approach caters to a diverse audience while maintaining a fun and inviting atmosphere.",
+      "tone": [
+        "playful",
+        "celebratory",
+        "informative",
+        "professional"
+      ],
+      "language": "bilingual",
+      "arabic_style": "mixed",
+      "signature_phrases": [
+        "اطلب الحين من تطبيق كودو",
+        "مع كودو الوضع غير"
+      ],
+      "best_format": "carousel_slide"
+    },
+    "OGZ-F-AND-B-Reference-039": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates with a playful and celebratory tone, engaging its audience through casual and warm interactions. It emphasizes community involvement and employee pride, fostering a sense of belonging among its followers.",
+      "tone": [
+        "playful",
+        "celebratory",
+        "casual",
+        "warm"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "#ماك_منكم_وفيكم",
+        "#نكبر_مع_بعض"
+      ],
+      "best_format": "image"
+    },
+    "OGZ-F-AND-B-Reference-038": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates with a warm and playful tone, focusing on excitement and transactional messages that engage the audience. Their voice resonates well with the local culture, making it relatable and appealing to the Saudi audience.",
+      "tone": [
+        "transactional",
+        "playful",
+        "excitement",
+        "warm"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "جديدنا غير!",
+        "كل خطوة تفرق.",
+        "هنا الشغف هو اللغة الوحيدة"
+      ],
+      "best_format": "video"
+    },
+    "OGZ-BEAUTY-Reference-002": {
+      "sector": "beauty_personal_care",
+      "voice": "The brand communicates with a warm and educational tone, focusing on natural ingredients and local pride. Their messaging is aspirational, encouraging consumers to embrace beauty through nature.",
+      "tone": [
+        "warm",
+        "educational",
+        "aspirational",
+        "storytelling"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "كل ما تحتاجينه",
+        "بكل حب وحماس"
+      ],
+      "best_format": "image"
+    },
+    "roshnksa": {
+      "sector": "real_estate",
+      "voice": "ROSHN's brand voice is informative and celebratory, reflecting its commitment to enhancing quality of life through real estate development. The bilingual approach allows it to engage a diverse audience effectively.",
+      "tone": [
+        "informative",
+        "celebratory"
+      ],
+      "language": "bilingual",
+      "arabic_style": "mixed",
+      "signature_phrases": [
+        "#مجموعة_روشن",
+        "#نبني_الفرق"
+      ],
+      "best_format": "video"
+    },
+    "OGZ-F-AND-B-Reference-007": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates in a warm and celebratory tone, engaging its audience with playful and energetic language. It effectively combines Arabic and English to resonate with a diverse audience while maintaining a local flavor.",
+      "tone": [
+        "warm",
+        "celebratory",
+        "playful",
+        "energetic"
+      ],
+      "language": "bilingual",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "#كودو_شباب_البومب",
+        "Join the challenge now!"
+      ],
+      "best_format": "video"
+    },
+    "OGZ-F-AND-B-Reference-006": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates in a playful and nostalgic tone, often invoking fond memories and emotions related to its products. It engages its audience through interactive content and promotional campaigns, creating a warm and inviting atmosphere.",
+      "tone": [
+        "playful",
+        "nostalgic",
+        "warm",
+        "excited"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [],
+      "best_format": "carousel"
+    },
+    "barnscoffee": {
+      "sector": "f_and_b",
+      "voice": "Prize-mechanic community brand. Runs seasonal campaigns (tumbler drops, winter menu, Women's Day) with warm participatory energy. Captions are short and invitation-style, built around shared identity and offers.",
+      "tone": [
+        "playful",
+        "celebratory",
+        "warm"
+      ],
+      "language": "arabic",
+      "arabic_style": "saudi_colloquial",
+      "signature_phrases": [
+        "#بارنز",
+        "#مننا_ويفهم_جونا",
+        "لا تفوّتوا فرصتكم",
+        "العرض ساري في جميع الفروع"
+      ],
+      "best_format": "image",
+      "confidence": "curated_from_real_obs",
+      "curation_notes": "Top-10 obs (4711–1630 likes). Hijazi dialect 7/10. Image 7/10. #بارنز + #مننا_ويفهم_جونا appear in 8–9 of top 10."
+    },
+    "prettynature.official": {
+      "sector": "beauty_personal_care",
+      "voice": "Pretty Nature's brand voice is informative and celebratory, with a playful and casual tone that resonates well with its audience. The content focuses on educating consumers about natural ingredients and skincare routines, fostering a sense of community and engagement.",
+      "tone": [
+        "informative",
+        "celebratory",
+        "playful",
+        "casual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [],
+      "best_format": "video"
+    },
+    "hmksa": {
+      "sector": "fashion",
+      "voice": "The brand communicates in a casual and approachable manner, primarily using Najdi dialect. The lack of structured language suggests a focus on informal engagement with the audience.",
+      "tone": [
+        "casual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "ضضيفوني",
+        "فَـّديٌتِككَ وُآللھہ"
+      ],
+      "best_format": "image"
+    },
+    "OGZ-F-AND-B-Reference-010": {
+      "sector": "f_and_b",
+      "voice": "The brand voice is warm and inviting, emphasizing cultural pride and heritage. It engages the audience with a sense of community and nostalgia, creating a welcoming atmosphere for patrons.",
+      "tone": [
+        "warm",
+        "proud",
+        "aspirational",
+        "inviting"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "حياكم الله",
+        "ننتظركم"
+      ],
+      "best_format": "carousel"
+    },
+    "OGZ-F-AND-B-Reference-011": {
+      "sector": "f_and_b",
+      "voice": "The brand communicates with a warm and inviting tone, effectively engaging its audience through playful and appetizing language. The use of colloquial Najdi dialect enhances relatability and connection with local customers.",
+      "tone": [
+        "warm",
+        "playful",
+        "inviting",
+        "appetising"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "#مطاعم_الرومانسية"
+      ],
+      "best_format": "video"
+    },
+    "altazaj_fakieh": {
+      "sector": "f_and_b",
+      "voice": "The brand voice of Al-Tazaj is playful and celebratory, engaging customers with a casual tone that emphasizes enjoyment and community. It effectively combines informative content with promotional offers, appealing to a wide audience.",
+      "tone": [
+        "playful",
+        "informative",
+        "celebratory",
+        "casual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "#دجاجنا_من_ارض_السعودية",
+        "#الطازج"
+      ],
+      "best_format": "carousel_slide"
+    },
+    "pizzahutsaudi": {
+      "sector": "f_and_b",
+      "voice": "Pizza Hut Saudi Arabia adopts a playful and celebratory tone, engaging customers with informative content about their offerings. The brand emphasizes a casual approach, appealing to a wide audience through relatable language and lively expressions.",
+      "tone": [
+        "playful",
+        "informative",
+        "casual",
+        "celebratory"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "اطلب الحين",
+        "بيتزا هت توصلك",
+        "غمس وقرمش"
+      ],
+      "best_format": "video"
+    },
+    "maxfashionmena": {
+      "sector": "fashion",
+      "voice": "Max Fashion MENA communicates a vibrant and celebratory tone, blending cultural relevance with modern fashion trends. Their content is engaging and informative, appealing to a diverse audience seeking stylish modest wear.",
+      "tone": [
+        "informative",
+        "celebratory",
+        "playful",
+        "casual"
+      ],
+      "language": "bilingual",
+      "arabic_style": "mixed",
+      "signature_phrases": [],
+      "best_format": "image"
+    },
+    "albaik": {
+      "sector": "f_and_b",
+      "voice": "Albaik's brand voice is celebratory and informative, effectively engaging its audience with a playful tone. The use of Arabic captions and local references strengthens its connection with the community.",
+      "tone": [
+        "celebratory",
+        "informative",
+        "urgent",
+        "playful"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "#انتم_والبيك_جيران",
+        "#صنع_في_السعودية"
+      ],
+      "best_format": "carousel_slide"
+    },
+    "herfyfsc": {
+      "sector": "f_and_b",
+      "voice": "Herfy's brand voice is playful and celebratory, engaging its audience with a casual tone that evokes nostalgia. The use of emojis and Arabic captions enhances relatability and connection with the audience.",
+      "tone": [
+        "playful",
+        "celebratory",
+        "casual",
+        "informative"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "شباب المستقبل",
+        "وجبة شباب المستقبل"
+      ],
+      "best_format": "video"
+    },
+    "OGZ-RETAIL-Reference-001": {
+      "sector": "retail_lifestyle",
+      "voice": "The brand communicates with a proud and aspirational tone, emphasizing elegance and tradition in its offerings. It aims to resonate with its audience by showcasing quality and cultural significance in its products.",
+      "tone": [
+        "proud",
+        "patriotic",
+        "aspirational",
+        "informative"
+      ],
+      "language": "english-first",
+      "arabic_style": "none",
+      "signature_phrases": [
+        "timeless style",
+        "premium quality",
+        "modern elegance"
+      ],
+      "best_format": "carousel"
+    },
+    "crumblcookiespr": {
+      "sector": "f_and_b",
+      "voice": "Crumbl Cookies PR communicates with a playful and celebratory tone, engaging customers through informative content about new dessert offerings. The bilingual approach enhances accessibility and connection with a diverse audience.",
+      "tone": [
+        "playful",
+        "informative",
+        "celebratory",
+        "casual"
+      ],
+      "language": "english",
+      "arabic_style": "none",
+      "signature_phrases": [],
+      "best_format": "video",
+      "posting_language": "english",
+      "use_sector_defaults": true,
+      "note": "Crumbl Cookies — 97 posts, 0 Arabic. Use sector defaults."
+    },
+    "aseeb.najd": {
+      "sector": "f_and_b",
+      "voice": "The brand voice of Aseeb Najd is warm and inviting, celebrating traditional Najdi cuisine while engaging the audience with informative and celebratory tones. The communication is casual yet professional, reflecting a strong connection to cultural heritage.",
+      "tone": [
+        "informative",
+        "celebratory",
+        "casual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "colloquial_najdi",
+      "signature_phrases": [
+        "حياكم الله",
+        "نحتفل بروح من الأصالة"
+      ],
+      "best_format": "video"
+    },
+    "riyadhfood": {
+      "sector": "f_and_b",
+      "voice": "The brand voice of @riyadhfood is informative and casual, appealing to food enthusiasts in Riyadh. It combines playful and celebratory tones, making food exploration engaging and accessible.",
+      "tone": [
+        "informative",
+        "casual",
+        "playful",
+        "celebratory"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [],
+      "best_format": "image"
+    },
+    "niceonesa": {
+      "sector": "beauty_personal_care",
+      "voice": "The brand communicates in an informative and celebratory tone, engaging its audience with playful and casual language. The focus is on beauty and wellness, often incorporating cultural elements.",
+      "tone": [
+        "informative",
+        "celebratory",
+        "playful",
+        "casual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "#نايس_ون",
+        "#نايس_ون_يكمل_فنك"
+      ],
+      "best_format": "carousel"
+    },
+    "elixirbunn": {
+      "sector": "f_and_b",
+      "voice": "@elixirbunn — extracted from 88 real posts",
+      "tone": [
+        "informative",
+        "celebratory",
+        "casual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "#elixirbunn",
+        "#إكسير_البن"
+      ],
+      "best_format": "image"
+    },
+    "kyancafe": {
+      "sector": "f_and_b",
+      "voice": "@kyancafe — extracted from 66 real posts",
+      "tone": [
+        "casual",
+        "celebratory",
+        "informative"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "#كيان_بكل_مكان",
+        "#عادة_ماتنمل"
+      ],
+      "best_format": "image"
+    },
+    "hashibasha": {
+      "sector": "f_and_b",
+      "voice": "Heritage Saudi rice-dish brand. Terse declarative captions. Near-MSA Arabic — no dialect affectation. Leans on national pride and traditional food identity (#نكهة_سعودية). Campaign hashtags are product-name-based.",
+      "tone": [
+        "casual",
+        "proud",
+        "informative"
+      ],
+      "language": "arabic",
+      "arabic_style": "msa_formal",
+      "signature_phrases": [
+        "#حاشي_باشا",
+        "#نكهة_سعودية",
+        "#لمتنا_غير",
+        "طعم يحبه قلبك",
+        "حاشي باشا.. يعرفك طعم الكبسة الصح"
+      ],
+      "best_format": "video",
+      "confidence": "curated_from_real_obs",
+      "curation_notes": "102 obs. Dialect msa 9/10 in top-10. #حاشي_باشا in 9/10 posts. Top 2 posts are video (1158, 892 likes). Image/video tied in count but video edges on peak engagement."
+    },
+    "tamimimarkets": {
+      "sector": "retail_lifestyle",
+      "voice": "Content-creator supermarket. Leads with recipes, athlete partnerships, and store-opening moments. Bilingual output (Arabic + English captions for bilingual audience). Practical and community-adjacent, not discount-heavy.",
+      "tone": [
+        "informative",
+        "casual",
+        "community"
+      ],
+      "language": "arabic",
+      "arabic_style": "bilingual",
+      "signature_phrases": [
+        "#اسواق_التميمي",
+        "#التميمي_جاركم",
+        "#tamimimarkets",
+        "جربوها وعطوني رايكم"
+      ],
+      "best_format": "video",
+      "confidence": "curated_from_real_obs",
+      "curation_notes": "Top-10 obs (2522–429 likes). Video 10/10. Mixed/MSA dialect split 5-5. Recipe content + athlete collabs dominate."
+    },
+    "pandasaudi": {
+      "sector": "retail_lifestyle",
+      "voice": "@pandasaudi — extracted from 113 real posts",
+      "tone": [
+        "informative",
+        "celebratory",
+        "casual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "#بنده_معك_تفرق",
+        "#بنده"
+      ],
+      "best_format": "image"
+    },
+    "hm": {
+      "sector": "fashion",
+      "voice": "@hm — extracted from 88 real posts",
+      "tone": [
+        "informative",
+        "casual",
+        "playful"
+      ],
+      "language": "english",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "#إيتش_آند_إم",
+        "#HM",
+        "#HMBeauty"
+      ],
+      "best_format": "video",
+      "posting_language": "english",
+      "use_sector_defaults": true,
+      "note": "H&M — posts globally in English only. Use sector defaults for Arabic generation."
+    },
+    "randbfashion": {
+      "sector": "fashion",
+      "voice": "@randbfashion — extracted from 31 real posts",
+      "tone": [
+        "informative",
+        "casual",
+        "playful"
+      ],
+      "language": "english",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "#آر_آند_بي",
+        "#fashion"
+      ],
+      "best_format": "video",
+      "posting_language": "english",
+      "use_sector_defaults": true,
+      "note": "R&B Fashion — 31 posts, 0 Arabic. Use sector defaults."
+    },
+    "mumzworld": {
+      "sector": "retail_lifestyle",
+      "voice": "@mumzworld — extracted from 118 real posts",
+      "tone": [
+        "informative",
+        "celebratory",
+        "casual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "#ممزورلد",
+        "#mumzworld"
+      ],
+      "best_format": "image"
+    },
+    "kiabiksa": {
+      "sector": "fashion",
+      "voice": "@kiabiksa — extracted from 79 real posts",
+      "tone": [
+        "informative",
+        "playful",
+        "celebratory"
+      ],
+      "language": "bilingual",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "#كيابي_السعودية",
+        "#كيابي",
+        "#Kiabi"
+      ],
+      "best_format": "video"
+    },
+    "zara": {
+      "sector": "fashion",
+      "voice": "@zara — extracted from 63 real posts",
+      "tone": [
+        "informative",
+        "casual",
+        "celebratory"
+      ],
+      "language": "english",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "#زارا",
+        "#zara"
+      ],
+      "best_format": "video",
+      "posting_language": "english",
+      "use_sector_defaults": true,
+      "note": "Fashion brand — posts globally in English only. Use sector defaults for Arabic generation."
+    },
+    "mikyajy": {
+      "sector": "beauty_personal_care",
+      "voice": "Saudi beauty brand with bilingual code-switching. Addresses audience as بنات / صبايا. Mixes Arabic copy with English product names and brand hashtags (#HighPerformanceBeauty, #SaudiBrand). Tutorial-first, UGC-amplified.",
+      "tone": [
+        "playful",
+        "informative",
+        "aspirational"
+      ],
+      "language": "arabic",
+      "arabic_style": "bilingual",
+      "signature_phrases": [
+        "#Mikyajy",
+        "#HighPerformanceBeauty",
+        "#SaudiBrand",
+        "#CleanBeauty",
+        "#SaudiBeauty",
+        "بنات!",
+        "صباياااا"
+      ],
+      "best_format": "video",
+      "confidence": "curated_from_real_obs",
+      "curation_notes": "96 obs. Video 10/10 in top-10. Mixed (bilingual) dialect 7/10. Brand hashtag stack (#Mikyajy + #HighPerformanceBeauty + #SaudiBrand + #CleanBeauty) appears in 6–7 of top 10."
+    },
+    "lifestyleshops": {
+      "sector": "beauty_personal_care",
+      "voice": "@lifestyleshops — extracted from 17 real posts",
+      "tone": [
+        "casual",
+        "informative"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "#لايف_ستايل"
+      ],
+      "best_format": "video"
+    },
+    "gissahperfumes": {
+      "sector": "beauty_personal_care",
+      "voice": "@gissahperfumes — extracted from 17 real posts",
+      "tone": [
+        "casual"
+      ],
+      "language": "arabic-first",
+      "arabic_style": "saudi",
+      "signature_phrases": [
+        "#قصة"
+      ],
+      "best_format": "video"
+    }
+  },
+  "occasion_calendar": {
+    "ramadan": {
+      "type": "religious",
+      "duration": "29-30 days",
+      "content_approach": "Spiritual, community, family, food sharing. Suhoor and iftar moments.",
+      "arabic": "رمضان"
+    },
+    "eid_al_fitr": {
+      "type": "religious",
+      "duration": "3 days",
+      "content_approach": "Joy, celebration, gifts, sweets, family gatherings.",
+      "arabic": "عيد الفطر"
+    },
+    "eid_al_adha": {
+      "type": "religious",
+      "duration": "4 days",
+      "content_approach": "Sacrifice, generosity, family, travel.",
+      "arabic": "عيد الأضحى"
+    },
+    "hajj_season": {
+      "type": "religious",
+      "duration": "~10 days",
+      "content_approach": "Minimal promotion. Respect and spirituality.",
+      "arabic": "موسم الحج"
+    },
+    "national_day": {
+      "type": "national",
+      "date": "September 23",
+      "content_approach": "Green theme, Saudi pride, heritage + modern fusion.",
+      "arabic": "اليوم الوطني"
+    },
+    "founding_day": {
+      "type": "national",
+      "date": "February 22",
+      "content_approach": "Deep heritage, roots, historical pride.",
+      "arabic": "يوم التأسيس"
+    },
+    "riyadh_season": {
+      "type": "entertainment",
+      "months": "Oct-Mar",
+      "content_approach": "Energy, events, nightlife, entertainment.",
+      "arabic": "موسم الرياض"
+    },
+    "jeddah_season": {
+      "type": "entertainment",
+      "months": "Jun-Jul",
+      "content_approach": "Coastal, relaxed, summer vibes.",
+      "arabic": "موسم جدة"
+    },
+    "white_friday": {
+      "type": "commercial",
+      "duration": "1-4 days",
+      "content_approach": "Big sale urgency — countdown, price drops, limited stock. Saudi version of Black Friday. High purchase intent. Direct CTAs.",
+      "arabic": "الجمعة البيضاء",
+      "timing": "November (Friday before or after Nov 11)",
+      "key_themes": [
+        "خصومات",
+        "عروض",
+        "تسوق",
+        "وفّر",
+        "محدود"
+      ],
+      "forbidden": [
+        "religious imagery",
+        "misleading prices"
+      ],
+      "notes": "Commercial occasion — strong price/deal focus. Retail + F&B both active."
+    },
+    "singles_day": {
+      "type": "commercial",
+      "duration": "1 day (Nov 11)",
+      "content_approach": "11.11 — biggest online sale day. Young audience, digital-native. Self-gifting angle common in Saudi. Deal stacking, countdown urgency.",
+      "arabic": "يوم العزّاب",
+      "timing": "November 11",
+      "key_themes": [
+        "١١.١١",
+        "عروض",
+        "خصم",
+        "اطلب",
+        "وفّر"
+      ],
+      "forbidden": [
+        "family gifting angle (it's self-gifting)",
+        "religious imagery"
+      ],
+      "notes": "Adopted from Chinese 11.11. Strong in e-commerce. Self-care angle works for beauty/fashion."
+    }
+  },
+  "sector_facts": {
+    "f_and_b": {
+      "obs_count": 1899,
+      "obs_with_real_metrics": 563,
+      "avg_likes": 785,
+      "verified_brands": 10,
+      "accounts": 24
+    },
+    "retail_lifestyle": {
+      "obs_count": 723,
+      "obs_with_real_metrics": 362,
+      "avg_likes": 172,
+      "verified_brands": 4,
+      "accounts": 4
+    },
+    "fashion": {
+      "obs_count": 523,
+      "obs_with_real_metrics": 346,
+      "avg_likes": 11047,
+      "verified_brands": 5,
+      "accounts": 5
+    },
+    "beauty_personal_care": {
+      "obs_count": 469,
+      "obs_with_real_metrics": 138,
+      "avg_likes": 462,
+      "verified_brands": 4,
+      "accounts": 6
+    },
+    "healthcare_wellness": {
+      "obs_count": 89,
+      "obs_with_real_metrics": 0,
+      "avg_likes": "unknown",
+      "verified_brands": 0,
+      "accounts": 2
+    },
+    "real_estate": {
+      "obs_count": 113,
+      "obs_with_real_metrics": 0,
+      "avg_likes": "unknown",
+      "verified_brands": 0,
+      "accounts": 1
+    }
+  },
+  "honest_gaps": [
+    "Beauty sector: only 6% high engagement across 320 obs — intelligence is weak, treat recommendations as experimental",
+    "Real estate: only 3% high engagement across 113 obs — almost no usable patterns",
+    "Healthcare: only 89 obs — too thin for reliable rules",
+    "Reels: only 31 obs — highest engagement format but almost no data",
+    "Engagement scoring: brain scores don't match reality for strong brands — DO NOT trust scores alone",
+    "Emotion/pillar prescriptions: based on sector averages that fail for individual brands — use brand-level data when available"
+  ],
+  "caption_intelligence": {
+    "albaik": {
+      "high_engagement_style": "Conversational Gulf Arabic, pride, urgency, 1-2 sentences, strong emojis",
+      "low_engagement_style": "Corporate tone, CSR topics, formal Arabic, 3-4 sentences, weak CTAs",
+      "key_separator": "Emotional connection vs corporate detachment",
+      "proven_openers": [
+        "حيّاكم",
+        "جربه الآن",
+        "الآن",
+        "عيش أجواء"
+      ],
+      "proven_hashtags": [
+        "#البيك",
+        "#صنع_في_السعودية",
+        "#انتم_والبيك_جيران"
+      ],
+      "avoid_topics": [
+        "CSR",
+        "corporate programs",
+        "social responsibility",
+        "formal announcements"
+      ],
+      "optimal_length": "1-2 sentences max",
+      "source": "GPT-4o analysis of 51 high + 13 low real captions with verified likes"
+    },
+    "pizzahutsaudi": {
+      "current_problems": [
+        "Generic promotional tone",
+        "No emotional hook",
+        "No community connection",
+        "Weak CTAs"
+      ],
+      "prescription": [
+        "Add storytelling scenarios (ذكريات الليالي)",
+        "Focus on family/community (اجمعكم معاً)",
+        "Use cultural/seasonal hooks (موسم الأعياد)",
+        "Strong CTAs (اطلبوا الآن قبل فوات الأوان!)",
+        "Interactive questions (إيش يكون مكونك المفضل؟)"
+      ],
+      "source": "GPT-4o comparative analysis against AlBaik winning formula"
+    },
+    "barnscoffee": {
+      "obs_count": 20,
+      "top_likes": 4711,
+      "avg_likes_high_tier": 2291,
+      "proven_openers": [
+        "⁨\t⁨\t⁨\tلا تفوّتوا فرصتكم والعبوا معنا واحصلوا على فرصة الفوز ",
+        "لكل امرأة تكتب قصة نجاحها بطريقتها.​",
+        "-",
+        "⁨\tمن طبعنا الكرم وحب المشاركة ",
+        "قهوة اليوم بعرض جبار 🔥☕​"
+      ],
+      "proven_hashtags": [
+        "#بارنز",
+        "#مننا_ويفهم_جونا",
+        "#يوم_المرأة",
+        "#مننا_يفهم_جونا"
+      ],
+      "high_style": "⁨\t⁨\t⁨\tلا تفوّتوا فرصتكم والعبوا معنا واحصلوا على فرصة الفوز بـ​ COUNTRYMAN​ 😍\n\nهذه المسابقة  بالشراكة مع MINI 💜❄️​⁩\n\nملاحظة: بياناتك ما تكمل .. الا بف",
+      "low_style": "",
+      "source": "auto_extracted_from_real_obs"
+    },
+    "tamimimarkets": {
+      "obs_count": 20,
+      "top_likes": 2522,
+      "avg_likes_high_tier": 2036,
+      "proven_openers": [
+        "مقابلة خفيفة مع أبطال القادسية 😉",
+        "اعشق الكبدة بهذي الطريقة تكون مقلية مع خلطة لذيذة ومتسبككة ص",
+        "فرع \"التميمي جارك\" الجديد موجود في حي التحلية بالخبر 🤩",
+        "⁨\tاول وصفة من سلسة وصفات Skincare خروف العييد! سويت لكم الذ ",
+        "احس لو بمدح لكم هذي الشوربة بتعب من كثر ماهي لذيييذة ومفيدة "
+      ],
+      "proven_hashtags": [
+        "#اسواق_التميمي",
+        "#نادي_القادسية",
+        "#fyp",
+        "#foryou",
+        "#التميمي"
+      ],
+      "high_style": "مقابلة خفيفة مع أبطال القادسية 😉\nA casual chat with the stars of Al-Qadsiah\n@fcqadsiah\n#اسواق_التميمي #نادي_القادسية #fyp #foryou #التميمي",
+      "low_style": "",
+      "source": "auto_extracted_from_real_obs"
+    },
+    "mikyajy": {
+      "obs_count": 20,
+      "top_likes": 48464,
+      "avg_likes_high_tier": 16898,
+      "proven_openers": [
+        "#يوم_المرأة_الإماراتية ",
+        "كود الخصم حقي ALJ20 😍🤍🤍🪄",
+        "24 درجه من احمر الشفاه من @mikyajy اكتشفي لونك المفضل ",
+        "‎صباياااا، تفقدوا مجموعة الأساسيات الجامعية لدينا 🩷 ",
+        "‎لا تمشي، اركضي إلى تخفيضات مكياجي! احصلي على خصم من 25% إلى"
+      ],
+      "proven_hashtags": [
+        "#Mikyajy",
+        "#HighPerformanceBeauty",
+        "#SaudiBrand",
+        "#CleanBeauty",
+        "#SaudiBeauty"
+      ],
+      "high_style": "#يوم_المرأة_الإماراتية \n.\n.\nلوك خفيف خاص بيوم المرأة الاماراتية مع ارواج @mikyajy \n.\n.\nالمرأة الاماراتية ملهمة في جميع المجالات 🙏🇦🇪 وكل مجال يناسب شخص",
+      "low_style": "",
+      "source": "auto_extracted_from_real_obs"
+    },
+    "mcdonaldsksa": {
+      "obs_count": 20,
+      "top_likes": 4238,
+      "avg_likes_high_tier": 3621,
+      "proven_openers": [
+        "الأيفونات بانتظاركم وجبناها لين عندكم! 📱🎁 ركز في الصورة، جاو",
+        "⁨\t#ماك_يعايدكم بأيفونات جديدة! 📱✨ ",
+        "⁨\tمسك الختام وأقوى فرصة للفوز بالأيفون! 📱🏁 ",
+        "عيش التجربة مع الاساطير في ماكدونالدز من قلب #كأس_العالم! 🏆 ",
+        "⁨\t⁨\t⁨#ماكدونالدز يشارككم فرحة العيد بعروض تسعدكم✨🤩"
+      ],
+      "proven_hashtags": [
+        "#ماك_يعايدكم",
+        "#حصريا",
+        "#كأس_العالم",
+        "#ماكدونالدز",
+        "#اكبر_من_جوعك"
+      ],
+      "high_style": "الأيفونات بانتظاركم وجبناها لين عندكم! 📱🎁 ركز في الصورة، جاوب على السؤال، وطبق الشروط عشان تدخل السحب.. الهمة يا كبير! 💪💥\n\nشروط دخول السحب على الأيفون",
+      "low_style": "حفلة تخرج طفلك جاية؟ خلّها علينا! ✨🎈\n\nداخل صالاتنا المجهزة بالكامل 🥳 أو برا المطعم نجيك وين ما كنت بكامل عدتنا ووجباتنا! 🚗💨 فعاليات ووناسة وضحكة من ال",
+      "source": "auto_extracted_from_real_obs"
+    },
+    "hashibasha": {
+      "obs_count": 20,
+      "top_likes": 1158,
+      "avg_likes_high_tier": 1158,
+      "proven_openers": [
+        "عروض تكفي وتوفّي!",
+        "شيء واحد مضمون... بتخلص وجبتك وانت سعيد!",
+        "حاشي باشا.. يعرفك طعم الكبسة الصح!🔥",
+        "مضغوط دجاج مع كل الاضافات اللي تحبها .",
+        "طبقك المفضل ما يكمل الّا مع السلطة!"
+      ],
+      "proven_hashtags": [
+        "#حاشي_باشا",
+        "#نكهة_سعودية",
+        "#تريبل_دجاج_الباشا",
+        "#تريبل_دجاج",
+        "#دبل_حاشي"
+      ],
+      "high_style": "عروض تكفي وتوفّي!\nطعم يحبه قلبك، وجبة مشبعة... وسعر ما يتكرر. لا تفوتونها!\n\n#تريبل_دجاج_الباشا #تريبل_دجاج #دبل_حاشي #دبل_المتعة #دبل_اللذة #لمتنا_غير",
+      "low_style": "اذا كنت تنتظر اللقمه الأولى بشغف! \n😋🍛\n \n\n#حاشي_باشا \n#نكهة_سعودية \n#رحلة_طعم",
+      "source": "auto_extracted_from_real_obs"
+    }
+  },
+  "visual_intelligence": {
+    "albaik_winning_visual": {
+      "colors": "Deep blue (#003B5C) + sandy beige (#E1C6B4) + red (#FF0000)",
+      "lighting": "Dramatic with strong contrasts",
+      "composition": "Product-hero focus",
+      "setting": "Studio with clean backgrounds",
+      "source": "GPT-4o Vision on 11,716-like post image"
+    },
+    "pizzahutsaudi_visual": {
+      "colors": "Orange (#D95F26) + beige (#F2E7E0) + gray (#4B4D52)",
+      "lighting": "Natural/flat, soft",
+      "composition": "Lifestyle, generic",
+      "setting": "Restaurant indoor, modern decor",
+      "source": "GPT-4o Vision on 86-like post image"
+    },
+    "visual_insight": "AlBaik uses dramatic studio lighting with bold product focus. PizzaHut uses flat natural lighting with generic lifestyle framing. 190x engagement difference."
+  },
+  "arabic_quality_rules": {
+    "dialect": "saudi",
+    "note": "All accounts are Saudi. Use Saudi Arabic specifically, NOT generic Gulf.",
+    "saudi_markers": {
+      "use": [
+        "وش (what — Saudi)",
+        "ايش (what — Saudi Hejazi)",
+        "اللي (which/that — Saudi casual)",
+        "حيّاكم (welcome — Saudi hospitality)",
+        "الحين (now — Saudi)",
+        "كذا (like this — Saudi)",
+        "يالله (lets go — Saudi)",
+        "طيب (ok — Saudi)",
+        "حلو (nice — Saudi)",
+        "اطلبه (order it — Saudi direct)",
+        "جربه (try it — Saudi)",
+        "شرايكم (what do you think — shared)"
+      ],
+      "avoid": [
+        "شنو (Kuwaiti — NOT Saudi)",
+        "جذي (Kuwaiti — use كذا)",
+        "زين (Emirati — use طيب/حلو)",
+        "ها (Bahraini marker)",
+        "بعد (Emirati emphasis — Saudi uses كمان)",
+        "تسحرني (literary MSA — not spoken)",
+        "تفضلوا (formal MSA — use تعالوا)",
+        "رائع (MSA — use حلو/خطير)",
+        "هيا بنا (Egyptian — use يالله/يلا)"
+      ]
+    },
+    "saudi_regional": {
+      "najdi_riyadh": {
+        "markers": [
+          "وش",
+          "كذا",
+          "يالله",
+          "ذا",
+          "ايوا"
+        ],
+        "when": "Default for national brands, Riyadh-based"
+      },
+      "hejazi_jeddah": {
+        "markers": [
+          "ايش",
+          "كده",
+          "دحين",
+          "أبداً"
+        ],
+        "when": "Jeddah-based brands, western region"
+      }
+    },
+    "saudi_cultural_references": {
+      "food": [
+        "كبسة",
+        "قهوة سعودية",
+        "تمر",
+        "دجاج بروستد",
+        "مندي",
+        "حاشي"
+      ],
+      "places": [
+        "الرياض",
+        "جدة",
+        "مكة",
+        "المدينة",
+        "الظهران",
+        "جازان"
+      ],
+      "occasions": [
+        "اليوم الوطني",
+        "يوم التأسيس",
+        "رمضان",
+        "الحج",
+        "موسم الرياض"
+      ],
+      "pride": [
+        "صنع في السعودية",
+        "مملكتنا",
+        "وطننا",
+        "محلي ١٠٠٪"
+      ],
+      "hashtags": [
+        "#صنع_في_السعودية",
+        "#اليوم_الوطني",
+        "#يوم_التأسيس",
+        "#همة_حتى_القمة"
+      ]
+    },
+    "proven_caption_patterns": {
+      "albaik_style": {
+        "pattern": "Product name + short emotional hook + emoji + brand hashtag",
+        "example": "#برجر_فيليه_سمك.. طعم تغوص فيه 🫧 #البيك",
+        "why_works": "Short, product-first, sensory language, emoji, branded hashtag",
+        "avg_likes": 8000
+      },
+      "announcement_style": {
+        "pattern": "الآن + new product/location + call to try",
+        "example": "الآن #بيكيز_حراق الجديد من #البيك",
+        "why_works": "Urgency (الآن), novelty (الجديد), brand hashtag",
+        "avg_likes": 10000
+      },
+      "heritage_pride": {
+        "pattern": "Saudi pride reference + product tie + national emoji",
+        "example": "من خيرات مملكتنا الغالية قطع دجاج #البيك #محلي١٠٠٪ 🇸🇦",
+        "why_works": "National pride, local sourcing, Saudi flag emoji",
+        "avg_likes": 8000
+      },
+      "hospitality_opening": {
+        "pattern": "حيّاكم + location/occasion + brand",
+        "example": "حيّاكم.. تم افتتاح #البيك بحي الدوحة الجنوبية #انتم_والبيك_جيران",
+        "why_works": "Saudi hospitality greeting, specific location, community hashtag",
+        "avg_likes": 7000
+      }
+    },
+    "caption_structure": {
+      "opening": "Product name OR الآن OR حيّاكم (never generic greeting)",
+      "middle": "Sensory/emotional hook in 1 phrase (طعم تغوص فيه, قرمشة أكثر)",
+      "ending": "Brand hashtag OR question (شرايكم؟) — NOT command (اطلب الآن is ok for F&B)",
+      "length": "30-80 chars optimal for Saudi audience. AlBaik top posts are SHORT."
+    },
+    "brand_fixes": {
+      "zara": "Use تعالوا not تفضلوا. Reference السعودية specifically. Short captions.",
+      "mikyajy": "Use يعجبني not تسحرني. Use للخروجات not عشان تجمعات. Saudi beauty = modest + elegant.",
+      "pizzahutsaudi": "Copy AlBaik structure: product + hook + emoji. Current captions are too generic.",
+      "barnscoffee": "Good Saudi tone already. Add more الحين/الآن urgency."
+    },
+    "forbidden_english_words_in_arabic": [
+      "فرايز",
+      "بيرغر",
+      "hana",
+      "wow",
+      "cool",
+      "amazing",
+      "special",
+      "new"
+    ],
+    "overused_phrases_to_avoid": [
+      "لا تفوتون الفرصة",
+      "لا تفوّتون الفرصة",
+      "عرض لفترة محدودة",
+      "اطلب الآن ولا تتأخر",
+      "أفضل عروض السنة"
+    ]
+  },
+  "caption_method": {
+    "approach": "style_transfer",
+    "description": "Use real high-engagement Saudi captions as structural templates. Adapt the product/occasion, keep the structure. Never generate Arabic from scratch.",
+    "why": "GPT generates Arabic with English structure. 45% dialect accuracy when generating freely. Style transfer from real templates preserves authentic Saudi sentence flow.",
+    "process": [
+      "1. Load top 10 real captions for this brand (sorted by likes)",
+      "2. Pass them as TEMPLATES to the LLM",
+      "3. Ask LLM to ADAPT the structure for the new product/occasion",
+      "4. LLM copies word order, punctuation, hashtag placement from templates",
+      "5. Validate: check for MSA words, check brand name correct, check length"
+    ],
+    "rules": [
+      "NEVER ask GPT to generate Saudi Arabic from scratch",
+      "ALWAYS provide 5-10 real captions as structural templates",
+      "Real captions = sentence structure guide, not content to copy",
+      "Product/brand name must appear in first 5 words",
+      "Hashtag must be woven INTO the sentence, not appended",
+      "Max 80 chars — Saudi top posts are SHORT"
+    ],
+    "creativity_rules": [
+      "Never start with \"لا تفوتون\" — it is overused and generic",
+      "Product name must be in first 5 words — be specific not generic",
+      "Include one sensory or emotional hook specific to the product",
+      "Occasion content must reference the occasion explicitly — not just add a flag emoji",
+      "For Ramadan: mention إفطار, سحور, رمضان or it fails occasion check"
+    ]
+  },
+  "caption_data_rules": {
+    "source": "Analysis of 1,244 real Arabic captions with verified likes",
+    "length_by_sector": {
+      "f_and_b": {
+        "optimal": "80-150 chars",
+        "avg": 121,
+        "note": "Short + punchy"
+      },
+      "beauty_personal_care": {
+        "optimal": "200-300 chars",
+        "avg": 276,
+        "note": "Longer with product details"
+      },
+      "fashion": {
+        "optimal": "300-500 chars",
+        "avg": 403,
+        "note": "Longest captions get highest likes in fashion"
+      },
+      "retail_lifestyle": {
+        "optimal": "150-200 chars",
+        "avg": 188
+      }
+    },
+    "emoji_rules": {
+      "finding": "LOW-eng posts use MORE emojis (89%) than HIGH-eng (65%). Overuse hurts.",
+      "f_and_b": "1-2 emojis max. Let the food speak.",
+      "beauty": "Emoji expected (98% use them). 2-3 ok.",
+      "fashion": "LEAST emoji = MOST likes. 0-1 emoji.",
+      "rule": "Less emoji in Saudi high-engagement content than you think."
+    },
+    "hashtag_rules": {
+      "high_eng_avg": 2,
+      "low_eng_avg": 3,
+      "finding": "Fewer hashtags = higher engagement. 2 is optimal.",
+      "placement": "Starting with # works for announcements (10 of top 263 do it). Otherwise weave into sentence.",
+      "never": "Never end with a wall of 5+ hashtags. Saudi audiences skip those."
+    },
+    "ending_rules": {
+      "finding": "Questions (؟) are RARE in top Saudi posts — only 3 of 263 high-eng.",
+      "what_works": "End with brand hashtag (186 of 263 high-eng) or short statement.",
+      "what_fails": "Generic question CTAs (شرايكم؟ منو جرب؟) — overused, feels fake.",
+      "exception": "Genuine questions about NEW products work. Generic ones dont."
+    },
+    "opener_rules": {
+      "high_eng": [
+        "Product/brand name first",
+        "#بروستد_سبايسي (hashtag as product name)",
+        "الآن (urgency)",
+        "عيدكم مبارك (occasion)"
+      ],
+      "low_eng": [
+        "Generic greeting",
+        "نوفر لكم (we provide you)",
+        "تخفيضات (discounts)"
+      ],
+      "rule": "First 3 words determine if people read the rest. Product first, not greeting."
+    },
+    "corrections_to_previous_rules": {
+      "was_wrong": "We recommended ending with شرايكم؟ — data shows questions are rare in top posts",
+      "was_wrong_2": "We recommended 30-80 chars — data shows longer captions (200+) get more likes overall",
+      "was_wrong_3": "We recommended more emojis — data shows high-eng posts use FEWER emojis",
+      "note": "These corrections are from REAL data, not AI estimation"
+    }
+  },
+  "test_findings": [
+    {
+      "test": "brand_distinction",
+      "result": "PASS — 5 brands sound distinct for same product",
+      "date": "2026-06-05"
+    },
+    {
+      "test": "cultural_guardrails",
+      "result": "PASS — Hajj/Ramadan rules followed",
+      "issue": "Output was English not Arabic — add language enforcement to cultural context"
+    },
+    {
+      "test": "occasion_distinction",
+      "result": "PASS — 4 occasions have different framing",
+      "issue": "AlBaik National Day said مشوي (grilled) instead of بروستد (broasted) — product name must be enforced"
+    }
+  ],
+  "brand_product_names": {
+    "albaik": {
+      "correct": "بروستد",
+      "wrong": [
+        "مشوي",
+        "مقلي",
+        "grilled"
+      ],
+      "note": "AlBaik is BROASTED (بروستد) — never مشوي"
+    },
+    "pizzahutsaudi": {
+      "correct": "بيتزا",
+      "wrong": [
+        "pizza"
+      ],
+      "note": "Use Arabic بيتزا not English pizza"
+    },
+    "barnscoffee": {
+      "correct": "قهوة مختصة",
+      "wrong": [
+        "coffee"
+      ],
+      "note": "Use Arabic قهوة not English coffee"
+    },
+    "maxfashionmena": {
+      "correct": "إطلالات",
+      "also_correct": [
+        "أزياء",
+        "ماكس"
+      ],
+      "wrong": [
+        "maxfashion",
+        "fashion"
+      ],
+      "confidence": "curated",
+      "note": "Manually curated — auto-extraction was unreliable for this brand.",
+      "source": "manual_curation"
+    },
+    "elixirbunn": {
+      "correct": "إكسير",
+      "also_correct": [
+        "البن",
+        "بين"
+      ],
+      "wrong": [
+        "coffee",
+        "elixirbunn",
+        "huna"
+      ],
+      "note": "Auto-extracted from top 30 captions by likes. Review and curate manually for best quality gate results.",
+      "source": "auto_extracted_from_obs",
+      "confidence": "medium"
+    },
+    "kyancafe": {
+      "correct": "كيان",
+      "also_correct": [
+        "ريال",
+        "سعيد"
+      ],
+      "wrong": [],
+      "note": "Auto-extracted from top 30 captions by likes. Review and curate manually for best quality gate results.",
+      "source": "auto_extracted_from_obs",
+      "confidence": "medium"
+    },
+    "mcdonaldsksa": {
+      "correct": "ماك",
+      "also_correct": [
+        "ماكدونالدز",
+        "تطبيق"
+      ],
+      "wrong": [
+        "mcdonaldsksa",
+        "mccafeksa",
+        "oxford",
+        "فرايز",
+        "fries",
+        "burger",
+        "bigmac"
+      ],
+      "note": "Use ماك/ماكدونالدز. Avoid English food names: بطاطس not فرايز, برجر not burger",
+      "source": "auto_extracted_from_obs",
+      "confidence": "medium"
+    },
+    "hashibasha": {
+      "correct": "حاشي",
+      "also_correct": [
+        "باشا",
+        "دجاج"
+      ],
+      "wrong": [
+        "eid",
+        "saudi",
+        "solo"
+      ],
+      "note": "Auto-extracted from top 30 captions by likes. Review and curate manually for best quality gate results.",
+      "source": "auto_extracted_from_obs",
+      "confidence": "medium"
+    },
+    "herfyfsc": {
+      "correct": "هرفي",
+      "also_correct": [
+        "وجبة",
+        "شباب"
+      ],
+      "wrong": [
+        "herfy",
+        "spacetoon"
+      ],
+      "note": "Auto-extracted from top 30 captions by likes. Review and curate manually for best quality gate results.",
+      "source": "auto_extracted_from_obs",
+      "confidence": "medium"
+    },
+    "riyadhfood": {
+      "correct": "وجبة",
+      "also_correct": [
+        "طعام"
+      ],
+      "wrong": [
+        "riyadhfood",
+        "food"
+      ],
+      "confidence": "curated",
+      "note": "Manually curated — auto-extraction was unreliable for this brand.",
+      "source": "manual_curation"
+    },
+    "altazaj_fakieh": {
+      "correct": "الطازج",
+      "also_correct": [
+        "دجاجنا",
+        "ارض"
+      ],
+      "wrong": [],
+      "note": "Auto-extracted from top 30 captions by likes. Review and curate manually for best quality gate results.",
+      "source": "auto_extracted_from_obs",
+      "confidence": "medium"
+    },
+    "tamimimarkets": {
+      "correct": "التميمي",
+      "also_correct": [
+        "أسواق",
+        "العيد"
+      ],
+      "wrong": [
+        "you",
+        "tamimimarkets",
+        "offers"
+      ],
+      "note": "Auto-extracted from top 30 captions by likes. Review and curate manually for best quality gate results.",
+      "source": "auto_extracted_from_obs",
+      "confidence": "medium"
+    },
+    "aldeebajofficial": {
+      "correct": "الديباج",
+      "also_correct": [
+        "عبايات"
+      ],
+      "wrong": [
+        "deebaj",
+        "abaya"
+      ],
+      "confidence": "curated",
+      "note": "Manually curated — auto-extraction was unreliable for this brand.",
+      "source": "manual_curation"
+    },
+    "pandasaudi": {
+      "correct": "بنده",
+      "also_correct": [
+        "حتى",
+        "معك"
+      ],
+      "wrong": [
+        "leafy",
+        "greens",
+        "are"
+      ],
+      "note": "Auto-extracted from top 30 captions by likes. Review and curate manually for best quality gate results.",
+      "source": "auto_extracted_from_obs",
+      "confidence": "medium"
+    },
+    "hm": {
+      "correct": "أزياء",
+      "also_correct": [
+        "إتش آند إم"
+      ],
+      "wrong": [
+        "hm",
+        "clothes"
+      ],
+      "confidence": "curated",
+      "note": "Manually curated — auto-extraction was unreliable for this brand.",
+      "source": "manual_curation"
+    },
+    "randbfashion": {
+      "correct": "ملابس",
+      "also_correct": [
+        "أزياء"
+      ],
+      "wrong": [
+        "fashion",
+        "clothing"
+      ],
+      "confidence": "curated",
+      "note": "Manually curated — auto-extraction was unreliable for this brand.",
+      "source": "manual_curation"
+    },
+    "mumzworld": {
+      "correct": "ممزورلد",
+      "also_correct": [
+        "الأمهات",
+        "السحب"
+      ],
+      "wrong": [
+        "mumzworld",
+        "munzworld",
+        "neobreez"
+      ],
+      "note": "All-Arabic captions required. Do NOT use \"mumzworld\" in Arabic text — use \"ممزورلد\" or \"موقعنا\"",
+      "source": "auto_extracted_from_obs",
+      "confidence": "medium"
+    },
+    "kiabiksa": {
+      "correct": "كيابي",
+      "also_correct": [
+        "السعودية",
+        "الأزياء"
+      ],
+      "wrong": [
+        "kiabi",
+        "fashion",
+        "kiabiksa"
+      ],
+      "note": "Auto-extracted from top 30 captions by likes. Review and curate manually for best quality gate results.",
+      "source": "auto_extracted_from_obs",
+      "confidence": "medium"
+    },
+    "zara": {
+      "correct": "أزياء",
+      "also_correct": [
+        "زارا"
+      ],
+      "wrong": [
+        "zara",
+        "clothes"
+      ],
+      "confidence": "curated",
+      "note": "Manually curated — auto-extraction was unreliable for this brand.",
+      "source": "manual_curation"
+    },
+    "mikyajy": {
+      "correct": "مكياجي",
+      "also_correct": [
+        "المتاجر",
+        "تسوقوا"
+      ],
+      "wrong": [
+        "mikyajy",
+        "saudibrand",
+        "highperformancebeauty"
+      ],
+      "note": "Auto-extracted from top 30 captions by likes. Review and curate manually for best quality gate results.",
+      "source": "auto_extracted_from_obs",
+      "confidence": "medium"
+    },
+    "asteribeautysa": {
+      "correct": "روج",
+      "also_correct": [
+        "مكياج",
+        "ليب"
+      ],
+      "wrong": [
+        "lip",
+        "shine",
+        "asterie"
+      ],
+      "confidence": "curated",
+      "note": "Manually curated — auto-extraction was unreliable for this brand.",
+      "source": "manual_curation"
+    },
+    "lifestyleshops": {
+      "correct": "لايف ستايل",
+      "also_correct": [],
+      "wrong": [
+        "lifestyle"
+      ],
+      "confidence": "curated",
+      "note": "Manually curated — auto-extraction was unreliable for this brand.",
+      "source": "manual_curation"
+    },
+    "gissahperfumes": {
+      "correct": "عطر",
+      "also_correct": [
+        "قصة"
+      ],
+      "wrong": [
+        "perfume",
+        "fragrance"
+      ],
+      "confidence": "curated",
+      "note": "Manually curated — auto-extraction was unreliable for this brand.",
+      "source": "manual_curation"
+    }
+  },
+  "occasion_required_words": {
+    "founding_day": [
+      "تأسيس",
+      "يوم التأسيس"
+    ],
+    "national_day": [
+      "اليوم الوطني",
+      "الوطن"
+    ],
+    "ramadan": [
+      "رمضان",
+      "إفطار",
+      "سحور"
+    ],
+    "eid_al_fitr": [
+      "عيد",
+      "الفطر",
+      "عيدكم"
+    ],
+    "eid_al_adha": [
+      "عيد",
+      "الأضحى"
+    ],
+    "hajj_season": [
+      "حج",
+      "الحرم"
+    ],
+    "riyadh_season": [
+      "موسم الرياض",
+      "موسم"
+    ],
+    "jeddah_season": [
+      "موسم جدة",
+      "موسم"
+    ],
+    "white_friday": [
+      "الجمعة البيضاء",
+      "خصم",
+      "عروض"
+    ],
+    "singles_day": [
+      "١١.١١",
+      "11.11",
+      "يوم العزاب"
+    ]
+  },
+  "quality_gate": {
+    "description": "Post-generation quality check. Every output goes through this before delivery.",
+    "auto_fixes": {
+      "hashtag_limit": "Strip all hashtags beyond the first 2. Keep them woven in text, remove appended walls.",
+      "emoji_limit": "If sector=fashion and emoji>1, strip extras. If any sector and emoji>3, strip extras.",
+      "product_name": "Replace wrong product names with correct ones from brand_product_names.",
+      "language_check": "If English > Arabic character count, flag for rewrite.",
+      "msa_replace": "Replace formal MSA words: تفضلوا→تعالوا, تسحرني→يعجبني, رائع→حلو"
+    },
+    "hard_blocks": [
+      "Cultural violation (forbidden content) → reject entirely",
+      "Wrong brand name → reject",
+      "English-only output for Saudi brand → reject"
+    ],
+    "soft_warnings": [
+      "No Saudi markers → add حيّاكم or الحين naturally",
+      "Missing occasion keyword → add to caption",
+      "Generic question ending → replace with brand hashtag"
+    ],
+    "minimum_score": 70,
+    "note": "Output below 70 gets auto-fixed or rejected. Above 70 passes with warnings logged."
+  },
+  "saudi_templates": {
+    "beauty_personal_care": {
+      "generated_from": "GPT-4o analysis of 95 real beauty captions + Saudi F&B style reference",
+      "templates": "1. **Skincare Routine**  \n\"يوم روتيني للبشرة الحين مع {product} من {brand}، وش رأيكم؟ 🧖‍♀️\"\n\n2. **Skincare Routine**  \n\"ثبتت روتيني ببلاش مع {product} من {brand}، عيونكم على النتيجة! 💦\"\n\n3. **Skincare Routine**  \n\"أحب هالخطوة في العناية بالبشرة، {product} من {brand} 💗 جربوه معاي!\"\n\n4. **Skincare Routine**  \n\"أحب أبدأ يومي مع {product} من {brand}، تدرون ليش؟ لأنه يعطيني إشراقة! ✨\"\n\n5. **Skincare Routine**  \n\"سبحان الله كيف {product} من {brand} يغيرلنا بشرتنا، جربوه وشوفوا الفرق! 🌸\"\n\n6. **Perfume/Fragrance**  \n\"منور يومي مع {product} من {brand}، رائحته تبهج القلب ❤️\"\n\n7. **Perfume/Fragrance**  \n\"يالله، أحتاج مسحة من {product} من {brand}، حاجة تختلف! 🌼\"\n\n8. **Perfume/Fragrance**  \n\"مرّت من فترة أستخدم {product} من {brand}، وش رايكم في العطر؟ 🌟\"\n\n9. **Perfume/Fragrance**  \n\"تحلو لحظاتي مع {product} من {brand}، تعالوا اكتشفوا العطر الجديد! 🌷\"\n\n10. **Perfume/Fragrance**  \n\"ذاك العطر القوي، {product} من {brand}، لازم يكون في كل حقيبة! 💖\"\n\n11. **Makeup Look**  \n\"أحب هاللوك الجديد مع {product} من {brand}، وش رأيكم فيه؟ 💋\"\n\n12. **Makeup Look**  \n\"اللي يبي لوك مميز، {product} من {brand} هو الحل! جربوه 🔥\"\n\n13. **Makeup Look**  \n\"يالله، متحمسة لتجربة {product} من {brand}، لو كنتوا معي كنتوا تشوفون الفرق! 💄\"\n\n14. **Makeup Look**  \n\"عشقت هاللوك مع {product} من {brand}، زين كذا أو بعد؟ 🤩\"\n\n15. **Makeup Look**  \n\"شفايفي اليوم ب {product} من {brand}، يعكس مزاجي الرائع! 😊\"\n\n16. **Special Occasion Beauty**  \n\"رمضان قرب، عنايتي بشرتي مع {product} من {brand}، مستعدة ليوم مميز! 🌙\"\n\n17. **Special Occasion Beauty**  \n\"أجواء العيد تحتاج لمسة مميزة! جربوا {product} من {brand} 👗\"\n\n18. **Special Occasion Beauty**  \n\"مستعدة لحفل زواجي مع {product} من {brand}، يلا نحتفل! 🥳\"\n\n19. **Special Occasion Beauty**  \n\"آه يا الجمال، {product} من {brand} لسهرة العيد، كيف تحضرون؟ 🎉\"\n\n20. **Special Occasion Beauty**  \n\"يوم زواجي قريب، مع {product} من {brand}، محتاجة دعاكم! 🙏\"",
+      "count": 20
+    },
+    "retail_lifestyle": {
+      "templates": "1. حيّاكم، شوفوا الجديد عند {brand}! {product} كيوت 😍 \n   \n2. وش تنتظرون؟ الطلّات الجديدة وصلت! {product} من {brand} 🛍️\n\n3. الحين الخصومات على {product} عند {brand}! لا تفوتون الفرصة 🥳 \n\n4. موسم جديد، مجموعة جديدة! {product} متوفر عند {brand} 🌟 \n\n5. حيّاكم في {brand}، الجديد عندنا {product} وعبق التخفيضات 🎉 \n\n6. وش رايكم في {product} الجديد؟ جربوه من {brand} الحين! 💖\n\n7. الحين وقت التسوق! {product} من {brand} بأسعار مميزة 🏷️ \n\n8. الصيف جاي! أضف {product} من {brand} لمجموعتك 🌞 \n\n9. حيّاكم، خصومات الصيف! لا تفوتوا {product} من {brand} 🏖️ \n\n10. وش كثر تنتظرون؟ {product} جديد عند {brand} مستنيكم! ✨",
+      "count": 10
+    },
+    "healthcare_wellness": {
+      "templates": "1. تعالوا جربوا {product} من {brand}، صحتكم أولى! 💪  \n   \n2. انطلق نحو حياة صحية مع {brand}، جربوا {product} اليوم! 🌱  \n\n3. خلك دايمًا نشيط مع {product} من {brand}، النشاط يبدأ من هنا! ✨  \n\n4. حجزوا عضويتكم مع {brand} وعيشوا أسلوب حياة صحي مع {product}! 🏋️‍♂️  \n\n5. لأن صحتك تهمنا، جرب {product} من {brand} وعيش الفارق! 🍏  \n\n6. ابدأ يومك مع {product} من {brand}، صحتك حنانها على طول! ☀️  \n\n7. للرياضيين ولكل محب للصحة، {product} من {brand} هو الخيار! 🔥  \n\n8. لأسلوب حياة صحي، ما في مثل {product} من {brand}! جربوه! 🌼  \n\n9. لياقتك وصحتك كانوا يستحقوا الأفضل، جرب {product} من {brand}! 💚  \n\n10. استثمر في صحتك مع {brand}، وعيش طعم الحياة مع {product}! 😍",
+      "count": 10
+    }
+  }
+}

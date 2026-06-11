@@ -1892,10 +1892,16 @@ def cross_stats():
 
 
 @app.get("/api/cross/pairs")
-def cross_pairs(model_a: str = "humain", model_b: str = "gpt-4o", technique: str = ""):
+def cross_pairs(model_a: str = "claude", model_b: str = "gpt-4o", technique: str = "", version: str = "v6"):
     """Return one brief that has outputs from both models — for pairwise comparison."""
-    items_a = {_brief_key(i): i for i in _load_cross_queue(model_a)}
-    items_b = {_brief_key(i): i for i in _load_cross_queue(model_b)}
+    def _vfilter(items):
+        # June 11: founder taps must judge ONLY the new mind (440 v3-era zombies
+        # polluted the queue and his GOLD). version="all" restores old behavior.
+        if version == "all":
+            return items
+        return [i for i in items if i.get("prompt_version") == version]
+    items_a = {_brief_key(i): i for i in _vfilter(_load_cross_queue(model_a))}
+    items_b = {_brief_key(i): i for i in _vfilter(_load_cross_queue(model_b))}
 
     # Exclude already-compared briefs
     prefs = {"comparisons": []}

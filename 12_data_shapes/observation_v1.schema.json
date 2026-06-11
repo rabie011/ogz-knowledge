@@ -154,31 +154,52 @@
           "description": "Day of week the content was posted (derived from capture_date)"
         },
         "likes_count": {
-          "type": ["integer", "null"],
+          "type": [
+            "integer",
+            "null"
+          ],
           "description": "Real likes count from Apify extraction"
         },
         "comments_count": {
-          "type": ["integer", "null"],
+          "type": [
+            "integer",
+            "null"
+          ],
           "description": "Real comments count from Apify extraction"
         },
         "engagement_total": {
-          "type": ["integer", "null"],
+          "type": [
+            "integer",
+            "null"
+          ],
           "description": "likes_count + comments_count"
         },
         "followers_at_capture": {
-          "type": ["integer", "null"],
+          "type": [
+            "integer",
+            "null"
+          ],
           "description": "Account followers at time of extraction"
         },
         "engagement_rate": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "description": "engagement_total / followers_at_capture"
         },
         "display_url": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Instagram display image URL from Apify"
         },
         "video_url": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Instagram video URL from Apify"
         }
       }
@@ -191,7 +212,10 @@
       "additionalProperties": false,
       "properties": {
         "composition_style": {
-          "type": "string",
+          "type": [
+            "string",
+            "null"
+          ],
           "minLength": 3,
           "description": "e.g. 'overhead tabletop spread', 'product hero close-up', 'architectural framing'"
         },
@@ -367,6 +391,13 @@
             "null"
           ],
           "description": "Whether a brand logo is visible in the video frame"
+        },
+        "notable_phrases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "ADDITIVE 2026-06-11: phrases visible in the visual (signage/packaging). 2,492 records already carry it; legalized per SCHEMA_EVOLUTION (add, never break)."
         }
       }
     },
@@ -542,6 +573,8 @@
             "comment",
             "tag_someone",
             "follow",
+            "contact",
+            "pm_for_details",
             null
           ]
         },
@@ -553,6 +586,7 @@
           "description": "Arabic language register/technique used in caption",
           "enum": [
             "colloquial_gulf",
+            "colloquial_levantine",
             "bilingual_mix",
             "msa_formal",
             "english_only",
@@ -764,7 +798,10 @@
           ]
         },
         "engagement_method": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "How engagement_potential was determined (e.g. below_all_thresholds, rate_based, total_based)"
         }
       }

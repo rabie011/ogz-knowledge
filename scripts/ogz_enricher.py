@@ -759,9 +759,19 @@ def cycle(state: dict, cycle_num: int) -> dict:
             commit_and_sync(report)
             telegram_report(report, cycle_num)
         else:
-            log.error("  ❌ Validation failed — rolling back changes")
-            telegram(f"⚠️ <b>OGZ Enricher</b> — Cycle {cycle_num} validation FAILED. Changes rolled back. Manual check needed.")
-            _run(["git", "checkout", "--", "."])
+            log.error("  ❌ Validation failed — rolling back ENRICHER-OWNED paths only")
+            telegram(f"⚠️ <b>OGZ Enricher</b> — Cycle {cycle_num} validation FAILED. Enricher paths rolled back. Manual check needed.")
+            # JUNE 11 FIX: `git checkout -- .` wiped the WHOLE working tree on every
+            # failed cycle (52 times) — destroying founder ratings and session work.
+            # Rollback is now scoped to the paths this daemon actually writes.
+            ENRICHER_PATHS = [
+                "11_who_to_learn_from/observations",
+                "11_who_to_learn_from/accounts",
+                "11_who_to_learn_from/INDEX.json",
+                "11_who_to_learn_from/intelligence_layer.json",
+                "logs/enricher_state.json",
+            ]
+            _run(["git", "checkout", "--"] + ENRICHER_PATHS)
     else:
         log.info("  No changes this cycle")
 

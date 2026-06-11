@@ -3,7 +3,7 @@
 The library's slugs fragment by alias (food_* / f_and_b_* / food_beverage_*) — the
 same disease meta-pattern F documented for sectors. NO files move or rename:
 this builds an INDEX with canonical prefixes + duplicate-candidate groups.
-Output: 11_who_to_learn_from/patterns/content_types/_CANONICAL_INDEX.json
+Output: 11_who_to_learn_from/content_types_canonical_index.json (outside the schema-validated patterns dir)
 """
 import json, glob, re
 from collections import defaultdict
@@ -51,7 +51,7 @@ def main():
         "alias_merges": dupes,
         "near_duplicate_candidates": dict(sorted(near.items(), key=lambda kv: -len(kv[1]))[:60]),
     }
-    (DIR / "_CANONICAL_INDEX.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
+    (BASE / "11_who_to_learn_from" / "content_types_canonical_index.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
     print(f"✓ {len(files)} files → {len(groups)} canonical · alias-merges: {len(dupes)} · near-dupe stems: {len(near)}")
 
 

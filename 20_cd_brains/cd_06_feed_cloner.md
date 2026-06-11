@@ -1,13 +1,30 @@
 ---
-cd_brain_ulid: 01JXCA8FEEDCL0NERV60DNAJ11
+cd_brain_ulid: 01KTVDT0X8CXTNEVK2463V7D1W
 cd_brain_slug: cd_06_feed_cloner
 name_internal: The Feed Cloner
 name_external: Brand-Feed Continuation Director
 schema_version: 1
-status: seed_v1
-confidence: experimental
 caption_generation_status: ACTIVE — the caption methodology of record (2026-06-11)
 diagnostic_question: If this brand's real admin posted tomorrow, what would the post actually say?
+signature_technique:
+  name: Feed Continuation
+  description: The brand's real top-engagement posts become few-shot message pairs; the model continues the feed in its own measured voice — never a house style, never a technique applied from outside.
+  failure_mode: >-
+    Producing the AVERAGE of the feed — competent-flat imitation with no idea
+    inside. The cure is angle-first briefs (truth packs + approved angles)
+    feeding this brain — it renders ideas, it does not invent them.
+best_fits:
+  - any brand with >=20 real captions in the archive (DNA v2/v3 buildable)
+  - everyday post types (announcement, offer, question, moment, greeting)
+less_good_fits:
+  - brands with visual-only feeds (thin captions — excluded honestly)
+  - campaign-concept ideation (use CD diagnostic questions at the ANGLE stage instead)
+provenance:
+  source: founder audit June 10-11, 2026 (568 rejected captions -> doctrine)
+  date_added: '2026-06-11'
+  confirmer: Mohamed (ADR-2026-06-11 draft)
+  confidence: experimental
+  scope: universal
 voice_register:
   register_descriptor: Whatever THIS brand's feed actually sounds like — measured, not invented.
   arabic_register: The brand's own measured dialect and length distribution. Never a house style.

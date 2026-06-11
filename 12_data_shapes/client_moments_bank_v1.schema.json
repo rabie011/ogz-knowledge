@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "client_moments_bank_v1.schema.json",
+  "title": "client_moments_bank_v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "moments"
+  ],
+  "properties": {
+    "moments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "occasion",
+          "evidence",
+          "provenance"
+        ],
+        "properties": {
+          "occasion": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string"
+          },
+          "engagement": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "provenance": {
+            "type": "object",
+            "required": [
+              "source",
+              "date_added",
+              "confirmer",
+              "confidence",
+              "scope"
+            ],
+            "properties": {
+              "source": {
+                "type": "string"
+              },
+              "date_added": {
+                "type": "string"
+              },
+              "confirmer": {
+                "type": "string"
+              },
+              "confidence": {
+                "type": "string"
+              },
+              "scope": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

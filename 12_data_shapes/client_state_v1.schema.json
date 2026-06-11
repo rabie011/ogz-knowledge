@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "client_state_v1.schema.json",
+  "title": "client_state_v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "state",
+    "posts_count",
+    "followers",
+    "last_post",
+    "silent_days",
+    "method",
+    "human_checkpoint",
+    "provenance"
+  ],
+  "properties": {
+    "state": {
+      "enum": [
+        "newborn",
+        "newborn-dormant",
+        "active",
+        "active_dormant",
+        "active_unclassified",
+        "active_messy",
+        "active_strong"
+      ]
+    },
+    "posts_count": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "followers": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "last_post": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "silent_days": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "method": {
+      "const": "countables_only"
+    },
+    "human_checkpoint": {
+      "type": "string"
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "source",
+        "date_added",
+        "confirmer",
+        "confidence",
+        "scope"
+      ],
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "date_added": {
+          "type": "string"
+        },
+        "confirmer": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

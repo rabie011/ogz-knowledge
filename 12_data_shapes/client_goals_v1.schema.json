@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "client_goals_v1.schema.json",
+  "title": "client_goals_v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "goal_ratio",
+    "capacity_ceiling",
+    "forward_calendar",
+    "usp_his_words",
+    "answered",
+    "of"
+  ],
+  "properties": {
+    "goal_ratio": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "capacity_ceiling": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "forward_calendar": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "usp_his_words": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "answered": {
+      "type": "number"
+    },
+    "of": {
+      "type": "number"
+    }
+  }
+}

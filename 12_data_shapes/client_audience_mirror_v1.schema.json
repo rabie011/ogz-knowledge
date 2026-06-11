@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "client_audience_mirror_v1.schema.json",
+  "title": "client_audience_mirror_v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "comments_count",
+    "sample",
+    "note"
+  ],
+  "properties": {
+    "comments_count": {
+      "type": "number"
+    },
+    "sample": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "note": {
+      "type": "string"
+    }
+  }
+}

@@ -129,9 +129,11 @@ def build(handle: str, brand_key: str | None):
                                    "sample": [c.get("text", "")[:80] for c in comments[:10]],
                                    "note": "delivery-app reviews NOT read (FLANK-05 open)"}
     taste = json.loads((BASE / "data/founder_taste.json").read_text())
+    raw_kills = taste.get("kills", [])
+    kill_names = (list(raw_kills)[:12] if isinstance(raw_kills, dict)
+                  else [k.get("name", str(k)) if isinstance(k, dict) else str(k) for k in raw_kills][:12])
     organs["taste"] = {"floor": "founder_taste.json (inherited)",
-                        "kills": list(taste.get("kills", {}))[:10] if isinstance(taste.get("kills"), dict) else taste.get("kills", []),
-                        "client_calibration": []}
+                        "kills": kill_names, "client_calibration": []}
     # gap report: every empty organ → a question
     gaps = []
     if not organs["red_lines"]["lines"]:

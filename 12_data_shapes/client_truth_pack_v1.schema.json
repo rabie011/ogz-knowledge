@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "client_truth_pack_v1.schema.json",
+  "title": "client_truth_pack_v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "confirmed",
+    "product_candidates",
+    "recurring_caption_terms",
+    "channels",
+    "real_hashtags",
+    "prices",
+    "note"
+  ],
+  "properties": {
+    "confirmed": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "product_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "evidence",
+          "provenance"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string"
+          },
+          "provenance": {
+            "type": "object",
+            "required": [
+              "source",
+              "date_added",
+              "confirmer",
+              "confidence",
+              "scope"
+            ],
+            "properties": {
+              "source": {
+                "type": "string"
+              },
+              "date_added": {
+                "type": "string"
+              },
+              "confirmer": {
+                "type": "string"
+              },
+              "confidence": {
+                "type": "string"
+              },
+              "scope": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "recurring_caption_terms": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "channels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "evidence",
+          "provenance"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string"
+          },
+          "provenance": {
+            "type": "object",
+            "required": [
+              "source",
+              "date_added",
+              "confirmer",
+              "confidence",
+              "scope"
+            ],
+            "properties": {
+              "source": {
+                "type": "string"
+              },
+              "date_added": {
+                "type": "string"
+              },
+              "confirmer": {
+                "type": "string"
+              },
+              "confidence": {
+                "type": "string"
+              },
+              "scope": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "real_hashtags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "prices": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "note": {
+      "type": "string"
+    }
+  }
+}

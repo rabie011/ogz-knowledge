@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "client_gap_report_v1.schema.json",
+  "title": "client_gap_report_v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "questions",
+    "organs_red",
+    "organs_yellow"
+  ],
+  "properties": {
+    "questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "organs_red": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "organs_yellow": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "client_red_lines_v1.schema.json",
+  "title": "client_red_lines_v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "lines",
+    "defaults_pinned",
+    "note"
+  ],
+  "properties": {
+    "lines": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "defaults_pinned": {
+      "type": "string"
+    },
+    "note": {
+      "type": "string"
+    }
+  }
+}

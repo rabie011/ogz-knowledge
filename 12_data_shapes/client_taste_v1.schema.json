@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "client_taste_v1.schema.json",
+  "title": "client_taste_v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "floor",
+    "kills",
+    "client_calibration"
+  ],
+  "properties": {
+    "floor": {
+      "type": "string"
+    },
+    "kills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "client_calibration": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

@@ -60,6 +60,13 @@ def load_client(handle: str) -> dict:
         va = next((x for x in v.get("voices", []) if x.get("id") in ("A", "voice_a")), None)
         if va:
             exemplars = va.get("posts", [])[:3] + exemplars[:2]
+    # GOLD first (June 12, the ceiling stretch): lines the chair rated >=4 are the
+    # strongest few-shot signal — they lead, corpus exemplars fill behind
+    gf = cdir / "profile/gold.json"
+    if gf.exists():
+        gold_lines = [g["line"] for g in json.loads(gf.read_text()).get("gold", [])]
+        if gold_lines:
+            exemplars = gold_lines[:3] + [e for e in exemplars if e not in gold_lines][:2]
     truth = p("truth_pack")
     # grounding corpus for the noun guard: everything the client has actually said
     corpus_text = " ".join([x.get("caption") or "" for x in posts] + [prof.get("biography", "")]
@@ -152,7 +159,12 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     except Exception as e:
         print(f"  gpt pen failed: {e}", file=sys.stderr)
     try:
-        txt = sonnet(sys_p + "\nReturn ONLY the JSON object.", few + [{"role": "user", "content": user}])
+        # pen diversity (June 12): the second pen enters the scene from its least
+        # obvious angle — different DOOR, same truth. Two pens, two temperaments.
+        diversity = ("\nYOUR PEN'S TEMPERAMENT: enter the scene through its LEAST obvious door — "
+                     "the side character, the sound, the second before or after the expected moment. "
+                     "Same scene, same truth, unexpected entry.")
+        txt = sonnet(sys_p + diversity + "\nReturn ONLY the JSON object.", few + [{"role": "user", "content": user}])
         m = re.search(r"\{.*\}", txt, re.S)
         if m:
             opts += json.loads(m.group(0)).get("options", [])

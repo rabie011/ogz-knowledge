@@ -3,59 +3,59 @@
   "sector": "food_and_beverage",
   "sector_key": "f_and_b",
   "corpus_data": {
-    "obs_in_corpus": 21,
-    "avg_engagement": 0.619,
-    "high_eng_count": 12,
+    "obs_in_corpus": 25,
+    "avg_engagement": 0.68,
+    "high_eng_count": 16,
     "low_eng_count": 9
   },
   "winning_signals": [
     {
       "dimension": "visual_complexity",
       "value": "moderate",
-      "count": 7,
-      "pct": 0.583
+      "count": 10,
+      "pct": 0.625
+    },
+    {
+      "dimension": "hvm",
+      "value": "heritage",
+      "count": 10,
+      "pct": 0.625
+    },
+    {
+      "dimension": "tone",
+      "value": "celebratory",
+      "count": 9,
+      "pct": 0.562
     },
     {
       "dimension": "content_type",
       "value": "image",
-      "count": 6,
+      "count": 8,
       "pct": 0.5
     },
     {
       "dimension": "composition",
       "value": "product_hero_closeup",
-      "count": 6,
-      "pct": 0.5
-    },
-    {
-      "dimension": "tone",
-      "value": "celebratory",
-      "count": 6,
-      "pct": 0.5
-    },
-    {
-      "dimension": "hvm",
-      "value": "heritage",
-      "count": 6,
-      "pct": 0.5
+      "count": 7,
+      "pct": 0.438
     },
     {
       "dimension": "setting",
       "value": "restaurant",
-      "count": 5,
-      "pct": 0.417
+      "count": 6,
+      "pct": 0.375
     },
     {
       "dimension": "lighting",
       "value": "natural",
-      "count": 5,
-      "pct": 0.417
+      "count": 6,
+      "pct": 0.375
     },
     {
       "dimension": "visual_complexity",
       "value": "simple",
-      "count": 5,
-      "pct": 0.417
+      "count": 6,
+      "pct": 0.375
     }
   ],
   "losing_signals": [
@@ -86,29 +86,29 @@
   ],
   "top_patterns": [
     {
-      "pattern": "founding_day_dirayyah_heritage",
-      "count": 5,
-      "pct": 0.417
-    },
-    {
       "pattern": "f_and_b_beverage",
-      "count": 5,
-      "pct": 0.417
+      "count": 6,
+      "pct": 0.375
     },
     {
       "pattern": "national_day_campaign",
-      "count": 3,
+      "count": 6,
+      "pct": 0.375
+    },
+    {
+      "pattern": "founding_day_dirayyah_heritage",
+      "count": 5,
+      "pct": 0.312
+    },
+    {
+      "pattern": "national_celebration",
+      "count": 4,
       "pct": 0.25
     },
     {
-      "pattern": "brand_promotional",
-      "count": 2,
-      "pct": 0.167
-    },
-    {
-      "pattern": "close_up_macro_texture",
-      "count": 2,
-      "pct": 0.167
+      "pattern": "national_occasion",
+      "count": 4,
+      "pct": 0.25
     }
   ],
   "top_phrases_in_winners": [
@@ -119,17 +119,20 @@
     "*هذا العرض غير متاح في بعض الفروع"
   ],
   "recommended_formula": {
-    "format": "image",
+    "format": "reel",
     "predicted_eng": 1.0,
     "aspect_ratio": "square_1x1",
     "tone": "proud",
     "register": null,
-    "heritage_framing": "heritage",
+    "heritage_framing": "blended",
     "visual_complexity": "complex",
     "posting_day": "tuesday",
     "caption_length": "10-30 words",
     "hashtag_count": "1-5",
-    "patterns": [],
+    "patterns": [
+      "national_celebration",
+      "f_and_b_occasion_marketing"
+    ],
     "phrases_to_use": [
       "#يوم_التأسيس_السعودي",
       "#حاشي_باشا",
@@ -138,7 +141,7 @@
     "hospitality_cues": []
   },
   "red_flags": [
-    "AVOID format: carousel_slide (75% eng for this occasion)",
+    "AVOID format: image (55% eng for this occasion)",
     "AVOID: lighting=natural (found in 77% of low-eng posts)",
     "AVOID: visual_complexity=simple (found in 77% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
@@ -148,13 +151,13 @@
     {
       "timing": "3-4 days before",
       "post_type": "teaser",
-      "format": "image",
+      "format": "reel",
       "tone": "anticipatory"
     },
     {
       "timing": "peak day",
       "post_type": "hero",
-      "format": "image",
+      "format": "reel",
       "tone": "proud"
     },
     {
@@ -165,8 +168,11 @@
     }
   ],
   "analytics_support": {
-    "format_matrix_best": "image",
-    "occasion_patterns": [],
+    "format_matrix_best": "reel",
+    "occasion_patterns": [
+      "national_celebration",
+      "f_and_b_occasion_marketing"
+    ],
     "occasion_phrases": [
       "#يوم_التأسيس_السعودي",
       "#حاشي_باشا",
@@ -174,6 +180,6 @@
       "#mumzworld"
     ],
     "hospitality_cues": [],
-    "playbook_obs_count": 27
+    "playbook_obs_count": 40
   }
 }

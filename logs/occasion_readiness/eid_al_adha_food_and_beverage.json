@@ -3,71 +3,124 @@
   "sector": "food_and_beverage",
   "sector_key": "f_and_b",
   "corpus_data": {
-    "obs_in_corpus": 10,
-    "avg_engagement": 0.35,
-    "high_eng_count": 1,
-    "low_eng_count": 9
+    "obs_in_corpus": 37,
+    "avg_engagement": 0.608,
+    "high_eng_count": 12,
+    "low_eng_count": 25
   },
-  "winning_signals": [],
-  "losing_signals": [
+  "winning_signals": [
+    {
+      "dimension": "composition",
+      "value": "lifestyle_integrated",
+      "count": 11,
+      "pct": 0.917
+    },
+    {
+      "dimension": "tone",
+      "value": "celebratory",
+      "count": 11,
+      "pct": 0.917
+    },
     {
       "dimension": "lighting",
-      "value": "natural",
-      "count": 7,
-      "pct": 0.778
+      "value": "warm_studio",
+      "count": 9,
+      "pct": 0.75
     },
     {
       "dimension": "visual_complexity",
-      "value": "simple",
-      "count": 6,
-      "pct": 0.667
+      "value": "moderate",
+      "count": 9,
+      "pct": 0.75
     },
     {
       "dimension": "hvm",
       "value": "blended",
+      "count": 9,
+      "pct": 0.75
+    },
+    {
+      "dimension": "content_type",
+      "value": "video",
       "count": 6,
-      "pct": 0.667
+      "pct": 0.5
     },
     {
       "dimension": "content_type",
       "value": "image",
       "count": 5,
-      "pct": 0.556
+      "pct": 0.417
+    },
+    {
+      "dimension": "setting",
+      "value": "restaurant",
+      "count": 4,
+      "pct": 0.333
+    }
+  ],
+  "losing_signals": [
+    {
+      "dimension": "content_type",
+      "value": "image",
+      "count": 18,
+      "pct": 0.72
+    },
+    {
+      "dimension": "tone",
+      "value": "celebratory",
+      "count": 18,
+      "pct": 0.72
+    },
+    {
+      "dimension": "composition",
+      "value": "lifestyle_integrated",
+      "count": 16,
+      "pct": 0.64
+    },
+    {
+      "dimension": "hvm",
+      "value": "blended",
+      "count": 14,
+      "pct": 0.56
     }
   ],
   "top_patterns": [
     {
-      "pattern": "arabic_caption",
-      "count": 1,
-      "pct": 1.0
-    },
-    {
-      "pattern": "arabic_hospitality_cue",
-      "count": 1,
-      "pct": 1.0
+      "pattern": "f_and_b_festive",
+      "count": 7,
+      "pct": 0.583
     },
     {
       "pattern": "hotel_restaurant_promotion",
-      "count": 1,
-      "pct": 1.0
+      "count": 6,
+      "pct": 0.5
     },
     {
-      "pattern": "f_and_b_beverage",
-      "count": 1,
-      "pct": 1.0
+      "pattern": "arabic_caption",
+      "count": 5,
+      "pct": 0.417
     },
     {
-      "pattern": "hajj_period",
-      "count": 1,
-      "pct": 1.0
+      "pattern": "holiday_greeting",
+      "count": 4,
+      "pct": 0.333
+    },
+    {
+      "pattern": "italian_cuisine",
+      "count": 4,
+      "pct": 0.333
     }
   ],
   "top_phrases_in_winners": [
-    "الحمد لله الذي أنعم علينا شرف خدمة ضيوف الرحمن"
+    "عيد أضحى مبارك",
+    "وكل عام وأنتم بخير",
+    "Two key Arabic phrases: العيد معنا أحلى",
+    "ذبيحة فاخرة",
+    "كل عام وأنتم بخير"
   ],
   "recommended_formula": {
-    "format": "video",
-    "predicted_eng": 0.5,
+    "format": "carousel_slide",
+    "predicted_eng": 0.75,
     "aspect_ratio": "square_1x1",
     "tone": "celebratory",
     "register": null,
@@ -78,16 +131,16 @@
     "hashtag_count": "1-5",
     "patterns": [],
     "phrases_to_use": [
-      "#اكل",
-      "#لحم",
-      "#بنده"
+      "عيد أضحى مبارك",
+      "كل عام وأنتم بخير",
+      "Two key Arabic phrases: عيد أضحى مبارك"
     ],
     "hospitality_cues": []
   },
   "red_flags": [
-    "AVOID format: video (50% eng for this occasion)",
-    "AVOID: lighting=natural (found in 77% of low-eng posts)",
-    "AVOID: visual_complexity=simple (found in 66% of low-eng posts)",
+    "AVOID format: image (20% eng for this occasion)",
+    "AVOID: content_type=image (found in 72% of low-eng posts)",
+    "AVOID: tone=celebratory (found in 72% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
     "AVOID: video format if images/carousels are viable — video underperforms"
   ],
@@ -95,13 +148,13 @@
     {
       "timing": "3-4 days before",
       "post_type": "teaser",
-      "format": "video",
+      "format": "carousel_slide",
       "tone": "anticipatory"
     },
     {
       "timing": "peak day",
       "post_type": "hero",
-      "format": "video",
+      "format": "carousel_slide",
       "tone": "celebratory"
     },
     {
@@ -112,15 +165,15 @@
     }
   ],
   "analytics_support": {
-    "format_matrix_best": "video",
+    "format_matrix_best": "carousel_slide",
     "occasion_patterns": [],
     "occasion_phrases": [
-      "#اكل",
-      "#لحم",
-      "#بنده",
-      "#بنده_معك_تفرق"
+      "عيد أضحى مبارك",
+      "كل عام وأنتم بخير",
+      "Two key Arabic phrases: عيد أضحى مبارك",
+      "#اكل"
     ],
     "hospitality_cues": [],
-    "playbook_obs_count": 23
+    "playbook_obs_count": 71
   }
 }

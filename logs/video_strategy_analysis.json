@@ -1,31 +1,31 @@
 {
   "meta": {
     "schema_version": 1,
-    "video_obs": 1509,
+    "video_obs": 2811,
     "reel_obs": 31,
-    "video_only_obs": 1478,
-    "corpus_obs": 3816,
-    "video_pct_of_corpus": 0.395,
-    "video_avg_engagement": 0.398,
-    "video_lift_vs_corpus": 0.035,
-    "corpus_baseline": 0.363,
+    "video_only_obs": 2780,
+    "corpus_obs": 6888,
+    "video_pct_of_corpus": 0.408,
+    "video_avg_engagement": 0.618,
+    "video_lift_vs_corpus": 0.043,
+    "corpus_baseline": 0.575,
     "audio_data_count": 0
   },
   "type_comparison": {
     "video": {
-      "count": 1478,
-      "avg": 0.389,
-      "lift": 0.026
+      "count": 2780,
+      "avg": 0.616,
+      "lift": 0.041
     },
     "reel": {
       "count": 31,
       "avg": 0.839,
-      "lift": 0.476
+      "lift": 0.264
     },
     "static_content": {
-      "count": 2307,
-      "avg": 0.34,
-      "lift": -0.023
+      "count": 4077,
+      "avg": 0.545,
+      "lift": -0.03
     }
   },
   "by_duration": [
@@ -34,757 +34,778 @@
       "count": 291,
       "avg_duration_s": 10.5,
       "avg_engagement": 0.335,
-      "lift_vs_corpus": -0.028
+      "lift_vs_corpus": -0.24
     },
     {
       "bucket": "medium_16_30s",
       "count": 206,
       "avg_duration_s": 22.8,
       "avg_engagement": 0.364,
-      "lift_vs_corpus": 0.001
+      "lift_vs_corpus": -0.211
     },
     {
       "bucket": "long_31_60s",
       "count": 101,
       "avg_duration_s": 43.6,
       "avg_engagement": 0.485,
-      "lift_vs_corpus": 0.122
+      "lift_vs_corpus": -0.09
     },
     {
       "bucket": "extended_60s_plus",
       "count": 64,
       "avg_duration_s": 101.7,
       "avg_engagement": 0.594,
-      "lift_vs_corpus": 0.231
+      "lift_vs_corpus": 0.019
     }
   ],
   "by_aspect_ratio": [
     {
       "value": "portrait_4x5",
       "count": 4,
-      "pct": 0.003,
+      "pct": 0.001,
       "avg_engagement": 1.0,
-      "lift_vs_corpus": 0.637
+      "lift_vs_corpus": 0.425
     },
     {
       "value": "landscape_16x9",
       "count": 12,
-      "pct": 0.008,
+      "pct": 0.004,
       "avg_engagement": 0.875,
-      "lift_vs_corpus": 0.512
+      "lift_vs_corpus": 0.3
     },
     {
       "value": "vertical_9x16",
       "count": 46,
-      "pct": 0.03,
+      "pct": 0.016,
       "avg_engagement": 0.685,
-      "lift_vs_corpus": 0.322
+      "lift_vs_corpus": 0.11
     },
     {
       "value": "square_1x1",
       "count": 11,
-      "pct": 0.007,
+      "pct": 0.004,
       "avg_engagement": 0.455,
-      "lift_vs_corpus": 0.092
+      "lift_vs_corpus": -0.12
     }
   ],
   "by_setting": [
     {
       "value": "retail_urban",
       "count": 3,
-      "pct": 0.002,
+      "pct": 0.001,
       "avg_engagement": 1.0,
-      "lift_vs_corpus": 0.637
+      "lift_vs_corpus": 0.425
+    },
+    {
+      "value": "other",
+      "count": 166,
+      "pct": 0.059,
+      "avg_engagement": 0.922,
+      "lift_vs_corpus": 0.347
     },
     {
       "value": "outdoor_nature",
       "count": 9,
-      "pct": 0.006,
+      "pct": 0.003,
       "avg_engagement": 0.889,
-      "lift_vs_corpus": 0.526
+      "lift_vs_corpus": 0.314
     },
     {
       "value": "indoor",
       "count": 3,
-      "pct": 0.002,
+      "pct": 0.001,
       "avg_engagement": 0.833,
-      "lift_vs_corpus": 0.47
+      "lift_vs_corpus": 0.258
     },
     {
       "value": "heritage_setting",
       "count": 12,
-      "pct": 0.008,
+      "pct": 0.004,
       "avg_engagement": 0.792,
-      "lift_vs_corpus": 0.429
+      "lift_vs_corpus": 0.217
+    },
+    {
+      "value": "office",
+      "count": 12,
+      "pct": 0.004,
+      "avg_engagement": 0.792,
+      "lift_vs_corpus": 0.217
     },
     {
       "value": "home_domestic",
       "count": 4,
-      "pct": 0.003,
+      "pct": 0.001,
       "avg_engagement": 0.75,
-      "lift_vs_corpus": 0.387
+      "lift_vs_corpus": 0.175
     },
     {
-      "value": "office",
-      "count": 5,
-      "pct": 0.003,
-      "avg_engagement": 0.7,
-      "lift_vs_corpus": 0.337
+      "value": "outdoor",
+      "count": 493,
+      "pct": 0.175,
+      "avg_engagement": 0.729,
+      "lift_vs_corpus": 0.154
+    },
+    {
+      "value": "studio",
+      "count": 372,
+      "pct": 0.132,
+      "avg_engagement": 0.668,
+      "lift_vs_corpus": 0.093
+    },
+    {
+      "value": "home",
+      "count": 344,
+      "pct": 0.122,
+      "avg_engagement": 0.597,
+      "lift_vs_corpus": 0.022
+    },
+    {
+      "value": "retail_store",
+      "count": 608,
+      "pct": 0.216,
+      "avg_engagement": 0.584,
+      "lift_vs_corpus": 0.009
     },
     {
       "value": "event_venue",
       "count": 28,
-      "pct": 0.019,
+      "pct": 0.01,
       "avg_engagement": 0.554,
-      "lift_vs_corpus": 0.191
+      "lift_vs_corpus": -0.021
+    },
+    {
+      "value": "restaurant",
+      "count": 505,
+      "pct": 0.18,
+      "avg_engagement": 0.528,
+      "lift_vs_corpus": -0.047
     },
     {
       "value": "restaurant interior",
       "count": 3,
-      "pct": 0.002,
+      "pct": 0.001,
       "avg_engagement": 0.5,
-      "lift_vs_corpus": 0.137
-    },
-    {
-      "value": "studio",
-      "count": 193,
-      "pct": 0.128,
-      "avg_engagement": 0.484,
-      "lift_vs_corpus": 0.121
+      "lift_vs_corpus": -0.075
     },
     {
       "value": "kitchen",
       "count": 54,
-      "pct": 0.036,
+      "pct": 0.019,
       "avg_engagement": 0.472,
-      "lift_vs_corpus": 0.109
+      "lift_vs_corpus": -0.103
     },
     {
       "value": "digital_graphic",
       "count": 47,
-      "pct": 0.031,
+      "pct": 0.017,
       "avg_engagement": 0.426,
-      "lift_vs_corpus": 0.063
-    },
-    {
-      "value": "restaurant",
-      "count": 400,
-      "pct": 0.265,
-      "avg_engagement": 0.424,
-      "lift_vs_corpus": 0.061
+      "lift_vs_corpus": -0.149
     },
     {
       "value": "restaurant_indoor",
       "count": 29,
-      "pct": 0.019,
+      "pct": 0.01,
       "avg_engagement": 0.379,
-      "lift_vs_corpus": 0.016
-    },
-    {
-      "value": "outdoor",
-      "count": 174,
-      "pct": 0.115,
-      "avg_engagement": 0.371,
-      "lift_vs_corpus": 0.008
-    },
-    {
-      "value": "retail_store",
-      "count": 367,
-      "pct": 0.243,
-      "avg_engagement": 0.337,
-      "lift_vs_corpus": -0.026
+      "lift_vs_corpus": -0.196
     },
     {
       "value": "salon",
       "count": 25,
-      "pct": 0.017,
+      "pct": 0.009,
       "avg_engagement": 0.26,
-      "lift_vs_corpus": -0.103
+      "lift_vs_corpus": -0.315
     },
     {
       "value": "unknown",
       "count": 56,
-      "pct": 0.037,
+      "pct": 0.02,
       "avg_engagement": 0.223,
-      "lift_vs_corpus": -0.14
-    },
-    {
-      "value": "home",
-      "count": 65,
-      "pct": 0.043,
-      "avg_engagement": 0.146,
-      "lift_vs_corpus": -0.217
+      "lift_vs_corpus": -0.352
     }
   ],
   "by_visual_complexity": [
     {
       "value": "complex",
       "count": 17,
-      "pct": 0.011,
+      "pct": 0.006,
       "avg_engagement": 0.882,
-      "lift_vs_corpus": 0.519
+      "lift_vs_corpus": 0.307
     },
     {
       "value": "moderate",
-      "count": 613,
-      "pct": 0.406,
-      "avg_engagement": 0.606,
-      "lift_vs_corpus": 0.243
+      "count": 1553,
+      "pct": 0.552,
+      "avg_engagement": 0.786,
+      "lift_vs_corpus": 0.211
     },
     {
       "value": "simple",
-      "count": 877,
-      "pct": 0.581,
-      "avg_engagement": 0.243,
-      "lift_vs_corpus": -0.12
+      "count": 1239,
+      "pct": 0.441,
+      "avg_engagement": 0.404,
+      "lift_vs_corpus": -0.171
     }
   ],
   "by_tone": [
     {
+      "value": "humorous",
+      "count": 16,
+      "pct": 0.006,
+      "avg_engagement": 0.906,
+      "lift_vs_corpus": 0.331
+    },
+    {
       "value": "bold",
       "count": 5,
-      "pct": 0.003,
+      "pct": 0.002,
       "avg_engagement": 0.9,
-      "lift_vs_corpus": 0.537
+      "lift_vs_corpus": 0.325
     },
     {
       "value": "inviting",
       "count": 5,
-      "pct": 0.003,
+      "pct": 0.002,
       "avg_engagement": 0.9,
-      "lift_vs_corpus": 0.537
+      "lift_vs_corpus": 0.325
+    },
+    {
+      "value": "aspirational",
+      "count": 229,
+      "pct": 0.081,
+      "avg_engagement": 0.884,
+      "lift_vs_corpus": 0.309
+    },
+    {
+      "value": "proud",
+      "count": 29,
+      "pct": 0.01,
+      "avg_engagement": 0.879,
+      "lift_vs_corpus": 0.304
     },
     {
       "value": "excited",
       "count": 8,
-      "pct": 0.005,
+      "pct": 0.003,
       "avg_engagement": 0.875,
-      "lift_vs_corpus": 0.512
+      "lift_vs_corpus": 0.3
     },
     {
-      "value": "proud",
-      "count": 8,
-      "pct": 0.005,
-      "avg_engagement": 0.875,
-      "lift_vs_corpus": 0.512
+      "value": "urgent",
+      "count": 99,
+      "pct": 0.035,
+      "avg_engagement": 0.864,
+      "lift_vs_corpus": 0.289
     },
     {
       "value": "confident",
       "count": 3,
-      "pct": 0.002,
+      "pct": 0.001,
       "avg_engagement": 0.833,
-      "lift_vs_corpus": 0.47
+      "lift_vs_corpus": 0.258
+    },
+    {
+      "value": "celebratory",
+      "count": 708,
+      "pct": 0.252,
+      "avg_engagement": 0.809,
+      "lift_vs_corpus": 0.234
     },
     {
       "value": "patriotic",
       "count": 7,
-      "pct": 0.005,
+      "pct": 0.002,
       "avg_engagement": 0.786,
-      "lift_vs_corpus": 0.423
+      "lift_vs_corpus": 0.211
     },
     {
       "value": "warm",
-      "count": 26,
-      "pct": 0.017,
-      "avg_engagement": 0.731,
-      "lift_vs_corpus": 0.368
+      "count": 59,
+      "pct": 0.021,
+      "avg_engagement": 0.729,
+      "lift_vs_corpus": 0.154
     },
     {
-      "value": "aspirational",
-      "count": 5,
-      "pct": 0.003,
-      "avg_engagement": 0.7,
-      "lift_vs_corpus": 0.337
+      "value": "playful",
+      "count": 475,
+      "pct": 0.169,
+      "avg_engagement": 0.694,
+      "lift_vs_corpus": 0.119
     },
     {
       "value": "conversational",
       "count": 3,
-      "pct": 0.002,
+      "pct": 0.001,
       "avg_engagement": 0.667,
-      "lift_vs_corpus": 0.304
+      "lift_vs_corpus": 0.092
     },
     {
-      "value": "playful",
-      "count": 291,
-      "pct": 0.193,
-      "avg_engagement": 0.541,
-      "lift_vs_corpus": 0.178
-    },
-    {
-      "value": "celebratory",
-      "count": 217,
-      "pct": 0.144,
-      "avg_engagement": 0.486,
-      "lift_vs_corpus": 0.123
-    },
-    {
-      "value": "urgent",
-      "count": 25,
-      "pct": 0.017,
-      "avg_engagement": 0.48,
-      "lift_vs_corpus": 0.117
+      "value": "informative",
+      "count": 934,
+      "pct": 0.332,
+      "avg_engagement": 0.413,
+      "lift_vs_corpus": -0.162
     },
     {
       "value": "excitement",
       "count": 4,
-      "pct": 0.003,
+      "pct": 0.001,
       "avg_engagement": 0.375,
-      "lift_vs_corpus": 0.012
+      "lift_vs_corpus": -0.2
     },
     {
       "value": "storytelling",
       "count": 4,
-      "pct": 0.003,
+      "pct": 0.001,
       "avg_engagement": 0.375,
-      "lift_vs_corpus": 0.012
+      "lift_vs_corpus": -0.2
     },
     {
       "value": "transactional",
       "count": 3,
-      "pct": 0.002,
+      "pct": 0.001,
       "avg_engagement": 0.333,
-      "lift_vs_corpus": -0.03
-    },
-    {
-      "value": "informative",
-      "count": 674,
-      "pct": 0.447,
-      "avg_engagement": 0.323,
-      "lift_vs_corpus": -0.04
+      "lift_vs_corpus": -0.242
     },
     {
       "value": "casual",
       "count": 194,
-      "pct": 0.129,
+      "pct": 0.069,
       "avg_engagement": 0.188,
-      "lift_vs_corpus": -0.175
+      "lift_vs_corpus": -0.387
     },
     {
       "value": "professional",
       "count": 5,
-      "pct": 0.003,
+      "pct": 0.002,
       "avg_engagement": 0.0,
-      "lift_vs_corpus": -0.363
+      "lift_vs_corpus": -0.575
     }
   ],
   "by_occasion": [
     {
-      "value": "jeddah_season",
-      "count": 29,
-      "pct": 0.019,
-      "avg_engagement": 0.724,
-      "lift_vs_corpus": 0.361
+      "value": "white_friday",
+      "count": 31,
+      "pct": 0.011,
+      "avg_engagement": 1.0,
+      "lift_vs_corpus": 0.425
     },
     {
-      "value": "eid_al_adha",
-      "count": 8,
-      "pct": 0.005,
-      "avg_engagement": 0.5,
-      "lift_vs_corpus": 0.137
+      "value": "jeddah_season",
+      "count": 34,
+      "pct": 0.012,
+      "avg_engagement": 0.765,
+      "lift_vs_corpus": 0.19
     },
     {
       "value": "evergreen",
-      "count": 628,
-      "pct": 0.416,
-      "avg_engagement": 0.479,
-      "lift_vs_corpus": 0.116
+      "count": 1712,
+      "pct": 0.609,
+      "avg_engagement": 0.72,
+      "lift_vs_corpus": 0.145
+    },
+    {
+      "value": "eid_al_adha",
+      "count": 22,
+      "pct": 0.008,
+      "avg_engagement": 0.682,
+      "lift_vs_corpus": 0.107
+    },
+    {
+      "value": "eid_al_fitr",
+      "count": 95,
+      "pct": 0.034,
+      "avg_engagement": 0.679,
+      "lift_vs_corpus": 0.104
+    },
+    {
+      "value": "national_day",
+      "count": 31,
+      "pct": 0.011,
+      "avg_engagement": 0.597,
+      "lift_vs_corpus": 0.022
+    },
+    {
+      "value": "founding_day",
+      "count": 16,
+      "pct": 0.006,
+      "avg_engagement": 0.594,
+      "lift_vs_corpus": 0.019
+    },
+    {
+      "value": "ramadan",
+      "count": 296,
+      "pct": 0.105,
+      "avg_engagement": 0.53,
+      "lift_vs_corpus": -0.045
     },
     {
       "value": "seasonal",
       "count": 54,
-      "pct": 0.036,
+      "pct": 0.019,
       "avg_engagement": 0.472,
-      "lift_vs_corpus": 0.109
-    },
-    {
-      "value": "founding_day",
-      "count": 12,
-      "pct": 0.008,
-      "avg_engagement": 0.458,
-      "lift_vs_corpus": 0.095
+      "lift_vs_corpus": -0.103
     },
     {
       "value": "leap_conference",
       "count": 40,
-      "pct": 0.027,
+      "pct": 0.014,
       "avg_engagement": 0.438,
-      "lift_vs_corpus": 0.075
+      "lift_vs_corpus": -0.137
     },
     {
-      "value": "ramadan",
-      "count": 212,
-      "pct": 0.14,
-      "avg_engagement": 0.373,
-      "lift_vs_corpus": 0.01
-    },
-    {
-      "value": "national_day",
-      "count": 19,
-      "pct": 0.013,
-      "avg_engagement": 0.368,
-      "lift_vs_corpus": 0.005
-    },
-    {
-      "value": "eid_al_fitr",
-      "count": 42,
-      "pct": 0.028,
-      "avg_engagement": 0.357,
-      "lift_vs_corpus": -0.006
+      "value": "hajj_season",
+      "count": 30,
+      "pct": 0.011,
+      "avg_engagement": 0.35,
+      "lift_vs_corpus": -0.225
     },
     {
       "value": "sporting_event",
       "count": 3,
-      "pct": 0.002,
+      "pct": 0.001,
       "avg_engagement": 0.333,
-      "lift_vs_corpus": -0.03
+      "lift_vs_corpus": -0.242
     },
     {
-      "value": "hajj_season",
-      "count": 28,
-      "pct": 0.019,
-      "avg_engagement": 0.321,
-      "lift_vs_corpus": -0.042
+      "value": "riyadh_season",
+      "count": 222,
+      "pct": 0.079,
+      "avg_engagement": 0.295,
+      "lift_vs_corpus": -0.28
     },
     {
       "value": "general",
       "count": 197,
-      "pct": 0.131,
+      "pct": 0.07,
       "avg_engagement": 0.289,
-      "lift_vs_corpus": -0.074
-    },
-    {
-      "value": "riyadh_season",
-      "count": 209,
-      "pct": 0.139,
-      "avg_engagement": 0.251,
-      "lift_vs_corpus": -0.112
+      "lift_vs_corpus": -0.286
     }
   ],
   "by_sector": [
     {
       "value": "fashion",
-      "count": 236,
-      "pct": 0.156,
-      "avg_engagement": 0.528,
-      "lift_vs_corpus": 0.165
-    },
-    {
-      "value": "f_and_b",
-      "count": 687,
-      "pct": 0.455,
-      "avg_engagement": 0.487,
-      "lift_vs_corpus": 0.124
-    },
-    {
-      "value": "healthcare_wellness",
-      "count": 58,
-      "pct": 0.038,
-      "avg_engagement": 0.466,
-      "lift_vs_corpus": 0.103
+      "count": 558,
+      "pct": 0.199,
+      "avg_engagement": 0.753,
+      "lift_vs_corpus": 0.178
     },
     {
       "value": "beauty_personal_care",
-      "count": 191,
-      "pct": 0.127,
-      "avg_engagement": 0.262,
-      "lift_vs_corpus": -0.101
+      "count": 557,
+      "pct": 0.198,
+      "avg_engagement": 0.684,
+      "lift_vs_corpus": 0.109
+    },
+    {
+      "value": "healthcare_wellness",
+      "count": 299,
+      "pct": 0.106,
+      "avg_engagement": 0.654,
+      "lift_vs_corpus": 0.079
+    },
+    {
+      "value": "f_and_b",
+      "count": 921,
+      "pct": 0.328,
+      "avg_engagement": 0.601,
+      "lift_vs_corpus": 0.026
     },
     {
       "value": "retail_lifestyle",
-      "count": 287,
-      "pct": 0.19,
-      "avg_engagement": 0.214,
-      "lift_vs_corpus": -0.149
+      "count": 415,
+      "pct": 0.148,
+      "avg_engagement": 0.422,
+      "lift_vs_corpus": -0.153
     },
     {
       "value": "real_estate",
-      "count": 50,
-      "pct": 0.033,
-      "avg_engagement": 0.07,
-      "lift_vs_corpus": -0.293
+      "count": 61,
+      "pct": 0.022,
+      "avg_engagement": 0.205,
+      "lift_vs_corpus": -0.37
     }
   ],
   "by_lighting": [
     {
       "value": "dramatic_moody",
-      "count": 19,
-      "pct": 0.013,
-      "avg_engagement": 0.868,
-      "lift_vs_corpus": 0.505
+      "count": 22,
+      "pct": 0.008,
+      "avg_engagement": 0.886,
+      "lift_vs_corpus": 0.311
     },
     {
       "value": "mixed_ambient",
       "count": 12,
-      "pct": 0.008,
+      "pct": 0.004,
       "avg_engagement": 0.792,
-      "lift_vs_corpus": 0.429
+      "lift_vs_corpus": 0.217
+    },
+    {
+      "value": "warm_studio",
+      "count": 807,
+      "pct": 0.287,
+      "avg_engagement": 0.698,
+      "lift_vs_corpus": 0.123
     },
     {
       "value": "warm_natural",
       "count": 6,
-      "pct": 0.004,
+      "pct": 0.002,
       "avg_engagement": 0.667,
-      "lift_vs_corpus": 0.304
+      "lift_vs_corpus": 0.092
     },
     {
       "value": "natural_daylight",
       "count": 21,
-      "pct": 0.014,
+      "pct": 0.007,
       "avg_engagement": 0.643,
-      "lift_vs_corpus": 0.28
+      "lift_vs_corpus": 0.068
+    },
+    {
+      "value": "natural",
+      "count": 1398,
+      "pct": 0.497,
+      "avg_engagement": 0.598,
+      "lift_vs_corpus": 0.023
     },
     {
       "value": "cold_studio",
       "count": 21,
-      "pct": 0.014,
+      "pct": 0.007,
       "avg_engagement": 0.595,
-      "lift_vs_corpus": 0.232
+      "lift_vs_corpus": 0.02
     },
     {
       "value": "studio",
-      "count": 190,
-      "pct": 0.126,
-      "avg_engagement": 0.582,
-      "lift_vs_corpus": 0.219
+      "count": 201,
+      "pct": 0.072,
+      "avg_engagement": 0.595,
+      "lift_vs_corpus": 0.02
+    },
+    {
+      "value": "golden_hour",
+      "count": 82,
+      "pct": 0.029,
+      "avg_engagement": 0.543,
+      "lift_vs_corpus": -0.032
     },
     {
       "value": "cool_studio",
       "count": 3,
-      "pct": 0.002,
+      "pct": 0.001,
       "avg_engagement": 0.5,
-      "lift_vs_corpus": 0.137
+      "lift_vs_corpus": -0.075
     },
     {
-      "value": "warm_studio",
-      "count": 379,
-      "pct": 0.251,
-      "avg_engagement": 0.425,
-      "lift_vs_corpus": 0.062
+      "value": "flat_bright",
+      "count": 201,
+      "pct": 0.072,
+      "avg_engagement": 0.473,
+      "lift_vs_corpus": -0.102
     },
     {
       "value": "flat_graphic",
       "count": 4,
-      "pct": 0.003,
+      "pct": 0.001,
       "avg_engagement": 0.375,
-      "lift_vs_corpus": 0.012
-    },
-    {
-      "value": "golden_hour",
-      "count": 53,
-      "pct": 0.035,
-      "avg_engagement": 0.34,
-      "lift_vs_corpus": -0.023
-    },
-    {
-      "value": "natural",
-      "count": 648,
-      "pct": 0.429,
-      "avg_engagement": 0.333,
-      "lift_vs_corpus": -0.03
+      "lift_vs_corpus": -0.2
     },
     {
       "value": "neon_pop",
       "count": 3,
-      "pct": 0.002,
+      "pct": 0.001,
       "avg_engagement": 0.333,
-      "lift_vs_corpus": -0.03
-    },
-    {
-      "value": "flat_bright",
-      "count": 126,
-      "pct": 0.083,
-      "avg_engagement": 0.179,
-      "lift_vs_corpus": -0.184
+      "lift_vs_corpus": -0.242
     }
   ],
   "by_composition": [
     {
       "value": "documentary_candid",
       "count": 5,
-      "pct": 0.003,
+      "pct": 0.002,
       "avg_engagement": 1.0,
-      "lift_vs_corpus": 0.637
+      "lift_vs_corpus": 0.425
     },
     {
       "value": "product_hero_close_up",
       "count": 3,
-      "pct": 0.002,
+      "pct": 0.001,
       "avg_engagement": 1.0,
-      "lift_vs_corpus": 0.637
+      "lift_vs_corpus": 0.425
     },
     {
       "value": "portrait_face",
       "count": 7,
-      "pct": 0.005,
+      "pct": 0.002,
       "avg_engagement": 0.929,
-      "lift_vs_corpus": 0.566
+      "lift_vs_corpus": 0.354
     },
     {
       "value": "architectural_frame",
       "count": 8,
-      "pct": 0.005,
+      "pct": 0.003,
       "avg_engagement": 0.75,
-      "lift_vs_corpus": 0.387
+      "lift_vs_corpus": 0.175
     },
     {
       "value": "editorial",
-      "count": 85,
-      "pct": 0.056,
-      "avg_engagement": 0.712,
-      "lift_vs_corpus": 0.349
+      "count": 102,
+      "pct": 0.036,
+      "avg_engagement": 0.735,
+      "lift_vs_corpus": 0.16
+    },
+    {
+      "value": "text_dominant",
+      "count": 352,
+      "pct": 0.125,
+      "avg_engagement": 0.673,
+      "lift_vs_corpus": 0.098
+    },
+    {
+      "value": "lifestyle_integrated",
+      "count": 1409,
+      "pct": 0.501,
+      "avg_engagement": 0.671,
+      "lift_vs_corpus": 0.096
     },
     {
       "value": "before_after",
       "count": 3,
-      "pct": 0.002,
+      "pct": 0.001,
       "avg_engagement": 0.667,
-      "lift_vs_corpus": 0.304
+      "lift_vs_corpus": 0.092
     },
     {
       "value": "face_forward",
       "count": 6,
-      "pct": 0.004,
+      "pct": 0.002,
       "avg_engagement": 0.583,
-      "lift_vs_corpus": 0.22
+      "lift_vs_corpus": 0.008
     },
     {
-      "value": "lifestyle_integrated",
-      "count": 552,
-      "pct": 0.366,
-      "avg_engagement": 0.394,
-      "lift_vs_corpus": 0.031
+      "value": "product_hero_closeup",
+      "count": 834,
+      "pct": 0.297,
+      "avg_engagement": 0.488,
+      "lift_vs_corpus": -0.087
     },
     {
       "value": "overhead_spread",
       "count": 8,
-      "pct": 0.005,
+      "pct": 0.003,
       "avg_engagement": 0.375,
-      "lift_vs_corpus": 0.012
-    },
-    {
-      "value": "text_dominant",
-      "count": 162,
-      "pct": 0.107,
-      "avg_engagement": 0.349,
-      "lift_vs_corpus": -0.014
-    },
-    {
-      "value": "product_hero_closeup",
-      "count": 602,
-      "pct": 0.399,
-      "avg_engagement": 0.327,
-      "lift_vs_corpus": -0.036
+      "lift_vs_corpus": -0.2
     }
   ],
   "by_heritage_modern": [
     {
-      "value": "heritage",
-      "count": 57,
-      "pct": 0.038,
-      "avg_engagement": 0.439,
-      "lift_vs_corpus": 0.076
-    },
-    {
       "value": "blended",
-      "count": 174,
-      "pct": 0.115,
-      "avg_engagement": 0.425,
-      "lift_vs_corpus": 0.062
+      "count": 443,
+      "pct": 0.158,
+      "avg_engagement": 0.707,
+      "lift_vs_corpus": 0.132
     },
     {
       "value": "modern",
-      "count": 1180,
-      "pct": 0.782,
-      "avg_engagement": 0.4,
-      "lift_vs_corpus": 0.037
+      "count": 2174,
+      "pct": 0.773,
+      "avg_engagement": 0.615,
+      "lift_vs_corpus": 0.04
+    },
+    {
+      "value": "heritage",
+      "count": 86,
+      "pct": 0.031,
+      "avg_engagement": 0.605,
+      "lift_vs_corpus": 0.03
     },
     {
       "value": "neutral",
-      "count": 85,
-      "pct": 0.056,
-      "avg_engagement": 0.241,
-      "lift_vs_corpus": -0.122
+      "count": 95,
+      "pct": 0.034,
+      "avg_engagement": 0.274,
+      "lift_vs_corpus": -0.301
     }
   ],
   "by_day_of_week": [
     {
       "value": "monday",
       "count": 179,
-      "pct": 0.119,
+      "pct": 0.064,
       "avg_engagement": 0.455,
-      "lift_vs_corpus": 0.092
+      "lift_vs_corpus": -0.12
     },
     {
       "value": "sunday",
       "count": 120,
-      "pct": 0.08,
+      "pct": 0.043,
       "avg_engagement": 0.45,
-      "lift_vs_corpus": 0.087
+      "lift_vs_corpus": -0.125
     },
     {
       "value": "tuesday",
       "count": 162,
-      "pct": 0.107,
+      "pct": 0.058,
       "avg_engagement": 0.432,
-      "lift_vs_corpus": 0.069
+      "lift_vs_corpus": -0.143
     },
     {
       "value": "saturday",
       "count": 118,
-      "pct": 0.078,
+      "pct": 0.042,
       "avg_engagement": 0.424,
-      "lift_vs_corpus": 0.061
+      "lift_vs_corpus": -0.151
     },
     {
       "value": "wednesday",
       "count": 161,
-      "pct": 0.107,
+      "pct": 0.057,
       "avg_engagement": 0.419,
-      "lift_vs_corpus": 0.056
+      "lift_vs_corpus": -0.156
     },
     {
       "value": "thursday",
       "count": 153,
-      "pct": 0.101,
+      "pct": 0.054,
       "avg_engagement": 0.369,
-      "lift_vs_corpus": 0.006
+      "lift_vs_corpus": -0.206
     },
     {
       "value": "friday",
       "count": 144,
-      "pct": 0.095,
+      "pct": 0.051,
       "avg_engagement": 0.323,
-      "lift_vs_corpus": -0.04
+      "lift_vs_corpus": -0.252
     }
   ],
   "by_editing_pace": [
     {
       "value": "fast",
       "count": 10,
-      "pct": 0.007,
+      "pct": 0.004,
       "avg_engagement": 0.75,
-      "lift_vs_corpus": 0.387
+      "lift_vs_corpus": 0.175
     },
     {
       "value": "medium",
       "count": 2,
       "pct": 0.001,
       "avg_engagement": 0.75,
-      "lift_vs_corpus": 0.387
+      "lift_vs_corpus": 0.175
     },
     {
       "value": "viral_fast",
       "count": 37,
-      "pct": 0.025,
+      "pct": 0.013,
       "avg_engagement": 0.716,
-      "lift_vs_corpus": 0.353
+      "lift_vs_corpus": 0.141
     },
     {
       "value": "slow",
       "count": 6,
-      "pct": 0.004,
+      "pct": 0.002,
       "avg_engagement": 0.667,
-      "lift_vs_corpus": 0.304
+      "lift_vs_corpus": 0.092
     }
   ],
   "by_voiceover": [],
@@ -793,138 +814,138 @@
     {
       "dimension": "content_type",
       "value": "video",
-      "count": 371,
-      "pct": 0.944
+      "count": 1343,
+      "pct": 0.984
     },
     {
       "dimension": "heritage_vs_modern",
       "value": "modern",
-      "count": 311,
-      "pct": 0.791
+      "count": 1048,
+      "pct": 0.768
     },
     {
       "dimension": "visual_complexity",
       "value": "moderate",
-      "count": 252,
-      "pct": 0.641
+      "count": 1010,
+      "pct": 0.74
     },
     {
       "dimension": "tone",
-      "value": "informative",
-      "count": 144,
-      "pct": 0.366
+      "value": "celebratory",
+      "count": 516,
+      "pct": 0.378
     },
     {
       "dimension": "visual_complexity",
       "value": "simple",
-      "count": 127,
-      "pct": 0.323
+      "count": 341,
+      "pct": 0.25
     },
     {
       "dimension": "setting",
-      "value": "restaurant",
-      "count": 117,
-      "pct": 0.298
+      "value": "outdoor",
+      "count": 310,
+      "pct": 0.227
+    },
+    {
+      "dimension": "setting",
+      "value": "retail_store",
+      "count": 291,
+      "pct": 0.213
     },
     {
       "dimension": "tone",
       "value": "playful",
-      "count": 100,
-      "pct": 0.254
-    },
-    {
-      "dimension": "setting",
-      "value": "studio",
-      "count": 70,
-      "pct": 0.178
+      "count": 260,
+      "pct": 0.19
     }
   ],
   "low_eng_signals": [
     {
       "dimension": "content_type",
       "value": "video",
-      "count": 1107,
-      "pct": 0.992
+      "count": 1437,
+      "pct": 0.994
     },
     {
       "dimension": "heritage_vs_modern",
       "value": "modern",
-      "count": 869,
+      "count": 1126,
       "pct": 0.779
     },
     {
       "dimension": "visual_complexity",
       "value": "simple",
-      "count": 750,
-      "pct": 0.672
+      "count": 898,
+      "pct": 0.621
     },
     {
       "dimension": "tone",
       "value": "informative",
-      "count": 530,
-      "pct": 0.475
+      "count": 713,
+      "pct": 0.493
     },
     {
       "dimension": "visual_complexity",
       "value": "moderate",
-      "count": 361,
-      "pct": 0.323
+      "count": 543,
+      "pct": 0.376
     },
     {
       "dimension": "setting",
       "value": "retail_store",
-      "count": 298,
-      "pct": 0.267
+      "count": 317,
+      "pct": 0.219
     },
     {
       "dimension": "setting",
       "value": "restaurant",
-      "count": 283,
-      "pct": 0.254
+      "count": 299,
+      "pct": 0.207
     },
     {
       "dimension": "tone",
       "value": "playful",
-      "count": 191,
-      "pct": 0.171
+      "count": 215,
+      "pct": 0.149
     }
   ],
   "video_vs_static_by_occasion": [
     {
       "occasion": "eid_al_adha",
-      "video_avg": 0.5,
-      "video_n": 8,
-      "static_avg": 0.194,
-      "static_n": 18,
+      "video_avg": 0.682,
+      "video_n": 22,
+      "static_avg": 0.488,
+      "static_n": 41,
       "winner": "video",
-      "gap": 0.306
+      "gap": 0.194
     },
     {
       "occasion": "eid_al_fitr",
-      "video_avg": 0.357,
-      "video_n": 42,
-      "static_avg": 0.366,
-      "static_n": 56,
-      "winner": "static",
-      "gap": 0.009
+      "video_avg": 0.679,
+      "video_n": 95,
+      "static_avg": 0.59,
+      "static_n": 100,
+      "winner": "video",
+      "gap": 0.089
     },
     {
       "occasion": "evergreen",
-      "video_avg": 0.479,
-      "video_n": 628,
-      "static_avg": 0.416,
-      "static_n": 868,
+      "video_avg": 0.72,
+      "video_n": 1712,
+      "static_avg": 0.669,
+      "static_n": 2457,
       "winner": "video",
-      "gap": 0.063
+      "gap": 0.051
     },
     {
       "occasion": "founding_day",
-      "video_avg": 0.458,
-      "video_n": 12,
-      "static_avg": 0.536,
-      "static_n": 14,
+      "video_avg": 0.594,
+      "video_n": 16,
+      "static_avg": 0.639,
+      "static_n": 18,
       "winner": "static",
-      "gap": 0.078
+      "gap": 0.045
     },
     {
       "occasion": "general",
@@ -937,21 +958,21 @@
     },
     {
       "occasion": "hajj_season",
-      "video_avg": 0.321,
-      "video_n": 28,
-      "static_avg": 0.197,
-      "static_n": 38,
+      "video_avg": 0.35,
+      "video_n": 30,
+      "static_avg": 0.205,
+      "static_n": 39,
       "winner": "video",
-      "gap": 0.124
+      "gap": 0.145
     },
     {
       "occasion": "jeddah_season",
-      "video_avg": 0.724,
-      "video_n": 29,
-      "static_avg": 0.596,
-      "static_n": 68,
+      "video_avg": 0.765,
+      "video_n": 34,
+      "static_avg": 0.633,
+      "static_n": 75,
       "winner": "video",
-      "gap": 0.128
+      "gap": 0.132
     },
     {
       "occasion": "leap_conference",
@@ -964,30 +985,30 @@
     },
     {
       "occasion": "national_day",
-      "video_avg": 0.368,
-      "video_n": 19,
-      "static_avg": 0.404,
-      "static_n": 26,
-      "winner": "static",
-      "gap": 0.036
+      "video_avg": 0.597,
+      "video_n": 31,
+      "static_avg": 0.581,
+      "static_n": 43,
+      "winner": "video",
+      "gap": 0.016
     },
     {
       "occasion": "ramadan",
-      "video_avg": 0.373,
-      "video_n": 212,
-      "static_avg": 0.329,
-      "static_n": 248,
+      "video_avg": 0.53,
+      "video_n": 296,
+      "static_avg": 0.442,
+      "static_n": 313,
       "winner": "video",
-      "gap": 0.044
+      "gap": 0.088
     },
     {
       "occasion": "riyadh_season",
-      "video_avg": 0.251,
-      "video_n": 209,
-      "static_avg": 0.269,
-      "static_n": 472,
-      "winner": "static",
-      "gap": 0.018
+      "video_avg": 0.295,
+      "video_n": 222,
+      "static_avg": 0.283,
+      "static_n": 483,
+      "winner": "video",
+      "gap": 0.012
     },
     {
       "occasion": "seasonal",
@@ -1006,15 +1027,24 @@
       "static_n": 3,
       "winner": "static",
       "gap": 0.167
+    },
+    {
+      "occasion": "white_friday",
+      "video_avg": 1.0,
+      "video_n": 31,
+      "static_avg": 0.944,
+      "static_n": 9,
+      "winner": "video",
+      "gap": 0.056
     }
   ],
   "winning_formula": {
     "aspect_ratio": "portrait_4x5",
     "setting": "retail_urban",
     "visual_complexity": "complex",
-    "tone": "bold",
+    "tone": "humorous",
     "best_day": "monday",
-    "heritage_framing": "heritage",
-    "predicted_engagement": 0.398
+    "heritage_framing": "blended",
+    "predicted_engagement": 0.618
   }
 }

@@ -3,112 +3,112 @@
   "sector": "food_and_beverage",
   "sector_key": "f_and_b",
   "corpus_data": {
-    "obs_in_corpus": 35,
-    "avg_engagement": 0.486,
-    "high_eng_count": 13,
-    "low_eng_count": 22
+    "obs_in_corpus": 57,
+    "avg_engagement": 0.649,
+    "high_eng_count": 31,
+    "low_eng_count": 26
   },
   "winning_signals": [
     {
       "dimension": "tone",
       "value": "celebratory",
-      "count": 9,
-      "pct": 0.692
+      "count": 23,
+      "pct": 0.742
     },
     {
       "dimension": "lighting",
       "value": "natural",
-      "count": 7,
-      "pct": 0.538
-    },
-    {
-      "dimension": "content_type",
-      "value": "image",
-      "count": 6,
-      "pct": 0.462
+      "count": 20,
+      "pct": 0.645
     },
     {
       "dimension": "visual_complexity",
       "value": "moderate",
-      "count": 6,
-      "pct": 0.462
+      "count": 19,
+      "pct": 0.613
+    },
+    {
+      "dimension": "content_type",
+      "value": "image",
+      "count": 18,
+      "pct": 0.581
     },
     {
       "dimension": "hvm",
       "value": "blended",
-      "count": 6,
-      "pct": 0.462
+      "count": 17,
+      "pct": 0.548
     },
     {
-      "dimension": "aspect_ratio",
-      "value": "square_1x1",
-      "count": 5,
-      "pct": 0.385
+      "dimension": "setting",
+      "value": "outdoor",
+      "count": 14,
+      "pct": 0.452
     },
     {
-      "dimension": "hvm",
-      "value": "modern",
-      "count": 5,
-      "pct": 0.385
+      "dimension": "composition",
+      "value": "lifestyle_integrated",
+      "count": 12,
+      "pct": 0.387
     },
     {
       "dimension": "content_type",
       "value": "video",
-      "count": 4,
-      "pct": 0.308
+      "count": 10,
+      "pct": 0.323
     }
   ],
   "losing_signals": [
     {
       "dimension": "lighting",
       "value": "natural",
-      "count": 16,
-      "pct": 0.727
+      "count": 20,
+      "pct": 0.769
+    },
+    {
+      "dimension": "visual_complexity",
+      "value": "simple",
+      "count": 17,
+      "pct": 0.654
+    },
+    {
+      "dimension": "tone",
+      "value": "celebratory",
+      "count": 14,
+      "pct": 0.538
     },
     {
       "dimension": "hvm",
       "value": "blended",
       "count": 14,
-      "pct": 0.636
-    },
-    {
-      "dimension": "visual_complexity",
-      "value": "simple",
-      "count": 13,
-      "pct": 0.591
-    },
-    {
-      "dimension": "tone",
-      "value": "celebratory",
-      "count": 13,
-      "pct": 0.591
+      "pct": 0.538
     }
   ],
   "top_patterns": [
     {
+      "pattern": "national_celebration",
+      "count": 13,
+      "pct": 0.419
+    },
+    {
       "pattern": "f_and_b_beverage",
-      "count": 3,
-      "pct": 0.231
+      "count": 10,
+      "pct": 0.323
     },
     {
-      "pattern": "national_day_pride",
-      "count": 2,
-      "pct": 0.154
+      "pattern": "national_day_campaign",
+      "count": 10,
+      "pct": 0.323
     },
     {
-      "pattern": "community_pride_statement",
-      "count": 2,
-      "pct": 0.154
+      "pattern": "arabic_caption",
+      "count": 8,
+      "pct": 0.258
     },
     {
-      "pattern": "september_23_campaign",
-      "count": 2,
-      "pct": 0.154
-    },
-    {
-      "pattern": "saudi_day_content",
-      "count": 2,
-      "pct": 0.154
+      "pattern": "national_occasion",
+      "count": 6,
+      "pct": 0.194
     }
   ],
   "top_phrases_in_winners": [
@@ -120,9 +120,9 @@
   ],
   "recommended_formula": {
     "format": "image",
-    "predicted_eng": 0.875,
+    "predicted_eng": 0.5,
     "aspect_ratio": "square_1x1",
-    "tone": "celebratory",
+    "tone": "proud",
     "register": null,
     "heritage_framing": "modern",
     "visual_complexity": "complex",
@@ -138,9 +138,9 @@
     "hospitality_cues": []
   },
   "red_flags": [
-    "AVOID format: carousel_slide (50% eng for this occasion)",
-    "AVOID: lighting=natural (found in 72% of low-eng posts)",
-    "AVOID: hvm=blended (found in 63% of low-eng posts)",
+    "AVOID format: carousel_slide (42% eng for this occasion)",
+    "AVOID: lighting=natural (found in 76% of low-eng posts)",
+    "AVOID: visual_complexity=simple (found in 65% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
     "AVOID: video format if images/carousels are viable — video underperforms"
   ],
@@ -155,7 +155,7 @@
       "timing": "peak day",
       "post_type": "hero",
       "format": "image",
-      "tone": "celebratory"
+      "tone": "proud"
     },
     {
       "timing": "2 days after",
@@ -174,6 +174,6 @@
       "#حاشي_باشا"
     ],
     "hospitality_cues": [],
-    "playbook_obs_count": 48
+    "playbook_obs_count": 64
   }
 }

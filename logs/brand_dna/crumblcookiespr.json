@@ -1,10 +1,10 @@
 {
   "account": "crumblcookiespr",
   "sector": "f_and_b",
-  "archetype": "Occasion Specialist",
-  "obs_count": 97,
-  "health_score": 0.405,
-  "health_grade": "D",
+  "archetype": "Modern Premium",
+  "obs_count": 176,
+  "health_score": 0.513,
+  "health_grade": "C",
   "compliance_risk_grade": "yellow",
   "compliance_risk_score": 12,
   "voice_fingerprint": "casual/warm/playful/modern",
@@ -12,44 +12,49 @@
   "dominant_register": null,
   "dominant_tone": "playful",
   "heritage_vs_modern_split": {
-    "modern": 0.948,
-    "other": 0.052
+    "modern": 0.966,
+    "other": 0.028,
+    "blended": 0.006
   },
   "avg_hospitality_cues_per_post": 0.0,
   "engagement_profile": {
-    "avg_score": 0.433,
-    "high_rate": 0.216,
-    "medium_rate": 0.433,
-    "low_rate": 0.351
+    "avg_score": 0.688,
+    "high_rate": 0.568,
+    "medium_rate": 0.239,
+    "low_rate": 0.193
   },
   "top_5_patterns": [
     {
-      "slug": "limited_time_offer",
-      "name": "Limited Time Offer",
-      "obs_count": 34
+      "slug": "dessert_bakery",
+      "name": "Dessert Bakery",
+      "obs_count": 64
     },
     {
-      "slug": "new_product_launch",
-      "name": "New Product Launch",
-      "obs_count": 13
+      "slug": "dessert_focused",
+      "name": "Dessert Focused",
+      "obs_count": 63
     },
     {
-      "slug": "food_and_beverage",
-      "name": "Food And Beverage",
-      "obs_count": 13
-    },
-    {
-      "slug": "food_promotion",
-      "name": "Food Promotion",
-      "obs_count": 11
+      "slug": "bakery_confectionery",
+      "name": "Bakery Confectionery",
+      "obs_count": 43
     },
     {
       "slug": "dessert_content",
       "name": "Dessert Content",
-      "obs_count": 10
+      "obs_count": 43
+    },
+    {
+      "slug": "dessert_promotion",
+      "name": "Dessert Promotion",
+      "obs_count": 41
     }
   ],
   "top_occasions": [
+    {
+      "occasion": "evergreen",
+      "count": 78
+    },
     {
       "occasion": "seasonal",
       "count": 55
@@ -57,9 +62,13 @@
     {
       "occasion": "general",
       "count": 26
+    },
+    {
+      "occasion": "national_day",
+      "count": 1
     }
   ],
-  "evergreen_content_ratio": 0.0,
+  "evergreen_content_ratio": 0.443,
   "top_phrases": [
     "Cada semana sabe diferente en Todos los domingos llegan nuevos sabores para descubrir",
     "¿Ya probaste los de esta semana",
@@ -70,18 +79,14 @@
   "compliance_flags": {
     "hard_block_types": [],
     "soft_flag_types": [
-      "non_arabic_caption",
-      "puerto_rico_locations",
-      "non_islamic_religious_occasion",
+      "christian_holiday_promotion",
+      "non_islamic_seasonal_content",
+      "non_saudi_location_content",
       "low_engagement_metrics",
       "non_saudi_market"
     ]
   },
   "differentiation_gaps": [
-    {
-      "slug": "product_hero",
-      "name": "Product Hero Static"
-    },
     {
       "slug": "arabic_caption",
       "name": "Arabic Caption"
@@ -91,30 +96,34 @@
       "name": "Brand Promotional"
     },
     {
-      "slug": "traditional_cuisine",
-      "name": "Traditional Cuisine"
+      "slug": "product_hero",
+      "name": "Product Hero Static"
     },
     {
-      "slug": "f_and_b_breakfast_promotion",
-      "name": "F And B Breakfast Promotion"
+      "slug": "location_tagged_riyadh",
+      "name": "Location Tagged Riyadh"
+    },
+    {
+      "slug": "traditional_cuisine",
+      "name": "Traditional Cuisine"
     }
   ],
   "visual_fingerprint": {
     "dominant_setting": "retail_store",
     "dominant_media_type": "video",
     "dominant_color_family": "brown_earth",
-    "dominant_lighting": "warm_studio",
+    "dominant_lighting": "natural",
     "dominant_composition": "product_hero_closeup",
     "character_presence_rate": 0.0,
     "setting_distribution": {
-      "retail_store": 56,
+      "retail_store": 82,
+      "restaurant": 37,
       "kitchen": 23,
-      "studio": 6,
-      "restaurant": 5,
-      "home": 3
+      "studio": 11,
+      "other": 11
     },
     "media_type_distribution": {
-      "video": 50,
+      "video": 129,
       "image": 28,
       "carousel_slide": 19
     },
@@ -125,6 +134,5 @@
       "white_light": 14,
       "pink_rose": 14
     }
-  },
-  "_status": "legacy_v1_superseded_by_dna_v2v3_2026-06-11"
+  }
 }

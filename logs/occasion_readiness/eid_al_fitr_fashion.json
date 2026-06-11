@@ -3,111 +3,147 @@
   "sector": "fashion",
   "sector_key": "fashion",
   "corpus_data": {
-    "obs_in_corpus": 4,
-    "avg_engagement": 0.75,
-    "high_eng_count": 3,
-    "low_eng_count": 1
+    "obs_in_corpus": 29,
+    "avg_engagement": 0.879,
+    "high_eng_count": 23,
+    "low_eng_count": 6
   },
   "winning_signals": [
     {
-      "dimension": "hvm",
-      "value": "modern",
-      "count": 3,
-      "pct": 1.0
+      "dimension": "visual_complexity",
+      "value": "moderate",
+      "count": 20,
+      "pct": 0.87
     },
     {
       "dimension": "content_type",
       "value": "video",
-      "count": 2,
-      "pct": 0.667
-    },
-    {
-      "dimension": "setting",
-      "value": "outdoor",
-      "count": 2,
-      "pct": 0.667
-    },
-    {
-      "dimension": "lighting",
-      "value": "natural",
-      "count": 2,
-      "pct": 0.667
+      "count": 18,
+      "pct": 0.783
     },
     {
       "dimension": "composition",
       "value": "lifestyle_integrated",
-      "count": 2,
+      "count": 18,
+      "pct": 0.783
+    },
+    {
+      "dimension": "tone",
+      "value": "celebratory",
+      "count": 16,
+      "pct": 0.696
+    },
+    {
+      "dimension": "hvm",
+      "value": "modern",
+      "count": 13,
+      "pct": 0.565
+    },
+    {
+      "dimension": "lighting",
+      "value": "natural",
+      "count": 12,
+      "pct": 0.522
+    },
+    {
+      "dimension": "hvm",
+      "value": "blended",
+      "count": 10,
+      "pct": 0.435
+    },
+    {
+      "dimension": "setting",
+      "value": "outdoor",
+      "count": 9,
+      "pct": 0.391
+    }
+  ],
+  "losing_signals": [
+    {
+      "dimension": "hvm",
+      "value": "blended",
+      "count": 5,
+      "pct": 0.833
+    },
+    {
+      "dimension": "composition",
+      "value": "lifestyle_integrated",
+      "count": 4,
       "pct": 0.667
     },
     {
       "dimension": "visual_complexity",
-      "value": "simple",
-      "count": 2,
+      "value": "moderate",
+      "count": 4,
       "pct": 0.667
     },
     {
       "dimension": "tone",
-      "value": "informative",
-      "count": 2,
+      "value": "celebratory",
+      "count": 4,
       "pct": 0.667
     }
   ],
-  "losing_signals": [],
   "top_patterns": [
     {
       "pattern": "everyday_summer_fits",
-      "count": 2,
-      "pct": 0.667
+      "count": 14,
+      "pct": 0.609
+    },
+    {
+      "pattern": "trending_now",
+      "count": 13,
+      "pct": 0.565
     },
     {
       "pattern": "summer_modest_fits",
-      "count": 2,
-      "pct": 0.667
-    },
-    {
-      "pattern": "modest_looks",
-      "count": 1,
-      "pct": 0.333
-    },
-    {
-      "pattern": "collab_post",
-      "count": 1,
-      "pct": 0.333
+      "count": 8,
+      "pct": 0.348
     },
     {
       "pattern": "modest_wear",
-      "count": 1,
-      "pct": 0.333
+      "count": 7,
+      "pct": 0.304
+    },
+    {
+      "pattern": "occasion_playseid_campaign",
+      "count": 6,
+      "pct": 0.261
     }
   ],
   "top_phrases_in_winners": [
+    "Two key Arabic phrases: توقعاتكم على الانستقرام",
+    "قسيمة شرائية بـ 1000 ريال",
     "لكل لحظة من بداياتهم",
     "أزياء من 0–2 سنوات بخامات قطنية مريحة وقصّات سهلة للحركة طوال اليوم",
-    "For their first steps to first outings",
-    "تعتقدون أنكم تستطيعون التقاطها",
-    "التقطوا صورة، شاركوها في الستوري، وأرسلوا لنا رسالة خاصة للدخول في فرصة الفوز بقسائم تسوق بقيمة 250 درهم / 250 ريال / 21 دينار / 250 ريال قطري"
+    "For their first steps to first outings"
   ],
   "recommended_formula": {
     "format": "video",
     "predicted_eng": 0.667,
     "aspect_ratio": "square_1x1",
-    "tone": "playful",
+    "tone": "humorous",
     "register": null,
     "heritage_framing": "blended",
     "visual_complexity": "complex",
     "posting_day": "thursday",
     "caption_length": "10-30 words",
     "hashtag_count": "1-5",
-    "patterns": [],
+    "patterns": [
+      "fnb_brand_activation",
+      "giveaway_contest"
+    ],
     "phrases_to_use": [
-      "#mumzworld",
-      "#ممزورلد",
-      "عيدكم مبارك 🐑🤍"
+      "جيبو صحونكم",
+      "شرايكم",
+      "يستاهلون العيدية"
     ],
     "hospitality_cues": []
   },
   "red_flags": [
     "AVOID format: video (67% eng for this occasion)",
+    "AVOID: hvm=blended (found in 83% of low-eng posts)",
+    "AVOID: composition=lifestyle_integrated (found in 66% of low-eng posts)",
     "AVOID: vertical_9x16 — weakest aspect ratio for most occasions (-55pp vs elite)",
     "AVOID: video format if images/carousels are viable — video underperforms"
   ],
@@ -122,7 +158,7 @@
       "timing": "peak day",
       "post_type": "hero",
       "format": "video",
-      "tone": "playful"
+      "tone": "humorous"
     },
     {
       "timing": "2 days after",
@@ -133,14 +169,17 @@
   ],
   "analytics_support": {
     "format_matrix_best": "video",
-    "occasion_patterns": [],
+    "occasion_patterns": [
+      "fnb_brand_activation",
+      "giveaway_contest"
+    ],
     "occasion_phrases": [
-      "#mumzworld",
-      "#ممزورلد",
-      "عيدكم مبارك 🐑🤍",
-      "#SaudiBrand"
+      "جيبو صحونكم",
+      "شرايكم",
+      "يستاهلون العيدية",
+      "#mumzworld"
     ],
     "hospitality_cues": [],
-    "playbook_obs_count": 111
+    "playbook_obs_count": 145
   }
 }

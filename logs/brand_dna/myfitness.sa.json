@@ -1,9 +1,9 @@
 {
   "account": "myfitness.sa",
   "sector": "healthcare_wellness",
-  "archetype": "Mass Market Functional",
-  "obs_count": 20,
-  "health_score": 0.15,
+  "archetype": "Modern Premium",
+  "obs_count": 200,
+  "health_score": 0.377,
   "health_grade": "D",
   "compliance_risk_grade": "green",
   "compliance_risk_score": 0,
@@ -12,39 +12,54 @@
   "dominant_register": null,
   "dominant_tone": "informative",
   "heritage_vs_modern_split": {
-    "other": 1.0
+    "other": 0.1,
+    "modern": 0.9
   },
   "avg_hospitality_cues_per_post": 0.0,
   "engagement_profile": {
-    "avg_score": 0.0,
+    "avg_score": 0.448,
     "high_rate": 0.0,
-    "medium_rate": 0.0,
-    "low_rate": 1.0
+    "medium_rate": 0.895,
+    "low_rate": 0.105
   },
   "top_5_patterns": [
     {
-      "slug": "eid_family_gathering",
-      "name": "Eid Family Gathering",
-      "obs_count": 20
+      "slug": "health_awareness",
+      "name": "Health Awareness",
+      "obs_count": 176
     },
     {
-      "slug": "occasion_peg",
-      "name": "Occasion Peg",
-      "obs_count": 20
+      "slug": "health_wellness_claim",
+      "name": "Health Wellness Claim",
+      "obs_count": 176
     },
     {
-      "slug": "women_empowerment_day",
-      "name": "Women Empowerment Day",
-      "obs_count": 20
+      "slug": "educational_content",
+      "name": "Educational Content",
+      "obs_count": 176
+    },
+    {
+      "slug": "elderly_care",
+      "name": "Elderly Care",
+      "obs_count": 144
+    },
+    {
+      "slug": "covid19_pandemic_response",
+      "name": "Covid19 Pandemic Response",
+      "obs_count": 144
     }
   ],
   "top_occasions": [
+    {
+      "occasion": "evergreen",
+      "count": 180
+    },
     {
       "occasion": "national_day",
       "count": 1
     }
   ],
-  "evergreen_content_ratio": 0.0,
+  "evergreen_content_ratio": 0.9,
   "top_phrases": [
     "مشاء الله"
   ],
@@ -54,43 +69,46 @@
   },
   "differentiation_gaps": [
     {
+      "slug": "mixed_club",
+      "name": "Mixed Club"
+    },
+    {
+      "slug": "transformation_story",
+      "name": "Transformation Story"
+    },
+    {
       "slug": "limited_time_offer",
       "name": "Limited Time Offer"
     },
     {
+      "slug": "grand_opening",
+      "name": "Grand Opening"
+    },
+    {
       "slug": "occasion_specific_greeting",
       "name": "Occasion-Specific Greeting"
-    },
-    {
-      "slug": "visual_compositions",
-      "name": "Visual Compositions"
-    },
-    {
-      "slug": "hybrid_modern_heritage",
-      "name": "Hybrid Modern-Heritage"
-    },
-    {
-      "slug": "mixed_club",
-      "name": "Mixed Club"
     }
   ],
   "visual_fingerprint": {
-    "dominant_setting": "unknown",
-    "dominant_media_type": "image",
+    "dominant_setting": "home",
+    "dominant_media_type": "video",
     "dominant_color_family": "other",
-    "dominant_lighting": "flat_bright",
-    "dominant_composition": "editorial",
+    "dominant_lighting": "natural",
+    "dominant_composition": "lifestyle_integrated",
     "character_presence_rate": 0.0,
     "setting_distribution": {
-      "unknown": 20
+      "home": 163,
+      "unknown": 20,
+      "outdoor": 16,
+      "studio": 1
     },
     "media_type_distribution": {
-      "image": 12,
-      "video": 8
+      "video": 152,
+      "image": 44,
+      "carousel_slide": 4
     },
     "color_family_distribution": {
       "other": 2
     }
-  },
-  "_status": "legacy_v1_superseded_by_dna_v2v3_2026-06-11"
+  }
 }

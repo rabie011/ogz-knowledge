@@ -17,7 +17,7 @@
     "hospitality_cues": 0.02
   },
   "min_obs_threshold": 3,
-  "total_signals_loaded": 1440,
+  "total_signals_loaded": 1450,
   "signal_dimensions": [
     "pattern",
     "occasion",
@@ -26,13 +26,13 @@
     "tone",
     "register",
     "hospitality_level",
+    "dialect",
     "lighting",
     "brand_consistency",
-    "dialect",
     "media_type",
-    "heritage_vs_modern",
     "production_quality",
-    "sector"
+    "sector",
+    "heritage_vs_modern"
   ],
   "signal_lookup": {
     "pattern": {
@@ -102,6 +102,12 @@
         "confidence": 0.933,
         "verdict": "strong_positive"
       },
+      "model_centered_frontal_portrait": {
+        "high_eng_rate": 0.905,
+        "obs_count": 21,
+        "confidence": 1.0,
+        "verdict": "strong_positive"
+      },
       "question_cta": {
         "high_eng_rate": 0.889,
         "obs_count": 9,
@@ -126,6 +132,12 @@
         "confidence": 0.533,
         "verdict": "strong_positive"
       },
+      "celebrity_collab": {
+        "high_eng_rate": 0.868,
+        "obs_count": 53,
+        "confidence": 1.0,
+        "verdict": "strong_positive"
+      },
       "cultural_object_hero": {
         "high_eng_rate": 0.864,
         "obs_count": 22,
@@ -144,12 +156,6 @@
         "confidence": 0.867,
         "verdict": "strong_positive"
       },
-      "customer_voice_ugc": {
-        "high_eng_rate": 0.844,
-        "obs_count": 32,
-        "confidence": 1.0,
-        "verdict": "strong_positive"
-      },
       "giveaway_contest": {
         "high_eng_rate": 0.833,
         "obs_count": 12,
@@ -162,12 +168,6 @@
         "confidence": 1.0,
         "verdict": "strong_positive"
       },
-      "model_centered_frontal_portrait": {
-        "high_eng_rate": 0.818,
-        "obs_count": 11,
-        "confidence": 0.733,
-        "verdict": "strong_positive"
-      },
       "gaming_esports": {
         "high_eng_rate": 0.8,
         "obs_count": 5,
@@ -178,12 +178,6 @@
         "high_eng_rate": 0.769,
         "obs_count": 13,
         "confidence": 0.867,
-        "verdict": "positive"
-      },
-      "product_hero": {
-        "high_eng_rate": 0.759,
-        "obs_count": 137,
-        "confidence": 1.0,
         "verdict": "positive"
       },
       "flag_imagery": {
@@ -204,9 +198,15 @@
         "confidence": 0.267,
         "verdict": "positive"
       },
+      "documentary_btsmoment": {
+        "high_eng_rate": 0.737,
+        "obs_count": 19,
+        "confidence": 1.0,
+        "verdict": "positive"
+      },
       "lifestyle_environment_integration": {
-        "high_eng_rate": 0.72,
-        "obs_count": 75,
+        "high_eng_rate": 0.718,
+        "obs_count": 85,
         "confidence": 1.0,
         "verdict": "positive"
       },
@@ -240,6 +240,12 @@
         "confidence": 0.467,
         "verdict": "positive"
       },
+      "brand_collab": {
+        "high_eng_rate": 0.711,
+        "obs_count": 83,
+        "confidence": 1.0,
+        "verdict": "positive"
+      },
       "warm_golden_hour_hero": {
         "high_eng_rate": 0.7,
         "obs_count": 20,
@@ -252,22 +258,16 @@
         "confidence": 0.867,
         "verdict": "positive"
       },
-      "documentary_btsmoment": {
-        "high_eng_rate": 0.692,
-        "obs_count": 13,
-        "confidence": 0.867,
+      "customer_voice_ugc": {
+        "high_eng_rate": 0.667,
+        "obs_count": 45,
+        "confidence": 1.0,
         "verdict": "positive"
       },
       "kunafa_content": {
         "high_eng_rate": 0.667,
         "obs_count": 18,
         "confidence": 1.0,
-        "verdict": "positive"
-      },
-      "cultural_identity_marker": {
-        "high_eng_rate": 0.667,
-        "obs_count": 9,
-        "confidence": 0.6,
         "verdict": "positive"
       },
       "beverage_product_showcase": {
@@ -390,12 +390,6 @@
         "confidence": 0.333,
         "verdict": "positive"
       },
-      "eid_campaign": {
-        "high_eng_rate": 0.571,
-        "obs_count": 7,
-        "confidence": 0.467,
-        "verdict": "neutral"
-      },
       "dessert_promotion": {
         "high_eng_rate": 0.571,
         "obs_count": 7,
@@ -435,6 +429,12 @@
       "behind_the_craft": {
         "high_eng_rate": 0.5,
         "obs_count": 30,
+        "confidence": 1.0,
+        "verdict": "neutral"
+      },
+      "behind_the_scenes": {
+        "high_eng_rate": 0.5,
+        "obs_count": 18,
         "confidence": 1.0,
         "verdict": "neutral"
       },
@@ -508,6 +508,12 @@
         "high_eng_rate": 0.5,
         "obs_count": 6,
         "confidence": 0.4,
+        "verdict": "neutral"
+      },
+      "content_typesbrand_collab": {
+        "high_eng_rate": 0.5,
+        "obs_count": 4,
+        "confidence": 0.267,
         "verdict": "neutral"
       },
       "f_and_b_sector": {
@@ -588,18 +594,6 @@
         "confidence": 0.267,
         "verdict": "neutral"
       },
-      "visual_compositions": {
-        "high_eng_rate": 0.471,
-        "obs_count": 17,
-        "confidence": 1.0,
-        "verdict": "neutral"
-      },
-      "behind_the_scenes": {
-        "high_eng_rate": 0.467,
-        "obs_count": 15,
-        "confidence": 1.0,
-        "verdict": "neutral"
-      },
       "formal_dignified": {
         "high_eng_rate": 0.462,
         "obs_count": 39,
@@ -670,12 +664,6 @@
         "high_eng_rate": 0.417,
         "obs_count": 60,
         "confidence": 1.0,
-        "verdict": "neutral"
-      },
-      "cultural_moment_tie_in": {
-        "high_eng_rate": 0.417,
-        "obs_count": 12,
-        "confidence": 0.8,
         "verdict": "neutral"
       },
       "f_and_b_marketing": {
@@ -810,15 +798,15 @@
         "confidence": 1.0,
         "verdict": "weak"
       },
-      "saudi_sports_rivalry": {
+      "visual_compositions": {
         "high_eng_rate": 0.381,
         "obs_count": 21,
         "confidence": 1.0,
         "verdict": "weak"
       },
-      "limited_time_offer": {
-        "high_eng_rate": 0.38,
-        "obs_count": 71,
+      "saudi_sports_rivalry": {
+        "high_eng_rate": 0.381,
+        "obs_count": 21,
         "confidence": 1.0,
         "verdict": "weak"
       },
@@ -858,12 +846,6 @@
         "confidence": 0.533,
         "verdict": "weak"
       },
-      "brand_collab": {
-        "high_eng_rate": 0.368,
-        "obs_count": 19,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
       "vision_2030": {
         "high_eng_rate": 0.364,
         "obs_count": 22,
@@ -882,9 +864,21 @@
         "confidence": 0.733,
         "verdict": "weak"
       },
+      "eid_campaign": {
+        "high_eng_rate": 0.357,
+        "obs_count": 28,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
       "snack_category": {
         "high_eng_rate": 0.348,
         "obs_count": 46,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "arabic_casual_mood_trigger": {
+        "high_eng_rate": 0.345,
+        "obs_count": 55,
         "confidence": 1.0,
         "verdict": "weak"
       },
@@ -1122,6 +1116,18 @@
         "confidence": 1.0,
         "verdict": "weak"
       },
+      "food_and_beverage_brand": {
+        "high_eng_rate": 0.308,
+        "obs_count": 26,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "summer_marketing": {
+        "high_eng_rate": 0.308,
+        "obs_count": 13,
+        "confidence": 0.867,
+        "verdict": "weak"
+      },
       "burger_content": {
         "high_eng_rate": 0.3,
         "obs_count": 60,
@@ -1152,21 +1158,9 @@
         "confidence": 0.667,
         "verdict": "weak"
       },
-      "celebrity_collab": {
-        "high_eng_rate": 0.3,
-        "obs_count": 10,
-        "confidence": 0.667,
-        "verdict": "weak"
-      },
       "traditional_sweets": {
         "high_eng_rate": 0.296,
         "obs_count": 27,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
-      "arabic_casual_mood_trigger": {
-        "high_eng_rate": 0.294,
-        "obs_count": 51,
         "confidence": 1.0,
         "verdict": "weak"
       },
@@ -1242,6 +1236,12 @@
         "confidence": 1.0,
         "verdict": "weak"
       },
+      "cultural_moment_tie_in": {
+        "high_eng_rate": 0.273,
+        "obs_count": 44,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
       "national_day_modernity_heritage": {
         "high_eng_rate": 0.273,
         "obs_count": 11,
@@ -1278,12 +1278,6 @@
         "confidence": 1.0,
         "verdict": "weak"
       },
-      "food_and_beverage_brand": {
-        "high_eng_rate": 0.269,
-        "obs_count": 26,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
       "bilingual_engagement_strategy": {
         "high_eng_rate": 0.263,
         "obs_count": 19,
@@ -1299,6 +1293,12 @@
       "new_establishment": {
         "high_eng_rate": 0.262,
         "obs_count": 42,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "product_hero": {
+        "high_eng_rate": 0.261,
+        "obs_count": 724,
         "confidence": 1.0,
         "verdict": "weak"
       },
@@ -1422,6 +1422,12 @@
         "confidence": 1.0,
         "verdict": "weak"
       },
+      "f_and_b_breakfast_promotion": {
+        "high_eng_rate": 0.237,
+        "obs_count": 97,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
       "riyadh_location": {
         "high_eng_rate": 0.235,
         "obs_count": 68,
@@ -1440,15 +1446,9 @@
         "confidence": 0.867,
         "verdict": "weak"
       },
-      "summer_marketing": {
-        "high_eng_rate": 0.231,
-        "obs_count": 13,
-        "confidence": 0.867,
-        "verdict": "weak"
-      },
-      "f_and_b_breakfast_promotion": {
-        "high_eng_rate": 0.227,
-        "obs_count": 97,
+      "voice_techniquesarabic_casual_mood_trigger": {
+        "high_eng_rate": 0.222,
+        "obs_count": 45,
         "confidence": 1.0,
         "verdict": "weak"
       },
@@ -1479,6 +1479,12 @@
       "sports_cultural_moment": {
         "high_eng_rate": 0.212,
         "obs_count": 33,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "limited_time_offer": {
+        "high_eng_rate": 0.211,
+        "obs_count": 279,
         "confidence": 1.0,
         "verdict": "weak"
       },
@@ -1534,6 +1540,12 @@
         "high_eng_rate": 0.2,
         "obs_count": 15,
         "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "content_types": {
+        "high_eng_rate": 0.2,
+        "obs_count": 10,
+        "confidence": 0.667,
         "verdict": "weak"
       },
       "casual_dining": {
@@ -1647,6 +1659,12 @@
       "saudi_pride": {
         "high_eng_rate": 0.192,
         "obs_count": 26,
+        "confidence": 1.0,
+        "verdict": "avoid"
+      },
+      "cultural_identity_marker": {
+        "high_eng_rate": 0.185,
+        "obs_count": 81,
         "confidence": 1.0,
         "verdict": "avoid"
       },
@@ -1806,12 +1824,6 @@
         "confidence": 0.467,
         "verdict": "avoid"
       },
-      "emotional_storytelling": {
-        "high_eng_rate": 0.143,
-        "obs_count": 7,
-        "confidence": 0.467,
-        "verdict": "avoid"
-      },
       "cafe_menu_highlight": {
         "high_eng_rate": 0.143,
         "obs_count": 7,
@@ -1842,6 +1854,18 @@
         "confidence": 0.467,
         "verdict": "avoid"
       },
+      "food_content": {
+        "high_eng_rate": 0.136,
+        "obs_count": 272,
+        "confidence": 1.0,
+        "verdict": "avoid"
+      },
+      "iftar_content": {
+        "high_eng_rate": 0.136,
+        "obs_count": 44,
+        "confidence": 1.0,
+        "verdict": "avoid"
+      },
       "carousel_format": {
         "high_eng_rate": 0.133,
         "obs_count": 15,
@@ -1851,12 +1875,6 @@
       "summer_seasonal_content": {
         "high_eng_rate": 0.133,
         "obs_count": 15,
-        "confidence": 1.0,
-        "verdict": "avoid"
-      },
-      "food_content": {
-        "high_eng_rate": 0.132,
-        "obs_count": 272,
         "confidence": 1.0,
         "verdict": "avoid"
       },
@@ -1896,15 +1914,15 @@
         "confidence": 1.0,
         "verdict": "avoid"
       },
-      "traditional_cuisine": {
-        "high_eng_rate": 0.114,
-        "obs_count": 105,
+      "occasion_playseid_campaign": {
+        "high_eng_rate": 0.117,
+        "obs_count": 206,
         "confidence": 1.0,
         "verdict": "avoid"
       },
-      "iftar_content": {
+      "traditional_cuisine": {
         "high_eng_rate": 0.114,
-        "obs_count": 44,
+        "obs_count": 105,
         "confidence": 1.0,
         "verdict": "avoid"
       },
@@ -1932,6 +1950,12 @@
         "confidence": 0.667,
         "verdict": "avoid"
       },
+      "emotional_storytelling": {
+        "high_eng_rate": 0.098,
+        "obs_count": 41,
+        "confidence": 1.0,
+        "verdict": "avoid"
+      },
       "local_pride_signal": {
         "high_eng_rate": 0.095,
         "obs_count": 21,
@@ -1948,12 +1972,6 @@
         "high_eng_rate": 0.091,
         "obs_count": 11,
         "confidence": 0.733,
-        "verdict": "avoid"
-      },
-      "occasion_playseid_campaign": {
-        "high_eng_rate": 0.084,
-        "obs_count": 167,
-        "confidence": 1.0,
         "verdict": "avoid"
       },
       "restaurant_promotion": {
@@ -2023,8 +2041,8 @@
         "verdict": "avoid"
       },
       "occasion_plays": {
-        "high_eng_rate": 0.069,
-        "obs_count": 58,
+        "high_eng_rate": 0.06,
+        "obs_count": 84,
         "confidence": 1.0,
         "verdict": "avoid"
       },
@@ -2077,8 +2095,8 @@
         "verdict": "avoid"
       },
       "occasion_playscultural_moment_tie_in": {
-        "high_eng_rate": 0.038,
-        "obs_count": 133,
+        "high_eng_rate": 0.037,
+        "obs_count": 134,
         "confidence": 1.0,
         "verdict": "avoid"
       },
@@ -2232,6 +2250,12 @@
         "confidence": 0.6,
         "verdict": "avoid"
       },
+      "voice_techniques": {
+        "high_eng_rate": 0.0,
+        "obs_count": 9,
+        "confidence": 0.6,
+        "verdict": "avoid"
+      },
       "cultural_activity": {
         "high_eng_rate": 0.0,
         "obs_count": 9,
@@ -2280,6 +2304,12 @@
         "confidence": 0.467,
         "verdict": "avoid"
       },
+      "voice_techniquesemotional_storytelling": {
+        "high_eng_rate": 0.0,
+        "obs_count": 7,
+        "confidence": 0.467,
+        "verdict": "avoid"
+      },
       "traditional_saudi_cuisine": {
         "high_eng_rate": 0.0,
         "obs_count": 7,
@@ -2299,6 +2329,12 @@
         "verdict": "avoid"
       },
       "ramadan_promotion": {
+        "high_eng_rate": 0.0,
+        "obs_count": 7,
+        "confidence": 0.467,
+        "verdict": "avoid"
+      },
+      "voice_techniquescultural_identity_marker": {
         "high_eng_rate": 0.0,
         "obs_count": 7,
         "confidence": 0.467,
@@ -2827,18 +2863,6 @@
         "verdict": "insufficient_data"
       },
       "trivia_giveaway": {
-        "high_eng_rate": 1.0,
-        "obs_count": 2,
-        "confidence": 0.0,
-        "verdict": "insufficient_data"
-      },
-      "content_types": {
-        "high_eng_rate": 1.0,
-        "obs_count": 2,
-        "confidence": 0.0,
-        "verdict": "insufficient_data"
-      },
-      "voice_techniquesarabic_casual_mood_trigger": {
         "high_eng_rate": 1.0,
         "obs_count": 2,
         "confidence": 0.0,
@@ -4206,6 +4230,18 @@
         "confidence": 0.0,
         "verdict": "insufficient_data"
       },
+      "content_typeslimited_time_offer": {
+        "high_eng_rate": 0.5,
+        "obs_count": 2,
+        "confidence": 0.0,
+        "verdict": "insufficient_data"
+      },
+      "occasion_playsramadan": {
+        "high_eng_rate": 0.5,
+        "obs_count": 2,
+        "confidence": 0.0,
+        "verdict": "insufficient_data"
+      },
       "iftar_dining": {
         "high_eng_rate": 0.0,
         "obs_count": 2,
@@ -4237,6 +4273,12 @@
         "verdict": "insufficient_data"
       },
       "saudi_food_heritage_pride": {
+        "high_eng_rate": 0.0,
+        "obs_count": 2,
+        "confidence": 0.0,
+        "verdict": "insufficient_data"
+      },
+      "feast_spread_overhead": {
         "high_eng_rate": 0.0,
         "obs_count": 2,
         "confidence": 0.0,
@@ -4644,6 +4686,12 @@
         "confidence": 0.0,
         "verdict": "insufficient_data"
       },
+      "visual_compositionslifestyle_environment_integration": {
+        "high_eng_rate": 0.0,
+        "obs_count": 2,
+        "confidence": 0.0,
+        "verdict": "insufficient_data"
+      },
       "hashtag_discovery_heavy": {
         "high_eng_rate": 0.0,
         "obs_count": 2,
@@ -4729,12 +4777,6 @@
         "verdict": "insufficient_data"
       },
       "food_emotion_connection": {
-        "high_eng_rate": 0.0,
-        "obs_count": 1,
-        "confidence": 0.0,
-        "verdict": "insufficient_data"
-      },
-      "feast_spread_overhead": {
         "high_eng_rate": 0.0,
         "obs_count": 1,
         "confidence": 0.0,
@@ -6816,7 +6858,13 @@
         "confidence": 0.0,
         "verdict": "insufficient_data"
       },
-      "voice_techniquesemotional_storytelling": {
+      "occasion_playsseasonal": {
+        "high_eng_rate": 0.0,
+        "obs_count": 1,
+        "confidence": 0.0,
+        "verdict": "insufficient_data"
+      },
+      "content_typesbehind_the_scenes": {
         "high_eng_rate": 0.0,
         "obs_count": 1,
         "confidence": 0.0,
@@ -6893,6 +6941,18 @@
         "obs_count": 1,
         "confidence": 0.0,
         "verdict": "insufficient_data"
+      },
+      "occasion_playsgeneral": {
+        "high_eng_rate": 0.0,
+        "obs_count": 1,
+        "confidence": 0.0,
+        "verdict": "insufficient_data"
+      },
+      "visual_compositionsfeast_spread_overhead": {
+        "high_eng_rate": 0.0,
+        "obs_count": 1,
+        "confidence": 0.0,
+        "verdict": "insufficient_data"
       }
     },
     "occasion": {
@@ -6921,44 +6981,44 @@
         "verdict": "positive"
       },
       "eid_al_adha": {
-        "high_eng_rate": 0.478,
-        "obs_count": 23,
+        "high_eng_rate": 0.352,
+        "obs_count": 71,
         "confidence": 1.0,
-        "verdict": "neutral"
+        "verdict": "weak"
       },
       "national_day": {
-        "high_eng_rate": 0.458,
-        "obs_count": 48,
+        "high_eng_rate": 0.344,
+        "obs_count": 64,
         "confidence": 1.0,
-        "verdict": "neutral"
-      },
-      "founding_day": {
-        "high_eng_rate": 0.407,
-        "obs_count": 27,
-        "confidence": 1.0,
-        "verdict": "neutral"
+        "verdict": "weak"
       },
       "seasonal": {
-        "high_eng_rate": 0.309,
+        "high_eng_rate": 0.281,
+        "obs_count": 221,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "founding_day": {
+        "high_eng_rate": 0.275,
+        "obs_count": 40,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "general": {
+        "high_eng_rate": 0.27,
         "obs_count": 178,
         "confidence": 1.0,
         "verdict": "weak"
       },
       "eid_al_fitr": {
-        "high_eng_rate": 0.288,
-        "obs_count": 111,
+        "high_eng_rate": 0.248,
+        "obs_count": 145,
         "confidence": 1.0,
         "verdict": "weak"
       },
       "ramadan": {
-        "high_eng_rate": 0.285,
-        "obs_count": 193,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
-      "general": {
-        "high_eng_rate": 0.271,
-        "obs_count": 170,
+        "high_eng_rate": 0.229,
+        "obs_count": 262,
         "confidence": 1.0,
         "verdict": "weak"
       },
@@ -7006,12 +7066,6 @@
         "confidence": 0.2,
         "verdict": "strong_positive"
       },
-      "heritage_setting": {
-        "high_eng_rate": 0.773,
-        "obs_count": 22,
-        "confidence": 1.0,
-        "verdict": "positive"
-      },
       "home_domestic": {
         "high_eng_rate": 0.75,
         "obs_count": 4,
@@ -7019,8 +7073,8 @@
         "verdict": "positive"
       },
       "outdoor_nature": {
-        "high_eng_rate": 0.737,
-        "obs_count": 38,
+        "high_eng_rate": 0.732,
+        "obs_count": 41,
         "confidence": 1.0,
         "verdict": "positive"
       },
@@ -7030,29 +7084,35 @@
         "confidence": 0.867,
         "verdict": "positive"
       },
-      "restaurant_indoor": {
-        "high_eng_rate": 0.667,
-        "obs_count": 63,
-        "confidence": 1.0,
-        "verdict": "positive"
-      },
       "indoor": {
         "high_eng_rate": 0.667,
         "obs_count": 3,
         "confidence": 0.2,
         "verdict": "positive"
       },
-      "event_venue": {
-        "high_eng_rate": 0.625,
-        "obs_count": 32,
+      "heritage_setting": {
+        "high_eng_rate": 0.621,
+        "obs_count": 29,
         "confidence": 1.0,
         "verdict": "positive"
       },
-      "digital_graphic": {
-        "high_eng_rate": 0.586,
-        "obs_count": 58,
+      "event_venue": {
+        "high_eng_rate": 0.547,
+        "obs_count": 53,
         "confidence": 1.0,
         "verdict": "neutral"
+      },
+      "digital_graphic": {
+        "high_eng_rate": 0.468,
+        "obs_count": 109,
+        "confidence": 1.0,
+        "verdict": "neutral"
+      },
+      "restaurant_indoor": {
+        "high_eng_rate": 0.344,
+        "obs_count": 131,
+        "confidence": 1.0,
+        "verdict": "weak"
       },
       "cafe": {
         "high_eng_rate": 0.333,
@@ -7060,33 +7120,39 @@
         "confidence": 0.2,
         "verdict": "weak"
       },
-      "restaurant": {
-        "high_eng_rate": 0.269,
-        "obs_count": 892,
+      "studio": {
+        "high_eng_rate": 0.313,
+        "obs_count": 425,
         "confidence": 1.0,
         "verdict": "weak"
       },
       "outdoor": {
-        "high_eng_rate": 0.257,
-        "obs_count": 385,
+        "high_eng_rate": 0.263,
+        "obs_count": 403,
         "confidence": 1.0,
         "verdict": "weak"
       },
-      "studio": {
-        "high_eng_rate": 0.24,
-        "obs_count": 338,
+      "restaurant": {
+        "high_eng_rate": 0.258,
+        "obs_count": 1046,
         "confidence": 1.0,
         "verdict": "weak"
       },
       "kitchen": {
-        "high_eng_rate": 0.235,
-        "obs_count": 51,
+        "high_eng_rate": 0.216,
+        "obs_count": 74,
         "confidence": 1.0,
         "verdict": "weak"
       },
       "retail_store": {
-        "high_eng_rate": 0.18,
-        "obs_count": 517,
+        "high_eng_rate": 0.177,
+        "obs_count": 998,
+        "confidence": 1.0,
+        "verdict": "avoid"
+      },
+      "unknown": {
+        "high_eng_rate": 0.127,
+        "obs_count": 221,
         "confidence": 1.0,
         "verdict": "avoid"
       },
@@ -7097,20 +7163,14 @@
         "verdict": "avoid"
       },
       "salon": {
-        "high_eng_rate": 0.082,
-        "obs_count": 49,
+        "high_eng_rate": 0.093,
+        "obs_count": 54,
         "confidence": 1.0,
         "verdict": "avoid"
       },
       "home": {
-        "high_eng_rate": 0.061,
-        "obs_count": 82,
-        "confidence": 1.0,
-        "verdict": "avoid"
-      },
-      "unknown": {
-        "high_eng_rate": 0.056,
-        "obs_count": 107,
+        "high_eng_rate": 0.051,
+        "obs_count": 136,
         "confidence": 1.0,
         "verdict": "avoid"
       },
@@ -7404,12 +7464,6 @@
         "confidence": 1.0,
         "verdict": "strong_positive"
       },
-      "overhead_spread": {
-        "high_eng_rate": 0.828,
-        "obs_count": 29,
-        "confidence": 1.0,
-        "verdict": "strong_positive"
-      },
       "before_after": {
         "high_eng_rate": 0.778,
         "obs_count": 9,
@@ -7428,34 +7482,40 @@
         "confidence": 1.0,
         "verdict": "positive"
       },
+      "editorial": {
+        "high_eng_rate": 0.562,
+        "obs_count": 176,
+        "confidence": 1.0,
+        "verdict": "neutral"
+      },
+      "overhead_spread": {
+        "high_eng_rate": 0.511,
+        "obs_count": 47,
+        "confidence": 1.0,
+        "verdict": "neutral"
+      },
       "lifestyle_integrated": {
-        "high_eng_rate": 0.287,
-        "obs_count": 710,
+        "high_eng_rate": 0.246,
+        "obs_count": 1076,
         "confidence": 1.0,
         "verdict": "weak"
       },
       "text_dominant": {
-        "high_eng_rate": 0.279,
-        "obs_count": 476,
+        "high_eng_rate": 0.235,
+        "obs_count": 633,
         "confidence": 1.0,
         "verdict": "weak"
       },
-      "product_hero_closeup": {
-        "high_eng_rate": 0.199,
-        "obs_count": 1250,
-        "confidence": 1.0,
-        "verdict": "avoid"
-      },
-      "editorial": {
-        "high_eng_rate": 0.056,
-        "obs_count": 72,
-        "confidence": 1.0,
-        "verdict": "avoid"
-      },
       "face_forward": {
-        "high_eng_rate": 0.0,
-        "obs_count": 3,
-        "confidence": 0.2,
+        "high_eng_rate": 0.222,
+        "obs_count": 9,
+        "confidence": 0.6,
+        "verdict": "weak"
+      },
+      "product_hero_closeup": {
+        "high_eng_rate": 0.183,
+        "obs_count": 1685,
+        "confidence": 1.0,
         "verdict": "avoid"
       },
       "minimal text expression post": {
@@ -8036,18 +8096,6 @@
         "confidence": 0.867,
         "verdict": "neutral"
       },
-      "celebratory": {
-        "high_eng_rate": 0.363,
-        "obs_count": 465,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
-      "playful": {
-        "high_eng_rate": 0.355,
-        "obs_count": 606,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
       "educational": {
         "high_eng_rate": 0.333,
         "obs_count": 3,
@@ -8060,27 +8108,39 @@
         "confidence": 0.2,
         "verdict": "weak"
       },
+      "playful": {
+        "high_eng_rate": 0.328,
+        "obs_count": 702,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "celebratory": {
+        "high_eng_rate": 0.327,
+        "obs_count": 606,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
       "urgent": {
-        "high_eng_rate": 0.306,
-        "obs_count": 36,
+        "high_eng_rate": 0.302,
+        "obs_count": 53,
         "confidence": 1.0,
         "verdict": "weak"
       },
       "professional": {
-        "high_eng_rate": 0.154,
-        "obs_count": 13,
-        "confidence": 0.867,
-        "verdict": "avoid"
+        "high_eng_rate": 0.214,
+        "obs_count": 14,
+        "confidence": 0.933,
+        "verdict": "weak"
       },
       "informative": {
-        "high_eng_rate": 0.123,
-        "obs_count": 1032,
+        "high_eng_rate": 0.167,
+        "obs_count": 1661,
         "confidence": 1.0,
         "verdict": "avoid"
       },
       "casual": {
-        "high_eng_rate": 0.085,
-        "obs_count": 318,
+        "high_eng_rate": 0.115,
+        "obs_count": 520,
         "confidence": 1.0,
         "verdict": "avoid"
       },
@@ -8251,8 +8311,8 @@
         "verdict": "positive"
       },
       "none": {
-        "high_eng_rate": 0.229,
-        "obs_count": 2556,
+        "high_eng_rate": 0.225,
+        "obs_count": 3642,
         "confidence": 1.0,
         "verdict": "weak"
       },
@@ -8261,6 +8321,56 @@
         "obs_count": 1,
         "confidence": 0.0,
         "verdict": "insufficient_data"
+      }
+    },
+    "dialect": {
+      "unknown": {
+        "high_eng_rate": 0.822,
+        "obs_count": 135,
+        "confidence": 1.0,
+        "verdict": "strong_positive"
+      },
+      "najdi": {
+        "high_eng_rate": 0.371,
+        "obs_count": 431,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "mixed": {
+        "high_eng_rate": 0.296,
+        "obs_count": 493,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "eastern": {
+        "high_eng_rate": 0.278,
+        "obs_count": 18,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "non_arabic": {
+        "high_eng_rate": 0.233,
+        "obs_count": 344,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "hijazi": {
+        "high_eng_rate": 0.229,
+        "obs_count": 1114,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "msa": {
+        "high_eng_rate": 0.156,
+        "obs_count": 1278,
+        "confidence": 1.0,
+        "verdict": "avoid"
+      },
+      "southern": {
+        "high_eng_rate": 0.0,
+        "obs_count": 3,
+        "confidence": 0.2,
+        "verdict": "avoid"
       }
     },
     "lighting": {
@@ -8294,6 +8404,18 @@
         "confidence": 1.0,
         "verdict": "positive"
       },
+      "neon_pop": {
+        "high_eng_rate": 0.5,
+        "obs_count": 4,
+        "confidence": 0.267,
+        "verdict": "neutral"
+      },
+      "studio": {
+        "high_eng_rate": 0.466,
+        "obs_count": 305,
+        "confidence": 1.0,
+        "verdict": "neutral"
+      },
       "warm_natural": {
         "high_eng_rate": 0.333,
         "obs_count": 6,
@@ -8306,39 +8428,33 @@
         "confidence": 0.2,
         "verdict": "weak"
       },
-      "neon_pop": {
-        "high_eng_rate": 0.333,
-        "obs_count": 3,
-        "confidence": 0.2,
-        "verdict": "weak"
-      },
-      "flat_bright": {
-        "high_eng_rate": 0.323,
-        "obs_count": 195,
+      "warm_studio": {
+        "high_eng_rate": 0.218,
+        "obs_count": 850,
         "confidence": 1.0,
         "verdict": "weak"
       },
       "unknown": {
-        "high_eng_rate": 0.25,
-        "obs_count": 4,
-        "confidence": 0.267,
+        "high_eng_rate": 0.2,
+        "obs_count": 5,
+        "confidence": 0.333,
         "verdict": "weak"
       },
-      "warm_studio": {
-        "high_eng_rate": 0.218,
-        "obs_count": 844,
+      "flat_bright": {
+        "high_eng_rate": 0.195,
+        "obs_count": 385,
         "confidence": 1.0,
-        "verdict": "weak"
-      },
-      "natural": {
-        "high_eng_rate": 0.209,
-        "obs_count": 1157,
-        "confidence": 1.0,
-        "verdict": "weak"
+        "verdict": "avoid"
       },
       "golden_hour": {
-        "high_eng_rate": 0.191,
-        "obs_count": 131,
+        "high_eng_rate": 0.189,
+        "obs_count": 132,
+        "confidence": 1.0,
+        "verdict": "avoid"
+      },
+      "natural": {
+        "high_eng_rate": 0.182,
+        "obs_count": 1825,
         "confidence": 1.0,
         "verdict": "avoid"
       },
@@ -8346,12 +8462,6 @@
         "high_eng_rate": 0.143,
         "obs_count": 7,
         "confidence": 0.467,
-        "verdict": "avoid"
-      },
-      "studio": {
-        "high_eng_rate": 0.14,
-        "obs_count": 86,
-        "confidence": 1.0,
         "verdict": "avoid"
       },
       "dramatic": {
@@ -8537,56 +8647,6 @@
         "verdict": "positive"
       }
     },
-    "dialect": {
-      "unknown": {
-        "high_eng_rate": 0.736,
-        "obs_count": 87,
-        "confidence": 1.0,
-        "verdict": "positive"
-      },
-      "najdi": {
-        "high_eng_rate": 0.371,
-        "obs_count": 431,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
-      "mixed": {
-        "high_eng_rate": 0.369,
-        "obs_count": 293,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
-      "eastern": {
-        "high_eng_rate": 0.278,
-        "obs_count": 18,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
-      "hijazi": {
-        "high_eng_rate": 0.229,
-        "obs_count": 1096,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
-      "msa": {
-        "high_eng_rate": 0.194,
-        "obs_count": 607,
-        "confidence": 1.0,
-        "verdict": "avoid"
-      },
-      "non_arabic": {
-        "high_eng_rate": 0.101,
-        "obs_count": 119,
-        "confidence": 1.0,
-        "verdict": "avoid"
-      },
-      "southern": {
-        "high_eng_rate": 0.0,
-        "obs_count": 3,
-        "confidence": 0.2,
-        "verdict": "avoid"
-      }
-    },
     "media_type": {
       "reel": {
         "high_eng_rate": 0.71,
@@ -8595,80 +8655,60 @@
         "verdict": "positive"
       },
       "carousel_slide": {
-        "high_eng_rate": 0.275,
-        "obs_count": 513,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
-      "image": {
-        "high_eng_rate": 0.267,
-        "obs_count": 1180,
+        "high_eng_rate": 0.273,
+        "obs_count": 739,
         "confidence": 1.0,
         "verdict": "weak"
       },
       "video": {
-        "high_eng_rate": 0.243,
-        "obs_count": 1006,
-        "confidence": 1.0,
-        "verdict": "weak"
-      }
-    },
-    "heritage_vs_modern": {
-      "blended": {
-        "high_eng_rate": 0.46,
-        "obs_count": 250,
-        "confidence": 1.0,
-        "verdict": "neutral"
-      },
-      "heritage": {
-        "high_eng_rate": 0.324,
-        "obs_count": 139,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
-      "modern": {
         "high_eng_rate": 0.251,
-        "obs_count": 2096,
+        "obs_count": 1478,
         "confidence": 1.0,
         "verdict": "weak"
       },
-      "neutral": {
-        "high_eng_rate": 0.117,
-        "obs_count": 222,
+      "image": {
+        "high_eng_rate": 0.23,
+        "obs_count": 1568,
         "confidence": 1.0,
-        "verdict": "avoid"
+        "verdict": "weak"
       }
     },
     "production_quality": {
       "professional": {
-        "high_eng_rate": 0.399,
-        "obs_count": 1307,
+        "high_eng_rate": 0.43,
+        "obs_count": 1694,
         "confidence": 1.0,
-        "verdict": "weak"
+        "verdict": "neutral"
       },
       "ugc": {
-        "high_eng_rate": 0.226,
-        "obs_count": 372,
+        "high_eng_rate": 0.142,
+        "obs_count": 698,
         "confidence": 1.0,
-        "verdict": "weak"
+        "verdict": "avoid"
       },
       "semi_professional": {
-        "high_eng_rate": 0.167,
-        "obs_count": 700,
+        "high_eng_rate": 0.126,
+        "obs_count": 1025,
         "confidence": 1.0,
         "verdict": "avoid"
       },
       "low": {
         "high_eng_rate": 0.0,
-        "obs_count": 351,
+        "obs_count": 399,
         "confidence": 1.0,
         "verdict": "avoid"
       }
     },
     "sector": {
+      "fashion": {
+        "high_eng_rate": 0.409,
+        "obs_count": 523,
+        "confidence": 1.0,
+        "verdict": "neutral"
+      },
       "f_and_b": {
-        "high_eng_rate": 0.369,
-        "obs_count": 1591,
+        "high_eng_rate": 0.332,
+        "obs_count": 1899,
         "confidence": 1.0,
         "verdict": "weak"
       },
@@ -8678,21 +8718,15 @@
         "confidence": 1.0,
         "verdict": "weak"
       },
-      "fashion": {
-        "high_eng_rate": 0.233,
-        "obs_count": 258,
-        "confidence": 1.0,
-        "verdict": "weak"
-      },
       "retail_lifestyle": {
-        "high_eng_rate": 0.081,
-        "obs_count": 359,
+        "high_eng_rate": 0.084,
+        "obs_count": 723,
         "confidence": 1.0,
         "verdict": "avoid"
       },
       "beauty_personal_care": {
-        "high_eng_rate": 0.062,
-        "obs_count": 320,
+        "high_eng_rate": 0.051,
+        "obs_count": 469,
         "confidence": 1.0,
         "verdict": "avoid"
       },
@@ -8702,13 +8736,39 @@
         "confidence": 1.0,
         "verdict": "avoid"
       }
+    },
+    "heritage_vs_modern": {
+      "blended": {
+        "high_eng_rate": 0.297,
+        "obs_count": 471,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "modern": {
+        "high_eng_rate": 0.258,
+        "obs_count": 2830,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "heritage": {
+        "high_eng_rate": 0.236,
+        "obs_count": 199,
+        "confidence": 1.0,
+        "verdict": "weak"
+      },
+      "neutral": {
+        "high_eng_rate": 0.102,
+        "obs_count": 293,
+        "confidence": 1.0,
+        "verdict": "avoid"
+      }
     }
   },
   "self_test_results": [
     {
-      "predicted_high_engagement_rate": 0.701,
+      "predicted_high_engagement_rate": 0.648,
       "grade": "B",
-      "lift_vs_baseline": 0.161,
+      "lift_vs_baseline": 0.108,
       "top_contributing_factors": [
         {
           "signal_type": "pattern",
@@ -8725,13 +8785,6 @@
           "obs_count": 41
         },
         {
-          "signal_type": "composition",
-          "value": "overhead_spread",
-          "rate": 0.828,
-          "verdict": "strong_positive",
-          "obs_count": 29
-        },
-        {
           "signal_type": "lighting",
           "value": "dramatic_moody",
           "rate": 0.821,
@@ -8739,11 +8792,18 @@
           "obs_count": 56
         },
         {
+          "signal_type": "occasion",
+          "value": "evergreen",
+          "rate": 0.649,
+          "verdict": "positive",
+          "obs_count": 285
+        },
+        {
           "signal_type": "setting",
           "value": "heritage_setting",
-          "rate": 0.773,
+          "rate": 0.621,
           "verdict": "positive",
-          "obs_count": 22
+          "obs_count": 29
         }
       ],
       "missing_signals": [],
@@ -8751,9 +8811,9 @@
       "label": "Heritage F&B carousel (expect HIGH)"
     },
     {
-      "predicted_high_engagement_rate": 0.478,
+      "predicted_high_engagement_rate": 0.481,
       "grade": "C",
-      "lift_vs_baseline": -0.062,
+      "lift_vs_baseline": -0.059,
       "top_contributing_factors": [
         {
           "signal_type": "composition",
@@ -8786,9 +8846,9 @@
         {
           "signal_type": "media_type",
           "value": "video",
-          "rate": 0.243,
+          "rate": 0.251,
           "verdict": "weak",
-          "obs_count": 1006
+          "obs_count": 1478
         }
       ],
       "missing_signals": [
@@ -8799,9 +8859,9 @@
       "label": "Educational video flat graphic (expect LOW)"
     },
     {
-      "predicted_high_engagement_rate": 0.469,
+      "predicted_high_engagement_rate": 0.464,
       "grade": "C",
-      "lift_vs_baseline": -0.071,
+      "lift_vs_baseline": -0.076,
       "top_contributing_factors": [
         {
           "signal_type": "register",
@@ -8813,23 +8873,23 @@
         {
           "signal_type": "tone",
           "value": "celebratory",
-          "rate": 0.363,
+          "rate": 0.327,
           "verdict": "weak",
-          "obs_count": 465
-        },
-        {
-          "signal_type": "occasion",
-          "value": "eid_al_fitr",
-          "rate": 0.288,
-          "verdict": "weak",
-          "obs_count": 111
+          "obs_count": 606
         },
         {
           "signal_type": "media_type",
           "value": "carousel_slide",
-          "rate": 0.275,
+          "rate": 0.273,
           "verdict": "weak",
-          "obs_count": 513
+          "obs_count": 739
+        },
+        {
+          "signal_type": "occasion",
+          "value": "eid_al_fitr",
+          "rate": 0.248,
+          "verdict": "weak",
+          "obs_count": 145
         }
       ],
       "missing_signals": [
@@ -8839,17 +8899,10 @@
       "label": "Eid carousel with occasion pattern (expect HIGH)"
     },
     {
-      "predicted_high_engagement_rate": 0.559,
-      "grade": "C",
-      "lift_vs_baseline": 0.019,
+      "predicted_high_engagement_rate": 0.401,
+      "grade": "D",
+      "lift_vs_baseline": -0.139,
       "top_contributing_factors": [
-        {
-          "signal_type": "pattern",
-          "value": "product_hero",
-          "rate": 0.759,
-          "verdict": "positive",
-          "obs_count": 137
-        },
         {
           "signal_type": "setting",
           "value": "tabletop_food",
@@ -8872,11 +8925,18 @@
           "obs_count": 53
         },
         {
+          "signal_type": "pattern",
+          "value": "product_hero",
+          "rate": 0.261,
+          "verdict": "weak",
+          "obs_count": 724
+        },
+        {
           "signal_type": "media_type",
           "value": "image",
-          "rate": 0.267,
+          "rate": 0.23,
           "verdict": "weak",
-          "obs_count": 1180
+          "obs_count": 1568
         }
       ],
       "missing_signals": [],
@@ -8884,9 +8944,9 @@
       "label": "Standard product hero image (expect MID)"
     },
     {
-      "predicted_high_engagement_rate": 0.577,
+      "predicted_high_engagement_rate": 0.567,
       "grade": "C",
-      "lift_vs_baseline": 0.037,
+      "lift_vs_baseline": 0.027,
       "top_contributing_factors": [
         {
           "signal_type": "pattern",
@@ -8912,9 +8972,9 @@
         {
           "signal_type": "occasion",
           "value": "national_day",
-          "rate": 0.458,
-          "verdict": "neutral",
-          "obs_count": 48
+          "rate": 0.344,
+          "verdict": "weak",
+          "obs_count": 64
         },
         {
           "signal_type": "pattern",

@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "generated_at": "2026-05-24T00:00:00Z",
-  "total_observations": 3816,
+  "total_observations": 6888,
   "null_rates": {
-    "dialect_null": 0,
-    "register_null": 3504,
+    "dialect_null": 1497,
+    "register_null": 6576,
     "occasion_null": 2522
   },
   "unique_values": {
@@ -15,6 +15,8 @@
       "msa",
       "najdi",
       "non_arabic",
+      "null",
+      "saudi",
       "southern",
       "unknown"
     ],
@@ -43,13 +45,17 @@
       "general",
       "graduation_season",
       "hajj",
+      "hajj_season",
+      "jeddah_season",
       "national_day",
       "null",
       "ramadan",
+      "riyadh_season",
       "seasonal",
       "sporting_event",
       "summer_campaign",
       "vision_2030",
+      "white_friday",
       "winter_seasonal"
     ]
   },
@@ -105,20 +111,20 @@
       }
     },
     "msa": {
-      "total_obs": 1278,
+      "total_obs": 2549,
       "top_registers": {
-        "null": 1251,
+        "null": 2522,
         "formal": 10,
         "casual": 7,
         "celebratory": 4,
         "promotional": 3
       },
       "top_occasions": {
+        "evergreen": 1067,
         "null": 894,
-        "ramadan": 114,
-        "eid_al_fitr": 70,
-        "seasonal": 66,
-        "eid_al_adha": 44
+        "ramadan": 182,
+        "eid_al_fitr": 123,
+        "eid_al_adha": 73
       }
     },
     "najdi": {
@@ -151,6 +157,32 @@
         "national_day": 2
       }
     },
+    "null": {
+      "total_obs": 1497,
+      "top_registers": {
+        "null": 1497
+      },
+      "top_occasions": {
+        "evergreen": 1380,
+        "ramadan": 61,
+        "eid_al_fitr": 30,
+        "white_friday": 14,
+        "national_day": 5
+      }
+    },
+    "saudi": {
+      "total_obs": 304,
+      "top_registers": {
+        "null": 304
+      },
+      "top_occasions": {
+        "evergreen": 242,
+        "ramadan": 20,
+        "eid_al_fitr": 14,
+        "white_friday": 9,
+        "riyadh_season": 5
+      }
+    },
     "southern": {
       "total_obs": 3,
       "top_registers": {
@@ -181,6 +213,72 @@
   },
   "top_50_triples": [
     {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "evergreen",
+      "count": 1380,
+      "account_count": 18,
+      "accounts": [
+        "ajmalperfumes",
+        "aldeebajofficial",
+        "asteribeautysa",
+        "bathandbodyworksarabia",
+        "crumblcookiespr",
+        "fitnessfirstme",
+        "hm",
+        "hmksa",
+        "kuduksa",
+        "lcwaikiki",
+        "levelshoes",
+        "mikyajy",
+        "myfitness.sa",
+        "namshi",
+        "noon",
+        "prettynature.official",
+        "roshnksa",
+        "zara"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "null",
+      "occasion": "evergreen",
+      "count": 1051,
+      "account_count": 30,
+      "accounts": [
+        "albaik",
+        "alromansiahksa",
+        "altazaj_fakieh",
+        "aseeb.najd",
+        "asteribeautysa",
+        "barnscoffee",
+        "elixirbunn",
+        "hashibasha",
+        "herfyfsc",
+        "hmksa",
+        "kiabiksa",
+        "kuduksa",
+        "kyancafe",
+        "lcwaikiki",
+        "maxfashionmena",
+        "mcdonaldsksa",
+        "mikyajy",
+        "mumzworld",
+        "namshi",
+        "niceonesa",
+        "noon",
+        "ounass",
+        "pandasaudi",
+        "pizzahutsaudi",
+        "prettynature.official",
+        "riyadhfood",
+        "roshnksa",
+        "shawarmersa",
+        "tamimimarkets",
+        "zara"
+      ]
+    },
+    {
       "dialect": "msa",
       "register": "null",
       "occasion": "null",
@@ -332,6 +430,76 @@
       ]
     },
     {
+      "dialect": "saudi",
+      "register": "null",
+      "occasion": "evergreen",
+      "count": 242,
+      "account_count": 29,
+      "accounts": [
+        "ajmalperfumes",
+        "albaik",
+        "alromansiahksa",
+        "altazaj_fakieh",
+        "aseeb.najd",
+        "asteribeautysa",
+        "barnscoffee",
+        "bathandbodyworksarabia",
+        "elixirbunn",
+        "hashibasha",
+        "herfyfsc",
+        "kiabiksa",
+        "kuduksa",
+        "kyancafe",
+        "maxfashionmena",
+        "mcdonaldsksa",
+        "mikyajy",
+        "mumzworld",
+        "namshi",
+        "niceonesa",
+        "noon",
+        "ounass",
+        "pandasaudi",
+        "pizzahutsaudi",
+        "prettynature.official",
+        "riyadhfood",
+        "roshnksa",
+        "shawarmersa",
+        "tamimimarkets"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "null",
+      "occasion": "ramadan",
+      "count": 177,
+      "account_count": 23,
+      "accounts": [
+        "albaik",
+        "alromansiahksa",
+        "aseeb.najd",
+        "asteribeautysa",
+        "barnscoffee",
+        "elixirbunn",
+        "fitnessfirstme",
+        "hashibasha",
+        "herfyfsc",
+        "kiabiksa",
+        "kuduksa",
+        "kyancafe",
+        "maxfashionmena",
+        "mikyajy",
+        "mumzworld",
+        "namshi",
+        "niceonesa",
+        "noon",
+        "ounass",
+        "riyadhfood",
+        "roshnksa",
+        "shawarmersa",
+        "tamimimarkets"
+      ]
+    },
+    {
       "dialect": "najdi",
       "register": "null",
       "occasion": "null",
@@ -365,28 +533,32 @@
     {
       "dialect": "msa",
       "register": "null",
-      "occasion": "ramadan",
-      "count": 109,
-      "account_count": 19,
+      "occasion": "eid_al_fitr",
+      "count": 122,
+      "account_count": 23,
       "accounts": [
         "albaik",
-        "aseeb.najd",
+        "aldeebajofficial",
+        "alromansiahksa",
+        "altazaj_fakieh",
         "asteribeautysa",
+        "barnscoffee",
         "elixirbunn",
-        "fitnessfirstme",
         "hashibasha",
+        "herfyfsc",
         "kiabiksa",
-        "kuduksa",
         "kyancafe",
         "maxfashionmena",
+        "mcdonaldsksa",
         "mikyajy",
         "mumzworld",
+        "namshi",
         "niceonesa",
-        "noon",
         "ounass",
-        "riyadhfood",
+        "pandasaudi",
+        "pizzahutsaudi",
+        "prettynature.official",
         "roshnksa",
-        "shawarmersa",
         "tamimimarkets"
       ]
     },
@@ -431,26 +603,27 @@
     {
       "dialect": "msa",
       "register": "null",
-      "occasion": "eid_al_fitr",
-      "count": 69,
-      "account_count": 17,
+      "occasion": "eid_al_adha",
+      "count": 73,
+      "account_count": 18,
       "accounts": [
-        "aldeebajofficial",
+        "albaik",
+        "alromansiahksa",
         "altazaj_fakieh",
-        "asteribeautysa",
+        "aseeb.najd",
         "elixirbunn",
         "hashibasha",
         "herfyfsc",
         "kiabiksa",
+        "kuduksa",
         "kyancafe",
         "maxfashionmena",
-        "mikyajy",
+        "mcdonaldsksa",
         "mumzworld",
-        "ounass",
+        "niceonesa",
         "pandasaudi",
-        "pizzahutsaudi",
-        "prettynature.official",
         "roshnksa",
+        "shawarmersa",
         "tamimimarkets"
       ]
     },
@@ -516,6 +689,21 @@
       ]
     },
     {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "ramadan",
+      "count": 61,
+      "account_count": 6,
+      "accounts": [
+        "ajmalperfumes",
+        "bathandbodyworksarabia",
+        "fitnessfirstme",
+        "lcwaikiki",
+        "namshi",
+        "niceonesa"
+      ]
+    },
+    {
       "dialect": "hijazi",
       "register": "null",
       "occasion": "ramadan",
@@ -535,6 +723,33 @@
         "noon",
         "pizzahutsaudi",
         "riyadhfood",
+        "shawarmersa"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "null",
+      "occasion": "national_day",
+      "count": 54,
+      "account_count": 18,
+      "accounts": [
+        "albaik",
+        "alromansiahksa",
+        "altazaj_fakieh",
+        "asteribeautysa",
+        "barnscoffee",
+        "elixirbunn",
+        "hashibasha",
+        "herfyfsc",
+        "kiabiksa",
+        "kuduksa",
+        "kyancafe",
+        "mumzworld",
+        "niceonesa",
+        "noon",
+        "pizzahutsaudi",
+        "prettynature.official",
+        "roshnksa",
         "shawarmersa"
       ]
     },
@@ -562,25 +777,6 @@
       ]
     },
     {
-      "dialect": "msa",
-      "register": "null",
-      "occasion": "eid_al_adha",
-      "count": 44,
-      "account_count": 10,
-      "accounts": [
-        "albaik",
-        "elixirbunn",
-        "hashibasha",
-        "kiabiksa",
-        "kyancafe",
-        "maxfashionmena",
-        "mumzworld",
-        "niceonesa",
-        "pandasaudi",
-        "tamimimarkets"
-      ]
-    },
-    {
       "dialect": "najdi",
       "register": "null",
       "occasion": "ramadan",
@@ -592,27 +788,6 @@
         "fitnessfirstme",
         "noon",
         "riyadhfood"
-      ]
-    },
-    {
-      "dialect": "msa",
-      "register": "null",
-      "occasion": "national_day",
-      "count": 34,
-      "account_count": 12,
-      "accounts": [
-        "albaik",
-        "asteribeautysa",
-        "barnscoffee",
-        "elixirbunn",
-        "hashibasha",
-        "kuduksa",
-        "mumzworld",
-        "noon",
-        "pizzahutsaudi",
-        "prettynature.official",
-        "roshnksa",
-        "shawarmersa"
       ]
     },
     {
@@ -651,6 +826,20 @@
         "hm",
         "levelshoes",
         "maxfashionmena"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "eid_al_fitr",
+      "count": 30,
+      "account_count": 5,
+      "accounts": [
+        "ajmalperfumes",
+        "bathandbodyworksarabia",
+        "lcwaikiki",
+        "maxfashionmena",
+        "namshi"
       ]
     },
     {
@@ -755,6 +944,43 @@
     {
       "dialect": "msa",
       "register": "null",
+      "occasion": "founding_day",
+      "count": 20,
+      "account_count": 9,
+      "accounts": [
+        "albaik",
+        "elixirbunn",
+        "hashibasha",
+        "kuduksa",
+        "mikyajy",
+        "mumzworld",
+        "namshi",
+        "niceonesa",
+        "roshnksa"
+      ]
+    },
+    {
+      "dialect": "saudi",
+      "register": "null",
+      "occasion": "ramadan",
+      "count": 20,
+      "account_count": 10,
+      "accounts": [
+        "ajmalperfumes",
+        "albaik",
+        "aseeb.najd",
+        "bathandbodyworksarabia",
+        "elixirbunn",
+        "hashibasha",
+        "kuduksa",
+        "namshi",
+        "riyadhfood",
+        "roshnksa"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "null",
       "occasion": "general",
       "count": 19,
       "account_count": 8,
@@ -767,6 +993,26 @@
         "mumzworld",
         "noon",
         "roshnksa"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "null",
+      "occasion": "riyadh_season",
+      "count": 18,
+      "account_count": 11,
+      "accounts": [
+        "albaik",
+        "asteribeautysa",
+        "barnscoffee",
+        "hashibasha",
+        "herfyfsc",
+        "kuduksa",
+        "kyancafe",
+        "noon",
+        "prettynature.official",
+        "riyadhfood",
+        "shawarmersa"
       ]
     },
     {
@@ -793,6 +1039,21 @@
       "account_count": 1,
       "accounts": [
         "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "null",
+      "occasion": "white_friday",
+      "count": 17,
+      "account_count": 6,
+      "accounts": [
+        "elixirbunn",
+        "mikyajy",
+        "mumzworld",
+        "niceonesa",
+        "noon",
+        "prettynature.official"
       ]
     },
     {
@@ -823,21 +1084,6 @@
       ]
     },
     {
-      "dialect": "msa",
-      "register": "null",
-      "occasion": "founding_day",
-      "count": 15,
-      "account_count": 6,
-      "accounts": [
-        "albaik",
-        "elixirbunn",
-        "hashibasha",
-        "mikyajy",
-        "mumzworld",
-        "roshnksa"
-      ]
-    },
-    {
       "dialect": "mixed",
       "register": "null",
       "occasion": "eid_al_fitr",
@@ -864,6 +1110,35 @@
       "accounts": [
         "OGZ-F-AND-B-Reference-004",
         "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "white_friday",
+      "count": 14,
+      "account_count": 3,
+      "accounts": [
+        "bathandbodyworksarabia",
+        "fitnessfirstme",
+        "namshi"
+      ]
+    },
+    {
+      "dialect": "saudi",
+      "register": "null",
+      "occasion": "eid_al_fitr",
+      "count": 14,
+      "account_count": 8,
+      "accounts": [
+        "alromansiahksa",
+        "elixirbunn",
+        "kiabiksa",
+        "kuduksa",
+        "maxfashionmena",
+        "noon",
+        "pandasaudi",
+        "tamimimarkets"
       ]
     },
     {
@@ -920,155 +1195,96 @@
       ]
     },
     {
-      "dialect": "mixed",
+      "dialect": "saudi",
       "register": "null",
-      "occasion": "eid_al_adha",
-      "count": 8,
-      "account_count": 5,
-      "accounts": [
-        "kyancafe",
-        "mcdonaldsksa",
-        "niceonesa",
-        "noon",
-        "tamimimarkets"
-      ]
-    },
-    {
-      "dialect": "mixed",
-      "register": "aspirational",
-      "occasion": "evergreen",
-      "count": 7,
-      "account_count": 1,
-      "accounts": [
-        "OGZ-RETAIL-Reference-001"
-      ]
-    },
-    {
-      "dialect": "najdi",
-      "register": "formal",
-      "occasion": "evergreen",
-      "count": 7,
-      "account_count": 3,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-004",
-        "OGZ-F-AND-B-Reference-005",
-        "OGZ-F-AND-B-Reference-010"
-      ]
-    },
-    {
-      "dialect": "hijazi",
-      "register": "null",
-      "occasion": "founding_day",
-      "count": 6,
-      "account_count": 5,
-      "accounts": [
-        "albaik",
-        "altazaj_fakieh",
-        "kuduksa",
-        "niceonesa",
-        "shawarmersa"
-      ]
-    },
-    {
-      "dialect": "unknown",
-      "register": "promotional",
-      "occasion": "evergreen",
-      "count": 6,
+      "occasion": "white_friday",
+      "count": 9,
       "account_count": 2,
       "accounts": [
-        "OGZ-F-AND-B-Reference-003",
-        "OGZ-F-AND-B-Reference-005"
-      ]
-    },
-    {
-      "dialect": "msa",
-      "register": "formal",
-      "occasion": "evergreen",
-      "count": 6,
-      "account_count": 4,
-      "accounts": [
-        "OGZ-BEAUTY-Reference-001",
-        "OGZ-F-AND-B-Reference-002",
-        "OGZ-F-AND-B-Reference-007",
-        "OGZ-F-AND-B-Reference-010"
-      ]
-    },
-    {
-      "dialect": "mixed",
-      "register": "null",
-      "occasion": "national_day",
-      "count": 6,
-      "account_count": 2,
-      "accounts": [
-        "albaik",
-        "shawarmersa"
-      ]
-    },
-    {
-      "dialect": "najdi",
-      "register": "null",
-      "occasion": "eid_al_fitr",
-      "count": 6,
-      "account_count": 3,
-      "accounts": [
-        "aseeb.najd",
-        "kuduksa",
+        "bathandbodyworksarabia",
         "noon"
       ]
     },
     {
-      "dialect": "najdi",
-      "register": "casual",
-      "occasion": "ramadan",
-      "count": 6,
-      "account_count": 5,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-002",
-        "OGZ-F-AND-B-Reference-004",
-        "OGZ-F-AND-B-Reference-006",
-        "OGZ-F-AND-B-Reference-008",
-        "OGZ-F-AND-B-Reference-009"
-      ]
-    },
-    {
-      "dialect": "najdi",
-      "register": "promotional",
-      "occasion": "evergreen",
-      "count": 6,
-      "account_count": 3,
-      "accounts": [
-        "OGZ-F-AND-B-Reference-002",
-        "OGZ-F-AND-B-Reference-004",
-        "OGZ-F-AND-B-Reference-005"
-      ]
-    },
-    {
-      "dialect": "unknown",
-      "register": "null",
-      "occasion": "seasonal",
-      "count": 5,
-      "account_count": 3,
-      "accounts": [
-        "barnscoffee",
-        "crumblcookiespr",
-        "hm"
-      ]
-    },
-    {
       "dialect": "msa",
-      "register": "casual",
-      "occasion": "evergreen",
-      "count": 5,
-      "account_count": 3,
+      "register": "null",
+      "occasion": "jeddah_season",
+      "count": 8,
+      "account_count": 2,
       "accounts": [
-        "OGZ-BEAUTY-Reference-001",
-        "OGZ-F-AND-B-Reference-002",
-        "OGZ-F-AND-B-Reference-005"
+        "albaik",
+        "kyancafe"
       ]
     }
   ],
-  "all_triples_count": 119,
+  "all_triples_count": 142,
   "all_triples": [
+    {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "evergreen",
+      "count": 1380,
+      "account_count": 18,
+      "accounts": [
+        "ajmalperfumes",
+        "aldeebajofficial",
+        "asteribeautysa",
+        "bathandbodyworksarabia",
+        "crumblcookiespr",
+        "fitnessfirstme",
+        "hm",
+        "hmksa",
+        "kuduksa",
+        "lcwaikiki",
+        "levelshoes",
+        "mikyajy",
+        "myfitness.sa",
+        "namshi",
+        "noon",
+        "prettynature.official",
+        "roshnksa",
+        "zara"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "null",
+      "occasion": "evergreen",
+      "count": 1051,
+      "account_count": 30,
+      "accounts": [
+        "albaik",
+        "alromansiahksa",
+        "altazaj_fakieh",
+        "aseeb.najd",
+        "asteribeautysa",
+        "barnscoffee",
+        "elixirbunn",
+        "hashibasha",
+        "herfyfsc",
+        "hmksa",
+        "kiabiksa",
+        "kuduksa",
+        "kyancafe",
+        "lcwaikiki",
+        "maxfashionmena",
+        "mcdonaldsksa",
+        "mikyajy",
+        "mumzworld",
+        "namshi",
+        "niceonesa",
+        "noon",
+        "ounass",
+        "pandasaudi",
+        "pizzahutsaudi",
+        "prettynature.official",
+        "riyadhfood",
+        "roshnksa",
+        "shawarmersa",
+        "tamimimarkets",
+        "zara"
+      ]
+    },
     {
       "dialect": "msa",
       "register": "null",
@@ -1221,6 +1437,76 @@
       ]
     },
     {
+      "dialect": "saudi",
+      "register": "null",
+      "occasion": "evergreen",
+      "count": 242,
+      "account_count": 29,
+      "accounts": [
+        "ajmalperfumes",
+        "albaik",
+        "alromansiahksa",
+        "altazaj_fakieh",
+        "aseeb.najd",
+        "asteribeautysa",
+        "barnscoffee",
+        "bathandbodyworksarabia",
+        "elixirbunn",
+        "hashibasha",
+        "herfyfsc",
+        "kiabiksa",
+        "kuduksa",
+        "kyancafe",
+        "maxfashionmena",
+        "mcdonaldsksa",
+        "mikyajy",
+        "mumzworld",
+        "namshi",
+        "niceonesa",
+        "noon",
+        "ounass",
+        "pandasaudi",
+        "pizzahutsaudi",
+        "prettynature.official",
+        "riyadhfood",
+        "roshnksa",
+        "shawarmersa",
+        "tamimimarkets"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "null",
+      "occasion": "ramadan",
+      "count": 177,
+      "account_count": 23,
+      "accounts": [
+        "albaik",
+        "alromansiahksa",
+        "aseeb.najd",
+        "asteribeautysa",
+        "barnscoffee",
+        "elixirbunn",
+        "fitnessfirstme",
+        "hashibasha",
+        "herfyfsc",
+        "kiabiksa",
+        "kuduksa",
+        "kyancafe",
+        "maxfashionmena",
+        "mikyajy",
+        "mumzworld",
+        "namshi",
+        "niceonesa",
+        "noon",
+        "ounass",
+        "riyadhfood",
+        "roshnksa",
+        "shawarmersa",
+        "tamimimarkets"
+      ]
+    },
+    {
       "dialect": "najdi",
       "register": "null",
       "occasion": "null",
@@ -1254,28 +1540,32 @@
     {
       "dialect": "msa",
       "register": "null",
-      "occasion": "ramadan",
-      "count": 109,
-      "account_count": 19,
+      "occasion": "eid_al_fitr",
+      "count": 122,
+      "account_count": 23,
       "accounts": [
         "albaik",
-        "aseeb.najd",
+        "aldeebajofficial",
+        "alromansiahksa",
+        "altazaj_fakieh",
         "asteribeautysa",
+        "barnscoffee",
         "elixirbunn",
-        "fitnessfirstme",
         "hashibasha",
+        "herfyfsc",
         "kiabiksa",
-        "kuduksa",
         "kyancafe",
         "maxfashionmena",
+        "mcdonaldsksa",
         "mikyajy",
         "mumzworld",
+        "namshi",
         "niceonesa",
-        "noon",
         "ounass",
-        "riyadhfood",
+        "pandasaudi",
+        "pizzahutsaudi",
+        "prettynature.official",
         "roshnksa",
-        "shawarmersa",
         "tamimimarkets"
       ]
     },
@@ -1320,26 +1610,27 @@
     {
       "dialect": "msa",
       "register": "null",
-      "occasion": "eid_al_fitr",
-      "count": 69,
-      "account_count": 17,
+      "occasion": "eid_al_adha",
+      "count": 73,
+      "account_count": 18,
       "accounts": [
-        "aldeebajofficial",
+        "albaik",
+        "alromansiahksa",
         "altazaj_fakieh",
-        "asteribeautysa",
+        "aseeb.najd",
         "elixirbunn",
         "hashibasha",
         "herfyfsc",
         "kiabiksa",
+        "kuduksa",
         "kyancafe",
         "maxfashionmena",
-        "mikyajy",
+        "mcdonaldsksa",
         "mumzworld",
-        "ounass",
+        "niceonesa",
         "pandasaudi",
-        "pizzahutsaudi",
-        "prettynature.official",
         "roshnksa",
+        "shawarmersa",
         "tamimimarkets"
       ]
     },
@@ -1405,6 +1696,21 @@
       ]
     },
     {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "ramadan",
+      "count": 61,
+      "account_count": 6,
+      "accounts": [
+        "ajmalperfumes",
+        "bathandbodyworksarabia",
+        "fitnessfirstme",
+        "lcwaikiki",
+        "namshi",
+        "niceonesa"
+      ]
+    },
+    {
       "dialect": "hijazi",
       "register": "null",
       "occasion": "ramadan",
@@ -1424,6 +1730,33 @@
         "noon",
         "pizzahutsaudi",
         "riyadhfood",
+        "shawarmersa"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "null",
+      "occasion": "national_day",
+      "count": 54,
+      "account_count": 18,
+      "accounts": [
+        "albaik",
+        "alromansiahksa",
+        "altazaj_fakieh",
+        "asteribeautysa",
+        "barnscoffee",
+        "elixirbunn",
+        "hashibasha",
+        "herfyfsc",
+        "kiabiksa",
+        "kuduksa",
+        "kyancafe",
+        "mumzworld",
+        "niceonesa",
+        "noon",
+        "pizzahutsaudi",
+        "prettynature.official",
+        "roshnksa",
         "shawarmersa"
       ]
     },
@@ -1451,25 +1784,6 @@
       ]
     },
     {
-      "dialect": "msa",
-      "register": "null",
-      "occasion": "eid_al_adha",
-      "count": 44,
-      "account_count": 10,
-      "accounts": [
-        "albaik",
-        "elixirbunn",
-        "hashibasha",
-        "kiabiksa",
-        "kyancafe",
-        "maxfashionmena",
-        "mumzworld",
-        "niceonesa",
-        "pandasaudi",
-        "tamimimarkets"
-      ]
-    },
-    {
       "dialect": "najdi",
       "register": "null",
       "occasion": "ramadan",
@@ -1481,27 +1795,6 @@
         "fitnessfirstme",
         "noon",
         "riyadhfood"
-      ]
-    },
-    {
-      "dialect": "msa",
-      "register": "null",
-      "occasion": "national_day",
-      "count": 34,
-      "account_count": 12,
-      "accounts": [
-        "albaik",
-        "asteribeautysa",
-        "barnscoffee",
-        "elixirbunn",
-        "hashibasha",
-        "kuduksa",
-        "mumzworld",
-        "noon",
-        "pizzahutsaudi",
-        "prettynature.official",
-        "roshnksa",
-        "shawarmersa"
       ]
     },
     {
@@ -1540,6 +1833,20 @@
         "hm",
         "levelshoes",
         "maxfashionmena"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "eid_al_fitr",
+      "count": 30,
+      "account_count": 5,
+      "accounts": [
+        "ajmalperfumes",
+        "bathandbodyworksarabia",
+        "lcwaikiki",
+        "maxfashionmena",
+        "namshi"
       ]
     },
     {
@@ -1644,6 +1951,43 @@
     {
       "dialect": "msa",
       "register": "null",
+      "occasion": "founding_day",
+      "count": 20,
+      "account_count": 9,
+      "accounts": [
+        "albaik",
+        "elixirbunn",
+        "hashibasha",
+        "kuduksa",
+        "mikyajy",
+        "mumzworld",
+        "namshi",
+        "niceonesa",
+        "roshnksa"
+      ]
+    },
+    {
+      "dialect": "saudi",
+      "register": "null",
+      "occasion": "ramadan",
+      "count": 20,
+      "account_count": 10,
+      "accounts": [
+        "ajmalperfumes",
+        "albaik",
+        "aseeb.najd",
+        "bathandbodyworksarabia",
+        "elixirbunn",
+        "hashibasha",
+        "kuduksa",
+        "namshi",
+        "riyadhfood",
+        "roshnksa"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "null",
       "occasion": "general",
       "count": 19,
       "account_count": 8,
@@ -1656,6 +2000,26 @@
         "mumzworld",
         "noon",
         "roshnksa"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "null",
+      "occasion": "riyadh_season",
+      "count": 18,
+      "account_count": 11,
+      "accounts": [
+        "albaik",
+        "asteribeautysa",
+        "barnscoffee",
+        "hashibasha",
+        "herfyfsc",
+        "kuduksa",
+        "kyancafe",
+        "noon",
+        "prettynature.official",
+        "riyadhfood",
+        "shawarmersa"
       ]
     },
     {
@@ -1682,6 +2046,21 @@
       "account_count": 1,
       "accounts": [
         "OGZ-F-AND-B-Reference-003"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "null",
+      "occasion": "white_friday",
+      "count": 17,
+      "account_count": 6,
+      "accounts": [
+        "elixirbunn",
+        "mikyajy",
+        "mumzworld",
+        "niceonesa",
+        "noon",
+        "prettynature.official"
       ]
     },
     {
@@ -1712,21 +2091,6 @@
       ]
     },
     {
-      "dialect": "msa",
-      "register": "null",
-      "occasion": "founding_day",
-      "count": 15,
-      "account_count": 6,
-      "accounts": [
-        "albaik",
-        "elixirbunn",
-        "hashibasha",
-        "mikyajy",
-        "mumzworld",
-        "roshnksa"
-      ]
-    },
-    {
       "dialect": "mixed",
       "register": "null",
       "occasion": "eid_al_fitr",
@@ -1753,6 +2117,35 @@
       "accounts": [
         "OGZ-F-AND-B-Reference-004",
         "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "white_friday",
+      "count": 14,
+      "account_count": 3,
+      "accounts": [
+        "bathandbodyworksarabia",
+        "fitnessfirstme",
+        "namshi"
+      ]
+    },
+    {
+      "dialect": "saudi",
+      "register": "null",
+      "occasion": "eid_al_fitr",
+      "count": 14,
+      "account_count": 8,
+      "accounts": [
+        "alromansiahksa",
+        "elixirbunn",
+        "kiabiksa",
+        "kuduksa",
+        "maxfashionmena",
+        "noon",
+        "pandasaudi",
+        "tamimimarkets"
       ]
     },
     {
@@ -1806,6 +2199,28 @@
       "account_count": 1,
       "accounts": [
         "OGZ-F-AND-B-Reference-004"
+      ]
+    },
+    {
+      "dialect": "saudi",
+      "register": "null",
+      "occasion": "white_friday",
+      "count": 9,
+      "account_count": 2,
+      "accounts": [
+        "bathandbodyworksarabia",
+        "noon"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "null",
+      "occasion": "jeddah_season",
+      "count": 8,
+      "account_count": 2,
+      "accounts": [
+        "albaik",
+        "kyancafe"
       ]
     },
     {
@@ -1987,6 +2402,31 @@
       ]
     },
     {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "national_day",
+      "count": 5,
+      "account_count": 3,
+      "accounts": [
+        "crumblcookiespr",
+        "fitnessfirstme",
+        "namshi"
+      ]
+    },
+    {
+      "dialect": "saudi",
+      "register": "null",
+      "occasion": "riyadh_season",
+      "count": 5,
+      "account_count": 4,
+      "accounts": [
+        "kuduksa",
+        "noon",
+        "riyadhfood",
+        "shawarmersa"
+      ]
+    },
+    {
       "dialect": "hijazi",
       "register": "null",
       "occasion": "evergreen",
@@ -2027,6 +2467,52 @@
         "OGZ-F-AND-B-Reference-006",
         "OGZ-F-AND-B-Reference-008",
         "OGZ-F-AND-B-Reference-009"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "eid_al_adha",
+      "count": 4,
+      "account_count": 3,
+      "accounts": [
+        "bathandbodyworksarabia",
+        "lcwaikiki",
+        "namshi"
+      ]
+    },
+    {
+      "dialect": "saudi",
+      "register": "null",
+      "occasion": "jeddah_season",
+      "count": 4,
+      "account_count": 3,
+      "accounts": [
+        "albaik",
+        "barnscoffee",
+        "hashibasha"
+      ]
+    },
+    {
+      "dialect": "saudi",
+      "register": "null",
+      "occasion": "eid_al_adha",
+      "count": 4,
+      "account_count": 2,
+      "accounts": [
+        "alromansiahksa",
+        "hashibasha"
+      ]
+    },
+    {
+      "dialect": "saudi",
+      "register": "null",
+      "occasion": "national_day",
+      "count": 4,
+      "account_count": 2,
+      "accounts": [
+        "aseeb.najd",
+        "kuduksa"
       ]
     },
     {
@@ -2121,6 +2607,17 @@
       "account_count": 1,
       "accounts": [
         "OGZ-F-AND-B-Reference-008"
+      ]
+    },
+    {
+      "dialect": "msa",
+      "register": "null",
+      "occasion": "hajj_season",
+      "count": 2,
+      "account_count": 2,
+      "accounts": [
+        "albaik",
+        "prettynature.official"
       ]
     },
     {
@@ -2269,6 +2766,17 @@
       "accounts": [
         "myfitness.sa",
         "ounass"
+      ]
+    },
+    {
+      "dialect": "saudi",
+      "register": "null",
+      "occasion": "founding_day",
+      "count": 2,
+      "account_count": 2,
+      "accounts": [
+        "bathandbodyworksarabia",
+        "elixirbunn"
       ]
     },
     {
@@ -2640,6 +3148,36 @@
       "account_count": 1,
       "accounts": [
         "OGZ-F-AND-B-Reference-005"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "founding_day",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "bathandbodyworksarabia"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "riyadh_season",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "namshi"
+      ]
+    },
+    {
+      "dialect": "null",
+      "register": "null",
+      "occasion": "hajj_season",
+      "count": 1,
+      "account_count": 1,
+      "accounts": [
+        "aldeebajofficial"
       ]
     },
     {

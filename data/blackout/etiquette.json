@@ -1,0 +1,19 @@
+{
+  "quiet_hours": {
+    "start": "01:30",
+    "end": "06:30",
+    "note": "late-night sends read as bot behavior; ramadan inverts this — see ramadan_mode"
+  },
+  "prayer_buffer_minutes": 20,
+  "prayers_note": "advisory: avoid sends ±20min around maghrib and jumu'ah (the two with social weight); exact times shift daily — scheduler should consult a prayer-times source, this gate only flags the policy",
+  "ramadan_mode": {
+    "peak_windows": [
+      "21:30-01:30 (post-taraweeh)",
+      "02:30-04:00 (sahur)"
+    ],
+    "avoid": [
+      "17:00-19:30 (pre-maghrib fatigue + iftar itself)"
+    ],
+    "note": "normal quiet_hours suspended in ramadan — nights ARE the day"
+  }
+}

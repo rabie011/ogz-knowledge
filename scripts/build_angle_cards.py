@@ -58,22 +58,54 @@ Return STRICT JSON: {"angles":[{"id":1,"lens":"...","formula":"CF_0x",
 "moment|announcement|question|greeting|story"}]}. Exactly 6 distinct scenes, distinct moments."""
 
 
+def sector_lens(occasion: str, sector: str) -> dict | None:
+    """Per-sector occasion lens (June 11) — the fix for sector-blind occasion facts.
+    Root: ramadan-for-coffee ≠ ramadan-for-restaurants; one generic fact set pushed
+    every non-restaurant brand into abstract themes (the coffee×ramadan weak pocket)."""
+    facts = json.loads((BASE / "data/occasion_facts.json").read_text())
+    occ = {"national_day": "saudi_national_day"}.get(occasion, occasion)
+    return (facts.get(occ, {}).get("sector_lenses") or {}).get(sector)
+
+
+def brand_identity(brand_en: str) -> str:
+    """One line of WHAT THE BRAND SELLS from its DNA — guards against hashtag-only
+    product lists (barns' real_products were all hashtags, no products)."""
+    f = BASE / "logs/brand_dna" / f"{brand_en}.json"
+    if not f.exists():
+        return ""
+    d = json.loads(f.read_text())
+    return (d.get("identity") or d.get("voice_summary") or "")[:300]
+
+
 def build(pack: dict) -> dict:
     lenses = "\n".join(f"- {k}: {v}" for k, v in CD_LENSES.items())
     forms = "\n".join(f"- {f['id']} {f['name']}: {f['when']}" for f in formulas())
+    user = "TRUTH PACK:\n" + json.dumps(pack, ensure_ascii=False)
+    ident = brand_identity(pack["brand_en"])
+    if ident:
+        user += f"\n\nBRAND IDENTITY (what they actually sell — every scene must fit THIS product):\n{ident}"
+    lens = sector_lens(pack["occasion"], pack.get("sector", ""))
+    if lens:
+        user += ("\n\nOCCASION×SECTOR LENS (how this occasion is ACTUALLY lived around this sector's product — "
+                 "ground WHO/WHEN in these real moments, but use ONLY moments where THIS brand's product belongs):\n"
+                 + json.dumps(lens, ensure_ascii=False))
     body = {"model": "gpt-4o", "temperature": 0.8, "max_tokens": 1600,
             "response_format": {"type": "json_object"},
             "messages": [
                 {"role": "system", "content": SPEC + "\n\nCD LENSES:\n" + lenses + "\n\nFORMULAS:\n" + forms},
-                {"role": "user", "content": "TRUTH PACK:\n" + json.dumps(pack, ensure_ascii=False)}]}
+                {"role": "user", "content": user}]}
     rq = urllib.request.Request("https://api.openai.com/v1/chat/completions",
                                 data=json.dumps(body).encode(),
                                 headers={"Authorization": f"Bearer {key()}", "Content-Type": "application/json"})
     r = json.loads(urllib.request.urlopen(rq, timeout=120).read())
     out = json.loads(r["choices"][0]["message"]["content"])
+    import re as _re
     for a in out.get("angles", []):
         a["insight_ar"] = a.get("scene_ar", a.get("insight_ar", ""))   # downstream compat
         a["approach_ar"] = a.get("why_it_lands", a.get("approach_ar", ""))
+        m = _re.match(r"(CF_\d+)", str(a.get("formula", "")))           # "CF_02 Paradox Play" → "CF_02"
+        if m:
+            a["formula"] = m.group(1)
     out["_brand"] = pack["brand_en"]
     out["_occasion"] = pack["occasion"]
     out["_built"] = "2026-06-11"

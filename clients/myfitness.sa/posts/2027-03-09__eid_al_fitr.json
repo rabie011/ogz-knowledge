@@ -41,5 +41,58 @@
     "confirmer": "pending",
     "stamp": "PROVISIONAL — pending Mohamed",
     "truth_status": "EXPIRED — voice draft only, client must confirm today's products"
+  },
+  "visual_gate": {
+    "law": "HUMAN EYES ARE THE VISUAL GATE — automated checks may BLOCK, never PASS",
+    "client_state": "active_dormant",
+    "scene_being_checked": "داخل مركز لياقتي الرياضي بتبوك، في صباح يوم عيد الفطر، نرى أم ترتدي ملابس رياضية مريحة، تمسك هاتفها مشيرة إلى حساب المرك",
+    "items": [
+      {
+        "id": "faces",
+        "check": "لا وجوه ظاهرة (الافتراضي الصارم — ما لم يرخّص العميل كتابةً)",
+        "source": "cultural_spec strictest default"
+      },
+      {
+        "id": "family_visibility",
+        "check": "لا أفراد عائلة العميل في الصورة (ترخيص العميل فقط)",
+        "source": "cultural_spec strictest default"
+      },
+      {
+        "id": "mixed_gender",
+        "check": "لا اختلاط رجال/نساء في مشهد واحد (الافتراضي العائلي)",
+        "source": "cultural_spec strictest default"
+      },
+      {
+        "id": "modesty",
+        "check": "اللبس محتشم بالمعيار السعودي المحافظ",
+        "source": "cultural_spec strictest default"
+      },
+      {
+        "id": "music_context",
+        "check": "إن كان فيديو: المقطع بلا موسيقى أو بإيقاع مسموح",
+        "source": "cultural_spec strictest default"
+      },
+      {
+        "id": "brand_truth",
+        "check": "كل منتج ظاهر = منتج حقيقي للعميل (طابق مع truth_pack)",
+        "source": "truth/parked-ruling"
+      },
+      {
+        "id": "text_in_image",
+        "check": "أي نص داخل الصورة: إملاء سليم + لا ادعاء عرض/سعر غير مؤكد",
+        "source": "truth/parked-ruling"
+      },
+      {
+        "id": "ai_render_parked",
+        "check": "⛔ هل الصورة AI لمنتج حقيقي؟ الحكم محفوظ لمحمد — لا تنشر صور منتجات AI حتى يحكم",
+        "source": "truth/parked-ruling"
+      }
+    ],
+    "verdict": {
+      "checked_by": null,
+      "date": null,
+      "all_clear": null,
+      "note": "unchecked checklist = unpublishable card"
+    }
   }
 }

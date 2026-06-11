@@ -37,5 +37,68 @@
     "confirmer": "pending",
     "stamp": "PROVISIONAL — pending Mohamed",
     "truth_status": "within_ttl"
+  },
+  "visual_gate": {
+    "law": "HUMAN EYES ARE THE VISUAL GATE — automated checks may BLOCK, never PASS",
+    "client_state": "newborn",
+    "scene_being_checked": "داخل مكتب حديث في الرياض، يجلس خالد، مدير المشروع، على مكتبه متصفحاً بريده الإلكتروني بشكل سريع. إنه وقت الغداء، ويشعر ب",
+    "items": [
+      {
+        "id": "faces",
+        "check": "لا وجوه ظاهرة (الافتراضي الصارم — ما لم يرخّص العميل كتابةً)",
+        "source": "cultural_spec strictest default"
+      },
+      {
+        "id": "family_visibility",
+        "check": "لا أفراد عائلة العميل في الصورة (ترخيص العميل فقط)",
+        "source": "cultural_spec strictest default"
+      },
+      {
+        "id": "mixed_gender",
+        "check": "لا اختلاط رجال/نساء في مشهد واحد (الافتراضي العائلي)",
+        "source": "cultural_spec strictest default"
+      },
+      {
+        "id": "modesty",
+        "check": "اللبس محتشم بالمعيار السعودي المحافظ",
+        "source": "cultural_spec strictest default"
+      },
+      {
+        "id": "music_context",
+        "check": "إن كان فيديو: المقطع بلا موسيقى أو بإيقاع مسموح",
+        "source": "cultural_spec strictest default"
+      },
+      {
+        "id": "left_hand",
+        "check": "لا تقديم/تناول طعام باليد اليسرى في أي لقطة",
+        "source": "forbidden_lists (food)"
+      },
+      {
+        "id": "alcohol_lookalike",
+        "check": "لا كؤوس/قوارير توحي بمشروبات محظورة",
+        "source": "forbidden_lists (food)"
+      },
+      {
+        "id": "brand_truth",
+        "check": "كل منتج ظاهر = منتج حقيقي للعميل (طابق مع truth_pack)",
+        "source": "truth/parked-ruling"
+      },
+      {
+        "id": "text_in_image",
+        "check": "أي نص داخل الصورة: إملاء سليم + لا ادعاء عرض/سعر غير مؤكد",
+        "source": "truth/parked-ruling"
+      },
+      {
+        "id": "ai_render_parked",
+        "check": "⛔ هل الصورة AI لمنتج حقيقي؟ الحكم محفوظ لمحمد — لا تنشر صور منتجات AI حتى يحكم",
+        "source": "truth/parked-ruling"
+      }
+    ],
+    "verdict": {
+      "checked_by": null,
+      "date": null,
+      "all_clear": null,
+      "note": "unchecked checklist = unpublishable card"
+    }
   }
 }

@@ -1,22 +1,99 @@
 {
   "_meta": {
-    "source": "Mohamed's rate20 session 2026-06-11 (13 rated) + cross-compare 4/5 kyan + all prior rejections",
+    "source": "Mohamed's rate20 session 2026-06-11 (13 rated) + cross-compare 4/5 kyan + all prior rejections + v2 session 2026-06-11 (20/20 rated, avg 2.95, 10x 4-5)",
     "built": "2026-06-11",
     "rule": "This file IS the bar. The critic mind judges against it. Updated after every rating session."
   },
   "kills": [
-    {"name": "generic_celebration_template", "why": "rated 1-2: 'بمناسبة X اطلبوا Y واستمتعوا' — the occasion bolted onto an order-CTA with zero thought", "examples_bad": ["الآن بمناسبة اليوم الوطني، اطلبوا بروستد البيك واستمتعوا بالنكهة الأصيلة", "أطلب دجاجنا المشوي بمناسبة يوم التأسيس واحتفل بمذاق أصيل"]},
-    {"name": "very_normal", "why": "his words: 'nothing wrong but its very normal' — correct, safe, dead. If any brand could post it, it's dead", "examples_bad": ["قهوتنا السعودية تبتدي يومك بمذاق أصيل"]},
-    {"name": "generic_engagement_bait", "why": "his words: 'very generic and easy' — questions with no idea behind them", "examples_bad": ["إيش تحبوا تاكلوا مع البروستد؟"]},
-    {"name": "offer_energy_on_emotional_occasion", "why": "his words on barns ramadan: 'good for offers not ramadan' — discounts/urgency on ramadan/eid/national day kill the moment", "rule": "offer language ONLY on weekly_offer/white_friday/new_product/summer deals"},
-    {"name": "not_saudi", "why": "his words on shawarmer: 'not saudi' — MSA-ish or pan-Arab phrasing on a Saudi-voice brand", "rule": "dialect must match the brand's DNA dialect exactly"}
+    {
+      "name": "generic_celebration_template",
+      "why": "rated 1-2: 'بمناسبة X اطلبوا Y واستمتعوا' — the occasion bolted onto an order-CTA with zero thought",
+      "examples_bad": [
+        "الآن بمناسبة اليوم الوطني، اطلبوا بروستد البيك واستمتعوا بالنكهة الأصيلة",
+        "أطلب دجاجنا المشوي بمناسبة يوم التأسيس واحتفل بمذاق أصيل"
+      ]
+    },
+    {
+      "name": "very_normal",
+      "why": "his words: 'nothing wrong but its very normal' — correct, safe, dead. If any brand could post it, it's dead",
+      "examples_bad": [
+        "قهوتنا السعودية تبتدي يومك بمذاق أصيل"
+      ]
+    },
+    {
+      "name": "generic_engagement_bait",
+      "why": "his words: 'very generic and easy' — questions with no idea behind them",
+      "examples_bad": [
+        "إيش تحبوا تاكلوا مع البروستد؟"
+      ]
+    },
+    {
+      "name": "offer_energy_on_emotional_occasion",
+      "why": "his words on barns ramadan: 'good for offers not ramadan' — discounts/urgency on ramadan/eid/national day kill the moment",
+      "rule": "offer language ONLY on weekly_offer/white_friday/new_product/summer deals"
+    },
+    {
+      "name": "not_saudi",
+      "why": "his words on shawarmer: 'not saudi' — MSA-ish or pan-Arab phrasing on a Saudi-voice brand",
+      "rule": "dialect must match the brand's DNA dialect exactly"
+    },
+    {
+      "name": "weak_tail",
+      "why": "v2: 'liked the first part' / 'first part is perfect' / herfy tail 'really bad and does not connect' — strong scene openers die in generic closing lines",
+      "rule": "the tail must serve the scene or STOP; shorter beats complete"
+    },
+    {
+      "name": "hallucinated_product_tags",
+      "why": "v2 #6: invented hashtag #ماك_مع_ججك ('ججك what is this') — render fabricated a product tag",
+      "rule": "hashtags ONLY from the truth pack's real list"
+    },
+    {
+      "name": "describing_the_photo",
+      "why": "v2 #13 mikyaji: 'feels like we describe the photo, no creative' — narrating an imagined visual is not an idea",
+      "rule": "the caption must ADD to the visual, never narrate it"
+    }
   ],
   "rewards": [
-    {"name": "concrete_warm_scene", "why": "herfy eid = 5: family + holiday joy + warmth in ONE concrete frame; kyan 4/5: family iftar coffee scene", "examples_good": ["عيد الفطر أجواء وفرحة! اطلب برغر هرفي واحتفل مع العائلة والأحباب بحلاوة العيد ودفء التجمع 💖", "قهوة سعودية مع العائلة في الإفطار، تبرّد القلوب وتجمع الحبايب! اطلبها الآن من أقرب كيان 🩵"]},
-    {"name": "clean_clear_offer", "why": "zara new product = 5, barns weekly = 4: offers need clarity not creativity — what/how much/until when/where", "examples_good": ["كوليكشن الموسم الجديد وصل! استمتع بالألوان والتصاميم المبتكرة. اطلب الآن عبر تطبيق زارا أو في فروع المملكة."]},
-    {"name": "an_actual_idea", "why": "the standing demand: a visible angle — a human truth, a moment, a wink — not a formula", "rule": "before rendering, the angle must be nameable in one sentence; if you can't name the idea, don't write the caption"}
+    {
+      "name": "concrete_warm_scene",
+      "why": "herfy eid = 5: family + holiday joy + warmth in ONE concrete frame; kyan 4/5: family iftar coffee scene",
+      "examples_good": [
+        "عيد الفطر أجواء وفرحة! اطلب برغر هرفي واحتفل مع العائلة والأحباب بحلاوة العيد ودفء التجمع 💖",
+        "قهوة سعودية مع العائلة في الإفطار، تبرّد القلوب وتجمع الحبايب! اطلبها الآن من أقرب كيان 🩵"
+      ]
+    },
+    {
+      "name": "clean_clear_offer",
+      "why": "zara new product = 5, barns weekly = 4: offers need clarity not creativity — what/how much/until when/where",
+      "examples_good": [
+        "كوليكشن الموسم الجديد وصل! استمتع بالألوان والتصاميم المبتكرة. اطلب الآن عبر تطبيق زارا أو في فروع المملكة."
+      ]
+    },
+    {
+      "name": "an_actual_idea",
+      "why": "the standing demand: a visible angle — a human truth, a moment, a wink — not a formula",
+      "rule": "before rendering, the angle must be nameable in one sentence; if you can't name the idea, don't write the caption"
+    },
+    {
+      "name": "bilingual_designed_pattern",
+      "why": "v2 #9 namshi = 5: 'english and arabic works very good' — EN hook + AR idea VALIDATED as the bilingual pattern",
+      "examples_good": [
+        "Ready, set, shop! 🛒 السعوديون على أعصابهم، التخفيضات تبدأ الآن"
+      ]
+    }
   ],
   "open_gaps": [
-    {"name": "bilingual_pattern", "why": "his note on namshi: 'we need good pattern for english and arabic' — EN-led brands need a designed AR/EN structure, not random mixing"}
+    {
+      "name": "image_pairing",
+      "why": "v2 mega-pattern (5 notes): 'needs an image' / 'good if we have image' / 'perfect if we have photo' — a caption is HALF a post; the visual is the other half. Next evolution: angle → (visual direction + caption) as ONE idea (the 88 chains exist for this)"
+    },
+    {
+      "name": "family_voice_rule",
+      "why": "v2 #1: can a brand speak AS the consumer's family ('أمي جابت البيك')? MOHAMED'S CALL — cultural decision pending"
+    },
+    {
+      "name": "masculinity_framing_rule",
+      "why": "v2 #10: 'رجال' framing — how to play with manhood/coming-of-age culturally? MOHAMED'S CALL — pending"
+    }
   ]
 }

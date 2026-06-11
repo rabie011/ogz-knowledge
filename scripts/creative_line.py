@@ -138,13 +138,20 @@ Format: numbered lines 1. 2. 3. — captions only, no commentary."""
         outs["gpt_err"] = str(e)[:80]
     # parse numbered lines
     options = {}
+    import re as _re
+    real_tags = set(pack.get("real_products", [])) | set(dna.get("signature_phrases_ar", []))
     for src, txt in outs.items():
         if src.endswith("_err"):
             continue
         for ln in txt.split("\n"):
             ln = ln.strip()
             if ln[:2] in ("1.", "2.", "3.") and len(ln) > 8:
-                options[f"{src}{ln[0]}"] = ln[2:].strip().strip('"').strip()
+                cap = ln[2:].strip().strip('"').strip()
+                # TRUTH GUARD (v2 #6 'ججك'): strip any hashtag the brand never used
+                for tag in _re.findall(r"#[\w؀-ۿ_]+", cap):
+                    if tag not in real_tags and not any(tag in t for t in real_tags):
+                        cap = cap.replace(tag, "").strip()
+                options[f"{src}{ln[0]}"] = " ".join(cap.split())
     return options
 
 

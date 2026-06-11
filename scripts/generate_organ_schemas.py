@@ -65,6 +65,26 @@ SCHEMAS = {
         "required": ["client_given", "proposed_from_corpus", "note", "requests_log"],
         "properties": {"client_given": ARR(S()), "proposed_from_corpus": ARR(S()),
                         "note": S(), "requests_log": S()}},
+    # B077: events are heterogeneous append-only facts — base contract strict, payload open.
+    # Type enum = census-found types + pyramid-specified future types (commercial spine,
+    # referral, offboarding, approver, pick-sets). additionalProperties TRUE by design:
+    # an event ledger must accept tomorrow's fact shapes; the base 4 fields are the law.
+    "client_event_v1": {
+        "_additional_ok": True,
+        "required": ["ts", "type", "confirmer", "stamp"],
+        "properties": {"ts": S(), "confirmer": S(), "stamp": S(),
+                        "type": {"enum": ["intake_answer", "client_approved", "client_rejected",
+                                            "voice_rating", "batch_rating", "compare_verdict",
+                                            "version_verdict", "occasion_gold", "competitor_reference",
+                                            "pick_selected", "red_line_added", "red_line_relaxed",
+                                            "goal_declared", "capacity_declared", "truth_confirmed",
+                                            "payment_received", "renewal", "scope_change",
+                                            "referral", "offboarding_request", "approver_change",
+                                            "blackout_flip", "crystallize_accepted", "crystallize_rejected"]},
+                        "subject": S(), "rating": {"type": ["number", "null"]},
+                        "reason_code": {"enum": ["culture_breach", "off_voice", "wrong_goal",
+                                                   "too_generic", "factual_error", "unexplained", None]},
+                        "note": S()}},
 }
 
 ORGAN_TO_SCHEMA = {"state": "client_state_v1", "truth_pack": "client_truth_pack_v1",
@@ -76,9 +96,11 @@ ORGAN_TO_SCHEMA = {"state": "client_state_v1", "truth_pack": "client_truth_pack_
 
 def generate():
     for name, body in SCHEMAS.items():
+        body = dict(body)
+        additional = body.pop("_additional_ok", False)
         schema = {"$schema": "https://json-schema.org/draft/2020-12/schema",
                    "$id": f"{name}.schema.json", "title": name, "type": "object",
-                   "additionalProperties": False, **body}
+                   "additionalProperties": additional, **body}
         (OUT / f"{name}.schema.json").write_text(json.dumps(schema, indent=2, ensure_ascii=False))
         print(f"  ✓ 12_data_shapes/{name}.schema.json")
 

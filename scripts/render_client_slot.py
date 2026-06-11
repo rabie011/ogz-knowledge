@@ -72,17 +72,46 @@ def load_client(handle: str) -> dict:
             "en_led": (p("fingerprint")["l2_voice"].get("dialect") == "non_arabic")}
 
 
-def make_angle(c: dict, slot: dict, sector: str) -> dict:
+BRAIN_FILES = {"firaasa": "cd_01_firaasa_architect.md", "metaphor": "cd_02_metaphor_architect.md",
+                "authenticity": "cd_03_authenticity_detective.md", "heritage": "cd_04_heritage_decoder.md",
+                "paradox": "cd_05_paradox_hunter.md"}
+
+
+def route_brain(slot: dict, alt: int = 0) -> str:
+    """Deterministic CD-brain routing per slot type (Phase B, June 11 — Floward proved
+    the full methodologies beat the salvaged one-liners). alt flips the pair for variety."""
+    occ = slot.get("occasion") or ""
+    if occ in ("saudi_national_day", "saudi_founding_day"):
+        return "heritage"
+    if occ in ("ramadan", "eid_al_fitr", "eid_al_adha", "arab_mothers_day", "hajj_season"):
+        return ("firaasa", "authenticity")[alt % 2]
+    if slot.get("type") == "competitor_reference":
+        return "paradox"
+    return ("metaphor", "paradox")[alt % 2]
+
+
+def brain_method(brain: str) -> str:
+    f = BASE / "20_cd_brains" / BRAIN_FILES[brain]
+    return f.read_text()[:2800] if f.exists() else ""
+
+
+def make_angle(c: dict, slot: dict, sector: str, brain: str | None = None) -> dict:
     facts = json.loads((BASE / "data/occasion_facts.json").read_text())
     occ = slot.get("occasion", "")
     key = {"saudi_national_day": "saudi_national_day"}.get(occ, occ)
     lens = (facts.get(key, {}).get("sector_lenses") or {}).get(sector, {})
     products = [x["name"] for x in c["truth"]["product_candidates"]] + c["truth"]["recurring_caption_terms"][:5]
     channels = [x["name"] for x in c["truth"]["channels"] if x["name"] != "linktree"]
+    method = ""
+    if brain:
+        m = brain_method(brain)
+        if m:
+            method = f"\n\nYOUR METHODOLOGY (you are the {brain} CD brain — apply this method to find the angle):\n{m}\n"
     sys_p = ("You are a Saudi creative director generating ONE angle (idea), not a caption. "
              "An angle is a CONCRETE SCENE: WHO (specific person/role) + WHEN (specific beat) + WHAT (specific gesture) "
              "+ where the product sits naturally inside that exact moment. BANNED: brand-as-bridge/symbol/soul metaphors, "
              "abstract culture/heritage sentences, anything a TV voiceover could say. "
+             + method +
              'Return JSON: {"scene_ar": "...", "why_it_lands": "...", "post_type": "moment|announcement|offer|greeting"}')
     user = (f"البراند: {c['brand_ar']} (bio: {c['bio'][:150]})\n"
             f"المنتجات الحقيقية: {products[:8]}\nالقنوات: {channels or 'غير معروفة — لا تخترع قناة'}\n"
@@ -101,6 +130,8 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     bilingual = "Write EN hook + Arabic idea (bilingual, NOT translation)." if c["en_led"] else "Write Saudi Arabic only."
     sys_p = (f"You write Instagram captions for {c['brand_ar']}. ONE angle, given below — every caption is that angle. "
              "The caption LIVES INSIDE the scene: write from inside that exact moment (its person, its time, its gesture). "
+             "The PHOTO already shows the scene — so the caption NEVER narrates it (never 'الأم تضغط الزر، الجد يملأ الأطباق'). "
+             "Write what the person in that moment would SAY or feel — the voice FROM the scene, not a description OF it. "
              "The occasion appears only THROUGH the scene — the scene IS the celebration. "
              f"{bilingual} Short captions. Concrete and warm. Offers need what/how-much/where clarity. "
              f"Use ONLY these real facts — products: {products}, channels: {channels or 'NONE — never invent ordering channels'}. "
@@ -142,10 +173,26 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     corpus = (c.get("corpus_text") or "").lower()
     PROMO_AR = re.compile(r"(التوأم|كومبو|دبل|ميجا|تريبل)\s+\S+")
     LATIN_NAME = re.compile(r"\b([A-Za-z]+\.[A-Za-z]+|[A-Za-z]*\d+[A-Za-z]*|[A-Z]{3,})\b")
+    # truth guard 5 (June 11 — the hallucinated prince): NAMED PEOPLE die unless the
+    # client's corpus contains them. Inventing a person's presence is the worst truth
+    # violation possible («بحضور الأمير سعود بن عبدالله بن جلوي» — never happened).
+    PERSON_AR = re.compile(r"(الأمير|الأميرة|الشيخ|الشيخة|الدكتور(?:ة)?|معالي|سمو)\s+\S+(?:\s+بن\s+\S+)*")
 
     strip_punct = lambda s: re.sub(r"[^\wء-ي\s]", "", s).strip()  # «دبل القرمشة،» == «دبل القرمشة»
 
+    # person-event law (June 11, RABIE-accepted): real-person mentions live ONLY on
+    # documented-moment slots; fictional/evergreen scenes are PERSON-FREE. A corpus-real
+    # person in an invented scene = real prince, fabricated ribbon-cutting (the nuance
+    # under false-flag #2). Corpus-grounded mentions surviving here still get a
+    # REQUIRES-HUMAN-VERIFY line on the visual gate.
+    slot_is_documented = bool(slot.get("documented_moment"))
+
     def ungrounded(text: str) -> str | None:
+        for m in PERSON_AR.finditer(text):
+            if not slot_is_documented:
+                return m.group(0) + " (person in fictional scene)"
+            if strip_punct(m.group(0)).lower() not in corpus:
+                return m.group(0)
         for m in PROMO_AR.finditer(text):
             if strip_punct(m.group(0)).lower() not in corpus:
                 return m.group(0)
@@ -172,7 +219,21 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
             continue
         cleaned.append(o)
     surv, _ = filter_options({f"opt_{i}": o for i, o in enumerate(cleaned)})
-    return list(surv.values())[:3] if surv else cleaned[:3]
+    final = list(surv.values())[:3] if surv else cleaned[:3]
+    # CTA-density rule (June 11, RABIE-ruled): a feed that sells in every line reads like
+    # a flyer. Of the 3 options, at most ONE keeps an order-CTA tail — the rest stand on
+    # the scene. Deterministic: keep the first CTA, strip CTA sentences from the others.
+    CTA = re.compile(r"[^.!؟\n]*\b(اطلب(?:وا|ها|وه)?|حمّ?ل التطبيق|اطلبيها?)\b[^.!؟\n]*[.!؟]?")
+    kept_cta = False
+    out = []
+    for o in final:
+        if CTA.search(o):
+            if kept_cta:
+                stripped = CTA.sub("", o).strip(" -–—·,،\n")
+                o = stripped if len(stripped) > 15 else o  # never strip a caption to nothing
+            kept_cta = True
+        out.append(o)
+    return out
 
 
 def shot_card(c: dict, angle: dict) -> list[str]:
@@ -188,6 +249,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--handle", required=True)
     ap.add_argument("--date", required=True)
+    ap.add_argument("--brain", default=None, choices=list(BRAIN_FILES) + ["auto"],
+                    help="route the angle through a full CD-brain methodology (auto = slot-type routing)")
+    ap.add_argument("--suffix", default="", help="output filename suffix (e.g. __v2_brain)")
     a = ap.parse_args()
     gate = blackout_check()
     if not gate["publish_allowed"]:
@@ -197,11 +261,12 @@ def main():
     if not slot:
         sys.exit(f"no slot {a.date} in {a.handle} year map")
     c = load_client(a.handle)
-    angle = make_angle(c, slot, ymap["sector"])
+    brain = route_brain(slot) if a.brain == "auto" else a.brain
+    angle = make_angle(c, slot, ymap["sector"], brain=brain)
     captions = render_captions(c, slot, angle)
     chain = chain_for(slot.get("formula", "CF_01"), ymap["sector"], slot.get("occasion", "evergreen"))
     shots = shot_card(c, angle)
-    card = {"handle": a.handle, "date": a.date, "slot": slot,
+    card = {"handle": a.handle, "date": a.date, "slot": slot, "brain": brain,
             "idea": angle, "captions": captions,
             "visual": {"phone_shoot_card": shots,
                         "pro_chain": {"id": chain.get("chain_id_short"), "name_ar": chain.get("name_ar"),
@@ -214,7 +279,7 @@ def main():
                                               if (c["state"].get("silent_days") or 0) > 90 else "within_ttl")}}
     out = BASE / "clients" / a.handle / "posts"
     out.mkdir(exist_ok=True)
-    fn = out / f"{a.date}__{slot.get('occasion') or 'evergreen'}.json"
+    fn = out / f"{a.date}__{slot.get('occasion') or 'evergreen'}{a.suffix}.json"
     fn.write_text(json.dumps(card, ensure_ascii=False, indent=2))
     print(f"✓ {a.handle} {a.date} [{slot.get('occasion') or slot.get('angle_theme','')[:40]}]")
     print(f"  💡 {angle['scene_ar'][:110]}")

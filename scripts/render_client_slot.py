@@ -136,6 +136,7 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
              f"{bilingual} Short captions. Concrete and warm. Offers need what/how-much/where clarity. "
              f"Use ONLY these real facts — products: {products}, channels: {channels or 'NONE — never invent ordering channels'}. "
              "Speak only of what the reader can DO today with these real products and channels. "
+             "When the brand has a signature product NAME in its own words (recurring terms), USE it — never genericize it away. "
              "No invented hashtags. Return JSON: {\"options\": [\"...\", \"...\", \"...\"]}")
     few = []
     for ex in c["exemplars"][:3]:
@@ -159,7 +160,7 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     # Tabbouk's park for a yoga session" — no such event exists). Bans live in code.
     real_tags = set(c["truth"].get("real_hashtags", []))
     EVENT_CLAIM = re.compile(
-        r"(join us|تعالوا|انضم|سجلوا?|احجز مقعد|نلتقي|حضور|invite you)"
+        r"(join us|تعالوا|انضم|سجلوا?|احجز مقعد|نلتقي|حضور|invite you|تحدي|challenge)"
         r".{0,60}(session|event|class|workshop|gathering|جلسة|فعالية|ورشة|لقاء|تجمع)|"
         r"(session|class|جلسة|فعالية|ورشة)\s.{0,40}(في|at|@)\s", re.I)
     # truth guard 3: offer energy on emotional occasions = founder kill (code-level)
@@ -261,7 +262,7 @@ def main():
     if not slot:
         sys.exit(f"no slot {a.date} in {a.handle} year map")
     c = load_client(a.handle)
-    brain = route_brain(slot) if a.brain == "auto" else a.brain
+    brain = route_brain(slot, alt=int(a.date.replace("-", "")) ) if a.brain == "auto" else a.brain
     angle = make_angle(c, slot, ymap["sector"], brain=brain)
     captions = render_captions(c, slot, angle)
     chain = chain_for(slot.get("formula", "CF_01"), ymap["sector"], slot.get("occasion", "evergreen"))

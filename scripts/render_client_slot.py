@@ -89,7 +89,7 @@ def route_brain(slot: dict, alt: int = 0) -> str:
     the full methodologies beat the salvaged one-liners). alt flips the pair for variety."""
     occ = slot.get("occasion") or ""
     if occ in ("saudi_national_day", "saudi_founding_day"):
-        return "heritage"
+        return "heritage"  # NOTE: make_angle falls back to firaasa when no root material — guard below
     if occ in ("ramadan", "eid_al_fitr", "eid_al_adha", "arab_mothers_day", "hajj_season"):
         return ("firaasa", "authenticity")[alt % 2]
     if slot.get("type") == "competitor_reference":
@@ -109,6 +109,8 @@ def make_angle(c: dict, slot: dict, sector: str, brain: str | None = None) -> di
     lens = (facts.get(key, {}).get("sector_lenses") or {}).get(sector, {})
     products = [x["name"] for x in c["truth"]["product_candidates"]] + c["truth"]["recurring_caption_terms"][:5]
     channels = [x["name"] for x in c["truth"]["channels"] if x["name"] != "linktree"]
+    if brain == "heritage" and not any(ch in c["brand_ar"] for ch in "ءاأبتثجحخدذرزسشصضطظعغفقكلمنهوي"):
+        brain = "firaasa"  # heritage needs an Arabic root to work with (RABIE: jurisha national-day drift)
     method = ""
     if brain:
         m = brain_method(brain)
@@ -182,7 +184,8 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     EVENT_CLAIM = re.compile(
         r"(join us|تعالوا|انضم|سجلوا?|احجز مقعد|نلتقي|حضور|invite you|تحدي|challenge)"
         r".{0,60}(session|event|class|workshop|gathering|جلسة|فعالية|ورشة|لقاء|تجمع)|"
-        r"(session|class|جلسة|فعالية|ورشة)\s.{0,40}(في|at|@)\s", re.I)
+        r"(session|class|جلسة|فعالية|ورشة)\s.{0,40}(في|at|@)\s|"
+        r"(ابدأ|انضم|join)\s.{0,20}(التحدي|تحدي|challenge)", re.I)
     # truth guard 3: offer energy on emotional occasions = founder kill (code-level)
     EMOTIONAL = {"ramadan", "eid_al_fitr", "eid_al_adha", "saudi_national_day", "saudi_founding_day", "arab_mothers_day"}
     OFFER = re.compile(r"عرض|خصم|تخفيض|كود|discount|offer|% ?off|promo", re.I)

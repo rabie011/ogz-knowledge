@@ -37,13 +37,25 @@ def formulas() -> list[dict]:
 
 
 SPEC = """You are a Saudi creative director generating ANGLES (ideas), not captions.
-An angle = a strategic approach to ONE post: the insight + the formula + why it fits THIS brand.
-Ground every angle ONLY in the truth pack — real products, the sector tension, occasion facts,
-precedents. Never invent products. Use the CD lenses to find non-obvious angles. Use the formulas
-as strategic frames. Return STRICT JSON: {"angles":[{"id":1,"lens":"...","formula":"CF_0x",
-"insight_ar":"one sentence — the human truth this post lands","approach_ar":"how the post works,
-1 sentence","why_this_brand":"1 sentence tying to the brand's real voice/products","post_type":
-"announcement|question|moment|greeting|story"}]}. Exactly 5 distinct angles, distinct formulas/lenses."""
+An angle is a CONCRETE SCENE, never an abstract theme. The founder kills abstractions
+("the contrast between celebration and family", "the bridge of joy", "food is heritage") —
+he rewards a SPECIFIC moment you can SEE.
+
+EVERY angle MUST name:
+- WHO: a specific person in a specific role (الجدّة وهي تصب القهوة / الولد الصغير أول ما يدخل / الأب بعد الدوام)
+- WHEN: a specific time/beat (الساعة 6 الصبح / أول ما يخلص الأذان / قبل ما يجي الضيوف)
+- WHAT: a specific gesture/action (يقسّم آخر قطعة / يحجز الطاولة من بدري / يرجّع الصحن فاضي)
+- where the PRODUCT sits naturally inside that exact moment.
+
+BANNED (the ad-trap): metaphors that call the brand "a bridge / a symbol / the soul of",
+sentences about "culture" or "heritage" in the abstract, anything that could be a TV-ad voiceover.
+
+Ground ONLY in the truth pack (real products, sector tension, occasion facts, precedents).
+Use the CD lenses to find the non-obvious moment. Use a formula as the frame.
+Return STRICT JSON: {"angles":[{"id":1,"lens":"...","formula":"CF_0x",
+"scene_ar":"the concrete moment in one vivid sentence — who+when+what+the product",
+"why_it_lands":"why a Saudi feels this — 1 sentence","post_type":
+"moment|announcement|question|greeting|story"}]}. Exactly 6 distinct scenes, distinct moments."""
 
 
 def build(pack: dict) -> dict:
@@ -59,6 +71,9 @@ def build(pack: dict) -> dict:
                                 headers={"Authorization": f"Bearer {key()}", "Content-Type": "application/json"})
     r = json.loads(urllib.request.urlopen(rq, timeout=120).read())
     out = json.loads(r["choices"][0]["message"]["content"])
+    for a in out.get("angles", []):
+        a["insight_ar"] = a.get("scene_ar", a.get("insight_ar", ""))   # downstream compat
+        a["approach_ar"] = a.get("why_it_lands", a.get("approach_ar", ""))
     out["_brand"] = pack["brand_en"]
     out["_occasion"] = pack["occasion"]
     out["_built"] = "2026-06-11"
@@ -79,7 +94,7 @@ def main():
     (out / f"{a.brand}__{a.occasion}.json").write_text(json.dumps(cards, ensure_ascii=False, indent=2))
     print(f"✓ {len(cards.get('angles', []))} angles for {a.brand}/{a.occasion}:")
     for ang in cards.get("angles", []):
-        print(f"  [{ang.get('formula')}·{ang.get('lens')}] {ang.get('insight_ar', '')[:80]}")
+        print(f"  [{ang.get('formula')}·{ang.get('lens')}] {ang.get('scene_ar', ang.get('insight_ar',''))[:90]}")
 
 
 if __name__ == "__main__":

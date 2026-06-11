@@ -15,6 +15,12 @@ _CLICHES = [
     "يكمّل اللحظة", "يكمل اللحظة", "الشوق ل", "أكبر من أي", "ما يحتاج تعريف",
     "يقول اللي ما", "تقول اللي ما",
 ]
+# The metaphor ad-trap (June 11, founder): brand-as-symbol abstractions read as TV-ad
+# voiceover. "X جسر الفرح" / "رمز الأصالة" / "روح اللحظة".
+_AD_METAPHOR = [
+    "جسر الفرح", "جسر ", "رمز الأصالة", "رمز ", "روح اللحظة", "روح المكان",
+    "عنوان ", "نكهة الوطن", "طعم الانتماء", "لغة الحب",
+]
 
 
 def check(caption: str) -> tuple[bool, list[str]]:
@@ -32,6 +38,10 @@ def check(caption: str) -> tuple[bool, list[str]]:
     for c in _CLICHES:
         if c in cap:
             reasons.append(f"cliche:{c}")
+            break
+    for a in _AD_METAPHOR:
+        if a in cap:
+            reasons.append(f"ad_metaphor:{a.strip()}")
             break
     cult_ok, cult_hits = cultural_check(cap)
     if not cult_ok:

@@ -36,3 +36,6 @@ Each = idea (concrete scene) + 3 captions + phone shoot-card + pro chain ref. Br
 1. Rate 5 cards (any 5 from `clients/*/posts/`) — your eyes are the only judge.
 2. RABIE's night ratings to approve/reverse: year-map machine 4/5 · smoke 3/5 · pilot 5/5.
 3. Standing queue: Khwila presentation · FLANK-01 ruling (AI image of real product) · FLANK-03 pricing.
+
+## MAJORS LAW (June 12, RABIE-ruled, provisional)
+Major-occasion posts are NEVER single-shot: render 3, a HUMAN picks (you or the client) — per-render variance beats any gold anchor on occasion slots. Evergreen graduated to the armored pipeline; majors graduate only through human pick-of-3.

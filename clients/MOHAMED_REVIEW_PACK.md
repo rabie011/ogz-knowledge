@@ -26,6 +26,12 @@ Each = idea (concrete scene) + 3 captions + phone shoot-card + pro chain ref. Br
 3. Offers-on-emotional kill — عرض leaked onto national day → code kill.
 4. ~~KNOWN LIMIT: invented product naming («التوأم كرسبي x2»)~~ **REVERSED + CLOSED (same night):** التوأم is a REAL albaik product — 7 of his own captions say it. Claude flagged it without grepping the corpus (verify-before-claiming broken, owned). The noun-grounding guard got built anyway — it correctly kills the real class (mangled names like «Liaqti.tu», ungrounded promo constructions) and is punctuation-safe. The system audited its auditor.
 
+## OVERNIGHT SHIFTS (after you went quiet — 5-min heartbeat ran us)
+- **30/33 organs → 33/33 validate** — 9 schemas now enforce every organ; `fingerprint_status.py` prints the truth: **nobody is production-ready, including albaik (514k followers: IDENTITY red, RED LINES red, GOALS 0/5)** — red rows only a client can clear.
+- **سويلي زي ذا works**: herfy's real caption forwarded to albaik → same idea-class, zero copying, 2 code fences fired live (`clients/albaik/posts/2026-06-11__like_herfyfsc.json`). competitor_set organ live for all 3.
+- **التوأم reversal** (§4 above): my false flag, corrected in full view; EVIDENCE RULE now permanent.
+- RABIE shift ratings: #18 = 5/5 · #20 = 5/5 (all provisional, log: ~/agents/rabie/sessions/2026-06-11.jsonl).
+
 ## YOUR 60-SECOND GATE
 1. Rate 5 cards (any 5 from `clients/*/posts/`) — your eyes are the only judge.
 2. RABIE's night ratings to approve/reverse: year-map machine 4/5 · smoke 3/5 · pilot 5/5.

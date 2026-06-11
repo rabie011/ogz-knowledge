@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "client_competitor_set_v1.schema.json",
+  "title": "client_competitor_set_v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "client_given",
+    "proposed_from_corpus",
+    "note",
+    "requests_log"
+  ],
+  "properties": {
+    "client_given": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "proposed_from_corpus": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "note": {
+      "type": "string"
+    },
+    "requests_log": {
+      "type": "string"
+    }
+  }
+}

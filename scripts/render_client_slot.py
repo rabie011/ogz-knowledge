@@ -243,13 +243,15 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     CTA = re.compile(r"[^.!؟\n]*\b(اطلب(?:وا|ها|وه)?|حمّ?ل التطبيق|اطلبيها?)\b[^.!؟\n]*[.!؟]?")
     kept_cta = False
     out = []
+    import re as _re
+    dedupe = lambda s: _re.sub(r"\b(\S+)\s+\1\b", r"\1", s)  # «جاهز جاهز» collision
     for o in final:
         if CTA.search(o):
             if kept_cta:
                 stripped = CTA.sub("", o).strip(" -–—·,،\n")
                 o = stripped if len(stripped) > 15 else o  # never strip a caption to nothing
             kept_cta = True
-        out.append(o)
+        out.append(dedupe(o))
     return out
 
 

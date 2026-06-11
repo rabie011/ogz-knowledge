@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+# ⚠️ DEPRECATED-JUDGE 2026-06-11: this rewards the V3 technique taste the founder
+# rejected (audit: old judge buried clean options 240/240). Superseded by: the /api/cross/stats scoreboard.
+import sys as _s
+if "--legacy" not in _s.argv:
+    _s.exit("DEPRECATED: old-judge era. Use the /api/cross/stats scoreboard. (--legacy to override)")
+
 """
 cd_model_compare.py — Rigorous mini vs gpt-4o comparison for CD-brain generation.
 

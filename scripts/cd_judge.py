@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+# ⚠️ DEPRECATED-JUDGE 2026-06-11: this rewards the V3 technique taste the founder
+# rejected (audit: old judge buried clean options 240/240). Superseded by: scorer_v2.py.
+import sys as _s
+if "--legacy" not in _s.argv:
+    _s.exit("DEPRECATED: old-judge era. Use scorer_v2.py. (--legacy to override)")
+
 """
 cd_judge.py — Judge a caption against its CD brain's methodology.
 

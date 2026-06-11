@@ -1094,11 +1094,90 @@ class CreateRequest(BaseModel):
     occasion: str = 'evergreen'
     language: str = 'arabic'  # 'arabic' | 'english'
 
-@app.post("/api/create")
-def create_content(req: CreateRequest):
-    """Unified content creation pipeline. Uses brain + templates + quality gate."""
+
+def _try_create_v6(req) -> dict | None:
+    """The de-poisoned generation path (doctrine). None => caller falls back to legacy."""
     import sys
     sys.path.insert(0, str(REPO / "scripts"))
+    try:
+        from v5_prompt import build_messages_v5
+        from caption_filter import filter_options
+        from scorer_v2 import pick_best, score_v2
+        from humain_collector import parse_response, OCCASION_AR, MAX_CHARS
+    except Exception:
+        return None
+    if req.language != "arabic":
+        return None
+    briefs = json.loads((REPO / "data" / "brief_matrix.json").read_text())
+    brief = next((b for b in briefs if b["brand"] == req.brand or b.get("brand_en") == req.brand), None)
+    if brief is None:
+        return None
+    brief = dict(brief)
+    if req.occasion:
+        brief["occasion"] = req.occasion
+    if req.product:
+        brief["product"] = req.product
+    occ_ar = OCCASION_AR.get(brief.get("occasion", ""), brief.get("occasion", ""))
+    msgs = build_messages_v5(brief, occ_ar, MAX_CHARS.get(brief.get("sector", ""), 160))
+    if not msgs:
+        return None  # no DNA -> legacy
+    api_key = get_openai_key()
+    if not api_key:
+        return None
+    import urllib.request as _ur
+    body = {"model": "gpt-4o", "temperature": 0.9, "max_tokens": 800,
+            "messages": msgs}
+    rq = _ur.Request("https://api.openai.com/v1/chat/completions",
+                     data=json.dumps(body).encode(),
+                     headers={"Authorization": f"Bearer {api_key}",
+                              "Content-Type": "application/json"})
+    try:
+        raw = json.loads(_ur.urlopen(rq, timeout=60).read())["choices"][0]["message"]["content"]
+    except Exception:
+        return None
+    parsed = parse_response(raw)
+    survivors, dropped = filter_options(parsed.get("options", {}))
+    if not survivors:
+        return None
+    best, scores = pick_best(survivors, brief.get("brand_en", ""), brief.get("brand", ""))
+    best_score = max(scores.values()) if scores else 50
+    return {
+        "brand": req.brand,
+        "product": req.product,
+        "occasion": brief.get("occasion"),
+        "content": {
+            "caption": best,
+            "hashtags": [w for w in (best or "").split() if w.startswith("#")],
+            "options": survivors,
+        },
+        "quality": {
+            "score": best_score,
+            "confidence": "high" if best_score >= 80 else "medium" if best_score >= 60 else "low",
+            "template_tier": "dna_v3_feed",
+            "fixes_applied": [],
+            "passed": best_score >= 60,
+            "filter_dropped": list(dropped.keys()),
+        },
+        "creative_director": {"primary": "cd_06_feed_cloner", "technique": "feed", "scores": scores},
+        "visual_chain": None,
+        "proof": {"generation": "v6", "judge": "scorer_v2", "few_shot": "dna_v3+gold"},
+        "context_tokens": 0,
+    }
+
+
+@app.post("/api/create")
+def create_content(req: CreateRequest):
+    """Unified content creation pipeline.
+    JUNE 11: v6 FAST PATH first — DNA-covered Arabic brands get the de-poisoned
+    mind (feed few-shot + occasion facts + GOLD + code filter + DNA judge).
+    Legacy V3 path remains ONLY as fallback for brands without DNA."""
+    import sys
+    sys.path.insert(0, str(REPO / "scripts"))
+
+    v6 = _try_create_v6(req)
+    if v6 is not None:
+        return v6
+
     from lib.quality_gate import check, auto_fix, log_mistake, get_recent_mistakes
     from lib.chain_router import get_visual_direction
     from build_agent_context import build_context

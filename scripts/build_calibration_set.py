@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+# ⚠️ DEPRECATED-JUDGE 2026-06-11: this rewards the V3 technique taste the founder
+# rejected (audit: old judge buried clean options 240/240). Superseded by: founder ratings (logs/cross_preferences.json) + scorer_v2.
+import sys as _s
+if "--legacy" not in _s.argv:
+    _s.exit("DEPRECATED: old-judge era. Use founder ratings (logs/cross_preferences.json) + scorer_v2. (--legacy to override)")
+
 """
 build_calibration_set.py — Generate captions + judge them, prep for human review.
 

@@ -1200,7 +1200,8 @@ def api_angles(req: AnglesRequest):
 @app.get("/rate20")
 def rate20_page():
     from fastapi.responses import FileResponse
-    return FileResponse(REPO / "api" / "static" / "rate20.html")
+    return FileResponse(REPO / "api" / "static" / "rate20.html",
+                        headers={"Cache-Control": "no-cache, no-store, must-revalidate"})
 
 
 @app.get("/api/rate20/items")
@@ -1981,7 +1982,8 @@ def _brief_key(item: dict) -> str:
 @app.get("/cross-compare")
 def cross_compare_page():
     from fastapi.responses import FileResponse
-    return FileResponse(REPO / "api" / "static" / "cross_compare.html")
+    return FileResponse(REPO / "api" / "static" / "cross_compare.html",
+                        headers={"Cache-Control": "no-cache, no-store, must-revalidate"})
 
 
 @app.get("/api/cross/stats")

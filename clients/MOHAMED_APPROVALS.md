@@ -47,12 +47,12 @@ YOUR TAP: Pin the three numbers (or say adjust).
 (backlog B148 · Flanks · ~15 min · after B147 ✓done)
 
 ### A-22 Approve Khwila presentation + follow-up pack
-PREPARED (partial, verified): presentation exists at `clients/eatjurisha/KHWILA_PRESENTATION.md`. TO-PREP: red-lines pre-flight + fact re-verify (B188) and the follow-up pack with A/B/C voice card + questions + gift line (B189) are NOT done yet — claim was ahead of reality.
+PREPARED (verified 2026-06-12, B188 ✓ + B189 ✓): presentation `clients/eatjurisha/KHWILA_PRESENTATION.md` + pre-flight `clients/eatjurisha/PREFLIGHT_REPORT.md` (every cited fact re-checked against raw/instagram/2026-06-11 — 7 facts fully traceable, homework law passes; intake 1 day old, re-verify if send slips past **2026-07-11**) + follow-up pack `clients/eatjurisha/followup_pack.md` (voice pick + 5 questions each mapped to organ + event with ready capture commands, + first-week plan). **Pre-flight verdict: FIX-FIRST** — 1 blocking fix: presentation's voice-C lines drifted from `voice_birth_week.json`'s regenerated text (truth error IS gone in both; words differ) — sync byte-identical before her pick can land verbatim; recommended direction: organ adopts the presentation's lines (also kills the #رز_كابلي mis-tag). 2 should-fixes («فردي» unevidenced → fold into truth-confirm; hashtag policy) listed in the report.
 YOUR TAP: One yes signs the presentation; the pack follows the pre-flight.
-(backlog B191 · Spine · ~10 min · after B188,B189)
+(backlog B191 · Spine · ~10 min · after B188 ✓,B189 ✓)
 
 ### A-23 Send the Khwila pack
-TO-PREP: claimed «ready in clients/eatjurisha/presentations/» — that folder does not exist; the presentation lives at `clients/eatjurisha/KHWILA_PRESENTATION.md`. presentation_sent event template not staged. Blocked behind A-22's pre-flight.
+PREPARED (partial, verified 2026-06-12): pre-flight done (B188 ✓ — verdict **FIX-FIRST**, `clients/eatjurisha/PREFLIGHT_REPORT.md`) + follow-up pack staged (B189 ✓ — `clients/eatjurisha/followup_pack.md`, answer-capture commands inside cover most of B190). The presentation lives at `clients/eatjurisha/KHWILA_PRESENTATION.md` (no presentations/ folder — old claim corrected). TO-PREP: close FIX-1 (voice-C sync) + A-22's yes; send-morning re-check per report §4 (followers/likes/bio + whether she posted — one new post breaks «صامت من 20 أبريل»).
 YOUR TAP: You send via your channel — the ledger logs itself.
 (backlog B192 · Spine · ~5 min · after B191)
 

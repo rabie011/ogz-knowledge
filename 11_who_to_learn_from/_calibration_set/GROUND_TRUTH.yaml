@@ -49,3 +49,8 @@ items:
     source: "@riyadhfood first image"
     expected_compliance: clean
     expected_hard_blocks: []
+# ⚠️ 2026-06-11 (P4): item_02 STILL PENDING — the negative-control compliance test
+# (left-hand serving) has its image on disk but was never extracted/graded, 3 weeks open.
+# This is the ONLY proof the compliance moat detects violations. FOLLOW-UP: extract
+# item_02 via the vision pipeline, fill expected_compliance: violation + the specific
+# rule, run test_extraction_accuracy.py. Flagged to Mohamed — not run blind at session end.

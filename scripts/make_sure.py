@@ -23,9 +23,18 @@ def main():
     prev = json.loads(STATE.read_text()) if STATE.exists() else {}
     checks = {}
 
+    def _covered_check():
+        import glob as _gg
+        def _cov(h):
+            dates = {f.split("/")[-1].split("__")[0] for f in _gg.glob(str(BASE / f"clients/{h}/posts/*.json"))}
+            return len(dates) >= 365
+        return all(_cov(h) for h in ("eatjurisha", "albaik"))
+
     # 1. grinder alive (process) AND producing (card delta since last run)
     p = subprocess.run(["pgrep", "-f", "render_slots_batch"], capture_output=True)
-    checks["grinder_process"] = p.returncode == 0
+    # zero-LLM mode (June 12, both keys dry): a retired grinder whose mission completed
+    # (365/365) is not a dead process — done!=dead applies to the process check too
+    checks["grinder_process"] = p.returncode == 0 or _covered_check()
     cards = count_cards()
     checks["cards_total"] = cards
     checks["cards_delta"] = cards - prev.get("cards_total", cards)

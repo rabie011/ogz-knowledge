@@ -177,7 +177,15 @@ def make_angle(c: dict, slot: dict, sector: str, brain: str | None = None) -> di
             + ("NOTE: this brand speaks English-first — the scene may be EN-hook + AR-idea bilingual.\n" if c["en_led"] else "")
             + f"سياق الحياة لهذا اليوم — المشهد يعيش داخله (مو شرط عائلة!): {life_context(c['handle'], slot['date'])}\n"
             + f"التاريخ الفعلي للنشر: {slot['date']}")
-    return json.loads(gpt([{"role": "system", "content": sys_p}, {"role": "user", "content": user}], temp=0.8, max_tok=400))
+    # quota-resilience (June 12, the day OpenAI ran dry mid-regen): the angle falls
+    # back to the Anthropic pen — degraded single-pen mode beats a dead pipeline
+    try:
+        return json.loads(gpt([{"role": "system", "content": sys_p}, {"role": "user", "content": user}], temp=0.8, max_tok=400))
+    except Exception as _e:
+        print(f"  gpt angle failed ({str(_e)[:40]}) — sonnet fallback", file=sys.stderr)
+        raw = sonnet(sys_p, [{"role": "user", "content": user + "\n\nأجب بكائن JSON فقط، بدون أي نص خارجه."}], max_tok=500)
+        i, j = raw.find("{"), raw.rfind("}")
+        return json.loads(raw[i:j + 1])
 
 
 CTA_PUSH_TYPES = {"weekly_offer", "white_friday", "11_11_shopping", "singles_day_11_11"}

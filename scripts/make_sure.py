@@ -85,7 +85,7 @@ def main():
 
     # 6a. FEEDBACK LOOP DRIVE (June 12): consume answers → issues/corrections, recompute
     # scorecards/bench, auto-close + inject budgeted meta-cards — every heartbeat
-    for step in ("feedback_router.py", "scorecards.py", "feedback_cards.py"):
+    for step in ("feedback_router.py", "gold_mint.py", "scorecards.py", "feedback_cards.py"):
         subprocess.run(["python3", str(BASE / "scripts" / step)], capture_output=True, timeout=120)
 
     # 6b-pre. LAW REGISTRY: every 'enforced' claim verified (symbol exists + test passes);

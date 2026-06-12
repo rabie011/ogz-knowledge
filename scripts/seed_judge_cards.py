@@ -94,7 +94,7 @@ def build_card(handle: str, d: dict, fname: str) -> dict:
         "did": f"The {d['brain']} mind wrote it for this slot ({fname}).",
         # THE FULL POST — what he judges (structured, never truncated)
         "post_occasion": occ_line,
-        "post_idea": scene[:600],
+        "post_idea": f"[{handle}] " + scene[:580],   # his 01:12 note: say the client name
         "post_visual": shots[:4],
         "post_reasoning": (f"Slot angle: {angle[:200]}" if angle else "")
                           + (" · no AI photo: keys are dry — the visual is the phone-shoot plan"

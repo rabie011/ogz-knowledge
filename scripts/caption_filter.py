@@ -73,6 +73,9 @@ _CULTURAL_TERMS = {
     "قمار": "gambling", "رهان": "gambling",
     "تدخين": "smoking_family_context", "سيجارة": "smoking_family_context",
     "عُري": "immodest", "عاري": "immodest",
+    # Mohamed 2026-06-13 01:23 (verbatim): «we can't use the word سدر it means
+    # boobs on the culture s…» — vulgar double-meaning in dialect, hard ban
+    "سدر": "vulgar_double_meaning_mohamed_ruling",
 }
 
 

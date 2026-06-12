@@ -1125,7 +1125,10 @@ def _try_create_v6(req) -> dict | None:
         _okey = {"national_day": "saudi_national_day"}.get(brief.get("occasion", ""), brief.get("occasion", ""))
         _lens = (_facts.get(_okey, {}).get("sector_lenses") or {}).get(brief.get("sector", ""))
         if _lens and _lens.get("moments"):
-            brief["lens_moments"] = _lens["moments"][:3]
+            # ARMOR PORT step 5: date-hashed rotation — static [:3] fed every call
+            # the same scene (template farm at scale)
+            from gen_fatigue import rotate_moments as _rot
+            brief["lens_moments"] = _rot(req.brand, _lens["moments"])
             brief["lens_product_role"] = _lens.get("product_role", "")
     except Exception:
         pass
@@ -1135,6 +1138,17 @@ def _try_create_v6(req) -> dict | None:
         try:
             msgs[-1]["content"] += ("\n\nلحظات حقيقية لهذه المناسبة في هذا القطاع (المشهد يعيش داخل واحدة منها): "
                                       + " · ".join(brief["lens_moments"]))
+        except Exception:
+            pass
+    # ARMOR PORT step 4b: G9-lite catchphrase fatigue — worn 3-grams from this
+    # brand's recent generations banned in the prompt (renderer parity)
+    if msgs:
+        try:
+            from gen_fatigue import worn_grams as _wg
+            _worn = _wg(req.brand)
+            if _worn:
+                msgs[-1]["content"] += ("\n\nعبارات مستهلكة هذا الشهر — ممنوع تكرارها، قلها بطريقة أخرى: "
+                                          + " · ".join(_worn))
         except Exception:
             pass
     if not msgs:
@@ -1171,6 +1185,12 @@ def _try_create_v6(req) -> dict | None:
         pass
     best, scores = pick_best(survivors, brief.get("brand_en", ""), brief.get("brand", ""))
     best_score = max(scores.values()) if scores else 50
+    # ARMOR PORT step 4a: the generation log is the fatigue armor's memory
+    try:
+        from gen_fatigue import append_generation as _ag
+        _ag(req.brand, brief.get("occasion") or "", list(survivors.values()), gen="v6")
+    except Exception:
+        pass
     return {
         "brand": req.brand,
         "product": req.product,

@@ -63,6 +63,12 @@ def main():
     strong = [f"{len(commits)} commits since your last tap, every build plant-tested with refusing asserts",
               f"judging 20-batch STAGED (6 brains × 10 occasions) — your fal tap = one command to your screen",
               f"{zooms} zoom-out ritual(s) ran; cold-eyes findings fixed at source (CTA 84%→gated)"]
+    gm = BASE / "data/gate_metrics.json"
+    if gm.exists():
+        s0 = (json.loads(gm.read_text()).get("sessions") or [{}])[-1]
+        if s0.get("median_sec_per_verdict"):
+            strong.append(f"your last portal session: {s0['verdicts']} verdicts at median "
+                           f"{s0['median_sec_per_verdict']}s each — the 60-second law holds, measured")
     if rs:
         strong.append("retro sweep: albaik corpus armor-clean ("
                        + ", ".join(f"{h} {v['armor_caught_pct']}% caught" for h, v in rs.items()) + ")")

@@ -308,6 +308,10 @@ def main():
     gate = blackout_check()
     if not gate["publish_allowed"]:
         sys.exit(f"BLACKOUT — rendering parked: {gate['hard_block']['reason']}")
+    # B002 (Growth Law tooth): push-energy slots need a declared capacity ceiling —
+    # a viral offer could break a 2-woman kitchen. Block PUSH types, allow the rest.
+    _goals = json.loads((BASE / "clients" / a.handle / "profile/goals.json").read_text())
+    _slot_probe = None  # resolved after slot lookup below
     ymap = json.loads((BASE / "clients" / a.handle / "year_map.json").read_text())
     slot = next((s for mm in ymap["months"].values() for s in mm if s["date"] == a.date), None)
     if not slot:

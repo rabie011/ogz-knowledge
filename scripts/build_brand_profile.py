@@ -14,7 +14,7 @@ import argparse, collections, datetime, json, re, sys
 from pathlib import Path
 
 BASE = Path(__file__).parent.parent
-TODAY = datetime.date(2026, 6, 11)
+TODAY = datetime.date.today()
 
 KNOWN_CHANNELS = {"jahez": "جاهز", "hungerstation": "هنقرستيشن", "toyou": "تويو", "mrsool": "مرسول",
                   "keeta": "كيتا", "linktr.ee": "linktree", "wa.me": "whatsapp", "whatsapp": "whatsapp",

@@ -353,7 +353,7 @@ def main():
             "visual": {"phone_shoot_card": shots,
                         "pro_chain": {"id": chain.get("chain_id_short"), "name_ar": chain.get("name_ar"),
                                        "family": chain.get("family")} if chain else None},
-            "provenance": {"source": "client_profile_path", "rendered": "2026-06-11",
+            "provenance": {"source": "client_profile_path", "rendered": __import__("datetime").date.today().isoformat(),
                             "confirmer": "pending", "stamp": "PROVISIONAL — pending Mohamed",
                             # freshness law (RABIE-ruled): deep-dormant truth is expired —
                             # these are voice-revival drafts, unpublishable until client confirms

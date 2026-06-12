@@ -73,7 +73,7 @@ def main():
         batch += pick
     batch = batch[:BATCH]
     mf = BASE / "data/judging_batch.json"
-    mf.write_text(json.dumps({"built": "2026-06-12", "status": "STAGED — awaiting fal key",
+    mf.write_text(json.dumps({"built": __import__("datetime").date.today().isoformat(), "status": "STAGED — awaiting fal key",
                                 "fire_command": "python3 scripts/render_image.py --batch /tmp/judging_batch_paths.txt",
                                 "cards": batch}, ensure_ascii=False, indent=1))
     paths = "\n".join(str(BASE / c["path"]) for c in batch)

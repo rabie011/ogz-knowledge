@@ -76,7 +76,7 @@ def build(brand_en: str, brand_ar: str, sector: str, occasion: str) -> dict:
                             "family_centrality": facts.get("family_centrality", "")},
         "sector_tensions": sector_tensions(sector),
         "precedents": precedents(sector, occasion),
-        "_built": "2026-06-11", "_source": "DNA v3 + real hashtags + occasion_facts + strategy_frameworks + campaign_archive",
+        "_built": __import__("datetime").date.today().isoformat(), "_source": "DNA v3 + real hashtags + occasion_facts + strategy_frameworks + campaign_archive",
     }
 
 

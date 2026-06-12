@@ -42,7 +42,7 @@ def replay(handle: str) -> dict:
     proposal = None
     if trust["level"] == "L0" and counter >= trust["ladder"]["L1"]["unlock_at"]:
         proposal = "L1"
-    trust["history"].append({"replayed": "2026-06-12", "counter": counter,
+    trust["history"].append({"replayed": __import__("datetime").date.today().isoformat(), "counter": counter,
                                "demotions": demotions, "resets": resets,
                                "proposal": proposal})
     tf.write_text(json.dumps(trust, ensure_ascii=False, indent=2))

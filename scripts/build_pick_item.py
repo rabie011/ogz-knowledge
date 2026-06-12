@@ -53,7 +53,7 @@ def build(handle: str, slot: str, title: str, meaning: str) -> dict:
     return {"id": f"pick_{handle}", "kind": "post_pick", "cat": "اختيارات",
             "tag": "اختيارك = ذهب المناسبات", "title": title,
             "meaning": meaning, "priority": "normal", "status": "open",
-            "created": "2026-06-12", "brand_context": brand_context(handle),
+            "created": __import__("datetime").date.today().isoformat(), "brand_context": brand_context(handle),
             "options": opts}
 
 

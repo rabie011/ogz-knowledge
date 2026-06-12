@@ -35,7 +35,7 @@ def main():
     ledger = lf.read_text() if lf.exists() else ""
     slot_key = f"rejection:{a.date}"
     if slot_key in ledger:
-        ev = {"ts": "2026-06-12", "type": "client_rejected", "subject": f"{slot_key}:SECOND",
+        ev = {"ts": __import__("datetime").date.today().isoformat(), "type": "client_rejected", "subject": f"{slot_key}:SECOND",
                "reason_code": a.reason, "note": "2nd rejection — STOPPED, human call required",
                "confirmer": "process_rejection", "stamp": "ESCALATED — no further automation"}
         with open(lf, "a") as f:
@@ -54,7 +54,7 @@ def main():
     new_brain = next(b for b in BRAIN_DOORS if b != rejected_brain)
 
     # log the rejection FIRST (memory law), then regen once
-    ev = {"ts": "2026-06-12", "type": "client_rejected", "subject": slot_key,
+    ev = {"ts": __import__("datetime").date.today().isoformat(), "type": "client_rejected", "subject": slot_key,
            "reason_code": a.reason, "note": a.note[:200],
            "confirmer": "pending", "stamp": "rejection logged before recovery"}
     with open(lf, "a") as f:

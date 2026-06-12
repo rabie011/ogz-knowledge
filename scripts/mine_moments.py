@@ -67,7 +67,7 @@ def main():
             seen.add(ev[:50])
             bank["moments"].append({"occasion": m.get("theme", "evergreen")[:40], "evidence": ev,
                                       "provenance": {"source": f"mined:{m.get('source_quote','')[:60]}",
-                                                      "date_added": "2026-06-12", "confirmer": "pending_client",
+                                                      "date_added": __import__("datetime").date.today().isoformat(), "confirmer": "pending_client",
                                                       "confidence": "inferred", "scope": "brand"}})
             added += 1
         mf.write_text(json.dumps(bank, ensure_ascii=False, indent=2))  # checkpoint

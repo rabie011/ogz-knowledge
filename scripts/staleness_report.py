@@ -18,7 +18,7 @@ import argparse, datetime, json, sys
 from pathlib import Path
 
 BASE = Path(__file__).parent.parent
-TODAY = datetime.date(2026, 6, 12)
+TODAY = datetime.date.today()
 
 TTL_DAYS = {"prices": 7, "products": 30, "channels": 60, "bio": 90, "voice_stats": 180}
 

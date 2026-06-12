@@ -31,7 +31,7 @@ def audit(handle: str) -> dict:
             stats["picksets"] += 1
         if not c.get("captions"):
             stats["no_captions"] += 1
-            if str((c.get("provenance") or {}).get("rendered", "")) >= "2026-06-12":
+            if str((c.get("provenance") or {}).get("rendered", "")) >= __import__("datetime").date.today().isoformat():
                 stats["fresh_captionless"] = stats.get("fresh_captionless", 0) + 1
         if c.get("order_tail"):
             stats["order_tail"] += 1

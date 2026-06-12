@@ -40,7 +40,7 @@ def build_rival_corpus(handle: str) -> dict:
     out = BASE / "clients" / handle / "derived/rival_corpus.json"
     out.parent.mkdir(exist_ok=True)
     out.write_text(json.dumps({"rivals": {k: len(v) for k, v in corpus.items()},
-                                 "pulled": "2026-06-12"}, ensure_ascii=False, indent=1))
+                                 "pulled": __import__("datetime").date.today().isoformat()}, ensure_ascii=False, indent=1))
     return corpus
 
 

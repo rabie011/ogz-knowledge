@@ -17,7 +17,7 @@ BASE = Path(__file__).parent.parent
 sys.path.insert(0, str(Path(__file__).parent))
 from render_client_slot import load_client, render_captions, shot_card, gpt
 
-TODAY = "2026-06-11"
+TODAY = __import__("datetime").date.today().isoformat()
 
 
 def shingles(text: str, n=4) -> set:

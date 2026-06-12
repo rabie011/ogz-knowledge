@@ -207,6 +207,13 @@ def main():
     il.close(iid, closed_by="mohamed_tap")
     check("full lifecycle: open→fix→verified→closed", il.current_state(iid) == "closed")
 
+    print("\n── 6b. CLI PATH SMOKE (the argparse-collision scar: silent no-op exit 0) ──")
+    r = subprocess.run([sys.executable, str(REPO / "scripts/issue_log.py"), "open",
+                        "--player", "claude", "--quote", "cli smoke test", "--source", "telegram"],
+                       capture_output=True, text=True, env={**os.environ})
+    check("issue_log CLI actually writes (not a silent no-op)",
+          r.returncode == 0 and "iss_" in r.stdout, r.stdout[:60] + r.stderr[:60])
+
     print("\n── 7. RECURRENCE + ESCALATION ──")
     e = il.open_issue("claude", "النبرة غلط مرة ثانية", reason_code="unspecified",
                       source="portal", source_answer={"ts": iso(datetime.now()), "item_id": "fbcard1"})

@@ -176,7 +176,7 @@ def void(issue_id: str, reversal_ref: str, by: str = "feedback_router") -> dict:
 
 def main():
     ap = argparse.ArgumentParser()
-    sub = ap.add_subparsers(dest="cmd", required=True)
+    sub = ap.add_subparsers(dest="op", required=True)
     o = sub.add_parser("open")
     o.add_argument("--player", required=True)
     o.add_argument("--quote", required=True, help="Mohamed's VERBATIM words")
@@ -199,18 +199,18 @@ def main():
                    choices=["mohamed_tap", "auto_verify_timeout", "target_retired"])
     a = ap.parse_args()
     try:
-        if a.cmd == "open":
+        if a.op == "open":
             e = open_issue(a.player, a.quote, a.reason_code, target=a.target,
                            target_path=a.target_path, severity=a.severity,
                            source=a.source, by="telegram" if a.source == "telegram" else "claude")
             print(f"📌 {e['issue_id']} {e['event']}")
-        elif a.cmd == "fix":
+        elif a.op == "fix":
             e = fix_claimed(a.issue, a.commit, a.desc, files=a.files)
             print(f"🔧 {a.issue} fix_claimed @ {a.commit[:9]}")
-        elif a.cmd == "verify":
+        elif a.op == "verify":
             e = verified(a.issue, a.cmd)
             print(f"✅ {a.issue} verified (حسب السكربت)")
-        elif a.cmd == "close":
+        elif a.op == "close":
             e = close(a.issue, a.closed_by)
             print(f"🔒 {a.issue} closed by {a.closed_by}")
     except ValueError as err:

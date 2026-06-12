@@ -68,7 +68,8 @@ def main():
         rl.setdefault("proposed_lines", []).append({
             "line": (a.note or f"culture breach on {a.date} — needs naming")[:160],
             "source": f"culture_breach:{a.date}", "status": "PROPOSED — client/Mohamed activates"})
-        rlf.write_text(json.dumps(rl, ensure_ascii=False, indent=2))
+        from organ_write import write_organ
+        write_organ(rlf, rl)
         print(f"  📕 red-line candidate proposed from the breach")
 
     constraint = REASON_CONSTRAINTS[a.reason] + (f" ملاحظة الرافض حرفياً: {a.note}" if a.note else "")

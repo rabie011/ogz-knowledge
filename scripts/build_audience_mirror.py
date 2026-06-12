@@ -55,7 +55,8 @@ def build(handle: str):
     mirror.setdefault("note", f"machine-built {days[-1].name} from {len(comments)} comments")
     if not comments:
         mirror["machine_note"] = "no comments in latest extraction — mirror is blind, ask the client"
-        mf.write_text(json.dumps(mirror, ensure_ascii=False, indent=2))
+        from organ_write import write_organ
+        write_organ(mf, mirror)
         print(f"  ⚠ {handle}: 0 comments — blind mirror noted")
         return
     tally = llm_tally(comments)
@@ -70,7 +71,8 @@ def build(handle: str):
     for k, v in before_curated.items():
         if v is not None:
             assert mirror[k] == v, f"CURATED KEY '{k}' CHANGED — refusing to write"
-    mf.write_text(json.dumps(mirror, ensure_ascii=False, indent=2))
+    from organ_write import write_organ
+    write_organ(mf, mirror)
     print(f"  ✓ {handle}: {len(mirror['theme_tally'])} themes tallied from {len(comments)} comments{thin}")
 
 

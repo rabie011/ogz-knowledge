@@ -45,7 +45,8 @@ def replay(handle: str) -> dict:
     trust["history"].append({"replayed": __import__("datetime").date.today().isoformat(), "counter": counter,
                                "demotions": demotions, "resets": resets,
                                "proposal": proposal})
-    tf.write_text(json.dumps(trust, ensure_ascii=False, indent=2))
+    from organ_write import write_organ
+    write_organ(tf, trust)
     return {"handle": handle, "level": trust["level"], "counter": counter,
             "unlock_at": trust["ladder"]["L1"]["unlock_at"], "proposal": proposal,
             "demotions": demotions, "resets": resets}

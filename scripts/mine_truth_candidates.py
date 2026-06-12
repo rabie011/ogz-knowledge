@@ -121,7 +121,8 @@ def main():
             added += 1
         tp["brand_language"] = [{"line": c["name"], "own_mentions": c["own_mentions"],
                                    "note": "corpus-mined slogan — anchor, not menu"} for c in slogans]
-        tpf.write_text(json.dumps(tp, ensure_ascii=False, indent=2))
+        from organ_write import write_organ
+        write_organ(tpf, tp)
         print(f"  → {added} product candidates (pending_client) + {len(slogans)} brand-language lines")
 
 

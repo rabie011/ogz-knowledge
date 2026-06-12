@@ -325,9 +325,10 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     # a flyer. Of the 3 options, at most ONE keeps an order-CTA tail — the rest stand on
     # the scene. Deterministic: keep the first CTA, strip CTA sentences from the others.
     CTA = re.compile(r"[^.!؟\n]*\b(اطلب(?:وا|ها|وه)?|حمّ?ل التطبيق|اطلبيها?)\b[^.!؟\n]*[.!؟]?")
-    # bilingual filler ban (June 12, RABIE law: journey leaked as رحلة — ban both twins)
-    FILLER = re.compile(r"(journey|unleash|conquer|roar|new heights|stronger than ever|"
-                         r"رحلة(?!\s+لسوق)|أطلق(?:وا)? العنان|نقهر|القمم الجديدة|أقوى من أي وقت|لحظات لا تُنسى)", re.I)
+    # bilingual filler ban — CANONICAL copy lives in truth_guards (B038, the
+    # one-module law: the renderer's frozen FILLER would drift exactly like its
+    # frozen EVENT_CLAIM did this morning)
+    from truth_guards import FILLER
     cleaned2 = [o for o in final if not FILLER.search(o)] or final[:1]  # never return zero
     final = cleaned2
     kept_cta = False

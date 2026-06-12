@@ -106,6 +106,20 @@
       "status": "DRAFT — Mohamed's yes/no only",
       "drafted": "2026-06-12",
       "source": "operational_scar"
+    },
+    {
+      "draft": "operational law candidate: green plant BEFORE commit — never chain commit after an unverified fix (B088 race)",
+      "evidence": [
+        {
+          "key": "b088_commit_race",
+          "ts": "2026-06-12T10:56:24",
+          "verdict": "commit 9f228282 landed while its plant was red (stale-dir crash); verified post-commit same cycle"
+        }
+      ],
+      "proposed_action": "crystallize: && -chains must gate commit on plant exit-0 (or split the command)",
+      "status": "DRAFT — Mohamed's yes/no only",
+      "drafted": "2026-06-12",
+      "source": "operational_scar"
     }
   ],
   "last_run": "2026-06-12"

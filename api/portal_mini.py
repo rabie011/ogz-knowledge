@@ -21,39 +21,27 @@ REPO = Path(__file__).parent.parent
 STATIC = Path(__file__).parent / "static"
 ANSWERS = REPO / "data" / "mohamed_answers.jsonl"
 QUEUE = REPO / "data" / "decision_queue.json"
-ROLES_F = REPO / "data" / "portal_roles.json"
+TEAM_F = REPO / "data" / "portal_team.json"
 LANEMAP_F = REPO / "data" / "portal_lane_map.json"
 
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 
 
-def _roles() -> dict:
-    return json.loads(ROLES_F.read_text()) if ROLES_F.exists() else {}
+def _team() -> dict:
+    return json.loads(TEAM_F.read_text()) if TEAM_F.exists() else {"key": "", "members": []}
 
 
 def _lane_map() -> dict:
     return json.loads(LANEMAP_F.read_text()) if LANEMAP_F.exists() else {}
 
 
-def _role_for(k: str) -> dict | None:
-    """Resolve a key to its role. None = invalid key (403)."""
-    if not k:
-        return None
-    for rid, r in _roles().items():
-        if r.get("key") == k:
-            return {**r, "role": rid}
-    return None
+def _ok(k: str) -> bool:
+    """ONE shared team key gates the link. Identity is picked inside the app."""
+    return bool(k) and k == _team().get("key")
 
 
 def _card_lane(card: dict, lm: dict) -> str:
     return lm.get(card.get("tag", ""), card.get("lane", "creative"))
-
-
-def _visible(card: dict, role: dict, lm: dict) -> bool:
-    lanes = role.get("lanes", [])
-    if "*" in lanes:
-        return True
-    return _card_lane(card, lm) in lanes
 
 
 @app.get("/")
@@ -63,28 +51,26 @@ def root():
 
 @app.get("/approvals")
 def page(k: str = ""):
-    if not _role_for(k):
+    if not _ok(k):
         return JSONResponse({"error": "key required"}, status_code=403)
     return FileResponse(STATIC / "approvals.html", headers={"Cache-Control": "no-store"})
 
 
 @app.get("/api/approvals/whoami")
 def whoami(k: str = ""):
-    r = _role_for(k)
-    if not r:
+    """ONE link — returns the team roster so the app shows an identity picker."""
+    if not _ok(k):
         return JSONResponse({"ok": False}, status_code=403)
-    return {"role": r["role"], "name": r.get("name"), "hello": r.get("hello", ""),
-            "is_owner": r.get("is_owner", False), "lanes": r.get("lanes", [])}
+    return {"members": _team().get("members", [])}
 
 
 @app.get("/api/approvals/items")
 def items(k: str = ""):
-    r = _role_for(k)
-    if not r:
+    if not _ok(k):
         return JSONResponse([], status_code=403)
     lm = _lane_map()
     q = json.loads(QUEUE.read_text()) if QUEUE.exists() else {"items": []}
-    out = [dict(it, lane=_card_lane(it, lm)) for it in q["items"] if _visible(it, r, lm)]
+    out = [dict(it, lane=_card_lane(it, lm)) for it in q["items"]]
     out.sort(key=lambda x: (x.get("status") == "answered",
                             0 if x.get("priority") == "urgent" else 1, x.get("created", "")))
     return out
@@ -92,9 +78,8 @@ def items(k: str = ""):
 
 @app.get("/api/approvals/team")
 def team(k: str = ""):
-    """Owner-only: every human verdict, attributed (the aggregated human-truth view)."""
-    r = _role_for(k)
-    if not r or not r.get("is_owner"):
+    """The aggregated human-truth view: every teammate's verdict, attributed."""
+    if not _ok(k):
         return JSONResponse([], status_code=403)
     if not ANSWERS.exists():
         return []
@@ -104,8 +89,8 @@ def team(k: str = ""):
             e = json.loads(line)
         except Exception:
             continue
-        if e.get("judge") and e.get("judge") != "mohamed":
-            rows.append({"ts": e["ts"], "judge": e["judge"], "role": e.get("role"),
+        if e.get("judge") and e.get("judge") not in ("mohamed", ""):
+            rows.append({"ts": e["ts"], "judge": e["judge"], "lane": e.get("lane"),
                          "item_id": e["item_id"], "answer": e["answer"],
                          "fix": e.get("fix", ""), "note": e.get("note", ""), "rating": e.get("rating")})
     return rows[-100:]
@@ -113,18 +98,19 @@ def team(k: str = ""):
 
 @app.post("/api/approvals/answer")
 async def answer(request: Request, k: str = ""):
-    r = _role_for(k)
-    if not r:
+    if not _ok(k):
         return JSONResponse({"ok": False}, status_code=403)
     body = await request.json()
+    # identity is PICKED in the app (one link); validated against the roster
+    members = {m["id"]: m for m in _team().get("members", [])}
+    judge = body.get("judge") if body.get("judge") in members else "mohamed"
     entry = {"ts": datetime.now().isoformat(timespec="seconds"),
              "item_id": body.get("item_id"), "answer": str(body.get("answer", ""))[:2000],
              "note": str(body.get("note", ""))[:2000],
              "fix": str(body.get("fix", ""))[:3000],          # the correction itself (human truth)
              "rating": body.get("rating") if isinstance(body.get("rating"), int) else None,
-             "judge": r["role"], "role": _lane_map().get("", "") or None,
+             "judge": judge, "lane": members.get(judge, {}).get("lane", "all"),
              "source": "team_portal"}
-    entry["role"] = (r.get("lanes") or ["*"])[0]
     with open(ANSWERS, "a") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
     if QUEUE.exists():
@@ -133,7 +119,7 @@ async def answer(request: Request, k: str = ""):
             if it["id"] == entry["item_id"]:
                 it["status"] = "answered"
                 it["answered"] = entry["answer"][:60]
-                it["answered_by"] = r["role"]
+                it["answered_by"] = judge
                 if entry["fix"]:
                     it["human_fix"] = entry["fix"][:200]
         QUEUE.write_text(json.dumps(q, ensure_ascii=False, indent=1))
@@ -142,8 +128,7 @@ async def answer(request: Request, k: str = ""):
 
 @app.post("/api/approvals/reverse")
 async def reverse(request: Request, k: str = ""):
-    r = _role_for(k)
-    if not r:
+    if not _ok(k):
         return JSONResponse({"ok": False}, status_code=403)
     body = await request.json()
     if not (body.get("note") or "").strip():

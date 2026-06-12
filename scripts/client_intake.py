@@ -157,8 +157,12 @@ def run_intake(handle: str):
         gaps["from_this_extraction"].append("لا يوجد رابط موقع/منيو في البايو — نطلب المنيو والأسعار وطرق الطلب")
     if manifest["surfaces"]["posts"]["fetched"] < 30:
         gaps["from_this_extraction"].append("الفيد صغير — نحتاج صور إضافية من الجوال (أرشيف خاص) لو متوفرة")
-    if manifest["surfaces"]["comments"]["fetched"] < 10:
-        gaps["from_this_extraction"].append("تعليقات قليلة — نسأل: وش أكثر سؤال يجيكم من الزبائن واتساب؟")
+    # B013 boundary fix: jurisha fetched EXACTLY 10 → strict <10 never armed the ask,
+    # yet only 5 carried usable text. Count USABLE comments, arm at <=10.
+    usable = sum(1 for c in comments if (c.get("text") or "").strip())
+    if usable <= 10:
+        gaps["from_this_extraction"].append(
+            f"تعليقات قليلة ({usable} نص مفيد) — نسأل: وش أكثر سؤال يجيكم من الزبائن واتساب؟")
     jdump(root / "gap_report.json", gaps)
     jdump(root / "manifest.json", manifest)
 

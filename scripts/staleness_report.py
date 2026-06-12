@@ -135,6 +135,26 @@ def main():
                    "confirmer": "staleness_report", "stamp": "PROPOSAL — pending human refresh"}
             with open(lf, "a") as fh:
                 fh.write(json.dumps(ev, ensure_ascii=False) + "\n")
+    # B076: re-scrapable rot heals itself — one refresh task per client per day into
+    # the 24/7 orchestrator queue. Dormant (born-expired) + season-scoped excluded:
+    # no scrape can heal those, only the client or the calendar.
+    qroot = Path.home() / "agents/queue"
+    for h, findings in report.items():
+        rescrapable = [x for x in findings if x["status"] == "EXPIRED"
+                       and x["node"] != "truth_pack.ALL_SCRAPED"
+                       and x.get("age_days", 0) != -1]
+        dormant = any(x["node"] == "truth_pack.ALL_SCRAPED" for x in findings)
+        if not rescrapable or dormant:
+            continue
+        dupe = any('"client_refresh"' in f.read_text() and f'"{h}"' in f.read_text()
+                   for d in ("pending", "running") for f in (qroot / d).glob("*.json"))
+        if dupe:
+            continue
+        tk = {"client": h, "handle": h, "task_type": "client_refresh", "priority": 2,
+              "request": "refresh stale truth: " + ", ".join(x["node"] for x in rescrapable[:5])}
+        (qroot / "pending" / f"task_refresh_{h}_{TODAY}.json").write_text(json.dumps(tk, ensure_ascii=False))
+        print(f"  ♻️ {h}: refresh task → orchestrator queue ({len(rescrapable)} re-scrapable stale nodes)")
+
     out = BASE / "data/staleness_report.json"
     out.write_text(json.dumps({"date": str(TODAY), "report": report}, ensure_ascii=False, indent=2))
     print(f"\n{'🔴 BLOCK' if blocking else '🟢 CLEAN'}: {blocking} expired load-bearing facts → data/staleness_report.json")

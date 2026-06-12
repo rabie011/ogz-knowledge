@@ -50,7 +50,11 @@ def main():
     checks["commits_flowing"] = age_min < 120
 
     # 5. cron heartbeat marker (the orchestra updates this state file each run — its own pulse)
-    ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "commits_flowing"))
+    # RABIE-ratified June 12: the queue's consumer died silently for 88 days once — never again
+    o = subprocess.run(["pgrep", "-f", "orchestrator_daemon.py"], capture_output=True)
+    checks["orchestrator_alive"] = o.returncode == 0
+
+    ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "commits_flowing", "orchestrator_alive"))
     entry = {"ts": now, **checks, "verdict": "ALIVE" if ok else "ALARM"}
     with open(LOG, "a") as f:
         f.write(json.dumps(entry) + "\n")
@@ -61,7 +65,7 @@ def main():
     print(f"\n{'🟢 MAKE-SURE: ALIVE' if ok else '🔴 MAKE-SURE: ALARM'}")
 
     if not ok:
-        dead = [k for k in ("grinder_process", "guards_gauntlet", "portal_mini", "commits_flowing") if not checks[k]]
+        dead = [k for k in ("grinder_process", "guards_gauntlet", "portal_mini", "commits_flowing", "orchestrator_alive") if not checks[k]]
         subprocess.run(["python3", str(BASE / "scripts/queue_decision.py"),
                         "--id", f"alarm_{int(time.time())}", "--urgent",
                         "--title", f"🚨 إنذار: {', '.join(dead)} واقف",

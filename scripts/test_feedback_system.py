@@ -209,7 +209,8 @@ def main():
 
     print("\n── 6b. CLI PATH SMOKE (the argparse-collision scar: silent no-op exit 0) ──")
     r = subprocess.run([sys.executable, str(REPO / "scripts/issue_log.py"), "open",
-                        "--player", "claude", "--quote", "cli smoke test", "--source", "telegram"],
+                        "--player", "claude", "--quote", "cli smoke test",
+                        "--reason-code", "too_slow", "--source", "telegram"],
                        capture_output=True, text=True, env={**os.environ})
     check("issue_log CLI actually writes (not a silent no-op)",
           r.returncode == 0 and "iss_" in r.stdout, r.stdout[:60] + r.stderr[:60])

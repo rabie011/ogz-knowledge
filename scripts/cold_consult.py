@@ -28,7 +28,10 @@ def main():
     cards = glob.glob(str(BASE / "clients/*/posts/*__v5.json"))
     if not cards:
         cards = glob.glob(str(BASE / "clients/*/posts/*.json"))
-    sample = random.sample(cards, min(a.n, len(cards)))
+    # newest-first: the review must read POST-fix output, not archaeology
+    cards.sort(key=lambda f: -Path(f).stat().st_mtime)
+    fresh = cards[:max(a.n * 4, 12)]
+    sample = random.sample(fresh, min(a.n, len(fresh)))
     payload = []
     for f in sample:
         c = json.loads(open(f).read())

@@ -70,7 +70,8 @@ def main():
     client = ApifyClient(env("APIFY_TOKEN"))
     run = client.actor("apify/instagram-scraper").call(
         run_input={"directUrls": [u for _, u in urls], "resultsType": "posts", "resultsLimit": len(urls)})
-    ds = getattr(run, "default_dataset_id", None) or run.get("defaultDatasetId", "")
+    ds = (getattr(run, "default_dataset_id", None) or getattr(run, "defaultDatasetId", None)
+          or (run.get("defaultDatasetId", "") if isinstance(run, dict) else ""))
     by_url = {}
     for item in client.dataset(ds).iterate_items():
         u = (item.get("url") or item.get("inputUrl") or "").rstrip("/")
@@ -86,7 +87,8 @@ def main():
     existing["coverage_note"] = f"sample run: {hits}/{len(urls)} resolved"
     out_f.write_text(json.dumps(existing, ensure_ascii=False))
     # cost evidence (money discipline: numbers, not feelings)
-    usage = run.get("usageTotalUsd") or run.get("usage", {}).get("TOTAL_USD") if isinstance(run.get("usage"), dict) else run.get("usageTotalUsd")
+    usage = (getattr(run, "usage_total_usd", None)
+             or (run.get("usageTotalUsd") if isinstance(run, dict) else None))
     print(f"resolved: {hits}/{len(urls)} · run usage USD: {usage} · "
           f"full-run estimate ({total_clean} posts): ~${(usage or 0) * total_clean / max(len(urls),1):.2f}")
 

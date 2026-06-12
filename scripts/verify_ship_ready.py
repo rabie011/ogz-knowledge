@@ -175,6 +175,23 @@ try:
 except Exception as e:
     check("Deadly-defaults gate", False, str(e))
 
+# B119 (June 12): the week's armor BLOCKS shipping — gauntlet + immune suite
+# are not advisory; a red law = not ship-ready, period.
+try:
+    r = subprocess.run([sys.executable, str(Path(__file__).parent / "truth_guards.py")],
+                       capture_output=True, text=True, timeout=300)
+    check("Truth-guards gauntlet (every law vs its birth case)", r.returncode == 0,
+          "all laws hold" if r.returncode == 0 else (r.stdout or r.stderr).strip().splitlines()[-1][:80])
+except Exception as e:
+    check("Truth-guards gauntlet", False, str(e))
+try:
+    r = subprocess.run([sys.executable, str(Path(__file__).parent / "test_immune_system.py")],
+                       capture_output=True, text=True, timeout=300)
+    check("Immune suite (blackout/fences/year-maps/routing)", r.returncode == 0,
+          (r.stdout or "").strip().splitlines()[-1][:80])
+except Exception as e:
+    check("Immune suite", False, str(e))
+
 # Summary
 print(f"\n{'=' * 60}")
 if failures:

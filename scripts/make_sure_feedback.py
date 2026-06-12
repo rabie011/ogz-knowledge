@@ -160,6 +160,23 @@ def run_checks() -> dict:
                         capture_output=True, text=True, timeout=60)
     c["gold_wire_e2e"] = gw.returncode == 0
 
+    # 12c. REBOOT-PROOFING (Mohamed-gated; report-only, machine evidence closes the card —
+    # he tapped 'all_good' from his PHONE at 21:02 while never at the Mac, and the old
+    # verify-grep counted Apple's siri 'orchestrator' lines. Self-report is dead here.)
+    lc = subprocess.run(["launchctl", "print", "gui/501"], capture_output=True, text=True)
+    labels = ("com.abraham.orchestrator", "com.ogz.healthcheck", "com.abraham.cloudflare")
+    loaded = sum(1 for l in labels if l in (lc.stdout or ""))
+    c["reboot_proofed"] = f"{loaded}/3"
+    if loaded == 3:
+        # auto-close any open plist card — the machine saw it, no tap needed
+        qf = B / "data/decision_queue.json"
+        qq = json.loads(qf.read_text())
+        for it in qq["items"]:
+            if it["id"].startswith(("plist_", "orchestrator_plist")) and it.get("status") != "answered":
+                it["status"] = "answered"; it["answered"] = "machine-verified: 3/3 loaded"
+                it["answered_by"] = "system"
+        qf.write_text(json.dumps(qq, ensure_ascii=False, indent=1))
+
     # 12. OPEN-ISSUE PULSE
     ist = json.loads((B / "data/issues_state.json").read_text()) \
         if (B / "data/issues_state.json").exists() else {"oldest_open_days": 0}

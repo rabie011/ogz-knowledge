@@ -1477,7 +1477,7 @@
    ],
    "made_by": "claude",
    "artifact_version": 1,
-   "answered": "all_good",
+   "answered": "all_good (FAILED machine check: 0/3 loaded — tapped from phone; my verify-grep also matched Apple siri lines. Superseded by v4.)",
    "answered_by": "mohamed"
   },
   {
@@ -1829,6 +1829,34 @@
     {
      "v": "other",
      "label": "💬 Different sector — tell you in chat"
+    }
+   ],
+   "made_by": "claude",
+   "artifact_version": 1
+  },
+  {
+   "id": "plist_machine_v4",
+   "title": "Restart-protection — paste at the Mac; NO tap needed, I will see it myself",
+   "tag": "System",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-12T23:17:43",
+   "status": "open",
+   "kind": "buttons",
+   "judge_lane": false,
+   "lane": "ops",
+   "why": "Twice now the card closed on a tap while the machine shows 0/3 services protected. So: no more self-report — when you really paste it, my own checks see the 3 services and close this card automatically.",
+   "need": "Next time you are AT the Mac Mini: open Terminal, paste the line below. Then do nothing — no button.",
+   "did": "I verified the 3 service files are valid and the python path exists. The only missing step is one paste in a real Mac terminal (your phone cannot do it).",
+   "desc": "The paste (it prints REALLY_DONE only if all 3 truly load):|launchctl load ~/Library/LaunchAgents/com.abraham.orchestrator.plist; launchctl load ~/Library/LaunchAgents/com.ogz.healthcheck.plist; mv ~/Library/LaunchAgents/com.abraham.cloudflare.plist.disabled ~/Library/LaunchAgents/com.abraham.cloudflare.plist 2>/dev/null; launchctl load ~/Library/LaunchAgents/com.abraham.cloudflare.plist; launchctl print gui/501 | grep -cE \"com.abraham.orchestrator|com.ogz.healthcheck|com.abraham.cloudflare\" | grep -qx 3 && echo REALLY_DONE || echo FAILED_TELL_CLAUDE",
+   "options": [
+    {
+     "v": "do_it",
+     "label": "💬 Or just authorize me: \"load them\" — I do it from here"
+    },
+    {
+     "v": "later",
+     "label": "🕐 Later"
     }
    ],
    "made_by": "claude",

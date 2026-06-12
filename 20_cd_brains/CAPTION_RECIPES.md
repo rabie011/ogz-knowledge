@@ -1,5 +1,5 @@
 # OGZ CAPTION RECIPES — the writers' menu
-*Generated 2026-06-12T23:10 from data/pattern_cards_v1.json — edit THERE, not here.*
+*Generated 2026-06-12T23:18 from data/pattern_cards_v1.json — edit THERE, not here.*
 
 Every recipe is an applicable MOVE (like the 94 visual chains). Nothing enters
 production prompts before Mohamed ratifies it. A ratified recipe is a PLAYER:
@@ -24,6 +24,16 @@ his rejections can bench it like a mind.
 **Fresh example:** المضغوط الوحيد اللي يفك ضغطك 😌
 **How it dies:** Wordplay stacked twice (تشقلب عقلك AND تخطف قلبك) tips into cliche — one twist, then stop. Worst form: puns so obvious every competitor already made them, which re-creates the every-brand-sounds-the-same disease. HARD LAW: the double meaning must never be sexual or humiliating.
 **Sectors:** F&B-specific goldmine: Saudi dish names are verbs frozen in time. Beauty can borrow (بلسم/يبلسم), fashion rarely can.
+
+## stand_with_not_sell  ·  ✅ RATIFIED  ·  Rabie 4/5
+**The move:** On national or sacred days the brand steps out from behind the counter and stands inside the collective 'we' — pure shared pride or gratitude, with product, offer, and menu structurally absent.
+**Skeleton:** declarative we-statement hook + dignified celebratory register + <=12 words + beats: (1) اليوم/المناسبة anchor, (2) collective emotion in first-person plural, (3) flag/identity close — brand exists only as signature hashtag
+**When:** Founding Day, National Day, Flag Day, Hajj season. This is the ONLY legal move on religious/emotional days per the red lines. NOT a stage for combos, prices, or 'celebrate with our offer' — and never weld dua to the brand name in one caption.
+**Real example:** اليوم نحتفل بإنجازاتنا، واليوم نعيش العز والعزم 🇸🇦 🌴
+#يوم_التأسيس_السعودي #حاشي_باشا
+**Fresh example:** من التأسيس لليوم… والعز يكبر فينا 🇸🇦
+**How it dies:** The smuggle: pride sentence + 'بكومبو ولا أروع' in the same breath — patriotism as a coupon. Equally dead: interchangeable greeting-card lines (كل عام وأنتم بخير alone) that any of 500 brands could have posted. | STALE FRAMING FIXED: commercial silence on big days is a CREATIVE CHOICE now, not a law (Mohamed struck the no-sell ban down 2026-06-12). MERGED (pride_without_pitch): differentiation = WHICH specific pride detail the brand notices.
+**Sectors:** Universal law, but F&B faces the strongest temptation (occasion combos) — so the card matters most here.
 
 ## named_weekday_ritual  ·  ✅ RATIFIED  ·  Rabie 4/5
 **The move:** Claim one weekday, marry it to one dish, and summon the regulars to publicly declare membership — the dish is the calendar's excuse, the ritual is the subject.
@@ -76,16 +86,6 @@ his rejections can bench it like a mind.
 **Fresh example:** الكرك بهيل ولا زعفران؟ احسموها 👇
 **How it dies:** COMPARISON CREEP — any 'who does it best/أفضل مقهى' framing is dead by law (brand_never_invites_comparison). Also: rigged questions where only the brand can be the answer, and asking then ghosting the replies. | MERGED INSIGHT (crowd_is_the_expert): answering the replies IS part of the move — ghosting or arguing kills it permanently; cede the choice of the NEXT item, never a ranking.
 **Sectors:** F&B has the loudest taste tribes in Saudi (karak, kabsa rice schools, bakery wars). Beauty version exists (blush shades); avoid in real estate where 'debate' reads as doubt.
-
-## stand_with_not_sell  ·  ⏳ awaiting Mohamed  ·  Rabie 4/5
-**The move:** On national or sacred days the brand steps out from behind the counter and stands inside the collective 'we' — pure shared pride or gratitude, with product, offer, and menu structurally absent.
-**Skeleton:** declarative we-statement hook + dignified celebratory register + <=12 words + beats: (1) اليوم/المناسبة anchor, (2) collective emotion in first-person plural, (3) flag/identity close — brand exists only as signature hashtag
-**When:** Founding Day, National Day, Flag Day, Hajj season. This is the ONLY legal move on religious/emotional days per the red lines. NOT a stage for combos, prices, or 'celebrate with our offer' — and never weld dua to the brand name in one caption.
-**Real example:** اليوم نحتفل بإنجازاتنا، واليوم نعيش العز والعزم 🇸🇦 🌴
-#يوم_التأسيس_السعودي #حاشي_باشا
-**Fresh example:** من التأسيس لليوم… والعز يكبر فينا 🇸🇦
-**How it dies:** The smuggle: pride sentence + 'بكومبو ولا أروع' in the same breath — patriotism as a coupon. Equally dead: interchangeable greeting-card lines (كل عام وأنتم بخير alone) that any of 500 brands could have posted. | STALE FRAMING FIXED: commercial silence on big days is a CREATIVE CHOICE now, not a law (Mohamed struck the no-sell ban down 2026-06-12). MERGED (pride_without_pitch): differentiation = WHICH specific pride detail the brand notices.
-**Sectors:** Universal law, but F&B faces the strongest temptation (occasion combos) — so the card matters most here.
 
 ## sofra_stage  ·  ⏳ awaiting Mohamed  ·  Rabie 4/5
 **The move:** Stage the sofra as a theater scene where dishes are named characters taking their positions — the writer is a narrator describing an entrance (يتصدر المشهد), not a menu listing items.

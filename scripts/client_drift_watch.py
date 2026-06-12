@@ -53,6 +53,31 @@ def watch(handle: str) -> list[dict]:
                "confirmer": "drift_watch", "stamp": "PROPOSAL — never auto-applied (One Write Path)"}
         with open(lf, "a") as f:
             f.write(json.dumps(ev, ensure_ascii=False) + "\n")
+    # B075a: zero-diff over 6 months on an ACTIVE client = monitoring-broken alert
+    import datetime as _dt, subprocess as _sp
+    state = json.loads((BASE / "clients" / handle / "profile/state.json").read_text())
+    span_days = (_dt.date.fromisoformat(days[-1].name) - _dt.date.fromisoformat(days[0].name)).days
+    if not deltas and span_days >= 180 and "active" in state.get("state", "") and "dormant" not in state.get("state", ""):
+        _sp.run(["python3", str(BASE / "scripts/queue_decision.py"),
+                 "--id", f"monitor_broken_{handle}", "--urgent",
+                 "--title", f"🚨 مراقبة {handle} معطّلة؟",
+                 "--tag", "نظام", "--desc", f"6+ أشهر بدون أي تغيير على عميل نشط — البراند الحي يتغير؛ الأرجح أن مراقبتنا انكسرت.",
+                 "--buttons", "ack:👌 افحصوا"], capture_output=True)
+        print(f"     🚨 {handle}: zero-diff {span_days}d on ACTIVE — monitoring-broken alarm raised")
+    # B075b: a delta touching a CITED fact = URGENT, not a quiet proposal
+    if deltas:
+        tp = json.loads((BASE / "clients" / handle / "profile/truth_pack.json").read_text())
+        cited = {x["name"] for x in tp.get("product_candidates", [])} | {x["name"] for x in tp.get("channels", [])}
+        for d in deltas:
+            touches_cited = (d["field"] in ("bio", "bio_link")
+                              or any(n and n in json.dumps(d, ensure_ascii=False) for n in cited))
+            if touches_cited:
+                _sp.run(["python3", str(BASE / "scripts/queue_decision.py"),
+                         "--id", f"cited_drift_{handle}_{d['field']}", "--urgent",
+                         "--title", f"🚨 حقيقة مُستشهد بها تغيّرت: {handle}.{d['field']}",
+                         "--tag", "حقيقة", "--desc", json.dumps(d, ensure_ascii=False)[:200],
+                         "--buttons", "refresh:🔄 حدّثوا الحزمة", "ignore:🕐 لاحقاً"], capture_output=True)
+                print(f"     🚨 cited-fact drift → urgent card: {d['field']}")
     print(f"  {'🔔' if deltas else '✅'} {handle}: {len(deltas)} drift deltas → PROPOSAL events")
     return deltas
 

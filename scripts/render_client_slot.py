@@ -316,6 +316,12 @@ def main():
     slot = next((s for mm in ymap["months"].values() for s in mm if s["date"] == a.date), None)
     if not slot:
         sys.exit(f"no slot {a.date} in {a.handle} year map")
+    # B072: every render that consults red_lines counts a TOUCH (5th-touch reconfirm law)
+    _rlf = BASE / "clients" / a.handle / "profile/red_lines.json"
+    _rl = json.loads(_rlf.read_text())
+    if _rl.get("lines"):
+        _rl["touches_since_confirm"] = _rl.get("touches_since_confirm", 0) + 1
+        _rlf.write_text(json.dumps(_rl, ensure_ascii=False, indent=2))
     PUSH_TYPES = {"weekly_offer", "white_friday", "11_11_shopping", "singles_day_11_11"}
     if (slot.get("occasion") in PUSH_TYPES or slot.get("type") == "offer") and _goals.get("capacity_ceiling") is None:
         sys.exit(f"CAPACITY BLOCK (B002): push slot {slot.get('occasion') or slot.get('type')} needs a declared "

@@ -63,6 +63,18 @@ def main():
         print(f"  {h}: {r['level']} · approvals {bar}"
               + (f" · 🔔 L1 PROPOSABLE → push to Mohamed's portal" if r["proposal"] else "")
               + (f" · ⚠ {r['demotions']} demotions" if r["demotions"] else ""))
+        # B072: 5th-touch red-line reconfirm — one-tap card when due
+        rlf = BASE / "clients" / h / "profile/red_lines.json"
+        rl = json.loads(rlf.read_text())
+        if rl.get("lines") and rl.get("touches_since_confirm", 0) >= 5:
+            import subprocess as _sp
+            _sp.run(["python3", str(BASE / "scripts/queue_decision.py"),
+                     "--id", f"redline_reconfirm_{h}", "--title", f"تأكيد الخطوط الحمراء: {h}",
+                     "--tag", "خطوط حمراء", "--desc", "كل 5 لمسات نتأكد مرة — الخطوط الحالية: " + "؛ ".join(str(x) for x in rl["lines"][:3]),
+                     "--buttons", "confirm:✅ لسه نفس الخطوط", "update:✏️ في تغيير (اكتبه بالملاحظة)"], capture_output=True)
+            rl["touches_since_confirm"] = 0
+            rlf.write_text(json.dumps(rl, ensure_ascii=False, indent=2))
+            print(f"     🔔 red-line reconfirm card queued for {h}")
         if r["proposal"]:
             import subprocess
             subprocess.run(["python3", str(BASE / "scripts/queue_decision.py"),

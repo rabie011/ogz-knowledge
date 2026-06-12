@@ -51,13 +51,23 @@ def main():
     g = subprocess.run(["python3", str(BASE / "scripts/truth_guards.py")], capture_output=True, text=True)
     checks["guards_gauntlet"] = g.returncode == 0
 
-    # 3. portal up (local mini)
+    # 3. portal up — LOCAL and PUBLIC. The tunnel died once (June 12) while local
+    # was fine, so Mohamed's phone saw nothing and no alarm fired. Check what he touches.
+    import urllib.request
     try:
-        import urllib.request
         urllib.request.urlopen("http://127.0.0.1:4199/", timeout=5)
         checks["portal_mini"] = True
     except Exception:
         checks["portal_mini"] = False
+    try:
+        key = next((l.split("=", 1)[1].strip().strip('"') for l in
+                    open(Path.home() / ".abraham_env") if l.startswith("APPROVALS_KEY=")), "")
+        # browser UA — Cloudflare 403s the default Python-urllib UA as a bot (false alarm)
+        req = urllib.request.Request(f"https://brain.ogzstudios.com/approvals?k={key}",
+                                     headers={"User-Agent": "Mozilla/5.0 (Macintosh) OGZ-healthcheck"})
+        checks["portal_public"] = urllib.request.urlopen(req, timeout=12).status == 200
+    except Exception:
+        checks["portal_public"] = False
 
     # 4. last commit age (the orchestra commits — silence = stall)
     c = subprocess.run(["git", "-C", str(BASE), "log", "-1", "--format=%ct"], capture_output=True, text=True)
@@ -73,7 +83,7 @@ def main():
     # D7-1: the im-here package stays fresh every cycle — Mohamed can appear any minute
     subprocess.run(["python3", str(BASE / "scripts/week_receipt.py")], capture_output=True, timeout=60)
 
-    ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "commits_flowing", "orchestrator_alive"))
+    ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "commits_flowing", "orchestrator_alive"))
     entry = {"ts": now, **checks, "verdict": "ALIVE" if ok else "ALARM"}
     with open(LOG, "a") as f:
         f.write(json.dumps(entry) + "\n")
@@ -84,7 +94,7 @@ def main():
     print(f"\n{'🟢 MAKE-SURE: ALIVE' if ok else '🔴 MAKE-SURE: ALARM'}")
 
     if not ok:
-        dead = [k for k in ("grinder_process", "guards_gauntlet", "portal_mini", "commits_flowing", "orchestrator_alive") if not checks[k]]
+        dead = [k for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "commits_flowing", "orchestrator_alive") if not checks[k]]
         subprocess.run(["python3", str(BASE / "scripts/queue_decision.py"),
                         "--id", f"alarm_{int(time.time())}", "--urgent",
                         "--title", f"🚨 إنذار: {', '.join(dead)} واقف",

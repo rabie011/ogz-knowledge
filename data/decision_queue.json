@@ -354,24 +354,6 @@
    "answered": "reviewing"
   },
   {
-   "id": "orchestrator_plist",
-   "title": "تثبيت المنسّق + فحص الصحة (لصقة واحدة)",
-   "tag": "نظام",
-   "desc": "ملفان جاهزان، لصقة واحدة تركّبهما: (1) المنسّق يقوم من الموت تلقائياً بعد أي إعادة تشغيل — كان ميت 88 يوم وما أحد دري. (2) فحص صحة كل 30 دقيقة يشتغل حتى بدون جلسة Claude — أي عطل يطلع كرت عاجل هنا. الصق هذا كاملاً في التيرمنال:|pkill -f orchestrator_daemon.py; sleep 2; launchctl load ~/Library/LaunchAgents/com.abraham.orchestrator.plist; launchctl load ~/Library/LaunchAgents/com.ogz.healthcheck.plist",
-   "clock": "",
-   "priority": "normal",
-   "created": "2026-06-12T12:12:53",
-   "status": "answered",
-   "kind": "buttons",
-   "options": [
-    {
-     "v": "done",
-     "label": "✅ لصقتها وخلص,later:🕐 لاحقاً"
-    }
-   ],
-   "answered": "approved"
-  },
-  {
    "id": "pick_eatjurisha",
    "kind": "post_pick",
    "cat": "اختيارات",
@@ -579,6 +561,23 @@
     {
      "v": "done",
      "label": "✅ أرسلته لها,later:🕐 لاحقاً"
+    }
+   ]
+  },
+  {
+   "id": "orchestrator_plist",
+   "title": "تثبيت كل شيء ضد إعادة التشغيل (لصقة واحدة)",
+   "tag": "نظام",
+   "desc": "ثلاثة أشياء حيوية تقوم تلقائياً بعد أي إعادة تشغيل: (1) المنسّق (كان ميت 88 يوم)، (2) فحص الصحة كل 30 دقيقة، (3) النفق — لولاه رابطك ورابط الفريق ينقطع (انقطع اليوم وأصلحته، بس على nohup يموت مع الريستارت). الصق هذا كاملاً مرة وحدة:|pkill -f orchestrator_daemon.py; launchctl load ~/Library/LaunchAgents/com.abraham.orchestrator.plist; launchctl load ~/Library/LaunchAgents/com.ogz.healthcheck.plist; mv ~/Library/LaunchAgents/com.abraham.cloudflare.plist.disabled ~/Library/LaunchAgents/com.abraham.cloudflare.plist 2>/dev/null; launchctl load ~/Library/LaunchAgents/com.abraham.cloudflare.plist; echo OK_ALL_PERSISTENT",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-12T16:45:41",
+   "status": "open",
+   "kind": "buttons",
+   "options": [
+    {
+     "v": "done",
+     "label": "✅ لصقتها,later:🕐 لاحقاً"
     }
    ]
   }

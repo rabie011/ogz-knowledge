@@ -1,3 +1,4 @@
+# ⚖️ PINNED BY MOHAMED 2026-06-12: Starter 700 / Growth 2,650 / Enterprise 9,000 SAR/mo
 # FLANK-03 — PRICING PACK (DRAFT)
 *Prepared 2026-06-12 for approval card A-12. EVERY NUMBER IN THIS FILE IS **PROPOSED** — nothing is law until Mohamed pins it. Sources: market fact sheet (Saudi/MENA 2025–26, SAR @ 3.75/USD) + THE_CLIENT_PYRAMID.md (states §3, trust ladder §229, unit-economics ledger §250).*
 

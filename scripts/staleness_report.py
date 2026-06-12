@@ -96,6 +96,23 @@ def main():
               f"{len([x for x in findings if x['status']=='RECONFIRM_DUE'])} reconfirm-due")
         for x in findings[:6]:
             print(f"   {'🔴' if x['status']=='EXPIRED' else '🟡'} {x['node']}: {x['status']} {x.get('detail','')[:60]}")
+    # B070: every EXPIRED finding becomes a PROPOSAL event in the client ledger —
+    # rot is visible history, never a silent state. Dedup: one event per node per day.
+    for h, findings in report.items():
+        lf = BASE / "clients" / h / "events/ledger.jsonl"
+        existing = lf.read_text() if lf.exists() else ""
+        for x in findings:
+            if x["status"] != "EXPIRED":
+                continue
+            key = f'staleness:{x["node"]}:{TODAY}'
+            if key in existing:
+                continue
+            ev = {"ts": str(TODAY), "type": "intake_answer",
+                   "subject": key,
+                   "note": f'PROPOSAL: downgrade confirmed→inferred ({x.get("detail","")[:60]})',
+                   "confirmer": "staleness_report", "stamp": "PROPOSAL — pending human refresh"}
+            with open(lf, "a") as fh:
+                fh.write(json.dumps(ev, ensure_ascii=False) + "\n")
     out = BASE / "data/staleness_report.json"
     out.write_text(json.dumps({"date": str(TODAY), "report": report}, ensure_ascii=False, indent=2))
     print(f"\n{'🔴 BLOCK' if blocking else '🟢 CLEAN'}: {blocking} expired load-bearing facts → data/staleness_report.json")

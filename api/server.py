@@ -2257,3 +2257,26 @@ async def approvals_answer(request: Request, k: str = ""):
                 it["answered"] = entry["answer"][:60]
         _QUEUE_FILE.write_text(json.dumps(q, ensure_ascii=False, indent=1))
     return {"ok": True}
+
+
+@app.post("/api/approvals/reverse")
+async def approvals_reverse(request: Request, k: str = ""):
+    """Mohamed reverses a decision — comment REQUIRED (reversals retrain the system)."""
+    if not _key_ok(k):
+        return {"ok": False, "error": "bad key"}
+    body = await request.json()
+    if not (body.get("note") or "").strip():
+        return {"ok": False, "error": "reversal needs a reason"}
+    entry = {"ts": datetime.now().isoformat(timespec="seconds"),
+              "item_id": body.get("item_id"), "answer": "REVERSED",
+              "note": body.get("note", ""), "source": "decision_portal"}
+    with open(_ANSWERS_FILE, "a") as f:
+        f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    if _QUEUE_FILE.exists():
+        q = json.loads(_QUEUE_FILE.read_text())
+        for it in q["items"]:
+            if it["id"] == entry["item_id"]:
+                it["status"] = "open"
+                it.pop("answered", None)
+        _QUEUE_FILE.write_text(json.dumps(q, ensure_ascii=False, indent=1))
+    return {"ok": True}

@@ -24,7 +24,8 @@
    "answered": "round_2",
    "priority": "urgent",
    "created": "2026-06-12",
-   "status": "answered"
+   "status": "answered",
+   "cat": "عميل"
   },
   {
    "id": "pricing_pin",
@@ -52,7 +53,8 @@
    "answered": "{\"starter\":\"700\",\"growth\":\"2650\",\"enterprise\":\"9000\"}",
    "priority": "normal",
    "created": "2026-06-12",
-   "status": "answered"
+   "status": "answered",
+   "cat": "فلوس — قرارك وحدك"
   },
   {
    "id": "pick_eatjurisha",
@@ -76,7 +78,8 @@
    "answered": "authenticity",
    "priority": "normal",
    "created": "2026-06-12",
-   "status": "answered"
+   "status": "answered",
+   "cat": "اختيارك = ذهب المناسبات"
   },
   {
    "id": "pick_albaik",
@@ -100,30 +103,37 @@
    "answered": "firaasa",
    "priority": "normal",
    "created": "2026-06-12",
-   "status": "answered"
+   "status": "answered",
+   "cat": "اختيارك = ذهب المناسبات"
   },
   {
    "id": "pick_myfitness.sa",
-   "kind": "buttons",
+   "kind": "caption_pick",
    "tag": "اختيارك = ذهب المناسبات",
-   "title": "اختر سطر لياقتي × رمضان",
+   "title": "اختر كابشن لياقتي × رمضان",
    "options": [
     {
      "v": "authenticity",
-     "label": "[authenticity] 'Mom, guess what? I learned on Snapchat how suhoor gives me super energy!' — استمعوا لنصائح لياقتي على سناب شات. لمزيد م"
+     "who": "authenticity",
+     "label": "'Mom, guess what? I learned on Snapchat how suhoor gives me super energy!' — استمعوا لنصائح لياقتي على سناب شات. لمزيد من الحيوية والطاقه لصغاركم. 📱"
     },
     {
      "v": "firaasa",
-     "label": "[firaasa] Ready to move with your little ones? سجل لحظاتكم العائلية مع تمارين لياقتي اليومية على سناب شات! 📲"
+     "who": "firaasa",
+     "label": "Ready to move with your little ones? سجل لحظاتكم العائلية مع تمارين لياقتي اليومية على سناب شات! 📲"
     },
     {
      "v": "metaphor",
-     "label": "[metaphor] Family health starts here — أفكار سحور مبتكرة من لياقتي على سناب شات. جرِّبوا وصفاتنا الليلة!"
+     "who": "metaphor",
+     "label": "Family health starts here — أفكار سحور مبتكرة من لياقتي على سناب شات. جرِّبوا وصفاتنا الليلة!"
     }
    ],
    "priority": "normal",
    "created": "2026-06-12",
-   "status": "open"
+   "status": "open",
+   "cat": "اختيارات",
+   "meaning": "اختيارك يصير «ذهب» — النظام يتعلم منه ويكتب كل رمضان القادم على ذوقك. كل كابشن واقف لحاله مثل ما يبان في البوست.",
+   "desc": ""
   },
   {
    "id": "crystallize_0",
@@ -144,7 +154,8 @@
    "answered": "yes",
    "priority": "normal",
    "created": "2026-06-12",
-   "status": "answered"
+   "status": "answered",
+   "cat": "قاعدة اقترحها النظام"
   },
   {
    "id": "crystallize_1",
@@ -164,7 +175,9 @@
    ],
    "priority": "normal",
    "created": "2026-06-12",
-   "status": "open"
+   "status": "answered",
+   "cat": "قاعدة اقترحها النظام",
+   "answered": "yes"
   },
   {
    "id": "crystallize_2",
@@ -184,7 +197,9 @@
    ],
    "priority": "normal",
    "created": "2026-06-12",
-   "status": "open"
+   "status": "answered",
+   "cat": "قاعدة اقترحها النظام",
+   "answered": "yes"
   },
   {
    "id": "rabie_headline",
@@ -208,7 +223,9 @@
    ],
    "priority": "normal",
    "created": "2026-06-12",
-   "status": "open"
+   "status": "answered",
+   "cat": "تقييم رابيه",
+   "answered": "approve_all_except_flags"
   },
   {
    "id": "ruling_ai_imagery",
@@ -232,7 +249,9 @@
    ],
    "priority": "normal",
    "created": "2026-06-12",
-   "status": "open"
+   "status": "answered",
+   "cat": "حكم ثقافي محجوز لك",
+   "answered": "case_by_case"
   },
   {
    "id": "ruling_family_voice",
@@ -242,20 +261,26 @@
    "options": [
     {
      "v": "allow",
-     "label": "✅ مسموح"
+     "label": "✅ مسموح للجميع",
+     "explain": "الدفء العائلي يصير أداة افتراضية في كل البراندات"
     },
     {
      "v": "block",
-     "label": "❌ ممنوع"
+     "label": "❌ ممنوع نهائياً",
+     "explain": "ولا كابشن يتكلم بصوت عائلة العميل — أأمن خيار"
     },
     {
      "v": "client_decides",
-     "label": "👤 حسب العميل — سؤال في الـ onboarding"
+     "label": "👤 سؤال في الـ onboarding",
+     "explain": "كل عميل يقرر لنفسه — يدخل ضمن أسئلة الخطوط الحمراء",
+     "rec": true
     }
    ],
    "priority": "normal",
    "created": "2026-06-12",
-   "status": "open"
+   "status": "open",
+   "cat": "قواعد",
+   "meaning": "في كابشنات تتكلم بصوت العميل الشخصي مثل «أمي جابت البيك» — كأن العائلة نفسها تكتب. حساس ثقافياً: في عملاء يحبونه (دفء) وعملاء يرفضونه (خصوصية العائلة)."
   },
   {
    "id": "ruling_masculinity",
@@ -265,20 +290,26 @@
    "options": [
     {
      "v": "allow",
-     "label": "✅ مسموح"
+     "label": "✅ مسموح",
+     "explain": "يستخدم وين ما ناسب النبرة"
     },
     {
      "v": "block",
-     "label": "❌ ممنوع"
+     "label": "❌ ممنوع",
+     "explain": "يختفي من كل الكابشنات"
     },
     {
      "v": "case_by_case",
-     "label": "🔍 كل حالة على حدة"
+     "label": "🔍 كل حالة تمر عليك",
+     "explain": "مثل حكم صور الـAI — يجيك في البوابة",
+     "rec": true
     }
    ],
    "priority": "normal",
    "created": "2026-06-12",
-   "status": "open"
+   "status": "open",
+   "cat": "قواعد",
+   "meaning": "كابشنات تستخدم إطار «رجال/الرجولة» («قهوة الرجال»، «جلسة رجال») — تلقى صدى عند جمهور وتستفز جمهور آخر."
   },
   {
    "id": "public_portal",
@@ -293,17 +324,23 @@
    "options": [
     {
      "v": "mini_service",
-     "label": "✅ ابنوا الخدمة الصغيرة المنفصلة (الآمن)"
+     "label": "✅ ابنوا البوابة الصغيرة المعزولة",
+     "explain": "رابط عام دائم آمن — ساعة عمل تقريباً",
+     "rec": true
     },
     {
      "v": "tailscale_only",
-     "label": "📱 يكفيني رابط تيلسكيل على أجهزتي"
+     "label": "📱 يكفيني على أجهزتي",
+     "explain": "يبقى كما هو — جوالك ولابتوبك فقط"
     },
     {
      "v": "expose_anyway",
-     "label": "⚠️ اكشفوا السيرفر كامل (مو موصى)"
+     "label": "⚠️ اكشفوا كل شيء",
+     "explain": "أسرع لكن بيانات العملاء تصير مكشوفة بمفتاح واحد — ما ننصح"
     }
-   ]
+   ],
+   "cat": "تقنية",
+   "meaning": "حالياً الرابط يشتغل على أجهزتك (عبر تيلسكيل). عشان «أي أحد» يفتحه برابط عام: لازم نكشفه للإنترنت — والنفق الجاهز يكشف معه سيرفر البرين كله (بيانات العملاء). الحل الآمن: نبني بوابة صغيرة معزولة ما فيها إلا صفحة القرارات."
   }
  ]
 }

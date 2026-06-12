@@ -2,97 +2,193 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>قرارات محمد — OGZ</title>
+<title>OGZ — قرارات محمد</title>
 <style>
-  :root{--bg:#0d1117;--card:#161b22;--line:#30363d;--ink:#e6edf3;--dim:#8b949e;--go:#238636;--urgent:#f85149}
-  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI",Tahoma,sans-serif;margin:0;padding:16px;max-width:680px;margin-inline:auto;min-height:96vh;display:flex;flex-direction:column}
-  .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-  h1{font-size:18px;margin:0} .prog{color:var(--dim);font-size:14px}
-  .urgentbar{background:#2d1214;border:1px solid var(--urgent);color:#ffb3ae;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:14px;display:none}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;flex:1;display:flex;flex-direction:column}
-  .card.urgent{border-color:var(--urgent)}
-  .tag{font-size:12px;color:#f0883e} .clock{color:var(--urgent);font-weight:700}
-  h2{font-size:19px;margin:8px 0 12px;line-height:1.5} .desc{color:var(--dim);font-size:14px;line-height:1.8;margin-bottom:14px;white-space:pre-line}
-  .opt{display:block;width:100%;text-align:right;background:#21262d;border:1px solid var(--line);color:var(--ink);
-       border-radius:12px;padding:16px;margin:8px 0;font-size:15px;cursor:pointer;line-height:1.7}
-  .opt:active{border-color:var(--go);background:#0f2418}
-  input[type=number]{background:var(--bg);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:12px;width:100px;font-size:17px;text-align:center}
-  .row{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin:10px 0}
-  .send{background:var(--go);border:none;color:#fff;border-radius:10px;padding:14px 26px;font-size:15px;cursor:pointer;font-weight:700;margin-top:8px}
-  textarea{background:var(--bg);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:12px;width:100%;box-sizing:border-box;font-size:14px;min-height:48px;font-family:inherit;margin-top:8px}
-  .nav{display:flex;justify-content:space-between;gap:10px;margin-top:14px}
-  .nav button{background:#21262d;border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:12px 18px;font-size:14px;cursor:pointer}
-  .saved{color:#3fb950;font-size:14px;margin-top:10px;font-weight:600}
-  .donebox{text-align:center;padding:40px 0;color:#3fb950;font-size:17px;line-height:2}
+  :root{--bg:#0a0e14;--card:#12161f;--line:#262d3b;--ink:#eef2f8;--dim:#94a0b3;
+        --green:#33EB05;--pink:#E602BB;--blue:#3349EB;--urgent:#ff5a52;--gold:#ffd76a}
+  *{box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI",Tahoma,sans-serif;margin:0;padding:14px;max-width:640px;margin-inline:auto;padding-bottom:120px}
+  /* header */
+  .hero{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--green),var(--blue));display:flex;align-items:center;justify-content:center;font-weight:900;color:#000;font-size:15px}
+  .hero h1{font-size:17px;margin:0} .hero .sub{font-size:12px;color:var(--dim)}
+  .ring{margin-inline-start:auto;position:relative;width:52px;height:52px}
+  .ring svg{transform:rotate(-90deg)} .ring .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+  /* chips */
+  .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px}
+  .chip{flex:none;background:var(--card);border:1px solid var(--line);color:var(--dim);border-radius:20px;padding:7px 14px;font-size:13px;cursor:pointer;white-space:nowrap}
+  .chip.on{border-color:var(--green);color:var(--green)}
+  .urgentbar{background:linear-gradient(90deg,#2d1214,#1a0d0e);border:1px solid var(--urgent);color:#ffb3ae;border-radius:12px;padding:11px 14px;margin-bottom:12px;font-size:13.5px;display:none}
+  /* card */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:14px;animation:in .25s ease}
+  @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+  .card.urgent{border-color:var(--urgent);box-shadow:0 0 24px #ff5a5220}
+  .tag{font-size:11.5px;color:var(--pink);letter-spacing:.4px;font-weight:600}
+  .clock{color:var(--urgent);font-weight:800}
+  h2{font-size:20px;margin:8px 0 10px;line-height:1.5}
+  .desc{color:var(--dim);font-size:14px;line-height:1.85;margin-bottom:10px;white-space:pre-line}
+  .meaning{background:#0d1626;border:1px solid #20335c;border-radius:12px;padding:13px 14px;font-size:13.5px;line-height:1.9;color:#aac6f2;margin-bottom:14px}
+  .meaning b{color:#cfe1ff}
+  details{margin-bottom:12px} details summary{color:var(--blue);font-size:13px;cursor:pointer}
+  details .desc{margin-top:8px}
+  /* options */
+  .opt{display:block;width:100%;text-align:right;background:#1a2030;border:1.5px solid var(--line);color:var(--ink);
+       border-radius:14px;padding:15px 16px;margin:9px 0;font-size:15px;cursor:pointer;line-height:1.7;transition:border-color .15s}
+  .opt:active{border-color:var(--green);background:#0f2010}
+  .opt.rec{border-color:#2a6b14}
+  .opt .star{color:var(--gold);font-size:12.5px;font-weight:700;display:block;margin-bottom:3px}
+  .opt .ex{display:block;font-size:12.5px;color:var(--dim);margin-top:5px;font-weight:400;line-height:1.7}
+  /* standalone caption */
+  .cap{background:#0a0e14;border:1.5px solid var(--line);border-radius:16px;padding:22px 18px;margin:14px 0;font-size:17.5px;line-height:2.1;text-align:center;position:relative}
+  .cap .who{position:absolute;top:-10px;right:16px;background:var(--card);border:1px solid var(--pink);color:var(--pink);font-size:11px;border-radius:12px;padding:2px 12px;letter-spacing:.5px}
+  .pick{background:var(--green);border:none;color:#04130a;border-radius:11px;padding:12px 30px;font-size:14.5px;cursor:pointer;font-weight:800;margin-top:14px}
+  input[type=number]{background:var(--bg);border:1.5px solid var(--line);color:var(--ink);border-radius:11px;padding:13px;width:104px;font-size:18px;text-align:center;font-weight:700}
+  .row{display:flex;gap:14px;align-items:end;flex-wrap:wrap;margin:12px 0}
+  .send{background:var(--green);border:none;color:#04130a;border-radius:11px;padding:14px 28px;font-size:15px;cursor:pointer;font-weight:800;margin-top:10px}
+  .ghost{background:transparent;border:1px solid var(--line);color:var(--dim);border-radius:11px;padding:13px 18px;font-size:14px;cursor:pointer}
+  textarea{background:var(--bg);border:1px solid var(--line);color:var(--ink);border-radius:11px;padding:12px;width:100%;font-size:14px;min-height:48px;font-family:inherit;margin-top:10px}
+  .nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:16px}
+  .nav button{background:#1a2030;border:1px solid var(--line);color:var(--ink);border-radius:11px;padding:12px 18px;font-size:14px;cursor:pointer}
+  .skip{color:var(--dim)!important;border-style:dashed!important}
   .small{font-size:12px;color:var(--dim)}
+  /* done */
+  .done-h{font-size:14px;color:var(--dim);margin:24px 0 10px;border-top:1px solid var(--line);padding-top:20px}
+  .done-item{background:#0e1219;border:1px solid #1a202c;border-radius:13px;padding:14px;margin-bottom:10px;font-size:13.5px;line-height:1.8}
+  .done-item .ans{color:var(--green);font-weight:700}
+  .rev{background:transparent;border:1px solid #6e2c30;color:#ff9d96;border-radius:9px;padding:7px 14px;font-size:12.5px;cursor:pointer;margin-top:8px}
+  .revbox{display:none;margin-top:8px}
+  /* note */
+  .notebox{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(transparent,var(--bg) 22%);padding:24px 14px 14px}
+  .notein{max-width:640px;margin-inline:auto;display:flex;gap:8px;background:var(--card);border:1.5px solid var(--blue);border-radius:14px;padding:8px}
+  .notein textarea{margin:0;min-height:40px;border:none;background:transparent;flex:1}
+  .notein button{background:var(--blue);border:none;color:#fff;border-radius:10px;padding:0 18px;font-size:14px;cursor:pointer;font-weight:700}
+  .toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:var(--green);color:#04130a;padding:11px 24px;border-radius:12px;font-size:14px;font-weight:800;display:none;z-index:9;box-shadow:0 6px 24px #33EB0530}
 </style>
 </head>
 <body>
-<div class="top"><h1>🟢 قرارات محمد</h1><div class="prog" id="prog"></div></div>
-<div class="urgentbar" id="ubar">🚨 <b>طارئ</b> — في قرار مستعجل، طلع لك أول واحد</div>
+<div class="toast" id="toast">✓ وصلت</div>
+<div class="hero">
+  <div class="logo">OGZ</div>
+  <div><h1>قرارات محمد</h1><div class="sub" id="subline">…</div></div>
+  <div class="ring"><svg width="52" height="52"><circle cx="26" cy="26" r="22" stroke="#262d3b" stroke-width="5" fill="none"/><circle id="ringbar" cx="26" cy="26" r="22" stroke="#33EB05" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="138" stroke-dashoffset="138"/></svg><div class="num" id="ringnum"></div></div>
+</div>
+<div class="chips" id="chips"></div>
+<div class="urgentbar" id="ubar">🚨 <b>طارئ</b> — قرار مستعجل، طالع لك أول واحد</div>
 <div id="stage"></div>
+<div id="doneList"></div>
+<div class="notebox"><div class="notein">
+  <textarea id="gnote" placeholder="💬 ملاحظة عامة لكلود — توصل فوراً"></textarea>
+  <button onclick="sendNote()">أرسل</button>
+</div></div>
 <script>
 const K = new URLSearchParams(location.search).get('k') || '';
-let ITEMS = [], idx = 0;
+let ITEMS = [], idx = 0, FILTER = 'الكل', SKIPPED = new Set();
 
-async function load(keepIndex){
+function toast(m){ const t=document.getElementById('toast'); t.textContent=m||'✓ وصلت';
+  t.style.display='block'; setTimeout(()=>t.style.display='none',1800); }
+function esc(s){ return (s||'').replace(/"/g,'&quot;'); }
+function cat(it){ return it.cat || (it.tag||'').split('·')[0].trim() || 'عام'; }
+
+async function load(keep){
   const r = await fetch('/api/approvals/items?k='+K); ITEMS = await r.json();
-  const open = ITEMS.filter(i=>i.status!=='answered');
-  if(!keepIndex) idx = 0;
-  if(idx >= open.length) idx = Math.max(0, open.length-1);
-  document.getElementById('ubar').style.display =
-    open.some(i=>i.priority==='urgent') ? 'block' : 'none';
-  render();
+  if(!keep) idx = 0;
+  paint();
 }
-function render(){
-  const open = ITEMS.filter(i=>i.status!=='answered');
-  const total = ITEMS.length, done = total - open.length;
-  document.getElementById('prog').textContent = done + ' / ' + total;
+function openItems(){
+  let o = ITEMS.filter(i=>i.status!=='answered');
+  if(FILTER!=='الكل') o = o.filter(i=>cat(i)===FILTER);
+  // skipped go last, urgent first
+  o.sort((a,b)=>(SKIPPED.has(a.id)-SKIPPED.has(b.id)) || ((a.priority!=='urgent')-(b.priority!=='urgent')));
+  return o;
+}
+function paint(){
+  const all = ITEMS.length, done = ITEMS.filter(i=>i.status==='answered').length;
+  document.getElementById('subline').textContent = done===all ? 'كل شيء مجاب ✓' : `${all-done} قرار ينتظرك`;
+  document.getElementById('ringnum').textContent = done+'/'+all;
+  document.getElementById('ringbar').style.strokeDashoffset = 138 - 138*(all?done/all:0);
+  // chips
+  const cats = ['الكل', ...new Set(ITEMS.filter(i=>i.status!=='answered').map(cat))];
+  document.getElementById('chips').innerHTML = cats.map(c=>
+    `<div class="chip ${c===FILTER?'on':''}" onclick="FILTER='${esc(c)}';idx=0;paint()">${c}</div>`).join('');
+  const open = openItems();
+  document.getElementById('ubar').style.display = open.some(i=>i.priority==='urgent') ? 'block':'none';
+  if(idx>=open.length) idx=Math.max(0,open.length-1);
+  render(open); renderDone();
+}
+function render(open){
   const stage = document.getElementById('stage');
-  if(!open.length){
-    stage.innerHTML = '<div class="card"><div class="donebox">✅ خلصت كل القرارات<br><span class="small">أي قرار جديد يظهر هنا أول ما نضيفه — خلّ الصفحة مفتوحة</span></div></div>';
-    return;
-  }
+  if(!open.length){ stage.innerHTML='<div class="card" style="text-align:center"><div style="font-size:34px">🎉</div><div style="color:var(--green);font-weight:700;margin:8px 0">خلصت كل المفتوح هنا</div><div class="small">الجديد يطلع تلقائياً · المجاب تحت لو تبي تعكس</div></div>'; return; }
   const it = open[idx];
   let h = `<div class="card ${it.priority==='urgent'?'urgent':''}">`;
   h += `<div class="tag">${it.priority==='urgent'?'🚨 طارئ · ':''}${it.tag||''} ${it.clock?'<span class=clock>'+it.clock+'</span>':''}</div><h2>${it.title}</h2>`;
-  if(it.desc) h += `<div class="desc">${it.desc}</div>`;
+  if(it.meaning) h += `<div class="meaning">💡 <b>وش يعني؟</b> ${it.meaning}</div>`;
+  if(it.desc) h += `<details><summary>التفاصيل الكاملة</summary><div class="desc">${it.desc}</div></details>`;
+  if(it.kind==='caption_pick'){
+    for(const o of it.options)
+      h += `<div class="cap"><span class="who">${o.who||o.v}</span>${o.label}
+            <br><button class="pick" onclick="answer('${it.id}','${esc(o.v)}')">اختار هذا ✓</button></div>`;
+    h += `<textarea id="note" placeholder="ليش؟ (اختياري — كلمتك تعلّم النظام ذوقك)"></textarea>`;
+  }
   if(it.kind==='buttons'){
-    for(const o of it.options) h += `<button class="opt" onclick="answer('${it.id}',${JSON.stringify(o.v).replace(/"/g,'&quot;')})">${o.label}</button>`;
+    for(const o of it.options)
+      h += `<button class="opt ${o.rec?'rec':''}" onclick="answer('${it.id}','${esc(o.v)}')">${o.rec?'<span class="star">⭐ التوصية</span>':''}${o.label}${o.explain?'<span class="ex">↳ '+o.explain+'</span>':''}</button>`;
     h += `<textarea id="note" placeholder="ملاحظة (اختياري)…"></textarea>`;
   }
   if(it.kind==='numbers'){
     h += '<div class="row">';
     for(const n of it.fields) h += `<label class="small">${n.label}<br><input type="number" id="f_${n.k}" value="${n.v}"></label>`;
-    h += `</div><button class="send" onclick="answerNumbers('${it.id}',${JSON.stringify(it.fields.map(f=>f.k)).replace(/"/g,'&quot;')})">ثبّت ✓</button>
-          <button class="opt" onclick="answer('${it.id}','adjust')">عدّلوها — اكتب في الملاحظة</button>
-          <textarea id="note" placeholder="ملاحظة…"></textarea>`;
+    h += `</div><button class="send" onclick="answerNumbers('${it.id}',${esc(JSON.stringify(it.fields.map(f=>f.k)))})">ثبّت ✓</button>
+          <button class="ghost" onclick="answer('${it.id}','adjust')">عدّلوها (اشرح بالملاحظة)</button><textarea id="note"></textarea>`;
   }
   if(it.kind==='text'){
     h += `<textarea id="txt" placeholder="${it.placeholder||'اكتب هنا…'}"></textarea>
           <button class="send" onclick="answerText('${it.id}')">أرسل ✓</button>`;
   }
-  h += `<div style="flex:1"></div><div class="nav">
+  h += `<div class="nav">
         <button onclick="move(1)">التالي ⏭</button>
-        <span class="small" style="align-self:center">${idx+1} من ${open.length} مفتوح</span>
-        <button onclick="move(-1)">⏮ السابق</button></div></div>`;
+        <button class="skip" onclick="skipIt('${it.id}')">أخّره 🕐</button>
+        <span class="small">${idx+1}/${open.length}</span>
+        <button onclick="move(-1)">⏮</button></div></div>`;
   stage.innerHTML = h;
 }
-function move(d){ const open = ITEMS.filter(i=>i.status!=='answered');
-  idx = (idx + d + open.length) % open.length; render(); }
-async function post(id, answer){
-  const note = (document.getElementById('note')||{}).value || '';
-  await fetch('/api/approvals/answer?k='+K,{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({item_id:id, answer:answer, note:note})});
-  await load(true); // auto-advance: answered item leaves the open list
+function renderDone(){
+  const done = ITEMS.filter(i=>i.status==='answered');
+  const el = document.getElementById('doneList');
+  if(!done.length){ el.innerHTML=''; return; }
+  let h = `<div class="done-h">✓ المجاب (${done.length}) — اضغط لعكس أي قرار</div>`;
+  for(const it of done){
+    h += `<div class="done-item"><b>${it.title}</b><br>إجابتك: <span class="ans">${it.answered||'—'}</span>
+          <br><button class="rev" onclick="document.getElementById('rv_${it.id}').style.display='block'">⮌ اعكس</button>
+          <div class="revbox" id="rv_${it.id}">
+            <textarea id="rvn_${it.id}" placeholder="سبب العكس (إلزامي — يعلّم النظام)"></textarea>
+            <button class="send" onclick="reverse('${it.id}')">أكّد العكس</button></div></div>`;
+  }
+  el.innerHTML = h;
 }
-function answer(id,v){ post(id,v); }
+function move(d){ const o=openItems(); if(o.length){ idx=(idx+d+o.length)%o.length; render(o);} }
+function skipIt(id){ SKIPPED.add(id); toast('أخّرناه 🕐'); idx=0; paint(); }
+async function post(id, answer, note){
+  await fetch('/api/approvals/answer?k='+K,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({item_id:id,answer:answer,note:note||''})});
+  toast(); await load(true);
+}
+function answer(id,v){ post(id,v,(document.getElementById('note')||{}).value||''); }
 function answerNumbers(id,keys){ const vals={};
   for(const k of keys) vals[k]=document.getElementById('f_'+k).value;
-  post(id, JSON.stringify(vals)); }
-function answerText(id){ post(id, document.getElementById('txt').value); }
-load();
-setInterval(()=>load(true), 25000); // new/emergency items appear while the page is open
+  post(id,JSON.stringify(vals),(document.getElementById('note')||{}).value||''); }
+function answerText(id){ post(id,document.getElementById('txt').value); }
+async function reverse(id){
+  const note=document.getElementById('rvn_'+id).value;
+  if(!note.trim()){ toast('⚠️ اكتب السبب أول'); return; }
+  await fetch('/api/approvals/reverse?k='+K,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({item_id:id,note:note})});
+  toast('⮌ انعكس — وصلني'); await load(true);
+}
+async function sendNote(){
+  const v=document.getElementById('gnote').value; if(!v.trim())return;
+  await post('_general_note', v, ''); document.getElementById('gnote').value=''; toast('💬 وصلت');
+}
+load(); setInterval(()=>load(true), 25000);
 </script>
 </body>
 </html>

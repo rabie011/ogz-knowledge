@@ -60,6 +60,17 @@ def main():
     with open(lf, "a") as f:
         f.write(json.dumps(ev, ensure_ascii=False) + "\n")
 
+    # B113: a culture_breach verdict auto-writes a PROPOSED red-line candidate —
+    # the pain becomes a draft rule instantly (proposed only; client/Mohamed activates)
+    if a.reason == "culture_breach":
+        rlf = BASE / "clients" / a.handle / "profile/red_lines.json"
+        rl = json.loads(rlf.read_text())
+        rl.setdefault("proposed_lines", []).append({
+            "line": (a.note or f"culture breach on {a.date} — needs naming")[:160],
+            "source": f"culture_breach:{a.date}", "status": "PROPOSED — client/Mohamed activates"})
+        rlf.write_text(json.dumps(rl, ensure_ascii=False, indent=2))
+        print(f"  📕 red-line candidate proposed from the breach")
+
     constraint = REASON_CONSTRAINTS[a.reason] + (f" ملاحظة الرافض حرفياً: {a.note}" if a.note else "")
     # constraint travels via env-file the renderer reads? Keep simple: prepend to the brain method
     # by passing --suffix __recovery and writing the constraint into a sidecar the renderer can't

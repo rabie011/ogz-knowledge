@@ -74,7 +74,7 @@ def load_client(handle: str) -> dict:
                             + truth.get("recurring_caption_terms", []))
     return {"handle": handle, "brand_ar": prof.get("fullName") or handle,
             "bio": prof.get("biography", ""), "truth": truth,
-            "moments": p("moments_bank")["moments"][:6], "fingerprint": p("fingerprint"),
+            "moments": p("moments_bank")["moments"], "fingerprint": p("fingerprint"),
             "state": p("state"), "exemplars": exemplars, "corpus_text": corpus_text,
             "en_led": (p("fingerprint")["l2_voice"].get("dialect") == "non_arabic")}
 
@@ -126,7 +126,7 @@ def make_angle(c: dict, slot: dict, sector: str, brain: str | None = None) -> di
             f"المنتجات الحقيقية: {products[:8]}\nالقنوات: {channels or 'غير معروفة — لا تخترع قناة'}\n"
             f"السياق: {slot.get('occasion') or slot.get('angle_theme','')} · beat: {slot.get('beat','evergreen')}\n"
             + (f"عدسة القطاع×المناسبة: {json.dumps(lens, ensure_ascii=False)[:600]}\n" if lens else "")
-            + (f"لحظات حقيقية من منشوراتهم: {json.dumps([m['evidence'][:70] for m in c['moments'][:3]], ensure_ascii=False)}\n" if c["moments"] else "")
+            + (f"لحظات حقيقية من منشوراتهم: {json.dumps([m['evidence'][:70] for m in (lambda ms, d: [ms[(sum(ord(ch) for ch in d) + j) % len(ms)] for j in range(min(3, len(ms)))])(c['moments'], slot.get('date',''))], ensure_ascii=False)}\n" if c["moments"] else "")
             + ("NOTE: this brand speaks English-first — the scene may be EN-hook + AR-idea bilingual.\n" if c["en_led"] else "")
             + f"التاريخ الفعلي للنشر: {slot['date']}")
     return json.loads(gpt([{"role": "system", "content": sys_p}, {"role": "user", "content": user}], temp=0.8, max_tok=400))

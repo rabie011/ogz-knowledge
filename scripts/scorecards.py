@@ -177,6 +177,12 @@ def compute() -> dict:
         kind = classify(r)
         if kind in ("reversal", "note"):
             continue
+        # TASTE FILTER (June 12 zoom-out): only judgments anchored to an ARTIFACT or an
+        # explicit player target count toward player scorecards. Ops option-picks
+        # (team_link_share→done etc.) are decisions, not taste — they polluted claude's
+        # card with judged:13 before this filter.
+        if not (r.get("artifact_id") or r.get("target")):
+            continue
         player = author_of(r)
         judge = r.get("judge", "mohamed")
         # self-review: the author judging itself — excluded + surfaced

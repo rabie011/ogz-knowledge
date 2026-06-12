@@ -1,35 +1,33 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>OGZ — قرارات</title>
+<title>OGZ — Decisions</title>
 <style>
   :root{
     --bg:#0a0e14; --bg2:#0d1320; --card:#141a26; --line:#283040; --line2:#1d2433;
     --ink:#f2f6fc; --ink2:#c4cede; --dim:#8a96a9;
     --green:#33EB05; --green-d:#0f2a08; --pink:#E602BB; --blue:#4a6cff; --blue-d:#0e1830;
     --urgent:#ff5a52; --gold:#ffd76a;
-    --r:16px;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0}
   body{background:radial-gradient(120% 80% at 50% -10%,#101826 0%,var(--bg) 55%);color:var(--ink);
-       font-family:-apple-system,"SF Pro Text","Segoe UI",Tahoma,sans-serif;
-       padding:14px 14px calc(28px + env(safe-area-inset-bottom));max-width:560px;margin-inline:auto;
-       line-height:1.6;-webkit-font-smoothing:antialiased}
+       font-family:-apple-system,"SF Pro Text","Segoe UI",sans-serif;
+       padding:14px 14px calc(96px + env(safe-area-inset-bottom));max-width:560px;margin-inline:auto;
+       line-height:1.55;-webkit-font-smoothing:antialiased}
   button,textarea,input{font-family:inherit}
 
-  /* ── header ── */
-  .hero{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  /* header */
+  .hero{display:flex;align-items:center;gap:12px;margin-bottom:12px}
   .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--green),var(--blue));
-        display:flex;align-items:center;justify-content:center;font-weight:900;color:#04130a;font-size:14px;letter-spacing:.3px}
+        display:flex;align-items:center;justify-content:center;font-weight:900;color:#04130a;font-size:14px}
   .hero h1{font-size:17px;margin:0;font-weight:800}
   .hero .sub{font-size:12.5px;color:var(--dim);margin-top:1px}
   .ring{margin-inline-start:auto;position:relative;width:54px;height:54px;flex:none}
   .ring svg{transform:rotate(-90deg)}
   .ring .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800}
 
-  /* ── identity picker ── */
   .whobar{display:flex;gap:7px;align-items:center;overflow-x:auto;background:var(--bg2);border:1px solid var(--line2);
           border-radius:13px;padding:8px 11px;margin-bottom:10px;scrollbar-width:none}
   .whobar::-webkit-scrollbar{display:none}
@@ -38,200 +36,203 @@
                  padding:8px 16px;font-size:13.5px;cursor:pointer;font-weight:700;min-height:40px}
   .whobar button.on{border-color:var(--green);background:var(--green-d);color:var(--green)}
 
-  /* ── filter chips ── */
-  .chips{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;scrollbar-width:none}
-  .chips::-webkit-scrollbar{display:none}
-  .chip{flex:none;background:var(--card);border:1px solid var(--line);color:var(--dim);border-radius:20px;
-        padding:8px 15px;font-size:13px;cursor:pointer;white-space:nowrap;min-height:38px}
-  .chip.on{border-color:var(--green);color:var(--green);background:var(--green-d)}
+  /* lane tabs */
+  .lanes{display:flex;gap:8px;margin-bottom:10px}
+  .tabbtn{background:var(--card);border:1px solid var(--line);color:var(--ink2);border-radius:11px;
+          padding:10px 16px;font-size:13.5px;cursor:pointer;min-height:44px;font-weight:700}
+  .tabbtn.on{border-color:var(--blue);color:#9cc0ff;background:var(--blue-d)}
+  .counter{font-size:12px;color:var(--dim);margin:0 0 10px 2px}
 
-  .urgentbar{background:linear-gradient(90deg,#2d1214,#1a0d0e);border:1px solid var(--urgent);color:#ffb3ae;
-             border-radius:12px;padding:11px 14px;margin-bottom:12px;font-size:13.5px;display:none}
-  .bulkbar{background:var(--green-d);border:1.5px solid #1f5a12;border-radius:12px;padding:11px 13px;
-           margin-bottom:12px;display:flex;align-items:center;gap:10px;font-size:13px;color:#bdf0ad}
-  .bulkbar button{background:var(--green);border:none;color:#04130a;border-radius:10px;padding:10px 16px;
-                  font-size:13.5px;font-weight:800;cursor:pointer;margin-inline-start:auto;min-height:42px}
+  .banner{border-radius:12px;padding:11px 14px;margin-bottom:12px;font-size:13.5px;display:none}
+  .banner.urgent{background:linear-gradient(90deg,#2d1214,#1a0d0e);border:1px solid var(--urgent);color:#ffb3ae}
+  .banner.held{background:#2d1214;border:1px solid var(--urgent);color:#ffb3ae;display:none}
+  .banner.outq{background:var(--blue-d);border:1px solid #24407a;color:#9cc0ff}
+  .banner.updating{background:var(--bg2);border:1px solid var(--line2);color:var(--dim);padding:7px 12px;font-size:12px}
 
-  /* ── card shell ── */
+  /* card */
   .card{background:linear-gradient(180deg,#161d2b,#121825);border:1px solid var(--line);border-radius:20px;
-        padding:18px 17px 16px;margin-bottom:14px;animation:in .22s ease;box-shadow:0 8px 30px #00000040}
-  @keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  .card.urgent{border-color:var(--urgent);box-shadow:0 0 0 1px #ff5a5240,0 8px 30px #ff5a5215}
+        padding:18px 17px 16px;margin-bottom:14px;animation:in .2s ease;box-shadow:0 8px 30px #00000040}
+  @keyframes in{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+  @keyframes out{to{opacity:0;transform:translateX(-40px)}}
+  .card.leaving{animation:out .22s ease forwards}
+  .card.urgent{border-color:var(--urgent)}
+  .skel{height:280px;border-radius:20px;background:linear-gradient(100deg,#141a26 40%,#1b2334 50%,#141a26 60%);
+        background-size:200% 100%;animation:sh 1.1s infinite}
+  @keyframes sh{to{background-position:-200% 0}}
 
-  /* Z0 context strip */
-  .ctx{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11.5px;margin-bottom:11px}
-  .pill{border-radius:7px;padding:4px 9px;font-weight:700;letter-spacing:.2px;white-space:nowrap}
+  .ctx{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11.5px;margin-bottom:9px}
+  .pill{border-radius:7px;padding:4px 9px;font-weight:700;white-space:nowrap}
   .pill.lane{background:#16233f;color:#9cc0ff;border:1px solid #24407a}
-  .pill.brand{background:#231a2e;color:#e7a8df;border:1px solid #5a2a72}
   .pill.clock{background:#2a1413;color:#ff9d96;border:1px solid #6e2c30}
   .pill.who{background:#1a2233;color:var(--dim);border:1px solid var(--line);margin-inline-start:auto}
+  .lineage{font-size:11.5px;color:var(--dim);margin:-2px 0 10px;display:flex;align-items:center;gap:8px}
+  .lineage .red{color:#ff9d96}
+  .lineage .flagbtn{margin-inline-start:auto;background:none;border:1px solid var(--line2);border-radius:9px;
+           font-size:14px;padding:5px 10px;cursor:pointer;min-height:34px;color:var(--dim)}
 
-  /* Z1 why-line hero */
-  .why{font-size:16.5px;font-weight:800;color:var(--ink);line-height:1.55;margin:0 0 6px}
+  .why{font-size:16.5px;font-weight:800;color:var(--ink);line-height:1.5;margin:0 0 6px}
   .why .lead{color:var(--green)}
-  h2.title{font-size:14px;margin:0 0 12px;font-weight:600;color:var(--ink2);line-height:1.5}
+  h2.title{font-size:14px;margin:0 0 12px;font-weight:600;color:var(--ink2)}
+  .summary{background:var(--bg2);border:1px solid var(--line2);border-radius:13px;padding:11px 13px;margin-bottom:13px}
+  .summary .row{display:flex;gap:9px;font-size:13.5px;line-height:1.65;padding:3px 0}
+  .summary .row+.row{border-top:1px solid var(--line2);margin-top:3px;padding-top:8px}
+  .summary .k{flex:none;color:var(--dim);font-weight:700;min-width:84px}
+  .summary .v{color:var(--ink2)} .summary .v b{color:#fff}
 
-  /* summary: what we need / what the system did */
-  .summary{background:var(--bg2);border:1px solid var(--line2);border-radius:13px;padding:12px 13px;margin-bottom:14px}
-  .summary .row{display:flex;gap:9px;font-size:13.5px;line-height:1.7;padding:3px 0}
-  .summary .row+.row{border-top:1px solid var(--line2);margin-top:3px;padding-top:9px}
-  .summary .k{flex:none;color:var(--dim);font-weight:700;min-width:74px}
-  .summary .v{color:var(--ink2)}
-  .summary .v b{color:#fff}
+  /* Arabic content island */
+  .island{direction:rtl;text-align:right}
 
-  /* Z2/Z3 post option */
-  .opt-post{background:var(--bg);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:12px 0}
-  .opt-post .ohead{padding:8px 13px;font-size:11px;color:var(--pink);letter-spacing:.5px;font-weight:700;
-                   background:#11131c;border-bottom:1px solid var(--line2)}
+  /* options — SELECT not send */
+  .opt{display:block;width:100%;background:#1a2233;border:1.5px solid var(--line);color:var(--ink);
+       border-radius:14px;padding:14px 15px;margin:9px 0;font-size:15px;cursor:pointer;line-height:1.55;
+       min-height:52px;touch-action:manipulation;transition:border-color .12s,opacity .12s;position:relative;text-align:inherit}
+  .opt.rec{border-color:#2f7a18;background:#13230d}
+  .opt .star{color:var(--gold);font-size:11.5px;font-weight:800;display:block;margin-bottom:3px}
+  .opt .ex{display:block;font-size:12.5px;color:var(--dim);margin-top:5px;font-weight:400}
+  .judge .opt.sel{border-color:var(--green);background:var(--green-d)}
+  .judge .opt.sel::after{content:'Selected ✓';position:absolute;top:8px;left:10px;font-size:10.5px;
+        color:var(--green);font-weight:800;direction:ltr}
+  .judge .opt.dim{opacity:.55}
+  .hint{font-size:11.5px;color:var(--dim);margin:2px 2px 8px}
+
+  /* post option */
+  .opt-post{background:var(--bg);border:1.5px solid var(--line);border-radius:16px;overflow:hidden;margin:12px 0;
+            cursor:pointer;transition:border-color .12s,opacity .12s;position:relative}
+  .opt-post.sel{border-color:var(--green)}
+  .opt-post.sel::after{content:'Selected ✓';position:absolute;top:10px;left:12px;font-size:11px;color:var(--green);
+        font-weight:800;background:#04130acc;border-radius:8px;padding:3px 8px;direction:ltr;z-index:2}
+  .opt-post.dim{opacity:.55}
+  .opt-post .ohead{padding:8px 13px;font-size:11px;color:var(--pink);font-weight:700;background:#11131c;
+                   border-bottom:1px solid var(--line2);direction:ltr;text-align:left}
   .opt-post img{width:100%;display:block;max-height:46vh;object-fit:contain;background:#05070b}
   .opt-post .scene{font-size:11px;color:var(--dim);padding:7px 13px;background:#0c1019;border-bottom:1px solid var(--line2)}
-  .opt-post .cap{padding:16px 15px;font-size:17px;line-height:2;text-align:center;color:var(--ink)}
-  .opt-post .pickwrap{padding:0 13px 14px;text-align:center}
+  .opt-post .cap{padding:15px;font-size:17px;line-height:2;text-align:center}
 
-  /* Z3 buttons / caption picks */
-  .opt{display:block;width:100%;text-align:right;background:#1a2233;border:1.5px solid var(--line);color:var(--ink);
-       border-radius:14px;padding:15px 16px;margin:9px 0;font-size:15px;cursor:pointer;line-height:1.6;
-       min-height:52px;touch-action:manipulation;transition:border-color .15s,background .15s}
-  .opt:active{border-color:var(--green);background:var(--green-d)}
-  .opt.rec{border-color:#2f7a18;background:#13230d}
-  .opt .star{color:var(--gold);font-size:12px;font-weight:800;display:block;margin-bottom:4px}
-  .opt .ex{display:block;font-size:12.5px;color:var(--dim);margin-top:6px;font-weight:400;line-height:1.65}
-  .cap-pick{background:var(--bg);border:1.5px solid var(--line);border-radius:15px;padding:20px 16px;margin:11px 0;
-            font-size:17px;line-height:2;text-align:center;position:relative}
-  .cap-pick .who{position:absolute;top:-10px;right:16px;background:var(--card);border:1px solid var(--pink);
-                 color:var(--pink);font-size:10.5px;border-radius:11px;padding:2px 11px}
-
-  .pick{background:var(--green);border:none;color:#04130a;border-radius:12px;padding:14px 30px;font-size:15px;
-        cursor:pointer;font-weight:800;min-height:52px;width:100%;touch-action:manipulation}
-  .pick:disabled{opacity:.5}
-
-  /* numbers / text */
-  .row{display:flex;gap:14px;align-items:end;flex-wrap:wrap;margin:12px 0}
-  input[type=number]{background:var(--bg);border:1.5px solid var(--line);color:var(--ink);border-radius:11px;
-                     padding:13px;width:108px;font-size:18px;text-align:center;font-weight:700;min-height:52px}
-  .send{background:var(--green);border:none;color:#04130a;border-radius:12px;padding:14px 26px;font-size:15px;
-        cursor:pointer;font-weight:800;min-height:52px;touch-action:manipulation}
-  .ghost{background:transparent;border:1px solid var(--line);color:var(--dim);border-radius:11px;padding:13px 18px;
-         font-size:14px;cursor:pointer;min-height:48px}
-
-  /* Z4 verdict (choice-less cards only) */
+  /* verdict (judge) */
   .verdict{display:flex;gap:10px;margin-top:12px}
-  .verdict button{flex:1;border-radius:14px;padding:16px;font-size:16px;font-weight:800;cursor:pointer;min-height:56px;touch-action:manipulation}
-  .verdict .ok{background:var(--green);color:#06250b;border:none}
-  .verdict .no{background:transparent;color:var(--pink);border:1.5px solid var(--pink)}
-
-  /* sent strip (post-decision) */
-  .sent{display:none;background:var(--green-d);border:1px solid #1f5a12;border-radius:12px;padding:12px 14px;
-        margin-top:12px;font-size:14px;color:#bdf0ad;font-weight:700}
-  .sent b{color:#fff}
-
-  /* Z5 write box */
-  .writewrap{margin-top:14px}
-  .write-aff{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px dashed var(--line);
-             border-radius:13px;padding:13px 14px;font-size:14px;color:var(--dim);cursor:text;min-height:50px}
-  .write-aff .pen{font-size:16px}
-  .write-open{display:none}
-  .write-open.show{display:block}
-  .write-aff.hide{display:none}
-  textarea.note{background:var(--bg);border:1.5px solid var(--blue);color:var(--ink);border-radius:13px;padding:13px;
-                width:100%;font-size:15px;min-height:92px;line-height:1.7;resize:vertical;display:block}
-  .write-tools{display:flex;align-items:center;gap:10px;margin-top:8px}
-  .togglefix{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--dim);cursor:pointer;user-select:none}
-  .togglefix .box{width:20px;height:20px;border:1.5px solid var(--line);border-radius:6px;display:flex;
-                  align-items:center;justify-content:center;font-size:13px}
-  .togglefix.on{color:var(--gold)} .togglefix.on .box{border-color:var(--gold);background:#2a2310;color:var(--gold)}
-  .sendnote{margin-inline-start:auto;background:var(--blue);border:none;color:#fff;border-radius:11px;
-            padding:11px 20px;font-size:14px;font-weight:700;cursor:pointer;min-height:44px}
+  .verdict button{flex:1;border-radius:14px;padding:15px;font-size:15.5px;font-weight:800;cursor:pointer;
+                  min-height:54px;touch-action:manipulation;transition:.12s;border:1.5px solid var(--line);background:#1a2233;color:var(--ink2)}
+  .verdict .ok.sel{background:var(--green);color:#06250b;border-color:var(--green)}
+  .verdict .no.sel{background:#2a0d1f;color:var(--pink);border-color:var(--pink)}
 
   /* rating */
-  .stars{display:flex;gap:5px;justify-content:center;margin:14px 0 2px;direction:ltr}
-  .stars button{background:none;border:none;font-size:28px;cursor:pointer;opacity:.3;transition:.15s;padding:6px;
+  .stars{display:flex;gap:5px;justify-content:center;margin:12px 0 0}
+  .stars button{background:none;border:none;font-size:27px;cursor:pointer;opacity:.3;padding:6px;
                 min-width:44px;min-height:44px;color:var(--gold)}
-  .stars button.on{opacity:1;transform:scale(1.12)}
-  .stars-cap{font-size:11.5px;text-align:center;color:var(--dim);opacity:.8}
+  .stars button.on{opacity:1;transform:scale(1.1)}
+  .stars-cap{font-size:11.5px;text-align:center;color:var(--dim);opacity:.8;margin-bottom:2px}
 
-  /* Z6 deeper details */
-  details.deep{margin-top:14px;border-top:1px solid var(--line2);padding-top:12px}
+  /* reason chips (on reject) */
+  .chipsrow{display:none;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .chipsrow.show{display:flex}
+  .rchip{background:#1a2233;border:1.5px solid var(--line);color:var(--ink2);border-radius:18px;
+         padding:9px 14px;font-size:13px;cursor:pointer;min-height:40px}
+  .rchip.on{border-color:var(--pink);color:var(--pink);background:#231019}
+
+  /* write box */
+  .writewrap{margin-top:12px}
+  .write-aff{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px dashed var(--line);
+             border-radius:13px;padding:12px 14px;font-size:13.5px;color:var(--dim);cursor:text;min-height:48px}
+  .write-open{display:none} .write-open.show{display:block} .write-aff.hide{display:none}
+  textarea.note{background:var(--bg);border:1.5px solid var(--blue);color:var(--ink);border-radius:13px;padding:12px;
+                width:100%;font-size:15px;min-height:84px;line-height:1.6;resize:vertical;display:block}
+  .write-tools{display:flex;align-items:center;gap:12px;margin-top:8px;flex-wrap:wrap}
+  .wtoggle{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--dim);cursor:pointer;user-select:none;min-height:36px}
+  .wtoggle .box{width:19px;height:19px;border:1.5px solid var(--line);border-radius:6px;display:flex;
+                align-items:center;justify-content:center;font-size:12px;flex:none}
+  .wtoggle.on{color:var(--gold)} .wtoggle.on .box{border-color:var(--gold);background:#2a2310;color:var(--gold)}
+
+  details.deep{margin-top:13px;border-top:1px solid var(--line2);padding-top:11px}
   details.deep>summary{color:var(--blue);font-size:13px;cursor:pointer;list-style:none;font-weight:700}
   details.deep>summary::-webkit-details-marker{display:none}
   details.deep>summary::before{content:'▸ ';color:var(--dim)}
   details.deep[open]>summary::before{content:'▾ '}
-  .deepbody{font-size:13px;color:var(--ink2);line-height:1.85;margin-top:11px}
-  .deepbody .blk{background:var(--bg2);border:1px solid var(--line2);border-radius:11px;padding:11px 12px;margin:9px 0}
-  .deepbody .h{font-size:11px;color:var(--pink);letter-spacing:.4px;font-weight:700;display:block;margin-bottom:5px}
-  .deepbody .quote{background:var(--bg);border-radius:8px;padding:8px 11px;margin-top:6px;font-size:12.5px;color:#c8d2e0}
+  .deepbody{font-size:13px;color:var(--ink2);line-height:1.75;margin-top:10px}
+  .deepbody .blk{background:var(--bg2);border:1px solid var(--line2);border-radius:11px;padding:10px 12px;margin:8px 0}
+  .deepbody .h{font-size:11px;color:var(--pink);font-weight:700;display:block;margin-bottom:4px;direction:ltr;text-align:left}
   .cmd{background:#05080d;border:1.5px solid var(--gold);border-radius:11px;padding:12px;margin:10px 0;
        font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#ffe8a3;direction:ltr;text-align:left;
        word-break:break-all;line-height:1.6}
   .cmdcopy{background:var(--gold);border:none;color:#1a1400;border-radius:10px;padding:11px 18px;font-size:13.5px;
            font-weight:800;cursor:pointer;width:100%;min-height:44px}
 
-  /* Z7 quiet footer */
-  .foot{display:flex;align-items:center;gap:8px;margin-top:16px;padding-top:13px;border-top:1px solid var(--line2)}
+  .foot{display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line2)}
   .foot button{background:transparent;border:1px solid var(--line2);color:var(--dim);border-radius:10px;
                padding:10px 13px;font-size:13px;cursor:pointer;min-height:44px}
-  .foot .skip{border-style:dashed}
+  .foot .later{border-style:dashed}
   .foot .pos{font-size:12px;color:var(--dim);margin-inline:auto}
-  .foot .next{color:var(--ink2);border-color:var(--line)}
+
+  /* STICKY SUBMIT BAR */
+  .subbar{position:fixed;bottom:0;left:0;right:0;z-index:30;padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+          background:linear-gradient(transparent,#0a0e14ee 26%)}
+  .subbar button{width:100%;max-width:532px;margin-inline:auto;display:block;border:none;border-radius:15px;
+          padding:16px;font-size:16px;font-weight:800;min-height:56px;touch-action:manipulation;transition:.15s}
+  .subbar button.disabled{background:#1a2233;color:var(--dim);cursor:default}
+  .subbar button.ready{background:var(--green);color:#06250b;cursor:pointer;box-shadow:0 4px 24px #33EB0540}
+  .subbar button.error{background:var(--urgent);color:#fff}
+  .subbar.hide{display:none}
+
+  /* snackbar */
+  .snack{position:fixed;bottom:calc(86px + env(safe-area-inset-bottom));left:14px;right:14px;z-index:31;
+         max-width:532px;margin-inline:auto;background:#1c2433;border:1px solid var(--line);border-radius:13px;
+         padding:12px 14px;font-size:13.5px;display:none;align-items:center;gap:10px;box-shadow:0 8px 30px #00000060}
+  .snack.show{display:flex}
+  .snack .undo{margin-inline-start:auto;background:transparent;border:1px solid var(--gold);color:var(--gold);
+               border-radius:9px;padding:8px 16px;font-size:13px;font-weight:800;cursor:pointer;min-height:38px;flex:none}
+
+  /* end screen */
+  .endcard{background:linear-gradient(180deg,#13241a,#121825);border:1.5px solid #1f5a12;border-radius:20px;padding:22px 18px}
+  .endcard h2{font-size:20px;margin:0 0 2px;color:var(--green)}
+  .endcard .sub{font-size:13px;color:var(--dim);margin-bottom:14px}
+  .endcard .blk{background:#0d1320cc;border:1px solid var(--line2);border-radius:13px;padding:12px 14px;margin:9px 0;font-size:13.5px;line-height:1.7}
+  .endcard .blk .bh{font-size:11px;color:var(--dim);font-weight:800;letter-spacing:.4px;margin-bottom:5px}
+  .endcard .grey{color:var(--dim);font-size:12.5px}
+  .endcard .next{background:var(--green);border:none;color:#06250b;border-radius:13px;padding:15px;width:100%;
+                 font-size:15px;font-weight:800;cursor:pointer;min-height:54px;margin-top:10px}
 
   /* done list */
-  .done-h{font-size:13.5px;color:var(--dim);margin:24px 0 11px;border-top:1px solid var(--line);padding-top:20px}
-  .done-item{background:#0e1219;border:1px solid var(--line2);border-radius:13px;padding:13px 14px;margin-bottom:9px;
-             font-size:13.5px;line-height:1.7}
+  .done-h{font-size:13.5px;color:var(--dim);margin:22px 0 10px;border-top:1px solid var(--line);padding-top:18px}
+  .done-item{background:#0e1219;border:1px solid var(--line2);border-radius:13px;padding:12px 14px;margin-bottom:9px;font-size:13.5px;line-height:1.65}
   .done-item .ans{color:var(--green);font-weight:700}
-  .done-item .byj{font-size:11.5px;color:var(--dim);background:#161d2b;border-radius:6px;padding:2px 8px;margin-inline-start:6px}
-  .rev{background:transparent;border:1px solid #6e2c30;color:#ff9d96;border-radius:9px;padding:8px 14px;font-size:12.5px;
-       cursor:pointer;margin-top:9px;min-height:40px}
-  .revbox{display:none;margin-top:9px}
-  .revbox.show{display:block}
+  .done-item .byj{font-size:11px;color:var(--dim);background:#161d2b;border-radius:6px;padding:2px 8px;margin-inline-start:6px}
+  .rev{background:transparent;border:1px solid #6e2c30;color:#ff9d96;border-radius:9px;padding:8px 14px;font-size:12.5px;cursor:pointer;margin-top:8px;min-height:38px}
+  .revbox{display:none;margin-top:8px} .revbox.show{display:block}
 
-  /* global note pill */
-  .gnote-pill{display:flex;align-items:center;gap:9px;background:var(--bg2);border:1px solid var(--line2);
-              border-radius:13px;padding:13px 14px;margin:18px 0 6px;font-size:13.5px;color:var(--dim);cursor:text;min-height:50px}
-  .gnote-open{display:none;margin:14px 0 6px}
-  .gnote-open.show{display:block}
-  .gnote-open textarea{background:var(--card);border:1.5px solid var(--blue);color:var(--ink);border-radius:13px;
-                       padding:13px;width:100%;font-size:14px;min-height:70px}
-  .gnote-open button{background:var(--blue);border:none;color:#fff;border-radius:11px;padding:12px 22px;font-size:14px;
-                     font-weight:700;cursor:pointer;margin-top:8px;min-height:44px}
-
-  /* made-by chip + flag */
-  .madeby{display:flex;align-items:center;gap:8px;margin:-3px 0 10px}
-  .mbchip{font-size:11.5px;color:var(--dim);background:#141a26;border:1px dashed var(--line);
-          border-radius:8px;padding:5px 10px;cursor:pointer}
-  .mbchip.on{color:var(--gold);border-color:var(--gold);background:#2a2310}
-  .flagbtn{margin-inline-start:auto;background:none;border:1px solid var(--line2);border-radius:9px;
-           font-size:15px;padding:6px 11px;cursor:pointer;min-height:38px}
-  /* flag bottom sheet */
+  /* flag sheet */
   #flagsheet{position:fixed;inset:0;background:#000a;display:none;z-index:40;align-items:flex-end}
   #flagsheet.show{display:flex}
   .fs-in{background:var(--card);border-top:1.5px solid var(--line);border-radius:20px 20px 0 0;
          padding:18px 16px calc(18px + env(safe-area-inset-bottom));width:100%;max-width:560px;margin-inline:auto}
-  .fs-t{font-size:15px;font-weight:800;margin-bottom:12px}
-  .fs-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-  .fs-chip{background:#1a2233;border:1.5px solid var(--line);color:var(--ink2);border-radius:18px;
-           padding:9px 15px;font-size:13px;cursor:pointer;min-height:40px}
-  .fs-chip.on{border-color:var(--pink);color:var(--pink);background:#231019}
-  /* players view */
-  .pl-row{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;
-          margin-bottom:9px;display:flex;align-items:center;gap:10px}
-  .pl-name{font-weight:800;font-size:14.5px;min-width:90px}
-  .pl-dots{display:flex;gap:3px;direction:ltr}
+  .fs-t{font-size:15px;font-weight:800;margin-bottom:11px}
+  .fs-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:11px}
+  .fs-actions{display:flex;gap:10px;margin-top:10px}
+  .fs-actions .send{flex:1;background:var(--pink);border:none;color:#fff;border-radius:11px;padding:13px;font-size:14px;font-weight:800;cursor:pointer;min-height:48px}
+  .fs-actions .ghost{background:transparent;border:1px solid var(--line);color:var(--dim);border-radius:11px;padding:13px 18px;cursor:pointer;min-height:48px}
+
+  /* players */
+  .pl-row{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:9px;display:flex;align-items:center;gap:10px}
+  .pl-name{font-weight:800;font-size:14px;min-width:86px}
+  .pl-dots{display:flex;gap:3px}
   .pl-dot{width:9px;height:9px;border-radius:50%}
   .pl-dot.green{background:var(--green)} .pl-dot.red{background:var(--urgent)}
   .pl-dot.yellow{background:var(--gold)} .pl-dot.grey{background:#3a4356}
-  .pl-stats{margin-inline-start:auto;font-size:11.5px;color:var(--dim);text-align:left;line-height:1.6}
+  .pl-stats{margin-inline-start:auto;font-size:11.5px;color:var(--dim);text-align:right;line-height:1.55}
   .pl-badge{font-size:10.5px;border-radius:6px;padding:2px 7px;background:#2a1413;color:#ff9d96;border:1px solid #6e2c30}
-  .tabbtn{background:var(--card);border:1px solid var(--line);color:var(--ink2);border-radius:11px;
-          padding:9px 14px;font-size:13px;cursor:pointer;min-height:40px}
-  .tabbtn.on{border-color:var(--blue);color:#9cc0ff}
+
+  .gnote-pill{display:flex;align-items:center;gap:9px;background:var(--bg2);border:1px solid var(--line2);
+              border-radius:13px;padding:12px 14px;margin:16px 0 6px;font-size:13.5px;color:var(--dim);cursor:text;min-height:48px}
+  .gnote-open{display:none;margin:14px 0 6px} .gnote-open.show{display:block}
+  .gnote-open textarea{background:var(--card);border:1.5px solid var(--blue);color:var(--ink);border-radius:13px;padding:12px;width:100%;font-size:14px;min-height:70px}
+  .gnote-open button{background:var(--blue);border:none;color:#fff;border-radius:11px;padding:12px 22px;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px;min-height:44px}
+
+  input[type=number]{background:var(--bg);border:1.5px solid var(--line);color:var(--ink);border-radius:11px;
+                     padding:13px;width:108px;font-size:18px;text-align:center;font-weight:700;min-height:52px}
+  .numrow{display:flex;gap:14px;align-items:end;flex-wrap:wrap;margin:12px 0}
   .empty{text-align:center;padding:30px 16px}
-  .empty .big{font-size:36px} .empty .t{color:var(--green);font-weight:800;margin:10px 0 4px}
   .small{font-size:12px;color:var(--dim)}
   .toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:var(--green);color:#04130a;
-         padding:12px 24px;border-radius:12px;font-size:14px;font-weight:800;display:none;z-index:50;
-         box-shadow:0 6px 24px #33EB0540;max-width:90vw;text-align:center}
-  .toast.err{background:var(--urgent);color:#fff;box-shadow:0 6px 24px #ff5a5240}
+         padding:12px 22px;border-radius:12px;font-size:14px;font-weight:800;display:none;z-index:50;max-width:90vw;text-align:center}
+  .toast.err{background:var(--urgent);color:#fff}
 </style>
 </head>
 <body>
@@ -239,7 +240,7 @@
 
 <div class="hero">
   <div class="logo">OGZ</div>
-  <div><h1 id="h1">قرارات OGZ</h1><div class="sub" id="subline">…</div></div>
+  <div><h1 id="h1">OGZ Decisions</h1><div class="sub" id="subline">…</div></div>
   <div class="ring"><svg width="54" height="54">
     <circle cx="27" cy="27" r="22" stroke="#283040" stroke-width="5" fill="none"/>
     <circle id="ringbar" cx="27" cy="27" r="22" stroke="#33EB05" stroke-width="5" fill="none"
@@ -248,24 +249,28 @@
 </div>
 
 <div class="whobar" id="whobar"></div>
-<div style="display:flex;gap:8px;margin-bottom:10px">
-  <button class="tabbtn on" id="tab_cards" onclick="setView('cards')">📋 القرارات</button>
-  <button class="tabbtn" id="tab_players" onclick="setView('players')">🧠 اللاعبين</button>
-</div>
-<div class="chips" id="chips"></div>
-<div class="urgentbar" id="ubar">🚨 <b>طارئ</b> — قرار مستعجل، طالع لك أول واحد</div>
-<div id="bulk"></div>
+<div class="lanes" id="lanes"></div>
+<div class="counter" id="counter"></div>
+<div class="banner urgent" id="ubar">🚨 <b>Urgent</b> — a time-critical decision is first in line</div>
+<div class="banner held" id="heldbar"></div>
+<div class="banner updating" id="updbar">Updating…</div>
 <div id="stage"></div>
 <div id="players" style="display:none"></div>
 <div id="gnoteHost"></div>
 <div id="doneList"></div>
+
+<div class="subbar hide" id="subbar"><button id="subbtn" class="disabled" onclick="submitJudgment()">Pick an option above</button></div>
+<div class="snack" id="snack"></div>
 <div id="flagsheet" onclick="if(event.target===this)closeFlag()"></div>
 
 <script>
 const K = new URLSearchParams(location.search).get('k') || '';
-let ITEMS=[], idx=0, FILTER='الكل', SEEN=new Set(), posting=false, curId=null;
-let SKIPPED = new Set(JSON.parse(localStorage.getItem('ogz_skipped')||'[]'));
-let RATINGS={}, FIXMODE={};                 // per-card, never global
+const KH = (s=>{let h=5381;for(const c of s)h=(h*33+c.charCodeAt(0))>>>0;return h.toString(36)})(K);
+let ITEMS=[], idx=0, LANE_VIEW='judge', SKIPPED=new Set(JSON.parse(localStorage.getItem('ogz_skipped')||'[]'));
+let curId=null, SESSION_LOG=[], SESSION_START=new Date().toISOString().slice(0,19), VIEW='cards';
+let J={};                              // compose state per card
+let MEMBERS=[{id:'mohamed',name:'Mohamed',owner:true}], WHO=localStorage.getItem('ogz_who')||'mohamed';
+let FIXED_ID=false, REASONS=[];
 
 /* ---------- helpers ---------- */
 function esc(s){ return (s==null?'':String(s))
@@ -273,483 +278,608 @@ function esc(s){ return (s==null?'':String(s))
   .replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function toast(m,err){ const t=document.getElementById('toast'); t.textContent=m;
   t.className='toast'+(err?' err':''); t.style.display='block';
-  clearTimeout(t._t); t._t=setTimeout(()=>t.style.display='none',2000); }
-function cat(it){ return it.cat || (it.tag||'').split('·')[0].trim() || 'عام'; }
-function isTyping(){ const a=document.activeElement; return a && (a.tagName==='TEXTAREA'||a.tagName==='INPUT'); }
-function isDirty(){ return [...document.querySelectorAll('#stage textarea')].some(t=>t.value.trim()); }
-const LANE={strategy:'📊 استراتيجية',creative:'🎨 إبداع',business:'💼 أعمال',ops:'⚙️ تشغيل',نظام:'⚙️ نظام'};
+  clearTimeout(t._t); t._t=setTimeout(()=>t.style.display='none',2200); }
+function isTyping(){ const a=document.activeElement; return a&&(a.tagName==='TEXTAREA'||a.tagName==='INPUT'); }
+function isComposing(id){ const j=J[id]; return !!(j&&(j.choice!=null||j.verdict||j.rating||j.note||(j.chips&&j.chips.length)||j.text_answer)); }
+function isDirty(){ return isComposing(curId)||[...document.querySelectorAll('#stage textarea')].some(t=>t.value.trim()); }
+const EN_NAMES={mohamed:'Mohamed',amira:'Amira',creative:'Creative',business:'Business'};
+const PLAYER_EN={'claude':'Claude','rabie':'Rabie','mind:ceo':'CEO mind','mind:coo':'COO mind','mind:cco':'CCO mind',
+  'mind:firaasa':'Firaasa','mind:metaphor':'Metaphor','mind:authenticity':'Authenticity','mind:heritage':'Heritage',
+  'mind:paradox':'Paradox','system:feedback_cards':'Feedback system'};
+function playerEn(p){ return PLAYER_EN[p]||p; }
+const CHIP_EN={tone_off:'Tone off',too_long:'Too long',cliche:'Cliché',cultural_red_line:'Red line',
+  off_brief:'Off brief',weak_hook:'Weak hook',wrong_priority:'Wrong priority',
+  claimed_done_not_done:'Said done, not done',ignored_correction:'Ignored my correction',too_slow:'Too slow',unclear:'Unclear'};
 
-/* drafts (backstop behind the suppress-guard) */
-function draftKey(id){ return 'draft:'+id+':'+WHO; }
-function saveDraft(id,v){ try{ v.trim()?localStorage.setItem(draftKey(id),v):localStorage.removeItem(draftKey(id)); }catch(e){} }
-function getDraft(id){ try{ return localStorage.getItem(draftKey(id))||''; }catch(e){ return ''; } }
+/* compose persistence (keyed by access key — no bleed on shared devices) */
+function jget(id){ if(!J[id]){ try{ J[id]=JSON.parse(localStorage.getItem('compose:'+id+':'+KH))||{}; }catch(e){ J[id]={}; } }
+  return J[id]; }
+function jsave(id){ try{ const j=J[id]||{};
+  Object.values(j).some(v=>v&&(!Array.isArray(v)||v.length))
+    ? localStorage.setItem('compose:'+id+':'+KH,JSON.stringify(j))
+    : localStorage.removeItem('compose:'+id+':'+KH); }catch(e){} }
+function jclear(id){ delete J[id]; try{ localStorage.removeItem('compose:'+id+':'+KH); }catch(e){} }
 
-/* ---------- identity (server-resolved when a per-judge key is used) ---------- */
-let MEMBERS=[{id:'mohamed',name:'محمد',owner:true}];
-let WHO = localStorage.getItem('ogz_who') || 'mohamed';
-let FIXED_ID=false, REASONS=[];
+/* ---------- identity ---------- */
 async function whoami(){
   try{ const r=await fetch('/api/approvals/whoami?k='+K);
     if(r.ok){ const d=await r.json(); if(d.members&&d.members.length) MEMBERS=d.members;
       if(d.judge){ WHO=d.judge; FIXED_ID=true; } } }catch(e){}
   if(!MEMBERS.find(m=>m.id===WHO)) WHO=MEMBERS[0].id;
-  try{ const r2=await fetch('/api/approvals/reasons?k='+K);
-    if(r2.ok) REASONS=(await r2.json()).codes||[]; }catch(e){}
   renderWho();
 }
+function nameOf(id){ return EN_NAMES[id]||((MEMBERS.find(m=>m.id===id)||{}).name)||id; }
 function renderWho(){
-  const me=MEMBERS.find(m=>m.id===WHO)||MEMBERS[0];
-  document.getElementById('h1').textContent = me.owner?'قرارات OGZ':'مرحبا '+me.name;
+  document.getElementById('h1').textContent='OGZ Decisions';
   document.getElementById('whobar').innerHTML = FIXED_ID
-    ? `<span class="lbl">أنت:</span><button class="on">👤 ${esc(me.name)} ✓</button>
-       <button onclick="repudiate()" style="border-style:dashed">مو أنا ✋</button>`
-    : '<span class="lbl">مين أنت؟</span>'+
-      MEMBERS.map(m=>`<button class="${m.id===WHO?'on':''}" onclick="setWho('${esc(m.id)}')">${esc(m.name)}</button>`).join('');
+    ? `<span class="lbl">You are:</span><button class="on">👤 ${esc(nameOf(WHO))} ✓</button>
+       <button onclick="repudiate()" style="border-style:dashed">Not me ✋</button>`
+    : '<span class="lbl">Who are you?</span>'+
+      MEMBERS.map(m=>`<button class="${m.id===WHO?'on':''}" onclick="setWho('${esc(m.id)}')">${esc(nameOf(m.id))}</button>`).join('');
 }
 function setWho(id){ if(FIXED_ID) return; WHO=id; localStorage.setItem('ogz_who',id); renderWho();
-  toast('👤 '+((MEMBERS.find(m=>m.id===id)||{}).name||'')); renderCard(); }
+  toast('👤 '+nameOf(id)); renderCard(); }
 async function repudiate(){
-  // «مو أنا»: someone else tapped on this device — the server marks the previous row
-  if(!confirm('آخر حكم من هذا الجهاز مو منك؟')) return;
-  const ok=await post('_repudiation','مو أنا','','');
-  if(ok) toast('✋ سجلناها — الحكم السابق معلَّم');
+  if(!confirm('The last judgment from this device was not yours?')) return;
+  const ok=await postBody(buildBody('_repudiation','not me','',''));
+  if(ok) toast('✋ Noted — the previous judgment is flagged');
 }
 
-/* ---------- data ---------- */
-async function refresh(){              // fetch + ambient patch, STAGE protected while writing
-  let data; try{ const r=await fetch('/api/approvals/items?k='+K); data=await r.json(); }
-  catch(e){ return; }                  // silent: ambient refresh shouldn't nag
-  ITEMS=data; patchAmbient();
-  if(isTyping()||isDirty()) return;    // THE FIX: never rebuild the card under the cursor
-  const open=openItems();
-  const wantId = open.length? open[Math.min(idx,open.length-1)].id : null;
-  if(wantId!==curId) renderCard();     // only rebuild when the visible card actually changed
+/* ---------- data + warm paint ---------- */
+function cacheItems(){ try{ localStorage.setItem('cache_items:'+KH,JSON.stringify({ts:Date.now(),items:ITEMS})); }catch(e){} }
+function warmPaint(){
+  try{ const c=JSON.parse(localStorage.getItem('cache_items:'+KH));
+    if(c&&c.items&&c.items.length){ ITEMS=c.items; patchAmbient(); renderCard();
+      document.getElementById('updbar').style.display='block'; return true; } }catch(e){}
+  document.getElementById('stage').innerHTML='<div class="skel"></div>';
+  return false;
 }
-function openItems(){
-  let o=ITEMS.filter(i=>i.status!=='answered');
-  if(FILTER!=='الكل') o=o.filter(i=>cat(i)===FILTER);
+async function refresh(){
+  let r,data;
+  try{ r=await fetch('/api/approvals/items?k='+K); if(r.status===304) return; data=await r.json(); }
+  catch(e){ return; }
+  ITEMS=data; cacheItems();
+  document.getElementById('updbar').style.display='none';
+  patchAmbient();
+  if(isTyping()||isDirty()) return;        // never rebuild a card holding a composition
+  const open=openItems();
+  const wantId=open.length? open[Math.min(idx,open.length-1)].id : null;
+  if(wantId!==curId) renderCard();
+}
+function laneOf(it){ return it.judge_lane ? 'judge' : 'decide'; }
+function openItems(lane){
+  let o=ITEMS.filter(i=>i.status!=='answered' && laneOf(i)===(lane||LANE_VIEW));
   o.sort((a,b)=>(SKIPPED.has(a.id)-SKIPPED.has(b.id)) || ((a.priority!=='urgent')-(b.priority!=='urgent')));
   return o;
 }
 function patchAmbient(){
   const all=ITEMS.length, done=ITEMS.filter(i=>i.status==='answered').length;
-  const left=all-done, mins=Math.max(1,Math.round(left*0.4));
-  document.getElementById('subline').textContent = done===all?'كل شيء مجاب ✓':`${left} قرار · ~${mins} دقيقة`;
+  document.getElementById('subline').textContent = done===all?'All clear ✓':`${all-done} open`;
   document.getElementById('ringnum').textContent = done+'/'+all;
   document.getElementById('ringbar').style.strokeDashoffset = 138-138*(all?done/all:0);
-  const cats=['الكل',...new Set(ITEMS.filter(i=>i.status!=='answered').map(cat))];
-  document.getElementById('chips').innerHTML = cats.map(c=>
-    `<div class="chip ${c===FILTER?'on':''}" onclick="setFilter('${esc(c)}')">${esc(c)}</div>`).join('');
+  const nj=openItems('judge').length, nd=openItems('decide').length;
+  document.getElementById('lanes').innerHTML=
+    `<button class="tabbtn ${LANE_VIEW==='judge'&&VIEW==='cards'?'on':''}" onclick="setLane('judge')">⚖️ Judge (${nj})</button>
+     <button class="tabbtn ${LANE_VIEW==='decide'&&VIEW==='cards'?'on':''}" onclick="setLane('decide')">⚡ Decide (${nd})</button>
+     <button class="tabbtn ${VIEW==='players'?'on':''}" onclick="setView('players')">🧠 Players</button>`;
   const open=openItems();
   document.getElementById('ubar').style.display = open.some(i=>i.priority==='urgent')?'block':'none';
-  renderBulk(open); renderDone();
+  const later=[...SKIPPED].filter(id=>open.some(i=>i.id===id)).length;
+  const live=open.filter(i=>!SKIPPED.has(i.id));
+  document.getElementById('counter').textContent = VIEW!=='cards'?'' :
+    live.length? `Card ${Math.min(idx+1,live.length)} of ${live.length}`+(later?` · Later (${later})`:'') : '';
+  renderDone(); renderHeld();
 }
-function setFilter(c){ FILTER=c; idx=0; patchAmbient(); renderCard(); }
-
-/* bulk-approve: ONLY when every card in the group has been SEEN this session */
-function renderBulk(open){
-  const host=document.getElementById('bulk');
-  if(FILTER!=='الكل' && open.length>1 && open.every(i=>SEEN.has(i.id)))
-    host.innerHTML=`<div class="bulkbar">📦 شفت كل الـ${open.length} في «${esc(FILTER)}» —
-      <button onclick="bulkApprove()">✅ اعتمدها كلها</button></div>`;
-  else host.innerHTML='';
+function setLane(l){ VIEW='cards'; LANE_VIEW=l; idx=0; curId=null;
+  document.getElementById('players').style.display='none';
+  ['stage','doneList','counter'].forEach(x=>document.getElementById(x).style.display='');
+  patchAmbient(); renderCard(); }
+function setView(v){ VIEW=v;
+  if(v==='players'){ ['stage','doneList'].forEach(x=>document.getElementById(x).style.display='none');
+    document.getElementById('players').style.display=''; document.getElementById('subbar').classList.add('hide');
+    patchAmbient(); renderPlayers(); }
 }
 
-/* ---------- the card ---------- */
+/* ---------- card render ---------- */
 function renderCard(){
-  const open=openItems();
+  if(VIEW!=='cards') return;
+  const open=openItems().filter(i=>!SKIPPED.has(i.id)).concat(openItems().filter(i=>SKIPPED.has(i.id)));
   const stage=document.getElementById('stage');
-  if(!open.length){
-    curId=null;
-    stage.innerHTML=`<div class="card empty"><div class="big">🎉</div>
-      <div class="t">خلصت كل المفتوح هنا</div>
-      <div class="small">الجديد يطلع تلقائياً · المجاب تحت لو تبي تعكس</div></div>`;
-    renderGnote(); return;
-  }
+  document.getElementById('subbar').classList.add('hide');
+  if(!open.length){ curId=null; renderEnd(stage); return; }
   if(idx>=open.length) idx=open.length-1;
-  const it=open[idx]; curId=it.id; SEEN.add(it.id);
-  const id=it.id, kind=it.kind, lane=it.lane;
-  const choice = ['buttons','numbers','text','caption_pick','post_pick'].includes(kind);
-  const me=MEMBERS.find(m=>m.id===WHO)||MEMBERS[0];
+  const it=open[idx]; curId=it.id;
+  const judge=LANE_VIEW==='judge';
+  const me=nameOf(WHO);
+  const j=jget(it.id);
 
-  let h=`<div class="card ${it.priority==='urgent'?'urgent':''}">`;
+  let h=`<div class="card ${it.priority==='urgent'?'urgent':''} ${judge?'judge':''}" id="card_${esc(it.id)}">`;
 
-  /* Z0 context */
+  /* context */
   h+=`<div class="ctx">`;
-  if(it.priority==='urgent') h+=`<span class="pill clock">🚨 طارئ</span>`;
-  if(LANE[lane]) h+=`<span class="pill lane">${LANE[lane]}</span>`;
-  const brand=(it.brand_context&&it.brand_context.name)||it.brand;
-  if(brand) h+=`<span class="pill brand">${esc(brand)}</span>`;
-  if(it.clock && it.clock.trim()) h+=`<span class="pill clock">${esc(it.clock)}</span>`;
-  h+=`<span class="pill who">👤 ${esc(me.name)}</span></div>`;
-  /* صنعه chip (tap = judge the PLAYER not the card) + 🚩 flag (opens an issue) */
-  if(it.made_by){
-    const tm=TARGETMODE[id];
-    h+=`<div class="madeby"><span class="mbchip ${tm?'on':''}" onclick="toggleTarget('${esc(id)}')">
-        صنعه: ${esc(playerAr(it.made_by))}${it.artifact_version?' · نسخة '+it.artifact_version:''}${tm?' — تحكم عليه هو ✓':''}</span>
-        <button class="flagbtn" onclick="openFlag('${esc(id)}')">🚩</button></div>`;
-  }
+  if(it.priority==='urgent') h+=`<span class="pill clock">🚨 Urgent</span>`;
+  const LANE_EN={strategy:'📊 Strategy',creative:'🎨 Creative',business:'💼 Business',ops:'⚙️ Ops'};
+  if(LANE_EN[it.lane]) h+=`<span class="pill lane">${LANE_EN[it.lane]}</span>`;
+  if(it.clock&&it.clock.trim()) h+=`<span class="pill clock">${esc(it.clock)}</span>`;
+  h+=`<span class="pill who">👤 ${esc(me)}</span></div>`;
 
-  /* Z1 why-line + title */
-  const why = it.why || (it.meaning? String(it.meaning).split(/[.؟!]\s/)[0] : '') || it.title;
-  h+=`<div class="why"><span class="lead">ليش؟</span> ${esc(why)}</div>`;
-  if(it.title && it.title!==why) h+=`<h2 class="title">${esc(it.title)}</h2>`;
+  /* lineage — the one standing teaching line */
+  if(it.made_by)
+    h+=`<div class="lineage"><span>Made by <b>${esc(playerEn(it.made_by))}</b>${it.artifact_version?' · v'+it.artifact_version:''}${it.handle?' · '+esc(it.handle):''}</span>
+        <button class="flagbtn" onclick="openFlag('${esc(it.id)}')">🚩</button></div>`;
+  else if(judge)
+    h+=`<div class="lineage"><span class="red">Unattributed — this verdict counts toward nobody</span></div>`;
 
-  /* summary: what we need / what the system did */
-  if(it.need||it.did||it.current||it.proposed){
+  /* why + title (English chrome; Arabic stays inside content islands) */
+  const why=it.why_en||it.why||it.title;
+  h+=`<div class="why"><span class="lead">Why?</span> <span dir="auto">${esc(why)}</span></div>`;
+  if(it.title&&it.title!==why) h+=`<h2 class="title" dir="auto">${esc(it.title)}</h2>`;
+  if(it.need||it.did){
     h+=`<div class="summary">`;
-    if(it.need) h+=`<div class="row"><span class="k">المطلوب</span><span class="v">${esc(it.need)}</span></div>`;
-    if(it.did)  h+=`<div class="row"><span class="k">سوّاه النظام</span><span class="v">${esc(it.did)}</span></div>`;
-    if(it.current)  h+=`<div class="row"><span class="k">الحالي</span><span class="v">${esc(it.current)}</span></div>`;
-    if(it.proposed) h+=`<div class="row"><span class="k">المقترح</span><span class="v"><b>${esc(it.proposed)}</b></span></div>`;
+    if(it.need) h+=`<div class="row"><span class="k">We need</span><span class="v" dir="auto">${esc(it.need_en||it.need)}</span></div>`;
+    if(it.did)  h+=`<div class="row"><span class="k">System did</span><span class="v" dir="auto">${esc(it.did_en||it.did)}</span></div>`;
     h+=`</div>`;
   }
 
-  /* Z2/Z3 the thing + Z4 primary action */
-  // PICKS pass the option INDEX (an int) — never the value — so a quote/angle-bracket
-  // in o.v can never break the inline handler. pick() resolves the real value from data.
-  if(kind==='post_pick'){
-    it.options.forEach((o,i)=>{
-      h+=`<div class="opt-post"><div class="ohead">عقل ${esc(o.who||o.v)}</div>`;
-      if(o.image_url){ h+=`<img src="${esc(o.image_url)}" alt="">`;
-        if(o.ai_generated) h+=`<div class="scene">🤖 صورة AI للمشهد فقط — حكمك عليها = حكم على الفكرة</div>`; }
-      h+=`<div class="cap">${esc(o.label)}</div>
-          <div class="pickwrap"><button class="pick" onclick="pick('${esc(id)}',${i})">اختار هذا ✓</button></div></div>`;
+  /* the thing */
+  if(it.island_text||it.caption){
+    h+=`<div class="opt-post" style="cursor:default"><div class="cap island">${esc(it.island_text||it.caption)}</div></div>`;
+  }
+  if(it.kind==='post_pick'){
+    (it.options||[]).forEach((o,i)=>{
+      h+=`<div class="opt-post ${j.choice===i?'sel':(j.choice!=null?'dim':'')}" onclick="selOpt('${esc(it.id)}',${i})">
+          <div class="ohead">${esc(playerEn('mind:'+(o.who||''))||o.who||'')} mind</div>`;
+      if(o.image_url){ h+=`<img src="${esc(o.image_url)}" loading="lazy" alt="">`;
+        if(o.ai_generated) h+=`<div class="scene">🤖 AI scene only — judging it = judging the idea</div>`; }
+      h+=`<div class="cap island">${esc(o.label)}</div></div>`;
     });
-  } else if(kind==='caption_pick'){
-    it.options.forEach((o,i)=>
-      h+=`<div class="cap-pick"><span class="who">${esc(o.who||o.v)}</span>${esc(o.label)}
-          <br><button class="pick" style="width:auto;margin-top:14px;padding:12px 28px" onclick="pick('${esc(id)}',${i})">اختار هذا ✓</button></div>`);
-  } else if(kind==='buttons'){
-    it.options.forEach((o,i)=>
-      h+=`<button class="opt ${o.rec?'rec':''}" onclick="pick('${esc(id)}',${i})">
-          ${o.rec?'<span class="star">⭐ التوصية</span>':''}${esc(o.label)}
-          ${o.explain?'<span class="ex">↳ '+esc(o.explain)+'</span>':''}</button>`);
-  } else if(kind==='numbers'){
-    h+=`<div class="row">`;
-    for(const n of it.fields) h+=`<label class="small">${esc(n.label)}<br>
-      <input type="number" id="f_${esc(id)}_${esc(n.k)}" value="${esc(n.v)}"></label>`;
-    h+=`</div><button class="send" onclick="answerNumbers('${esc(id)}',${esc(JSON.stringify(it.fields.map(f=>f.k)))})">ثبّت ✓</button>`;
-  } else if(kind==='text'){
-    h+=`<textarea class="note" id="txt_${esc(id)}" placeholder="${esc(it.placeholder||'اكتب هنا…')}"
-        oninput="onType('${esc(id)}',this)"></textarea>
-        <button class="send" style="margin-top:10px" onclick="answerText('${esc(id)}')">أرسل ✓</button>`;
+    if(judge) h+=`<div class="hint">Tap to select — nothing sends until you hit Submit.</div>`;
+  } else if(it.kind==='caption_pick'||it.kind==='buttons'){
+    (it.options||[]).forEach((o,i)=>{
+      const sel=j.choice===i;
+      h+=`<button class="opt ${o.rec?'rec':''} ${judge?(sel?'sel':(j.choice!=null?'dim':'')):''} ${it.kind==='caption_pick'?'island':''}"
+          dir="auto" onclick="${judge?`selOpt('${esc(it.id)}',${i})`:`decide('${esc(it.id)}',${i})`}">
+          ${o.rec?'<span class="star">⭐ Recommended</span>':''}${esc(o.label)}
+          ${o.explain?'<span class="ex" dir="auto">↳ '+esc(o.explain)+'</span>':''}</button>`;
+    });
+    if(judge&&it.options&&it.options.length) h+=`<div class="hint">Tap to select — nothing sends until you hit Submit.</div>`;
+  } else if(it.kind==='numbers'){
+    h+=`<div class="numrow">`;
+    for(const n of it.fields) h+=`<label class="small" dir="auto">${esc(n.label)}<br>
+      <input type="number" id="f_${esc(it.id)}_${esc(n.k)}" value="${esc(n.v)}" oninput="onNum('${esc(it.id)}')"></label>`;
+    h+=`</div>`;
+  } else if(it.kind==='text'){
+    h+=`<textarea class="note" id="txt_${esc(it.id)}" dir="auto" placeholder="${esc(it.placeholder||'Write here…')}"
+        oninput="onText('${esc(it.id)}',this)">${esc(j.text_answer||'')}</textarea>`;
   }
 
-  /* sent strip (post-decision explain stays live) */
-  h+=`<div class="sent" id="sent_${esc(id)}"></div>`;
+  /* judge-lane composer: verdict + rating + chips + write box.
+     RULE: a card WITH options → picking one IS the verdict (no Approve/Reject);
+     a single-content card (no options) → Approve/Reject buttons. Never both. */
+  if(judge){
+    const hasOpts = it.options && it.options.length;
+    if(!hasOpts && !['numbers','text'].includes(it.kind)){
+      h+=`<div class="verdict">
+        <button class="ok ${j.verdict==='approved'?'sel':''}" onclick="selVerdict('${esc(it.id)}','approved')">Approve ✓</button>
+        <button class="no ${j.verdict==='rejected'?'sel':''}" onclick="selVerdict('${esc(it.id)}','rejected')">Reject ✗</button></div>`;
+    }
+    const rt=j.rating||0;
+    h+=`<div class="stars" id="stars_${esc(it.id)}">`+
+       [1,2,3,4,5].map(n=>`<button class="${n<=rt?'on':''}" onclick="selRating('${esc(it.id)}',${n})">★</button>`).join('')+
+       `</div><div class="stars-cap">Your rating (optional)</div>`;
+    const chips=REASONS.filter(c=>c.status==='active').slice(0,8);
+    h+=`<div class="chipsrow ${j.verdict==='rejected'?'show':''}" id="chips_${esc(it.id)}">`+
+       chips.map(c=>`<button class="rchip ${(j.chips||[]).includes(c.code)?'on':''}"
+         onclick="selChip('${esc(it.id)}','${esc(c.code)}',this)">${esc(CHIP_EN[c.code]||c.code)}</button>`).join('')+`</div>`;
+    h+=`<div class="writewrap">
+        <div class="write-aff ${j.note?'hide':''}" id="aff_${esc(it.id)}" onclick="openWrite('${esc(it.id)}')">
+          <span>✏️</span><span>Add a note or correction — optional</span></div>
+        <div class="write-open ${j.note?'show':''}" id="wo_${esc(it.id)}">
+          <textarea class="note" id="note_${esc(it.id)}" dir="auto" placeholder="Your words — saved exactly as written"
+            oninput="onNote('${esc(it.id)}',this)">${esc(j.note||'')}</textarea>
+          <div class="write-tools">
+            <span class="wtoggle ${j.is_fix?'on':''}" id="tf_${esc(it.id)}" onclick="selToggle('${esc(it.id)}','is_fix',this)">
+              <span class="box">${j.is_fix?'✓':''}</span> This is a correction — saved word-for-word</span>
+            <span class="wtoggle ${j.judge_maker?'on':''}" id="tm_${esc(it.id)}" onclick="selToggle('${esc(it.id)}','judge_maker',this)">
+              <span class="box">${j.judge_maker?'✓':''}</span> Aim this at the maker</span>
+          </div></div></div>`;
+  }
 
-  /* Z4 verdict — ONLY on choice-less content cards (never beside a pick) */
-  if(!choice)
-    h+=`<div class="verdict">
-        <button class="ok" onclick="answer('${esc(id)}','approved')">✅ اعتماد</button>
-        <button class="no" onclick="answer('${esc(id)}','rejected')">❌ رفض</button></div>`;
-
-  /* Z5 ONE write box (collapsed → tap to expand; toggle = comment|correction) */
-  const dft=getDraft(id);
-  h+=`<div class="writewrap">
-      <div class="write-aff ${dft?'hide':''}" id="aff_${esc(id)}" onclick="openWrite('${esc(id)}')">
-        <span class="pen">✏️</span><span>صحّح أو اكتب رأيك — اختياري</span></div>
-      <div class="write-open ${dft?'show':''}" id="wo_${esc(id)}">
-        <textarea class="note" id="note_${esc(id)}" placeholder="اكتب تعليقك أو التصحيح…"
-          oninput="onType('${esc(id)}',this)">${esc(dft)}</textarea>
-        <div class="write-tools">
-          <span class="togglefix ${FIXMODE[id]?'on':''}" id="tf_${esc(id)}" onclick="toggleFix('${esc(id)}')">
-            <span class="box">${FIXMODE[id]?'✓':''}</span> هذا تصحيح (يصير الحقيقة)</span>
-          <button class="sendnote" onclick="sendWrite('${esc(id)}')">أرسل</button>
-        </div></div></div>`;
-
-  /* rating */
-  const rt=RATINGS[id]||0;
-  h+=`<div class="stars" id="stars_${esc(id)}">`+
-     [1,2,3,4,5].map(n=>`<button class="${n<=rt?'on':''}" onclick="setRating('${esc(id)}',${n})">★</button>`).join('')+
-     `</div><div class="stars-cap">تقييمك (اختياري)</div>`;
-
-  /* Z6 deeper (strategy lane defaults OPEN) */
+  /* deeper */
   const deep=buildDeep(it);
-  if(deep) h+=`<details class="deep" ${lane==='strategy'?'open':''}>
-      <summary>تفاصيل أعمق</summary><div class="deepbody">${deep}</div></details>`;
+  if(deep) h+=`<details class="deep" ${it.lane==='strategy'?'open':''}><summary>More details</summary>
+      <div class="deepbody">${deep}</div></details>`;
 
-  /* Z7 quiet footer */
+  /* footer */
+  const live=open.filter(i=>!SKIPPED.has(i.id));
   h+=`<div class="foot">
-      <button class="next" onclick="move(1)">التالي ⏭</button>
-      <button class="skip" onclick="skipIt('${esc(id)}')">أخّره 🕐</button>
-      <span class="pos">${idx+1}/${open.length}</span>
+      <button onclick="move(1)">Next ⏭</button>
+      <button class="later" onclick="skipIt('${esc(it.id)}')">Later 🕐</button>
+      <span class="pos">${Math.min(idx+1,live.length||1)}/${live.length||1}</span>
       <button onclick="move(-1)">⏮</button></div>`;
-
   h+=`</div>`;
   stage.innerHTML=h;
-  renderGnote();
+  if(judge){ document.getElementById('subbar').classList.remove('hide'); syncBar(it.id); }
 }
 
 function buildDeep(it){
   let d='';
   const b=it.brand_context;
-  if(b){ d+=`<div class="blk"><span class="h">البراند</span><b>${esc(b.name||'')}</b> · ${esc(b.state_line||'')}<br>
-            ${esc(b.who||'')}<br><span class="small">🎙 ${esc(b.voice_line||'')} · 🛒 ${esc((b.products||[]).join('، '))}</span>`;
-    for(const ex of (b.real_examples||[])) d+=`<div class="quote">«${esc(ex)}»</div>`;
-    d+=`</div>`; }
+  if(b){ d+=`<div class="blk island"><span class="h">BRAND</span><b>${esc(b.name||'')}</b> · ${esc(b.state_line||'')}<br>${esc(b.who||'')}</div>`; }
   for(const o of (it.options||[])){
     if(o.idea||(o.shots&&o.shots.length)){
-      d+=`<div class="blk"><span class="h">عقل ${esc(o.who||o.v)}</span>`;
+      d+=`<div class="blk island"><span class="h">${esc((o.who||o.v||'').toUpperCase())}</span>`;
       if(o.idea) d+=`💡 ${esc(o.idea)}<br>`;
-      if(o.shots&&o.shots.length) d+=`📸 ${esc(o.shots.map((s,i)=>(i+1)+'. '+s).join(' · '))}`;
+      if(o.shots&&o.shots.length) d+=`📸 ${esc(o.shots.join(' · '))}`;
       d+=`</div>`;
     }
   }
   if(it.desc){
     const parts=String(it.desc).split('|'); const body=parts[0].trim();
     const cmd=parts.length>1?parts.slice(1).join('|').trim():'';
-    if(body) d+=`<div class="blk"><span class="h">الخلفية</span>${esc(body)}</div>`;
+    if(body) d+=`<div class="blk" dir="auto">${esc(body)}</div>`;
     if(cmd) d+=`<div class="cmd" id="cmd_${esc(it.id)}">${esc(cmd)}</div>
-                <button class="cmdcopy" onclick="copyCmd('${esc(it.id)}')">📋 انسخ الأمر</button>`;
+                <button class="cmdcopy" onclick="copyCmd('${esc(it.id)}')">📋 Copy command</button>`;
   }
   return d;
 }
 
-/* ---------- write box ---------- */
+/* ---------- compose interactions (ALL in-place — renderCard is banned here) ---------- */
+function selOpt(id,i){ const j=jget(id); j.choice=(j.choice===i)?null:i; jsave(id);
+  document.querySelectorAll('#stage .opt, #stage .opt-post').forEach((el,k)=>{
+    el.classList.toggle('sel',j.choice===k); el.classList.toggle('dim',j.choice!=null&&j.choice!==k); });
+  syncBar(id); }
+function selVerdict(id,v){ const j=jget(id); j.verdict=(j.verdict===v)?null:v; jsave(id);
+  document.querySelectorAll('#stage .verdict .ok').forEach(b=>b.classList.toggle('sel',j.verdict==='approved'));
+  document.querySelectorAll('#stage .verdict .no').forEach(b=>b.classList.toggle('sel',j.verdict==='rejected'));
+  const ch=document.getElementById('chips_'+id); if(ch) ch.classList.toggle('show',j.verdict==='rejected');
+  syncBar(id); }
+function selRating(id,n){ const j=jget(id); j.rating=(j.rating===n)?0:n; jsave(id);
+  const box=document.getElementById('stars_'+id);
+  if(box) [...box.children].forEach((b,i)=>b.className=(i<(j.rating||0))?'on':'');
+  syncBar(id); }
+function selChip(id,code,el){ const j=jget(id); j.chips=j.chips||[];
+  const i=j.chips.indexOf(code);
+  if(i>=0) j.chips.splice(i,1); else if(j.chips.length<3) j.chips.push(code); else return;
+  el.classList.toggle('on',j.chips.includes(code)); jsave(id); syncBar(id); }
+function selToggle(id,key,el){ const j=jget(id); j[key]=!j[key]; jsave(id);
+  el.classList.toggle('on',j[key]); el.querySelector('.box').textContent=j[key]?'✓':'';
+  syncBar(id); }
 function openWrite(id){ document.getElementById('aff_'+id).classList.add('hide');
-  const wo=document.getElementById('wo_'+id); wo.classList.add('show');
+  document.getElementById('wo_'+id).classList.add('show');
   const t=document.getElementById('note_'+id); if(t) t.focus(); }
-function toggleFix(id){ FIXMODE[id]=!FIXMODE[id];
-  const el=document.getElementById('tf_'+id); el.classList.toggle('on',FIXMODE[id]);
-  el.querySelector('.box').textContent=FIXMODE[id]?'✓':''; }
-function onType(id,el){ saveDraft(id,el.value); }
-async function sendWrite(id){
-  const t=document.getElementById('note_'+id); const v=(t?t.value:'').trim();
-  if(!v){ toast('اكتب شيئاً أول',true); return; }
-  const ok = FIXMODE[id]
-    ? await post(id,'comment','',v)        // fix
-    : await post(id,'comment',v,'');       // note
-  if(ok){ saveDraft(id,''); toast(FIXMODE[id]?'✏️ تصحيحك وصل':'💬 وصلت'); }
+function onNote(id,el){ const j=jget(id); j.note=el.value; jsave(id); syncBar(id); }
+function onText(id,el){ const j=jget(id); j.text_answer=el.value; jsave(id); syncBar(id); }
+function onNum(id){ const j=jget(id); j.nums=true; jsave(id); syncBar(id); }
+
+/* ---------- the submit bar state machine ---------- */
+function barState(id){
+  const it=ITEMS.find(x=>x.id===id); if(!it) return {st:'disabled',label:'…'};
+  const j=jget(id);
+  const hasChoice=it.options&&it.options.length;
+  if(it.kind==='text') return (j.text_answer||'').trim()
+    ? {st:'ready',label:submitLabel(it,j,'Answer')} : {st:'disabled',label:'Write your answer above'};
+  if(it.kind==='numbers') return {st:'ready',label:submitLabel(it,j,'Confirm numbers')};
+  const main = hasChoice ? (j.choice!=null) : !!j.verdict;
+  if(!main && !(j.note||'').trim())
+    return {st:'disabled',label:hasChoice?'Pick an option above':'Make your call: Approve or Reject'};
+  if(j.verdict==='rejected' && !(j.chips&&j.chips.length) && !(j.note||'').trim())
+    return {st:'disabled',label:'Pick a reason to reject — or write one'};
+  return {st:'ready',label:submitLabel(it,j)};
+}
+function submitLabel(it,j,prefix){
+  const bits=[];
+  if(prefix) bits.push(prefix);
+  else if(it.options&&it.options.length&&j.choice!=null){
+    const o=it.options[j.choice]; bits.push('Option: '+String(o.label).replace(/<[^>]*>/g,'').slice(0,22)); }
+  else if(j.verdict) bits.push(j.verdict==='approved'?'Approve ✓':'Reject ✗');
+  else if((j.note||'').trim()) bits.push('Note only');
+  if(j.rating) bits.push('★'+j.rating);
+  if(j.chips&&j.chips.length) bits.push(j.chips.map(c=>CHIP_EN[c]||c).join(', '));
+  if((j.note||'').trim()) { if(!bits.includes('Note only')) bits.push(j.is_fix?'1 correction':'1 note'); }
+  return 'Submit: '+bits.join(' · ');
+}
+function syncBar(id){
+  if(id!==curId) return;
+  const b=document.getElementById('subbtn'); const s=barState(id);
+  b.className=s.st; b.textContent=s.label;
 }
 
-/* ---------- answering ---------- */
-let RATING_OF=id=>RATINGS[id]||0;
-function setRating(id,n){ RATINGS[id]=(RATINGS[id]===n)?0:n;
-  const box=document.getElementById('stars_'+id); if(!box) return;
-  [...box.children].forEach((b,i)=>b.className=(i< (RATINGS[id]||0))?'on':''); }
+/* ---------- submit (optimistic, outbox-first) ---------- */
+function outbox(){ try{ return JSON.parse(localStorage.getItem('ogz_outbox')||'[]'); }catch(e){ return []; } }
+function setOutbox(q){ localStorage.setItem('ogz_outbox',JSON.stringify(q)); renderOutboxPill(); }
+function held(){ try{ return JSON.parse(localStorage.getItem('ogz_held:'+KH)||'[]'); }catch(e){ return []; } }
+function setHeld(q){ localStorage.setItem('ogz_held:'+KH,JSON.stringify(q)); renderHeld(); }
 
 function buildBody(id,answer,note,fix,extras){
   const it=ITEMS.find(x=>x.id===id)||{};
-  const b={item_id:id,answer:answer,note:note||'',fix:fix||'',rating:RATING_OF(id)||null,
-    judge:WHO, client_ts:new Date().toISOString().slice(0,19),
-    artifact_id: it.id? 'card:'+it.id : null,
+  return {item_id:id,answer:answer,note:note||'',fix:fix||'',
+    rating:(jget(id).rating)||null, judge:WHO,
+    client_ts:new Date().toISOString().slice(0,19),
+    artifact_id: it.made_by? 'card:'+it.id : null,
     artifact_version: it.artifact_version||null,
-    target: TARGETMODE[id]&&it.made_by ? it.made_by : null, ...(extras||{})};
-  return b;
+    reason_codes: jget(id).chips||[],
+    target: (jget(id).judge_maker&&it.made_by)? it.made_by : null, ...(extras||{})};
 }
-async function post(id,answer,note,fix,extras){
-  if(posting) return false; posting=true;
-  const body=buildBody(id,answer,note,fix,extras);
-  try{
-    const r=await fetch('/api/approvals/answer?k='+K,{method:'POST',
+
+function submitJudgment(){
+  const id=curId; if(!id) return;
+  const s=barState(id); if(s.st!=='ready') return;
+  const it=ITEMS.find(x=>x.id===id); const j=jget(id);
+  let answer;
+  if(it.kind==='text') answer=(j.text_answer||'').trim();
+  else if(it.kind==='numbers'){ const vals={};
+    for(const n of it.fields){ const el=document.getElementById('f_'+id+'_'+n.k); vals[n.k]=el?el.value:''; }
+    answer=JSON.stringify(vals); }
+  else if(it.options&&it.options.length&&j.choice!=null) answer=it.options[j.choice].v;
+  else answer=j.verdict||'comment';
+  const note=j.is_fix?'':(j.note||'').trim();
+  const fix=j.is_fix?(j.note||'').trim():'';
+  const body=buildBody(id,answer,note,fix);          // client_ts FROZEN here
+  // S4 QUEUED-LOCAL — zero network wait
+  const q=outbox(); q.push({body, grace_until:Date.now()+5000}); setOutbox(q);
+  it.status='answered'; it.answered=String(answer).slice(0,60); it.answered_by=WHO;
+  SESSION_LOG.push({id, label:s.label.replace(/^Submit: /,'')});
+  jclear(id);
+  showSnack(s.label.replace(/^Submit: /,'Sent: '), body);
+  advance(id);
+  setTimeout(flushOutbox, 5100);
+}
+function decide(id,i){                                 // DECIDE lane: one tap = today
+  const it=ITEMS.find(x=>x.id===id); if(!it) return;
+  const o=it.options[i]; if(!o) return;
+  const body=buildBody(id,o.v,(jget(id).note||''),'');
+  body.artifact_id=null;                               // ops decisions never touch taste
+  const q=outbox(); q.push({body, grace_until:Date.now()+5000}); setOutbox(q);
+  it.status='answered'; it.answered=String(o.v).slice(0,60); it.answered_by=WHO;
+  SESSION_LOG.push({id,label:String(o.label).replace(/<[^>]*>/g,'').slice(0,30)});
+  jclear(id);
+  showSnack('Sent: '+String(o.label).replace(/<[^>]*>/g,'').slice(0,34), body);
+  advance(id);
+  setTimeout(flushOutbox, 5100);
+}
+function advance(id){
+  const el=document.getElementById('card_'+id);
+  if(el){ el.classList.add('leaving'); setTimeout(()=>{ patchAmbient(); idx=0; curId=null; renderCard(); },230); }
+  else { patchAmbient(); idx=0; curId=null; renderCard(); }
+}
+let SNACK_BODY=null;
+function showSnack(text,body){
+  SNACK_BODY=body;
+  const s=document.getElementById('snack');
+  s.innerHTML=`<span dir="auto">${esc(text)}</span><button class="undo" onclick="undoLast()">Undo</button>`;
+  s.classList.add('show');
+  clearTimeout(s._t); s._t=setTimeout(()=>{ s.classList.remove('show'); SNACK_BODY=null; },5200);
+}
+function undoLast(){
+  if(!SNACK_BODY) return;
+  const b=SNACK_BODY;
+  setOutbox(outbox().filter(e=>!(e.body.client_ts===b.client_ts&&e.body.item_id===b.item_id)));
+  const it=ITEMS.find(x=>x.id===b.item_id);
+  if(it){ it.status='open'; delete it.answered; delete it.answered_by; }
+  SESSION_LOG=SESSION_LOG.filter(x=>x.id!==b.item_id);
+  // restore the composition for re-edit
+  J[b.item_id]={choice:null,verdict:(b.answer==='approved'||b.answer==='rejected')?b.answer:null,
+    rating:b.rating||0,chips:b.reason_codes||[],note:b.fix||b.note||'',is_fix:!!b.fix,judge_maker:!!b.target};
+  jsave(b.item_id);
+  document.getElementById('snack').classList.remove('show'); SNACK_BODY=null;
+  patchAmbient(); idx=0; curId=null; renderCard();
+  toast('Brought back — nothing was recorded.');
+}
+async function postBody(body){
+  try{ const r=await fetch('/api/approvals/answer?k='+K,{method:'POST',
       headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    if(!r.ok) throw new Error('http '+r.status);
-    return true;
-  }catch(e){
-    // OFFLINE QUEUE: park it, flush later — the tap is never lost
-    const q=JSON.parse(localStorage.getItem('ogz_outbox')||'[]');
-    q.push(body); localStorage.setItem('ogz_outbox',JSON.stringify(q));
-    renderOutbox(); toast('📥 ما في نت — بالطابور، بترسل لحالها',true);
-    return false;
-  }
-  finally{ posting=false; }
-}
-function renderOutbox(){
-  const q=JSON.parse(localStorage.getItem('ogz_outbox')||'[]');
-  let el=document.getElementById('outbox');
-  if(!q.length){ if(el) el.remove(); return; }
-  if(!el){ el=document.createElement('div'); el.id='outbox'; el.className='urgentbar';
-    el.style.display='block'; document.getElementById('ubar').after(el); }
-  el.innerHTML=`📥 في الطابور: ${q.length} — بترسل أول ما يرجع النت`;
+    if(r.status===403){ return '403'; }
+    if(!r.ok) return false;
+    const d=await r.json().catch(()=>({}));
+    return d||true;
+  }catch(e){ return false; }
 }
 async function flushOutbox(){
-  const q=JSON.parse(localStorage.getItem('ogz_outbox')||'[]');
-  if(!q.length) return;
-  const left=[];
-  for(const body of q){
-    try{ const r=await fetch('/api/approvals/answer?k='+K,{method:'POST',
-        headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-      if(!r.ok&&r.status!==403) left.push(body); }
-    catch(e){ left.push(body); }
+  const q=outbox(); if(!q.length) return;
+  const now=Date.now(); const left=[];
+  for(const e of q){
+    if(e.grace_until&&e.grace_until>now){ left.push(e); continue; }   // undo window
+    const res=await postBody(e.body);
+    if(res==='403'){ const hh=held(); hh.push(e.body); setHeld(hh); }  // NEVER silently drop
+    else if(res===false){ left.push(e); }
+    else if(res&&res.receipt){ patchSnackReceipt(e.body,res.receipt); }
   }
-  localStorage.setItem('ogz_outbox',JSON.stringify(left));
-  renderOutbox(); if(q.length>left.length) toast(`📤 أرسلنا ${q.length-left.length} من الطابور`);
+  setOutbox(left);
 }
-window.addEventListener('online',flushOutbox);
+function patchSnackReceipt(body,rc){
+  if(!SNACK_BODY||SNACK_BODY.client_ts!==body.client_ts) return;
+  const s=document.getElementById('snack');
+  let line='Recorded ✓';
+  if(rc.correction_captured) line='Saved word-for-word → opens a case on '+(playerEn(rc.player)||'the maker');
+  else if(rc.will_open_case) line='Rejected → opens a case on '+(playerEn(rc.player)||'the maker');
+  else if(rc.gold_candidate) line='Approved ★ → kept as a gold example';
+  else if(rc.kind==='approved') line='Approved ✓ recorded';
+  s.innerHTML=`<span dir="auto">${esc(line)}</span>`;
+}
+function renderOutboxPill(){
+  const n=outbox().length;
+  let el=document.getElementById('outq');
+  if(!n){ if(el) el.remove(); return; }
+  if(!el){ el=document.createElement('div'); el.id='outq'; el.className='banner outq';
+    el.style.display='block'; document.getElementById('ubar').after(el); }
+  el.textContent=`📥 Queued: ${n} — will send when you're back online`;
+}
+function renderHeld(){
+  const hh=held(); const el=document.getElementById('heldbar');
+  if(!hh.length){ el.style.display='none'; return; }
+  el.style.display='block';
+  el.innerHTML=`🔑 Key problem — <b>${hh.length} judgment${hh.length>1?'s':''} held</b>, nothing lost. Re-open from your personal link, then tap retry.
+    <button onclick="retryHeld()" style="margin-inline-start:8px;background:#fff2;border:1px solid #ffb3ae;color:#ffb3ae;border-radius:8px;padding:6px 12px;cursor:pointer">Retry</button>`;
+}
+async function retryHeld(){
+  const hh=held(); const left=[];
+  for(const b of hh){ const r=await postBody(b); if(r==='403'||r===false) left.push(b); }
+  setHeld(left); if(!left.length) toast('All held judgments sent ✓');
+}
 
-/* ---------- player feedback: صنعه toggle + 🚩 flag sheet ---------- */
-let TARGETMODE={};                 // card id → true = the write box judges the PLAYER
-const PLAYER_AR={'claude':'كلود','rabie':'رابي','mind:ceo':'عقل المدير التنفيذي','mind:coo':'عقل العمليات',
-  'mind:cco':'عقل الإبداع','mind:firaasa':'فِراسة','mind:metaphor':'الاستعارة','mind:authenticity':'الأصالة',
-  'mind:heritage':'التراث','mind:paradox':'المفارقة','system:feedback_cards':'نظام التغذية الراجعة'};
-function playerAr(p){ return PLAYER_AR[p]||p; }
-function toggleTarget(id){ TARGETMODE[id]=!TARGETMODE[id]; curId=null; renderCard();
-  if(TARGETMODE[id]) toast('🎯 كتابتك الحين على الصانع نفسه'); }
+/* ---------- end screen ---------- */
+async function renderEnd(stage){
+  stage.innerHTML=`<div class="endcard"><h2>Your taste, applied</h2>
+    <div class="sub">Counting on the server…</div></div>`;
+  let d=null;
+  try{
+    const ctrl=new AbortController(); setTimeout(()=>ctrl.abort(),3000);
+    const r=await fetch('/api/approvals/receipt?k='+K+'&since='+encodeURIComponent(SESSION_START),{signal:ctrl.signal});
+    if(r.ok) d=await r.json();
+  }catch(e){}
+  let h=`<div class="endcard"><h2>Your taste, applied</h2><div class="sub">Here's what your taps just did:</div>`;
+  if(d&&d.ok){
+    const t=d.tally;
+    h+=`<div class="blk"><div class="bh">THIS SITTING</div>${t.judged} judged · ${t.approved} approved · ${t.rejected} rejected · ${t.corrected} corrected</div>`;
+    if(d.cases_opened&&d.cases_opened.length){
+      h+=`<div class="blk"><div class="bh">WHAT IT CHANGED</div>`+
+        d.cases_opened.map(c=>`<div dir="auto">• Case opened on <b>${esc(playerEn(c.player))}</b> — “${esc(c.quote.slice(0,50))}”</div>`).join('')+`</div>`;
+    }
+    if(d.gold_kept&&d.gold_kept.length)
+      h+=`<div class="blk"><div class="bh">GOLD</div>`+
+        d.gold_kept.map(g=>`<div dir="auto">⭐ Kept as an example for <b>${esc(g.handle)}</b> — “${esc(g.caption)}”</div>`).join('')+`</div>`;
+    if(d.corrections_saved) h+=`<div class="blk"><div class="bh">YOUR WORDS</div>${d.corrections_saved} correction${d.corrections_saved>1?'s':''} saved word-for-word — they become the case's opening quote</div>`;
+    if(d.benched&&d.benched.length) h+=`<div class="blk"><div class="bh">BENCHED</div>${d.benched.map(playerEn).join(', ')} — frozen until your verdicts change</div>`;
+    h+=`<div class="grey" style="margin-top:8px">Prompt versions: not rebuilt yet — your gold and corrections are staged for the next build.</div>`;
+  } else if(SESSION_LOG.length){
+    h+=`<div class="blk"><div class="bh">THIS SITTING (queued — routes when online)</div>`+
+       SESSION_LOG.map(x=>`<div dir="auto">• ${esc(x.label)}</div>`).join('')+`</div>`;
+  } else {
+    h+=`<div class="blk">Nothing waiting in this lane. New cards appear here on their own.</div>`;
+  }
+  const other=LANE_VIEW==='judge'?'decide':'judge';
+  const n=openItems(other).length;
+  h+= n? `<button class="next" onclick="setLane('${other}')">${other==='decide'?'⚡ Decide':'⚖️ Judge'} — ${n} waiting</button>`
+       : `<div class="grey" style="margin-top:10px">All lanes clear ✓</div>`;
+  h+=`</div>`;
+  stage.innerHTML=h;
+}
+
+/* ---------- flag sheet ---------- */
 let FLAGCHIP=null;
 function openFlag(id){
   const it=ITEMS.find(x=>x.id===id); if(!it) return;
   FLAGCHIP=null;
-  const lane=(it.lane==='strategy'||it.lane==='ops')?'system':'creative';
-  const chips=REASONS.filter(c=>c.status==='active'&&(c.lane===lane||c.lane==='system')).slice(0,8);
+  const chips=REASONS.filter(c=>c.status==='active').slice(0,8);
   document.getElementById('flagsheet').innerHTML=`<div class="fs-in">
-    <div class="fs-t">🚩 وش المشكلة في شغل ${esc(playerAr(it.made_by||'النظام'))}؟ <span class="small">(الرقاقة اختيارية)</span></div>
-    <div class="fs-chips">${chips.map(c=>`<button class="fs-chip" data-code="${esc(c.code)}"
-      onclick="pickChip(this)">${esc(c.ar)}</button>`).join('')}</div>
-    <textarea class="note" id="flagnote" placeholder="كلامك بالحرف — يفتح قضية على الصانع"></textarea>
-    <div class="write-tools">
-      <button class="ghost" onclick="closeFlag()">إلغاء</button>
-      <button class="sendnote" onclick="sendFlag('${esc(id)}')">🚩 افتح قضية</button>
+    <div class="fs-t">🚩 What's wrong with ${esc(playerEn(it.made_by||'the system'))}'s work? <span class="small">(chip optional)</span></div>
+    <div class="fs-chips">${chips.map(c=>`<button class="rchip" data-code="${esc(c.code)}"
+      onclick="pickFlagChip(this)">${esc(CHIP_EN[c.code]||c.code)}</button>`).join('')}</div>
+    <textarea class="note" id="flagnote" dir="auto" placeholder="Your words, exactly — this opens a case on the maker"></textarea>
+    <div class="fs-actions">
+      <button class="ghost" onclick="closeFlag()">Cancel</button>
+      <button class="send" onclick="sendFlag('${esc(id)}')">🚩 Open a case</button>
     </div></div>`;
   document.getElementById('flagsheet').classList.add('show');
 }
-function pickChip(el){ const was=el.classList.contains('on');
-  document.querySelectorAll('.fs-chip').forEach(c=>c.classList.remove('on'));
+function pickFlagChip(el){ const was=el.classList.contains('on');
+  document.querySelectorAll('#flagsheet .rchip').forEach(c=>c.classList.remove('on'));
   if(!was){ el.classList.add('on'); FLAGCHIP=el.dataset.code; } else FLAGCHIP=null; }
 function closeFlag(){ document.getElementById('flagsheet').classList.remove('show'); }
 async function sendFlag(id){
   const it=ITEMS.find(x=>x.id===id)||{};
   const note=(document.getElementById('flagnote')||{}).value||'';
-  if(!note.trim()&&!FLAGCHIP){ toast('اكتب أو اختر رقاقة',true); return; }
-  const ok=await post(id,'flagged',note,'',{source:'flag_sheet',
-    target: it.made_by||null, reason_codes: FLAGCHIP?[FLAGCHIP]:[]});
-  if(ok){ closeFlag(); toast('🚩 فتحنا قضية — بتشوف نتيجتها في تقرير الأسبوع'); }
+  if(!note.trim()&&!FLAGCHIP){ toast('Write a word or pick a chip',true); return; }
+  const body=buildBody(id,'flagged',note,'',{source:'flag_sheet',
+    target:it.made_by||null, reason_codes:FLAGCHIP?[FLAGCHIP]:[]});
+  const q=outbox(); q.push({body}); setOutbox(q); flushOutbox();
+  closeFlag(); toast('🚩 Case opens on '+playerEn(it.made_by||'the system')+' — see it in your week receipt');
 }
 
-/* resolve an option by INDEX from live data → real value (quote-proof) */
-function pick(id,i){ const it=ITEMS.find(x=>x.id===id)||ITEMS.find(x=>x.id===curId);
-  const o=it&&it.options&&it.options[i]; if(!o) return; answer(id,o.v); }
-
-/* a verdict/pick: send, then show a calm sent-strip and KEEP the write box live (explain can follow) */
-async function answer(id,v){
-  const noteEl=document.getElementById('note_'+id);
-  const note = (!FIXMODE[id]&&noteEl)?noteEl.value.trim():'';
-  const fix  = (FIXMODE[id]&&noteEl)?noteEl.value.trim():'';
-  const ok=await post(id,v,note,fix);
-  if(!ok) return;
-  saveDraft(id,'');
-  const labelMap={approved:'✅ اعتماد',rejected:'❌ رفض'};
-  const it=(ITEMS.find(x=>x.id===id)||{});
-  const opt=(it.options||[]).find(o=>o.v===v);
-  const shown=labelMap[v]||(opt?opt.label:v);
-  const strip=document.getElementById('sent_'+id);
-  if(strip){ strip.style.display='block';
-    strip.innerHTML=`اخترت: <b>${esc(shown)}</b> — أرسلنا ✓ · تقدر تضيف سبب في صندوق الكتابة فوق، أو <a href="javascript:void(0)" onclick="move(1)" style="color:#bdf0ad;text-decoration:underline">التالي ⏭</a>`; }
-  toast('تم ✓');
-  // refresh ambient (ring/done) WITHOUT yanking the card away
-  try{ const rr=await fetch('/api/approvals/items?k='+K); ITEMS=await rr.json(); patchAmbient(); }catch(e){}
-}
-function answerNumbers(id,keys){ const vals={};
-  for(const k of keys){ const el=document.getElementById('f_'+id+'_'+k); vals[k]=el?el.value:''; }
-  answer(id,JSON.stringify(vals)); }
-function answerText(id){ const el=document.getElementById('txt_'+id);
-  const v=(el?el.value:'').trim(); if(!v){ toast('اكتب شيئاً أول',true); return; }
-  post(id,v,'','').then(ok=>{ if(ok){ saveDraft(id,''); toast('أرسلنا ✓'); move(1);} }); }
-
-function move(d){ const o=openItems(); if(!o.length) return;
-  idx=(idx+d+o.length)%o.length; curId=null; renderCard(); }
-function skipIt(id){ SKIPPED.add(id); localStorage.setItem('ogz_skipped',JSON.stringify([...SKIPPED]));
-  toast('أخّرناه 🕐'); idx=0; curId=null; patchAmbient(); renderCard(); }
-function copyCmd(id){ const el=document.getElementById('cmd_'+id); if(!el) return;
-  navigator.clipboard.writeText(el.textContent).then(()=>toast('📋 انتسخ')).catch(()=>toast('📋 حدّده وانسخه',true)); }
-
-async function bulkApprove(){
-  const grp=openItems(); if(!grp.length||!grp.every(i=>SEEN.has(i.id))) return;
-  if(!confirm('اعتماد '+grp.length+' كروت شفتها كلها؟')) return;
-  let n=0; for(const it of grp){ if(await post(it.id,'approved','','')) n++; }
-  toast('✅ اعتمدت '+n); curId=null;
-  try{ const rr=await fetch('/api/approvals/items?k='+K); ITEMS=await rr.json(); }catch(e){}
-  patchAmbient(); renderCard();
-}
-
-/* ---------- done list ---------- */
+/* ---------- done list / reverse ---------- */
 function renderDone(){
-  const done=ITEMS.filter(i=>i.status==='answered');
+  if(VIEW!=='cards') return;
+  const done=ITEMS.filter(i=>i.status==='answered' && laneOf(i)===LANE_VIEW);
   const el=document.getElementById('doneList');
   if(!done.length){ el.innerHTML=''; return; }
-  let h=`<div class="done-h">✓ المجاب (${done.length}) — اضغط لعكس أي قرار</div>`;
-  for(const it of done){
-    const bn=(MEMBERS.find(m=>m.id===it.answered_by)||{}).name||it.answered_by;
-    const by=it.answered_by?`<span class="byj">👤 ${esc(bn)}</span>`:'';
-    h+=`<div class="done-item"><b>${esc(it.title)}</b>${by}<br>
-        إجابة: <span class="ans">${esc(it.answered||'—')}</span>
-        <br><button class="rev" onclick="document.getElementById('rv_${esc(it.id)}').classList.add('show')">⮌ اعكس</button>
+  let h=`<div class="done-h">✓ Answered (${done.length}) — tap to reverse any decision</div>`;
+  for(const it of done.slice(-12).reverse()){
+    const by=it.answered_by?`<span class="byj">👤 ${esc(nameOf(it.answered_by))}</span>`:'';
+    h+=`<div class="done-item"><b dir="auto">${esc(it.title)}</b>${by}<br>
+        Answer: <span class="ans" dir="auto">${esc(it.answered||'—')}</span>
+        <br><button class="rev" onclick="document.getElementById('rv_${esc(it.id)}').classList.add('show')">⮌ Reverse</button>
         <div class="revbox" id="rv_${esc(it.id)}">
-          <textarea class="note" id="rvn_${esc(it.id)}" placeholder="سبب العكس (إلزامي — يعلّم النظام)"></textarea>
-          <button class="send" style="margin-top:8px" onclick="reverse('${esc(it.id)}')">أكّد العكس</button></div></div>`;
+          <textarea class="note" id="rvn_${esc(it.id)}" dir="auto" placeholder="Why? (required — reversals teach the system)"></textarea>
+          <button class="cmdcopy" style="margin-top:8px" onclick="reverse('${esc(it.id)}')">Confirm reverse</button></div></div>`;
   }
   el.innerHTML=h;
 }
 async function reverse(id){
   const el=document.getElementById('rvn_'+id); const note=(el?el.value:'').trim();
-  if(!note){ toast('⚠️ اكتب السبب أول',true); return; }
+  if(!note){ toast('Write the reason first',true); return; }
   try{ const r=await fetch('/api/approvals/reverse?k='+K,{method:'POST',
       headers:{'Content-Type':'application/json'},body:JSON.stringify({item_id:id,note:note,judge:WHO})});
-    if(!r.ok) throw 0; toast('⮌ انعكس'); curId=null;
-    const rr=await fetch('/api/approvals/items?k='+K); ITEMS=await rr.json(); patchAmbient(); renderCard();
-  }catch(e){ toast('⚠️ ما وصل — جرّب ثاني',true); }
+    if(!r.ok) throw 0; toast('⮌ Reversed'); curId=null; await refresh();
+  }catch(e){ toast('Did not reach the server — try again',true); }
 }
 
-/* ---------- global note (collapsed pill, not fixed) ---------- */
-let GNOTE_OPEN=false;
-function renderGnote(){
-  const host=document.getElementById('gnoteHost');
-  if(GNOTE_OPEN){ host.innerHTML=`<div class="gnote-open show">
-      <textarea id="gnote" placeholder="💬 ملاحظة عامة لكلود — توصل فوراً"></textarea>
-      <button onclick="sendGnote()">أرسل لكلود</button></div>`;
-    const t=document.getElementById('gnote'); if(t) t.focus(); }
-  else host.innerHTML=`<div class="gnote-pill" onclick="GNOTE_OPEN=true;renderGnote()">
-      💬 <span>ملاحظة عامة لكلود؟</span></div>`;
-}
-async function sendGnote(){
-  const t=document.getElementById('gnote'); const v=(t?t.value:'').trim(); if(!v){ toast('اكتب شيئاً أول',true); return; }
-  const ok=await post('_general_note',v,v,''); if(ok){ GNOTE_OPEN=false; renderGnote(); toast('💬 وصلت'); }
-}
-
-/* ---------- players view (read-only, 100% from the derived file) ---------- */
-let VIEW='cards';
-function setView(v){ VIEW=v;
-  document.getElementById('tab_cards').className='tabbtn'+(v==='cards'?' on':'');
-  document.getElementById('tab_players').className='tabbtn'+(v==='players'?' on':'');
-  for(const id of ['chips','ubar','bulk','stage','doneList'])
-    document.getElementById(id).style.display = v==='cards' ? '' : 'none';
-  document.getElementById('players').style.display = v==='players' ? '' : 'none';
-  if(v==='cards'){ patchAmbient(); } else renderPlayers();
-}
+/* ---------- players (read-only) ---------- */
 async function renderPlayers(){
   const host=document.getElementById('players');
   host.innerHTML='<div class="small" style="padding:14px">…</div>';
   let d; try{ d=await (await fetch('/api/approvals/scorecards?k='+K)).json(); }
-  catch(e){ host.innerHTML='<div class="small">⚠️ ما قدرنا نجيبها'; return; }
+  catch(e){ host.innerHTML='<div class="small">Could not load.</div>'; return; }
   const ps=(d.scorecards||{}).players||{};
   const order=Object.entries(ps).sort((a,b)=>(b[1].streak-a[1].streak)||(b[1].lifetime.judged-a[1].lifetime.judged));
-  if(!order.length){ host.innerHTML='<div class="card empty"><div class="big">🧠</div><div class="t">لسه ما في أحكام كافية</div><div class="small">كل حكم تحكمه يبني سجل اللاعبين</div></div>'; return; }
+  if(!order.length){ host.innerHTML='<div class="card empty"><div style="font-size:34px">🧠</div><div style="color:var(--green);font-weight:700;margin:8px 0">No judgments yet</div><div class="small">Every verdict you give builds each player\'s record</div></div>'; return; }
   let h='';
   for(const [p,c] of order){
     const lt=c.lifetime;
     h+=`<div class="pl-row">
-      <span class="pl-name">${esc(playerAr(p))}${c.benched?' <span class="pl-badge">🧊 موقوف</span>':''}</span>
-      <span class="pl-dots">${(c.dots||[]).map(d=>`<span class="pl-dot ${d}"></span>`).join('')}</span>
-      <span class="pl-stats">${lt.judged||0} حُكم · ${lt.approved||0} ✓ · ${lt.rejected||0} ✗ · ${lt.corrected||0} ✏️
-        ${c.rates?`<br>${c.rates.approved_pct}% موافقة`:`<br>${esc(c.low_n_note||'')}`}
-        ${c.open_issues?`<br><span style="color:#ff9d96">🔴 ${c.open_issues} قضايا مفتوحة</span>`:''}
-        ${c.streak>=2?`<br>🧊 ${c.streak} رفضات ورا بعض`:''}</span>
-    </div>`;
-  }
-  const prov=(d.scorecards||{}).by_judge&&d.scorecards.by_judge.rabie_provisional;
-  if(prov&&Object.keys(prov).length){
-    h+=`<div class="small" style="margin:14px 4px 6px">آراء رابي (مبدئية — ما تُحسب حتى تراجعها):</div>`;
-    for(const [t,v] of Object.entries(prov))
-      h+=`<div class="pl-row"><span class="pl-name">${esc(playerAr(t))}</span>
-          <span class="pl-stats">رابي: ${v.avg}/5 (n=${v.n}) — مبدئي</span></div>`;
+      <span class="pl-name">${esc(playerEn(p))}${c.benched?' <span class="pl-badge">🧊 Benched</span>':''}</span>
+      <span class="pl-dots">${(c.dots||[]).map(x=>`<span class="pl-dot ${x}"></span>`).join('')}</span>
+      <span class="pl-stats">${lt.judged||0} judged · ${lt.approved||0} ✓ · ${lt.rejected||0} ✗ · ${lt.corrected||0} ✏️
+        ${c.rates?`<br>${c.rates.approved_pct}% approval`:`<br>too few to rate (n=${lt.judged||0})`}
+        ${c.open_issues?`<br><span style="color:#ff9d96">🔴 ${c.open_issues} open case${c.open_issues>1?'s':''}</span>`:''}
+        ${c.streak>=2?`<br>🧊 ${c.streak} straight rejections`:''}</span></div>`;
   }
   host.innerHTML=h;
 }
 
+/* ---------- misc ---------- */
+function move(d){ const o=openItems().filter(i=>!SKIPPED.has(i.id)); if(!o.length) return;
+  idx=Math.max(0,Math.min(idx+d,o.length-1)); curId=null; renderCard(); }
+function skipIt(id){ SKIPPED.add(id); localStorage.setItem('ogz_skipped',JSON.stringify([...SKIPPED]));
+  toast('Moved to Later 🕐'); idx=0; curId=null; patchAmbient(); renderCard(); }
+function copyCmd(id){ const el=document.getElementById('cmd_'+id); if(!el) return;
+  navigator.clipboard.writeText(el.textContent).then(()=>toast('📋 Copied')).catch(()=>toast('Select and copy it',true)); }
+
+let GNOTE_OPEN=false;
+function renderGnote(){
+  const host=document.getElementById('gnoteHost');
+  if(GNOTE_OPEN){ host.innerHTML=`<div class="gnote-open show">
+      <textarea id="gnote" dir="auto" placeholder="💬 A general note to Claude — lands immediately"></textarea>
+      <button onclick="sendGnote()">Send to Claude</button></div>`;
+    const t=document.getElementById('gnote'); if(t) t.focus(); }
+  else host.innerHTML=`<div class="gnote-pill" onclick="GNOTE_OPEN=true;renderGnote()">💬 <span>Note to Claude?</span></div>`;
+}
+async function sendGnote(){
+  const t=document.getElementById('gnote'); const v=(t?t.value:'').trim();
+  if(!v){ toast('Write something first',true); return; }
+  const ok=await postBody(buildBody('_general_note',v,v,''));
+  if(ok&&ok!=='403'){ GNOTE_OPEN=false; renderGnote(); toast('💬 Delivered'); }
+  else toast('Did not reach the server',true);
+}
+
 /* ---------- boot ---------- */
-whoami().then(()=>{ refresh(); flushOutbox(); renderOutbox(); });
-setInterval(()=>{ refresh(); flushOutbox(); }, 25000);   // ambient-only while typing; never wipes the card
+warmPaint(); renderGnote(); renderOutboxPill();
+Promise.all([whoami(), refresh()]).then(()=>{ flushOutbox();
+  fetch('/api/approvals/reasons?k='+K).then(r=>r.json()).then(d=>{ REASONS=d.codes||[];
+    fillChips(); }).catch(()=>{}); });
+function fillChips(){
+  // REASONS lands after first paint — back-fill chip rows IN PLACE (never renderCard)
+  document.querySelectorAll('.chipsrow').forEach(row=>{
+    if(row.children.length) return;
+    const id=row.id.replace(/^chips_/,''); const j=jget(id);
+    row.innerHTML=REASONS.filter(c=>c.status==='active').slice(0,8)
+      .map(c=>`<button class="rchip ${(j.chips||[]).includes(c.code)?'on':''}"
+        onclick="selChip('${esc(id)}','${esc(c.code)}',this)">${esc(CHIP_EN[c.code]||c.code)}</button>`).join('');
+  });
+}
+setInterval(()=>{ if(document.hidden) return; refresh(); flushOutbox(); }, 15000);
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ refresh(); flushOutbox(); } });
+window.addEventListener('online',()=>{ refresh(); flushOutbox(); });
 </script>
 </body>
 </html>

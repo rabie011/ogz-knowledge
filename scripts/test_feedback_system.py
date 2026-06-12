@@ -324,8 +324,11 @@ def main():
         check("v1/v2 mixed replay → zero crashes", True)
     except Exception as ex:
         check("v1/v2 mixed replay → zero crashes", False, ex)
-    check("unattributed legacy row lands on system:unattributed (counted, red)",
-          out["scorecards"]["players"].get("system:unattributed", {}).get("lifetime", {}).get("judged", 0) >= 1)
+    # TASTE FILTER (June 12 zoom-out): rows with no artifact_id AND no target are
+    # decisions, not taste — they must NOT pollute any player's scorecard
+    polluted = any(out["scorecards"]["players"].get(p, {}).get("lifetime", {}).get("judged", 0)
+                   for p in ("system:unattributed",))
+    check("legacy/ops row without artifact → EXCLUDED from taste scorecards", not polluted)
 
     print("\n── 10. BATCH + TOMBSTONE ──")
     attr.attribute("batch:b1", "batch", "claude", via="scripts/queue_decision.py",

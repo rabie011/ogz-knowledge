@@ -147,10 +147,19 @@ def process(verbose: bool = False) -> dict:
                 stats["corrections"] += 1
             if _is_reject(row) or fix_text:
                 codes = row.get("reason_codes") or []
+                # a mind's issue carries its METHODOLOGY FILE as target_path — so the
+                # issue closes ONLY by a commit touching that prompt file (git-enforced)
+                tpath = None
+                if player.startswith("mind:"):
+                    from minds import MINDS
+                    m = MINDS.get(player.split(":", 1)[1])
+                    if m:
+                        tpath = m["file"]
                 e = issue_log.open_issue(
                     player, quote=(row.get("note") or fix_text or row.get("answer") or "")[:200],
                     reason_code=(codes[0] if codes else "unspecified"),
                     target=row.get("target") or (f"card:{row['item_id']}" if row.get("item_id") else None),
+                    target_path=tpath,
                     target_version=row.get("artifact_version"),
                     source="portal", source_answer={"ts": row.get("ts"), "item_id": row.get("item_id")})
                 if e.get("event") in ("open", "reopened"):

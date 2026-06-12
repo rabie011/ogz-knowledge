@@ -16,7 +16,8 @@ import os
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 
 REPO = Path(__file__).parent.parent
@@ -31,6 +32,7 @@ LANEMAP_F = DATA_ROOT / "data" / "portal_lane_map.json"
 SCORECARDS_F = DATA_ROOT / "data" / "scorecards.json"
 
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
+app.add_middleware(GZipMiddleware, minimum_size=600)   # 40KB JSON → ~8KB over the tunnel
 
 
 def _team() -> dict:
@@ -80,10 +82,16 @@ def root():
 
 
 @app.get("/approvals")
-def page(k: str = ""):
+def page(request: Request, k: str = ""):
     if not _ok(k):
         return JSONResponse({"error": "key required"}, status_code=403)
-    return FileResponse(STATIC / "approvals.html", headers={"Cache-Control": "no-store"})
+    # private,no-cache + ETag: second open through the tunnel = 304 (~300B, not 45KB)
+    f = STATIC / "approvals.html"
+    st = f.stat()
+    etag = f'W/"{int(st.st_mtime)}-{st.st_size}"'
+    if request.headers.get("if-none-match") == etag:
+        return Response(status_code=304, headers={"ETag": etag})
+    return FileResponse(f, headers={"Cache-Control": "private, no-cache", "ETag": etag})
 
 
 @app.get("/api/approvals/whoami")
@@ -117,16 +125,33 @@ def scorecards(k: str = ""):
             "issues": json.loads(issues_f.read_text()) if issues_f.exists() else {"open_count": 0}}
 
 
+SLIM_KEYS = ("id", "title", "status", "answered", "answered_by", "created", "tag")
+
+
 @app.get("/api/approvals/items")
-def items(k: str = ""):
+def items(request: Request, k: str = ""):
     if not _ok(k):
         return JSONResponse([], status_code=403)
+    # ETag from the queue file mtime+size: unchanged queue → 304, zero payload (polling diet)
+    if QUEUE.exists():
+        st = QUEUE.stat()
+        etag = f'W/"{int(st.st_mtime)}-{st.st_size}"'
+        if request.headers.get("if-none-match") == etag:
+            return Response(status_code=304, headers={"ETag": etag})
+    else:
+        etag = 'W/"empty"'
     lm = _lane_map()
     q = json.loads(QUEUE.read_text()) if QUEUE.exists() else {"items": []}
-    out = [dict(it, lane=_card_lane(it, lm)) for it in q["items"]]
+    out = []
+    for it in q["items"]:
+        if it.get("status") == "answered":
+            out.append({kk: it.get(kk) for kk in SLIM_KEYS})   # answered = slim (payload diet)
+        else:
+            out.append(dict(it, lane=_card_lane(it, lm)))
     out.sort(key=lambda x: (x.get("status") == "answered",
                             0 if x.get("priority") == "urgent" else 1, x.get("created", "")))
-    return out
+    # private,no-cache makes the browser attach If-None-Match automatically → free 304 polling
+    return JSONResponse(out, headers={"ETag": etag, "Cache-Control": "private, no-cache"})
 
 
 @app.get("/api/approvals/team")
@@ -244,7 +269,63 @@ async def answer(request: Request, k: str = ""):
                 if entry["fix"]:
                     it["human_fix"] = entry["fix"][:200]
         QUEUE.write_text(json.dumps(q, ensure_ascii=False, indent=1))
-    return {"ok": True}
+    # the routing receipt — same classifier the router/end-screen use (no drift)
+    import sys as _s2
+    _s2.path.insert(0, str(REPO / "scripts"))
+    from feedback_lib import classify_receipt
+    return {"ok": True, "receipt": classify_receipt(entry)}
+
+
+@app.get("/api/approvals/receipt")
+def receipt(k: str = "", since: str = ""):
+    """END SCREEN — 'Your taste, applied'. Runs the fold pipeline (router → gold →
+    scorecards) under the file lock, then returns the LEDGER DIFF by RE-READING the
+    files the mutators just wrote (ASSERT law: post-write re-reads, never predictions)."""
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    import fcntl
+    import sys as _s3
+    _s3.path.insert(0, str(REPO / "scripts"))
+    lock = open(DATA_ROOT / "data" / ".fold_lock", "w")
+    try:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        import feedback_router, gold_mint, scorecards as _sc
+        feedback_router.process()
+        minted = gold_mint.mint()
+        _sc.write_all()
+    finally:
+        fcntl.flock(lock, fcntl.LOCK_UN)
+        lock.close()
+    from feedback_lib import read_jsonl as _rj
+    since = since or "1970"
+    rows = [r for r in _rj(ANSWERS) if (r.get("client_ts") or r.get("ts", "")) >= since
+            and r.get("judge") not in ("", "unverified")]
+    tally = {"judged": 0, "approved": 0, "rejected": 0, "corrected": 0}
+    for r in rows:
+        a = str(r.get("answer", "")).lower()
+        if r.get("item_id") in ("_general_note", "_repudiation"):
+            continue
+        tally["judged"] += 1
+        if (r.get("fix") or "").strip():
+            tally["corrected"] += 1
+        elif a in ("rejected", "flagged"):
+            tally["rejected"] += 1
+        elif a == "approved":
+            tally["approved"] += 1
+    issues_st = json.loads((DATA_ROOT / "data/issues_state.json").read_text()) \
+        if (DATA_ROOT / "data/issues_state.json").exists() else {"issues": {}}
+    cases = [{"player": s["player"], "quote": s["quote"], "status": s["status"]}
+             for s in issues_st.get("issues", {}).values() if s.get("opened", "") >= since]
+    corrections = [c for c in _rj(DATA_ROOT / "data/corrections.jsonl") if c.get("ts", "") >= since]
+    blocked = json.loads((DATA_ROOT / "data/bench.json").read_text()) \
+        if (DATA_ROOT / "data/bench.json").exists() else {}
+    return {"ok": True, "tally": tally,
+            "cases_opened": cases[:6],
+            "gold_kept": minted,
+            "corrections_saved": len(corrections),
+            "benched": list(blocked),
+            "open_left": sum(1 for s in issues_st.get("issues", {}).values()
+                             if s["status"] in ("open", "fix_claimed", "verified"))}
 
 
 @app.post("/api/approvals/reverse")
@@ -272,5 +353,6 @@ async def reverse(request: Request, k: str = ""):
             if it["id"] == entry["item_id"]:
                 it["status"] = "open"
                 it.pop("answered", None)
+                it.pop("answered_by", None)   # no ghost attribution on a reopened card
         QUEUE.write_text(json.dumps(q, ensure_ascii=False, indent=1))
     return {"ok": True}

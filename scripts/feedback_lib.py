@@ -98,6 +98,25 @@ def append_jsonl(path: Path, entry: dict):
         fcntl.flock(f, fcntl.LOCK_UN)
 
 
+def classify_receipt(entry: dict) -> dict:
+    """What this judgment BECOMES — one deterministic source of truth shared by the
+    portal response, the router, and the end screen (they can never drift).
+    Honest tense: 'will_*' = the cron/receipt fold does it, not already done."""
+    a = str(entry.get("answer", "")).strip().lower()
+    fix = bool((entry.get("fix") or "").strip())
+    rating = entry.get("rating")
+    rejected = a in ("rejected", "flagged") or (isinstance(rating, int) and rating <= 2)
+    return {
+        "kind": ("corrected" if fix else "rejected" if rejected
+                 else "approved" if a == "approved" else "answered"),
+        "will_open_case": rejected or fix,
+        "correction_captured": fix,
+        "gold_candidate": a == "approved" and isinstance(rating, int) and rating >= 4
+                          and bool(entry.get("artifact_id")),
+        "player": entry.get("target") or None,
+    }
+
+
 def read_jsonl(path: Path) -> list:
     if not path.exists():
         return []

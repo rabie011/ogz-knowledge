@@ -42,7 +42,8 @@ SCHEMAS = {
                         "real_hashtags": ARR(S()), "prices": ARR({"type": "object"}), "note": S()}},
     "client_red_lines_v1": {
         "required": ["lines", "defaults_pinned", "note"],
-        "properties": {"lines": ARR({"type": "object"}), "defaults_pinned": S(), "note": S()}},
+        "properties": {"lines": ARR({"type": "object"}), "defaults_pinned": S(), "note": S(),
+                        "touches_since_confirm": {"type": "number"}}},
     "client_goals_v1": {
         "required": ["goal_ratio", "capacity_ceiling", "forward_calendar", "usp_his_words", "answered", "of"],
         "properties": {"goal_ratio": SN(), "capacity_ceiling": N(), "forward_calendar": ARR({"type": "object"}),

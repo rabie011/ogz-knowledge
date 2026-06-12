@@ -177,6 +177,25 @@ def run_checks() -> dict:
                 it["answered_by"] = "system"
         qf.write_text(json.dumps(qq, ensure_ascii=False, indent=1))
 
+    # 12d. VERDICTS APPLIED (June 13, the severed return-arc: his midnight sitting was
+    # consumed by the router yet changed NOTHING in the library for a whole night while
+    # this monitor glowed green). Answered ratify_* card + recipe still 'awaiting' = RED.
+    try:
+        pc = json.loads((B / "data/pattern_cards_v1.json").read_text())
+        rec_status = {cc["slug"]: str(cc.get("status", "")) for cc in pc["survivors"]}
+        unapplied = []
+        for it in q["items"]:
+            if it.get("status") == "answered" and it["id"].startswith("ratify_"):
+                slug = it["id"].replace("ratify_", "").removesuffix("_v2")
+                st = rec_status.get(slug, "")
+                if "awaiting_mohamed_ratification" in st or st.endswith("ready for re-ratification"):
+                    unapplied.append(slug)
+        c["verdicts_applied"] = not unapplied
+        if unapplied:
+            c["unapplied_recipes"] = unapplied
+    except Exception:
+        c["verdicts_applied"] = True
+
     # 12. OPEN-ISSUE PULSE
     ist = json.loads((B / "data/issues_state.json").read_text()) \
         if (B / "data/issues_state.json").exists() else {"oldest_open_days": 0}
@@ -187,7 +206,7 @@ def run_checks() -> dict:
              "unattributed_zero", "no_bulk_backfill", "producer_map_clean", "cards_attributed",
              "evidence_gates", "receipt_alive", "scorecards_fresh", "hand_recount",
              "no_quarantine_graveyard", "append_only", "card_budget_ok", "issue_pulse_ok",
-             "gold_wire_e2e"]
+             "gold_wire_e2e", "verdicts_applied"]
     c["_verdict"] = all(c[g] for g in gates)
     c["_failed"] = [g for g in gates if not c[g]]
     return c

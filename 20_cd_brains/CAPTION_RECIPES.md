@@ -1,5 +1,5 @@
 # OGZ CAPTION RECIPES — the writers' menu
-*Generated 2026-06-12T23:18 from data/pattern_cards_v1.json — edit THERE, not here.*
+*Generated 2026-06-13T00:29 from data/pattern_cards_v1.json — edit THERE, not here.*
 
 Every recipe is an applicable MOVE (like the 94 visual chains). Nothing enters
 production prompts before Mohamed ratifies it. A ratified recipe is a PLAYER:
@@ -78,16 +78,7 @@ his rejections can bench it like a mind.
 **How it dies:** Treating the opening as the brand's achievement ('وصلنا! توسعنا!') — the moment the brand congratulates itself instead of greeting the town, the hospitality code inverts and reads as corporate conquest. | MERGED INSIGHT (city_name_pride): the caption must survive a resident fact-check — one TRUE local detail; city-name swap localization is the failure.
 **Sectors:** Universal for any physical expansion, but F&B carries it best — a restaurant IS a majlis, so the host-guest frame is literal, not metaphor.
 
-## crowd_judges  ·  🔁 REVISED — awaiting re-approval  ·  Rabie 4/5
-**The move:** Ask the audience a REAL taste question and stay silent — the comments become the content. NEVER a comparison question: the brand never asks who does it better (Mohamed's law: the brand IS the best). Ask about THEIR habits, preferences, rituals — never about rivals or rankings.
-**Skeleton:** single-question hook + curious peer register + <=12 words + beats: (1) the taste question about THEM (not us, not rivals), (2) hand the mic over, (3) brand stays silent
-**When:** Community pillar, drink/dish debates with real factions (karak spice, matcha, mandi vs madhbi), engagement weeks. NOT when the brand secretly wants one answer (rigged polls smell), and not as a mask for product launches.
-**Real example:** تحبون الماتشا؟
-**Fresh example:** الكرك بهيل ولا زعفران؟ احسموها 👇
-**How it dies:** COMPARISON CREEP — any 'who does it best/أفضل مقهى' framing is dead by law (brand_never_invites_comparison). Also: rigged questions where only the brand can be the answer, and asking then ghosting the replies. | MERGED INSIGHT (crowd_is_the_expert): answering the replies IS part of the move — ghosting or arguing kills it permanently; cede the choice of the NEXT item, never a ranking.
-**Sectors:** F&B has the loudest taste tribes in Saudi (karak, kabsa rice schools, bakery wars). Beauty version exists (blush shades); avoid in real estate where 'debate' reads as doubt.
-
-## sofra_stage  ·  ⏳ awaiting Mohamed  ·  Rabie 4/5
+## sofra_stage  ·  ✅ RATIFIED  ·  Rabie 4/5
 **The move:** Stage the sofra as a theater scene where dishes are named characters taking their positions — the writer is a narrator describing an entrance (يتصدر المشهد), not a menu listing items.
 **Skeleton:** scene-opening hook (time or curtain: وقت الإفطار حان / السفرة اكتملت) + cinematic-warm register + <=12 words + beats: (1) the moment named, (2) two dishes maximum given positions/roles, (3) the spread implied complete
 **When:** Ramadan iftar/suhoor, Eid spreads, Friday family lunch — any moment with a real shared table. Best with heritage dish pairs (jereesh + kabli). NOT for single grab-and-go items, and during Ramadan it stays scene-only: no prices, no 'order now' welded on.
@@ -95,6 +86,25 @@ his rejections can bench it like a mind.
 **Fresh example:** السفرة اكتملت: الكبسة بالنص والسليق عن يمينها 👑
 **How it dies:** Listing more than two dishes turns theater back into a menu; and stock sofra-sentiment ('سفرتنا عامرة، أجواء عائلية') with no staging verb loses the move — the dishes must DO something (enter, lead, take the center), not just exist.
 **Sectors:** F&B exclusive at full power — the sofra is the sector's native stage. Hospitality variant: the majlis as the set, qahwa and dates as the cast.
+
+## tell_us_we_tell_you  ·  ✅ RATIFIED  ·  Rabie 3/5
+**The move:** Ask the audience for one effortless personal detail and promise a playful personalized read back — the brand plays fortune-teller and the product is the prophecy, never the pitch.
+**Skeleton:** question hook + playful register + <=10 words + 2 beats: micro-ask → promised mirror ('…يشبهك')
+**When:** Engagement days, community pillar, slow weeks between drops. NOT on solemn occasions; never as a disguised data grab and never with a discount as the 'answer'.
+**Real example:** قول لنا شهر ميلادك… 🥳 🎂 
+ونقول لك أي حلى يشبهك 😋
+**Fresh example:** قولي لونك المفضل… ونقولك أي عطر يشبهك
+**How it dies:** The reply-trap: the brand never actually answers the comments, or answers every one with the same product link — the game dies in public and reads as bait. | MERGED INSIGHT: matches hand-picked from the REAL catalog only; dies the first time replies go unanswered; watch zodiac-creep (religiously uncomfortable).
+**Sectors:** Universal; fashion/beauty maps personality → look/scent, F&B maps mood → dish, retail maps life-stage → find.
+
+## crowd_judges  ·  ⏳ awaiting Mohamed  ·  Rabie 4/5
+**The move:** Ask the audience a REAL taste question and stay silent — the comments become the content. NEVER a comparison question: the brand never asks who does it better (Mohamed's law: the brand IS the best). Ask about THEIR habits, preferences, rituals — never about rivals or rankings.
+**Skeleton:** single-question hook + curious peer register + <=12 words + beats: (1) the taste question about THEM (not us, not rivals), (2) hand the mic over, (3) brand stays silent
+**When:** Community pillar, drink/dish debates with real factions (karak spice, matcha, mandi vs madhbi), engagement weeks. NOT when the brand secretly wants one answer (rigged polls smell), and not as a mask for product launches.
+**Real example:** تحبون الماتشا؟
+**Fresh example:** الكرك بهيل ولا زعفران؟ احسموها 👇
+**How it dies:** COMPARISON CREEP — any 'who does it best/أفضل مقهى' framing is dead by law (brand_never_invites_comparison). Also: rigged questions where only the brand can be the answer, and asking then ghosting the replies. | MERGED INSIGHT (crowd_is_the_expert): answering the replies IS part of the move — ghosting or arguing kills it permanently; cede the choice of the NEXT item, never a ranking.
+**Sectors:** F&B has the loudest taste tribes in Saudi (karak, kabsa rice schools, bakery wars). Beauty version exists (blush shades); avoid in real estate where 'debate' reads as doubt.
 
 ## tag_the_character  ·  ⏳ awaiting Mohamed  ·  Rabie 4/5
 **The move:** Sketch a two-person social scene with roles so precise everyone instantly casts a real friend in it, then command the tag — the product is only the table the characters meet over.
@@ -145,16 +155,6 @@ his rejections can bench it like a mind.
 **Fresh example:** يا صاحبات الذوق الهادي… وصل اللي تدورينه
 **How it dies:** 'يا عملاءنا الكرام' — addressing everyone is addressing no one; or stereotyping the tribe so the wink lands as mockery instead of belonging. | MERGED INSIGHT (tribe_callout): tease WITH the tribe never against another — derby sides bleed half the audience; the wink stays half-said.
 **Sectors:** Universal; in fashion/beauty the tribes are style-identities (minimal-hijab, bold-lip), in retail they are fandoms and life-stages.
-
-## tell_us_we_tell_you  ·  ⏳ awaiting Mohamed  ·  Rabie 3/5
-**The move:** Ask the audience for one effortless personal detail and promise a playful personalized read back — the brand plays fortune-teller and the product is the prophecy, never the pitch.
-**Skeleton:** question hook + playful register + <=10 words + 2 beats: micro-ask → promised mirror ('…يشبهك')
-**When:** Engagement days, community pillar, slow weeks between drops. NOT on solemn occasions; never as a disguised data grab and never with a discount as the 'answer'.
-**Real example:** قول لنا شهر ميلادك… 🥳 🎂 
-ونقول لك أي حلى يشبهك 😋
-**Fresh example:** قولي لونك المفضل… ونقولك أي عطر يشبهك
-**How it dies:** The reply-trap: the brand never actually answers the comments, or answers every one with the same product link — the game dies in public and reads as bait. | MERGED INSIGHT: matches hand-picked from the REAL catalog only; dies the first time replies go unanswered; watch zodiac-creep (religiously uncomfortable).
-**Sectors:** Universal; fashion/beauty maps personality → look/scent, F&B maps mood → dish, retail maps life-stage → find.
 
 ## she_is_introduction  ·  ⏳ awaiting Mohamed  ·  Rabie 3/5
 **The move:** Introduce the piece the way you'd introduce a friend — two or three personality traits in 'she is' voice ending on the wearer — so the customer recognizes herself in the product instead of being sold to.

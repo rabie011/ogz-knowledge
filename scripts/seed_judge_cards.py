@@ -36,6 +36,9 @@ def _parse(maybe_dict):
 
 
 def pick_posts(n: int) -> list:
+    # skip post-dates already judged (their judge2_ card exists in the queue, any status)
+    qf = base() / "data/decision_queue.json"
+    existing = {it["id"] for it in json.loads(qf.read_text())["items"]} if qf.exists() else set()
     picked, seen_brains = [], set()
     pools = []
     for handle in ("eatjurisha", "albaik"):
@@ -53,6 +56,10 @@ def pick_posts(n: int) -> list:
                 continue
             if not (d.get("captions") and d.get("brain")):
                 continue
+            slot = _parse(d.get("slot"))
+            date = slot.get("date", d.get("date", ""))
+            if f"judge2_{handle}_{date}" in existing:
+                continue
             if d["brain"] in seen_brains and len(seen_brains) < 5:
                 continue
             seen_brains.add(d["brain"])
@@ -67,7 +74,10 @@ def build_card(handle: str, d: dict, fname: str) -> dict:
     visual = _parse(d.get("visual"))
     caption = d["captions"][0]
     occ_name = slot.get("type", "?")
-    occ_line = occ_name + (f" · beat: {slot['beat']}" if slot.get("beat") else "") \
+    # Mohamed struck «evergreen» twice («saudi doesn't have evergreen») — never print it
+    # to him; the taxonomy replacement awaits his ruling, display says «daily» meanwhile
+    occ_display = "daily" if "evergreen" in occ_name else occ_name
+    occ_line = occ_display + (f" · beat: {slot['beat']}" if slot.get("beat") else "") \
         + (" · MAJOR day" if slot.get("major") else "")
     scene = idea.get("scene_ar") or str(d.get("idea"))[:400]
     shots = visual.get("phone_shoot_card") or []

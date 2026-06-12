@@ -59,7 +59,8 @@ SCHEMAS = {
         "required": ["comments_count", "sample", "note"],
         "properties": {"comments_count": {"type": "number"}, "sample": ARR(S()), "note": S(),
                         "customer_language": ARR(S()), "pains_aggregate": ARR(S()),
-                        "theme_tally": ARR({"type": "object"}), "machine_note": S()}},
+                        "theme_tally": ARR({"type": "object"}), "machine_note": S(),
+                        "maps_signals": {"type": "object"}}},
     "client_taste_v1": {
         "required": ["floor", "kills", "client_calibration"],
         "properties": {"floor": S(), "kills": ARR(S()), "client_calibration": ARR({"type": "object"})}},

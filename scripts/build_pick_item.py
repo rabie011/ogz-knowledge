@@ -50,7 +50,22 @@ def build(handle: str, slot: str, title: str, meaning: str) -> dict:
                       "image_url": vis.get("image_url"),
                       "ai_generated": bool(vis.get("ai_generated")),
                       "ai_blocked": (vis.get("ai_imagery") or {}).get("blocked", False)})
+    # DIVERSITY GUARD (Mohamed June 12, after rejecting 3 sets «why the same idea»):
+    # a pick-set where 2+ options share the core scene is a FAILURE — flag it so the
+    # batch builder skips it (re-render with different-scene constraint when keys live).
+    import re as _re
+    def _scene_key(o):
+        s = _re.sub(r"[^؀-ۿ ]", " ", (o.get("idea") or "")).split()
+        return " ".join(s[:6])          # first 6 content words = the scene fingerprint
+    keys = [_scene_key(o) for o in opts]
+    converged = len(keys) >= 2 and len(set(keys)) < len(keys)
+    # also catch single-occasion person-repeat (myfitness Captain-Adel case)
+    persons = [(_re.search(r"(الكابتن|الكاب[تط]ن|المدرب)\s+\S+", o.get("idea","")) or [None])[0] for o in opts]
+    same_person = len([p for p in persons if p]) >= 2 and len(set(p for p in persons if p)) == 1
+
     return {"id": f"pick_{handle}", "kind": "post_pick", "cat": "اختيارات",
+            "diversity_ok": not (converged or same_person),
+            "diversity_note": ("⚠ converged scenes" if converged else "⚠ same person" if same_person else "ok"),
             "tag": "اختيارك = ذهب المناسبات", "title": title,
             "meaning": meaning, "priority": "normal", "status": "open",
             "created": __import__("datetime").date.today().isoformat(), "brand_context": brand_context(handle),

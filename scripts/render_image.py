@@ -1,0 +1,108 @@
+#!/usr/bin/env python3
+"""RENDER A POST IMAGE — cheap, chain-prompted (June 12, Mohamed's laws).
+"The LLM will change, the prompt will not": the image prompt is built from the
+94-CHAIN LIBRARY (Ahmed's durable prompts) + the post's concrete scene — never
+improvised. Model = fal flux/schnell (~$0.003/image, 4 steps). Every render is
+cost-logged; the budget guard refuses past the batch cap.
+
+Usage: python3 scripts/render_image.py --card clients/albaik/posts/X.json
+       python3 scripts/render_image.py --batch /tmp/batch20.txt   # file of card paths
+"""
+import argparse, json, os, sys, time, urllib.request
+from pathlib import Path
+
+BASE = Path(__file__).parent.parent
+RENDER_DIR = BASE / "api/static/renders"
+COST_LOG = BASE / "data/image_cost_log.jsonl"
+COST_PER_IMAGE = 0.003          # flux/schnell on fal
+BATCH_CAP = 25                  # Mohamed's law: ~20/batch, hard stop at 25
+MODEL = "fal-ai/flux/schnell"
+
+
+def env(k):
+    for l in open(os.path.expanduser("~/.abraham_env")):
+        if l.startswith(k + "="):
+            return l.split("=", 1)[1].strip().strip('"')
+    return None
+
+
+def spent_this_batch() -> int:
+    if not COST_LOG.exists():
+        return 0
+    today = time.strftime("%Y-%m-%d")
+    return sum(1 for l in COST_LOG.read_text().strip().split("\n")
+               if l.strip() and json.loads(l).get("day") == today)
+
+
+def chain_image_prompt(card: dict) -> str:
+    """The durable prompt: chain's visual language + the post's concrete scene."""
+    chain_ref = (card.get("visual") or {}).get("pro_chain") or {}
+    chain_block = ""
+    cid = chain_ref.get("id")
+    if cid:
+        idx = json.loads((BASE / "02_what_to_build/INDEX.json").read_text())
+        chains = idx if isinstance(idx, list) else idx.get("chains", [])
+        ch = next((c for c in chains if c.get("chain_id_short") == cid), None)
+        if ch:
+            f = BASE / "02_what_to_build" / ch.get("family", "") / f"{ch.get('chain_id','')}.json"
+            if f.exists():
+                cd = json.loads(f.read_text())
+                ip = cd.get("image_prompt") or {}
+                # the chain's style blocks are the durable language
+                chain_block = " ".join(str(ip.get(k, "")) for k in
+                                        ("style", "lighting", "composition", "camera", "mood") if ip.get(k))[:600]
+    scene = (card.get("idea") or {}).get("scene_ar", "")
+    shots = (card.get("visual") or {}).get("phone_shoot_card") or []
+    return (f"Authentic Saudi lifestyle photograph. Scene: {scene[:300]}. "
+            f"Visual details: {' '.join(shots)[:300]}. "
+            + (f"Style: {chain_block}. " if chain_block else "")
+            + "Natural light, real textures, no text overlay, no faces unless scene demands, "
+              "conservative modest styling, photorealistic, shot on phone aesthetic.")
+
+
+def render(card_path: str) -> str | None:
+    key = env("FAL_KEY") or env("FAL_API_KEY")
+    if not key:
+        print("NO FAL KEY — staged only (image_prompt saved to card)")
+        key = None
+    card = json.loads(open(card_path).read())
+    prompt = chain_image_prompt(card)
+    card.setdefault("visual", {})["image_prompt"] = prompt
+    if key:
+        if spent_this_batch() >= BATCH_CAP:
+            sys.exit(f"BUDGET GUARD: {BATCH_CAP} images today already — Mohamed's batch law")
+        body = {"prompt": prompt, "image_size": "square_hd", "num_inference_steps": 4,
+                "num_images": 1, "enable_safety_checker": True}
+        rq = urllib.request.Request(f"https://fal.run/{MODEL}", data=json.dumps(body).encode(),
+                                    headers={"Authorization": f"Key {key}", "Content-Type": "application/json"})
+        out = json.loads(urllib.request.urlopen(rq, timeout=120).read())
+        url = out["images"][0]["url"]
+        RENDER_DIR.mkdir(parents=True, exist_ok=True)
+        name = Path(card_path).stem + ".jpg"
+        urllib.request.urlretrieve(url, RENDER_DIR / name)
+        card["visual"]["image_url"] = f"/static/renders/{name}"
+        with open(COST_LOG, "a") as f:
+            f.write(json.dumps({"day": time.strftime("%Y-%m-%d"), "card": Path(card_path).name,
+                                  "model": MODEL, "usd": COST_PER_IMAGE}) + "\n")
+    Path(card_path).write_text(json.dumps(card, ensure_ascii=False, indent=2))
+    return card["visual"].get("image_url")
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--card")
+    ap.add_argument("--batch", help="file with one card path per line")
+    a = ap.parse_args()
+    paths = [a.card] if a.card else [l.strip() for l in open(a.batch) if l.strip()]
+    done = 0
+    for p in paths:
+        u = render(p)
+        done += bool(u)
+        print(f"  {'🖼' if u else '📝'} {Path(p).name}{' → ' + u if u else ' (prompt staged)'}")
+        time.sleep(1)
+    total = done * COST_PER_IMAGE
+    print(f"\n{done} images rendered · cost ≈ ${total:.3f}")
+
+
+if __name__ == "__main__":
+    main()

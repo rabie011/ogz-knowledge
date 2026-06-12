@@ -63,6 +63,14 @@ def main():
     strong = [f"{len(commits)} commits since your last tap, every build plant-tested with refusing asserts",
               f"judging 20-batch STAGED (6 brains × 10 occasions) — your fal tap = one command to your screen",
               f"{zooms} zoom-out ritual(s) ran; cold-eyes findings fixed at source (CTA 84%→gated)"]
+    rd = BASE / "data/reviews_digest.json"
+    if rd.exists():
+        r = json.loads(rd.read_text())
+        if "albaik" in r:
+            a_ = r["albaik"]
+            strong.append(f"شارع البيك يتكلم: {a_['total']} مراجعة خرائط — والوجع الأول خدمة ({a_['complaints'].get('service',0)} شكوى) مو الأكل؛ 209 نجمة-واحدة تستاهل نظرتك")
+        if "eatjurisha" in r:
+            strong.append(f"جريشة محبوبة الشارع: {r['eatjurisha']['stars'].get(5,0)}/{r['eatjurisha']['total']} مراجعات ٥★ — الطعم يقود")
     ue = BASE / "data/unit_economics.json"
     if ue.exists():
         u = json.loads(ue.read_text())

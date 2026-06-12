@@ -1,0 +1,221 @@
+{
+ "_doc": "THE LAW REGISTRY (June 12, born from the 2/5 zoom-out: a law existed on paper while its enforcement was a dead variable). Every law maps to its ENFORCEMENT POINT (file + symbol that must exist) and its TEST. status: enforced | paper_only | pending_ruling. law_registry_check.py verifies the symbols exist and runs the tests — paper_only laws are surfaced loudly, never silently.",
+ "version": 1,
+ "laws": [
+  {
+   "id": "no_sell_on_religious_emotional_days",
+   "statement": "No order-CTAs / offers on religious or emotional days (Ramadan, Eid, Founding Day, National Day, Mothers Day) — including when the slot type lies but the text implies the occasion.",
+   "source": "Mohamed's red lines (memory: feedback_saudi_content_red_lines) + cold consult 2026-06-12",
+   "enforcement": [
+    {
+     "file": "scripts/caption_filter.py",
+     "symbol": "cta_on_religious_or_emotional_day"
+    },
+    {
+     "file": "scripts/gold_mint.py",
+     "symbol": "cta_on_religious_or_emotional_occasion"
+    }
+   ],
+   "test": null,
+   "status": "pending_ruling",
+   "note": "Gate enforces; 192 corpus flags await Mohamed's gold_cta_ruling card (law vs his gold corpus)."
+  },
+  {
+   "id": "prayer_as_commercial_backdrop",
+   "statement": "Allah's name (اللهم/الله/يا رب) and a brand name never share a caption — supplication is never a sales vehicle.",
+   "source": "data/cultural_gate.json hard_block + cold consult 2026-06-12 (was a dead variable)",
+   "enforcement": [
+    {
+     "file": "scripts/caption_filter.py",
+     "symbol": "prayer_as_commercial_backdrop"
+    },
+    {
+     "file": "scripts/gold_mint.py",
+     "symbol": "allah_name_with_brand_in_caption"
+    }
+   ],
+   "test": null,
+   "status": "enforced"
+  },
+  {
+   "id": "no_invented_facts",
+   "statement": "No invented offers, products, prices, or service models (e.g. waiters at counter-service brands). Offer-words blocked unless truth_pack confirms an offer.",
+   "source": "Truth guards (June) + cold consult (حلا البيك / عرض البيك الليلة)",
+   "enforcement": [
+    {
+     "file": "scripts/caption_filter.py",
+     "symbol": "offer_check"
+    }
+   ],
+   "test": null,
+   "status": "enforced",
+   "note": "offer-word gate live; product-noun entailment waits for keys (noted, not claimed)"
+  },
+  {
+   "id": "short_captions",
+   "statement": "Captions must be SHORT (Mohamed's hard rule). Corpus reality: 26% exceed 12 words.",
+   "source": "Mohamed red lines (memory)",
+   "enforcement": [],
+   "test": null,
+   "status": "paper_only",
+   "note": "No length gate exists in caption_filter. Needs Mohamed's number (≤12 words?) — staged question."
+  },
+  {
+   "id": "no_template_bleed",
+   "statement": "Worn phrases (لحظة 19.8% saturation, يجمعنا formula, له طعم ثاني skeleton) must not repeat across brands/minds — clients must not share one voice.",
+   "source": "Template-bleed kill (June 9) + cold consult measurements",
+   "enforcement": [
+    {
+     "file": "scripts/render_client_slot.py",
+     "symbol": "يجمعنا"
+    }
+   ],
+   "test": null,
+   "status": "enforced",
+   "note": "cross-brand universals banned standing in every render; n-gram gate at v5 still due"
+  },
+  {
+   "id": "slot_content_match",
+   "statement": "Slot type must match content: occasion content never rides an evergreen slot (slot-laundering bypasses the no-sell law); teaser beats never depict day-of scenes; moonsighting_check must be respected.",
+   "source": "Cold consult 2026-06-12 (slot laundering systemic)",
+   "enforcement": [
+    {
+     "file": "scripts/caption_filter.py",
+     "symbol": "text_implies"
+    }
+   ],
+   "test": null,
+   "status": "enforced",
+   "note": "Text-implied occasion inherits the occasion's law regardless of slot.type (the bypass is closed at the gate; generation-side slot hygiene still due on key refill)."
+  },
+  {
+   "id": "delete_approved_only",
+   "statement": "Nothing is ever deleted without Mohamed's literal «DELETE APPROVED». Quarantine, never delete (90 days).",
+   "source": "Standing rule #1 + CONVENTIONS",
+   "enforcement": [
+    {
+     "file": "scripts/issue_log.py",
+     "symbol": "target_retired"
+    }
+   ],
+   "test": null,
+   "status": "enforced",
+   "note": "Tombstones archive; lint reports flag, never delete."
+  },
+  {
+   "id": "mohamed_only_ground_truth",
+   "statement": "Streaks, bench, gold, crystallize fire ONLY from Mohamed's column. Team verdicts advisory; RABIE provisional; machines never judge taste (AI judge scored random = real).",
+   "source": "AI-judge calibration (memory) + feedback system design 2026-06-12",
+   "enforcement": [
+    {
+     "file": "scripts/scorecards.py",
+     "symbol": "mohamed_seq"
+    },
+    {
+     "file": "scripts/gold_mint.py",
+     "symbol": "\"mohamed\""
+    }
+   ],
+   "test": "scripts/test_feedback_system.py",
+   "status": "enforced"
+  },
+  {
+   "id": "counts_not_scores",
+   "statement": "No fabricated metrics: scorecards show counts, never composite scores; forbidden fields (quality_score/auto_score/ai_score/sentiment) refuse to write.",
+   "source": "AI-judge law + feedback design 2026-06-12",
+   "enforcement": [
+    {
+     "file": "scripts/feedback_lib.py",
+     "symbol": "FORBIDDEN_FIELDS"
+    }
+   ],
+   "test": "scripts/test_feedback_system.py",
+   "status": "enforced"
+  },
+  {
+   "id": "identity_never_defaults",
+   "statement": "Judge identity resolves server-side from per-judge keys; unknown keys quarantine — NEVER default to mohamed.",
+   "source": "Feedback design critique 2026-06-12 (the line-106 bug)",
+   "enforcement": [
+    {
+     "file": "api/portal_mini.py",
+     "symbol": "_resolve_judge"
+    }
+   ],
+   "test": "scripts/test_feedback_system.py",
+   "status": "enforced"
+  },
+  {
+   "id": "evidence_gated_closure",
+   "statement": "An issue closes only with a commit that EXISTS and TOUCHES its target, verified by an allowlisted script exit-0; 'verified' is rendered 'per the script', never truth.",
+   "source": "The 39/44 false-PREPARED scar (Rule #5.11)",
+   "enforcement": [
+    {
+     "file": "scripts/issue_log.py",
+     "symbol": "fix_claimed"
+    }
+   ],
+   "test": "scripts/test_feedback_system.py",
+   "status": "enforced"
+  },
+  {
+   "id": "assert_at_system_layer",
+   "statement": "Every wire ships with one synthetic event pushed through the WHOLE pipe (component asserts lie; the gold wire shipped severed ×3 with green unit checks).",
+   "source": "Zoom-out chair 2026-06-12 (the 2/5) — CRYSTALLIZE CANDIDATE awaiting Mohamed",
+   "enforcement": [
+    {
+     "file": "scripts/assert_gold_wire.py",
+     "symbol": "def main"
+    }
+   ],
+   "test": "scripts/assert_gold_wire.py",
+   "status": "enforced",
+   "note": "Standing in make_sure; the LAW (every future wire) awaits Mohamed's crystallize tap."
+  },
+  {
+   "id": "judge_sees_full_post",
+   "statement": "Mohamed judges COMPLETE POSTS (occasion, idea, visual, reasoning, caption) — never fragments; blind verdicts quarantine.",
+   "source": "Rule #9 + Mohamed verbatim 2026-06-12: 'i need to see the photo the ocassion and the idea... not the captions'",
+   "enforcement": [
+    {
+     "file": "scripts/seed_judge_cards.py",
+     "symbol": "post_occasion"
+    },
+    {
+     "file": "scripts/scorecards.py",
+     "symbol": "_blind_ids"
+    }
+   ],
+   "test": null,
+   "status": "enforced"
+  },
+  {
+   "id": "batch_max_20",
+   "statement": "Judging batches: 20 cards MAX per round (money + attention discipline).",
+   "source": "Mohamed (June 12): 'photos in batches of 20 MAX per judging round'",
+   "enforcement": [
+    {
+     "file": "scripts/seed_judge_cards.py",
+     "symbol": "batch_max_20"
+    }
+   ],
+   "test": null,
+   "status": "enforced",
+   "note": "seed_judge_cards defaults to 5; no hard cap coded. Low risk, add -n ceiling."
+  },
+  {
+   "id": "prices_off_until_truth",
+   "statement": "Prices/offers never appear in copy until the client confirms them (albaik cultural_overrides: prices_in_copy=off_until_truth_confirmed).",
+   "source": "Client onboarding law",
+   "enforcement": [
+    {
+     "file": "scripts/caption_filter.py",
+     "symbol": "invented_offer_or_price"
+    }
+   ],
+   "test": null,
+   "status": "enforced",
+   "note": "Same build item as no_invented_facts offer-word check."
+  }
+ ]
+}

@@ -139,6 +139,14 @@ def process(verbose: bool = False) -> dict:
         else:
             fix_text = (row.get("fix") or "").strip()
             player = resolve_player(row)
+            # FOUNDER WORDS READ-BACK (June 12 chair: "the system asks for his taste
+            # then ignores his words" — 'i need the full post' sat unread on disk).
+            # Every substantive Mohamed note lands in a ledger the heartbeat MUST read.
+            note_text = (row.get("note") or "").strip()
+            if judge == "mohamed" and note_text and len(note_text) > 15:
+                append_jsonl(base() / "data/founder_words.jsonl", {
+                    "ts": now_iso(), "said_at": row.get("ts"), "item_id": row.get("item_id"),
+                    "words": note_text, "processed": False})
             if fix_text:
                 append_jsonl(corrections_path(), {
                     "ts": now_iso(), "source_answer": {"ts": row.get("ts"), "item_id": row.get("item_id")},

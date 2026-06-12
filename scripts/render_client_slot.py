@@ -93,6 +93,11 @@ def load_client(handle: str) -> dict:
         for j in range(len(words) - 2):
             grams[" ".join(words[j:j+3])] += 1
     worn = [g for g, c in grams.most_common(8) if n_cards >= 5 and c >= max(3, n_cards * 0.25)]
+    # CROSS-BRAND universals (law: no_template_bleed; measured June 12 cold consult:
+    # لحظة in 19.8% of 3,323 captions across ALL brands, يجمعنا across 4 minds,
+    # «له طعم ثاني» skeleton 29×) — per-client mining can't see cross-client bleed,
+    # so these are banned standing, every client, every render
+    worn += ["لحظة", "لحظات", "يجمعنا", "تجمعنا", "له طعم ثاني", "لها طعم خاص", "في كل لقمة"]
     return {"handle": handle, "worn_phrases": worn, "gold_entries": gold_entries,
             "brand_ar": prof.get("fullName") or handle,
             "bio": prof.get("biography", ""), "truth": truth,

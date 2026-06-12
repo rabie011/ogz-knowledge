@@ -103,3 +103,17 @@ def cultural_check(caption: str, occasion: str = "") -> tuple[bool, list[str]]:
             any(o in occ for o in _RELIGIOUS_EMOTIONAL_OCC) or text_implies):
         hits.append("cta_on_religious_or_emotional_day")
     return (len(hits) == 0, hits)
+
+
+# Offer-claims (law: no_invented_facts + prices_off_until_truth, June 12) —
+# a public promise of a deal/price is a FACT claim; blocked unless the client's
+# truth confirms a live offer. Product-noun entailment waits for keys.
+_OFFER_WORDS = ("عرض ", "عروضنا", "خصم", "تخفيض", "مجانًا", "مجانا", "اشترِ", "بسعر", "ريال")
+
+
+def offer_check(caption: str, has_confirmed_offer: bool = False) -> tuple[bool, list[str]]:
+    cap = caption or ""
+    if has_confirmed_offer:
+        return True, []
+    hits = ["invented_offer_or_price"] if any(w in cap for w in _OFFER_WORDS) else []
+    return (len(hits) == 0, hits)

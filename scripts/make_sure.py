@@ -88,6 +88,12 @@ def main():
     for step in ("feedback_router.py", "scorecards.py", "feedback_cards.py"):
         subprocess.run(["python3", str(BASE / "scripts" / step)], capture_output=True, timeout=120)
 
+    # 6b-pre. LAW REGISTRY: every 'enforced' claim verified (symbol exists + test passes);
+    # paper_only laws surfaced. A law that claims enforcement and lies = alarm.
+    lr = subprocess.run(["python3", str(BASE / "scripts/law_registry_check.py")],
+                        capture_output=True, text=True, timeout=400)
+    checks["law_registry"] = lr.returncode == 0
+
     # 6b. FEEDBACK SYSTEM integrity: router consumed, identity clean, gates hold,
     # founder canary — the 12 checks live in their own module (exit 1 = alarm)
     fb = subprocess.run(["python3", str(BASE / "scripts/make_sure_feedback.py")],
@@ -96,7 +102,7 @@ def main():
     if fb.returncode != 0:
         checks["feedback_failed"] = (fb.stdout or "").strip().splitlines()[-1:]
 
-    ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "commits_flowing", "orchestrator_alive", "feedback_system"))
+    ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "commits_flowing", "orchestrator_alive", "feedback_system", "law_registry"))
     entry = {"ts": now, **checks, "verdict": "ALIVE" if ok else "ALARM"}
     with open(LOG, "a") as f:
         f.write(json.dumps(entry) + "\n")

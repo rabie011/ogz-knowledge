@@ -97,6 +97,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("-n", type=int, default=5)
     a = ap.parse_args()
+    if a.n > 20:
+        raise SystemExit("law batch_max_20: judging batches are 20 cards MAX per round "
+                         "(Mohamed, June 12 — money + attention discipline)")
     for handle, d, fname in pick_posts(a.n):
         item = build_card(handle, d, fname)
         try:

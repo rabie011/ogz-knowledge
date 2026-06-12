@@ -36,13 +36,25 @@ def _dt(ts: str):
         return datetime(1970, 1, 1)
 
 
+def _blind_ids() -> set:
+    """verdict_blind quarantine (June 12): verdicts collected while the card HID the
+    occasion/idea never train anything — the judge didn't see what he judged."""
+    f = base() / "data/verdict_quarantine.json"
+    if not f.exists():
+        return set()
+    return set(json.loads(f.read_text()).get("quarantined_item_ids", []))
+
+
 def truth_rows() -> list:
     """The judgment stream that counts: portal answers minus quarantine.
     v1 rows (no auth field) and transition rows (auth:'shared') remain truth;
-    auth:'none'/judge:'unverified' never count."""
+    auth:'none'/judge:'unverified' never count; verdict_blind items never count."""
+    blind = _blind_ids()
     rows = []
     for r in read_jsonl(base() / "data/mohamed_answers.jsonl"):
         if r.get("judge") in ("", None, "unverified") or r.get("auth") == "none":
+            continue
+        if r.get("item_id") in blind:
             continue
         rows.append(r)
     rows.sort(key=lambda r: r.get("ts", ""))

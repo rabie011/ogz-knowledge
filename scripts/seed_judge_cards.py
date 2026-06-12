@@ -1,17 +1,23 @@
 #!/usr/bin/env python3
-"""SEED THE JUDGE LANE (June 12 zoom-out) — caption judge cards from posts ALREADY on
-disk (zero-LLM). Without these the redesign's centerpiece («Your taste, applied»)
-renders zeros on day one. One card = one caption: Approve/Reject + rating + chips +
-correction — fully attributed to the producing MIND, carrying handle+caption so an
-approve ★4+ mints straight into clients/<handle>/profile/gold.json (the organ the
-renderer reads first).
+"""SEED THE JUDGE LANE v2 (June 12 — rebuilt the same night after Mohamed's own words:
+"i need to see the photo the ocassion and the idea and the creitve and the resinning
+behind the full post not the captions" + the cold-consult catch: v1 cards carried the
+occasion as a TRUNCATED str(dict) (slot[:40]) so all 5 first verdicts were collected
+BLIND and are quarantined (data/verdict_quarantine.json).
 
-Money discipline: small batches. Default 5 cards, diverse brains + clients.
+v2 card = THE FULL POST (Rule #9: he judges complete posts, never drafts):
+  occasion (structured: name/beat/major) · the idea/scene · the visual plan
+  (phone-shoot card — no AI photos while keys are dry, honestly labeled) · the
+  reasoning (why this idea for this slot) · THEN the caption to judge.
+Cards carry handle+caption+occasion for the gold wire. Attribution: the post's own
+brain field (on-disk evidence). Money discipline: small batches (default 5).
 """
 import argparse
+import ast
 import glob
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -19,8 +25,17 @@ from feedback_lib import base
 import queue_decision as qd
 
 
+def _parse(maybe_dict):
+    """posts store some fields as str(dict) — parse, never truncate."""
+    if isinstance(maybe_dict, dict):
+        return maybe_dict
+    try:
+        return ast.literal_eval(str(maybe_dict))
+    except Exception:
+        return {}
+
+
 def pick_posts(n: int) -> list:
-    """Diverse picks: alternate clients, prefer distinct brains, recent dates."""
     picked, seen_brains = [], set()
     pools = []
     for handle in ("eatjurisha", "albaik"):
@@ -36,16 +51,46 @@ def pick_posts(n: int) -> list:
                 d = json.loads(Path(f).read_text())
             except Exception:
                 continue
-            caps = d.get("captions") or []
-            brain = d.get("brain", "")
-            if not caps or not brain:
+            if not (d.get("captions") and d.get("brain")):
                 continue
-            if brain in seen_brains and len(seen_brains) < 5:
+            if d["brain"] in seen_brains and len(seen_brains) < 5:
                 continue
-            seen_brains.add(brain)
+            seen_brains.add(d["brain"])
             picked.append((handle, d, Path(f).name))
             break
     return picked
+
+
+def build_card(handle: str, d: dict, fname: str) -> dict:
+    slot = _parse(d.get("slot"))
+    idea = _parse(d.get("idea"))
+    visual = _parse(d.get("visual"))
+    caption = d["captions"][0]
+    occ_name = slot.get("type", "?")
+    occ_line = occ_name + (f" · beat: {slot['beat']}" if slot.get("beat") else "") \
+        + (" · MAJOR day" if slot.get("major") else "")
+    scene = idea.get("scene_ar") or str(d.get("idea"))[:400]
+    shots = visual.get("phone_shoot_card") or []
+    angle = slot.get("angle_theme", "")
+    cid = f"judge2_{handle}_{slot.get('date', d.get('date',''))}"
+    return {
+        "id": cid, "title": f"{handle} · {slot.get('date', d.get('date',''))} · {occ_name}",
+        "tag": "Judge", "clock": "", "priority": "normal",
+        "created": datetime.now().isoformat(timespec="seconds"), "status": "open",
+        "kind": "caption_judge", "judge_lane": True, "lane": "creative",
+        "handle": handle, "caption": caption, "occasion": occ_name,
+        "why": "Approve ★4+ → gold example. Reject → opens a case on the mind's prompt file.",
+        "need": "Your verdict on the FULL post below — occasion, idea, visual, then the caption.",
+        "did": f"The {d['brain']} mind wrote it for this slot ({fname}).",
+        # THE FULL POST — what he judges (structured, never truncated)
+        "post_occasion": occ_line,
+        "post_idea": scene[:600],
+        "post_visual": shots[:4],
+        "post_reasoning": (f"Slot angle: {angle[:200]}" if angle else "")
+                          + (" · no AI photo: keys are dry — the visual is the phone-shoot plan"
+                             if not d.get("image_url") else ""),
+        "island_text": caption,
+    }
 
 
 def main():
@@ -53,28 +98,13 @@ def main():
     ap.add_argument("-n", type=int, default=5)
     a = ap.parse_args()
     for handle, d, fname in pick_posts(a.n):
-        caption = d["captions"][0]
-        brain = d["brain"]
-        date = d.get("date", "")
-        slot = str(d.get("slot", ""))
-        occ = "evergreen" if "evergreen" in slot else (slot[:40] or "?")
-        cid = f"judge_{handle}_{date}"
-        item = {"id": cid, "title": f"{handle} · {date}",
-                "tag": "Judge", "desc": "", "clock": "",
-                "priority": "normal", "created": __import__("datetime").datetime.now().isoformat(timespec="seconds"),
-                "status": "open", "kind": "caption_judge",
-                "judge_lane": True, "lane": "creative",
-                "handle": handle, "caption": caption, "occasion": occ,
-                "why": f"Approve ★4+ keeps this as a gold example for {handle}; a rejection opens a case on the mind that wrote it.",
-                "need": "Your verdict on this caption — approve, reject, or correct it.",
-                "did": f"The {brain} mind wrote it from {handle}'s truth + the brain's knowledge (post {fname}).",
-                "island_text": caption}
+        item = build_card(handle, d, fname)
         try:
-            qd.push_attributed(item, made_by=f"mind:{brain}", via="scripts/seed_judge_cards.py",
-                               reason=f"caption judge card — brain field of {fname} on disk")
-            print(f"  ⚖️ {cid} — mind:{brain} · «{caption[:42]}»")
+            qd.push_attributed(item, made_by=f"mind:{d['brain']}", via="scripts/seed_judge_cards.py",
+                               reason=f"judge card v2 (FULL POST) — brain field of {fname}")
+            print(f"  ⚖️ {item['id']} — mind:{d['brain']} · {item['post_occasion']}")
         except SystemExit as e:
-            print(f"  🧊 skipped {cid}: {e}")
+            print(f"  🧊 skipped {item['id']}: {e}")
 
 
 if __name__ == "__main__":

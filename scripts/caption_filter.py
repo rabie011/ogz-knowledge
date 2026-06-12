@@ -76,7 +76,30 @@ _CULTURAL_TERMS = {
 }
 
 
-def cultural_check(caption: str) -> tuple[bool, list[str]]:
+# Brand tokens — the dua rule needs to know what a "brand mention" is
+_BRAND_TOKENS = ("البيك", "جريشة", "جريّشة", "جريش", "ماي فتنس", "myfitness")
+_ALLAH_TOKENS = ("اللهم", "الله ", "يا رب")
+_CTA_WORDS = ("اطلب", "اطلبوا", "احجز", "عرضنا", "عرض ", "خصم", "مجانًا", "مجانا", "الآن من")
+_RELIGIOUS_EMOTIONAL_OCC = ("ramadan", "eid", "arafah", "hajj", "founding", "national", "mothers")
+_TEXT_OCCASION = ("رمضان", "عيد", "التأسيس", "اليوم الوطني", "يوم الأم")
+
+
+def cultural_check(caption: str, occasion: str = "") -> tuple[bool, list[str]]:
+    """EXECUTES the gate (June 12 zoom-out: _GATE was loaded and never read — a dua
+    with a brand name inside it reached v5 while the exact hard_block sat on disk).
+    Deterministic text rules, severity=kill:
+      1. red-line topic terms (alcohol/gambling/smoking/immodest)
+      2. Allah's name and a brand name NEVER share a caption (the gate's
+         prayer_as_commercial_backdrop hard_block, finally enforced)
+      3. CTA words on a religious/emotional occasion — keyed to the occasion arg
+         AND to what the TEXT itself implies, so slot-laundering can't bypass it"""
     cap = caption or ""
     hits = [v for term, v in _CULTURAL_TERMS.items() if term in cap]
+    if any(a in cap for a in _ALLAH_TOKENS) and any(b in cap for b in _BRAND_TOKENS):
+        hits.append("prayer_as_commercial_backdrop")
+    occ = (occasion or "").lower()
+    text_implies = any(o in cap for o in _TEXT_OCCASION)
+    if any(w in cap for w in _CTA_WORDS) and (
+            any(o in occ for o in _RELIGIOUS_EMOTIONAL_OCC) or text_implies):
+        hits.append("cta_on_religious_or_emotional_day")
     return (len(hits) == 0, hits)

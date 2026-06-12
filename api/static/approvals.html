@@ -421,9 +421,20 @@ function renderCard(){
     h+=`</div>`;
   }
 
-  /* the thing */
+  /* THE FULL POST (Mohamed: "the photo, the occasion, the idea, the reasoning —
+     not the captions") — structured zones, judged as one unit */
+  if(it.post_occasion||it.post_idea||(it.post_visual&&it.post_visual.length)){
+    h+=`<div class="summary">`;
+    if(it.post_occasion) h+=`<div class="row"><span class="k">Occasion</span><span class="v" dir="auto"><b>${esc(it.post_occasion)}</b></span></div>`;
+    if(it.post_idea) h+=`<div class="row"><span class="k">The idea</span><span class="v island" style="display:block">${esc(it.post_idea)}</span></div>`;
+    if(it.post_visual&&it.post_visual.length)
+      h+=`<div class="row"><span class="k">The visual</span><span class="v island" style="display:block">📸 ${it.post_visual.map(esc).join('<br>📸 ')}</span></div>`;
+    if(it.post_reasoning) h+=`<div class="row"><span class="k">Reasoning</span><span class="v" dir="auto">${esc(it.post_reasoning)}</span></div>`;
+    h+=`</div>`;
+  }
   if(it.island_text||it.caption){
-    h+=`<div class="opt-post" style="cursor:default"><div class="cap island">${esc(it.island_text||it.caption)}</div></div>`;
+    h+=`<div class="hint">The caption you are judging:</div>
+        <div class="opt-post" style="cursor:default"><div class="cap island">${esc(it.island_text||it.caption)}</div></div>`;
   }
   if(it.kind==='post_pick'){
     (it.options||[]).forEach((o,i)=>{

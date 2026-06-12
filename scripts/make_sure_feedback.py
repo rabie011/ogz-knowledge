@@ -149,6 +149,12 @@ def run_checks() -> dict:
     live_fb = [i for i in open_cards if i.get("source") == "feedback_cards"]
     c["card_budget_ok"] = len(live_fb) <= 3
 
+    # 12b. THE GOLD WIRE, END TO END (the chair's law: assert at the SYSTEM layer —
+    # a synthetic approval must travel mint→renderer-expression in a sandbox)
+    gw = subprocess.run([sys.executable, str(Path(__file__).parent / "assert_gold_wire.py")],
+                        capture_output=True, text=True, timeout=60)
+    c["gold_wire_e2e"] = gw.returncode == 0
+
     # 12. OPEN-ISSUE PULSE
     ist = json.loads((B / "data/issues_state.json").read_text()) \
         if (B / "data/issues_state.json").exists() else {"oldest_open_days": 0}
@@ -158,7 +164,8 @@ def run_checks() -> dict:
     gates = ["identity_no_mohamed_default", "router_cursor_fresh", "founder_canary",
              "unattributed_zero", "no_bulk_backfill", "producer_map_clean", "cards_attributed",
              "evidence_gates", "receipt_alive", "scorecards_fresh", "hand_recount",
-             "no_quarantine_graveyard", "append_only", "card_budget_ok", "issue_pulse_ok"]
+             "no_quarantine_graveyard", "append_only", "card_budget_ok", "issue_pulse_ok",
+             "gold_wire_e2e"]
     c["_verdict"] = all(c[g] for g in gates)
     c["_failed"] = [g for g in gates if not c[g]]
     return c

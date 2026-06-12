@@ -26,7 +26,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from feedback_lib import base, now_iso
 from caption_filter import cultural_check, offer_check
 
-SHORT_MAX = 12          # provisional — Mohamed's short_caption_number card may move it
+SHORT_MAX = 15          # Mohamed's number (portal tap 2026-06-12: w15)
 
 
 def main():

@@ -117,3 +117,13 @@ def offer_check(caption: str, has_confirmed_offer: bool = False) -> tuple[bool, 
         return True, []
     hits = ["invented_offer_or_price"] if any(w in cap for w in _OFFER_WORDS) else []
     return (len(hits) == 0, hits)
+
+
+# SHORT law — Mohamed gave the number on the portal (2026-06-12 20:53): 15 words max
+SHORT_MAX_WORDS = 15
+
+
+def length_check(caption: str) -> tuple[bool, list[str]]:
+    words = len((caption or "").split())
+    return (words <= SHORT_MAX_WORDS,
+            [] if words <= SHORT_MAX_WORDS else [f"too_long_{words}w_max{SHORT_MAX_WORDS}"])

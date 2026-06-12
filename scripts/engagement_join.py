@@ -68,8 +68,8 @@ def main():
         return
     from apify_client import ApifyClient
     client = ApifyClient(env("APIFY_TOKEN"))
-    run = client.actor("apify/instagram-post-scraper").call(
-        run_input={"directUrls": [u for _, u in urls], "resultsLimit": len(urls)})
+    run = client.actor("apify/instagram-scraper").call(
+        run_input={"directUrls": [u for _, u in urls], "resultsType": "posts", "resultsLimit": len(urls)})
     ds = getattr(run, "default_dataset_id", None) or run.get("defaultDatasetId", "")
     by_url = {}
     for item in client.dataset(ds).iterate_items():

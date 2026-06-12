@@ -53,12 +53,17 @@
   },
   {
    "id": "short_captions",
-   "statement": "Captions must be SHORT (Mohamed's hard rule). Corpus reality: 26% exceed 12 words.",
+   "statement": "Captions must be SHORT: 15 words max (Mohamed's number, portal tap 2026-06-12).",
    "source": "Mohamed red lines (memory)",
-   "enforcement": [],
+   "enforcement": [
+    {
+     "file": "scripts/caption_filter.py",
+     "symbol": "length_check"
+    }
+   ],
    "test": null,
-   "status": "paper_only",
-   "note": "No length gate exists in caption_filter. Needs Mohamed's number (≤12 words?) — staged question."
+   "status": "enforced",
+   "note": "his tap: w15. Gate live; renderer prompt envelope follows on key refill."
   },
   {
    "id": "no_template_bleed",

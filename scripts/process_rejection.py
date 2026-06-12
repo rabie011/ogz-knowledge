@@ -60,6 +60,21 @@ def main():
     from ledger_write import ledger_write as _lw
     _lw(lf.parts[-3] if hasattr(lf, "parts") else str(lf).split("/")[-3], ev)
 
+    # B085: an off_voice rejection's note becomes a hate-line CANDIDATE in the voice
+    # organ — the taste loop's writeback (B113's pattern applied to voice). Candidates
+    # only; the voice law itself stays human-ruled.
+    if a.reason == "off_voice" and a.note:
+        fpf = BASE / "clients" / a.handle / "profile/fingerprint.json"
+        fp = json.loads(fpf.read_text())
+        v = fp.setdefault("l2_voice", {})
+        cands = v.setdefault("hate_line_candidates", [])
+        if not any(c.get("note") == a.note[:160] for c in cands):
+            cands.append({"note": a.note[:160], "source": f"off_voice:{a.date}",
+                           "status": "CANDIDATE — human ratifies into hate_lines"})
+            from organ_write import write_organ
+            write_organ(fpf, fp)
+            print("  🗣 hate-line candidate written from the rejection note")
+
     # B113: a culture_breach verdict auto-writes a PROPOSED red-line candidate —
     # the pain becomes a draft rule instantly (proposed only; client/Mohamed activates)
     if a.reason == "culture_breach":

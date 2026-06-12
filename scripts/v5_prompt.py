@@ -69,7 +69,14 @@ Then one line with the hashtags. Then the final line: الأفضل: <the stronge
     # TRUE FEW-SHOT — the model becomes the admin (doctrine §3)
     # GOLD first: founder-rated captions (>=4/5) outrank engagement-ranked exemplars
     gold_f = BASE / "logs" / "brand_gold" / f"{brief.get('brand_en','')}_gold.json"
-    gold = json.loads(gold_f.read_text())[-3:] if gold_f.exists() else []
+    _all_gold = json.loads(gold_f.read_text()) if gold_f.exists() else []
+    # ARMOR PORT step 3 (June 12): rotate gold by occasion-hash — tail-slice fed every
+    # request the same 3 lines (the client-path top-6 staleness bug, main-API edition)
+    if len(_all_gold) > 3:
+        _h = sum(ord(c) for c in str(brief.get("occasion", "")))
+        gold = [_all_gold[(_h + j) % len(_all_gold)] for j in range(3)]
+    else:
+        gold = _all_gold
     msgs = [{"role": "system", "content": system}]
     for g in gold:
         msgs.append({"role": "user", "content": f"اكتب منشور ({g.get('occasion','')}) لحساب {brand}"})

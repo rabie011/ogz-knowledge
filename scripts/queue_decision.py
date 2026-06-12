@@ -9,10 +9,23 @@ Usage:
       --desc "..." --buttons "yes:✅ نعم" "no:❌ لا" [--urgent] [--clock "⏰ ..."]
   python3 scripts/queue_decision.py --id ask_x --title "..." --text "اكتب رأيك"
 """
-import argparse, datetime, json
+import argparse, datetime, json, re
 from pathlib import Path
 
 QUEUE = Path(__file__).parent.parent / "data/decision_queue.json"
+_PAIR = re.compile(r",(?=[a-z_]+:)")  # comma that begins a new  v:label  pair
+
+
+def parse_buttons(args: list) -> list:
+    """Tolerant: accepts space-separated args ("v:lbl" "v:lbl") AND the common
+    mistake of comma-joining them into ONE arg ("v:lbl,v:lbl,v:lbl") — the bug that
+    collapsed 13 cards into single unusable buttons (June 12). Either way → clean array."""
+    out = []
+    for b in args:
+        for piece in _PAIR.split(b):
+            v, _, label = piece.partition(":")
+            out.append({"v": v, "label": label})
+    return out
 
 
 def push(item: dict):
@@ -39,7 +52,7 @@ def main():
             "status": "open"}
     if a.buttons:
         item["kind"] = "buttons"
-        item["options"] = [{"v": b.split(":", 1)[0], "label": b.split(":", 1)[1]} for b in a.buttons]
+        item["options"] = parse_buttons(a.buttons)
     elif a.text is not None:
         item["kind"] = "text"
         item["placeholder"] = a.text

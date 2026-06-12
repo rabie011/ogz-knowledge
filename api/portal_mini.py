@@ -10,19 +10,25 @@ Mohamed's key = god view: every lane + the team's input aggregated. Taste stays 
 Still deliberately tiny: ONLY the portal. No brain endpoints, no client raw data.
 Run: python3 -m uvicorn api.portal_mini:app --port 4199 --host 127.0.0.1
 """
+import hashlib
 import json
-from datetime import datetime
+import os
+from datetime import datetime, timedelta
 from pathlib import Path
 
 from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse, JSONResponse
 
 REPO = Path(__file__).parent.parent
+DATA_ROOT = Path(os.environ["OGZ_BASE"]) if os.environ.get("OGZ_BASE") else REPO  # test sandbox
 STATIC = Path(__file__).parent / "static"
-ANSWERS = REPO / "data" / "mohamed_answers.jsonl"
-QUEUE = REPO / "data" / "decision_queue.json"
-TEAM_F = REPO / "data" / "portal_team.json"
-LANEMAP_F = REPO / "data" / "portal_lane_map.json"
+ANSWERS = DATA_ROOT / "data" / "mohamed_answers.jsonl"
+UNVERIFIED = DATA_ROOT / "data" / "unverified_answers.jsonl"
+QUEUE = DATA_ROOT / "data" / "decision_queue.json"
+TEAM_F = DATA_ROOT / "data" / "portal_team.json"
+KEYS_F = DATA_ROOT / "data" / "portal_keys.json"
+LANEMAP_F = DATA_ROOT / "data" / "portal_lane_map.json"
+SCORECARDS_F = DATA_ROOT / "data" / "scorecards.json"
 
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 
@@ -31,13 +37,37 @@ def _team() -> dict:
     return json.loads(TEAM_F.read_text()) if TEAM_F.exists() else {"key": "", "members": []}
 
 
+def _keys() -> dict:
+    return json.loads(KEYS_F.read_text()) if KEYS_F.exists() else {"legacy_write": True, "keys": []}
+
+
 def _lane_map() -> dict:
     return json.loads(LANEMAP_F.read_text()) if LANEMAP_F.exists() else {}
 
 
+def _resolve_judge(k: str):
+    """IDENTITY IS SERVER-SIDE (June 12 feedback system — the line-106 fix).
+    Returns (judge, auth):
+      per-judge key  → (its judge, 'key')     — body can never override
+      legacy shared  → (None, 'shared')        — judge from the in-app picker,
+                       honest transition until Mohamed switches links; once
+                       legacy_write:false, shared POSTs quarantine
+      anything else  → (None, 'none')          — quarantine, NEVER mohamed"""
+    if not k:
+        return None, "none"
+    kh = hashlib.sha256(k.encode()).hexdigest()
+    for e in _keys().get("keys", []):
+        if e.get("key_hash") == kh and not e.get("revoked"):
+            return e["judge"], "key"
+    if k == _team().get("key"):
+        return None, "shared"
+    return None, "none"
+
+
 def _ok(k: str) -> bool:
-    """ONE shared team key gates the link. Identity is picked inside the app."""
-    return bool(k) and k == _team().get("key")
+    """READ access: any per-judge key or the shared key opens the page."""
+    judge, auth = _resolve_judge(k)
+    return auth in ("key", "shared")
 
 
 def _card_lane(card: dict, lm: dict) -> str:
@@ -58,10 +88,33 @@ def page(k: str = ""):
 
 @app.get("/api/approvals/whoami")
 def whoami(k: str = ""):
-    """ONE link — returns the team roster so the app shows an identity picker."""
+    """Per-judge key → fixed identity (no picker). Shared key → roster picker."""
     if not _ok(k):
         return JSONResponse({"ok": False}, status_code=403)
-    return {"members": _team().get("members", [])}
+    judge, auth = _resolve_judge(k)
+    return {"members": _team().get("members", []), "judge": judge, "auth": auth}
+
+
+@app.get("/api/approvals/reasons")
+def reasons(k: str = ""):
+    """The optional reason-chip vocabulary (closed, never mandatory)."""
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    f = REPO / "data" / "reason_codes.json"
+    return json.loads(f.read_text()) if f.exists() else {"codes": []}
+
+
+@app.get("/api/approvals/scorecards")
+def scorecards(k: str = ""):
+    """READ-ONLY players view — rendered 100% from the derived file."""
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    sc = json.loads(SCORECARDS_F.read_text()) if SCORECARDS_F.exists() else {"players": {}}
+    bench_f = REPO / "data" / "bench.json"
+    issues_f = REPO / "data" / "issues_state.json"
+    return {"scorecards": sc,
+            "bench": json.loads(bench_f.read_text()) if bench_f.exists() else {},
+            "issues": json.loads(issues_f.read_text()) if issues_f.exists() else {"open_count": 0}}
 
 
 @app.get("/api/approvals/items")
@@ -96,21 +149,89 @@ def team(k: str = ""):
     return rows[-100:]
 
 
+def _clamp_client_ts(raw):
+    """client_ts bounded to [now-48h, now] — clock skew can't reorder streaks."""
+    if not raw:
+        return None, False
+    try:
+        ct = datetime.fromisoformat(str(raw))
+    except Exception:
+        return None, False
+    now = datetime.now()
+    if ct > now:
+        return now.isoformat(timespec="seconds"), True
+    if ct < now - timedelta(hours=48):
+        return (now - timedelta(hours=48)).isoformat(timespec="seconds"), True
+    return ct.isoformat(timespec="seconds"), False
+
+
+def _dedupe_hit(ledger: Path, client_ts, judge, item_id) -> bool:
+    """(client_ts, judge, item_id) replay → drop silently (offline double-flush)."""
+    if not (client_ts and ledger.exists()):
+        return False
+    tail = ledger.read_text().splitlines()[-200:]
+    for line in tail:
+        try:
+            e = json.loads(line)
+        except Exception:
+            continue
+        if (e.get("client_ts") == client_ts and e.get("judge") == judge
+                and e.get("item_id") == item_id):
+            return True
+    return False
+
+
 @app.post("/api/approvals/answer")
 async def answer(request: Request, k: str = ""):
-    if not _ok(k):
-        return JSONResponse({"ok": False}, status_code=403)
     body = await request.json()
-    # identity is PICKED in the app (one link); validated against the roster
+    judge, auth = _resolve_judge(k)
     members = {m["id"]: m for m in _team().get("members", [])}
-    judge = body.get("judge") if body.get("judge") in members else "mohamed"
-    entry = {"ts": datetime.now().isoformat(timespec="seconds"),
+    legacy_write = _keys().get("legacy_write", True)
+    if auth == "shared" and legacy_write:
+        # honest transition: judge from the in-app picker, row flagged auth:'shared'.
+        # NEVER defaults to mohamed — an unknown picker value quarantines.
+        judge = body.get("judge") if body.get("judge") in members else None
+    quarantine = (auth == "none") or (judge is None) or (auth == "shared" and not legacy_write)
+
+    client_ts, skewed = _clamp_client_ts(body.get("client_ts"))
+    # validate optional target against the grammar — invalid targets are dropped, never guessed
+    target = body.get("target")
+    if target:
+        import sys as _s
+        _s.path.insert(0, str(REPO / "scripts"))
+        from feedback_lib import validate_target
+        if not validate_target(str(target)):
+            target = None
+    entry = {"schema_v": 2,
+             "ts": datetime.now().isoformat(timespec="seconds"),
+             "client_ts": client_ts, **({"skewed": True} if skewed else {}),
              "item_id": body.get("item_id"), "answer": str(body.get("answer", ""))[:2000],
              "note": str(body.get("note", ""))[:2000],
              "fix": str(body.get("fix", ""))[:3000],          # the correction itself (human truth)
              "rating": body.get("rating") if isinstance(body.get("rating"), int) else None,
-             "judge": judge, "lane": members.get(judge, {}).get("lane", "all"),
-             "source": "team_portal"}
+             "judge": judge or "unverified", "auth": auth if not quarantine else "none",
+             "lane": members.get(judge or "", {}).get("lane", "all"),
+             "target": target, "artifact_id": body.get("artifact_id"),
+             "artifact_version": body.get("artifact_version") if isinstance(body.get("artifact_version"), int) else None,
+             "reason_codes": [str(c)[:40] for c in (body.get("reason_codes") or [])][:3],
+             "in_reply_to": body.get("in_reply_to"),
+             "source": body.get("source") if body.get("source") in ("team_portal", "after_strip", "flag_sheet") else "team_portal"}
+    if quarantine:
+        with open(UNVERIFIED, "a") as f:
+            f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+        return JSONResponse({"ok": False, "quarantined": True}, status_code=403)
+    if _dedupe_hit(ANSWERS, client_ts, judge, entry["item_id"]):
+        return {"ok": True, "deduped": True}
+    # repudiation («مو أنا»): server fills in_reply_to from this judge's previous row
+    if entry["item_id"] == "_repudiation" and ANSWERS.exists():
+        for line in reversed(ANSWERS.read_text().splitlines()[-200:]):
+            try:
+                prev = json.loads(line)
+            except Exception:
+                continue
+            if prev.get("judge") == judge and prev.get("item_id") != "_repudiation":
+                entry["in_reply_to"] = f"{prev.get('ts')}+{prev.get('item_id')}"
+                break
     with open(ANSWERS, "a") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
     if QUEUE.exists():
@@ -128,15 +249,20 @@ async def answer(request: Request, k: str = ""):
 
 @app.post("/api/approvals/reverse")
 async def reverse(request: Request, k: str = ""):
-    if not _ok(k):
-        return JSONResponse({"ok": False}, status_code=403)
     body = await request.json()
+    judge, auth = _resolve_judge(k)
+    members = {m["id"] for m in _team().get("members", [])}
+    if auth == "shared" and _keys().get("legacy_write", True):
+        judge = body.get("judge") if body.get("judge") in members else None
+    if auth == "none" or judge is None:
+        return JSONResponse({"ok": False, "quarantined": True}, status_code=403)
     if not (body.get("note") or "").strip():
         return {"ok": False, "error": "reversal needs a reason"}
-    entry = {"ts": datetime.now().isoformat(timespec="seconds"),
+    entry = {"schema_v": 2, "ts": datetime.now().isoformat(timespec="seconds"),
              "item_id": body.get("item_id"), "answer": "REVERSED",
              "note": str(body.get("note", ""))[:2000],
-             "judge": (body.get("judge") if body.get("judge") in {m["id"] for m in _team().get("members", [])} else "mohamed"),
+             "judge": judge, "auth": auth,
+             "in_reply_to": body.get("in_reply_to"),
              "source": "team_portal"}
     with open(ANSWERS, "a") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")

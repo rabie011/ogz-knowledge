@@ -195,6 +195,36 @@
   .gnote-open button{background:var(--blue);border:none;color:#fff;border-radius:11px;padding:12px 22px;font-size:14px;
                      font-weight:700;cursor:pointer;margin-top:8px;min-height:44px}
 
+  /* made-by chip + flag */
+  .madeby{display:flex;align-items:center;gap:8px;margin:-3px 0 10px}
+  .mbchip{font-size:11.5px;color:var(--dim);background:#141a26;border:1px dashed var(--line);
+          border-radius:8px;padding:5px 10px;cursor:pointer}
+  .mbchip.on{color:var(--gold);border-color:var(--gold);background:#2a2310}
+  .flagbtn{margin-inline-start:auto;background:none;border:1px solid var(--line2);border-radius:9px;
+           font-size:15px;padding:6px 11px;cursor:pointer;min-height:38px}
+  /* flag bottom sheet */
+  #flagsheet{position:fixed;inset:0;background:#000a;display:none;z-index:40;align-items:flex-end}
+  #flagsheet.show{display:flex}
+  .fs-in{background:var(--card);border-top:1.5px solid var(--line);border-radius:20px 20px 0 0;
+         padding:18px 16px calc(18px + env(safe-area-inset-bottom));width:100%;max-width:560px;margin-inline:auto}
+  .fs-t{font-size:15px;font-weight:800;margin-bottom:12px}
+  .fs-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+  .fs-chip{background:#1a2233;border:1.5px solid var(--line);color:var(--ink2);border-radius:18px;
+           padding:9px 15px;font-size:13px;cursor:pointer;min-height:40px}
+  .fs-chip.on{border-color:var(--pink);color:var(--pink);background:#231019}
+  /* players view */
+  .pl-row{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;
+          margin-bottom:9px;display:flex;align-items:center;gap:10px}
+  .pl-name{font-weight:800;font-size:14.5px;min-width:90px}
+  .pl-dots{display:flex;gap:3px;direction:ltr}
+  .pl-dot{width:9px;height:9px;border-radius:50%}
+  .pl-dot.green{background:var(--green)} .pl-dot.red{background:var(--urgent)}
+  .pl-dot.yellow{background:var(--gold)} .pl-dot.grey{background:#3a4356}
+  .pl-stats{margin-inline-start:auto;font-size:11.5px;color:var(--dim);text-align:left;line-height:1.6}
+  .pl-badge{font-size:10.5px;border-radius:6px;padding:2px 7px;background:#2a1413;color:#ff9d96;border:1px solid #6e2c30}
+  .tabbtn{background:var(--card);border:1px solid var(--line);color:var(--ink2);border-radius:11px;
+          padding:9px 14px;font-size:13px;cursor:pointer;min-height:40px}
+  .tabbtn.on{border-color:var(--blue);color:#9cc0ff}
   .empty{text-align:center;padding:30px 16px}
   .empty .big{font-size:36px} .empty .t{color:var(--green);font-weight:800;margin:10px 0 4px}
   .small{font-size:12px;color:var(--dim)}
@@ -218,12 +248,18 @@
 </div>
 
 <div class="whobar" id="whobar"></div>
+<div style="display:flex;gap:8px;margin-bottom:10px">
+  <button class="tabbtn on" id="tab_cards" onclick="setView('cards')">📋 القرارات</button>
+  <button class="tabbtn" id="tab_players" onclick="setView('players')">🧠 اللاعبين</button>
+</div>
 <div class="chips" id="chips"></div>
 <div class="urgentbar" id="ubar">🚨 <b>طارئ</b> — قرار مستعجل، طالع لك أول واحد</div>
 <div id="bulk"></div>
 <div id="stage"></div>
+<div id="players" style="display:none"></div>
 <div id="gnoteHost"></div>
 <div id="doneList"></div>
+<div id="flagsheet" onclick="if(event.target===this)closeFlag()"></div>
 
 <script>
 const K = new URLSearchParams(location.search).get('k') || '';
@@ -248,23 +284,36 @@ function draftKey(id){ return 'draft:'+id+':'+WHO; }
 function saveDraft(id,v){ try{ v.trim()?localStorage.setItem(draftKey(id),v):localStorage.removeItem(draftKey(id)); }catch(e){} }
 function getDraft(id){ try{ return localStorage.getItem(draftKey(id))||''; }catch(e){ return ''; } }
 
-/* ---------- identity ---------- */
+/* ---------- identity (server-resolved when a per-judge key is used) ---------- */
 let MEMBERS=[{id:'mohamed',name:'محمد',owner:true}];
 let WHO = localStorage.getItem('ogz_who') || 'mohamed';
+let FIXED_ID=false, REASONS=[];
 async function whoami(){
   try{ const r=await fetch('/api/approvals/whoami?k='+K);
-    if(r.ok){ const d=await r.json(); if(d.members&&d.members.length) MEMBERS=d.members; } }catch(e){}
+    if(r.ok){ const d=await r.json(); if(d.members&&d.members.length) MEMBERS=d.members;
+      if(d.judge){ WHO=d.judge; FIXED_ID=true; } } }catch(e){}
   if(!MEMBERS.find(m=>m.id===WHO)) WHO=MEMBERS[0].id;
+  try{ const r2=await fetch('/api/approvals/reasons?k='+K);
+    if(r2.ok) REASONS=(await r2.json()).codes||[]; }catch(e){}
   renderWho();
 }
 function renderWho(){
   const me=MEMBERS.find(m=>m.id===WHO)||MEMBERS[0];
   document.getElementById('h1').textContent = me.owner?'قرارات OGZ':'مرحبا '+me.name;
-  document.getElementById('whobar').innerHTML='<span class="lbl">مين أنت؟</span>'+
-    MEMBERS.map(m=>`<button class="${m.id===WHO?'on':''}" onclick="setWho('${esc(m.id)}')">${esc(m.name)}</button>`).join('');
+  document.getElementById('whobar').innerHTML = FIXED_ID
+    ? `<span class="lbl">أنت:</span><button class="on">👤 ${esc(me.name)} ✓</button>
+       <button onclick="repudiate()" style="border-style:dashed">مو أنا ✋</button>`
+    : '<span class="lbl">مين أنت؟</span>'+
+      MEMBERS.map(m=>`<button class="${m.id===WHO?'on':''}" onclick="setWho('${esc(m.id)}')">${esc(m.name)}</button>`).join('');
 }
-function setWho(id){ WHO=id; localStorage.setItem('ogz_who',id); renderWho();
+function setWho(id){ if(FIXED_ID) return; WHO=id; localStorage.setItem('ogz_who',id); renderWho();
   toast('👤 '+((MEMBERS.find(m=>m.id===id)||{}).name||'')); renderCard(); }
+async function repudiate(){
+  // «مو أنا»: someone else tapped on this device — the server marks the previous row
+  if(!confirm('آخر حكم من هذا الجهاز مو منك؟')) return;
+  const ok=await post('_repudiation','مو أنا','','');
+  if(ok) toast('✋ سجلناها — الحكم السابق معلَّم');
+}
 
 /* ---------- data ---------- */
 async function refresh(){              // fetch + ambient patch, STAGE protected while writing
@@ -333,6 +382,13 @@ function renderCard(){
   if(brand) h+=`<span class="pill brand">${esc(brand)}</span>`;
   if(it.clock && it.clock.trim()) h+=`<span class="pill clock">${esc(it.clock)}</span>`;
   h+=`<span class="pill who">👤 ${esc(me.name)}</span></div>`;
+  /* صنعه chip (tap = judge the PLAYER not the card) + 🚩 flag (opens an issue) */
+  if(it.made_by){
+    const tm=TARGETMODE[id];
+    h+=`<div class="madeby"><span class="mbchip ${tm?'on':''}" onclick="toggleTarget('${esc(id)}')">
+        صنعه: ${esc(playerAr(it.made_by))}${it.artifact_version?' · نسخة '+it.artifact_version:''}${tm?' — تحكم عليه هو ✓':''}</span>
+        <button class="flagbtn" onclick="openFlag('${esc(id)}')">🚩</button></div>`;
+  }
 
   /* Z1 why-line + title */
   const why = it.why || (it.meaning? String(it.meaning).split(/[.؟!]\s/)[0] : '') || it.title;
@@ -474,16 +530,91 @@ function setRating(id,n){ RATINGS[id]=(RATINGS[id]===n)?0:n;
   const box=document.getElementById('stars_'+id); if(!box) return;
   [...box.children].forEach((b,i)=>b.className=(i< (RATINGS[id]||0))?'on':''); }
 
-async function post(id,answer,note,fix){
+function buildBody(id,answer,note,fix,extras){
+  const it=ITEMS.find(x=>x.id===id)||{};
+  const b={item_id:id,answer:answer,note:note||'',fix:fix||'',rating:RATING_OF(id)||null,
+    judge:WHO, client_ts:new Date().toISOString().slice(0,19),
+    artifact_id: it.id? 'card:'+it.id : null,
+    artifact_version: it.artifact_version||null,
+    target: TARGETMODE[id]&&it.made_by ? it.made_by : null, ...(extras||{})};
+  return b;
+}
+async function post(id,answer,note,fix,extras){
   if(posting) return false; posting=true;
+  const body=buildBody(id,answer,note,fix,extras);
   try{
     const r=await fetch('/api/approvals/answer?k='+K,{method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({item_id:id,answer:answer,note:note||'',fix:fix||'',rating:RATING_OF(id)||null,judge:WHO})});
+      headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     if(!r.ok) throw new Error('http '+r.status);
     return true;
-  }catch(e){ toast('⚠️ ما وصل — جرّب ثاني',true); return false; }
+  }catch(e){
+    // OFFLINE QUEUE: park it, flush later — the tap is never lost
+    const q=JSON.parse(localStorage.getItem('ogz_outbox')||'[]');
+    q.push(body); localStorage.setItem('ogz_outbox',JSON.stringify(q));
+    renderOutbox(); toast('📥 ما في نت — بالطابور، بترسل لحالها',true);
+    return false;
+  }
   finally{ posting=false; }
+}
+function renderOutbox(){
+  const q=JSON.parse(localStorage.getItem('ogz_outbox')||'[]');
+  let el=document.getElementById('outbox');
+  if(!q.length){ if(el) el.remove(); return; }
+  if(!el){ el=document.createElement('div'); el.id='outbox'; el.className='urgentbar';
+    el.style.display='block'; document.getElementById('ubar').after(el); }
+  el.innerHTML=`📥 في الطابور: ${q.length} — بترسل أول ما يرجع النت`;
+}
+async function flushOutbox(){
+  const q=JSON.parse(localStorage.getItem('ogz_outbox')||'[]');
+  if(!q.length) return;
+  const left=[];
+  for(const body of q){
+    try{ const r=await fetch('/api/approvals/answer?k='+K,{method:'POST',
+        headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+      if(!r.ok&&r.status!==403) left.push(body); }
+    catch(e){ left.push(body); }
+  }
+  localStorage.setItem('ogz_outbox',JSON.stringify(left));
+  renderOutbox(); if(q.length>left.length) toast(`📤 أرسلنا ${q.length-left.length} من الطابور`);
+}
+window.addEventListener('online',flushOutbox);
+
+/* ---------- player feedback: صنعه toggle + 🚩 flag sheet ---------- */
+let TARGETMODE={};                 // card id → true = the write box judges the PLAYER
+const PLAYER_AR={'claude':'كلود','rabie':'رابي','mind:ceo':'عقل المدير التنفيذي','mind:coo':'عقل العمليات',
+  'mind:cco':'عقل الإبداع','mind:firaasa':'فِراسة','mind:metaphor':'الاستعارة','mind:authenticity':'الأصالة',
+  'mind:heritage':'التراث','mind:paradox':'المفارقة','system:feedback_cards':'نظام التغذية الراجعة'};
+function playerAr(p){ return PLAYER_AR[p]||p; }
+function toggleTarget(id){ TARGETMODE[id]=!TARGETMODE[id]; curId=null; renderCard();
+  if(TARGETMODE[id]) toast('🎯 كتابتك الحين على الصانع نفسه'); }
+let FLAGCHIP=null;
+function openFlag(id){
+  const it=ITEMS.find(x=>x.id===id); if(!it) return;
+  FLAGCHIP=null;
+  const lane=(it.lane==='strategy'||it.lane==='ops')?'system':'creative';
+  const chips=REASONS.filter(c=>c.status==='active'&&(c.lane===lane||c.lane==='system')).slice(0,8);
+  document.getElementById('flagsheet').innerHTML=`<div class="fs-in">
+    <div class="fs-t">🚩 وش المشكلة في شغل ${esc(playerAr(it.made_by||'النظام'))}؟ <span class="small">(الرقاقة اختيارية)</span></div>
+    <div class="fs-chips">${chips.map(c=>`<button class="fs-chip" data-code="${esc(c.code)}"
+      onclick="pickChip(this)">${esc(c.ar)}</button>`).join('')}</div>
+    <textarea class="note" id="flagnote" placeholder="كلامك بالحرف — يفتح قضية على الصانع"></textarea>
+    <div class="write-tools">
+      <button class="ghost" onclick="closeFlag()">إلغاء</button>
+      <button class="sendnote" onclick="sendFlag('${esc(id)}')">🚩 افتح قضية</button>
+    </div></div>`;
+  document.getElementById('flagsheet').classList.add('show');
+}
+function pickChip(el){ const was=el.classList.contains('on');
+  document.querySelectorAll('.fs-chip').forEach(c=>c.classList.remove('on'));
+  if(!was){ el.classList.add('on'); FLAGCHIP=el.dataset.code; } else FLAGCHIP=null; }
+function closeFlag(){ document.getElementById('flagsheet').classList.remove('show'); }
+async function sendFlag(id){
+  const it=ITEMS.find(x=>x.id===id)||{};
+  const note=(document.getElementById('flagnote')||{}).value||'';
+  if(!note.trim()&&!FLAGCHIP){ toast('اكتب أو اختر رقاقة',true); return; }
+  const ok=await post(id,'flagged',note,'',{source:'flag_sheet',
+    target: it.made_by||null, reason_codes: FLAGCHIP?[FLAGCHIP]:[]});
+  if(ok){ closeFlag(); toast('🚩 فتحنا قضية — بتشوف نتيجتها في تقرير الأسبوع'); }
 }
 
 /* resolve an option by INDEX from live data → real value (quote-proof) */
@@ -576,9 +707,49 @@ async function sendGnote(){
   const ok=await post('_general_note',v,v,''); if(ok){ GNOTE_OPEN=false; renderGnote(); toast('💬 وصلت'); }
 }
 
+/* ---------- players view (read-only, 100% from the derived file) ---------- */
+let VIEW='cards';
+function setView(v){ VIEW=v;
+  document.getElementById('tab_cards').className='tabbtn'+(v==='cards'?' on':'');
+  document.getElementById('tab_players').className='tabbtn'+(v==='players'?' on':'');
+  for(const id of ['chips','ubar','bulk','stage','doneList'])
+    document.getElementById(id).style.display = v==='cards' ? '' : 'none';
+  document.getElementById('players').style.display = v==='players' ? '' : 'none';
+  if(v==='cards'){ patchAmbient(); } else renderPlayers();
+}
+async function renderPlayers(){
+  const host=document.getElementById('players');
+  host.innerHTML='<div class="small" style="padding:14px">…</div>';
+  let d; try{ d=await (await fetch('/api/approvals/scorecards?k='+K)).json(); }
+  catch(e){ host.innerHTML='<div class="small">⚠️ ما قدرنا نجيبها'; return; }
+  const ps=(d.scorecards||{}).players||{};
+  const order=Object.entries(ps).sort((a,b)=>(b[1].streak-a[1].streak)||(b[1].lifetime.judged-a[1].lifetime.judged));
+  if(!order.length){ host.innerHTML='<div class="card empty"><div class="big">🧠</div><div class="t">لسه ما في أحكام كافية</div><div class="small">كل حكم تحكمه يبني سجل اللاعبين</div></div>'; return; }
+  let h='';
+  for(const [p,c] of order){
+    const lt=c.lifetime;
+    h+=`<div class="pl-row">
+      <span class="pl-name">${esc(playerAr(p))}${c.benched?' <span class="pl-badge">🧊 موقوف</span>':''}</span>
+      <span class="pl-dots">${(c.dots||[]).map(d=>`<span class="pl-dot ${d}"></span>`).join('')}</span>
+      <span class="pl-stats">${lt.judged||0} حُكم · ${lt.approved||0} ✓ · ${lt.rejected||0} ✗ · ${lt.corrected||0} ✏️
+        ${c.rates?`<br>${c.rates.approved_pct}% موافقة`:`<br>${esc(c.low_n_note||'')}`}
+        ${c.open_issues?`<br><span style="color:#ff9d96">🔴 ${c.open_issues} قضايا مفتوحة</span>`:''}
+        ${c.streak>=2?`<br>🧊 ${c.streak} رفضات ورا بعض`:''}</span>
+    </div>`;
+  }
+  const prov=(d.scorecards||{}).by_judge&&d.scorecards.by_judge.rabie_provisional;
+  if(prov&&Object.keys(prov).length){
+    h+=`<div class="small" style="margin:14px 4px 6px">آراء رابي (مبدئية — ما تُحسب حتى تراجعها):</div>`;
+    for(const [t,v] of Object.entries(prov))
+      h+=`<div class="pl-row"><span class="pl-name">${esc(playerAr(t))}</span>
+          <span class="pl-stats">رابي: ${v.avg}/5 (n=${v.n}) — مبدئي</span></div>`;
+  }
+  host.innerHTML=h;
+}
+
 /* ---------- boot ---------- */
-whoami().then(refresh);
-setInterval(refresh, 25000);     // ambient-only while typing; never wipes the card
+whoami().then(()=>{ refresh(); flushOutbox(); renderOutbox(); });
+setInterval(()=>{ refresh(); flushOutbox(); }, 25000);   // ambient-only while typing; never wipes the card
 </script>
 </body>
 </html>

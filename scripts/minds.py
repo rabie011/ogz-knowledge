@@ -130,6 +130,17 @@ def run(mind_id: str, handle: str, occasion: str) -> dict:
     """Produce — keys live. REFUSES on incomplete truth (procedure-honesty holds at
     run time, not just dry-run): a mind must never invent. Reuses the proven LLM-call
     path from the renderer (battle-tested). The first live run IS the integration test."""
+    # BENCH GATE (June 12 feedback system): a cold-streak player is frozen until
+    # Mohamed's reversal/approvals un-bench it (bench.json is DERIVED — arithmetic
+    # un-benches, never a button)
+    import os
+    bench_f = Path(os.environ.get("OGZ_BASE", BASE)) / "data/bench.json"
+    if bench_f.exists():
+        bench = json.loads(bench_f.read_text())
+        if f"mind:{mind_id}" in bench:
+            return {"ok": False, "refused": True, "mind": mind_id,
+                    "why": f"benched: {bench[f'mind:{mind_id}']['streak']} straight rejections — "
+                           "Mohamed's verdicts un-bench it"}
     asm = assemble(mind_id, handle, occasion)
     if not asm["_ready_to_run"]:
         return {"ok": False, "refused": True, "mind": mind_id,

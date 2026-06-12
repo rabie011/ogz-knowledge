@@ -9,11 +9,17 @@ Usage:
       --desc "..." --buttons "yes:✅ نعم" "no:❌ لا" [--urgent] [--clock "⏰ ..."]
   python3 scripts/queue_decision.py --id ask_x --title "..." --text "اكتب رأيك"
 """
-import argparse, datetime, json, re
+import argparse, datetime, json, re, sys
 from pathlib import Path
 
-QUEUE = Path(__file__).parent.parent / "data/decision_queue.json"
+sys.path.insert(0, str(Path(__file__).parent))
+from feedback_lib import base as _base
+
 _PAIR = re.compile(r",(?=[a-z_]+:)")  # comma that begins a new  v:label  pair
+
+
+def _queue_path() -> Path:
+    return _base() / "data/decision_queue.json"
 
 
 def parse_buttons(args: list) -> list:
@@ -29,10 +35,31 @@ def parse_buttons(args: list) -> list:
 
 
 def push(item: dict):
+    QUEUE = _queue_path()
     q = json.loads(QUEUE.read_text()) if QUEUE.exists() else {"items": []}
     q["items"] = [i for i in q["items"] if i["id"] != item["id"]] + [item]
     QUEUE.write_text(json.dumps(q, ensure_ascii=False, indent=1))
     return len([i for i in q["items"] if i.get("status") != "answered"])
+
+
+def push_attributed(item: dict, made_by: str = "claude",
+                    via: str = "scripts/queue_decision.py", reason: str = ""):
+    """The feedback-aware push: ATTRIBUTE BEFORE PUSH (transactional ordering — a crash
+    between the two leaves an attributed ghost, never an unattributable card), stamp
+    made_by + artifact_version on the card, and refuse loudly for a BENCHED player."""
+    import attribute as attr
+    bench_f = _base() / "data/bench.json"
+    bench = json.loads(bench_f.read_text()) if bench_f.exists() else {}
+    if made_by in bench:
+        raise SystemExit(f"🧊 REFUSED: {made_by} is benched (cold streak) — "
+                         f"Mohamed's reversal or fresh approvals un-bench it")
+    entry = attr.attribute(f"card:{item['id']}", "card", made_by, via=via,
+                           reason=reason or item.get("title", "")[:100])
+    assert attr.latest_version(f"card:{item['id']}") == entry["artifact_version"], \
+        "attribution line not on disk — refusing to push"
+    item["made_by"] = made_by
+    item["artifact_version"] = entry["artifact_version"]
+    return push(item)
 
 
 def main():
@@ -45,11 +72,18 @@ def main():
     ap.add_argument("--urgent", action="store_true")
     ap.add_argument("--buttons", nargs="*", default=None, help='each "value:label"')
     ap.add_argument("--text", default=None, help="free-text question placeholder")
+    ap.add_argument("--made-by", default="claude", help="the PLAYER this card's content came from (mind:firaasa etc.)")
+    ap.add_argument("--why", default="", help="the one-line WHY shown bold on the card")
+    ap.add_argument("--need", default="", help="المطلوب — what we need from Mohamed")
+    ap.add_argument("--did", default="", help="سوّاه النظام — what the system did")
     a = ap.parse_args()
     item = {"id": a.id, "title": a.title, "tag": a.tag, "desc": a.desc,
             "clock": a.clock, "priority": "urgent" if a.urgent else "normal",
             "created": datetime.datetime.now().isoformat(timespec="seconds"),
             "status": "open"}
+    for k in ("why", "need", "did"):
+        if getattr(a, k):
+            item[k] = getattr(a, k)
     if a.buttons:
         item["kind"] = "buttons"
         item["options"] = parse_buttons(a.buttons)
@@ -58,8 +92,8 @@ def main():
         item["placeholder"] = a.text
     else:
         raise SystemExit("need --buttons or --text")
-    open_n = push(item)
-    print(f"✓ pushed '{a.id}' ({'URGENT' if a.urgent else 'normal'}) — {open_n} open on the portal")
+    open_n = push_attributed(item, made_by=a.made_by)
+    print(f"✓ pushed '{a.id}' ({'URGENT' if a.urgent else 'normal'}, by {a.made_by}) — {open_n} open on the portal")
 
 
 if __name__ == "__main__":

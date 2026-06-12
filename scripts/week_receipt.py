@@ -13,6 +13,34 @@ from pathlib import Path
 BASE = Path(__file__).parent.parent
 
 
+def feedback_closure_section() -> str:
+    """«ايش صار بكلامك» — his verbatim quote → commit → evidence → state. The
+    loop-closing surface: proof his words became commits (June 12 feedback system)."""
+    import json as _j
+    st_f = BASE / "data/issues_state.json"
+    if not st_f.exists():
+        return ""
+    st = _j.loads(st_f.read_text())
+    issues = st.get("issues", {})
+    if not issues:
+        return ""
+    AR = {"open": "مفتوحة", "fix_claimed": "قيد الإصلاح", "verified": "اتصلحت (حسب السكربت)",
+          "closed": "اتقفلت", "voided": "أُلغيت (عكست حكمك)"}
+    lines = ["\n## (d) ايش صار بكلامك"]
+    for iid, s in sorted(issues.items(), key=lambda x: x[1].get("opened", ""), reverse=True)[:8]:
+        commit = next((e.get("commit") for e in s.get("events", []) if e.get("commit")), None)
+        lines.append(f"- «{s.get('quote','')[:60]}» → {AR.get(s['status'], s['status'])}"
+                     + (f" @ `{commit}`" if commit else "")
+                     + (f" · رجعت {s['recurrence_count']}×" if s.get("recurrence_count") else ""))
+    if st.get("oldest_open_days", 0):
+        lines.append(f"- أقدم قضية مفتوحة: {st['oldest_open_days']} يوم")
+    auto = [s for s in issues.values() if any(e.get("closed_by") == "auto_verify_timeout"
+                                              for e in s.get("events", []))]
+    if auto:
+        lines.append(f"- اتقفل تلقائياً (72h بعد التحقق): {len(auto)}")
+    return "\n".join(lines) + "\n"
+
+
 def mohamed_last_seen() -> str:
     f = BASE / "data/mohamed_answers.jsonl"
     if not f.exists():
@@ -110,7 +138,7 @@ def main():
 ## (c) أدلة الرأي (Claude يحكم لحظة التسليم)
 STRONG: {' · '.join(x for x in strong if x)}
 WORRY: {' · '.join(x for x in worry if x)}
-"""
+{feedback_closure_section()}"""
     (BASE / "data/im_here.md").write_text(pkg)
     print(f"im-here package fresh: {len(commits)} commits since {since[:16]} · {len(open_items)} portal cards · → data/im_here.md")
 

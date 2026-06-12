@@ -83,7 +83,20 @@ def main():
     # D7-1: the im-here package stays fresh every cycle — Mohamed can appear any minute
     subprocess.run(["python3", str(BASE / "scripts/week_receipt.py")], capture_output=True, timeout=60)
 
-    ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "commits_flowing", "orchestrator_alive"))
+    # 6a. FEEDBACK LOOP DRIVE (June 12): consume answers → issues/corrections, recompute
+    # scorecards/bench, auto-close + inject budgeted meta-cards — every heartbeat
+    for step in ("feedback_router.py", "scorecards.py", "feedback_cards.py"):
+        subprocess.run(["python3", str(BASE / "scripts" / step)], capture_output=True, timeout=120)
+
+    # 6b. FEEDBACK SYSTEM integrity: router consumed, identity clean, gates hold,
+    # founder canary — the 12 checks live in their own module (exit 1 = alarm)
+    fb = subprocess.run(["python3", str(BASE / "scripts/make_sure_feedback.py")],
+                        capture_output=True, text=True, timeout=120)
+    checks["feedback_system"] = fb.returncode == 0
+    if fb.returncode != 0:
+        checks["feedback_failed"] = (fb.stdout or "").strip().splitlines()[-1:]
+
+    ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "commits_flowing", "orchestrator_alive", "feedback_system"))
     entry = {"ts": now, **checks, "verdict": "ALIVE" if ok else "ALARM"}
     with open(LOG, "a") as f:
         f.write(json.dumps(entry) + "\n")
@@ -94,7 +107,7 @@ def main():
     print(f"\n{'🟢 MAKE-SURE: ALIVE' if ok else '🔴 MAKE-SURE: ALARM'}")
 
     if not ok:
-        dead = [k for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "commits_flowing", "orchestrator_alive") if not checks[k]]
+        dead = [k for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "commits_flowing", "orchestrator_alive", "feedback_system") if not checks[k]]
         subprocess.run(["python3", str(BASE / "scripts/queue_decision.py"),
                         "--id", f"alarm_{int(time.time())}", "--urgent",
                         "--title", f"🚨 إنذار: {', '.join(dead)} واقف",

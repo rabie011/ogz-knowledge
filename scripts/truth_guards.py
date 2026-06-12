@@ -85,6 +85,10 @@ def apply_guards(options: list[str], corpus_text: str, slot: dict | None = None,
             reason = ("event_claim", EVENT_CLAIM.search(o).group(0)[:40])
         elif is_emotional and OFFER.search(o):
             reason = ("offer_on_emotional", OFFER.search(o).group(0))
+        elif is_emotional and CTA.search(o) and len(CTA.sub("", o).strip()) > 15:
+            # RABIE ruling June 12 (provisional): eid greetings ending in اطلبوا الآن =
+            # generic-template smell — strip the CTA sentence, keep the greeting
+            o = CTA.sub("", o).strip(" -–—·,،\n")
         elif FILLER.search(o):
             reason = ("bilingual_filler", FILLER.search(o).group(0))
         else:

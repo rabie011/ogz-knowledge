@@ -79,8 +79,14 @@ def check(now: datetime.datetime | None = None) -> dict:
     }
 
 
+# B140: the human-only switch is SPECIFIC-humans-only
+FLIP_ALLOWLIST = {"mohamed", "alhareth", "rabie_provisional", "claude_drill", "claude_test"}
+
+
 def flip(on: bool, reason: str | None, by: str):
-    """Human hands only — callers must pass --by. Every flip is logged append-only."""
+    """Human hands only — callers must pass --by from the allowlist. Logged append-only."""
+    if (by or "").lower() not in FLIP_ALLOWLIST:
+        raise SystemExit(f"refused: '{by}' is not on the flip allowlist {sorted(FLIP_ALLOWLIST)}")
     SWITCH.parent.mkdir(parents=True, exist_ok=True)
     state = {"blackout": on, "reason": reason if on else None, "set_by": by,
              "ts": datetime.datetime.now().isoformat(timespec="seconds")}

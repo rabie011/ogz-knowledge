@@ -70,6 +70,12 @@
   .done-item .ans{color:var(--green);font-weight:700}
   .rev{background:transparent;border:1px solid #6e2c30;color:#ff9d96;border-radius:9px;padding:7px 14px;font-size:12.5px;cursor:pointer;margin-top:8px}
   .revbox{display:none;margin-top:8px}
+  .stars{display:flex;gap:6px;justify-content:center;margin:10px 0 2px;direction:ltr}
+  .stars button{background:none;border:none;font-size:30px;cursor:pointer;opacity:.35;transition:.15s;padding:2px}
+  .stars button.on{opacity:1;transform:scale(1.15)}
+  .verdict{display:flex;gap:10px;margin-top:10px}
+  .verdict .ok{flex:1;background:var(--green);color:#06250b;border:none;border-radius:12px;padding:14px;font-size:16px;font-weight:800;cursor:pointer}
+  .verdict .no{flex:1;background:transparent;color:var(--pink);border:1.5px solid var(--pink);border-radius:12px;padding:14px;font-size:16px;font-weight:800;cursor:pointer}
   /* note */
   .notebox{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(transparent,var(--bg) 22%);padding:24px 14px 14px}
   .notein{max-width:640px;margin-inline:auto;display:flex;gap:8px;background:var(--card);border:1.5px solid var(--blue);border-radius:14px;padding:8px}
@@ -173,6 +179,16 @@ function render(open){
     h += `<textarea id="txt" placeholder="${it.placeholder||'اكتب هنا…'}"></textarea>
           <button class="send" onclick="answerText('${it.id}')">أرسل ✓</button>`;
   }
+  // UNIVERSAL FOOTER (June 12, Mohamed's order): every card gets rating + comment
+  // + approve/reject — regardless of kind
+  if(!h.includes('id="note"')) h += `<textarea id="note" placeholder="💬 تعليقك (اختياري — يوصلني مع الجواب)"></textarea>`;
+  h += `<div class="stars" id="stars">` +
+       [1,2,3,4,5].map(n=>`<button id="st_${n}" onclick="setRating(${n})">★</button>`).join('') + `</div>
+       <div class="small" style="text-align:center;opacity:.7">تقييمك (اختياري)</div>
+       <div class="verdict">
+         <button class="ok" onclick="answer('${it.id}','approved')">✅ اعتماد</button>
+         <button class="no" onclick="answer('${it.id}','rejected')">❌ رفض</button>
+       </div>`;
   h += `<div class="nav">
         <button onclick="move(1)">التالي ⏭</button>
         <button class="skip" onclick="skipIt('${it.id}')">أخّره 🕐</button>
@@ -196,16 +212,19 @@ function renderDone(){
 }
 function move(d){ const o=openItems(); if(o.length){ idx=(idx+d+o.length)%o.length; render(o);} }
 function skipIt(id){ SKIPPED.add(id); toast('أخّرناه 🕐'); idx=0; paint(); }
+let RATING = 0;
+function setRating(n){ RATING = (RATING===n)?0:n;
+  for(let i=1;i<=5;i++){ const b=document.getElementById('st_'+i); if(b) b.className = (i<=RATING)?'on':''; } }
 async function post(id, answer, note){
   await fetch('/api/approvals/answer?k='+K,{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({item_id:id,answer:answer,note:note||''})});
-  toast(); await load(true);
+    body:JSON.stringify({item_id:id,answer:answer,note:note||'',rating:RATING||null})});
+  RATING = 0; toast(); await load(true);
 }
 function answer(id,v){ post(id,v,(document.getElementById('note')||{}).value||''); }
 function answerNumbers(id,keys){ const vals={};
   for(const k of keys) vals[k]=document.getElementById('f_'+k).value;
   post(id,JSON.stringify(vals),(document.getElementById('note')||{}).value||''); }
-function answerText(id){ post(id,document.getElementById('txt').value); }
+function answerText(id){ post(id,document.getElementById('txt').value,(document.getElementById('note')||{}).value||''); }
 async function reverse(id){
   const note=document.getElementById('rvn_'+id).value;
   if(!note.trim()){ toast('⚠️ اكتب السبب أول'); return; }

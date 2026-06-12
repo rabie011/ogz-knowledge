@@ -64,7 +64,9 @@ async def answer(request: Request, k: str = ""):
     body = await request.json()
     entry = {"ts": datetime.now().isoformat(timespec="seconds"),
               "item_id": body.get("item_id"), "answer": str(body.get("answer", ""))[:2000],
-              "note": str(body.get("note", ""))[:2000], "source": "public_portal"}
+              "note": str(body.get("note", ""))[:2000],
+              "rating": body.get("rating") if isinstance(body.get("rating"), int) else None,
+              "source": "public_portal"}
     with open(ANSWERS, "a") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
     if QUEUE.exists():

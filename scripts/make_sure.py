@@ -29,7 +29,14 @@ def main():
     cards = count_cards()
     checks["cards_total"] = cards
     checks["cards_delta"] = cards - prev.get("cards_total", cards)
-    checks["grinder_producing"] = checks["cards_delta"] > 0 or not prev  # first run = unknown
+    # a finished grinder is DONE, not dead: full year-map coverage = mission complete
+    import glob as _g
+    def _covered(h):
+        dates = {f.split("/")[-1].split("__")[0] for f in _g.glob(str(BASE / f"clients/{h}/posts/*.json"))}
+        return len(dates) >= 365
+    grinder_done = all(_covered(h) for h in ("eatjurisha", "albaik"))
+    checks["grinder_done_365"] = grinder_done
+    checks["grinder_producing"] = checks["cards_delta"] > 0 or not prev or grinder_done
 
     # 2. guards hold (the gauntlet is the truth)
     g = subprocess.run(["python3", str(BASE / "scripts/truth_guards.py")], capture_output=True, text=True)

@@ -51,8 +51,8 @@ def watch(handle: str) -> list[dict]:
         ev = {"ts": day_key, "type": "intake_answer", "subject": key,
                "note": f"PROPOSAL (drift watch): {json.dumps(d, ensure_ascii=False)[:160]}",
                "confirmer": "drift_watch", "stamp": "PROPOSAL — never auto-applied (One Write Path)"}
-        with open(lf, "a") as f:
-            f.write(json.dumps(ev, ensure_ascii=False) + "\n")
+        from ledger_write import ledger_write as _lw
+        _lw(lf.parts[-3] if hasattr(lf, "parts") else str(lf).split("/")[-3], ev)
     # B075a: zero-diff over 6 months on an ACTIVE client = monitoring-broken alert
     import datetime as _dt, subprocess as _sp
     state = json.loads((BASE / "clients" / handle / "profile/state.json").read_text())

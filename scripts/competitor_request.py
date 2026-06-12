@@ -56,8 +56,8 @@ def main():
     ev = {"ts": TODAY, "type": "competitor_reference", "competitor": a.competitor,
           "competitor_caption": comp_caption[:300], "stamp": "PROVISIONAL — pending Mohamed"}
     evf = BASE / "clients" / a.handle / "events" / "ledger.jsonl"
-    with open(evf, "a") as f:
-        f.write(json.dumps(ev, ensure_ascii=False) + "\n")
+    from ledger_write import ledger_write as _lw
+    _lw(evf.parts[-3] if hasattr(evf, "parts") else str(evf).split("/")[-3], ev)
 
     angle = translate_angle(c, a.competitor, comp_caption)
     slot = {"date": TODAY, "type": "competitor_reference", "occasion": None,

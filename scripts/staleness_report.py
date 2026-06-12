@@ -133,8 +133,8 @@ def main():
                    "subject": key,
                    "note": f'PROPOSAL: downgrade confirmed→inferred ({x.get("detail","")[:60]})',
                    "confirmer": "staleness_report", "stamp": "PROPOSAL — pending human refresh"}
-            with open(lf, "a") as fh:
-                fh.write(json.dumps(ev, ensure_ascii=False) + "\n")
+            from ledger_write import ledger_write as _lw
+            _lw(lf.parts[-3] if hasattr(lf, "parts") else str(lf).split("/")[-3], ev)
     # B076: re-scrapable rot heals itself — one refresh task per client per day into
     # the 24/7 orchestrator queue. Dormant (born-expired) + season-scoped excluded:
     # no scrape can heal those, only the client or the calendar.

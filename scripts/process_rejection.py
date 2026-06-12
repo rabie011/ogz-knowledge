@@ -38,8 +38,8 @@ def main():
         ev = {"ts": __import__("datetime").date.today().isoformat(), "type": "client_rejected", "subject": f"{slot_key}:SECOND",
                "reason_code": a.reason, "note": "2nd rejection — STOPPED, human call required",
                "confirmer": "process_rejection", "stamp": "ESCALATED — no further automation"}
-        with open(lf, "a") as f:
-            f.write(json.dumps(ev, ensure_ascii=False) + "\n")
+        from ledger_write import ledger_write as _lw
+        _lw(lf.parts[-3] if hasattr(lf, "parts") else str(lf).split("/")[-3], ev)
         sys.exit(f"STOP: second rejection on {a.date} — human calls now (logged).")
 
     # find the rejected card's brain → pick a DIFFERENT door
@@ -57,8 +57,8 @@ def main():
     ev = {"ts": __import__("datetime").date.today().isoformat(), "type": "client_rejected", "subject": slot_key,
            "reason_code": a.reason, "note": a.note[:200],
            "confirmer": "pending", "stamp": "rejection logged before recovery"}
-    with open(lf, "a") as f:
-        f.write(json.dumps(ev, ensure_ascii=False) + "\n")
+    from ledger_write import ledger_write as _lw
+    _lw(lf.parts[-3] if hasattr(lf, "parts") else str(lf).split("/")[-3], ev)
 
     # B113: a culture_breach verdict auto-writes a PROPOSED red-line candidate —
     # the pain becomes a draft rule instantly (proposed only; client/Mohamed activates)

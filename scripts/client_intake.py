@@ -46,6 +46,7 @@ def run_intake(handle: str):
     raw = root / "raw" / "instagram" / TODAY
     raw.mkdir(parents=True, exist_ok=True)
     manifest = {"handle": handle, "extracted": TODAY, "surfaces": {}, "warnings": [],
+                 "referred_by": None,  # B150: the referral loop's root — filled at intake when known
                  "provenance": {"source": "apify one-shot intake", "confirmer": "pending_client",
                                  "confidence": "raw", "scope": f"brand:{handle}"}}
 

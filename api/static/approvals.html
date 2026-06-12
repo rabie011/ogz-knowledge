@@ -112,6 +112,12 @@ function toast(m){ const t=document.getElementById('toast'); t.textContent=m||'�
 function esc(s){ return (s||'').replace(/"/g,'&quot;'); }
 function cat(it){ return it.cat || (it.tag||'').split('·')[0].trim() || 'عام'; }
 
+let ME = {is_owner:true, name:'محمد'};
+async function whoami(){
+  try{ const r=await fetch('/api/approvals/whoami?k='+K); if(r.ok){ ME=await r.json();
+    document.querySelector('.hero h1').textContent = ME.is_owner ? 'قرارات محمد' : ME.name;
+  } }catch(e){}
+}
 async function load(keep){
   const r = await fetch('/api/approvals/items?k='+K); ITEMS = await r.json();
   if(!keep) idx = 0;
@@ -148,7 +154,8 @@ function render(open){
     bulk = `<div class="bulkbar">📦 ${open.length} كروت في «${FILTER}» — <button onclick="bulkApprove()">✅ اعتمدها كلها</button></div>`;
   const it = open[idx];
   let h = bulk + `<div class="card ${it.priority==='urgent'?'urgent':''}">`;
-  h += `<div class="tag">${it.priority==='urgent'?'🚨 طارئ · ':''}${it.tag||''} ${it.clock?'<span class=clock>'+it.clock+'</span>':''}</div><h2>${it.title}</h2>`;
+  const LANE={strategy:'📊 استراتيجية',creative:'🎨 إبداع',business:'💼 أعمال',ops:'⚙️ تشغيل'};
+  h += `<div class="tag">${it.priority==='urgent'?'🚨 طارئ · ':''}${LANE[it.lane]?LANE[it.lane]+' · ':''}${it.tag||''} ${it.clock?'<span class=clock>'+it.clock+'</span>':''}</div><h2>${it.title}</h2>`;
   if(it.meaning) h += `<div class="meaning">💡 <b>وش يعني؟</b> ${it.meaning}</div>`;
   if(it.desc){
     const parts = it.desc.split('|');
@@ -196,7 +203,8 @@ function render(open){
   }
   // UNIVERSAL FOOTER (June 12, Mohamed's order): every card gets rating + comment
   // + approve/reject — regardless of kind
-  if(!h.includes('id="note"')) h += `<textarea id="note" placeholder="💬 تعليقك (اختياري — يوصلني مع الجواب)"></textarea>`;
+  if(!h.includes('id="note"')) h += `<textarea id="note" placeholder="💬 تعليقك (اختياري — يوصل محمد)"></textarea>`;
+  h += `<textarea id="fix" placeholder="✏️ التصحيح — اكتب البديل الصح بنفسك (يصير الحقيقة)"></textarea>`;
   h += `<div class="stars" id="stars">` +
        [1,2,3,4,5].map(n=>`<button id="st_${n}" onclick="setRating(${n})">★</button>`).join('') + `</div>
        <div class="small" style="text-align:center;opacity:.7">تقييمك (اختياري)</div>
@@ -231,9 +239,10 @@ let RATING = 0;
 function setRating(n){ RATING = (RATING===n)?0:n;
   for(let i=1;i<=5;i++){ const b=document.getElementById('st_'+i); if(b) b.className = (i<=RATING)?'on':''; } }
 async function post(id, answer, note){
+  const fx=(document.getElementById('fix')||{}).value||'';
   await fetch('/api/approvals/answer?k='+K,{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({item_id:id,answer:answer,note:note||'',rating:RATING||null})});
-  RATING = 0; toast(); await load(true);
+    body:JSON.stringify({item_id:id,answer:answer,note:note||'',fix:fx,rating:RATING||null})});
+  RATING = 0; toast(fx?'✏️ تصحيحك وصل':''); await load(true);
 }
 function answer(id,v){ post(id,v,(document.getElementById('note')||{}).value||''); }
 function copyCmd(id){ const el=document.getElementById('cmd_'+id); if(!el)return;
@@ -261,7 +270,7 @@ async function sendNote(){
   const v=document.getElementById('gnote').value; if(!v.trim())return;
   await post('_general_note', v, ''); document.getElementById('gnote').value=''; toast('💬 وصلت');
 }
-load(); setInterval(()=>load(true), 25000);
+whoami().then(load); setInterval(()=>load(true), 25000);
 </script>
 </body>
 </html>

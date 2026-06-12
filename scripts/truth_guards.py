@@ -30,6 +30,8 @@ OFFER = re.compile(r"عرض|خصم|تخفيض|كود|discount|offer|% ?off|promo
 PROMO_AR = re.compile(r"(التوأم|كومبو|دبل|ميجا|تريبل)\s+\S+")
 LATIN_NAME = re.compile(r"\b([A-Za-z]+\.[A-Za-z]+|[A-Za-z]*\d+[A-Za-z]*|[A-Z]{3,})\b")
 PERSON_AR = re.compile(r"(الأمير|الأميرة|الشيخ|الشيخة|الدكتور(?:ة)?|معالي|سمو)\s+\S+(?:\s+بن\s+\S+)*")
+# MOHAMED RULING 2026-06-12 (portal): family-voice lines BLOCKED for all brands
+FAMILY_VOICE = re.compile(r"(أمي|امي|أبوي|ابوي|والدتي|والدي|أمك|جدتي قالت لي)\s+(جاب|جابت|قال|قالت|طلب|طلبت)")
 FILLER = re.compile(r"(journey|unleash|conquer|roar|new heights|stronger than ever|"
                      r"رحلة(?!\s+لسوق)|أطلق(?:وا)? العنان|نقهر|القمم الجديدة|أقوى من أي وقت|لحظات لا تُنسى)", re.I)
 CTA = re.compile(r"[^.!؟\n]*\b(اطلب(?:وا|ها|وه)?|حمّ?ل التطبيق|اطلبيها?)\b[^.!؟\n]*[.!؟]?")
@@ -68,7 +70,9 @@ def apply_guards(options: list[str], corpus_text: str, slot: dict | None = None,
         if not o:
             continue
         reason = None
-        if EVENT_CLAIM.search(o):
+        if FAMILY_VOICE.search(o):
+            reason = ("family_voice_blocked", FAMILY_VOICE.search(o).group(0)[:40])
+        elif EVENT_CLAIM.search(o):
             reason = ("event_claim", EVENT_CLAIM.search(o).group(0)[:40])
         elif is_emotional and OFFER.search(o):
             reason = ("offer_on_emotional", OFFER.search(o).group(0))

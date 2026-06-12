@@ -114,6 +114,10 @@ def run_checks() -> dict:
             k = classify(r)
             if k in ("reversal", "note") or r.get("_negated"):
                 continue
+            # the taste filter — MUST mirror compute() exactly (the recount exists to
+            # catch divergence; it caught this very line missing on 2026-06-12)
+            if not (r.get("artifact_id") or r.get("target")):
+                continue
             judge = r.get("judge", "mohamed")
             player = author_of(r)
             if f"judge:{judge}" == player or judge == player:

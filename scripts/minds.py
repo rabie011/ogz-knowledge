@@ -149,11 +149,20 @@ def run(mind_id: str, handle: str, occasion: str) -> dict:
     _s.path.insert(0, str(BASE / "scripts"))
     from render_client_slot import gpt          # proven OpenAI call
     methodology = (BASE / MINDS[mind_id]["file"]).read_text()
+    # MOHAMED'S LAWS, injected at runtime from the registry (June 12) — one wire,
+    # every mind, always current; a law lands in prompts the moment he rules it
+    laws_f = BASE / "data/law_registry.json"
+    law_lines = ""
+    if laws_f.exists():
+        active = [l["statement"] for l in json.loads(laws_f.read_text())["laws"]
+                  if l["status"] in ("enforced", "paper_only")]
+        law_lines = "\n\nقوانين محمد الصارمة (تنطبق فوق كل منهجية):\n- " + "\n- ".join(active)
     user = ("اشتغل على هذا العميل بصفتك " + asm["ar"] + ".\n\n"
             "حقيقة العميل (لا تخترع شيئاً خارجها):\n"
             + json.dumps(asm["client_ctx"], ensure_ascii=False)
             + "\n\nمعرفة الوكالة (وش اشتغل عبر البراندات):\n"
             + json.dumps(asm["brain_ctx"], ensure_ascii=False)
+            + law_lines
             + "\n\nأنتج مخرجك حسب منهجيتك. JSON فقط.")
     out = gpt([{"role": "system", "content": methodology[:6000]},
                {"role": "user", "content": user}], temp=0.7, max_tok=900)

@@ -309,3 +309,11 @@ Based on her body of work:
 
 ---
 
+
+---
+## MOHAMED'S CORRECTIONS (2026-06-12 — from his live verdicts, permanent)
+- Brand names are EXACT: «جريشة» only — never invent vocabulary around a brand name
+  (his rejection: «ايه العلاقة بين حارات وجريشة» — the word حارات was invented).
+- Hard laws are injected at runtime from data/law_registry.json (see scripts/minds.py):
+  ≤15 words · no dua+brand · no comparison questions · no sexual innuendo/humiliation
+  in wordplay · no invented offers · banned worn formulas (لحظة/يجمعنا/له طعم ثاني).

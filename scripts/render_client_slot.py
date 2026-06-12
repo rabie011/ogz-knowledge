@@ -18,6 +18,13 @@ from caption_filter import filter_options
 from blackout_gate import check as blackout_check
 from post_unit import chain_for
 
+# Standing cross-brand worn bans (law: no_template_bleed) — ALSO the gold quarantine:
+# a gold entry carrying a banned formula must never reach few-shot, even before
+# Mohamed rules on it (June 13: 4 conflicted golds sat in few-shot slot 3 for ~2h —
+# his drop_conflicted ruling existed but no wire consumed it)
+STANDING_WORN = ["لحظة", "لحظات", "يجمعنا", "تجمعنا", "له طعم ثاني", "لها طعم خاص",
+                 "في كل لقمة", "احلي مع", "أحلى مع"]  # احلي مع: Mohamed 01:25
+
 
 def env(k):
     for l in open(os.path.expanduser("~/.abraham_env")):
@@ -66,6 +73,9 @@ def load_client(handle: str) -> dict:
     gf = cdir / "profile/gold.json"
     if gf.exists():
         gold_entries = json.loads(gf.read_text()).get("gold", [])
+        # gold quarantine: banned-formula lines never few-shot (see STANDING_WORN)
+        gold_entries = [g for g in gold_entries
+                        if not any(w in g.get("line", "") for w in STANDING_WORN)]
         gold_lines = [g["line"] for g in gold_entries]
         if gold_lines:
             exemplars = gold_lines[:3] + [e for e in exemplars if e not in gold_lines][:2]
@@ -97,7 +107,7 @@ def load_client(handle: str) -> dict:
     # لحظة in 19.8% of 3,323 captions across ALL brands, يجمعنا across 4 minds,
     # «له طعم ثاني» skeleton 29×) — per-client mining can't see cross-client bleed,
     # so these are banned standing, every client, every render
-    worn += ["لحظة", "لحظات", "يجمعنا", "تجمعنا", "له طعم ثاني", "لها طعم خاص", "في كل لقمة", "احلي مع", "أحلى مع"]  # احلي مع: Mohamed 01:25
+    worn += STANDING_WORN
     return {"handle": handle, "worn_phrases": worn, "gold_entries": gold_entries,
             "brand_ar": prof.get("fullName") or handle,
             "bio": prof.get("biography", ""), "truth": truth,

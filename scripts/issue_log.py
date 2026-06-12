@@ -46,6 +46,11 @@ def current_state(issue_id: str) -> str:
     if not evs:
         return "none"
     last = evs[-1]["event"]
+    if last == "recurred":   # note-only event: state = whatever preceded it
+        for e in reversed(evs[:-1]):
+            if e["event"] != "recurred":
+                last = e["event"]
+                break
     return {"open": "open", "fix_claimed": "fix_claimed", "verified": "verified",
             "closed": "closed", "reopened": "open", "voided": "voided"}[last]
 
@@ -77,11 +82,21 @@ def open_issue(player: str, quote: str, reason_code: str = "unspecified",
                 closed_ts = max((x["ts"] for x in issue_events(iid) if x["event"] == "closed"), default="")
                 from datetime import datetime, timedelta
                 if closed_ts and datetime.fromisoformat(now_iso()) - datetime.fromisoformat(closed_ts) <= timedelta(days=14):
-                    return reopen(iid, player, cause="recurrence", by=by)
+                    r = reopen(iid, player, cause="recurrence", by=by)
+                    if quote:
+                        append_jsonl(ledger(), {**_common(iid, "recurred", player, by),
+                                                "quote": quote[:200]})
+                    return r
             break
     iid = f"iss_{now_iso()[:10].replace('-','')}_{fp}"
     if current_state(iid) not in ("none", "closed", "voided"):
-        return issue_events(iid)[0]      # already open today with same fingerprint — dedupe
+        # same-day dedupe — but NEVER eat the new quote (Mohamed's words are gold):
+        # log it as a 'recurred' note event on the existing issue
+        prior_quotes = {e.get("quote") for e in issue_events(iid)}
+        if quote and quote[:200] not in prior_quotes:
+            append_jsonl(ledger(), {**_common(iid, "recurred", player, by),
+                                    "quote": quote[:200]})
+        return issue_events(iid)[0]
     entry = {**_common(iid, "open", player, by), "fingerprint": fp,
              "target": target, "target_path": target_path, "target_version": target_version,
              "severity": severity, "reason_code": reason_code,

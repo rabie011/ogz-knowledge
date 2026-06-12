@@ -292,6 +292,12 @@ def receipt(k: str = "", since: str = ""):
         import feedback_router, gold_mint, scorecards as _sc
         feedback_router.process()
         minted = gold_mint.mint()
+        try:
+            import subprocess as _sp, sys as _sys
+            _sp.run([_sys.executable, str(REPO / "scripts/apply_rulings.py")],
+                    capture_output=True, timeout=60)
+        except Exception:
+            pass  # make_sure_feedback red-flags unapplied rulings — never crash the receipt
         _sc.write_all()
     finally:
         fcntl.flock(lock, fcntl.LOCK_UN)

@@ -64,7 +64,26 @@ def main():
     assert not any(e.get("caption", "").startswith("اللهم") for e in gold_entries), \
         "law-violating caption (dua+brand) minted into gold"
     assert any(i["id"] == "ruling_g2" for i in q2["items"]), "ruling card not staged on conflict"
-    print("🟢 GOLD WIRE: end-to-end assert PASS (mint→renderer-expression + law-check + ruling)")
+
+    # g3: RULING EXECUTION (June 13 — the assert used to stop one hop short: staging
+    # was verified, execution wasn't, and Mohamed's real drop_conflicted tap sat
+    # unconsumed for 2h). Synthetic drop ruling → apply_rulings → entry leaves 'gold'.
+    (SB / "data/gold_conflicts.json").write_text(json.dumps({
+        "gold_conflicts_g3": {"handle": "testbrand",
+                              "keys": [gold_entries[0].get("key") or gold_entries[0].get("id")],
+                              "why": "synthetic wire test"}}))
+    with open(SB / "data/mohamed_answers.jsonl", "a") as f:
+        f.write(json.dumps({"ts": ts, "judge": "mohamed", "auth": "key",
+                            "item_id": "gold_conflicts_g3", "answer": "drop_conflicted",
+                            "source": "team_portal"}, ensure_ascii=False) + "\n")
+    import apply_rulings
+    apply_rulings.HANDLERS[("gold_conflicts_g3", "drop_conflicted")] = apply_rulings.h_drop_conflicted
+    apply_rulings.h_drop_conflicted(SB, {"item_id": "gold_conflicts_g3", "ts": ts})
+    g3 = json.loads(gf.read_text())
+    assert not g3["gold"], "dropped entry still in 'gold' — ruling execution severed"
+    assert len(g3.get("dropped", [])) == 1, "no audit trail for the dropped entry"
+    print("🟢 GOLD WIRE: end-to-end assert PASS (mint→renderer-expression + law-check "
+          "+ ruling staged + ruling EXECUTED)")
 
 
 if __name__ == "__main__":

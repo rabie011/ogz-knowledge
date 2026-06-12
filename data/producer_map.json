@@ -1,12 +1,34 @@
 {
-  "_doc": "TRUTH map: producing script → made_by values it may claim. attribute.py refuses any pair outside this map (the self-misattribution defense). Wildcards: trailing * is a prefix match.",
-  "scripts/minds.py": ["mind:*"],
-  "scripts/queue_decision.py": ["claude", "system:*"],
-  "scripts/week_receipt.py": ["claude"],
-  "scripts/feedback_cards.py": ["system:feedback_cards"],
-  "scripts/gold_mint.py": ["system:gold_mint"],
-  "scripts/render_client_slot.py": ["mind:*"],
-  "scripts/seed_judge_cards.py": ["mind:*"],
-  "scripts/rabie.py": ["rabie"],
-  "api/portal_mini.py": ["judge:*"]
+ "_doc": "TRUTH map: producing script → made_by values it may claim. attribute.py refuses any pair outside this map (the self-misattribution defense). Wildcards: trailing * is a prefix match.",
+ "scripts/minds.py": [
+  "mind:*"
+ ],
+ "scripts/queue_decision.py": [
+  "claude",
+  "system:*"
+ ],
+ "scripts/week_receipt.py": [
+  "claude"
+ ],
+ "scripts/feedback_cards.py": [
+  "system:feedback_cards"
+ ],
+ "scripts/gold_mint.py": [
+  "system:gold_mint"
+ ],
+ "scripts/render_client_slot.py": [
+  "mind:*"
+ ],
+ "scripts/seed_judge_cards.py": [
+  "mind:*"
+ ],
+ "scripts/rabie.py": [
+  "rabie"
+ ],
+ "api/portal_mini.py": [
+  "judge:*"
+ ],
+ "scripts/apply_rulings.py": [
+  "system:apply_rulings"
+ ]
 }

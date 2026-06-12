@@ -196,6 +196,42 @@ def run_checks() -> dict:
     except Exception:
         c["verdicts_applied"] = True
 
+    # 12e. RULINGS APPLIED (June 13, 02:13: Mohamed tapped drop_conflicted and the order
+    # sat unexecuted for 2h — button answers had NO consumer while this monitor glowed
+    # green; the renderer kept few-shotting gold he had struck). Any post-epoch decision
+    # answer older than 15 min with no applied_rulings entry (and no handler) = RED.
+    # Same check runs founder-note parity: a Mohamed note in answers but not in
+    # founder_words = a lost founder word (the religion note was lost this way).
+    try:
+        import time as _t
+        sys.path.insert(0, str(B / "scripts"))
+        import apply_rulings as _ar
+        stale = []
+        for item, ans, why in _ar.pending_unhandled(B):
+            rows = [r for r in _ar._read_jsonl(B / _ar.ANSWERS)
+                    if r.get("item_id") == item and r.get("answer") == ans]
+            ts = (rows[-1].get("ts") or rows[-1].get("client_ts") or "") if rows else ""
+            try:
+                age_min = (_t.time() - _t.mktime(_t.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))) / 60
+            except Exception:
+                age_min = 999
+            if age_min > 15:
+                stale.append(f"{item}→{ans} ({why}, {round(age_min)}m)")
+        c["rulings_applied"] = not stale
+        if stale:
+            c["unapplied_rulings"] = stale
+        have = " ".join(r.get("words", "") for r in _ar._read_jsonl(B / "data/founder_words.jsonl"))
+        missing_notes = [r.get("item_id") for r in _ar._read_jsonl(B / _ar.ANSWERS)
+                         if r.get("judge") == "mohamed" and len((r.get("note") or "").strip()) >= 15
+                         and (r.get("note") or "").strip()[:60] not in have]
+        c["founder_note_parity"] = not missing_notes
+        if missing_notes:
+            c["lost_founder_notes"] = missing_notes
+    except Exception as e:
+        c["rulings_applied"] = False
+        c["founder_note_parity"] = False
+        c["rulings_check_error"] = str(e)[:120]
+
     # 12. OPEN-ISSUE PULSE
     ist = json.loads((B / "data/issues_state.json").read_text()) \
         if (B / "data/issues_state.json").exists() else {"oldest_open_days": 0}
@@ -206,7 +242,7 @@ def run_checks() -> dict:
              "unattributed_zero", "no_bulk_backfill", "producer_map_clean", "cards_attributed",
              "evidence_gates", "receipt_alive", "scorecards_fresh", "hand_recount",
              "no_quarantine_graveyard", "append_only", "card_budget_ok", "issue_pulse_ok",
-             "gold_wire_e2e", "verdicts_applied"]
+             "gold_wire_e2e", "verdicts_applied", "rulings_applied", "founder_note_parity"]
     c["_verdict"] = all(c[g] for g in gates)
     c["_failed"] = [g for g in gates if not c[g]]
     return c

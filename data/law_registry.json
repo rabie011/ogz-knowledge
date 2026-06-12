@@ -226,6 +226,34 @@
    "test": null,
    "status": "paper_only",
    "note": "enters mind prompts + the crowd_judges recipe revision."
+  },
+  {
+   "id": "verified_before_shown",
+   "statement": "No candidate (client, account, handle, shortlist) is shown to Mohamed without LIVE verification first — a dead or mangled handle on his screen is a lie wearing a suggestion.",
+   "source": "Mohamed portal tap yes_law (2026-06-12T23:12) after the 5/5-bad-shortlist incident (xlsx handle mangling, June 12)",
+   "enforcement": [
+    {
+     "file": "scripts/verify_account_handles.py",
+     "symbol": "instagram-profile-scraper"
+    }
+   ],
+   "test": null,
+   "status": "enforced",
+   "note": "practice since June 12: hunt scripts verify live before staging any pick card"
+  },
+  {
+   "id": "machine_evidence_closure",
+   "statement": "Mac-required actions NEVER close on self-report — only machine evidence (launchctl print, process tables, on-disk deltas) closes them.",
+   "source": "Mohamed portal tap yes_law (2026-06-12T23:12) after plist verification theater ×2 (June 12)",
+   "enforcement": [
+    {
+     "file": "scripts/make_sure_feedback.py",
+     "symbol": "reboot_proofed"
+    }
+   ],
+   "test": null,
+   "status": "enforced",
+   "note": "reboot_proofed auto-closes plist cards on launchctl evidence, never on a claim"
   }
  ]
 }

@@ -5,7 +5,7 @@
   "total_obs": 6888,
   "video_obs": 2811,
   "with_duration_data": 662,
-  "with_audio_data": 1336,
+  "with_audio_data": 1377,
   "duration_table": [
     {
       "duration_bucket": "unknown",
@@ -45,18 +45,18 @@
   ],
   "voiceover_table": [
     {
+      "voiceover_presence": "no_voiceover",
+      "count": 517,
+      "high_engagement_rate": 0.366,
+      "avg_engagement": 0.503,
+      "lift_vs_baseline": -0.174
+    },
+    {
       "voiceover_presence": "has_voiceover",
       "count": 853,
       "high_engagement_rate": 0.336,
       "avg_engagement": 0.478,
       "lift_vs_baseline": -0.204
-    },
-    {
-      "voiceover_presence": "no_voiceover",
-      "count": 476,
-      "high_engagement_rate": 0.321,
-      "avg_engagement": 0.465,
-      "lift_vs_baseline": -0.219
     }
   ],
   "voiceover_language_table": [
@@ -96,6 +96,13 @@
       "lift_vs_baseline": 0.079
     },
     {
+      "voiceover_language": "none",
+      "count": 220,
+      "high_engagement_rate": 0.505,
+      "avg_engagement": 0.611,
+      "lift_vs_baseline": -0.035
+    },
+    {
       "voiceover_language": "chinese",
       "count": 2,
       "high_engagement_rate": 0.5,
@@ -108,13 +115,6 @@
       "high_engagement_rate": 0.5,
       "avg_engagement": 0.5,
       "lift_vs_baseline": -0.04
-    },
-    {
-      "voiceover_language": "none",
-      "count": 179,
-      "high_engagement_rate": 0.419,
-      "avg_engagement": 0.536,
-      "lift_vs_baseline": -0.121
     },
     {
       "voiceover_language": "arabic",
@@ -231,18 +231,18 @@
   ],
   "music_type_table": [
     {
+      "music_type": "unknown",
+      "count": 121,
+      "high_engagement_rate": 0.678,
+      "avg_engagement": 0.731,
+      "lift_vs_baseline": 0.138
+    },
+    {
       "music_type": "original_score",
       "count": 57,
       "high_engagement_rate": 0.596,
       "avg_engagement": 0.763,
       "lift_vs_baseline": 0.056
-    },
-    {
-      "music_type": "unknown",
-      "count": 80,
-      "high_engagement_rate": 0.575,
-      "avg_engagement": 0.625,
-      "lift_vs_baseline": 0.035
     },
     {
       "music_type": "voiceover",
@@ -468,11 +468,11 @@
   ],
   "key_findings": [
     "Best video duration: 'unknown' = 55% high-eng (n=2149, +1pp)",
-    "Voiceover NEUTRAL: with=33% vs without=32% (+1pp)",
-    "Best music type: 'original_score' = 59% (n=57)"
+    "Voiceover NEUTRAL: with=33% vs without=36% (-2pp)",
+    "Best music type: 'unknown' = 67% (n=121)"
   ],
   "agency_rules": [
     "Target video length: unknown — highest engagement",
-    "Audio: 'original_score' is best-performing music type"
+    "Audio: 'unknown' is best-performing music type"
   ]
 }

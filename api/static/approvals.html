@@ -222,8 +222,12 @@ function render(open){
   h += `<textarea id="fix" placeholder="✏️ التصحيح — اكتب البديل الصح بنفسك (يصير الحقيقة)"></textarea>`;
   h += `<div class="stars" id="stars">` +
        [1,2,3,4,5].map(n=>`<button id="st_${n}" onclick="setRating(${n})">★</button>`).join('') + `</div>
-       <div class="small" style="text-align:center;opacity:.7">تقييمك (اختياري)</div>
-       <div class="verdict">
+       <div class="small" style="text-align:center;opacity:.7">تقييمك (اختياري)</div>`;
+  // CHOICE cards (their own options ARE the answer) — don't add a competing approve/reject.
+  // Only content/post cards get the generic verdict. (Fixes the "approved≠which option" bug.)
+  const HAS_CHOICE = ['buttons','numbers','text','caption_pick'].includes(it.kind);
+  if(!HAS_CHOICE)
+    h += `<div class="verdict">
          <button class="ok" onclick="answer('${it.id}','approved')">✅ اعتماد</button>
          <button class="no" onclick="answer('${it.id}','rejected')">❌ رفض</button>
        </div>`;

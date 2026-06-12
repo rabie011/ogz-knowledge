@@ -36,6 +36,7 @@ SCHEMAS = {
                                                      "properties": {"name": S(), "evidence": S(), "provenance": PROV},
                                                      "additionalProperties": False}),
                         "recurring_caption_terms": ARR(S()),
+                        "brand_language": ARR({"type": "object"}),
                         "channels": ARR({"type": "object", "required": ["name", "evidence", "provenance"],
                                           "properties": {"name": S(), "evidence": S(), "provenance": PROV},
                                           "additionalProperties": False}),

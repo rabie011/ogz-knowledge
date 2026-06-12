@@ -1,5 +1,5 @@
 # OGZ CAPTION RECIPES — the writers' menu
-*Generated 2026-06-12T23:05 from data/pattern_cards_v1.json — edit THERE, not here.*
+*Generated 2026-06-12T23:06 from data/pattern_cards_v1.json — edit THERE, not here.*
 
 Every recipe is an applicable MOVE (like the 94 visual chains). Nothing enters
 production prompts before Mohamed ratifies it. A ratified recipe is a PLAYER:
@@ -8,7 +8,7 @@ his rejections can bench it like a mind.
 ## generational_bridge  ·  ✅ RATIFIED  ·  Rabie 4/5
 **The move:** Seat two generations in one frame and let the elder's smallest gesture — a smile, a hand, an inherited recipe — carry the whole feeling, with the product as the table between them, never the subject.
 **Skeleton:** quiet declarative hook, no question · tender register, zero slang, zero exclamation · <=12 words · beat 1: the shared object, beat 2: the elder's (or heir's) gesture that completes it.
-**When:** Eids, family seasons, heritage pillars. The law applies hardest here: no selling on emotional days — run it CTA-free, or with a soft order-line only on ordinary days.
+**When:** Eids, family seasons, heritage dishes (jereesh, kabsa, saleeg), lifestyle pillar. Selling is ALLOWED on emotional days (Mohamed's ruling 2026-06-12) — but this move works best CTA-free or with a soft order-line; a hard sell next to an elder's memory cheapens the move itself. NOT for trend items or delivery-speed messages.
 **Real example:** وصفة جدتي نفسها، بس اليوم بيد حفيدتها 🤍
 **Fresh example:** وصفة جدتي نفسها، بس اليوم بيد حفيدتها 🤍
 **How it dies:** Grandparent-as-prop: the elder appears only to bless the brand. And the worn-formula graveyard — لحظة/يجمعنا are this move's corpse; write the gesture itself, never the word 'gathering'.

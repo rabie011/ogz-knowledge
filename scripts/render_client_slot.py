@@ -155,10 +155,17 @@ def make_angle(c: dict, slot: dict, sector: str, brain: str | None = None) -> di
 CTA_PUSH_TYPES = {"weekly_offer", "white_friday", "11_11_shopping", "singles_day_11_11"}
 
 
+CTA_EMOTIONAL = {"ramadan", "eid_al_fitr", "eid_al_adha", "arab_mothers_day", "hajj_season"}
+
+
 def cta_allowed(handle: str, slot: dict) -> bool:
     """The 80/20 law in code (zoom-out June 12: 300/356 jurisha cards = 84% order-tails,
     the inverse of the standard; Mohamed's wrong_goal code says it himself: «صفر طاقة
     بيع — اللحظة فقط»). Push slots sell; evergreen sells ~1 day in 4, date-hashed."""
+    # gold-seed r1 (June 12): emotional occasions NEVER sell — G2's spirit at the
+    # gate, not only the guard (the mothers-day هنقرستيشن seed exposed the hash gap)
+    if slot.get("occasion") in CTA_EMOTIONAL:
+        return False
     if slot.get("occasion") in CTA_PUSH_TYPES or slot.get("type") == "offer":
         return True
     import hashlib

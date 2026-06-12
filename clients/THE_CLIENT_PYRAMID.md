@@ -210,7 +210,7 @@ Measured ONLY as `client_approved` events repeating in an append-only ledger. Ne
 - **Why:** "repeated yes" is literally a property of this event series. Also the corpus replayed when client #50 arrives.
 - **Source:** observed-over-time.
 - **Diagnose:** every send reaches a terminal event; an orphaned send = process bug; nightly replay must reproduce profile state exactly. A ledger gap is THE broken rule that triggered this design.
-- **Archive:** **outcome_event_v1** / **generation_event_v1**, corrections as new events (rule 9), quarantine-not-delete (rule 8), PDPL-compatible.
+- **Archive:** **outcome_event_v1** / **generation_event_v1**, corrections as new events (rule 9), quarantine-not-delete (rule 8); PDPL alignment: the erasure-vs-quarantine precedence awaits Mohamed's ruling (staged on the portal June 12) — until ruled, no PDPL-compatibility is CLAIMED, only designed-for.
 - **Track:** it IS the tracking substrate — taste, trust meter, state, churn, priors are all derived views. Commercial event types landed 2026-06-12: `payment_received` / `renewal` / `scope_change` live in `client_event_v1.schema.json`; pricing pinned by Mohamed 700/2650/9000 SAR (FLANK-03 closed at the schema layer — terms doc still draft).
 
 **2. PROVENANCE PROMOTION LADDER** — every field in every organ on one ladder: default-conservative → inferred (≥3 feed evidences) → confirmed (client's word, or 3 approved posts using the field). Demotion instant on contradiction. Promotions/demotions are themselves events.

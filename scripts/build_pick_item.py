@@ -47,7 +47,9 @@ def build(handle: str, slot: str, title: str, meaning: str) -> dict:
                       "label": c["captions"][0],
                       "idea": (c.get("idea") or {}).get("scene_ar", "")[:220],
                       "shots": (vis.get("phone_shoot_card") or [])[:3],
-                      "image_url": vis.get("image_url")})
+                      "image_url": vis.get("image_url"),
+                      "ai_generated": bool(vis.get("ai_generated")),
+                      "ai_blocked": (vis.get("ai_imagery") or {}).get("blocked", False)})
     return {"id": f"pick_{handle}", "kind": "post_pick", "cat": "اختيارات",
             "tag": "اختيارك = ذهب المناسبات", "title": title,
             "meaning": meaning, "priority": "normal", "status": "open",

@@ -145,8 +145,8 @@ function render(open){
     for(const o of it.options){
       h += `<div class="post"><div class="who">عقل ${o.who||o.v}</div>`;
       if(o.idea) h += `<div class="idea">💡 <b>الفكرة:</b> ${o.idea}</div>`;
-      if(o.image_url) h += `<img src="${o.image_url}">`;
-      else if(o.shots&&o.shots.length) h += `<div class="photo"><b>📸 الصورة (تتصور بالجوال):</b><br>${o.shots.map((s,i)=>(i+1)+'. '+s).join('<br>')}</div>`;
+      if(o.image_url) h += `<img src="${o.image_url}">` + (o.ai_generated?`<div class="idea">🤖 صورة AI — للمشهد فقط، مو المنتج (حكمك عليها = حكم على الفكرة)</div>`:'');
+      else if(o.shots&&o.shots.length) h += `<div class="photo"><b>📸 الصورة (تتصور بالجوال):</b><br>${o.shots.map((s,i)=>(i+1)+'. '+s).join('<br>')}` + (o.ai_blocked?`<br><b>🚫 منعنا توليد AI هنا</b> — المشهد فيه منتج حقيقي، التصوير الحقيقي هو الطريق`:'') + `</div>`;
       h += `<div class="captext">${o.label}</div>
             <div class="pickrow"><button class="pick" onclick="answer('${it.id}','${esc(o.v)}')">اختار هذا البوست ✓</button></div></div>`;
     }

@@ -8,7 +8,7 @@ cost-logged; the budget guard refuses past the batch cap.
 Usage: python3 scripts/render_image.py --card clients/albaik/posts/X.json
        python3 scripts/render_image.py --batch /tmp/batch20.txt   # file of card paths
 """
-import argparse, json, os, sys, time, urllib.request
+import argparse, json, os, re, sys, time, urllib.request
 from pathlib import Path
 
 BASE = Path(__file__).parent.parent
@@ -60,6 +60,32 @@ def chain_image_prompt(card: dict) -> str:
               "conservative modest styling, photorealistic, shot on phone aesthetic.")
 
 
+# B141 (Mohamed's case_by_case ruling, code-enforced): AI may never FAKE the
+# client's product — a rendered burger that isn't their burger is a lie a client
+# screenshots. Product-depicting scenes = real shoot only; everything else renders
+# but carries ai_generated for the judge to see.
+PRODUCT_VISUAL_AR = ["صحن", "وجبة", "برجر", "بروست", "ساندوتش", "سندويش", "أكلة",
+                      "طبق", "عبوة", "منتج", "مكمل", "بروتين", "قارورة", "علبة",
+                      "close-up of the product", "product shot", "food close"]
+_JUNK = re.compile(r"حساب|account|snapchat|@|^على$|^في$", re.I)
+
+
+def product_imagery_hit(card: dict, card_path: str) -> str | None:
+    hay = ((card.get("idea") or {}).get("scene_ar", "") + " "
+           + " ".join((card.get("visual") or {}).get("phone_shoot_card") or []))
+    for kw in PRODUCT_VISUAL_AR:
+        if kw in hay:
+            return kw
+    handle = Path(card_path).resolve().parent.parent.name
+    tpf = BASE / "clients" / handle / "profile/truth_pack.json"
+    if tpf.exists():
+        for x in json.loads(tpf.read_text()).get("product_candidates", []):
+            n = (x.get("name") or "").strip()
+            if len(n) >= 3 and not _JUNK.search(n) and n in hay:
+                return n
+    return None
+
+
 def render(card_path: str) -> str | None:
     key = env("FAL_KEY") or env("FAL_API_KEY")
     if not key:
@@ -68,6 +94,13 @@ def render(card_path: str) -> str | None:
     card = json.loads(open(card_path).read())
     prompt = chain_image_prompt(card)
     card.setdefault("visual", {})["image_prompt"] = prompt
+    hit = product_imagery_hit(card, card_path)
+    if hit:
+        card["visual"]["ai_imagery"] = {"blocked": True,
+                                          "reason": f"product depiction «{hit}» — real shoot only (B141)"}
+        Path(card_path).write_text(json.dumps(card, ensure_ascii=False, indent=2))
+        print(f"  🚫 AI product imagery BLOCKED («{hit}») — shoot-card stays the path")
+        return None
     if key:
         if spent_this_batch() >= BATCH_CAP:
             sys.exit(f"BUDGET GUARD: {BATCH_CAP} images today already — Mohamed's batch law")
@@ -81,6 +114,7 @@ def render(card_path: str) -> str | None:
         name = Path(card_path).stem + ".jpg"
         urllib.request.urlretrieve(url, RENDER_DIR / name)
         card["visual"]["image_url"] = f"/static/renders/{name}"
+        card["visual"]["ai_generated"] = True
         with open(COST_LOG, "a") as f:
             f.write(json.dumps({"day": time.strftime("%Y-%m-%d"), "card": Path(card_path).name,
                                   "model": MODEL, "usd": COST_PER_IMAGE}) + "\n")

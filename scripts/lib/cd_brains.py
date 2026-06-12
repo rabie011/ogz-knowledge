@@ -130,6 +130,10 @@ def route(sector: str, occasion: str = "evergreen") -> tuple[str, str | None, di
     for slug, fm in brains.items():
         if slug in forbidden:
             continue
+        # B049: cd_06 is a GENERATION technique (feed cloning), not an ideation
+        # methodology — routing ideas to a cloner produces copies, not ideas
+        if slug == "cd_06_feed_cloner":
+            continue
         weight = 0.2  # even default — no brand fingerprint yet
         sector_aff = fm.get("sector_affinity", {}).get(sector_key, 0.5)
         if occasion and occasion != "evergreen":

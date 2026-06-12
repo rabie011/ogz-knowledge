@@ -45,7 +45,39 @@ def main():
     print(f"{a.handle}: {len(todo)} slots to render (suffix {a.suffix}, brain {a.brain})")
 
     ok = failed = 0
+    PICK_BRAINS = {"saudi_national_day": ["heritage", "firaasa", "authenticity"],
+                    "saudi_founding_day": ["heritage", "firaasa", "metaphor"],
+                    "ramadan": ["firaasa", "authenticity", "metaphor"],
+                    "eid_al_fitr": ["authenticity", "firaasa", "heritage"],
+                    "eid_al_adha": ["firaasa", "authenticity", "paradox"],
+                    "white_friday": ["paradox", "metaphor", "firaasa"]}
     for i, s in enumerate(todo, 1):
+        # B179 — THE MAJORS LAW MECHANIZED: major day-of slots render 3 brain-variants
+        # and push the pick-card to Mohamed's portal automatically. Never single-shot.
+        if s.get("major") and s.get("beat") == "day_of":
+            brains = PICK_BRAINS.get(s.get("occasion"), ["firaasa", "authenticity", "metaphor"])
+            pick_ok = 0
+            for br in brains:
+                cmd = ["python3", str(BASE / "scripts/render_client_slot.py"),
+                       "--handle", a.handle, "--date", s["date"], "--brain", br,
+                       "--suffix", f"__pick_{br}"]
+                r = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+                pick_ok += (r.returncode == 0)
+                time.sleep(PAUSE_S)
+            if pick_ok >= 2:
+                slot_slug = f"{s['date']}__{s.get('occasion')}"
+                subprocess.run(["python3", str(BASE / "scripts/build_pick_item.py"),
+                                "--handle", a.handle, "--slot", slot_slug,
+                                "--title", f"اختر بوست {a.handle} × {s.get('occasion')}"],
+                               capture_output=True, text=True, timeout=60)
+                s["status"] = f"pickset{a.suffix}"
+                ok += 1
+                print(f"  [{i}/{len(todo)}] 🎯 {s['date']} {s.get('occasion')} — {pick_ok} variants + portal card")
+            else:
+                failed += 1
+                print(f"  [{i}/{len(todo)}] ✗ {s['date']} pick-set failed ({pick_ok}/3)")
+            ymf.write_text(json.dumps(ymap, ensure_ascii=False, indent=2))
+            continue
         cmd = ["python3", str(BASE / "scripts/render_client_slot.py"),
                "--handle", a.handle, "--date", s["date"], "--brain", a.brain, "--suffix", a.suffix]
         r = subprocess.run(cmd, capture_output=True, text=True, timeout=300)

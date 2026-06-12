@@ -4,21 +4,12 @@
  "laws": [
   {
    "id": "no_sell_on_religious_emotional_days",
-   "statement": "No order-CTAs / offers on religious or emotional days (Ramadan, Eid, Founding Day, National Day, Mothers Day) — including when the slot type lies but the text implies the occasion.",
+   "statement": "STRUCK DOWN by Mohamed (portal, 2026-06-12 20:55: «allow»): order-CTAs ARE allowed on religious/emotional days for these clients. The dua+brand law stands separately.",
    "source": "Mohamed's red lines (memory: feedback_saudi_content_red_lines) + cold consult 2026-06-12",
-   "enforcement": [
-    {
-     "file": "scripts/caption_filter.py",
-     "symbol": "cta_on_religious_or_emotional_day"
-    },
-    {
-     "file": "scripts/gold_mint.py",
-     "symbol": "cta_on_religious_or_emotional_occasion"
-    }
-   ],
+   "enforcement": [],
    "test": null,
-   "status": "pending_ruling",
-   "note": "Gate enforces; 192 corpus flags await Mohamed's gold_cta_ruling card (law vs his gold corpus)."
+   "status": "ruled_allowed",
+   "note": "his explicit tap overrides; 138 corpus flags become clean; gate + mint checks removed."
   },
   {
    "id": "prayer_as_commercial_backdrop",
@@ -31,7 +22,7 @@
     },
     {
      "file": "scripts/gold_mint.py",
-     "symbol": "allah_name_with_brand_in_caption"
+     "symbol": "cultural_check"
     }
    ],
    "test": null,
@@ -83,15 +74,10 @@
    "id": "slot_content_match",
    "statement": "Slot type must match content: occasion content never rides an evergreen slot (slot-laundering bypasses the no-sell law); teaser beats never depict day-of scenes; moonsighting_check must be respected.",
    "source": "Cold consult 2026-06-12 (slot laundering systemic)",
-   "enforcement": [
-    {
-     "file": "scripts/caption_filter.py",
-     "symbol": "text_implies"
-    }
-   ],
+   "enforcement": [],
    "test": null,
-   "status": "enforced",
-   "note": "Text-implied occasion inherits the occasion's law regardless of slot.type (the bypass is closed at the gate; generation-side slot hygiene still due on key refill)."
+   "status": "paper_only",
+   "note": "its gate enforcement rode the no-sell law (struck down 2026-06-12); slot/content hygiene returns generation-side on key refill — AND Mohamed said «saudi doesn't have evergreen» (taxonomy talk pending), which may rewrite this law entirely."
   },
   {
    "id": "delete_approved_only",
@@ -221,6 +207,24 @@
    "test": null,
    "status": "enforced",
    "note": "Same build item as no_invented_facts offer-word check."
+  },
+  {
+   "id": "no_sexual_innuendo_or_humiliation",
+   "statement": "Wordplay and double meanings must NEVER contain sexual jokes or humiliation — a big rule for ALL creative work (Mohamed, verbatim, 2026-06-12 21:00).",
+   "source": "Mohamed portal note on ratify_dish_name_wordplay",
+   "enforcement": [],
+   "test": null,
+   "status": "paper_only",
+   "note": "semantic law — enters every mind prompt + reviewer checklist at re-extraction; deterministic lexicon candidate later."
+  },
+  {
+   "id": "brand_never_invites_comparison",
+   "statement": "A brand never asks \"who does it better\" — it IS the best; questions to the crowd are fine, comparison questions are not (Mohamed, 2026-06-12 20:57).",
+   "source": "Mohamed portal comment on ratify_crowd_judges",
+   "enforcement": [],
+   "test": null,
+   "status": "paper_only",
+   "note": "enters mind prompts + the crowd_judges recipe revision."
   }
  ]
 }

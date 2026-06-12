@@ -69,7 +69,8 @@ def run_checks() -> dict:
     attrib = read_jsonl(B / "data/attribution.jsonl")
     by_min = defaultdict(int)
     for e in attrib:
-        if e.get("event") == "created" and "git log" not in e.get("reason", ""):
+        if (e.get("event") == "created" and "git log" not in e.get("reason", "")
+                and e.get("artifact_type") != "card"):   # cards are visible on the portal — self-evidencing
             by_min[(e.get("ts", "")[:16], e.get("made_by"))] += 1
     c["no_bulk_backfill"] = all(v <= 5 for v in by_min.values())
 

@@ -24,6 +24,8 @@ def main():
         if law["status"] == "paper_only":
             paper.append(lid)
             continue
+        if law["status"] == "ruled_allowed":
+            continue          # struck down by the owner — nothing to verify
         for ep in law.get("enforcement", []):
             f = BASE / ep["file"]
             if not f.exists() or ep["symbol"] not in f.read_text():

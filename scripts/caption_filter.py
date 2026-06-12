@@ -97,11 +97,8 @@ def cultural_check(caption: str, occasion: str = "") -> tuple[bool, list[str]]:
     hits = [v for term, v in _CULTURAL_TERMS.items() if term in cap]
     if any(a in cap for a in _ALLAH_TOKENS) and any(b in cap for b in _BRAND_TOKENS):
         hits.append("prayer_as_commercial_backdrop")
-    occ = (occasion or "").lower()
-    text_implies = any(o in cap for o in _TEXT_OCCASION)
-    if any(w in cap for w in _CTA_WORDS) and (
-            any(o in occ for o in _RELIGIOUS_EMOTIONAL_OCC) or text_implies):
-        hits.append("cta_on_religious_or_emotional_day")
+    # cta_on_religious_or_emotional_day: STRUCK DOWN by Mohamed 2026-06-12 («allow») —
+    # the owner ruled CTAs are fine on those days. The dua+brand law above STANDS.
     return (len(hits) == 0, hits)
 
 

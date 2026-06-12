@@ -28,20 +28,13 @@ from organ_write import write_organ
 
 CURSOR = "data/gold_mint_cursor.json"
 
-CTA_WORDS = ("اطلب", "اطلبوا", "عرض ", "خصم", "مجانًا", "مجانا", "احجز", "الآن من")
-RELIGIOUS_EMOTIONAL = ("ramadan", "eid", "founding", "national", "arafah", "hajj", "mothers")
-ALLAH_TOKENS = ("اللهم", "الله ")
-
-
-def law_violations(caption: str, occasion: str, brand_tokens: list) -> list:
-    """Deterministic hard-law screen — the same rules the cultural gate enforces."""
-    v = []
-    occ = (occasion or "").lower()
-    if any(w in caption for w in CTA_WORDS) and any(o in occ for o in RELIGIOUS_EMOTIONAL):
-        v.append("cta_on_religious_or_emotional_occasion")
-    if any(a in caption for a in ALLAH_TOKENS) and any(b and b in caption for b in brand_tokens):
-        v.append("allah_name_with_brand_in_caption")
-    return v
+def law_violations(caption: str, occasion: str, brand_tokens: list = None) -> list:
+    """ONE law, ONE enforcement: delegates to the cultural gate (caption_filter).
+    (CTA-on-religious-day was struck down by Mohamed 2026-06-12 — the gate already
+    reflects his ruling; mint and gate can never diverge again.)"""
+    from caption_filter import cultural_check
+    _, hits = cultural_check(caption, occasion)
+    return hits
 
 
 def _cursor() -> dict:

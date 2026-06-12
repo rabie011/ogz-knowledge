@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "client_fingerprint_v1.schema.json",
+  "title": "client_fingerprint_v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "l1_strategy",
+    "l2_voice",
+    "l3_visual"
+  ],
+  "properties": {
+    "l1_strategy": {
+      "type": "object"
+    },
+    "l2_voice": {
+      "type": "object"
+    },
+    "l3_visual": {
+      "type": "object"
+    }
+  }
+}

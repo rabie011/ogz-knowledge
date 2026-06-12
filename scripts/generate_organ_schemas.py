@@ -66,6 +66,14 @@ SCHEMAS = {
     "client_gap_report_v1": {
         "required": ["questions", "organs_red", "organs_yellow"],
         "properties": {"questions": ARR(S()), "organs_red": ARR(S()), "organs_yellow": ARR(S())}},
+    "client_fingerprint_v1": {
+        # B016: the most-read organ (every render loads it) finally has a contract.
+        # Inner layers lenient — the composer evolves; the LAYER SET is the contract.
+        "required": ["l1_strategy", "l2_voice", "l3_visual"],
+        "properties": {"l1_strategy": {"type": "object"},
+                        "l2_voice": {"type": "object"},
+                        "l3_visual": {"type": "object"}},
+        "_additional_ok": True},
     "client_competitor_set_v1": {
         "required": ["client_given", "proposed_from_corpus", "note", "requests_log"],
         "properties": {"client_given": ARR(S()), "proposed_from_corpus": ARR(S()),
@@ -98,6 +106,7 @@ SCHEMAS = {
 }
 
 ORGAN_TO_SCHEMA = {"state": "client_state_v1", "truth_pack": "client_truth_pack_v1",
+                    "fingerprint": "client_fingerprint_v1",
                     "red_lines": "client_red_lines_v1", "goals": "client_goals_v1",
                     "moments_bank": "client_moments_bank_v1", "audience_mirror": "client_audience_mirror_v1",
                     "taste": "client_taste_v1", "gap_report": "client_gap_report_v1",

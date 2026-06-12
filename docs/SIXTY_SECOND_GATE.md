@@ -19,7 +19,7 @@ Top to bottom, phone-first, RTL:
 | Tap | Effect |
 |---|---|
 | **✅ انشر** | `client_approved` event → trust counter +1 → card scheduled |
-| **✏️ عدّل** + note (required) | `client_rejected` event with `edit_request` + their words verbatim → regen with their note as constraint → returns in next batch |
+| **✏️ عدّل** + note (required) | `client_rejected` event with `edit_request` + their words verbatim → regen with their note as constraint **via a DIFFERENT brain** (B111: the retry changes the DOOR, not just the wording — pick-set machinery reused) → returns in next batch |
 | **❌ لا** + coded reason (one tap from list) | `client_rejected` + reason_code → feeds crystallize; 2 unexplained لا in a row = stop generating, human calls (rejection-recovery play) |
 
 ## 4. REASON CODES (the لا sub-taps — client-friendly Arabic, mapped to crystallize codes)

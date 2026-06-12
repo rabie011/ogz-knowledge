@@ -136,6 +136,19 @@ def brain_method(brain: str) -> str:
     return f.read_text()[:2800] if f.exists() else ""
 
 
+LIFE_CONTEXTS = ["عائلة في البيت", "أصدقاء وشلة", "شخص وحده — لحظة هدوء مع نفسه",
+                  "يوم عمل ودوام", "الشارع والحي والسوق", "حركة ورياضة وطلعة",
+                  "ضيوف ومناسبة اجتماعية"]
+
+
+def life_context(handle: str, date: str) -> str:
+    """zoom-r8: 93% of albaik's year was family-themed — the pen's default context.
+    Date-hashed rotation forces the scene into different LIVES (the brand is eaten
+    by students, workers, singles — not only families)."""
+    import hashlib
+    return LIFE_CONTEXTS[int(hashlib.md5(f"{handle}{date}ctx".encode()).hexdigest(), 16) % len(LIFE_CONTEXTS)]
+
+
 def make_angle(c: dict, slot: dict, sector: str, brain: str | None = None) -> dict:
     facts = json.loads((BASE / "data/occasion_facts.json").read_text())
     occ = slot.get("occasion", "")
@@ -162,6 +175,7 @@ def make_angle(c: dict, slot: dict, sector: str, brain: str | None = None) -> di
             + (f"عدسة القطاع×المناسبة: {json.dumps(lens, ensure_ascii=False)[:600]}\n" if lens else "")
             + (f"لحظات حقيقية من منشوراتهم: {json.dumps([m['evidence'][:70] for m in (lambda ms, d: [ms[(sum(ord(ch) for ch in d) + j) % len(ms)] for j in range(min(3, len(ms)))])(c['moments'], slot.get('date',''))], ensure_ascii=False)}\n" if c["moments"] else "")
             + ("NOTE: this brand speaks English-first — the scene may be EN-hook + AR-idea bilingual.\n" if c["en_led"] else "")
+            + f"سياق الحياة لهذا اليوم — المشهد يعيش داخله (مو شرط عائلة!): {life_context(c['handle'], slot['date'])}\n"
             + f"التاريخ الفعلي للنشر: {slot['date']}")
     return json.loads(gpt([{"role": "system", "content": sys_p}, {"role": "user", "content": user}], temp=0.8, max_tok=400))
 

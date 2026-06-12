@@ -82,7 +82,10 @@ def mine(handle: str) -> tuple:
     # both real, different organs (slogans feed very_normal anchors, not the menu)
     # campaign/place words disqualify a "product" even when the brand token matches
     NONPRODUCT = re.compile(r"جيران|سوق|عكاظ|بحي|بمدينة|صنع|منطقة")
-    products = [c for c in cands if FOOD.search(c["name"]) and not NONPRODUCT.search(c["name"])]
+    # zoom-r8: «والبيك» (conjunction و + brand) got mined as a product and the pen
+    # wrote «لحظات الوالبيك» — leading-و tokens are grammar, not names
+    products = [c for c in cands if FOOD.search(c["name"]) and not NONPRODUCT.search(c["name"])
+                 and not c["name"].startswith("و")]
     slogans = [c for c in cands if not FOOD.search(c["name"])]
     for lst in (products, slogans):
         multi = [c for c in lst if " " in c["name"]]

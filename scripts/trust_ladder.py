@@ -13,6 +13,10 @@ from pathlib import Path
 BASE = Path(__file__).parent.parent
 
 APPROVE_TYPES = {"client_approved", "pick_selected"}
+# B103: ping = any client-facing ask. Four machines now generate them — without a
+# meter, a future client gets nagged into churn. Budget is Mohamed's (B159);
+# until set, the meter counts honestly and warns at nothing.
+PING_MARKERS = ("redline_reconfirm", "parked_ask", "gate_send", "revival_script", "client_question")
 RESET_TYPES = {"client_rejected"}
 DEMOTE_REASONS = {"culture_breach"}
 
@@ -47,7 +51,21 @@ def replay(handle: str) -> dict:
                                "proposal": proposal})
     from organ_write import write_organ
     write_organ(tf, trust)
+    # B103 ping meter: count ping-class events in the last 30 days
+    import datetime as _dt
+    cutoff = (_dt.date.today() - _dt.timedelta(days=30)).isoformat()
+    pings_30d = 0
+    for line in (lf.read_text().strip().split("\n") if lf.exists() else []):
+        try:
+            e = json.loads(line)
+        except Exception:
+            continue
+        if e.get("ts", "") >= cutoff and any(m in str(e.get("subject", "")) + str(e.get("type", "")) for m in PING_MARKERS):
+            pings_30d += 1
+    budget = trust.get("ping_budget_30d")          # null until Mohamed sets (B159)
+    trust["pings_30d"] = pings_30d
     return {"handle": handle, "level": trust["level"], "counter": counter,
+            "pings_30d": pings_30d, "ping_budget": budget,
             "unlock_at": trust["ladder"]["L1"]["unlock_at"], "proposal": proposal,
             "demotions": demotions, "resets": resets}
 
@@ -61,7 +79,11 @@ def main():
     for h in clients:
         r = replay(h)
         bar = f"{r['counter']}/{r['unlock_at']}"
-        print(f"  {h}: {r['level']} · approvals {bar}"
+        ping_line = (f" · pings30d {r['pings_30d']}/{r['ping_budget']}" if r.get("ping_budget")
+                      else f" · pings30d {r['pings_30d']} (budget unset — Mohamed's B159)")
+        if r.get("ping_budget") and r["pings_30d"] > r["ping_budget"]:
+            ping_line += " 🔴 OVER BUDGET — halt asks"
+        print(f"  {h}: {r['level']} · approvals {bar}{ping_line}"
               + (f" · 🔔 L1 PROPOSABLE → push to Mohamed's portal" if r["proposal"] else "")
               + (f" · ⚠ {r['demotions']} demotions" if r["demotions"] else ""))
         # B072: 5th-touch red-line reconfirm — one-tap card when due

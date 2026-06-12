@@ -62,9 +62,11 @@ def load_client(handle: str) -> dict:
             exemplars = va.get("posts", [])[:3] + exemplars[:2]
     # GOLD first (June 12, the ceiling stretch): lines the chair rated >=4 are the
     # strongest few-shot signal — they lead, corpus exemplars fill behind
+    gold_entries = []
     gf = cdir / "profile/gold.json"
     if gf.exists():
-        gold_lines = [g["line"] for g in json.loads(gf.read_text()).get("gold", [])]
+        gold_entries = json.loads(gf.read_text()).get("gold", [])
+        gold_lines = [g["line"] for g in gold_entries]
         if gold_lines:
             exemplars = gold_lines[:3] + [e for e in exemplars if e not in gold_lines][:2]
     truth = p("truth_pack")
@@ -91,7 +93,7 @@ def load_client(handle: str) -> dict:
         for j in range(len(words) - 2):
             grams[" ".join(words[j:j+3])] += 1
     worn = [g for g, c in grams.most_common(8) if n_cards >= 5 and c >= max(3, n_cards * 0.25)]
-    return {"handle": handle, "worn_phrases": worn,
+    return {"handle": handle, "worn_phrases": worn, "gold_entries": gold_entries,
             "brand_ar": prof.get("fullName") or handle,
             "bio": prof.get("biography", ""), "truth": truth,
             "moments": p("moments_bank")["moments"], "fingerprint": p("fingerprint"),
@@ -102,6 +104,18 @@ def load_client(handle: str) -> dict:
 BRAIN_FILES = {"firaasa": "cd_01_firaasa_architect.md", "metaphor": "cd_02_metaphor_architect.md",
                 "authenticity": "cd_03_authenticity_detective.md", "heritage": "cd_04_heritage_decoder.md",
                 "paradox": "cd_05_paradox_hunter.md"}
+
+
+def rank_gold_exemplars(gold_entries: list, occasion: str, corpus_exemplars: list) -> list:
+    """B181: gold few-shot is occasion-aware — an eid slot few-shots from eid gold.
+    Order: occasion-matching gold → Mohamed-confirmed gold → other gold → corpus fill."""
+    occ = occasion or ""
+    match = [g["line"] for g in gold_entries if g.get("occasion") == occ]
+    moh = [g["line"] for g in gold_entries
+           if g.get("confirmer") == "mohamed" and g["line"] not in match]
+    rest = [g["line"] for g in gold_entries if g["line"] not in match and g["line"] not in moh]
+    ranked = list(dict.fromkeys(match + moh + rest))[:3]
+    return ranked + [e for e in corpus_exemplars if e not in ranked][:2]
 
 
 def route_brain(slot: dict, alt: int = 0) -> str:
@@ -339,6 +353,7 @@ def main():
     slot = next((s for mm in ymap["months"].values() for s in mm if s["date"] == a.date), None)
     if not slot:
         sys.exit(f"no slot {a.date} in {a.handle} year map")
+    # (wired below after client load — B181 needs both slot and client)
     # B072: every render that consults red_lines counts a TOUCH (5th-touch reconfirm law)
     _rlf = BASE / "clients" / a.handle / "profile/red_lines.json"
     _rl = json.loads(_rlf.read_text())
@@ -350,6 +365,9 @@ def main():
         sys.exit(f"CAPACITY BLOCK (B002): push slot {slot.get('occasion') or slot.get('type')} needs a declared "
                   f"capacity_ceiling in goals.json — a viral push without capacity = broken kitchen. Ask the client.")
     c = load_client(a.handle)
+    # B181: re-rank few-shot for THIS slot — occasion gold leads
+    if c.get("gold_entries"):
+        c["exemplars"] = rank_gold_exemplars(c["gold_entries"], slot.get("occasion"), c["exemplars"])
     brain = route_brain(slot, alt=int(a.date.replace("-", "")) ) if a.brain == "auto" else a.brain
     angle = make_angle(c, slot, ymap["sector"], brain=brain)
     captions = render_captions(c, slot, angle)

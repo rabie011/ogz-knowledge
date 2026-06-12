@@ -70,6 +70,10 @@
   .done-item .ans{color:var(--green);font-weight:700}
   .rev{background:transparent;border:1px solid #6e2c30;color:#ff9d96;border-radius:9px;padding:7px 14px;font-size:12.5px;cursor:pointer;margin-top:8px}
   .revbox{display:none;margin-top:8px}
+  .cmd{background:#05080d;border:1.5px solid var(--gold);border-radius:12px;padding:13px;margin:12px 0;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:#ffe8a3;direction:ltr;text-align:left;word-break:break-all;line-height:1.7}
+  .cmdcopy{background:var(--gold);border:none;color:#1a1400;border-radius:10px;padding:11px 20px;font-size:14px;font-weight:800;cursor:pointer;margin-top:8px;width:100%}
+  .bulkbar{background:#0d1a10;border:1.5px solid var(--green);border-radius:12px;padding:10px 12px;margin-bottom:12px;display:flex;align-items:center;gap:10px;font-size:13px}
+  .bulkbar button{background:var(--green);border:none;color:#04130a;border-radius:9px;padding:9px 16px;font-size:13.5px;font-weight:800;cursor:pointer;margin-inline-start:auto}
   .stars{display:flex;gap:6px;justify-content:center;margin:10px 0 2px;direction:ltr}
   .stars button{background:none;border:none;font-size:30px;cursor:pointer;opacity:.35;transition:.15s;padding:2px}
   .stars button.on{opacity:1;transform:scale(1.15)}
@@ -122,7 +126,8 @@ function openItems(){
 }
 function paint(){
   const all = ITEMS.length, done = ITEMS.filter(i=>i.status==='answered').length;
-  document.getElementById('subline').textContent = done===all ? 'كل شيء مجاب ✓' : `${all-done} قرار ينتظرك`;
+  const left=all-done, mins=Math.max(1,Math.round(left*0.4));
+  document.getElementById('subline').textContent = done===all ? 'كل شيء مجاب ✓' : `${left} قرار · ~${mins} دقيقة`;
   document.getElementById('ringnum').textContent = done+'/'+all;
   document.getElementById('ringbar').style.strokeDashoffset = 138 - 138*(all?done/all:0);
   // chips
@@ -137,11 +142,21 @@ function paint(){
 function render(open){
   const stage = document.getElementById('stage');
   if(!open.length){ stage.innerHTML='<div class="card" style="text-align:center"><div style="font-size:34px">🎉</div><div style="color:var(--green);font-weight:700;margin:8px 0">خلصت كل المفتوح هنا</div><div class="small">الجديد يطلع تلقائياً · المجاب تحت لو تبي تعكس</div></div>'; return; }
+  // bulk-approve a whole chip group in one tap (only when a group is selected)
+  let bulk='';
+  if(FILTER!=='الكل' && open.length>1)
+    bulk = `<div class="bulkbar">📦 ${open.length} كروت في «${FILTER}» — <button onclick="bulkApprove()">✅ اعتمدها كلها</button></div>`;
   const it = open[idx];
-  let h = `<div class="card ${it.priority==='urgent'?'urgent':''}">`;
+  let h = bulk + `<div class="card ${it.priority==='urgent'?'urgent':''}">`;
   h += `<div class="tag">${it.priority==='urgent'?'🚨 طارئ · ':''}${it.tag||''} ${it.clock?'<span class=clock>'+it.clock+'</span>':''}</div><h2>${it.title}</h2>`;
   if(it.meaning) h += `<div class="meaning">💡 <b>وش يعني؟</b> ${it.meaning}</div>`;
-  if(it.desc) h += `<details><summary>التفاصيل الكاملة</summary><div class="desc">${it.desc}</div></details>`;
+  if(it.desc){
+    const parts = it.desc.split('|');
+    const body = parts[0], cmd = parts.length>1 ? parts.slice(1).join('|').trim() : '';
+    h += `<details><summary>التفاصيل الكاملة</summary><div class="desc">${body}</div></details>`;
+    if(cmd) h += `<div class="cmd" id="cmd_${it.id}">${cmd.replace(/</g,'&lt;')}</div>
+                  <button class="cmdcopy" onclick="copyCmd('${it.id}')">📋 انسخ الأمر — الصقه في التيرمنال</button>`;
+  }
   if(it.kind==='post_pick'){
     const b = it.brand_context||{};
     h += `<div class="brandbox"><span class="bname">${b.name||''}</span> <span class="bv">· ${b.state_line||''}</span>
@@ -221,6 +236,16 @@ async function post(id, answer, note){
   RATING = 0; toast(); await load(true);
 }
 function answer(id,v){ post(id,v,(document.getElementById('note')||{}).value||''); }
+function copyCmd(id){ const el=document.getElementById('cmd_'+id); if(!el)return;
+  navigator.clipboard.writeText(el.textContent).then(()=>toast('📋 انتسخ — الصقه بالتيرمنال')).catch(()=>{
+    const r=document.createRange(); r.selectNode(el); getSelection().removeAllRanges(); getSelection().addRange(r); toast('📋 محدد — انسخه'); }); }
+async function bulkApprove(){
+  const grp = openItems(); if(!grp.length) return;
+  if(!confirm('اعتماد '+grp.length+' كروت دفعة وحدة؟')) return;
+  for(const it of grp){ await fetch('/api/approvals/answer?k='+K,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({item_id:it.id,answer:'approved',note:'bulk',rating:null})}); }
+  toast('✅ اعتمدت '+grp.length); await load(true);
+}
 function answerNumbers(id,keys){ const vals={};
   for(const k of keys) vals[k]=document.getElementById('f_'+k).value;
   post(id,JSON.stringify(vals),(document.getElementById('note')||{}).value||''); }

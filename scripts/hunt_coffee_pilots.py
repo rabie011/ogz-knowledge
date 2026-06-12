@@ -14,10 +14,14 @@ from pathlib import Path
 
 BASE = Path(__file__).parent.parent
 
-# candidate pool: Saudi specialty coffee handles (publicly known brands, SME-range)
+# candidate pool ROUND 2 (his keep_hunting tap 2026-06-13 02:10 — camelstep passed on,
+# net widened; dead/guessed handles drop at the live-verify wall, never reach him)
 CANDIDATES = [
-    "drcafe_sa", "elixirbunn", "camelstepcoffee", "rosettecoffeeco", "blackspoon.sa",
-    "anbarcoffee", "kiffa.coffee", "rawicoffee", "abaq.coffee", "thecupscoffee",
+    "elixirbunn", "rosettecoffeeco", "anbarcoffee", "kiffa.coffee", "rawicoffee",
+    "abaq.coffee", "thecupscoffee", "brewlab.sa", "ratiocoffee", "naqacoffee",
+    "ministryofcoffee.sa", "localcoffeesa", "kavahcoffee", "sulalat.coffee",
+    "blackspoon.sa", "qavacoffee", "span.coffee", "hijazcoffee", "bayadercoffee",
+    "roastery.sa",
 ]
 
 
@@ -41,7 +45,11 @@ def main():
         bio = (item.get("biography") or "")
         if not u or f is None:
             continue
-        saudi = any(s in bio for s in ("السعود", "الرياض", "جدة", "Saudi", "Riyadh", "Jeddah", "KSA", "🇸🇦"))
+        # «سعود» not «السعود» — round 2 bug: elixirbunn's own bio says «علامة سعودية»
+        # and the definite-article marker missed it (0-result round). Cities widened.
+        saudi = any(m in bio for m in ("سعود", "الرياض", "جدة", "مكة", "المدينة المنورة",
+                                       "الدمام", "الخبر", "تبوك", "أبها", "Saudi", "Riyadh",
+                                       "Jeddah", "Dammam", "KSA", "🇸🇦"))
         if 3000 <= f <= 100000 and saudi:
             live.append({"handle": u, "name": item.get("fullName"), "followers": f,
                          "posts": item.get("postsCount"), "bio": bio[:100]})

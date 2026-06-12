@@ -118,8 +118,7 @@ def check_inference_quarantine():
     inform voice, never assert identity (the +0.08 scar, structural edition)."""
     import json as _j, glob as _g
     bad = []
-    for f in _g.glob(str(BASE.parent / "clients/*/profile/fingerprint.json")) + \
-             _g.glob(str(BASE / "../clients/*/profile/fingerprint.json")):
+    for f in _g.glob(str(BASE / "clients/*/profile/fingerprint.json")):
         try:
             fp = _j.loads(open(f).read())
         except Exception:

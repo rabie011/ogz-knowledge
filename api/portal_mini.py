@@ -135,7 +135,9 @@ async def reverse(request: Request, k: str = ""):
         return {"ok": False, "error": "reversal needs a reason"}
     entry = {"ts": datetime.now().isoformat(timespec="seconds"),
              "item_id": body.get("item_id"), "answer": "REVERSED",
-             "note": str(body.get("note", ""))[:2000], "judge": r["role"], "source": "team_portal"}
+             "note": str(body.get("note", ""))[:2000],
+             "judge": (body.get("judge") if body.get("judge") in {m["id"] for m in _team().get("members", [])} else "mohamed"),
+             "source": "team_portal"}
     with open(ANSWERS, "a") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
     if QUEUE.exists():

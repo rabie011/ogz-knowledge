@@ -63,6 +63,12 @@ def main():
     strong = [f"{len(commits)} commits since your last tap, every build plant-tested with refusing asserts",
               f"judging 20-batch STAGED (6 brains × 10 occasions) — your fal tap = one command to your screen",
               f"{zooms} zoom-out ritual(s) ran; cold-eyes findings fixed at source (CTA 84%→gated)"]
+    ue = BASE / "data/unit_economics.json"
+    if ue.exists():
+        u = json.loads(ue.read_text())
+        strong.append(f"money law held: week ≈ ${u.get('week_total_usd_lower_bound','?')} for "
+                       f"{sum(c['cards'] for c in u.get('clients_EST', {}).values())} cards "
+                       f"(~3 cents/post-unit, ZERO image spend until your fal tap)")
     gm = BASE / "data/gate_metrics.json"
     if gm.exists():
         s0 = (json.loads(gm.read_text()).get("sessions") or [{}])[-1]

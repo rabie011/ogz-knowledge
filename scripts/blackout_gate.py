@@ -46,6 +46,11 @@ def _switch() -> dict:
     return json.loads(SWITCH.read_text())
 
 
+# B138: Riyadh maghrib by month (approx mid-month, bundled — no API per money law)
+MAGHRIB_BY_MONTH = {1: "17:30", 2: "17:50", 3: "18:05", 4: "18:20", 5: "18:35", 6: "18:45",
+                     7: "18:45", 8: "18:30", 9: "18:00", 10: "17:35", 11: "17:15", 12: "17:15"}
+
+
 def check(now: datetime.datetime | None = None) -> dict:
     """The one question every publish path must ask. Hard block = switch only."""
     now = now or datetime.datetime.now()
@@ -59,6 +64,13 @@ def check(now: datetime.datetime | None = None) -> dict:
         in_quiet = (t >= start) and (t < end) if start < end else (t >= start or t < end)
         if in_quiet:
             warnings.append(f"quiet hours ({start}–{end}): {qh.get('note','')}")
+    # B138: prayer-aware warnings (warn only - the switch alone blocks)
+    mag = MAGHRIB_BY_MONTH.get(now.month, "18:00")
+    mag_t = now.replace(hour=int(mag[:2]), minute=int(mag[3:]))
+    if abs((now - mag_t).total_seconds()) <= 20 * 60:
+        warnings.append(f"maghrib window (~{mag} +-20min) - hold sends if possible")
+    if now.weekday() == 4 and "11:30" <= now.strftime("%H:%M") <= "13:30":
+        warnings.append("jumuah window (Fri 11:30-13:30) - hold sends until after prayer")
     return {
         "publish_allowed": not sw["blackout"],
         "hard_block": ({"reason": sw["reason"], "set_by": sw["set_by"], "since": sw["ts"]}

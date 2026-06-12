@@ -1,0 +1,31 @@
+{
+ "_doc": "Talk-prep cards (the chair's GATE-5): convert the two talks Mohamed requested into 60-second gates. STAGED — push when his queue drops under ~10 (queue discipline). Push via queue_decision.push_attributed.",
+ "cards": [
+  {
+   "id": "jurisha_voice_v3",
+   "title": "Jurisha's voice — the 60-second version of our talk",
+   "tag": "Strategy", "kind": "buttons", "judge_lane": false, "lane": "strategy",
+   "why": "You asked to talk this through. Here is the talk compressed: your ratified recipes already define a voice — warm, short, exact brand words, no selling poetry. The only open question is WHO speaks.",
+   "need": "Pick the speaker. Everything else (tone, length, laws) is already settled by your rulings.",
+   "did": "Built this from your 9 ratified recipes + your notes («not every caption needs its own voice, but the brand needs a voice tied to time and audience»).",
+   "options": [
+    {"v": "brand_voice", "label": "🏠 The brand speaks (warm Najdi home-food voice, adapts by audience)", "rec": true},
+    {"v": "owner_voice", "label": "👩‍🍳 The owner speaks (personal, first-person)"},
+    {"v": "still_talk", "label": "💬 Still want the live talk"}
+   ]
+  },
+  {
+   "id": "taxonomy_evergreen_ruling",
+   "title": "You said it twice: «Saudi doesn't have evergreen» — here's the replacement",
+   "tag": "Law", "kind": "buttons", "judge_lane": false, "lane": "strategy",
+   "why": "The word evergreen is stamped 347 times in every client's year map. Your correction needs a replacement name before we re-tag 1,400 slots.",
+   "need": "Pick the replacement for non-occasion days.",
+   "did": "Stopped showing you the word already (cards say 'daily'). The re-tag script is ready; it runs the moment you pick.",
+   "options": [
+    {"v": "daily", "label": "📅 «يومي / daily» — simple, neutral", "rec": true},
+    {"v": "flow", "label": "🌊 «الإيقاع / rhythm» — the week's normal beat"},
+    {"v": "custom", "label": "✏️ You name it (write it in the note)"}
+   ]
+  }
+ ]
+}

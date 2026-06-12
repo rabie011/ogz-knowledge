@@ -1,5 +1,5 @@
 # OGZ CAPTION RECIPES — the writers' menu
-*Generated 2026-06-12T23:06 from data/pattern_cards_v1.json — edit THERE, not here.*
+*Generated 2026-06-12T23:10 from data/pattern_cards_v1.json — edit THERE, not here.*
 
 Every recipe is an applicable MOVE (like the 94 visual chains). Nothing enters
 production prompts before Mohamed ratifies it. A ratified recipe is a PLAYER:
@@ -9,7 +9,7 @@ his rejections can bench it like a mind.
 **The move:** Seat two generations in one frame and let the elder's smallest gesture — a smile, a hand, an inherited recipe — carry the whole feeling, with the product as the table between them, never the subject.
 **Skeleton:** quiet declarative hook, no question · tender register, zero slang, zero exclamation · <=12 words · beat 1: the shared object, beat 2: the elder's (or heir's) gesture that completes it.
 **When:** Eids, family seasons, heritage dishes (jereesh, kabsa, saleeg), lifestyle pillar. Selling is ALLOWED on emotional days (Mohamed's ruling 2026-06-12) — but this move works best CTA-free or with a soft order-line; a hard sell next to an elder's memory cheapens the move itself. NOT for trend items or delivery-speed messages.
-**Real example:** وصفة جدتي نفسها، بس اليوم بيد حفيدتها 🤍
+**Real example:** NONE in the clean corpus (0/1,975 short exemplars feature an elder) — the move is MOHAMED-ORIGIN: born from his golded Eid line, not benchmark practice. Whitespace differentiation, like owned_flaw_confession.
 **Fresh example:** وصفة جدتي نفسها، بس اليوم بيد حفيدتها 🤍
 **How it dies:** Grandparent-as-prop: the elder appears only to bless the brand. And the worn-formula graveyard — لحظة/يجمعنا are this move's corpse; write the gesture itself, never the word 'gathering'.
 **Sectors:** universal — F&B: the inherited dish; fashion: the father's watch on the son's wrist; beauty: the mother's perfume on the daughter; real estate: the house that holds three generations.

@@ -239,11 +239,9 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     # gathering/session that isn't in the truth pack is a fabricated fact ("join us in
     # Tabbouk's park for a yoga session" — no such event exists). Bans live in code.
     real_tags = set(c["truth"].get("real_hashtags", []))
-    EVENT_CLAIM = re.compile(
-        r"(join us|تعالوا|انضم|سجلوا?|احجز مقعد|نلتقي|حضور|invite you|تحدي|challenge)"
-        r".{0,60}(session|event|class|workshop|gathering|جلسة|فعالية|ورشة|لقاء|تجمع)|"
-        r"(session|class|جلسة|فعالية|ورشة)\s.{0,40}(في|at|@)\s|"
-        r"(ابدأ|انضم|join)\s.{0,20}(التحدي|تحدي|challenge)", re.I)
+    # B033 (June 12): the law lives in ONE module — the renderer's frozen local copy
+    # let the career-story claim through while truth_guards had already evolved.
+    from truth_guards import EVENT_CLAIM
     # truth guard 3: offer energy on emotional occasions = founder kill (code-level)
     EMOTIONAL = {"ramadan", "eid_al_fitr", "eid_al_adha", "saudi_national_day", "saudi_founding_day", "arab_mothers_day"}
     OFFER = re.compile(r"عرض|خصم|تخفيض|كود|discount|offer|% ?off|promo", re.I)
@@ -253,12 +251,11 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     # Deterministic: suspect tokens = Latin names with digits/dots/caps, or Arabic promo-name
     # constructions; killed unless the client's real captions/bio/truth pack contain them.
     corpus = (c.get("corpus_text") or "").lower()
-    PROMO_AR = re.compile(r"(التوأم|كومبو|دبل|ميجا|تريبل)\s+\S+")
-    LATIN_NAME = re.compile(r"\b([A-Za-z]+\.[A-Za-z]+|[A-Za-z]*\d+[A-Za-z]*|[A-Z]{3,})\b")
+    from truth_guards import PROMO_AR, LATIN_NAME
     # truth guard 5 (June 11 — the hallucinated prince): NAMED PEOPLE die unless the
     # client's corpus contains them. Inventing a person's presence is the worst truth
     # violation possible («بحضور الأمير سعود بن عبدالله بن جلوي» — never happened).
-    PERSON_AR = re.compile(r"(الأمير|الأميرة|الشيخ|الشيخة|الدكتور(?:ة)?|معالي|سمو)\s+\S+(?:\s+بن\s+\S+)*")
+    from truth_guards import PERSON_AR
 
     strip_punct = lambda s: re.sub(r"[^\wء-ي\s]", "", s).strip()  # «دبل القرمشة،» == «دبل القرمشة»
 

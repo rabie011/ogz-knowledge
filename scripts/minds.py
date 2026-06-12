@@ -110,6 +110,22 @@ def assemble(mind_id: str, handle: str, occasion: str) -> dict:
             "_ready_to_run": not (client_ctx or {}).get("_missing_inputs")}
 
 
+def readiness(handle: str) -> dict:
+    """What's blocking this client's minds from running — the unblock map (zero-LLM)."""
+    cc = load_client_context(handle)
+    missing = cc.get("_missing_inputs", [])
+    # which questions fill which input (so a tap has a visible target)
+    UNBLOCKS = {
+        "goal/sell-ratio": "jurisha_q_goal (هدف المحتوى + نسبة العروض)",
+        "capacity": "jurisha_q_capacity (كم طلب باليوم)",
+        "USP-in-their-words": "jurisha_q_usp (وش يميزكم بكلماتها)",
+        "voice-owner": "jurisha_q_voice (مين ينطق باسم البراند)",
+        "positioning": "(يُشتق من الإجابات أعلاه + الاستراتيجية)",
+    }
+    return {"handle": handle, "missing": missing,
+            "ready": not missing, "unblocks": {m: UNBLOCKS.get(m, "?") for m in missing}}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--mind", choices=list(MINDS))
@@ -117,10 +133,22 @@ def main():
     ap.add_argument("--occasion", default="evergreen")
     ap.add_argument("--dry", action="store_true", help="assemble + print context, zero LLM")
     ap.add_argument("--list", action="store_true")
+    ap.add_argument("--readiness", action="store_true", help="the unblock map across all clients")
     a = ap.parse_args()
     if a.list:
         for k, m in MINDS.items():
             print(f"  {k:14s} {m['ar']:28s} job={m['job']:11s} reads={'+'.join(m['reads'])}")
+        return
+    if a.readiness:
+        clients = sorted(d.name for d in (BASE / "clients").iterdir()
+                         if (d / "profile").is_dir() and not d.name.startswith("__"))
+        print("🧭 MINDS READINESS — what unblocks each client (zero-LLM):\n")
+        for h in clients:
+            r = readiness(h)
+            mark = "🟢 READY" if r["ready"] else f"🔴 blocked on {len(r['missing'])}"
+            print(f"  {h:16s} {mark}")
+            for inp, q in r["unblocks"].items():
+                print(f"       ↳ need «{inp}» → answer {q}")
         return
     asm = assemble(a.mind, a.client, a.occasion)
     t = asm["trace"]

@@ -38,7 +38,7 @@ def real_occasions() -> list[dict]:
         o["moonsighting"] = o["slug"] in ("ramadan", "eid_al_fitr", "eid_al_adha", "hajj_season")
     return occ
 
-CADENCE = {"newborn": 2, "newborn-dormant": 2, "active_dormant": 2, "active_unclassified": 3, "active": 3}
+CADENCE = {"newborn": 7, "newborn-dormant": 7, "active_dormant": 7, "active_unclassified": 7, "active": 7}  # Mohamed June 12: 7 posts every week, full calendar
 FORMULAS = ["CF_01", "CF_02", "CF_03", "CF_04", "CF_05", "CF_06", "CF_07"]
 
 
@@ -93,7 +93,7 @@ def build(handle: str, sector: str, start: datetime.date) -> dict:
         ever = ["voice-birth follow-up (newborn: material comes from the birth week)"]
 
     slots, d, i = [], start, 0
-    post_days = {1, 4} if per_week == 2 else {0, 2, 4}  # Tue/Fri or Mon/Wed/Fri
+    post_days = set(range(7)) if per_week >= 7 else ({1, 4} if per_week == 2 else {0, 2, 4})
     while d < end:
         o = occ_by_date.get(d)
         if o:

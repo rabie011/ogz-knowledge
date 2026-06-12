@@ -88,6 +88,13 @@ def main():
     for step in ("feedback_router.py", "apply_rulings.py", "gold_mint.py", "gold_audit.py", "scorecards.py", "feedback_cards.py"):
         subprocess.run(["python3", str(BASE / "scripts" / step)], capture_output=True, timeout=120)
 
+    # 6a2. ARMOR SUITE (B116/B117): caption_filter + truth_guards under real killed
+    # captions — the deterministic half of the moat, tested every cycle
+    ar = subprocess.run(["python3", "-m", "unittest", "discover", "-s",
+                         str(BASE / "scripts/tests"), "-q"],
+                        capture_output=True, text=True, timeout=120)
+    checks["armor_tests"] = ar.returncode == 0
+
     # 6b-pre. LAW REGISTRY: every 'enforced' claim verified (symbol exists + test passes);
     # paper_only laws surfaced. A law that claims enforcement and lies = alarm.
     lr = subprocess.run(["python3", str(BASE / "scripts/law_registry_check.py")],
@@ -102,7 +109,7 @@ def main():
     if fb.returncode != 0:
         checks["feedback_failed"] = (fb.stdout or "").strip().splitlines()[-1:]
 
-    ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "commits_flowing", "orchestrator_alive", "feedback_system", "law_registry"))
+    ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "commits_flowing", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests"))
     entry = {"ts": now, **checks, "verdict": "ALIVE" if ok else "ALARM"}
     with open(LOG, "a") as f:
         f.write(json.dumps(entry) + "\n")

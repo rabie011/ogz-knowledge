@@ -139,7 +139,12 @@ Format: numbered lines 1. 2. 3. — captions only, no commentary."""
     # parse numbered lines
     options = {}
     import re as _re
-    real_tags = set(pack.get("real_products", [])) | set(dna.get("signature_phrases_ar", []))
+    # B039: the whitelist must be the brand's REAL HASHTAGS — products/phrases alone
+    # stripped every legit tag on the 41-brand path (a product name is not a hashtag).
+    # Stored WITHOUT '#' and case-exact (Apify) — normalize both sides to compare.
+    real_tags = {t.lstrip("#").casefold()
+                 for t in (list(pack.get("real_hashtags", [])) + list(pack.get("real_products", []))
+                           + list(dna.get("signature_phrases_ar", [])))}
     for src, txt in outs.items():
         if src.endswith("_err"):
             continue
@@ -149,7 +154,8 @@ Format: numbered lines 1. 2. 3. — captions only, no commentary."""
                 cap = ln[2:].strip().strip('"').strip()
                 # TRUTH GUARD (v2 #6 'ججك'): strip any hashtag the brand never used
                 for tag in _re.findall(r"#[\w؀-ۿ_]+", cap):
-                    if tag not in real_tags and not any(tag in t for t in real_tags):
+                    bare = tag.lstrip("#").casefold()
+                    if bare not in real_tags and not any(bare in t for t in real_tags):
                         cap = cap.replace(tag, "").strip()
                 options[f"{src}{ln[0]}"] = " ".join(cap.split())
     return options

@@ -9,20 +9,7 @@
       "name": "pre-approved batch",
       "rule": "PROPOSABLE (never auto-granted) after 10 consecutive unchanged approvals; requires explicit per-batch client consent; any edit/rejection resets the counter",
       "unlock_counter": 1,
-      "unlock_at": 10,
-      "consent_mechanics": {
-        "consent_unit": "the BATCH, never the post — one ✅ covers the whole listed batch",
-        "batch_manifest": "every L1 batch ships with its card list (dates + ULIDs); consent binds ONLY to that list",
-        "consent_event": {
-          "type": "client_approved",
-          "subject": "batch:<batch_id>",
-          "confirmer": "client",
-          "note": "scope: the manifest as sent — additions need a new consent"
-        },
-        "resets": "any ✏️ edit or ❌ rejection inside a consented batch → counter resets AND the batch reverts to per-piece review",
-        "expiry": "consent covers ONE batch; the next batch asks again — L1 is per-batch, never standing",
-        "ceiling": "batch size <= 20 (the gate law); larger = split into consented batches"
-      }
+      "unlock_at": 10
     },
     "L2": {
       "name": "managed",
@@ -30,13 +17,6 @@
     }
   },
   "history": [
-    {
-      "replayed": "2026-06-12",
-      "counter": 1,
-      "demotions": 0,
-      "resets": 0,
-      "proposal": null
-    },
     {
       "replayed": "2026-06-12",
       "counter": 1,

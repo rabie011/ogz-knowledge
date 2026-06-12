@@ -30,6 +30,13 @@ OFFER = re.compile(r"عرض|خصم|تخفيض|كود|discount|offer|% ?off|promo
 PROMO_AR = re.compile(r"(التوأم|كومبو|دبل|ميجا|تريبل)\s+\S+")
 LATIN_NAME = re.compile(r"\b([A-Za-z]+\.[A-Za-z]+|[A-Za-z]*\d+[A-Za-z]*|[A-Z]{3,})\b")
 PERSON_AR = re.compile(r"(الأمير|الأميرة|الشيخ|الشيخة|الدكتور(?:ة)?|معالي|سمو)\s+\S+(?:\s+بن\s+\S+)*")
+# G8 SERVICE-CLAIM (June 12 — the consultation lie survived two regens): unverified
+# service offerings die unless the corpus carries them — a fake service generates
+# real phone calls to the client.
+SERVICE_CLAIM = re.compile(
+    r"(free\s+(?:\w+\s+)?(consultation|session|trial|delivery|gift)|"
+    r"استشار(?:ة|ات)\s*مجاني|توصيل\s*مجاني|اشتراك\s*(?:تجريبي|مجاني)|"
+    r"جلسة\s*مجانية|هدية\s*مع\s*كل|ضمان\s*(?:استرجاع|استرداد)|عرض\s*تجريبي)", re.I)
 # MOHAMED RULING 2026-06-12 (portal): family-voice lines BLOCKED for all brands
 FAMILY_VOICE = re.compile(r"(أمي|امي|أبوي|ابوي|والدتي|والدي|أمك|جدتي قالت لي)\s+(جاب|جابت|قال|قالت|طلب|طلبت)")
 FILLER = re.compile(r"(journey|unleash|conquer|roar|new heights|stronger than ever|"
@@ -72,6 +79,8 @@ def apply_guards(options: list[str], corpus_text: str, slot: dict | None = None,
         reason = None
         if FAMILY_VOICE.search(o):
             reason = ("family_voice_blocked", FAMILY_VOICE.search(o).group(0)[:40])
+        elif SERVICE_CLAIM.search(o) and strip_punct(SERVICE_CLAIM.search(o).group(0)).lower() not in corpus:
+            reason = ("service_claim", SERVICE_CLAIM.search(o).group(0)[:40])
         elif EVENT_CLAIM.search(o):
             reason = ("event_claim", EVENT_CLAIM.search(o).group(0)[:40])
         elif is_emotional and OFFER.search(o):
@@ -112,6 +121,8 @@ if __name__ == "__main__":
         ("اللياقة ليست مجرد تمرين بل رحلة", "bilingual_filler"),
         ("بحضور الأمير سعود بن عبدالله بن جلوي", "ungrounded_name"),
         ("تابعونا على Liaqti.tu", "ungrounded_name"),
+        ("Get your free fitness consultation on Snapchat!", "service_claim"),
+        ("أمي جابت البيك اليوم", "family_voice_blocked"),
         ("عيدكم غير مع التوأم كرسبي بيك! دبل القرمشة", None),  # corpus-real survives
     ]
     fails = 0

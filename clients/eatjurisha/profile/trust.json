@@ -8,7 +8,7 @@
     "L1": {
       "name": "pre-approved batch",
       "rule": "PROPOSABLE (never auto-granted) after 10 consecutive unchanged approvals; requires explicit per-batch client consent; any edit/rejection resets the counter",
-      "unlock_counter": 0,
+      "unlock_counter": 1,
       "unlock_at": 10
     },
     "L2": {
@@ -16,7 +16,15 @@
       "rule": "client delegates within agreed red-lines + monthly receipt review; MOHAMED must co-sign the upgrade; one culture_breach drops back to L0"
     }
   },
-  "history": [],
+  "history": [
+    {
+      "replayed": "2026-06-12",
+      "counter": 1,
+      "demotions": 0,
+      "resets": 0,
+      "proposal": null
+    }
+  ],
   "law": "trust climbs by COUNTED approvals, never by time; AI may never advance a level",
   "provenance": {
     "source": "pyramid_layer4",

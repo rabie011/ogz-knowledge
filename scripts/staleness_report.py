@@ -22,6 +22,20 @@ TODAY = datetime.date(2026, 6, 12)
 
 TTL_DAYS = {"prices": 7, "products": 30, "channels": 60, "bio": 90, "voice_stats": 180}
 
+# B071: season-scoped truth — a fact valid in one season is uncitable in another,
+# regardless of age (the Shawwal-price-in-Ramadan hole). Real 1448H windows.
+SEASONS = {"ramadan": ("2027-02-08", "2027-03-08"), "eid_fitr": ("2027-03-09", "2027-03-12"),
+            "eid_adha": ("2027-05-16", "2027-05-19"), "summer": ("2026-06-01", "2026-08-31"),
+            "school_year": ("2026-08-25", "2027-06-10")}
+
+
+def current_seasons(today) -> set:
+    out = set()
+    for name, (a, b) in SEASONS.items():
+        if datetime.date.fromisoformat(a) <= today <= datetime.date.fromisoformat(b):
+            out.add(name)
+    return out or {"none"}
+
 
 def age_days(date_str: str | None) -> int | None:
     if not date_str:
@@ -36,7 +50,14 @@ def check_client(handle: str) -> list[dict]:
     pdir = BASE / "clients" / handle / "profile"
     findings = []
 
-    def f(node, ttl_key, date_str, detail=""):
+    now_seasons = current_seasons(TODAY)
+
+    def f(node, ttl_key, date_str, detail="", season=None):
+        # season scope outranks the clock: cross-season = expired regardless of age
+        if season and season not in now_seasons and season != "none":
+            findings.append({"node": node, "status": "EXPIRED", "age_days": -1, "ttl": 0,
+                              "detail": f"season-scoped ({season}) — outside its season, uncitable (B071)"})
+            return
         age = age_days(date_str)
         ttl = TTL_DAYS[ttl_key]
         if age is None:
@@ -56,7 +77,8 @@ def check_client(handle: str) -> list[dict]:
 
     tp = json.loads((pdir / "truth_pack.json").read_text())
     for p in tp.get("product_candidates", []):
-        f(f"truth_pack.product:{p['name'][:20]}", "products", p.get("provenance", {}).get("date_added"))
+        f(f"truth_pack.product:{p['name'][:20]}", "products", p.get("provenance", {}).get("date_added"),
+          season=p.get("provenance", {}).get("valid_season"))
     for c in tp.get("channels", []):
         f(f"truth_pack.channel:{c['name']}", "channels", c.get("provenance", {}).get("date_added"))
     for pr in tp.get("prices", []):

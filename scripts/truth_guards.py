@@ -127,6 +127,7 @@ if __name__ == "__main__":
         ("تابعونا على Liaqti.tu", "ungrounded_name"),
         ("Get your free fitness consultation on Snapchat!", "service_claim"),
         ("أمي جابت البيك اليوم", "family_voice_blocked"),
+        ("جربوا وجبة MegaCrunch77 الجديدة!", "ungrounded_name"),  # B003 fixture: invented product
         ("عيدكم غير مع التوأم كرسبي بيك! دبل القرمشة", None),  # corpus-real survives
     ]
     fails = 0

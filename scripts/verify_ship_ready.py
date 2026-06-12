@@ -164,6 +164,17 @@ try:
 except Exception as e:
     check("Human-verdict audit", False, str(e))
 
+# ── DEADLY-DEFAULTS RELEASE GATE (B106): non-conservative deadly field w/o client event = block
+try:
+    import subprocess
+    from pathlib import Path
+    r = subprocess.run(["python3", str(Path(__file__).parent / "deadly_defaults_gate.py")],
+                       capture_output=True, text=True, timeout=60)
+    check("Deadly-defaults gate (cultural release block)", r.returncode == 0,
+          "release clear" if r.returncode == 0 else (r.stdout or "").strip().splitlines()[-1][:80])
+except Exception as e:
+    check("Deadly-defaults gate", False, str(e))
+
 # Summary
 print(f"\n{'=' * 60}")
 if failures:

@@ -113,6 +113,25 @@ def generate():
         print(f"  ✓ 12_data_shapes/{name}.schema.json")
 
 
+def check_inference_quarantine():
+    """B009: an IDENTITY field citing stats provenance = violation — stats may
+    inform voice, never assert identity (the +0.08 scar, structural edition)."""
+    import json as _j, glob as _g
+    bad = []
+    for f in _g.glob(str(BASE.parent / "clients/*/profile/fingerprint.json")) + \
+             _g.glob(str(BASE / "../clients/*/profile/fingerprint.json")):
+        try:
+            fp = _j.loads(open(f).read())
+        except Exception:
+            continue
+        l1 = fp.get("l1_strategy") or {}
+        prov = str(l1.get("provenance", "")) + str(l1)
+        for marker in ("voice_stats", "brand_dna", "health_score", "engagement"):
+            if marker in prov and any(l1.get(k) for k in ("who_speaks", "positioning", "contrarian_belief")):
+                bad.append(f"{f.split('clients/')[-1]}: identity cites {marker}")
+    return bad
+
+
 def validate_all():
     import jsonschema
     fails = 0
@@ -141,5 +160,9 @@ if __name__ == "__main__":
     generate()
     print("── validating all client profiles:")
     fails = validate_all()
+    quarantine = check_inference_quarantine()
+    for q in quarantine:
+        print(f"  ❌ inference-quarantine: {q}")
+    fails += len(quarantine)
     print(f"\n{'✅ ALL ORGANS VALIDATE' if fails == 0 else f'❌ {fails} failures — fix before claiming done'}")
     raise SystemExit(1 if fails else 0)

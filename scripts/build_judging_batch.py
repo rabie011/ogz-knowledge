@@ -28,7 +28,8 @@ def candidates(handle: str) -> list[dict]:
             c = json.loads(f.read_text())
         except Exception:
             continue
-        if c.get("order_tail") or c.get("very_normal") or not c.get("captions"):
+        if (c.get("order_tail") or c.get("very_normal") or c.get("truth_violation")
+                or not c.get("captions")):
             continue
         idea = (c.get("idea") or {}).get("scene_ar", "")
         shots = (c.get("visual") or {}).get("phone_shoot_card") or []

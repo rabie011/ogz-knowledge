@@ -20,6 +20,12 @@ Usage:
 import re
 
 EVENT_CLAIM = re.compile(
+    # zoom-r7 (June 12): invented PROGRAM/GRADUATION claims — «خريج برنامج البيك الصيفي،
+    # شيف معتمد» fabricated a training program + certification + named person. A program
+    # is an event-class claim: documented or dead. (معتمد scoped to titles — مشغلين
+    # معتمدين/تطبيقات معتمدة are legit operations language.)
+    r"(خريج|تخرج|خريجي)\s.{0,25}برنامج|برنامج\s.{0,20}(الصيفي|التدريبي|الشتوي)|"
+    r"(شيف|طاهي|مدرب|كوتش)\s+معتمد|شهادة\s.{0,15}(معتمدة|تدريب)|"
     r"(join us|تعالوا|انضم|سجلوا?|احجز مقعد|نلتقي|حضور|invite you|تحدي|challenge)"
     r".{0,60}(session|event|class|workshop|gathering|جلسة|فعالية|ورشة|لقاء|تجمع)|"
     r"(session|class|جلسة|فعالية|ورشة)\s.{0,40}(في|at|@)\s|"

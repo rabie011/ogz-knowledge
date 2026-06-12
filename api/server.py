@@ -1118,7 +1118,25 @@ def _try_create_v6(req) -> dict | None:
     if req.product:
         brief["product"] = req.product
     occ_ar = OCCASION_AR.get(brief.get("occasion", ""), brief.get("occasion", ""))
+    # ARMOR PORT step 2 (D4): sector×occasion lens into the brief — the coffee×ramadan
+    # fix reaches all 41 brands (lens moments ground the scene, kills sector-blind drift)
+    try:
+        _facts = json.loads((REPO / "data" / "occasion_facts.json").read_text())
+        _okey = {"national_day": "saudi_national_day"}.get(brief.get("occasion", ""), brief.get("occasion", ""))
+        _lens = (_facts.get(_okey, {}).get("sector_lenses") or {}).get(brief.get("sector", ""))
+        if _lens and _lens.get("moments"):
+            brief["lens_moments"] = _lens["moments"][:3]
+            brief["lens_product_role"] = _lens.get("product_role", "")
+    except Exception:
+        pass
     msgs = build_messages_v5(brief, occ_ar, MAX_CHARS.get(brief.get("sector", ""), 160))
+    # lens injection into the user message (v5_prompt unaware of lenses — append-safe)
+    if msgs and brief.get("lens_moments"):
+        try:
+            msgs[-1]["content"] += ("\n\nلحظات حقيقية لهذه المناسبة في هذا القطاع (المشهد يعيش داخل واحدة منها): "
+                                      + " · ".join(brief["lens_moments"]))
+        except Exception:
+            pass
     if not msgs:
         return None  # no DNA -> legacy
     api_key = get_openai_key()

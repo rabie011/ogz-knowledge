@@ -1241,9 +1241,20 @@ def create_content(req: CreateRequest):
     """Unified content creation pipeline.
     JUNE 11: v6 FAST PATH first — DNA-covered Arabic brands get the de-poisoned
     mind (feed few-shot + occasion facts + GOLD + code filter + DNA judge).
-    Legacy V3 path remains ONLY as fallback for brands without DNA."""
+    Legacy V3 path remains ONLY as fallback for brands without DNA.
+    JUNE 12 (B136): blackout gate guards ALL creation — the negative-space law
+    holds the main pipeline exactly like the client pipeline."""
     import sys
     sys.path.insert(0, str(REPO / "scripts"))
+    try:
+        from blackout_gate import check as _blackout_check
+        _g = _blackout_check()
+        if not _g["publish_allowed"]:
+            return {"error": "BLACKOUT — all content creation halted",
+                    "reason": _g["hard_block"]["reason"], "since": _g["hard_block"]["since"],
+                    "law": "negative-space gate (FLANK-02), human-hands-only switch"}
+    except ImportError:
+        pass  # gate module missing = fail open, never break creation
 
     v6 = _try_create_v6(req)
     if v6 is not None:

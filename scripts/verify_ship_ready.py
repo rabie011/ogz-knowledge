@@ -131,6 +131,22 @@ if not quick:
     except Exception:
         check("DB connection", True, "Postgres not running — skipped")
 
+# ── CLIENT ORGANS (B004, June 12): the pyramid's client trees are ship-blocking too
+try:
+    import subprocess
+    from pathlib import Path
+    r = subprocess.run(["python3", str(Path(__file__).parent / "generate_organ_schemas.py"), "--validate-only"],
+                       capture_output=True, text=True, timeout=120)
+    # generator has no --validate-only flag? fall back to full run output parse
+    if r.returncode != 0 and "unrecognized" in (r.stderr or ""):
+        r = subprocess.run(["python3", str(Path(__file__).parent / "generate_organ_schemas.py")],
+                           capture_output=True, text=True, timeout=120)
+    ok = "ALL ORGANS VALIDATE" in (r.stdout or "")
+    n_fail = (r.stdout or "").count("❌")
+    check("Client organs validate (clients/*/profile)", ok, f"{n_fail} organ failures" if not ok else "all organs green")
+except Exception as e:
+    check("Client organs validate", False, f"validator error: {e}")
+
 # Summary
 print(f"\n{'=' * 60}")
 if failures:

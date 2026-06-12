@@ -66,6 +66,24 @@ def main():
     ]:
         ok, _ = run(name, cmd)
         fails += not ok
+    # B023 covering-click audit (pre-armed): published content without a covering
+    # client click = violation. No publish path exists yet — the gate is born loaded.
+    uncovered = 0
+    for f in glob.glob(str(BASE / "clients/*/posts/*.json")):
+        try:
+            c = json.loads(open(f).read())
+        except Exception:
+            continue
+        if c.get("published") or c.get("posted_at"):
+            h = c.get("handle", "")
+            lf = BASE / "clients" / h / "events/ledger.jsonl"
+            ledger = lf.read_text() if lf.exists() else ""
+            key = Path(f).stem
+            if key not in ledger or '"client_approved"' not in ledger:
+                uncovered += 1
+    print(f"  {'✅' if uncovered == 0 else '🔴'} covering-click audit: {uncovered} uncovered published pieces (gate pre-armed)")
+    fails += uncovered > 0
+
     # staleness: exit 1 is EXPECTED (myfitness born-expired) — truth, not failure
     r = subprocess.run(["python3", str(BASE / "scripts/staleness_report.py")], capture_output=True, text=True)
     honest = "BLOCK" in (r.stdout or "") or r.returncode == 0

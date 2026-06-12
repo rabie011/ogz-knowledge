@@ -69,6 +69,11 @@ SCHEMAS = {
     # Type enum = census-found types + pyramid-specified future types (commercial spine,
     # referral, offboarding, approver, pick-sets). additionalProperties TRUE by design:
     # an event ledger must accept tomorrow's fact shapes; the base 4 fields are the law.
+    "client_trust_v1": {
+        "required": ["level", "ladder", "history", "law", "provenance"],
+        "properties": {"level": {"enum": ["L0", "L1", "L2"]},
+                        "ladder": {"type": "object"}, "history": ARR({"type": "object"}),
+                        "law": S(), "provenance": PROV}},
     "client_event_v1": {
         "_additional_ok": True,
         "required": ["ts", "type", "confirmer", "stamp"],
@@ -91,7 +96,8 @@ ORGAN_TO_SCHEMA = {"state": "client_state_v1", "truth_pack": "client_truth_pack_
                     "red_lines": "client_red_lines_v1", "goals": "client_goals_v1",
                     "moments_bank": "client_moments_bank_v1", "audience_mirror": "client_audience_mirror_v1",
                     "taste": "client_taste_v1", "gap_report": "client_gap_report_v1",
-                    "competitor_set": "client_competitor_set_v1"}
+                    "competitor_set": "client_competitor_set_v1",
+                    "trust": "client_trust_v1"}
 
 
 def generate():

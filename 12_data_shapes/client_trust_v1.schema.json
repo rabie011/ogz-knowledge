@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "client_trust_v1.schema.json",
+  "title": "client_trust_v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "level",
+    "ladder",
+    "history",
+    "law",
+    "provenance"
+  ],
+  "properties": {
+    "level": {
+      "enum": [
+        "L0",
+        "L1",
+        "L2"
+      ]
+    },
+    "ladder": {
+      "type": "object"
+    },
+    "history": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "law": {
+      "type": "string"
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "source",
+        "date_added",
+        "confirmer",
+        "confidence",
+        "scope"
+      ],
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "date_added": {
+          "type": "string"
+        },
+        "confirmer": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

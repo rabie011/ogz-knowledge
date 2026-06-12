@@ -35,7 +35,7 @@ PERSON_AR = re.compile(r"(الأمير|الأميرة|الشيخ|الشيخة|ا
 # real phone calls to the client.
 SERVICE_CLAIM = re.compile(
     r"(free\s+(?:\w+\s+)?(consultation|session|trial|delivery|gift)|"
-    r"استشار(?:ة|ات)\s*مجاني|توصيل\s*مجاني|اشتراك\s*(?:تجريبي|مجاني)|"
+    r"استشار(?:ة|ات)\s*(?:مجاني|خبير|مع خبير)|توصيل\s*مجاني|اشتراك\s*(?:تجريبي|مجاني)|"
     r"جلسة\s*مجانية|هدية\s*مع\s*كل|ضمان\s*(?:استرجاع|استرداد)|عرض\s*تجريبي)", re.I)
 # MOHAMED RULING 2026-06-12 (portal): family-voice lines BLOCKED for all brands
 FAMILY_VOICE = re.compile(r"(أمي|امي|أبوي|ابوي|والدتي|والدي|أمك|جدتي قالت لي)\s+(جاب|جابت|قال|قالت|طلب|طلبت)")

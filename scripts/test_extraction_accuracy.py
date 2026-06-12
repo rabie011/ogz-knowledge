@@ -60,10 +60,10 @@ def load_extractions() -> dict[str, dict]:
     for fp in EXTRACTIONS_DIR.glob("*.json"):
         with open(fp) as f:
             data = json.load(f)
-        filename = data.get("content_ref", {}).get("filename", "")
-        stem = Path(filename).stem
-        if stem:
-            results[stem] = data
+        # B122: key by the extraction's OWN stem (item_01_extraction.json -> item_01) —
+        # content_ref filenames (B-SNK_FltUC.jpg) never matched GROUND_TRUTH ids
+        stem = fp.stem.replace("_extraction", "")
+        results[stem] = data
     return results
 
 
@@ -72,7 +72,7 @@ def level_1_hard_block(ground_truth: dict, extractions: dict[str, dict]) -> bool
     all_pass = True
 
     for gt_item in ground_truth.get("items", []):
-        item_id = gt_item.get("item_id", "")
+        item_id = gt_item.get("id", "")
         expected_blocks = gt_item.get("expected_hard_blocks") or []
         if not expected_blocks:
             continue
@@ -123,7 +123,7 @@ def level_3_accuracy(ground_truth: dict, extractions: dict[str, dict]) -> float:
     correct = 0
 
     for gt_item in ground_truth.get("items", []):
-        item_id = gt_item.get("item_id", "")
+        item_id = gt_item.get("id", "")
         extraction = extractions.get(item_id)
         if extraction is None:
             continue

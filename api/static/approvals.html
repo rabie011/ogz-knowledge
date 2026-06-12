@@ -51,6 +51,19 @@
   .nav button{background:#1a2030;border:1px solid var(--line);color:var(--ink);border-radius:11px;padding:12px 18px;font-size:14px;cursor:pointer}
   .skip{color:var(--dim)!important;border-style:dashed!important}
   .small{font-size:12px;color:var(--dim)}
+  /* post unit */
+  .brandbox{background:#151a26;border:1.5px solid var(--blue);border-radius:14px;padding:15px;margin-bottom:14px;font-size:13.5px;line-height:1.9}
+  .brandbox .bname{font-size:16px;font-weight:800;color:#fff}
+  .brandbox .bv{color:var(--dim)} .brandbox .ex{background:#0a0e14;border-radius:9px;padding:9px 12px;margin-top:7px;font-size:13px;color:#c8d2e0}
+  .brandbox .exh{font-size:11px;color:var(--pink);letter-spacing:.5px}
+  .post{background:#0a0e14;border:1.5px solid var(--line);border-radius:18px;margin:16px 0;overflow:hidden}
+  .post .who{background:var(--card);border-bottom:1px solid var(--line);padding:8px 14px;font-size:11.5px;color:var(--pink);letter-spacing:.6px}
+  .post .idea{padding:13px 16px;font-size:13.5px;color:#aac6f2;background:#0d1626;line-height:1.8}
+  .post .photo{padding:13px 16px;border-block:1px dashed var(--line);font-size:13px;color:var(--dim);line-height:1.9}
+  .post .photo b{color:#e8b94a}
+  .post img{width:100%;display:block}
+  .post .captext{padding:18px 16px;font-size:17.5px;line-height:2.1;text-align:center}
+  .post .pickrow{padding:0 16px 16px;text-align:center}
   /* done */
   .done-h{font-size:14px;color:var(--dim);margin:24px 0 10px;border-top:1px solid var(--line);padding-top:20px}
   .done-item{background:#0e1219;border:1px solid #1a202c;border-radius:13px;padding:14px;margin-bottom:10px;font-size:13.5px;line-height:1.8}
@@ -123,6 +136,22 @@ function render(open){
   h += `<div class="tag">${it.priority==='urgent'?'🚨 طارئ · ':''}${it.tag||''} ${it.clock?'<span class=clock>'+it.clock+'</span>':''}</div><h2>${it.title}</h2>`;
   if(it.meaning) h += `<div class="meaning">💡 <b>وش يعني؟</b> ${it.meaning}</div>`;
   if(it.desc) h += `<details><summary>التفاصيل الكاملة</summary><div class="desc">${it.desc}</div></details>`;
+  if(it.kind==='post_pick'){
+    const b = it.brand_context||{};
+    h += `<div class="brandbox"><span class="bname">${b.name||''}</span> <span class="bv">· ${b.state_line||''}</span>
+          <br>${b.who||''}<br><span class="bv">🎙 الصوت: ${b.voice_line||''} · 🛒 ${ (b.products||[]).join('، ') }</span>`;
+    for(const ex of (b.real_examples||[])) h += `<div class="ex"><span class="exh">من كلامه الحقيقي</span><br>${ex}</div>`;
+    h += `</div>`;
+    for(const o of it.options){
+      h += `<div class="post"><div class="who">عقل ${o.who||o.v}</div>`;
+      if(o.idea) h += `<div class="idea">💡 <b>الفكرة:</b> ${o.idea}</div>`;
+      if(o.image_url) h += `<img src="${o.image_url}">`;
+      else if(o.shots&&o.shots.length) h += `<div class="photo"><b>📸 الصورة (تتصور بالجوال):</b><br>${o.shots.map((s,i)=>(i+1)+'. '+s).join('<br>')}</div>`;
+      h += `<div class="captext">${o.label}</div>
+            <div class="pickrow"><button class="pick" onclick="answer('${it.id}','${esc(o.v)}')">اختار هذا البوست ✓</button></div></div>`;
+    }
+    h += `<textarea id="note" placeholder="ليش؟ كلمتك تعلّم النظام ذوقك (اختياري)"></textarea>`;
+  }
   if(it.kind==='caption_pick'){
     for(const o of it.options)
       h += `<div class="cap"><span class="who">${o.who||o.v}</span>${o.label}

@@ -48,3 +48,26 @@ Same engine (portal_mini pattern), separate scope:
 4. FLANK-06 publishing ops → «انشر» has something real to trigger
 
 *Build estimate when unlocked: portal_mini fork + queue file + 3 event writers ≈ one session.*
+
+## 8. DELIVERY CHANNEL — WHATSAPP (B027 research, June 12)
+Saudi clients live in WhatsApp; the gate link's delivery channel IS the adoption question.
+
+**Stage 0 — ZERO-API (build nothing):** the weekly gate link goes out as a normal WhatsApp
+message from the OGZ business phone (or `wa.me/<client>` deep link from the portal card for
+the human sender). Cost: 0. Trust: the client already chats with us there. This is the pilot
+path — Khwila gets her first gate link this way.
+
+**Stage 1 — CLOUD API (gated on >5 active clients):** WhatsApp Business Cloud API,
+per-delivered-message billing (2026 model). KSA rates: **utility ~0.04–0.06 SAR/msg**
+(the gate-link notification class), marketing ~0.17–0.21 SAR (we don't send these);
+**service replies within the 24h window are free** — so a client who replies «تم» opens a
+free window for everything that follows. Local SAR billing live since Q1 2026 (no FX skim).
+Weekly batch ping at utility class ≈ 0.05 SAR × 52 weeks ≈ **3 SAR/client/year** — rounding
+error; the money law approves.
+
+**Anti-patterns (researched, banned):** never the marketing template class for gate links
+(4× cost + opt-out risk); never unsolicited sends outside an opted-in relationship (Meta
+quality-rating kills the number).
+
+**Build-gates:** Stage 1 needs Meta Business verification + a dedicated number + >5 weekly
+gates to beat manual sending. Until then Stage 0 wins on every axis.

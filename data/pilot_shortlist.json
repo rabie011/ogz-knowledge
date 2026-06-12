@@ -3,59 +3,35 @@
  "criteria": "SME <100k, >=2 themes >=1 voice, max 2/sector, real handles",
  "shortlist": [
   {
-   "handle": "ecoffeecup.sa",
-   "sector": "f_and_b",
-   "sub": "Specialty Coffee",
-   "bucket": "10k-50k",
-   "themes": 4,
-   "voice": 3,
-   "region": "general-saudi",
-   "bio": "The Coffee Cup — Specialty Coffee brand, Saudi Arabia-based.",
-   "score": 8
-  },
-  {
-   "handle": "ffeestation.sa",
-   "sector": "f_and_b",
-   "sub": "Specialty Coffee",
-   "bucket": "10k-50k",
-   "themes": 4,
-   "voice": 3,
-   "region": "general-saudi",
-   "bio": "Coffee Station — Specialty Coffee brand, Saudi Arabia-based.",
-   "score": 8
-  },
-  {
-   "handle": "lnasserjewelry",
+   "handle": "alnasserjewelry",
    "sector": "retail",
-   "sub": "Jewelry / Heritage Brand",
-   "bucket": "10k-50k",
-   "themes": 3,
-   "voice": 3,
-   "region": "eastern-primary",
-   "bio": "مجوهرات الناصر Since 1934 — Jewelry / Heritage Brand brand, Dammam-based.",
-   "score": 7
+   "sub": "Jewelry / Heritage",
+   "verified_live": true,
+   "verification": {
+    "date": "2026-06-12",
+    "name": "مجوهرات الناصر®️ Since 1934",
+    "followers": 45646,
+    "note": "gov-verified bio, Dammam; was mangled as lnasserjewelry",
+    "picked_by": "mohamed (as lnasser)"
+   }
   },
   {
-   "handle": "lkriydeesjewellery",
+   "handle": "alkriydeesjewellery",
    "sector": "retail",
    "sub": "Jewelry",
-   "bucket": "10k-50k",
-   "themes": 3,
-   "voice": 3,
-   "region": "najdi-primary",
-   "bio": "مجوهرات تركي الكريديس — Jewelry brand, Riyadh-based.",
-   "score": 7
-  },
-  {
-   "handle": "qabonah",
-   "sector": "beauty",
-   "sub": "Natural Beauty / Skincare",
-   "bucket": "50k-100k",
-   "themes": 3,
-   "voice": 3,
-   "region": "general-saudi",
-   "bio": "قابونة Qabonah — Natural Beauty / Skincare brand, Saudi Arabia-based.",
-   "score": 7
+   "verified_live": true,
+   "verification": {
+    "date": "2026-06-12",
+    "name": "مجوهرات تركي الكريديس",
+    "followers": 13788,
+    "note": "was mangled as lkriydeesjewellery"
+   }
   }
+ ],
+ "AUDIT_2026_06_12": "handles came from OGz_Saudi_Instagram_Benchmarks.xlsx via account files whose provenance includes sub_category_template — NEVER verified against live Instagram. 5/5 entries failed live verification (3 prefix-mangled, 1 restricted, 1 South African). NEW LAW: a candidate enters this file ONLY with verified_live=true + a verification record.",
+ "removed_unverified": [
+  "ecoffeecup.sa (South African)",
+  "ffeestation.sa (dead; coffeestation.sa real but 29 followers)",
+  "qabonah (restricted profile)"
  ]
 }

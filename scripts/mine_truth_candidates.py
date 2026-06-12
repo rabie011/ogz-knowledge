@@ -14,8 +14,12 @@ from pathlib import Path
 BASE = Path(__file__).parent.parent
 # words that signal a product is being TALKED ABOUT around the n-gram
 CONTEXT = re.compile(r"اطلب|جرب|تذوق|وجبة|ساندويتش|ساندوتش|برجر|طعم|لذيذ|قرمش|جديد|عرض")
-# a PRODUCT name contains or touches food-class tokens; slogans don't
-FOOD = re.compile(r"بيك|كرسبي|فيليه|برجر|ساندوتش|ساندويتش|وجبة|دجاج|روبيان|توأم|بروست|فلافل|صوص|عشاء|فطور")
+# a PRODUCT name contains or touches sector product-class tokens; slogans don't
+SECTOR_TOKENS = {
+    "f_and_b": r"بيك|كرسبي|فيليه|برجر|ساندوتش|ساندويتش|وجبة|دجاج|روبيان|توأم|بروست|فلافل|صوص|عشاء|فطور|جريش|كبسة|رز|قهوة|حلى",
+    "fitness": r"اشتراك|برنامج|تمرين|تمارين|كوتش|مدرب|عضوية|تطبيق|خطة|جلسة|لياقة|تحدي",
+}
+SECTOR_TOKENS["healthcare_wellness"] = SECTOR_TOKENS["fitness"]
 STOP = {"الله", "اللهم", "السعودية", "الرياض", "جدة", "مكة", "اليوم", "العيد", "رمضان",
          "مبارك", "كريم", "الوطني", "حياكم", "تابعونا", "ستوري", "البايو", "الرابط"}
 
@@ -48,7 +52,9 @@ def rival_text(handle: str) -> str:
     return " ".join(out)
 
 
-def mine(handle: str) -> list[dict]:
+def mine(handle: str) -> tuple:
+    ym = json.loads((BASE / "clients" / handle / "year_map.json").read_text())
+    FOOD = re.compile(SECTOR_TOKENS.get(ym.get("sector", "f_and_b"), SECTOR_TOKENS["f_and_b"]))
     caps = own_captions(handle)
     rtext = rival_text(handle)
     grams = collections.Counter()       # 1-2-3 word candidates

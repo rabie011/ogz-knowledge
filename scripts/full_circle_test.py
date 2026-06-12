@@ -84,6 +84,22 @@ def main():
     print(f"  {'✅' if uncovered == 0 else '🔴'} covering-click audit: {uncovered} uncovered published pieces (gate pre-armed)")
     fails += uncovered > 0
 
+    # B109 leakage scanner: AI image without Mohamed's per-case pass = leak (must be 0)
+    leaks = 0
+    for f in glob.glob(str(BASE / "clients/*/posts/*.json")):
+        try:
+            c = json.loads(open(f).read())
+        except Exception:
+            continue
+        if (c.get("visual") or {}).get("image_url"):
+            h = c.get("handle", "")
+            lf = BASE / "clients" / h / "events/ledger.jsonl"
+            ledger = lf.read_text() if lf.exists() else ""
+            if "image_pass" not in ledger or Path(f).stem not in ledger:
+                leaks += 1
+    print(f"  {'✅' if leaks == 0 else '🔴'} AI-imagery leakage scan: {leaks} images without Mohamed's per-case pass")
+    fails += leaks > 0
+
     # staleness: exit 1 is EXPECTED (myfitness born-expired) — truth, not failure
     r = subprocess.run(["python3", str(BASE / "scripts/staleness_report.py")], capture_output=True, text=True)
     honest = "BLOCK" in (r.stdout or "") or r.returncode == 0

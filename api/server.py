@@ -2197,115 +2197,63 @@ async def cross_prefer(request: Request):
 
 
 # ═══════════════════════════════════════════════════════════════════
-# MOHAMED'S APPROVALS LINK (June 12 — "prepare link with me to choose
-# or rate or answer so you get my answer"). Every tap = an answer file
-# entry + the pair processes it. PROVISIONAL until processed.
+# MOHAMED'S DECISION PORTAL (June 12 v2 — "one link always live, pages,
+# phone, share, emergency"). Queue-driven: the pair pushes decisions into
+# data/decision_queue.json (scripts/queue_decision.py); Mohamed answers
+# page by page; emergencies jump the line. Key-protected (?k=).
 # ═══════════════════════════════════════════════════════════════════
 _ANSWERS_FILE = REPO / "data" / "mohamed_answers.jsonl"
+_QUEUE_FILE = REPO / "data" / "decision_queue.json"
 
 
-def _answered_map():
-    out = {}
-    if _ANSWERS_FILE.exists():
-        for line in _ANSWERS_FILE.read_text().strip().split("\n"):
-            try:
-                e = json.loads(line)
-                out[e["item_id"]] = e["answer"][:60]
-            except Exception:
-                continue
-    return out
+def _approvals_key():
+    for l in open(Path.home() / ".abraham_env"):
+        if l.startswith("APPROVALS_KEY="):
+            return l.split("=", 1)[1].strip().strip('"')
+    return None
+
+
+def _key_ok(k: str | None) -> bool:
+    real = _approvals_key()
+    return bool(real) and k == real
 
 
 @app.get("/approvals")
-def approvals_page():
+def approvals_page(k: str = ""):
+    if not _key_ok(k):
+        return {"error": "key required — open the link Claude gave you (with ?k=)"}
     return FileResponse(STATIC_DIR / "approvals.html",
                         headers={"Cache-Control": "no-store"})
 
 
 @app.get("/api/approvals/items")
-def approvals_items():
-    import glob as _glob
-    done = _answered_map()
-    items = []
-    # 1 — FLOWARD (clock)
-    items.append({"id": "floward_button", "kind": "buttons", "tag": "عميل · عاجل",
-                  "clock": "⏰ ينتهي ~13 يونيو 23:00",
-                  "title": "فلاورد مصر — عيد الأب",
-                  "desc": "البروبوزال كامل على سطح المكتب (FLOWARD_FATHERS_DAY_PROPOSAL.pdf + الملخص صفحة واحدة). الإرسال بيدك وحدك.",
-                  "options": [{"v": "approve_send", "label": "✅ أرسلوه لفلاورد (المسار الموصى: الأوردر اللي ما وصلش)"},
-                               {"v": "change_route", "label": "🔁 غيّروا المسار الرئيسي (اكتب أي مسار في الملاحظة)"},
-                               {"v": "round_2", "label": "🎨 جولة ثانية — 5 أفكار جديدة من العقول"}]})
-    # 2 — PRICING
-    items.append({"id": "pricing_pin", "kind": "numbers", "tag": "فلوس — قرارك وحدك",
-                  "title": "تثبيت الأسعار (ريال/شهر)",
-                  "desc": "مقترح من دراسة السوق — Starter للمواليد، Growth للنشطين/العائدين، Enterprise للكبار. التفاصيل: data/pricing_draft.md",
-                  "fields": [{"k": "starter", "label": "Starter", "v": 700},
-                              {"k": "growth", "label": "Growth", "v": 2650},
-                              {"k": "enterprise", "label": "Enterprise", "v": 9000}]})
-    # 3 — PICK SETS (from the real files)
-    for h, slot, title in [("eatjurisha", "2027-02-08__ramadan", "جريشة × رمضان"),
-                             ("albaik", "2027-03-09__eid_al_fitr", "البيك × عيد الفطر"),
-                             ("myfitness.sa", "2027-02-08__ramadan", "لياقتي × رمضان")]:
-        opts = []
-        for f in sorted(_glob.glob(str(REPO / "clients" / h / "posts" / f"{slot}__pick_*.json"))):
-            try:
-                c = json.loads(open(f).read())
-                brain = f.split("pick_")[1].replace(".json", "")
-                if c.get("captions"):
-                    opts.append({"v": brain, "label": f"[{brain}] {c['captions'][0][:120]}"})
-            except Exception:
-                continue
-        if opts:
-            items.append({"id": f"pick_{h}", "kind": "buttons", "tag": "اختيارك = ذهب المناسبات",
-                          "title": f"اختر سطر {title}", "options": opts})
-    # 4 — CRYSTALLIZE CARDS
-    try:
-        q = json.loads((REPO / "data/crystallize_queue.json").read_text())
-        for i, card in enumerate(q.get("cards", [])):
-            if card.get("status", "").startswith("DRAFT"):
-                items.append({"id": f"crystallize_{i}", "kind": "buttons", "tag": "قاعدة اقترحها النظام",
-                              "title": card["draft"][:90],
-                              "desc": f"الإجراء المقترح: {card.get('proposed_action','')}",
-                              "options": [{"v": "yes", "label": "✅ نعم — تصير قاعدة دائمة"},
-                                           {"v": "no", "label": "❌ لا — ارفضوها"}]})
-    except Exception:
-        pass
-    # 5 — RABIE headline ratings
-    items.append({"id": "rabie_headline", "kind": "buttons", "tag": "تقييم رابيه",
-                  "title": "حُكم رابيه الليلة — موافق إجمالاً؟",
-                  "desc": "103 حكم كامل في clients/RABIE_RULINGS_SHEET.md (فيها 5 تناقضات معلّمة ⚠ — أهمها: كان يقيّم كل أعمال كلود 5/5 ففرض على نفسه سقف 3 حتى تعايره أنت).",
-                  "options": [{"v": "approve_all_except_flags", "label": "✅ موافق على الكل — إلا المعلّمة ⚠ راجعها معي"},
-                               {"v": "review_later", "label": "📋 أراجع الشيت كامل بعدين"},
-                               {"v": "reverse_some", "label": "✗ في أحكام أعكسها (اكتبها في الملاحظة)"}]})
-    # 6 — CULTURAL RULINGS
-    items.append({"id": "ruling_ai_imagery", "kind": "buttons", "tag": "حكم ثقافي محجوز لك",
-                  "title": "صورة AI لمنتج حقيقي — صدق ولا كذب؟",
-                  "desc": "عميل يطلب من صورة جميلة مولّدة بالذكاء ويستلم المنتج الحقيقي. حتى تحكم: ممنوع نشر صور منتجات AI.",
-                  "options": [{"v": "allowed_labeled", "label": "✅ مسموح بشرط وسم واضح"},
-                               {"v": "real_photos_only", "label": "📷 صور حقيقية فقط للمنتجات"},
-                               {"v": "case_by_case", "label": "🔍 كل حالة على حدة — تمر علي"}]})
-    items.append({"id": "ruling_family_voice", "kind": "buttons", "tag": "حكم ثقافي محجوز لك",
-                  "title": "صوت العائلة في الكابشن («أمي جابت البيك»)",
-                  "options": [{"v": "allow", "label": "✅ مسموح"}, {"v": "block", "label": "❌ ممنوع"},
-                               {"v": "client_decides", "label": "👤 حسب العميل — سؤال في الـ onboarding"}]})
-    items.append({"id": "ruling_masculinity", "kind": "buttons", "tag": "حكم ثقافي محجوز لك",
-                  "title": "إطار الرجولة («رجال») في الكابشن",
-                  "options": [{"v": "allow", "label": "✅ مسموح"}, {"v": "block", "label": "❌ ممنوع"},
-                               {"v": "case_by_case", "label": "🔍 كل حالة على حدة"}]})
-    # answered state
-    for it in items:
-        if it["id"] in done:
-            it["answered"] = done[it["id"]]
+def approvals_items(k: str = ""):
+    if not _key_ok(k):
+        return []
+    q = json.loads(_QUEUE_FILE.read_text()) if _QUEUE_FILE.exists() else {"items": []}
+    items = q["items"]
+    items.sort(key=lambda x: (x.get("status") == "answered",
+                               0 if x.get("priority") == "urgent" else 1,
+                               x.get("created", "")))
     return items
 
 
 @app.post("/api/approvals/answer")
-async def approvals_answer(request: Request):
+async def approvals_answer(request: Request, k: str = ""):
+    if not _key_ok(k):
+        return {"ok": False, "error": "bad key"}
     body = await request.json()
     _ANSWERS_FILE.parent.mkdir(exist_ok=True)
     entry = {"ts": datetime.now().isoformat(timespec="seconds"),
               "item_id": body.get("item_id"), "answer": str(body.get("answer", "")),
-              "note": body.get("note", ""), "source": "approvals_link"}
+              "note": body.get("note", ""), "source": "decision_portal"}
     with open(_ANSWERS_FILE, "a") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    if _QUEUE_FILE.exists():
+        q = json.loads(_QUEUE_FILE.read_text())
+        for it in q["items"]:
+            if it["id"] == entry["item_id"]:
+                it["status"] = "answered"
+                it["answered"] = entry["answer"][:60]
+        _QUEUE_FILE.write_text(json.dumps(q, ensure_ascii=False, indent=1))
     return {"ok": True}

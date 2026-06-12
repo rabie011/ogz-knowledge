@@ -1095,6 +1095,21 @@ class CreateRequest(BaseModel):
     language: str = 'arabic'  # 'arabic' | 'english'
 
 
+def _routed_brain(sector: str, occasion: str) -> str | None:
+    try:
+        import sys as _s
+        _s.path.insert(0, str(REPO / "scripts"))
+        from lib.cd_brains import route as _r
+        prim, sec, _ = _r(sector, occasion or "evergreen")
+        # cd_03 is a video/script technique — same caption-swap as the legacy path,
+        # or the surfaced brain would mislead caption consumers
+        if prim == "cd_03_authenticity_detective":
+            prim = sec if sec and sec != "cd_03_authenticity_detective" else "cd_05_paradox_hunter"
+        return prim
+    except Exception:
+        return None
+
+
 def _try_create_v6(req) -> dict | None:
     """The de-poisoned generation path (doctrine). None => caller falls back to legacy."""
     import sys
@@ -1208,7 +1223,11 @@ def _try_create_v6(req) -> dict | None:
             "passed": best_score >= 60,
             "filter_dropped": list(dropped.keys()),
         },
-        "creative_director": {"primary": "cd_06_feed_cloner", "technique": "feed", "scores": scores},
+        # B042: truth-in-reporting — the affinity-routed brain surfaces beside the
+        # feed-cloner label, and the scores say what they are (additive, no renames)
+        "creative_director": {"primary": "cd_06_feed_cloner", "technique": "feed", "scores": scores,
+                                "scores_kind": "caption_scorer_v2",
+                                "routed_brain": _routed_brain(brief.get("sector", ""), brief.get("occasion", ""))},
         "visual_chain": None,
         "proof": {"generation": "v6", "judge": "scorer_v2", "few_shot": "dna_v3+gold"},
         "context_tokens": 0,
@@ -1242,6 +1261,7 @@ def api_angles(req: AnglesRequest):
                 raise HTTPException(status_code=500, detail=f"{step[0]}: {(r.stderr or r.stdout)[-200:]}")
     data = json.loads(cards.read_text())
     return {"brand": req.brand, "occasion": req.occasion,
+            "routed_brain": _routed_brain(b.get("sector", ""), req.occasion),
             "angles": data.get("angles", []),
             "truth_pack": json.loads((REPO / "data/truth_packs" / f"{brand_en}__{req.occasion}.json").read_text())}
 

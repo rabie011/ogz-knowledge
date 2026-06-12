@@ -126,12 +126,36 @@ def readiness(handle: str) -> dict:
             "ready": not missing, "unblocks": {m: UNBLOCKS.get(m, "?") for m in missing}}
 
 
+def run(mind_id: str, handle: str, occasion: str) -> dict:
+    """Produce — keys live. REFUSES on incomplete truth (procedure-honesty holds at
+    run time, not just dry-run): a mind must never invent. Reuses the proven LLM-call
+    path from the renderer (battle-tested). The first live run IS the integration test."""
+    asm = assemble(mind_id, handle, occasion)
+    if not asm["_ready_to_run"]:
+        return {"ok": False, "refused": True, "mind": mind_id,
+                "why": "client truth incomplete — would invent", "missing": asm["trace"]["client_missing"]}
+    import sys as _s
+    _s.path.insert(0, str(BASE / "scripts"))
+    from render_client_slot import gpt          # proven OpenAI call
+    methodology = (BASE / MINDS[mind_id]["file"]).read_text()
+    user = ("اشتغل على هذا العميل بصفتك " + asm["ar"] + ".\n\n"
+            "حقيقة العميل (لا تخترع شيئاً خارجها):\n"
+            + json.dumps(asm["client_ctx"], ensure_ascii=False)
+            + "\n\nمعرفة الوكالة (وش اشتغل عبر البراندات):\n"
+            + json.dumps(asm["brain_ctx"], ensure_ascii=False)
+            + "\n\nأنتج مخرجك حسب منهجيتك. JSON فقط.")
+    out = gpt([{"role": "system", "content": methodology[:6000]},
+               {"role": "user", "content": user}], temp=0.7, max_tok=900)
+    return {"ok": True, "mind": mind_id, "output": out, "trace": asm["trace"]}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--mind", choices=list(MINDS))
     ap.add_argument("--client", default="eatjurisha")
     ap.add_argument("--occasion", default="evergreen")
     ap.add_argument("--dry", action="store_true", help="assemble + print context, zero LLM")
+    ap.add_argument("--run", action="store_true", help="produce (keys live; refuses on empty truth)")
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--readiness", action="store_true", help="the unblock map across all clients")
     a = ap.parse_args()
@@ -161,6 +185,12 @@ def main():
     if a.dry and asm.get("client_ctx"):
         print("\n── CLIENT CONTEXT the mind would read ──")
         print(json.dumps({k: v for k, v in asm["client_ctx"].items() if k != "_missing_inputs"}, ensure_ascii=False, indent=1)[:900])
+    if a.run:
+        r = run(a.mind, a.client, a.occasion)
+        if r.get("refused"):
+            print(f"\n🛑 REFUSED — {r['why']} · missing {r['missing']}  (the mind will NOT invent)")
+        else:
+            print("\n── PRODUCED ──\n" + str(r.get("output"))[:1200])
 
 
 if __name__ == "__main__":

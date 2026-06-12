@@ -1,0 +1,261 @@
+{
+ "generated": "2026-06-13T02:45:37",
+ "doc": "PROPOSED taste distillations from Mohamed's verdict stream — nothing here auto-applies; n_items>=2 bar per RABIE; unmatched notes listed so no founder word is silently outside the analysis",
+ "source_rows": 58,
+ "proposals": [
+  {
+   "signal": "family_scene_fatigue",
+   "n_rows": 7,
+   "n_items": 7,
+   "target": "clients/<handle>/profile/taste.json kill_patterns",
+   "proposed": "family scene is worn — demand scene diversity per week (no repeated emotional core)",
+   "his_words": [
+    "The concept is good but stilll its around the family on the house",
+    "Very normal and still using the family story",
+    "We need to make the posts different so for example if the idea is family they can’t use it for all the posts",
+    "Is it all family",
+    "The caption is good and safe but still only family ideas",
+    "Really good for the location but still we need to move from family meeting"
+   ],
+   "avg_rating_when_noted": 2.8
+  },
+  {
+   "signal": "full_post_context",
+   "n_rows": 4,
+   "n_items": 2,
+   "target": "scripts/seed_judge_cards.py",
+   "proposed": "judge cards must carry the FULL post (occasion/idea/visual/reasoning) — bare captions are unjudgeable",
+   "his_words": [
+    "i need to see the captions with the breif and image and story and creitve",
+    "i need to see the photo the ocassion and the idea and the creitve and the resinning behind the full post not the captions",
+    "need the full post anylisses with the important data to judge",
+    "When you write captions without knowing what is the client and what is the detail like idea creative and photo I can’t judge good"
+   ],
+   "avg_rating_when_noted": null
+  },
+  {
+   "signal": "too_safe_no_creativity",
+   "n_rows": 3,
+   "n_items": 3,
+   "target": "20_cd_brains prompts",
+   "proposed": "safe-but-flat is a REJECTION class — brains must take one concrete creative risk per caption (his bar: safe ≠ approved)",
+   "his_words": [
+    "To small not creative",
+    "To safe and still using احلي مع",
+    "جيده للشريحه الموجهه بس مفيش ابداع في الكابشن ولا المشهد"
+   ],
+   "avg_rating_when_noted": 2.33
+  },
+  {
+   "signal": "safe_tier_labeling",
+   "n_rows": 3,
+   "n_items": 2,
+   "target": "data/pattern_cards_v1.json tiers",
+   "proposed": "«good for safe side content» is a TIER, not a rejection — label safe-lane recipes so the mix is deliberate (safe posts have a place, never the whole week)",
+   "his_words": [
+    "Good for safe side content",
+    "Good as safe side content",
+    "Safe"
+   ],
+   "avg_rating_when_noted": 4.33
+  },
+  {
+   "signal": "scene_brand_coherence",
+   "n_rows": 2,
+   "n_items": 2,
+   "target": "render: angle stage",
+   "proposed": "every scene element must have a stated link to the brand — he asks «what's the relation between X and the brand» when a prop is decorative",
+   "his_words": [
+    "hيه العلاقه بين حارات وجريشه",
+    "saudi dosent have evergreen but the idea is good and ليه حارات ومازا تعني في السياق"
+   ],
+   "avg_rating_when_noted": null
+  },
+  {
+   "signal": "emotional_trigger_quality",
+   "n_rows": 2,
+   "n_items": 2,
+   "target": "20_cd_brains prompts",
+   "proposed": "find emotion triggers WITHOUT manufactured sentimentality (his: «better way to trigger emotions»)",
+   "his_words": [
+    "very good but why ( بذات التجربه (",
+    "We need to find better way to trigger emotions without make it obvious about the people we missed as died"
+   ],
+   "avg_rating_when_noted": 5.0
+  },
+  {
+   "signal": "cliche_flat_tone",
+   "n_rows": 2,
+   "n_items": 2,
+   "target": "20_cd_brains prompts + STANDING_WORN",
+   "proposed": "corporate-positivity phrases (يرفع المعنويات) and cliché imagery read FLAT to him — same rejection class as too-safe",
+   "his_words": [
+    "why يرفع المعنويات dosent feel good",
+    "the caption is clishy"
+   ],
+   "avg_rating_when_noted": 3.5
+  },
+  {
+   "signal": "audience_price_age_fit",
+   "n_rows": 2,
+   "n_items": 2,
+   "target": "clients/<handle>/profile/audience_mirror.json",
+   "proposed": "connect to the target audience by AGE and PRICE BAND — he needs the audience organ to say who can afford the client before judging fit",
+   "his_words": [
+    "For specific Clint’s you need to find a way to connect to target oudunace maybe by age by price you need to know who can do this for engagement only small place",
+    "Good for the target oduance but we need to change the language to match the الشريحه المستهدفه"
+   ],
+   "avg_rating_when_noted": 3.5
+  },
+  {
+   "signal": "app_cta_fatigue",
+   "n_rows": 2,
+   "n_items": 2,
+   "target": "clients/<handle>/profile/taste.json kill_patterns",
+   "proposed": "delivery-app CTAs fatigued — cap app mentions per week",
+   "his_words": [
+    "We need to make sure that we can use the delivery app to much",
+    "Ok we need to stop using the app"
+   ],
+   "avg_rating_when_noted": 4.0
+  }
+ ],
+ "weak_signals_n1": [
+  {
+   "signal": "invented_product",
+   "n_rows": 2,
+   "n_items": 1,
+   "target": "scripts/caption_filter.py (deferred product-noun entailment)",
+   "proposed": "captions may only name products in the client's truth pack — his falafel catch is the standing evidence",
+   "his_words": [
+    "Dose Al bio have falafel ?",
+    "Dose almbike have falafel"
+   ],
+   "avg_rating_when_noted": 1.5
+  },
+  {
+   "signal": "no_comparison_evidence",
+   "n_rows": 1,
+   "n_items": 1,
+   "target": "data/law_registry.json brand_never_invites_comparison",
+   "proposed": "evidence row for the standing law (already enforced)",
+   "his_words": [
+    "A brand can’t ask who is better than him he is Al west the best no comparing"
+   ],
+   "avg_rating_when_noted": null
+  },
+  {
+   "signal": "no_sexual_double_meaning_evidence",
+   "n_rows": 1,
+   "n_items": 1,
+   "target": "data/law_registry.json no_sexual_innuendo_or_humiliation",
+   "proposed": "evidence row for the standing law (already enforced)",
+   "his_words": [
+    "We most make the duoble meaning does not contain any sexual joke or humiliation for any one"
+   ],
+   "avg_rating_when_noted": 3.0
+  },
+  {
+   "signal": "saudi_dialect_authenticity",
+   "n_rows": 1,
+   "n_items": 1,
+   "target": "scripts/caption_filter.py dialect_check",
+   "proposed": "captions for Saudi clients must read SAUDI — Egyptian/Levantine markers (مش/عايز/ازاي/كده/بتاع/دلوقتي) are a hard flag (his: «عدل الكابشن … ومش سعودي»)",
+   "his_words": [
+    "عدل الكابشن الكتبابه غلط ومش سعودي"
+   ],
+   "avg_rating_when_noted": null
+  },
+  {
+   "signal": "client_name_visible",
+   "n_rows": 1,
+   "n_items": 1,
+   "target": "scripts/seed_judge_cards.py post_idea",
+   "proposed": "client name leads every judged card",
+   "his_words": [
+    "You need to say the client name and we afreed the full test is for the 3 Clint only"
+   ],
+   "avg_rating_when_noted": null
+  },
+  {
+   "signal": "brand_dna_first",
+   "n_rows": 1,
+   "n_items": 1,
+   "target": "pipeline order",
+   "proposed": "deepen brand DNA + strategy organs BEFORE caption/idea work — creative quality is downstream of profile depth (his ruling: 3 pilot clients only)",
+   "his_words": [
+    "We need to work more on the brand dna and strategy before we start the caption and the idea so work more on the creaitvie and only for the 3 Clint’s"
+   ],
+   "avg_rating_when_noted": null
+  },
+  {
+   "signal": "cultural_word_risk",
+   "n_rows": 1,
+   "n_items": 1,
+   "target": "scripts/caption_filter.py _CULTURAL_TERMS",
+   "proposed": "dialect double-meaning screen: when he flags a word, it enters the cultural gate same-day",
+   "his_words": [
+    "Ok we can’t use the word سدر it means boobs on the culture so we need to check alll the sixul words or the words that can be sixcual"
+   ],
+   "avg_rating_when_noted": null
+  },
+  {
+   "signal": "scene_diversity",
+   "n_rows": 1,
+   "n_items": 1,
+   "target": "render: angle stage",
+   "proposed": "enforce per-week idea-core diversity: consecutive slots must not share emotional core",
+   "his_words": [
+    "We need to make the posts different so for example if the idea is family they can’t use it for all the posts"
+   ],
+   "avg_rating_when_noted": null
+  },
+  {
+   "signal": "worn_phrase",
+   "n_rows": 1,
+   "n_items": 1,
+   "target": "scripts/render_client_slot.py STANDING_WORN",
+   "proposed": "extend the standing worn list when he names a phrase (already: لحظة/يجمعنا/احلي مع …)",
+   "his_words": [
+    "To safe and still using احلي مع"
+   ],
+   "avg_rating_when_noted": 1.0
+  },
+  {
+   "signal": "audience_fit_over_art",
+   "n_rows": 1,
+   "n_items": 1,
+   "target": "clients/<handle>/profile/audience_mirror.json",
+   "proposed": "audience-fit is rated separately from creativity in his notes — track both axes",
+   "his_words": [
+    "جيده للشريحه الموجهه بس مفيش ابداع في الكابشن ولا المشهد"
+   ],
+   "avg_rating_when_noted": 3.0
+  },
+  {
+   "signal": "religion_play_safe",
+   "n_rows": 1,
+   "n_items": 1,
+   "target": "data/law_registry.json prayer_as_commercial_backdrop",
+   "proposed": "religious surfaces: people-first framing, never product-first (his words: «about the people not the product»)",
+   "his_words": [
+    "When it comes to religion we need to play it very safe and to make it about the people not the product"
+   ],
+   "avg_rating_when_noted": 1.0
+  }
+ ],
+ "unmatched_notes": [
+  "if the photo have a kid so yeah its a good caption",
+  "check the occasion saudi dosent have evergreen",
+  "Perfect",
+  "The captain is not that good but it’s ok",
+  "Nice play",
+  "Nice play",
+  "Perfect and formal",
+  "It need more wiring",
+  "I need to know in which direction and for how and which sector to be able to judge",
+  "To off",
+  "Good for small Bussnies with low prices range",
+  "Very good"
+ ]
+}

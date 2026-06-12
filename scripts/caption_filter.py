@@ -46,7 +46,32 @@ def check(caption: str) -> tuple[bool, list[str]]:
     cult_ok, cult_hits = cultural_check(cap)
     if not cult_ok:
         reasons.extend(f"cultural:{h}" for h in cult_hits)
+    dia_ok, dia_hits = dialect_check(cap)
+    if not dia_ok:
+        reasons.extend(f"dialect:{h}" for h in dia_hits)
     return (len(reasons) == 0), reasons
+
+
+# Mohamed 2026-06-13 (×2, his words: «عدل الكابشن الكتبابه غلط ومش سعودي»): captions
+# for Saudi clients must READ Saudi. Unambiguous Egyptian/Levantine markers only —
+# never words Gulf speech shares (so شو/ليش stay out; مو/كذا/الحين are the Saudi forms).
+_NON_SAUDI_MARKERS = {
+    "مش": "egyptian (Saudi: مو/ما)", "عايز": "egyptian (Saudi: أبغى)",
+    "ازاي": "egyptian (Saudi: كيف)", "إزاي": "egyptian (Saudi: كيف)",
+    "كده": "egyptian (Saudi: كذا)", "كدة": "egyptian (Saudi: كذا)",
+    "بتاع": "egyptian", "دلوقتي": "egyptian (Saudi: الحين)",
+    "أوي": "egyptian (Saudi: مرة/وايد)", "قوي": None,  # قوي is valid MSA adjective — skip
+    "هلق": "levantine (Saudi: الحين)", "منيح": "levantine (Saudi: زين)",
+}
+
+
+def dialect_check(caption: str) -> tuple[bool, list[str]]:
+    """Saudi-dialect authenticity: flag unambiguous non-Saudi colloquial markers."""
+    import re as _re
+    tokens = set(_re.findall(r"[ء-ي]+", caption or ""))
+    hits = [f"{w} → {why}" for w, why in _NON_SAUDI_MARKERS.items()
+            if why and w in tokens]
+    return (not hits), hits
 
 
 def filter_options(options: dict) -> tuple[dict, dict]:

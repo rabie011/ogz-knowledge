@@ -13,7 +13,8 @@ import json, glob, collections
 from pathlib import Path
 
 BASE = Path(__file__).parent.parent
-TODAY = "2026-06-11"
+import datetime as _dt
+TODAY = str(_dt.date.today())
 THRESHOLD = 3
 CODES = {"culture_breach", "off_voice", "wrong_goal", "too_generic", "factual_error", "unexplained"}
 
@@ -32,6 +33,38 @@ def scan() -> dict:
             if code in CODES:
                 hits[code].append({"client": client, "ts": e.get("ts"), "note": (e.get("note") or "")[:80]})
     return hits
+
+
+def scan_operational() -> list:
+    """D6 PREP (June 12, RABIE's pick): the loop was blind to OPERATIONAL scars —
+    it read client ledgers only. Zoom-out findings triaged REAL (verified + fixed
+    at source) are law candidates too: the full-circle law applied to the system
+    itself, not only to client verdicts."""
+    ml = BASE / "data/make_sure_log.jsonl"
+    scars = []
+    if not ml.exists():
+        return scars
+    for line in open(ml):
+        try:
+            e = json.loads(line)
+        except Exception:
+            continue
+        if e.get("type") != "zoom_out":
+            continue
+        for key, verdict in (e.get("triage") or {}).items():
+            if str(verdict).upper().startswith("REAL"):
+                scars.append({"key": key, "ts": e.get("ts"), "verdict": str(verdict)[:140]})
+    return scars
+
+
+def draft_operational_cards(scars: list) -> list:
+    """One scar = one draft (already evidence-backed: cold eyes found it, we verified
+    and fixed it). The machine drafts; only Mohamed crystallizes."""
+    return [{"draft": f"operational law candidate: {s['key']} (zoom-out verified+fixed)",
+              "evidence": [s],
+              "proposed_action": "crystallize the fix as permanent law (CLAUDE.md rule / guard / gate)",
+              "status": "DRAFT — Mohamed's yes/no only", "drafted": TODAY,
+              "source": "operational_scar"} for s in scars]
 
 
 def draft_cards(hits: dict) -> list:
@@ -62,6 +95,9 @@ def main():
     for code, evs in sorted(hits.items(), key=lambda kv: -len(kv[1])):
         print(f"  {code}: {len(evs)} ({len({e['client'] for e in evs})} clients)")
     cards = draft_cards(hits)
+    scars = scan_operational()
+    cards += draft_operational_cards(scars)
+    print(f"  operational scars (zoom-out REAL): {len(scars)}")
     out = BASE / "data/crystallize_queue.json"
     existing = json.loads(out.read_text()) if out.exists() else {"cards": []}
     seen = {c["draft"] for c in existing["cards"]}

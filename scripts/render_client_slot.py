@@ -72,7 +72,27 @@ def load_client(handle: str) -> dict:
     corpus_text = " ".join([x.get("caption") or "" for x in posts] + [prof.get("biography", "")]
                             + [x["name"] for x in truth["product_candidates"]]
                             + truth.get("recurring_caption_terms", []))
-    return {"handle": handle, "brand_ar": prof.get("fullName") or handle,
+    # G9-lite (June 12, cold-eyes round 4): the pen develops catchphrases («ما يكتمل إلا»)
+    # — mine the client's RECENT rendered captions for worn phrases, ban them this render
+    import glob as _g, collections as _c, re as _re
+    recent = sorted(_g.glob(str(cdir / "posts/*__v5.json")),
+                     key=lambda f: -Path(f).stat().st_mtime)[:20]
+    grams = _c.Counter()
+    n_cards = 0
+    for _f in recent:
+        try:
+            _caps = json.loads(open(_f).read()).get("captions") or []
+        except Exception:
+            continue
+        if not _caps:
+            continue
+        n_cards += 1
+        words = _re.findall(r"[ء-ي]+", " ".join(_caps))
+        for j in range(len(words) - 2):
+            grams[" ".join(words[j:j+3])] += 1
+    worn = [g for g, c in grams.most_common(8) if n_cards >= 5 and c >= max(3, n_cards * 0.25)]
+    return {"handle": handle, "worn_phrases": worn,
+            "brand_ar": prof.get("fullName") or handle,
             "bio": prof.get("biography", ""), "truth": truth,
             "moments": p("moments_bank")["moments"], "fingerprint": p("fingerprint"),
             "state": p("state"), "exemplars": exemplars, "corpus_text": corpus_text,
@@ -149,7 +169,8 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
              f"{bilingual} Short captions. Concrete and warm. Offers need what/how-much/where clarity. "
              f"Use ONLY these real facts — products: {products}, channels: {channels or 'NONE — never invent ordering channels'}. "
              "Speak only of what the reader can DO today with these real products and channels. "
-             "When the brand has a signature product NAME in its own words (recurring terms), USE it — never genericize it away. "
+             + (f"WORN OUT this month — find another way to say it: {c.get('worn_phrases')}. " if c.get("worn_phrases") else "")
+             + "When the brand has a signature product NAME in its own words (recurring terms), USE it — never genericize it away. "
              "No invented hashtags. Return JSON: {\"options\": [\"...\", \"...\", \"...\"]}")
     few = []
     for ex in c["exemplars"][:3]:

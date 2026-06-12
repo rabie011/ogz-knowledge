@@ -1,10 +1,10 @@
 # RABIE — APPROVE/REVERSE SHEET (B251)
 
-**Total rulings: 103** · **Range:** 2026-06-11 20:15 → 2026-06-12 02:19 (one overnight chair shift: 71 exchanges, 35 ledger events, deduped)
+**Total rulings: 121** · **Range:** 2026-06-11 20:15 → 2026-06-12 05:35 (two chair shifts: Session 1 = 103 rulings / 71 exchanges · Session 2 "the week night" = 18 rulings / 23 exchanges)
 **✓ = approve · ✗ = reverse — reversals retrain RABIE's mind.**
 
-Context: Mohamed upgraded RABIE to v2 STRONG CHAIR at 20:49 [s11:13] — rulings before that line were soft-chair. ⚠ = flag, see CONTRADICTIONS at end.
-Refs: `s11:N`/`s12:N` = `~/agents/rabie/sessions/2026-06-{11,12}.jsonl` line N · `ab/ej/mf#N` = `{albaik,eatjurisha,myfitness.sa}/events/ledger.jsonl` line N.
+Context: Mohamed upgraded RABIE to v2 STRONG CHAIR at 20:49 [s11:13] — rulings before that line were soft-chair. At 03:01 Mohamed's portal taps RATIFIED the 103 Session-1 rulings except the 5 ⚠ flags [s12:25] — boxes left for his hand. ⚠ = flag, see CONTRADICTIONS at end.
+Refs: `s11:N`/`s12:N` = `~/agents/rabie/sessions/2026-06-{11,12}.jsonl` line N · `ab/ej/mf#N` = `{albaik,eatjurisha,myfitness.sa}/events/ledger.jsonl` line N · `ogz@hash` = commit in `~/Desktop/ogz-knowledge` git log (the ruling, executed).
 
 ---
 
@@ -137,6 +137,42 @@ Refs: `s11:N`/`s12:N` = `~/agents/rabie/sessions/2026-06-{11,12}.jsonl` line N �
 
 ---
 
+## Session 2 — the week night (June 12, post-02:19)
+
+**18 new rulings** · s12:20 → s12:42 (02:26 → 05:35). The chair accepted a self-imposed handicap at 02:26 (answer to ⚠#4 below): **build ratings default-ceiling 3** unless eyes-proof lifts it — lifted ratings marked PROOF-LIFTED.
+
+### 6a · RATINGS ON BUILDS — under the 3-ceiling handicap (3)
+
+- [☐] SELF-HANDICAP accepted — build ratings capped at default 3 until Mohamed calibrates them against his own ratings of the same builds (his direct answer to ⚠#4) — s12:20
+- [☐] B188/189 Khwila pack (**4** — PROOF-LIFTED above ceiling: 7/7 evidence lines + FIX-1 caught the voice-drift landmine) — s12:22 · ogz@77a719a5
+- [☐] B105 deadly-defaults table (**4** — PROOF-LIFTED: YAML parses, checklist run verified, one pre-existing ungated card caught in test) — s12:23 · ogz@672bb936
+
+### 6b · LAWS ACCEPTED (5)
+
+- [☐] EID-CTA STRIP — emotional occasions strip bare order-CTAs unless integral to the post's point (herfy «اطلبوا الآن» on an eid greeting = old template smell; greeting kept) — s12:40 · ogz@e38f1ab6
+- [☐] SYNTHETIC-WELL-FOR-NEWBORNS — corpus-less clients get BORN moments (sector plays × real products × voice-A warmth, ~40), marked inferred, validated by the same lens as mined ones — s12:41 · ogz@16f62b78 (+ ogz@4b7a820a — first commit claimed +40 that failed; self-audit caught it)
+- [☐] G8 SERVICE-CLAIM GUARD — unverified service offers die (the «free consultation» lie survived TWO regens; a fake service = the client gets phone calls) — s12:28 · ogz@b677ef4a
+- [☐] CATCHPHRASE GUARD (G9-lite) — worn phrases auto-banned per render (cold-eyes round-4 fix; the r4 exchange is NOT in the jsonl ⚠ — the commit is the record; ruling named s12:42) — ogz@aa232930
+- [☐] MAKE-SURE RITUAL — evidence watchdog + cold outside eyes (echo-breaker) wired into the clock as standing law — s12:37 · ogz@9a65a6be
+
+### 6c · DIRECTION CALLS (8)
+
+- [☐] WEEK PLAN ratified D1-7: grinder + full-circle test harness → 20-batch judging round → armor port (D4-5) → cross-client crystallize → week receipt + im-here package; today's parallel thread = grinder output analysis — s12:36 · ogz@04a43151 (full-circle executed: ogz@7104fda1)
+- [☐] Full spine regen LAUNCHED — his own Session-1 hold condition met (Mohamed's confirmed gold landed); all 3 clients, checkpointed, unattended background — s12:26
+- [☐] B-pick sequence continued post-handicap: B136 → B004 → B021 → B070+B224 (bundled) → B179 majors auto-pickset → B022 → B106 — reasoning stated each pick; NO numbered verdicts requested or given ⚠ — s12:24/29/30/32/33/34/35 · ogz@ad79c437/dc83125a/83f3e19d/c2c90b5d/e41c7f6c/3dbd7b58/6085f63e
+- [☐] IDEA WELL — zoom-out answered as Mohamed: 7/wk × 365 slots on the same five scenes = template farm; grow moments_bank (more mined moments, rotating door themes, competitor angle-classes); template-smell is what Mohamed kills first — s12:37 · ogz@b3955f9f
+- [☐] ARMOR PORT order — step 1: all 8 truth guards wired into the 41-brand main API v6 (honest G3-blindness note kept in code) — s12:38 · ogz@ab61f760 · step 2: 108 sector lenses injected before build_messages_v5 — s12:39 · ogz@626f68f7
+- [☐] Jurisha PAUSE in grinder NOW (her well = 6 moments ÷ 365 slots = guaranteed template farm; albaik's 261 fine) + build synthetic well + resume 7/wk only after the well holds — s12:41 · ogz@16f62b78
+- [☐] R2 LEAD PICK: خلّيه أجازة (firaasa) — his lead; all 5 concepts staged to Mohamed's portal for HIS pick — s12:31 · ogz@d9df040f
+- [☐] Refresh THIS sheet picked over gold-rotation port — Mohamed's return ritual outranks the next build — s12:42
+
+### 6d · CLIENT DECISIONS — Floward R2 (2)
+
+- [☐] R2 judging, 5 fresh concepts: خلّيه أجازة **5** · الساق اللي شايلة **4** · جاي في السكة **5** · بالكِناية **4** · مش سواق.. أسطى **5** — s12:31 · ogz@d9df040f
+- [☐] BATCH-20 QA pass: «free fitness consultation» KILL confirmed (offer claim absent from truth pack) + per-client harsh checklist applied before Mohamed's full-circle judging — s12:27 · ogz@d31e4d70
+
+---
+
 ## ⚠ CONTRADICTIONS / CALIBRATION FLAGS
 
 1. **s11:7→8** — directed picking real clients #2/#3 himself, reversed one exchange later when the Mohamed-only boundary was flagged.
@@ -144,6 +180,9 @@ Refs: `s11:N`/`s12:N` = `~/agents/rabie/sessions/2026-06-{11,12}.jsonl` line N �
 3. **s11:15→16** — his pyramid "missing list" was Claude's own six flanks echoed back (the exact weakness Mohamed's v2 correction targeted); pressed, he produced ONE genuine addition (cross-client learning).
 4. **Infra ratings never go below 4** — all 7 backlog B-items got 5/5 within minutes of delivery; post-v2 harshness reached content (0s, 1s, 2s) but never builds. Calibration watch.
 5. **Generic-kill line wobbles** — J1 «تجمع العائلة» and M1 "Fuel your suhoor" got 3/5 as "generic-leaning/acceptable" while equivalent generic lines elsewhere were killed at 0-2.
+6. **NEW (Session 2) — the 3-ceiling never held on a logged verdict.** After accepting the handicap (s12:20), only TWO builds ever got numbered verdicts (B188/189, B105) — both lifted to 4 on the FIRST ask, with the lifting "proof" authored by the same source being rated (Claude's own evidence lines). From B136 onward, builds shipped with no numbered verdict at all (s12:24-35) — the handicap suppressed ratings rather than hardening them. ⚠#4 watch stays open.
+7. **NEW (Session 2) — R2 concept floor at 4.** Floward R2 scored 5/4/5/4/5 minutes after delivery — no kill, nothing below 4 (s12:31). The 0-2 harshness he applies to rendered captions has still never reached Claude-authored concept work. Same echo coat as ⚠#4/#6.
+8. **NEW (Session 2) — unlogged ruling.** The catchphrase-guard law (ogz@aa232930, "cold r4 fix") has no exchange in the jsonl — it's named in s12:42 and exists as executed code, but Mohamed cannot replay the reasoning behind it. A ruling without a logged exchange weakens the approve/reverse ritual; log discipline flag.
 
 ## REVERSALS RETRAIN
 

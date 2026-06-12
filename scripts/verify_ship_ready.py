@@ -147,6 +147,23 @@ try:
 except Exception as e:
     check("Client organs validate", False, f"validator error: {e}")
 
+# ── HUMAN-VERDICT AUDIT (B104, June 12): no confirmer may be a score (the +0.08 scar).
+# AI/scores may KILL, never PASS — a confirmer citing health_score/engagement/critic = violation.
+try:
+    import glob as _g, json as _j, re as _re
+    FORBIDDEN = _re.compile(r"health_score|engagement|critic|auto_judge|ai_score|model_score", _re.I)
+    bad = []
+    for f in _g.glob(str(Path(__file__).parent.parent / "clients/*/profile/*.json")) + \
+             _g.glob(str(Path(__file__).parent.parent / "clients/*/events/*.jsonl")):
+        txt = open(f, encoding="utf-8", errors="ignore").read()
+        for m in _re.finditer(r'"confirmer"\s*:\s*"([^"]+)"', txt):
+            if FORBIDDEN.search(m.group(1)):
+                bad.append(f"{f.split('clients/')[-1]}: {m.group(1)}")
+    check("Human-verdict audit (no score-based confirmers)", not bad,
+          f"{len(bad)} violations: {bad[:3]}" if bad else "0 score-based confirmers")
+except Exception as e:
+    check("Human-verdict audit", False, str(e))
+
 # Summary
 print(f"\n{'=' * 60}")
 if failures:

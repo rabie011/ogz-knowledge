@@ -1139,6 +1139,18 @@ def _try_create_v6(req) -> dict | None:
     survivors, dropped = filter_options(parsed.get("options", {}))
     if not survivors:
         return None
+    # ARMOR PORT (D4, June 12): the week's 8 laws guard the main pipeline too.
+    # corpus = brief gold/exemplars (no client corpus here — G3 partially blind, honest).
+    try:
+        from truth_guards import apply_guards
+        _corpus = " ".join([brief.get("brand", ""), brief.get("brand_en", "")]
+                            + [g for g in brief.get("gold", [])][:10])
+        _slot = {"occasion": brief.get("occasion")}
+        _surv, _kills = apply_guards(list(survivors.values()), _corpus, _slot)
+        if _surv:
+            survivors = {f"g{i}": s for i, s in enumerate(_surv)}
+    except ImportError:
+        pass
     best, scores = pick_best(survivors, brief.get("brand_en", ""), brief.get("brand", ""))
     best_score = max(scores.values()) if scores else 50
     return {

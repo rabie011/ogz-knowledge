@@ -54,6 +54,9 @@ def main():
     o = subprocess.run(["pgrep", "-f", "orchestrator_daemon.py"], capture_output=True)
     checks["orchestrator_alive"] = o.returncode == 0
 
+    # D7-1: the im-here package stays fresh every cycle — Mohamed can appear any minute
+    subprocess.run(["python3", str(BASE / "scripts/week_receipt.py")], capture_output=True, timeout=60)
+
     ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "commits_flowing", "orchestrator_alive"))
     entry = {"ts": now, **checks, "verdict": "ALIVE" if ok else "ALARM"}
     with open(LOG, "a") as f:

@@ -22,6 +22,8 @@ def _schema():
 def ledger_write(handle: str, event: dict):
     import jsonschema
     jsonschema.validate(event, _schema())          # raises on contract breach
+    from approvers_registry import check_confirmer
+    check_confirmer(event)                          # B156: trust moves on human hands only
     lf = BASE / "clients" / handle / "events/ledger.jsonl"
     lf.parent.mkdir(parents=True, exist_ok=True)
     with open(lf, "a") as f:

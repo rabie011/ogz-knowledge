@@ -152,6 +152,19 @@ def make_angle(c: dict, slot: dict, sector: str, brain: str | None = None) -> di
     return json.loads(gpt([{"role": "system", "content": sys_p}, {"role": "user", "content": user}], temp=0.8, max_tok=400))
 
 
+CTA_PUSH_TYPES = {"weekly_offer", "white_friday", "11_11_shopping", "singles_day_11_11"}
+
+
+def cta_allowed(handle: str, slot: dict) -> bool:
+    """The 80/20 law in code (zoom-out June 12: 300/356 jurisha cards = 84% order-tails,
+    the inverse of the standard; Mohamed's wrong_goal code says it himself: «صفر طاقة
+    بيع — اللحظة فقط»). Push slots sell; evergreen sells ~1 day in 4, date-hashed."""
+    if slot.get("occasion") in CTA_PUSH_TYPES or slot.get("type") == "offer":
+        return True
+    import hashlib
+    return int(hashlib.md5(f"{handle}{slot.get('date','')}cta".encode()).hexdigest(), 16) % 4 == 0
+
+
 def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     taste = json.loads((BASE / "data/founder_taste.json").read_text())
     products = [x["name"] for x in c["truth"]["product_candidates"]][:5]
@@ -168,7 +181,10 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
              "The occasion appears only THROUGH the scene — the scene IS the celebration. "
              f"{bilingual} Short captions. Concrete and warm. Offers need what/how-much/where clarity. "
              f"Use ONLY these real facts — products: {products}, channels: {channels or 'NONE — never invent ordering channels'}. "
-             "Speak only of what the reader can DO today with these real products and channels. "
+             + ("Speak only of what the reader can DO today with these real products and channels. "
+                if cta_allowed(c["handle"], slot) else
+                "TODAY IS A BRAND-BUILD DAY: zero selling energy, NO ordering CTA, do NOT mention "
+                "delivery apps or ordering — the moment only (the channels above exist; just don't push them today). ")
              + (f"WORN OUT this month — find another way to say it: {c.get('worn_phrases')}. " if c.get("worn_phrases") else "")
              + "When the brand has a signature product NAME in its own words (recurring terms), USE it — never genericize it away. "
              "No invented hashtags. Return JSON: {\"options\": [\"...\", \"...\", \"...\"]}")

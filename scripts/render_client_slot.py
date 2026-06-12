@@ -316,6 +316,10 @@ def main():
     slot = next((s for mm in ymap["months"].values() for s in mm if s["date"] == a.date), None)
     if not slot:
         sys.exit(f"no slot {a.date} in {a.handle} year map")
+    PUSH_TYPES = {"weekly_offer", "white_friday", "11_11_shopping", "singles_day_11_11"}
+    if (slot.get("occasion") in PUSH_TYPES or slot.get("type") == "offer") and _goals.get("capacity_ceiling") is None:
+        sys.exit(f"CAPACITY BLOCK (B002): push slot {slot.get('occasion') or slot.get('type')} needs a declared "
+                  f"capacity_ceiling in goals.json — a viral push without capacity = broken kitchen. Ask the client.")
     c = load_client(a.handle)
     brain = route_brain(slot, alt=int(a.date.replace("-", "")) ) if a.brain == "auto" else a.brain
     angle = make_angle(c, slot, ymap["sector"], brain=brain)

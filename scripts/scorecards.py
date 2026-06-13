@@ -136,7 +136,10 @@ def fold_issues() -> dict:
         opener = next((e for e in evs if e["event"] == "open"), None)
         if not opener:
             continue
-        last = evs[-1]["event"]
+        # 'recurred' is a quote-preserving NOTE event (June 13) — state = the event
+        # before it (mirrors issue_log.current_state; this was the 3rd consumer that
+        # didn't know the vocabulary, crashing scorecards → stale → alarm flood)
+        last = next((e["event"] for e in reversed(evs) if e["event"] != "recurred"), "open")
         status = {"open": "open", "reopened": "open", "fix_claimed": "fix_claimed",
                   "verified": "verified", "closed": "closed", "voided": "voided"}[last]
         rec = max((e.get("recurrence_count", 0) for e in evs if e["event"] == "reopened"), default=0)

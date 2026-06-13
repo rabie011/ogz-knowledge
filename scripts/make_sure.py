@@ -70,8 +70,11 @@ def main():
         checks["portal_public"] = False
 
     # 4. last commit age (the orchestra commits — silence = stall)
-    c = subprocess.run(["git", "-C", str(BASE), "log", "-1", "--format=%ct"], capture_output=True, text=True)
-    age_min = (time.time() - int(c.stdout.strip())) / 60 if c.stdout.strip() else 9999
+    # NEWEST committer-date across the last 10 commits — a backdated auto-commit
+    # (the enricher daemon stamps old dates) must not poison the freshness check
+    c = subprocess.run(["git", "-C", str(BASE), "log", "-10", "--format=%ct"], capture_output=True, text=True)
+    cts = [int(x) for x in c.stdout.split() if x.strip()]
+    age_min = (time.time() - max(cts)) / 60 if cts else 9999
     checks["last_commit_min"] = round(age_min)
     checks["commits_flowing"] = age_min < 120
 
@@ -119,13 +122,30 @@ def main():
         print(f"  {'✅' if (v if isinstance(v, bool) else True) else '🔴'} {k}: {v}")
     print(f"\n{'🟢 MAKE-SURE: ALIVE' if ok else '🔴 MAKE-SURE: ALARM'}")
 
+    # ONE reusable alarm card (dedupe) — a persistent red must NOT flood his phone with
+    # a new card every cycle (June 13: 20 stacked alarm cards = noise, ADHD-contract breach).
+    # Auto-close it the moment everything is green again (machine evidence).
+    import json as _j
+    qf = BASE / "data/decision_queue.json"
+    q = _j.loads(qf.read_text()) if qf.exists() else {"items": []}
+    alarm = next((i for i in q["items"] if i["id"] == "alarm_live"), None)
     if not ok:
-        dead = [k for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "commits_flowing", "orchestrator_alive", "feedback_system") if not checks[k]]
-        subprocess.run(["python3", str(BASE / "scripts/queue_decision.py"),
-                        "--id", f"alarm_{int(time.time())}", "--urgent",
-                        "--title", f"🚨 إنذار: {', '.join(dead)} واقف",
-                        "--tag", "نظام", "--desc", f"فحص الأدلة فشل: {dead}. كلود يعالج — هذا للعلم.",
-                        "--buttons", "ack:👌 شفته"], capture_output=True)
+        dead = [k for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "commits_flowing", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests") if not checks.get(k, True)]
+        if alarm:  # update in place, never multiply
+            alarm["status"] = "open"; alarm["priority"] = "urgent"
+            alarm["title"] = f"🚨 إنذار: {', '.join(dead)} واقف"
+            alarm["desc"] = f"فحص الأدلة فشل: {dead}. كلود يعالج — هذا للعلم."
+            qf.write_text(_j.dumps(q, ensure_ascii=False, indent=1))
+        else:
+            subprocess.run(["python3", str(BASE / "scripts/queue_decision.py"),
+                            "--id", "alarm_live", "--urgent",
+                            "--title", f"🚨 إنذار: {', '.join(dead)} واقف",
+                            "--tag", "نظام", "--desc", f"فحص الأدلة فشل: {dead}. كلود يعالج — هذا للعلم.",
+                            "--buttons", "ack:👌 شفته"], capture_output=True)
+    elif alarm and alarm.get("status") != "answered":
+        alarm["status"] = "answered"; alarm["answered"] = "auto-closed: all gates green again"
+        alarm["answered_by"] = "system:make_sure (machine evidence)"
+        qf.write_text(_j.dumps(q, ensure_ascii=False, indent=1))
     raise SystemExit(0 if ok else 1)
 
 

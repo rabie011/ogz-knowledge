@@ -3527,6 +3527,38 @@
    "artifact_version": 1,
    "answered": "consolidated: scorecards KeyError(recurred) fixed + alarm flood deduped to alarm_live",
    "answered_by": "system:flood_cleanup"
+  },
+  {
+   "id": "approvals_idea_gate",
+   "title": "The idea/brief gate: can it run autonomous? (your approvals architecture — 1 decision)",
+   "tag": "Strategy",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-13T16:06:01",
+   "status": "open",
+   "kind": "buttons",
+   "judge_lane": false,
+   "lane": "strategy",
+   "why": "You asked to think about the approvals the creation system needs. The whole gate map is designed (docs/APPROVALS_ARCHITECTURE.md) — strategy/caption/photo/publish gates are settled. ONE choice is yours: on 2026-06-13 you killed 6 cards «still family / make them different». The architecture wanted idea+brief AUTONOMOUS — but RABIE caught that it rests on a scene-diversity gate that DOESN'T EXIST in code yet (only a soft re-sort that never blocks). So a 6th family idea could still slip through to the caption. The moat leaks at your freshest ruling.",
+   "need": "Pick the gate philosophy for idea/brief while the hard diversity gate is unbuilt.",
+   "did": "Designed the full map + graduation rule (clients earn autonomy by counted clean batches, never by time); queued the 3 unbuilt pieces the map unfolds (batch-diversity gate, per-client gate-state, occasion-criticality+drift-alarm).",
+   "options": [
+    {
+     "v": "A",
+     "label": "🛡 SAMPLED now → auto-graduate to autonomous per-occasion-family ONLY after the hard diversity gate ships + counted clean batches (honors the family scar)",
+     "rec": true
+    },
+    {
+     "v": "B",
+     "label": "⚡ Autonomous now, ship the diversity gate this week — accept the gap, move fast"
+    },
+    {
+     "v": "C",
+     "label": "🔒 FULL tap on every idea until you trust the machine (safest; burns your attention, fails the falling-taps test)"
+    }
+   ],
+   "made_by": "claude",
+   "artifact_version": 1
   }
  ]
 }

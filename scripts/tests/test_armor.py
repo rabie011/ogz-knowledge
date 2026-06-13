@@ -149,6 +149,38 @@ class TestTruthGuards(unittest.TestCase):
         self.assertNotIn("#فولو_فور_فولو", s[0])
 
 
+class TestTasteGuard(unittest.TestCase):
+    """June 13: kill_patterns was a WRITE-ONLY organ — his family×7 ruling changed
+    nothing at render. This suite pins the wire."""
+
+    KP = [{"pattern": "family_scene_overuse"}, {"pattern": "delivery_app_cta_overuse"}]
+
+    def test_family_scene_killed(self):
+        from render_client_slot import taste_guard
+        kept, killed = taste_guard(
+            ["العيلة كلها حول السفرة الليلة", "قهوتك الصباحية وصلت"], self.KP)
+        self.assertEqual(len(killed), 1, (kept, killed))
+        self.assertEqual(killed[0][1], "family_scene_overuse")
+        self.assertEqual(kept, ["قهوتك الصباحية وصلت"])
+
+    def test_app_cta_killed_but_ready_is_innocent(self):
+        from render_client_slot import taste_guard
+        kept, killed = taste_guard(
+            ["اطلبها من جاهز الحين", "جريشة جاهزة على سفرتك"], self.KP)
+        self.assertEqual(len(killed), 1, (kept, killed))
+        self.assertIn("جريشة جاهزة على سفرتك", kept)  # جاهزة = ready, not the app
+
+    def test_never_empties(self):
+        from render_client_slot import taste_guard
+        kept, killed = taste_guard(["لمة العيلة عند جدتي"], self.KP)
+        self.assertEqual(len(kept), 1)  # least-bad survives flagged
+
+    def test_inactive_pattern_no_kill(self):
+        from render_client_slot import taste_guard
+        kept, killed = taste_guard(["العيلة كلها هنا"], [])
+        self.assertFalse(killed)
+
+
 class TestWornGoldQuarantine(unittest.TestCase):
     def test_dropped_gold_never_fewshots(self):
         # his drop_conflicted ruling 2026-06-13: the exact caption that sat in few-shot

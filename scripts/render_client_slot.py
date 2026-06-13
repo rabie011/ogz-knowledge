@@ -25,6 +25,31 @@ from post_unit import chain_for
 STANDING_WORN = ["لحظة", "لحظات", "يجمعنا", "تجمعنا", "له طعم ثاني", "لها طعم خاص",
                  "في كل لقمة", "احلي مع", "أحلى مع"]  # احلي مع: Mohamed 01:25
 
+# TASTE GUARDS (June 13 — the write-only-organ catch): a client's kill_patterns organ
+# must CHANGE the render, not decorate the profile. Lexicon per known pattern;
+# unknown patterns still reach the pens as prompt bans (theme line below).
+TASTE_GUARD_LEXICON = {
+    "family_scene_overuse": re.compile(
+        r"عائل|العيلة|عيلة|لمة|اللمة|جدتي|جدّ?ي\b|أمي\b|والدتي|والدي\b|أهل البيت|family"),
+    # «من جاهز» (the app) not bare جاهز (= 'ready' — جريشة جاهزة is innocent)
+    "delivery_app_cta_overuse": re.compile(
+        r"(من|عبر|على)\s+جاهز|التطبيق|هنقرستيشن|حمّ?ل\s|app\b", re.I),
+}
+
+
+def taste_guard(options: list, kill_patterns: list) -> tuple[list, list]:
+    """Returns (kept, killed). Never empties the set — if every option violates,
+    the least-bad first option survives flagged (human eyes decide downstream)."""
+    active = [k.get("pattern") for k in kill_patterns if isinstance(k, dict)]
+    kept, killed = [], []
+    for o in options:
+        hit = next((p for p in active
+                    if p in TASTE_GUARD_LEXICON and TASTE_GUARD_LEXICON[p].search(o)), None)
+        (killed if hit else kept).append((o, hit) if hit else o)
+    if not kept and options:
+        kept = [options[0]]
+    return kept, killed
+
 
 def env(k):
     for l in open(os.path.expanduser("~/.abraham_env")):
@@ -108,7 +133,11 @@ def load_client(handle: str) -> dict:
     # «له طعم ثاني» skeleton 29×) — per-client mining can't see cross-client bleed,
     # so these are banned standing, every client, every render
     worn += STANDING_WORN
+    taste_f = cdir / "profile/taste.json"
+    kill_patterns = (json.loads(taste_f.read_text()).get("kill_patterns", [])
+                     if taste_f.exists() else [])
     return {"handle": handle, "worn_phrases": worn, "gold_entries": gold_entries,
+            "kill_patterns": kill_patterns,
             "brand_ar": prof.get("fullName") or handle,
             "bio": prof.get("biography", ""), "truth": truth,
             "moments": p("moments_bank")["moments"], "fingerprint": p("fingerprint"),
@@ -244,6 +273,9 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
                 "TODAY IS A BRAND-BUILD DAY: zero selling energy, NO ordering CTA, do NOT mention "
                 "delivery apps or ordering — the moment only (the channels above exist; just don't push them today). ")
              + (f"WORN OUT this month — find another way to say it: {c.get('worn_phrases')}. " if c.get("worn_phrases") else "")
+             + (("BANNED THEMES for this client (the founder's explicit ruling — find a different "
+                 "emotional core): " + ", ".join(k.get("pattern", "") for k in c.get("kill_patterns", [])) + ". ")
+                if c.get("kill_patterns") else "")
              + "When the brand has a signature product NAME in its own words (recurring terms), USE it — never genericize it away. "
              "No invented hashtags. Return JSON: {\"options\": [\"...\", \"...\", \"...\"]}")
     few = []
@@ -334,6 +366,10 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
             print(f"  ✂️ ungrounded name killed [{bad}]: {o[:50]}…", file=sys.stderr)
             continue
         cleaned.append(o)
+    kept, taste_killed = taste_guard(cleaned, c.get("kill_patterns", []))
+    for o, hit in taste_killed:
+        print(f"  ✂️ taste-kill [{hit}] (his ruling): {o[:50]}…", file=sys.stderr)
+    cleaned = kept
     surv, _ = filter_options({f"opt_{i}": o for i, o in enumerate(cleaned)})
     final = list(surv.values())[:3] if surv else cleaned[:3]
     # CTA-density rule (June 11, RABIE-ruled): a feed that sells in every line reads like

@@ -181,6 +181,35 @@ class TestTasteGuard(unittest.TestCase):
         self.assertFalse(killed)
 
 
+class TestSceneDiversity(unittest.TestCase):
+    """his ruling: «if the idea is family they can't use it for all the posts»"""
+
+    def test_core_detection(self):
+        from render_client_slot import scene_core
+        self.assertIn("family", scene_core("لمة العيلة حول السفرة"))
+        self.assertIn("craving", scene_core("ريحة القرمشة وصلت"))
+        self.assertFalse(scene_core("نص محايد بلا أي مشهد"))
+
+    def test_worn_core_sinks(self):
+        from render_client_slot import diversity_prefer
+        opts = ["العيلة مجتمعة الليلة", "ريحة القهوة تسبق الخطوات"]
+        recent = [{"family"}, {"family"}]  # last 2 slots were family
+        out = diversity_prefer(opts, recent)
+        self.assertEqual(out[0], "ريحة القهوة تسبق الخطوات")
+
+    def test_no_repeat_no_reorder(self):
+        from render_client_slot import diversity_prefer
+        opts = ["العيلة مجتمعة", "ريحة القهوة"]
+        out = diversity_prefer(opts, [{"family"}, {"craving"}])
+        self.assertEqual(out, opts)  # no worn core → original pen order stands
+
+    def test_never_drops(self):
+        from render_client_slot import diversity_prefer
+        opts = ["العيلة مجتمعة الليلة"]
+        out = diversity_prefer(opts, [{"family"}, {"family"}])
+        self.assertEqual(len(out), 1)
+
+
 class TestWornGoldQuarantine(unittest.TestCase):
     def test_dropped_gold_never_fewshots(self):
         # his drop_conflicted ruling 2026-06-13: the exact caption that sat in few-shot

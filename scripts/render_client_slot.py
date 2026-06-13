@@ -37,6 +37,39 @@ TASTE_GUARD_LEXICON = {
 }
 
 
+# SCENE CORES (June 13, his ruling n≥2: «We need to make the posts different so for
+# example if the idea is family they can't use it for all the posts») — deterministic
+# emotional-core classes; consecutive slots must not repeat one core.
+SCENE_CORES = {
+    "family": re.compile(r"عائل|العيلة|عيلة|لمة|اللمة|جدتي|جدّ?ي\b|أمي\b|والدتي|أهل البيت|الأجيال"),
+    "nostalgia": re.compile(r"ذكريات|زمان|أيام أول|الطفولة|تتجدد"),
+    "craving": re.compile(r"قرمشة|ريحة|رائحة|جوع|لقمة|قضمة|نكهة"),
+    "weather": re.compile(r"برد|مطر|شتا|أمطار|حر\b|أجواء"),
+    "friends": re.compile(r"شلة|أصحاب|صحبة|قعدة"),
+    "solo_calm": re.compile(r"هدوء|وحدك|استرخاء|مع نفسك"),
+    "kids_hero": re.compile(r"طفل|بطل صغير|عيال|الصغير"),
+    "energy_sport": re.compile(r"طاقة|جري|تمرين|لياقة|حركة"),
+}
+
+
+def scene_core(text: str) -> set:
+    """The emotional-core classes a caption/scene hits (empty set = unclassified)."""
+    return {name for name, pat in SCENE_CORES.items() if pat.search(text or "")}
+
+
+def diversity_prefer(options: list, recent_cores: list) -> list:
+    """Reorder options so a FRESH core leads. recent_cores = list of core-sets from
+    the client's last rendered slots (newest first). If the last 2 slots share a
+    core, options repeating it sink. Never drops — only reorders (the guards kill,
+    diversity ranks)."""
+    if not options or len(recent_cores) < 2:
+        return options
+    worn_cores = recent_cores[0] & recent_cores[1]
+    if not worn_cores:
+        return options
+    return sorted(options, key=lambda o: bool(scene_core(o) & worn_cores))
+
+
 def taste_guard(options: list, kill_patterns: list) -> tuple[list, list]:
     """Returns (kept, killed). Never empties the set — if every option violates,
     the least-bad first option survives flagged (human eyes decide downstream)."""
@@ -136,8 +169,16 @@ def load_client(handle: str) -> dict:
     taste_f = cdir / "profile/taste.json"
     kill_patterns = (json.loads(taste_f.read_text()).get("kill_patterns", [])
                      if taste_f.exists() else [])
+    recent_cores = []
+    for _f in recent[:6]:
+        try:
+            _caps2 = json.loads(open(_f).read()).get("captions") or []
+        except Exception:
+            continue
+        if _caps2:
+            recent_cores.append(scene_core(" ".join(_caps2)))
     return {"handle": handle, "worn_phrases": worn, "gold_entries": gold_entries,
-            "kill_patterns": kill_patterns,
+            "kill_patterns": kill_patterns, "recent_cores": recent_cores,
             "brand_ar": prof.get("fullName") or handle,
             "bio": prof.get("biography", ""), "truth": truth,
             "moments": p("moments_bank")["moments"], "fingerprint": p("fingerprint"),
@@ -372,6 +413,8 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     cleaned = kept
     surv, _ = filter_options({f"opt_{i}": o for i, o in enumerate(cleaned)})
     final = list(surv.values())[:3] if surv else cleaned[:3]
+    # his diversity ruling: a fresh emotional core leads when recent slots repeat one
+    final = diversity_prefer(final, c.get("recent_cores", []))
     # CTA-density rule (June 11, RABIE-ruled): a feed that sells in every line reads like
     # a flyer. Of the 3 options, at most ONE keeps an order-CTA tail — the rest stand on
     # the scene. Deterministic: keep the first CTA, strip CTA sentences from the others.

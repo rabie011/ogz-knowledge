@@ -29,11 +29,17 @@ from organ_write import write_organ
 CURSOR = "data/gold_mint_cursor.json"
 
 def law_violations(caption: str, occasion: str, brand_tokens: list = None) -> list:
-    """ONE law, ONE enforcement: delegates to the cultural gate (caption_filter).
+    """ONE law, ONE enforcement: delegates to the cultural gate (caption_filter)
+    + the standing worn list (render_client_slot.STANDING_WORN — same single copy
+    the few-shot quarantine reads). June 13 lesson: 4 worn-phrase approvals minted
+    silently and needed his drop_conflicted ruling AFTER the fact — now the conflict
+    stages a ruling BEFORE the vault, like the dua case always did.
     (CTA-on-religious-day was struck down by Mohamed 2026-06-12 — the gate already
     reflects his ruling; mint and gate can never diverge again.)"""
     from caption_filter import cultural_check
     _, hits = cultural_check(caption, occasion)
+    from render_client_slot import STANDING_WORN
+    hits += [f"worn_phrase:{w}" for w in STANDING_WORN if w in caption]
     return hits
 
 

@@ -46,6 +46,17 @@ def main():
     (SB / "data/mohamed_answers.jsonl").write_text(
         "\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n")
 
+    # g4 (June 13): a worn-phrase ★5 approval must stage a ruling, never mint silently
+    q0 = json.loads((SB / "data/decision_queue.json").read_text())
+    q0["items"].append({"id": "g4", "handle": "testbrand",
+                        "caption": "وش أحلى من لحظة تجمعنا هنا", "occasion": "evergreen",
+                        "made_by": "mind:firaasa", "status": "answered"})
+    (SB / "data/decision_queue.json").write_text(json.dumps(q0, ensure_ascii=False))
+    with open(SB / "data/mohamed_answers.jsonl", "a") as f:
+        f.write(json.dumps({"ts": ts, "judge": "mohamed", "auth": "key", "item_id": "g4",
+                            "answer": "approved", "rating": 5, "artifact_id": "card:g4",
+                            "source": "team_portal"}, ensure_ascii=False) + "\n")
+
     import gold_mint
     minted = gold_mint.mint()
 
@@ -64,6 +75,9 @@ def main():
     assert not any(e.get("caption", "").startswith("اللهم") for e in gold_entries), \
         "law-violating caption (dua+brand) minted into gold"
     assert any(i["id"] == "ruling_g2" for i in q2["items"]), "ruling card not staged on conflict"
+    assert not any("تجمعنا" in (e.get("caption") or "") for e in gold_entries), \
+        "worn-phrase approval minted silently — the June 13 hole is back"
+    assert any(i["id"] == "ruling_g4" for i in q2["items"]), "worn conflict did not stage a ruling"
 
     # g3: RULING EXECUTION (June 13 — the assert used to stop one hop short: staging
     # was verified, execution wasn't, and Mohamed's real drop_conflicted tap sat

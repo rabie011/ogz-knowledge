@@ -52,6 +52,32 @@ strip_punct = lambda s: re.sub(r"[^\wء-ي\s]", "", s).strip()
 dedupe_words = lambda s: re.sub(r"\b(\S+)\s+\1\b", r"\1", s)
 
 
+def build_corpus(brand: str, base_dir=None) -> str:
+    """B036 (June 13): the grounding corpus for a matrix brand — exemplars + signature
+    phrases + proven openers from logs/brand_dna/{brand}_dna_v3.json, plus the brief's
+    real hooks/hashtags/context. Until this, the v6 path ran G3 noun-grounding nearly
+    BLIND (corpus = brand names + gold only; armor proof counted 34 ungrounded kills).
+    Deterministic, on-disk only. Returns '' when nothing exists (guards stay strict)."""
+    import json as _j
+    from pathlib import Path as _P
+    b = _P(base_dir) if base_dir else _P(__file__).parent.parent
+    parts = [brand]
+    dna_f = b / f"logs/brand_dna/{brand}_dna_v3.json"
+    if dna_f.exists():
+        d = _j.loads(dna_f.read_text())
+        parts += [str(x) for x in (d.get("exemplars") or [])]
+        parts += [str(x) for x in (d.get("signature_phrases_ar") or [])]
+        parts += [str(x) for x in (d.get("proven_openers_ar") or [])]
+    bm = b / "data/brief_matrix.json"
+    if bm.exists():
+        brief = next((x for x in _j.loads(bm.read_text())
+                      if x.get("brand") == brand or x.get("brand_en") == brand), None)
+        if brief:
+            parts += [str(brief.get(k, "")) for k in
+                      ("brand", "brand_en", "brand_context", "product", "real_hooks", "hashtags")]
+    return " ".join(p for p in parts if p).lower()
+
+
 def ungrounded(text: str, corpus: str, documented: bool) -> str | None:
     for m in PERSON_AR.finditer(text):
         if not documented:

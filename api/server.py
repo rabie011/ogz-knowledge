@@ -1189,9 +1189,12 @@ def _try_create_v6(req) -> dict | None:
     # ARMOR PORT (D4, June 12): the week's 8 laws guard the main pipeline too.
     # corpus = brief gold/exemplars (no client corpus here — G3 partially blind, honest).
     try:
-        from truth_guards import apply_guards
-        _corpus = " ".join([brief.get("brand", ""), brief.get("brand_en", "")]
-                            + [g for g in brief.get("gold", []) or []][:10])
+        from truth_guards import apply_guards, build_corpus
+        # B036/B037 (June 13): G3 grounding gets the brand's REAL corpus (DNA exemplars
+        # + signature phrases + brief hooks) instead of running nearly blind
+        _corpus = (build_corpus(brief.get("brand_en") or brief.get("brand", ""))
+                   + " " + " ".join([brief.get("brand", ""), brief.get("brand_en", "")]
+                                     + [g for g in brief.get("gold", []) or []][:10]))
         _slot = {"occasion": brief.get("occasion")}
         # B039 class (June 13): the brief's REAL hashtags must survive the guard —
         # without this, apply_guards stripped the brand's own tags from every v6 caption

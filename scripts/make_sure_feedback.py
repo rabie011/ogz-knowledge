@@ -251,6 +251,42 @@ def run_checks() -> dict:
     else:
         c["privacy_audit_fresh"] = False
 
+    # 12h. NO-RE-ASK (June 13 Memory Law / Rule #6+#11): a passport card may NEVER ask a
+    # question the organ already answers — re-ask = trust death (the goals-counter bug
+    # nearly re-asked jurisha's confirmed goal/capacity/USP).
+    try:
+        sys.path.insert(0, str(B / "scripts"))
+        from seed_passport_cards import already_answered as _ans
+        q = json.loads((B / "data/decision_queue.json").read_text())["items"]
+        reask = []
+        for it in q:
+            iid = it.get("id", "")
+            if iid.startswith("passport_") and it.get("status") != "answered":
+                h, field = it.get("handle"), it.get("field")
+                if h and field and _ans(B, h, field):
+                    reask.append(iid)
+        c["no_reask"] = not reask
+        if reask:
+            c["reask_violations"] = reask
+    except Exception as e:
+        c["no_reask"] = False
+        c["no_reask_error"] = str(e)[:100]
+
+    # 12i. READINESS FROM FIELDS (June 13 Rule #11 / self-audit): a readiness counter must
+    # match field-presence — never hallucinate readiness from a stale counter (goals.json
+    # read answered:0 while 3 fields were mohamed-confirmed).
+    import glob as _g
+    counter_lies = []
+    for gf in _g.glob(str(B / "clients/*/profile/goals.json")):
+        g = json.loads(Path(gf).read_text())
+        confirmed = sum(1 for k in ("goal_ratio", "capacity_ceiling", "usp_his_words")
+                        if g.get(k))
+        if g.get("answered", 0) != confirmed and not (g.get("answered", 0) >= confirmed):
+            counter_lies.append(f"{Path(gf).parent.parent.name}: counter {g.get('answered')} < fields {confirmed}")
+    c["readiness_honest"] = not counter_lies
+    if counter_lies:
+        c["counter_lies"] = counter_lies
+
     # 12. OPEN-ISSUE PULSE
     ist = json.loads((B / "data/issues_state.json").read_text()) \
         if (B / "data/issues_state.json").exists() else {"oldest_open_days": 0}
@@ -262,7 +298,7 @@ def run_checks() -> dict:
              "evidence_gates", "receipt_alive", "scorecards_fresh", "hand_recount",
              "no_quarantine_graveyard", "append_only", "card_budget_ok", "issue_pulse_ok",
              "gold_wire_e2e", "verdicts_applied", "rulings_applied", "founder_note_parity",
-             "trust_budget_zero", "privacy_audit_fresh"]
+             "trust_budget_zero", "privacy_audit_fresh", "no_reask", "readiness_honest"]
     c["_verdict"] = all(c[g] for g in gates)
     c["_failed"] = [g for g in gates if not c[g]]
     return c

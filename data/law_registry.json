@@ -254,6 +254,44 @@
    "test": null,
    "status": "enforced",
    "note": "reboot_proofed auto-closes plist cards on launchctl evidence, never on a claim"
+  },
+  {
+   "id": "cta_saturation",
+   "statement": "Max ONE order-CTA tail per option set; emotional/evergreen slots strip bare CTAs (80/20 — 84% order-tails was the scar).",
+   "enforcement": [
+    {
+     "file": "scripts/render_client_slot.py",
+     "symbol": "CTA"
+    },
+    {
+     "file": "scripts/caption_filter.py",
+     "symbol": "offer_check"
+    }
+   ],
+   "test": null,
+   "status": "enforced",
+   "source": "Mohamed yes_law 2026-06-13 (crystallize draft, zoom-out r6)"
+  },
+  {
+   "id": "invented_career_story",
+   "statement": "No fabricated program/graduation/certified-title claims — career stories must trace to corpus or die (G1).",
+   "enforcement": [
+    {
+     "file": "scripts/truth_guards.py",
+     "symbol": "EVENT_CLAIM"
+    }
+   ],
+   "test": null,
+   "status": "enforced",
+   "source": "Mohamed yes_law 2026-06-13 (crystallize draft, zoom-r7)"
+  },
+  {
+   "id": "green_plant_before_commit",
+   "statement": "Never chain-commit: a plant/assert test must pass GREEN before each commit — no vacuous or unrun tests (process law).",
+   "enforcement": [],
+   "test": null,
+   "status": "paper_only",
+   "source": "Mohamed yes_law 2026-06-13 (crystallize draft; process discipline, no code symbol — pairs with ASSERT LAW)"
   }
  ]
 }

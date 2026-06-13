@@ -41,6 +41,29 @@ def feedback_closure_section() -> str:
     return "\n".join(lines) + "\n"
 
 
+def taste_section() -> str:
+    """(e) — the edit-diff miner's harvest: his correction themes (n>=2), status honest."""
+    f = BASE / "data/taste_distillation.json"
+    if not f.exists():
+        return ""
+    import json as _j
+    d = _j.loads(f.read_text())
+    props = d.get("proposals", [])
+    if not props:
+        return ""
+    lines = ["\n## (e) ذوقك، مقطّر — أنماط من ملاحظاتك نفسها (تكرار ≥2)"]
+    live = 0
+    for p in props:
+        st = str(p.get("status", "PAPER"))
+        if st.startswith("LIVE"):
+            live += 1
+        mark = "🟢 يشتغل الآن" if st == "LIVE" else ("🟡 شغال جزئياً" if st == "LIVE_PARTIAL"
+                                                      else "📄 ينتظر (مفاتيح/حكمك)")
+        lines.append(f"- {mark} **{p['signal']}** (قلتها {p['n_rows']}×): {p['proposed'][:90]}")
+    lines.insert(1, f"*{live} من {len(props)} صارت كود وأنت نايم — والباقي محفوظ بأدلته*")
+    return "\n".join(lines) + "\n"
+
+
 def headlines() -> str:
     """THE HUMAN LAYER (Mohamed's law: 'explain to human not ai') — the system's state
     in plain words, computed LIVE from the data files, never hardcoded."""
@@ -187,7 +210,8 @@ def main():
 ## (c) أدلة الرأي (Claude يحكم لحظة التسليم)
 STRONG: {' · '.join(x for x in strong if x)}
 WORRY: {' · '.join(x for x in worry if x)}
-{feedback_closure_section()}"""
+{feedback_closure_section()}
+{taste_section()}"""
     (BASE / "data/im_here.md").write_text(pkg)
     print(f"im-here package fresh: {len(commits)} commits since {since[:16]} · {len(open_items)} portal cards · → data/im_here.md")
 

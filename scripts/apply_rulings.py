@@ -534,8 +534,9 @@ def pending_unhandled(b: Path) -> list:
         item, ans = r.get("item_id", ""), r.get("answer")
         if not ans or r.get("rating") is not None or item.startswith(("judge_", "judge2_", "ratify_")):
             continue  # judge/ratify lanes have their own consumers (router, gold_mint)
-        if item == "_general_note":
-            continue  # pure notes — founder_note_parity owns these
+        if item in ("_general_note", "_repudiation"):
+            continue  # control events — founder_note_parity / scorecards+portal own these
+            # (_repudiation «مو أنا» is consumed by portal_mini in_reply_to + scorecards negation)
         if (r.get("ts") or r.get("client_ts") or "") < WIRE_EPOCH:
             continue  # pre-wire era: hand-consumed, audited by the June 13 cold review
         if ans in ACK_ANSWERS or (item, ans) in applied:

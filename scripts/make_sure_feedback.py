@@ -235,6 +235,13 @@ def run_checks() -> dict:
         c["founder_note_parity"] = False
         c["rulings_check_error"] = str(e)[:120]
 
+    # 12f. TRUST BUDGET (B030): violations target 0 FOREVER — a re-asked question
+    # on record = red until Mohamed sees it (no silent amnesty, no decay)
+    tv = B / "data/trust_violations.jsonl"
+    n_viol = sum(1 for l in tv.read_text(encoding="utf-8").splitlines() if l.strip()) if tv.exists() else 0
+    c["trust_violations"] = n_viol
+    c["trust_budget_zero"] = n_viol == 0
+
     # 12. OPEN-ISSUE PULSE
     ist = json.loads((B / "data/issues_state.json").read_text()) \
         if (B / "data/issues_state.json").exists() else {"oldest_open_days": 0}
@@ -245,7 +252,8 @@ def run_checks() -> dict:
              "unattributed_zero", "no_bulk_backfill", "producer_map_clean", "cards_attributed",
              "evidence_gates", "receipt_alive", "scorecards_fresh", "hand_recount",
              "no_quarantine_graveyard", "append_only", "card_budget_ok", "issue_pulse_ok",
-             "gold_wire_e2e", "verdicts_applied", "rulings_applied", "founder_note_parity"]
+             "gold_wire_e2e", "verdicts_applied", "rulings_applied", "founder_note_parity",
+             "trust_budget_zero"]
     c["_verdict"] = all(c[g] for g in gates)
     c["_failed"] = [g for g in gates if not c[g]]
     return c

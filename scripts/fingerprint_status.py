@@ -21,10 +21,12 @@ def status(handle: str) -> dict:
     go = json.loads((pdir / "goals.json").read_text())
     st = json.loads((pdir / "state.json").read_text())
     v = fp["l2_voice"]
-    voice = (G if v.get("love_lines") else (Y if v.get("dialect") else R),
+    voice = (G if v.get("love_lines") else (Y if (v.get("dialect") or v.get("speaker")) else R),
              "client-confirmed" if v.get("love_lines") else
-             ("stats only — describes the past, not a contract" if v.get("dialect") else
-              "no voice — needs birth (newborn) or extraction"))
+             (f"speaker RULED ({v.get('speaker')}) — love/hate lines pending"
+              if v.get("speaker") else
+              ("stats only — describes the past, not a contract" if v.get("dialect") else
+               "no voice — needs birth (newborn) or extraction")))
     l1 = fp["l1_strategy"]
     identity = (G if l1.get("who_speaks") else R,
                 "confirmed" if l1.get("who_speaks") else "client-only: who-speaks/USP/positioning all empty")
@@ -33,9 +35,27 @@ def status(handle: str) -> dict:
     red = (G if rl["lines"] else R,
            f"{len(rl['lines'])} lines — strictest defaults govern" if not rl["lines"] else f"{len(rl['lines'])} lines")
     goals = (G if go["answered"] >= 4 else (Y if go["answered"] else R), f"{go['answered']}/{go['of']} answered")
+    trust = (G, "0 violations — budget intact")
+    tv = BASE / "data/trust_violations.jsonl"
+    if tv.exists():
+        n = sum(1 for l in tv.read_text(encoding="utf-8").splitlines()
+                if l.strip() and json.loads(l).get("handle") == handle)
+        if n:
+            # B030: trust budget — target 0 FOREVER; any violation is red, no amnesty
+            trust = (R, f"{n} violation(s) — a re-asked question is on record")
+    ratio = (G, "no outbound drafts staged")
+    drafts = BASE / "clients" / handle / "presentations" / "outbound_questions.json"
+    if drafts.exists():
+        qs = json.loads(drafts.read_text())
+        choice = sum(1 for q in qs if q.get("kind") == "choice")
+        open_q = sum(1 for q in qs if q.get("kind") == "open")
+        ok = open_q == 0 or choice >= 4 * open_q
+        ratio = (G if ok else R,
+                 f"{choice} choice : {open_q} open" + ("" if ok else " — BELOW 4:1, redraft"))
     return {"handle": handle, "state": st["state"], "silent_days": st.get("silent_days"),
             "rows": [("VOICE", *voice), ("IDENTITY", *identity), ("TRUTH", *truth),
-                      ("RED LINES", *red), ("GOALS", *goals)]}
+                      ("RED LINES", *red), ("GOALS", *goals), ("TRUST", *trust),
+                      ("Q-RATIO", *ratio)]}
 
 
 def main():

@@ -40,6 +40,27 @@ def jdump(p: Path, obj):
     p.write_text(json.dumps(obj, ensure_ascii=False, indent=2))
 
 
+def identity_check(profile: dict, handle: str) -> dict:
+    """GAP-07 (B020): never build a pyramid on an unconfirmed identity. The lnasser→
+    alnasser mangling nearly profiled the WRONG brand — this block makes the question
+    explicit on every manifest. Verdict 'confirmed' needs the verified badge OR
+    (bio-URL domain match + name match); anything else stays unconfirmed until the
+    client confirms in writing (written_confirmation is filled by a human, never code)."""
+    import re as _re
+    root = _re.sub(r"[._\d]", "", handle).lower()
+    url = (profile.get("externalUrl") or "").lower()
+    url_match = bool(root) and root[:10] in _re.sub(r"[^a-z]", "", url)
+    name = _re.sub(r"[^a-zA-Z\u0600-\u06FF]", "", profile.get("fullName") or "").lower()
+    name_match = bool(root) and (root[:8] in name or name[:8] in root if name else False)
+    verified = bool(profile.get("verified"))
+    verdict = "confirmed" if (verified or (url_match and name_match)) else "UNCONFIRMED"
+    return {"verified_badge": verified, "bio_url_domain_match": url_match,
+            "name_match": name_match, "written_confirmation": None,
+            "verdict": verdict,
+            "rule": "no pyramid/year-map/outbound work on UNCONFIRMED identity without "
+                    "written confirmation (GAP-07; the lnasser scar)"}
+
+
 def run_intake(handle: str):
     client = ApifyClient(env("APIFY_TOKEN"))
     root = BASE / "clients" / handle
@@ -67,7 +88,8 @@ def run_intake(handle: str):
         "ok": bool(profile), "followers": profile.get("followersCount"),
         "posts_claimed": claimed, "bio": (profile.get("biography") or "")[:200],
         "external_url": profile.get("externalUrl"), "business": profile.get("businessCategoryName"),
-        "private": profile.get("private"), "verified": profile.get("verified")}
+        "private": profile.get("private"), "verified": profile.get("verified"),
+        "identity_check": identity_check(profile, handle)}
     if not profile:
         manifest["warnings"].append("PROFILE EMPTY — private account or wrong handle? STOP AND CHECK")
 

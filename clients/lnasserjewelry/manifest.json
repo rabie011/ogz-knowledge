@@ -1,44 +1,52 @@
 {
- "handle": "lnasserjewelry",
- "extracted": "2026-06-12",
- "surfaces": {
-  "profile": {
-   "ok": true,
-   "followers": null,
-   "posts_claimed": 0,
-   "bio": "",
-   "external_url": null,
-   "business": null,
-   "private": null,
-   "verified": null
+  "handle": "lnasserjewelry",
+  "extracted": "2026-06-12",
+  "surfaces": {
+    "profile": {
+      "ok": true,
+      "followers": null,
+      "posts_claimed": 0,
+      "bio": "",
+      "external_url": null,
+      "business": null,
+      "private": null,
+      "verified": null,
+      "identity_check": {
+        "verified_badge": false,
+        "bio_url_domain_match": false,
+        "name_match": false,
+        "written_confirmation": null,
+        "verdict": "UNCONFIRMED",
+        "rule": "no pyramid/year-map/outbound work on UNCONFIRMED identity without written confirmation (GAP-07; the lnasser scar)"
+      }
+    },
+    "posts": {
+      "fetched": 1,
+      "claimed": 0,
+      "coverage_pct": null
+    },
+    "comments": {
+      "fetched": 0,
+      "from_posts": 1
+    },
+    "media": {
+      "saved": 0,
+      "video_urls_recorded": 0
+    },
+    "website": {
+      "url": null,
+      "note": "no bio link — ask client for menu/site/WhatsApp"
+    }
   },
-  "posts": {
-   "fetched": 1,
-   "claimed": 0,
-   "coverage_pct": null
+  "warnings": [
+    "comments scrape failed: Input is not valid: Values in input.directUrls at positions [0] must match regular expression \"https?:\\/\\/(?:www\\.)?inst"
+  ],
+  "referred_by": null,
+  "provenance": {
+    "source": "apify one-shot intake",
+    "confirmer": "pending_client",
+    "confidence": "raw",
+    "scope": "brand:lnasserjewelry"
   },
-  "comments": {
-   "fetched": 0,
-   "from_posts": 1
-  },
-  "media": {
-   "saved": 0,
-   "video_urls_recorded": 0
-  },
-  "website": {
-   "url": null,
-   "note": "no bio link — ask client for menu/site/WhatsApp"
-  }
- },
- "warnings": [
-  "comments scrape failed: Input is not valid: Values in input.directUrls at positions [0] must match regular expression \"https?:\\/\\/(?:www\\.)?inst"
- ],
- "referred_by": null,
- "provenance": {
-  "source": "apify one-shot intake",
-  "confirmer": "pending_client",
-  "confidence": "raw",
-  "scope": "brand:lnasserjewelry"
- },
- "QUARANTINED": "dead handle (extraction stripped the al- prefix); real brand = alnasserjewelry, intake re-run under the correct handle. 2026-06-12."
+  "QUARANTINED": "dead handle (extraction stripped the al- prefix); real brand = alnasserjewelry, intake re-run under the correct handle. 2026-06-12."
 }

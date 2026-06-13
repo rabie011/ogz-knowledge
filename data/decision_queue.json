@@ -3045,7 +3045,7 @@
    "clock": "",
    "priority": "normal",
    "created": "2026-06-13T06:00:16",
-   "status": "open",
+   "status": "answered",
    "kind": "buttons",
    "judge_lane": false,
    "lane": "strategy",
@@ -3064,7 +3064,9 @@
     }
    ],
    "made_by": "system:apply_rulings",
-   "artifact_version": 1
+   "artifact_version": 1,
+   "answered": "review_now",
+   "answered_by": "mohamed"
   },
   {
    "id": "alarm_1781319617",
@@ -3535,7 +3537,7 @@
    "clock": "",
    "priority": "normal",
    "created": "2026-06-13T16:06:01",
-   "status": "open",
+   "status": "answered",
    "kind": "buttons",
    "judge_lane": false,
    "lane": "strategy",
@@ -3557,6 +3559,243 @@
      "label": "🔒 FULL tap on every idea until you trust the machine (safest; burns your attention, fails the falling-taps test)"
     }
    ],
+   "made_by": "claude",
+   "artifact_version": 1,
+   "answered": "A",
+   "answered_by": "mohamed"
+  },
+  {
+   "id": "law_draft_0_operational_law_candidat",
+   "title": "Law draft: operational law candidate: cta_saturation (zoom-out verified+fixed)",
+   "tag": "Law",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-13T16:24:36",
+   "status": "answered",
+   "kind": "buttons",
+   "judge_lane": false,
+   "lane": "strategy",
+   "why": "crystallize the fix as permanent law (CLAUDE.md rule / guard / gate)",
+   "need": "Yes = permanent rule (registry + enforcement). No = the draft dies.",
+   "did": "Receipt: REAL+FIXED: 300/356=84% order-tails → cta_allowed gate (push always, evergreen 27% date-hashed), live render asserted zero-CTA",
+   "options": [
+    {
+     "v": "yes_law",
+     "label": "✅ Make it law",
+     "rec": true
+    },
+    {
+     "v": "no",
+     "label": "🗑 Drop it"
+    }
+   ],
+   "made_by": "system:apply_rulings",
+   "artifact_version": 1,
+   "answered": "yes_law",
+   "answered_by": "mohamed"
+  },
+  {
+   "id": "law_draft_1_operational_law_candidat",
+   "title": "Law draft: operational law candidate: emotional occasions never sell (CTA_EMOTION",
+   "tag": "Law",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-13T16:24:36",
+   "status": "answered",
+   "kind": "buttons",
+   "judge_lane": false,
+   "lane": "strategy",
+   "why": "crystallize CTA_EMOTIONAL as permanent law (CLAUDE.md / gate)",
+   "need": "Yes = permanent rule (registry + enforcement). No = the draft dies.",
+   "did": "Receipt: REAL+FIXED: «جاهز يوصله من هنقرستيشن» on عيد الأم — CTA_EMOTIONAL added to gate, re-render asserted clean",
+   "options": [
+    {
+     "v": "yes_law",
+     "label": "✅ Make it law",
+     "rec": true
+    },
+    {
+     "v": "no",
+     "label": "🗑 Drop it"
+    }
+   ],
+   "made_by": "system:apply_rulings",
+   "artifact_version": 1,
+   "answered": "yes_law",
+   "answered_by": "mohamed"
+  },
+  {
+   "id": "law_draft_2_operational_law_candidat",
+   "title": "Law draft: operational law candidate: green plant BEFORE commit — never chain com",
+   "tag": "Law",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-13T16:24:36",
+   "status": "answered",
+   "kind": "buttons",
+   "judge_lane": false,
+   "lane": "strategy",
+   "why": "crystallize: && -chains must gate commit on plant exit-0 (or split the command)",
+   "need": "Yes = permanent rule (registry + enforcement). No = the draft dies.",
+   "did": "Receipt: commit 9f228282 landed while its plant was red (stale-dir crash); verified post-commit same cycle",
+   "options": [
+    {
+     "v": "yes_law",
+     "label": "✅ Make it law",
+     "rec": true
+    },
+    {
+     "v": "no",
+     "label": "🗑 Drop it"
+    }
+   ],
+   "made_by": "system:apply_rulings",
+   "artifact_version": 1,
+   "answered": "yes_law",
+   "answered_by": "mohamed"
+  },
+  {
+   "id": "alarm_live",
+   "title": "🚨 إنذار: feedback_system واقف",
+   "tag": "نظام",
+   "desc": "فحص الأدلة فشل: ['feedback_system']. كلود يعالج — هذا للعلم.",
+   "clock": "",
+   "priority": "urgent",
+   "created": "2026-06-13T17:01:25",
+   "status": "open",
+   "kind": "buttons",
+   "options": [
+    {
+     "v": "ack",
+     "label": "👌 شفته"
+    }
+   ],
+   "made_by": "claude",
+   "artifact_version": 1
+  },
+  {
+   "id": "passport_eatjurisha_identity",
+   "title": "📋 جريش الرياض — سؤال 1/6: identity",
+   "tag": "Passport",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-13T17:09:51",
+   "status": "open",
+   "kind": "text",
+   "judge_lane": false,
+   "lane": "strategy",
+   "handle": "eatjurisha",
+   "organ": "fingerprint",
+   "field": "identity",
+   "why": "مين يتكلم باسم البراند؟ (البراند نفسه / صاحبه / شخصية محددة) — وايش الشي اللي يميزكم عن أي منافس بكلمة أو سطر (الـUSP)؟",
+   "need": "اكتبوا الجواب بكلماتكم — يُحفظ حرفياً ويعبّي ملف العميل (يصير العضو أخضر).",
+   "did": "هذا السؤال يعبّي العضو «fingerprint» — واحد من ٦ يخلّون جريش الرياض جاهز للإنتاج.",
+   "placeholder": "جوابكم هنا…",
+   "made_by": "claude",
+   "artifact_version": 1
+  },
+  {
+   "id": "passport_eatjurisha_goals",
+   "title": "📋 جريش الرياض — سؤال 2/6: goals",
+   "tag": "Passport",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-13T17:09:51",
+   "status": "open",
+   "kind": "text",
+   "judge_lane": false,
+   "lane": "strategy",
+   "handle": "eatjurisha",
+   "organ": "goals",
+   "field": "goals",
+   "why": "هدف الحساب: مبيعات مباشرة، بناء براند، ولا الاثنين؟ وكم بوست عروض من كل ١٠ بوستات؟",
+   "need": "اكتبوا الجواب بكلماتكم — يُحفظ حرفياً ويعبّي ملف العميل (يصير العضو أخضر).",
+   "did": "هذا السؤال يعبّي العضو «goals» — واحد من ٦ يخلّون جريش الرياض جاهز للإنتاج.",
+   "placeholder": "جوابكم هنا…",
+   "made_by": "claude",
+   "artifact_version": 1
+  },
+  {
+   "id": "passport_eatjurisha_truth",
+   "title": "📋 جريش الرياض — سؤال 3/6: truth",
+   "tag": "Passport",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-13T17:09:51",
+   "status": "open",
+   "kind": "text",
+   "judge_lane": false,
+   "lane": "strategy",
+   "handle": "eatjurisha",
+   "organ": "truth_pack",
+   "field": "truth",
+   "why": "وش المنتجات الأساسية الحقيقية اللي ننشر عنها؟ (بأسمائها الصح + الأسعار لو ممكن)",
+   "need": "اكتبوا الجواب بكلماتكم — يُحفظ حرفياً ويعبّي ملف العميل (يصير العضو أخضر).",
+   "did": "هذا السؤال يعبّي العضو «truth_pack» — واحد من ٦ يخلّون جريش الرياض جاهز للإنتاج.",
+   "placeholder": "جوابكم هنا…",
+   "made_by": "claude",
+   "artifact_version": 1
+  },
+  {
+   "id": "passport_eatjurisha_audience",
+   "title": "📋 جريش الرياض — سؤال 4/6: audience",
+   "tag": "Passport",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-13T17:09:51",
+   "status": "open",
+   "kind": "text",
+   "judge_lane": false,
+   "lane": "strategy",
+   "handle": "eatjurisha",
+   "organ": "audience_mirror",
+   "field": "audience",
+   "why": "مين جمهوركم الأساسي؟ (الفئة العمرية + الفئة السعرية + مين يطلب فعلاً — أم البيت، الشباب، الموظفين؟)",
+   "need": "اكتبوا الجواب بكلماتكم — يُحفظ حرفياً ويعبّي ملف العميل (يصير العضو أخضر).",
+   "did": "هذا السؤال يعبّي العضو «audience_mirror» — واحد من ٦ يخلّون جريش الرياض جاهز للإنتاج.",
+   "placeholder": "جوابكم هنا…",
+   "made_by": "claude",
+   "artifact_version": 1
+  },
+  {
+   "id": "passport_eatjurisha_red_lines",
+   "title": "📋 جريش الرياض — سؤال 5/6: red_lines",
+   "tag": "Passport",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-13T17:09:51",
+   "status": "open",
+   "kind": "text",
+   "judge_lane": false,
+   "lane": "strategy",
+   "handle": "eatjurisha",
+   "organ": "red_lines",
+   "field": "red_lines",
+   "why": "وش الشي اللي ما ننشره أبداً؟ (خطوط حمراء خاصة فيكم، فوق الخطوط الثقافية)",
+   "need": "اكتبوا الجواب بكلماتكم — يُحفظ حرفياً ويعبّي ملف العميل (يصير العضو أخضر).",
+   "did": "هذا السؤال يعبّي العضو «red_lines» — واحد من ٦ يخلّون جريش الرياض جاهز للإنتاج.",
+   "placeholder": "جوابكم هنا…",
+   "made_by": "claude",
+   "artifact_version": 1
+  },
+  {
+   "id": "passport_eatjurisha_capacity",
+   "title": "📋 جريش الرياض — سؤال 6/6: capacity",
+   "tag": "Passport",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-13T17:09:51",
+   "status": "open",
+   "kind": "text",
+   "judge_lane": false,
+   "lane": "strategy",
+   "handle": "eatjurisha",
+   "organ": "goals",
+   "field": "capacity",
+   "why": "كم طلب باليوم تقدرون تستوعبون؟ (يحدد كم نقدر نضغط على الطلب في البوستات)",
+   "need": "اكتبوا الجواب بكلماتكم — يُحفظ حرفياً ويعبّي ملف العميل (يصير العضو أخضر).",
+   "did": "هذا السؤال يعبّي العضو «goals» — واحد من ٦ يخلّون جريش الرياض جاهز للإنتاج.",
+   "placeholder": "جوابكم هنا…",
    "made_by": "claude",
    "artifact_version": 1
   }

@@ -28,6 +28,9 @@ def main():
     ap.add_argument("--enforce-diversity", action="store_true",
                     help="B_div_gate: hold the EXCESS slots when a core/recipe >30% of the batch "
                          "(the hard answer to his «make them different») instead of rendering them")
+    ap.add_argument("--allow-short", action="store_true",
+                    help="with --enforce-diversity: ship the diverse subset even though held "
+                         "slots can't be re-angled yet (keys dry) — explicit, never silent")
     a = ap.parse_args()
 
     ymf = BASE / "clients" / a.handle / "year_map.json"
@@ -62,8 +65,15 @@ def main():
                     s["status"] = f"held_diversity{a.suffix}"
             ymf.write_text(json.dumps(ymap, ensure_ascii=False, indent=2))
             todo = [s for s in todo if (s.get("date") or s.get("id")) not in held]
-            print(f"      → held {len(held)} excess slots for re-angle (—enforce-diversity); "
-                  f"{len(todo)} render now")
+            # FAIL LOUD (June 13 RABIE catch): held slots have no re-angle reader and the
+            # composer needs LLM keys (dry). Holding ≠ fixing — a silently-short batch is a
+            # lie. Refuse unless the operator passes --allow-short, and never claim re-angle.
+            print(f"      → HELD {len(held)} excess slots (status held_diversity) — they need "
+                  f"a re-angle the dry keys can't do yet; {len(todo)} would render.")
+            if not getattr(a, "allow_short", False):
+                sys.exit(f"🛑 REFUSED: batch would ship {len(todo)}/{len(todo)+len(held)} "
+                         "(short by {0}). Re-angle the held slots when keys refill, or rerun "
+                         "with --allow-short to ship the diverse subset deliberately.".format(len(held)))
         else:
             print("      → rendering anyway (run with --enforce-diversity to hold the excess)")
     print(f"{a.handle}: {len(todo)} slots to render (suffix {a.suffix}, brain {a.brain})")

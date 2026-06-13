@@ -226,6 +226,28 @@ class TestBatchDiversityGate(unittest.TestCase):
     """B_div_gate — the hard answer to his 06-13 «still family / make them different».
     diversity_prefer only soft-reorders; THIS blocks a batch over-concentrated on one core."""
 
+    def test_jurish_dish_not_sport(self):
+        # ZOOM-OUT scar June 13: bare substring جري matched جريش/جريشة (jurisha's dish) →
+        # 48% of a FOOD brand tagged energy_sport (a phantom reported to Mohamed as fact).
+        from render_client_slot import scene_core
+        self.assertEqual(scene_core("منتج حقيقي: رز كابلي وجريش"), {"product_shoutout"})
+        self.assertNotIn("energy_sport", scene_core("جريش بالحجم العائلي"))
+        self.assertIn("energy_sport", scene_core("تمرين الصباح ولياقة"))  # real sport still fires
+
+    def test_label_prefix_authoritative(self):
+        from render_client_slot import scene_core
+        self.assertEqual(scene_core("family: لمة العيلة"), {"family"})
+        self.assertEqual(scene_core("eid: جمعة العيد"), {"occasion"})
+        self.assertEqual(scene_core("قناة: اطلب عبر جاهز"), {"channel_cta"})
+
+    def test_coverage_reported(self):
+        from render_client_slot import batch_diversity_check
+        slots = [{"date": f"d{i}", "angle_theme": "نص محايد بلا مشهد"} for i in range(10)]
+        r = batch_diversity_check(slots, 0.30)
+        self.assertLess(r["coverage"], 0.5)  # all-unclassified
+        self.assertFalse(r["ok"])            # low coverage is NOT a silent green
+        self.assertTrue(r["low_coverage"])
+
     def test_six_family_ideas_caught(self):
         from render_client_slot import batch_diversity_check
         slots = [{"date": f"d{i}", "angle_theme": "لمة العيلة حول السفرة"} for i in range(6)]

@@ -38,22 +38,47 @@ TASTE_GUARD_LEXICON = {
 
 # SCENE CORES (June 13, his ruling n≥2: «We need to make the posts different so for
 # example if the idea is family they can't use it for all the posts») — deterministic
-# emotional-core classes; consecutive slots must not repeat one core.
+# emotional-core classes. June 13 ZOOM-OUT CATCH (RABIE 2/5): the bare substring جري
+# matched eatjurisha's dish جريش/جريشة → 48% of a FOOD brand tagged "sport" (a phantom
+# I reported to Mohamed as fact). Two fixes: (1) the PLANNER'S OWN LABEL prefix is now
+# authoritative — angle_themes are written 'family: …' / 'منتج حقيقي: …' / 'قناة: …' /
+# 'eid: …', so the declared theme IS the core, no guessing; (2) the regex fallback (for
+# free caption text + the 18 no-label slots) is anchored + sector-stopworded so a dish
+# name can never read as a scene.
+LABEL_CORES = {  # the planner's declared theme (before the first ':') — ground truth
+    "family": "family", "eid": "occasion", "ramadan": "occasion",
+    "national": "occasion", "founding": "occasion", "منتج حقيقي": "product_shoutout",
+    "قناة": "channel_cta", "عرض": "offer", "offer": "offer", "greeting": "greeting",
+}
+# food-sector words that contain a sport substring but are NOT sport (the جريش scar)
+_SCENE_STOPWORDS = ("جريش", "جريشة", "جريّش", "جريّشة")
 SCENE_CORES = {
     "family": re.compile(r"عائل|العيلة|عيلة|لمة|اللمة|جدتي|جدّ?ي\b|أمي\b|والدتي|أهل البيت|الأجيال"),
     "nostalgia": re.compile(r"ذكريات|زمان|أيام أول|الطفولة|تتجدد"),
     "craving": re.compile(r"قرمشة|ريحة|رائحة|جوع|لقمة|قضمة|نكهة"),
-    "weather": re.compile(r"برد|مطر|شتا|أمطار|حر\b|أجواء"),
+    "weather": re.compile(r"برد|مطر|شتا|أمطار|أجواء"),
     "friends": re.compile(r"شلة|أصحاب|صحبة|قعدة"),
     "solo_calm": re.compile(r"هدوء|وحدك|استرخاء|مع نفسك"),
-    "kids_hero": re.compile(r"طفل|بطل صغير|عيال|الصغير"),
-    "energy_sport": re.compile(r"طاقة|جري|تمرين|لياقة|حركة"),
+    "kids_hero": re.compile(r"بطل صغير|عيال|الصغير"),
+    # anchored — explicit sport words only; bare جري/حركة dropped (matched dishes/everything)
+    "energy_sport": re.compile(r"ركض|تمرين|لياقة|رياضة|نشاط بدني|خطوات|ماراثون|الجري\b"),
 }
 
 
-def scene_core(text: str) -> set:
-    """The emotional-core classes a caption/scene hits (empty set = unclassified)."""
-    return {name for name, pat in SCENE_CORES.items() if pat.search(text or "")}
+def scene_core(text: str, label_aware: bool = True) -> set:
+    """The emotional-core class(es) of a slot idea or caption (empty set = unclassified).
+    Authoritative path: the planner's label prefix ('family:' / 'منتج حقيقي:' …).
+    Fallback: anchored regex over the body, with sector stopwords subtracted first."""
+    t = (text or "").strip()
+    if label_aware and ":" in t[:30]:
+        pref = t.split(":", 1)[0].strip().lower()
+        for k, core in LABEL_CORES.items():
+            if pref.startswith(k):
+                return {core}
+    body = t
+    for sw in _SCENE_STOPWORDS:
+        body = body.replace(sw, " ")
+    return {name for name, pat in SCENE_CORES.items() if pat.search(body)}
 
 
 def diversity_prefer(options: list, recent_cores: list) -> list:
@@ -84,13 +109,17 @@ def batch_diversity_check(slots: list, ceiling: float = 0.30) -> dict:
     import collections as _c
     n = len(slots)
     if n == 0:
-        return {"ok": True, "n": 0, "violations": []}
-    ceiling_count = max(2, int(n * ceiling) + 1)  # >30% — strictly over, min 2 to flag
+        return {"ok": True, "n": 0, "violations": [], "coverage": 1.0}
+    cap = int(n * ceiling)  # the most of one core/recipe that may SHIP (≤30%)
     core_slots, formula_slots = _c.defaultdict(list), _c.defaultdict(list)
+    classified = 0
     for s in slots:
         ident = s.get("date") or s.get("id") or "?"
         idea = s.get("angle_theme") or s.get("scene_ar") or s.get("idea") or ""
-        for core in scene_core(idea):
+        cores = scene_core(idea)
+        if cores:
+            classified += 1
+        for core in cores:
             core_slots[core].append(ident)
         f = s.get("formula")
         if f:
@@ -98,12 +127,16 @@ def batch_diversity_check(slots: list, ceiling: float = 0.30) -> dict:
     violations = []
     for kind, mapping in (("scene_core", core_slots), ("recipe", formula_slots)):
         for key, ids in mapping.items():
-            if len(ids) >= ceiling_count:
+            if len(ids) > cap:  # strictly over the ≤30% cap
                 violations.append({"kind": kind, "key": key, "count": len(ids),
                                    "pct": round(len(ids) / n * 100, 1),
-                                   "slots": ids[ceiling_count - 1:]})  # the EXCESS to re-roll
-    return {"ok": not violations, "n": n, "ceiling_count": ceiling_count,
-            "ceiling_pct": round(ceiling * 100), "violations": violations}
+                                   "slots": ids[cap:]})  # hold the excess DOWN TO the cap
+    # coverage: the 52-92% blind-spot must be VISIBLE, never a silent green (RABIE catch)
+    coverage = round(classified / n, 2)
+    return {"ok": not violations and coverage >= 0.5, "n": n, "cap": cap,
+            "ceiling_pct": round(ceiling * 100), "violations": violations,
+            "coverage": coverage,
+            "low_coverage": coverage < 0.5}
 
 
 def taste_guard(options: list, kill_patterns: list) -> tuple[list, list]:

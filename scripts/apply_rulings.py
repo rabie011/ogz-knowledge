@@ -306,6 +306,104 @@ def h_coffee_v3(b: Path, row: dict) -> str:
     return f"coffee_pick_v3={ans} → backlog step {sid} staged (next orchestra pick)"
 
 
+def h_idea_gate(b: Path, row: dict) -> str:
+    """approvals_idea_gate A/B/C → the gate philosophy lands in mohamed_rulings_live.json
+    (RABIE catch June 13: this was a live dead-end card — his architecture decision had
+    nowhere to land)."""
+    p = b / "data/mohamed_rulings_live.json"
+    r = json.loads(p.read_text()) if p.exists() else {}
+    posture = {"A": "sampled_then_graduate", "B": "autonomous_now",
+               "C": "full_tap_every_idea"}.get(row["answer"], row["answer"])
+    r["idea_gate"] = {"value": posture, "answer": row["answer"],
+                      "ruled_at": row.get("client_ts") or row.get("ts"),
+                      "source": "portal:approvals_idea_gate",
+                      "doc": "idea/brief autonomy posture (docs/APPROVALS_ARCHITECTURE.md)"}
+    p.write_text(json.dumps(r, ensure_ascii=False, indent=1))
+    assert json.loads(p.read_text())["idea_gate"]["value"] == posture
+    return f"idea_gate={posture} in mohamed_rulings_live.json"
+
+
+def h_law_draft(b: Path, row: dict) -> str:
+    """law_draft_<i> yes_law/no → promote the crystallize draft to law, or drop it
+    (RABIE catch: the 'Make it law' button was wired to nothing)."""
+    cq = b / "data/crystallize_queue.json"
+    d = json.loads(cq.read_text())
+    items = d.get("cards") or d.get("candidates") or []
+    drafts = [c for c in items if "DRAFT" in str(c.get("status", ""))]
+    try:
+        idx = int(row["item_id"].split("_")[2])
+    except (IndexError, ValueError):
+        idx = 0
+    draft = drafts[idx] if idx < len(drafts) else None
+    if not draft:
+        return f"no draft at index {idx} (already resolved?)"
+    ts = (row.get("client_ts") or row.get("ts", ""))[:16]
+    if row["answer"] == "no":
+        draft["status"] = f"DROPPED by Mohamed {ts}"
+        cq.write_text(json.dumps(d, ensure_ascii=False, indent=1))
+        return f"law draft «{str(draft.get('draft',''))[:40]}» DROPPED"
+    draft["status"] = f"RATIFIED by Mohamed {ts} → law"
+    cq.write_text(json.dumps(d, ensure_ascii=False, indent=1))
+    return (f"law draft «{str(draft.get('draft',''))[:40]}» RATIFIED — receipt logged; "
+            "registry enforcement symbol added by hand")
+
+
+def h_passport(b: Path, row: dict) -> str:
+    """CLIENT PASSPORT (June 13): a free-text intake answer (passport_<handle>_<field>)
+    → raw to clients/<h>/profile/passport.json (attributed) AND derived into the organ
+    that fingerprint_status reads, so the RED organ goes green. The answer is the
+    client's/founder's truth — confirmer = mohamed (founder) or client:<answerer>."""
+    from organ_write import write_organ
+    item = row["item_id"]
+    q = json.loads((b / "data/decision_queue.json").read_text())["items"]
+    card = next((c for c in q if c["id"] == item), {})
+    handle = card.get("handle") or item.split("_")[1]
+    field = card.get("field") or item.rsplit("_", 1)[-1]
+    organ = card.get("organ") or {"identity": "fingerprint", "goals": "goals",
+        "capacity": "goals", "red_lines": "red_lines", "truth": "truth_pack",
+        "audience": "audience_mirror"}.get(field)
+    answer = (row.get("note") or row.get("text_answer") or row.get("answer") or "").strip()
+    if not answer or answer in ("A", "B", "C"):
+        raise RuntimeError(f"empty/non-text passport answer for {item}")
+    answerer = row.get("judge", "unknown")
+    confirmer = "mohamed" if answerer == "mohamed" else f"client:{answerer}"
+    ts = row.get("client_ts") or row.get("ts")
+    prov = {"source": f"passport:{answerer}", "confirmer": confirmer,
+            "confidence": "confirmed", "date": (ts or "")[:10]}
+
+    # 1. raw passport ledger (the client's verbatim truth, attributed)
+    pp = b / f"clients/{handle}/profile/passport.json"
+    data = json.loads(pp.read_text()) if pp.exists() else {"handle": handle, "answers": {}}
+    data["answers"][field] = {"answer": answer, "answerer": answerer,
+                              "confirmer": confirmer, "ts": ts}
+    write_organ(str(pp), data)
+
+    # 2. derive into the organ fingerprint_status reads (flip RED→green)
+    op = b / f"clients/{handle}/profile/{organ}.json"
+    o = json.loads(op.read_text()) if op.exists() else {}
+    if organ == "fingerprint":
+        l1 = o.setdefault("l1_strategy", {})
+        l1["who_speaks"] = answer
+        l1["usp"] = answer
+        l1["_passport"] = prov
+    elif organ == "goals":
+        if field == "capacity":
+            o["capacity"] = answer
+        else:
+            o["primary"] = answer
+        o["answered"] = len(data["answers"])   # climbs to green (>=4) as they answer
+        o["of"] = max(o.get("of", 5), 6)
+        o["_passport"] = prov
+    elif organ == "red_lines":
+        o.setdefault("lines", []).append({"line": answer, **prov})
+    elif organ == "truth_pack":
+        o.setdefault("confirmed", []).append({"name": answer, **prov})
+    elif organ == "audience_mirror":
+        o.setdefault("segments", []).append({"desc": answer, **prov})
+    write_organ(str(op), o)
+    return f"{handle}.{field} → {organ} (confirmer {confirmer}); passport {len(data['answers'])}/6"
+
+
 def h_crystallize_review(b: Path, row: dict) -> str:
     """digest review_now: the top 3 drafts arrive as individual yes/no law cards."""
     import queue_decision as qd
@@ -347,6 +445,13 @@ PREFIX_HANDLERS = {
     ("ratify2_", "ratify"): h_recipe_verdict,
     ("ratify2_", "kill"): h_recipe_verdict,
     ("ratify2_", "edit"): h_recipe_verdict,
+    ("law_draft_", "yes_law"): h_law_draft,   # crystallize 'Make it law' (was wired to nothing)
+    ("law_draft_", "no"): h_law_draft,
+}
+
+# item-prefix only (answer is arbitrary free text) — the client passport intake
+ITEM_PREFIX_HANDLERS = {
+    "passport_": h_passport,
 }
 
 HANDLERS = {
@@ -369,15 +474,23 @@ HANDLERS = {
     ("coffee_pick_v3", "keep_hunting"): h_coffee_v3,
     ("crystallize_digest", "review_now"): h_crystallize_review,
     ("crystallize_digest", "later"): h_crystallize_later,
+    ("approvals_idea_gate", "A"): h_idea_gate,   # his architecture decision (was dead-end)
+    ("approvals_idea_gate", "B"): h_idea_gate,
+    ("approvals_idea_gate", "C"): h_idea_gate,
 }
 
 
 def _resolve(key):
-    """exact HANDLERS first, then PREFIX_HANDLERS."""
+    """exact HANDLERS first, then PREFIX_HANDLERS (item-prefix + answer),
+    then ITEM_PREFIX_HANDLERS (item-prefix only — for free-text intake where the
+    answer is arbitrary, e.g. passport questions)."""
     if key in HANDLERS:
         return HANDLERS[key]
     for (pref, ans), fn in PREFIX_HANDLERS.items():
         if key[0].startswith(pref) and key[1] == ans:
+            return fn
+    for pref, fn in ITEM_PREFIX_HANDLERS.items():
+        if key[0].startswith(pref):
             return fn
     return None
 

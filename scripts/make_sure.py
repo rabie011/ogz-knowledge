@@ -85,7 +85,7 @@ def main():
 
     # 6a. FEEDBACK LOOP DRIVE (June 12): consume answers → issues/corrections, recompute
     # scorecards/bench, auto-close + inject budgeted meta-cards — every heartbeat
-    for step in ("feedback_router.py", "apply_rulings.py", "gold_mint.py", "gold_audit.py", "scorecards.py", "feedback_cards.py"):
+    for step in ("feedback_router.py", "apply_rulings.py", "gold_mint.py", "gold_audit.py", "stage_crystallize_digest.py", "scorecards.py", "feedback_cards.py"):
         subprocess.run(["python3", str(BASE / "scripts" / step)], capture_output=True, timeout=120)
 
     # 6a2. ARMOR SUITE (B116/B117): caption_filter + truth_guards under real killed

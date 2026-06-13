@@ -306,6 +306,42 @@ def h_coffee_v3(b: Path, row: dict) -> str:
     return f"coffee_pick_v3={ans} → backlog step {sid} staged (next orchestra pick)"
 
 
+def h_crystallize_review(b: Path, row: dict) -> str:
+    """digest review_now: the top 3 drafts arrive as individual yes/no law cards."""
+    import queue_decision as qd
+    d = json.loads((b / "data/crystallize_queue.json").read_text())
+    items = d.get("cards") or d.get("candidates") or []
+    drafts = [c for c in items if "DRAFT" in str(c.get("status", ""))][:3]
+    q = json.loads((b / "data/decision_queue.json").read_text())["items"]
+    existing = {it["id"] for it in q}
+    pushed = []
+    for i, c in enumerate(drafts):
+        slug = str(c.get("draft", f"draft_{i}"))[:40].replace(" ", "_").replace(":", "")
+        cid = f"law_draft_{i}_{slug[:24]}"
+        if cid in existing:
+            continue
+        ev = c.get("evidence") or []
+        ev_line = (ev[0].get("verdict", "")[:140] if ev and isinstance(ev[0], dict) else str(ev)[:140])
+        qd.push_attributed({
+            "id": cid, "title": f"Law draft: {str(c.get('draft',''))[:70]}",
+            "tag": "Law", "clock": "", "priority": "normal",
+            "created": datetime.now().isoformat(timespec="seconds"), "status": "open",
+            "kind": "buttons", "judge_lane": False, "lane": "strategy",
+            "why": str(c.get("proposed_action", ""))[:200],
+            "need": "Yes = permanent rule (registry + enforcement). No = the draft dies.",
+            "did": f"Receipt: {ev_line}",
+            "options": [{"v": "yes_law", "label": "✅ Make it law", "rec": True},
+                        {"v": "no", "label": "🗑 Drop it"}],
+        }, made_by="system:apply_rulings", via="scripts/apply_rulings.py",
+           reason=f"his review_now tap on {row['item_id']}")
+        pushed.append(cid)
+    return f"pushed {len(pushed)} law-draft cards: {pushed}"
+
+
+def h_crystallize_later(b: Path, row: dict) -> str:
+    return "parked for the D6 sitting (his tap recorded; drafts stay in the queue with receipts)"
+
+
 # prefix dispatch: (prefix, answer) pairs that match any item_id with that prefix
 PREFIX_HANDLERS = {
     ("ratify2_", "ratify"): h_recipe_verdict,
@@ -331,6 +367,8 @@ HANDLERS = {
     ("coffee_pick_v3", "elixirbunn"): h_coffee_v3,
     ("coffee_pick_v3", "verify_rawi"): h_coffee_v3,
     ("coffee_pick_v3", "keep_hunting"): h_coffee_v3,
+    ("crystallize_digest", "review_now"): h_crystallize_review,
+    ("crystallize_digest", "later"): h_crystallize_later,
 }
 
 

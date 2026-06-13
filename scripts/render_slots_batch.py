@@ -25,6 +25,9 @@ def main():
     ap.add_argument("--suffix", default="__v5")
     ap.add_argument("--brain", default="auto")
     ap.add_argument("--limit", type=int, default=0, help="0 = all matching")
+    ap.add_argument("--enforce-diversity", action="store_true",
+                    help="B_div_gate: hold the EXCESS slots when a core/recipe >30% of the batch "
+                         "(the hard answer to his «make them different») instead of rendering them")
     a = ap.parse_args()
 
     ymf = BASE / "clients" / a.handle / "year_map.json"
@@ -42,6 +45,27 @@ def main():
             todo.append(s)
     if a.limit:
         todo = todo[: a.limit]
+
+    # B_div_gate PREFLIGHT (June 13 — makes idea/brief autonomy legal per the approvals
+    # architecture): a batch may not over-concentrate one scene-core or recipe (>30%).
+    # His 06-13 scar: 6 family ideas shipped because diversity_prefer only soft-reorders.
+    from render_client_slot import batch_diversity_check
+    dchk = batch_diversity_check(todo, 0.30)
+    if not dchk["ok"]:
+        held = {d for v in dchk["violations"] for d in v["slots"]}
+        print(f"  ⚠️ DIVERSITY: {len(dchk['violations'])} over-concentration(s) in this batch:")
+        for v in dchk["violations"]:
+            print(f"      {v['kind']} «{v['key']}» {v['count']}/{dchk['n']} ({v['pct']}%)")
+        if a.enforce_diversity:
+            for s in todo:
+                if (s.get("date") or s.get("id")) in held:
+                    s["status"] = f"held_diversity{a.suffix}"
+            ymf.write_text(json.dumps(ymap, ensure_ascii=False, indent=2))
+            todo = [s for s in todo if (s.get("date") or s.get("id")) not in held]
+            print(f"      → held {len(held)} excess slots for re-angle (—enforce-diversity); "
+                  f"{len(todo)} render now")
+        else:
+            print("      → rendering anyway (run with --enforce-diversity to hold the excess)")
     print(f"{a.handle}: {len(todo)} slots to render (suffix {a.suffix}, brain {a.brain})")
 
     ok = failed = 0

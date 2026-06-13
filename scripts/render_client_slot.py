@@ -69,6 +69,43 @@ def diversity_prefer(options: list, recent_cores: list) -> list:
     return sorted(options, key=lambda o: bool(scene_core(o) & worn_cores))
 
 
+def batch_diversity_check(slots: list, ceiling: float = 0.30) -> dict:
+    """B_div_gate (June 13 — RABIE's #1 unbuilt; the hard answer to his 06-13 scar
+    «still family / make them different»). diversity_prefer only soft-reorders within
+    ONE slot's options and wakes on a last-2 collision — a 6th family idea across a
+    batch passed untouched. THIS is the batch-scoped HARD gate: count scene_core() over
+    every slot's idea text + count recipe (formula) usage across the whole batch; any
+    core or recipe exceeding `ceiling` of the batch is a VIOLATION, with the offending
+    slots named for re-roll. Deterministic, zero-LLM (reads planned angle_theme/formula).
+
+    slot fields read: 'angle_theme' or 'scene_ar' (the idea text) + 'formula' (recipe).
+    Returns {ok, n, ceiling_count, violations:[{kind,key,count,pct,slots:[dates]}]}.
+    """
+    import collections as _c
+    n = len(slots)
+    if n == 0:
+        return {"ok": True, "n": 0, "violations": []}
+    ceiling_count = max(2, int(n * ceiling) + 1)  # >30% — strictly over, min 2 to flag
+    core_slots, formula_slots = _c.defaultdict(list), _c.defaultdict(list)
+    for s in slots:
+        ident = s.get("date") or s.get("id") or "?"
+        idea = s.get("angle_theme") or s.get("scene_ar") or s.get("idea") or ""
+        for core in scene_core(idea):
+            core_slots[core].append(ident)
+        f = s.get("formula")
+        if f:
+            formula_slots[f].append(ident)
+    violations = []
+    for kind, mapping in (("scene_core", core_slots), ("recipe", formula_slots)):
+        for key, ids in mapping.items():
+            if len(ids) >= ceiling_count:
+                violations.append({"kind": kind, "key": key, "count": len(ids),
+                                   "pct": round(len(ids) / n * 100, 1),
+                                   "slots": ids[ceiling_count - 1:]})  # the EXCESS to re-roll
+    return {"ok": not violations, "n": n, "ceiling_count": ceiling_count,
+            "ceiling_pct": round(ceiling * 100), "violations": violations}
+
+
 def taste_guard(options: list, kill_patterns: list) -> tuple[list, list]:
     """Returns (kept, killed). Never empties the set — if every option violates,
     the least-bad first option survives flagged (human eyes decide downstream)."""

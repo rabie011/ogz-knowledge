@@ -222,6 +222,40 @@ class TestSceneDiversity(unittest.TestCase):
         self.assertEqual(len(out), 1)
 
 
+class TestBatchDiversityGate(unittest.TestCase):
+    """B_div_gate — the hard answer to his 06-13 «still family / make them different».
+    diversity_prefer only soft-reorders; THIS blocks a batch over-concentrated on one core."""
+
+    def test_six_family_ideas_caught(self):
+        from render_client_slot import batch_diversity_check
+        slots = [{"date": f"d{i}", "angle_theme": "لمة العيلة حول السفرة"} for i in range(6)]
+        slots += [{"date": f"e{i}", "angle_theme": "قهوة الصباح وحدك بهدوء"} for i in range(4)]
+        r = batch_diversity_check(slots, 0.30)
+        self.assertFalse(r["ok"])
+        fam = next(v for v in r["violations"] if v["key"] == "family")
+        self.assertEqual(fam["count"], 6)  # 6/10 = 60% > 30%
+        self.assertTrue(fam["slots"])      # names the excess to re-roll
+
+    def test_recipe_overuse_caught(self):
+        from render_client_slot import batch_diversity_check
+        slots = [{"date": f"d{i}", "angle_theme": "نص محايد", "formula": "CF_01"} for i in range(7)]
+        slots += [{"date": f"e{i}", "angle_theme": "نص", "formula": "CF_02"} for i in range(3)]
+        r = batch_diversity_check(slots, 0.30)
+        self.assertTrue(any(v["kind"] == "recipe" and v["key"] == "CF_01" for v in r["violations"]))
+
+    def test_diverse_batch_passes(self):
+        from render_client_slot import batch_diversity_check
+        cores = ["لمة العيلة", "قهوة وحدك بهدوء", "ريحة القرمشة", "برد الشتا",
+                 "شلة الأصحاب", "طاقة بعد الجري", "ذكريات زمان", "بطل صغير"]
+        slots = [{"date": f"d{i}", "angle_theme": c, "formula": f"CF_{i:02d}"} for i, c in enumerate(cores)]
+        r = batch_diversity_check(slots, 0.30)
+        self.assertTrue(r["ok"], r["violations"])
+
+    def test_empty_batch_safe(self):
+        from render_client_slot import batch_diversity_check
+        self.assertTrue(batch_diversity_check([], 0.30)["ok"])
+
+
 class TestWornGoldQuarantine(unittest.TestCase):
     def test_dropped_gold_never_fewshots(self):
         # his drop_conflicted ruling 2026-06-13: the exact caption that sat in few-shot

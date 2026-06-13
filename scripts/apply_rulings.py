@@ -232,6 +232,87 @@ def h_reshow_recipes(b: Path, row: dict) -> str:
     return f"re-pushed clean: {pushed or 'all 4 already in queue'}"
 
 
+def h_recipe_verdict(b: Path, row: dict) -> str:
+    """ratify2_<slug> → recipe status in the pattern library (the original ratify_*
+    verdicts were hand-processed; ratify2 was about to be the same hole again)."""
+    slug = row["item_id"].replace("ratify2_", "")
+    ans = row["answer"]
+    p = b / "data/pattern_cards_v1.json"
+    lib = json.loads(p.read_text())
+    card = next((c for c in lib["survivors"] if c["slug"] == slug), None)
+    if not card:
+        raise RuntimeError(f"recipe {slug} not in survivors")
+    ts = (row.get("client_ts") or row.get("ts", ""))[:16]
+    note = (row.get("note") or "").strip()
+    if ans == "ratify":
+        card["status"] = f"RATIFIED by Mohamed {ts} (ratify2 clean re-show)" + (f" «{note[:80]}»" if note else "")
+    elif ans == "kill":
+        lib["survivors"] = [c for c in lib["survivors"] if c["slug"] != slug]
+        lib.setdefault("killed", []).append({**card, "killed_by": f"Mohamed {ts}", "note": note[:120]})
+        card = None
+    elif ans == "edit":
+        card["status"] = f"REVISED-REQUESTED by Mohamed {ts}: «{note[:120]}» — awaiting re-approval"
+    p.write_text(json.dumps(lib, ensure_ascii=False, indent=1))
+    import subprocess as _sp
+    _sp.run(["python3", str(b / "scripts/render_recipes_md.py")], capture_output=True, timeout=60)
+    return f"recipe {slug} → {ans}" + (" (removed to killed)" if card is None else f" ({card['status'][:50]})")
+
+
+def h_regen_scope(b: Path, row: dict) -> str:
+    p = b / "data/mohamed_rulings_live.json"
+    r = json.loads(p.read_text()) if p.exists() else {}
+    r["regen_scope"] = {"value": row["answer"],
+                        "ruled_at": row.get("client_ts") or row.get("ts"),
+                        "source": "portal:regen_scope_ruling",
+                        "doc": "which posts regenerate when keys refill (B216/B219)"}
+    p.write_text(json.dumps(r, ensure_ascii=False, indent=1))
+    assert json.loads(p.read_text())["regen_scope"]["value"] == row["answer"]
+    return f"regen_scope={row['answer']} in mohamed_rulings_live.json (B219 unblocked on keys)"
+
+
+def h_albaik_outreach(b: Path, row: dict) -> str:
+    from organ_write import write_organ
+    p = b / "clients/albaik/profile/state.json"
+    st = json.loads(p.read_text())
+    st["outreach_ruling"] = {"value": row["answer"],
+                             "ruled_at": row.get("client_ts") or row.get("ts"),
+                             "source": "portal:albaik_outreach_ruling (GAP-10)"}
+    write_organ(str(p), st)
+    ping = b / "clients/albaik/presentations/service_ping.md"
+    if ping.exists():
+        txt = ping.read_text()
+        if "حكم محمد" not in txt:
+            label = {"dry_run": "تمرين داخلي للأبد — لا يُرسل أبداً",
+                     "real_prospect": "عميل محتمل حقيقي — التواصل بيد محمد فقط",
+                     "park": "السؤال مؤجل"}.get(row["answer"], row["answer"])
+            ping.write_text(txt.replace("# albaik", f"# albaik", 1)
+                            .replace("مسودة داخلية", f"حكم محمد: {label} · مسودة داخلية", 1))
+    return f"albaik outreach_ruling={row['answer']} (state organ + ping header)"
+
+
+def h_coffee_v3(b: Path, row: dict) -> str:
+    ans = row["answer"]
+    bl = json.loads((b / "data/backlog.json").read_text())
+    sid = {"elixirbunn": "B_elixirbunn_intake", "verify_rawi": "B_rawi_location_verify",
+           "keep_hunting": "B_coffee_rehunt_r3"}.get(ans, f"B_coffee_{ans}")
+    if not any(x.get("id") == sid for x in bl["steps"]):
+        title = {"elixirbunn": "elixirbunn PILOT INTAKE — extraction → pyramid → year map (his pick)",
+                 "verify_rawi": "Verify rawicoffee location from posts (his tap)",
+                 "keep_hunting": "Coffee hunt round 3 — wider net (his tap)"}.get(ans, ans)
+        bl["steps"].append({"id": sid, "title": title, "status": "open",
+                            "top": "pilot clients prove the pyramid", "needs_apify": True,
+                            "why": f"his coffee_pick_v3 tap → {ans} @ {(row.get('client_ts') or row.get('ts',''))[:16]}"})
+        (b / "data/backlog.json").write_text(json.dumps(bl, ensure_ascii=False, indent=1))
+    return f"coffee_pick_v3={ans} → backlog step {sid} staged (next orchestra pick)"
+
+
+# prefix dispatch: (prefix, answer) pairs that match any item_id with that prefix
+PREFIX_HANDLERS = {
+    ("ratify2_", "ratify"): h_recipe_verdict,
+    ("ratify2_", "kill"): h_recipe_verdict,
+    ("ratify2_", "edit"): h_recipe_verdict,
+}
+
 HANDLERS = {
     ("gold_conflicts_0613", "drop_conflicted"): h_drop_conflicted,
     ("jurisha_voice_v3", "brand_voice"): h_brand_voice,
@@ -241,7 +322,26 @@ HANDLERS = {
     ("law_3_Mac-required_actions", "yes_law"): h_law_machine_evidence,
     ("coffee_pick_v2", "keep_hunting"): h_keep_hunting,
     ("reshow_4_recipes", "reshow"): h_reshow_recipes,
+    ("regen_scope_ruling", "rolling_window"): h_regen_scope,
+    ("regen_scope_ruling", "pilots_full"): h_regen_scope,
+    ("regen_scope_ruling", "killed_only"): h_regen_scope,
+    ("albaik_outreach_ruling", "dry_run"): h_albaik_outreach,
+    ("albaik_outreach_ruling", "real_prospect"): h_albaik_outreach,
+    ("albaik_outreach_ruling", "park"): h_albaik_outreach,
+    ("coffee_pick_v3", "elixirbunn"): h_coffee_v3,
+    ("coffee_pick_v3", "verify_rawi"): h_coffee_v3,
+    ("coffee_pick_v3", "keep_hunting"): h_coffee_v3,
 }
+
+
+def _resolve(key):
+    """exact HANDLERS first, then PREFIX_HANDLERS."""
+    if key in HANDLERS:
+        return HANDLERS[key]
+    for (pref, ans), fn in PREFIX_HANDLERS.items():
+        if key[0].startswith(pref) and key[1] == ans:
+            return fn
+    return None
 
 
 def founder_note_parity(b: Path) -> list:
@@ -281,7 +381,7 @@ def pending_unhandled(b: Path) -> list:
     out = []
     for r in _read_jsonl(b / ANSWERS):
         item, ans = r.get("item_id", ""), r.get("answer")
-        if not ans or r.get("rating") is not None or item.startswith(("judge_", "judge2_", "ratify")):
+        if not ans or r.get("rating") is not None or item.startswith(("judge_", "judge2_", "ratify_")):
             continue  # judge/ratify lanes have their own consumers (router, gold_mint)
         if item == "_general_note":
             continue  # pure notes — founder_note_parity owns these
@@ -289,7 +389,7 @@ def pending_unhandled(b: Path) -> list:
             continue  # pre-wire era: hand-consumed, audited by the June 13 cold review
         if ans in ACK_ANSWERS or (item, ans) in applied:
             continue
-        if (item, ans) in HANDLERS:
+        if _resolve((item, ans)):
             out.append((item, ans, "HANDLER EXISTS BUT NOT APPLIED"))
         else:
             out.append((item, ans, "NO HANDLER"))
@@ -303,17 +403,18 @@ def main():
     seen = set()
     for r in _read_jsonl(b / ANSWERS):
         key = (r.get("item_id", ""), r.get("answer"))
-        if key in applied or key in seen or key not in HANDLERS:
+        fn = _resolve(key)
+        if key in applied or key in seen or fn is None:
             continue
         seen.add(key)
         try:
-            evidence = HANDLERS[key](b, r)
+            evidence = fn(b, r)
             with open(b / LEDGER, "a", encoding="utf-8") as f:
                 f.write(json.dumps({
                     "item_id": key[0], "answer": key[1],
                     "ruled_at": r.get("client_ts") or r.get("ts"),
                     "applied_at": datetime.now().isoformat(timespec="seconds"),
-                    "handler": HANDLERS[key].__name__, "evidence": evidence,
+                    "handler": fn.__name__, "evidence": evidence,
                 }, ensure_ascii=False) + "\n")
             done.append(f"  ✅ {key[0]} → {key[1]}: {evidence}")
         except Exception as e:

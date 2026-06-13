@@ -231,6 +231,16 @@ class TestWornGoldQuarantine(unittest.TestCase):
         clean = "كنز صغير لبطل صغير"
         self.assertFalse(any(w in clean for w in STANDING_WORN))
 
+    def test_clishy_fixture_killed_at_filter(self):
+        # his ★3 «the caption is clishy» (judge2_eatjurisha_2027-02-22) PASSED the
+        # filter on June 13 — worn formulas are now filter-enforced. ذكريات itself
+        # stays legal (protected by his own ★5 gold) — the FORMULA dies, not the word.
+        passes, reasons = check("جريّشة وذكريات التأسيس في كل لقمة. اطلبوا الآن من هنقرستيشن!")
+        self.assertFalse(passes)
+        self.assertTrue(any(r.startswith("worn:") for r in reasons), reasons)
+        ok, _ = check("ذكريات التأسيس حاضرة على سفرتنا اليوم")
+        self.assertTrue(ok)  # ذكريات alone is his ★5-protected territory
+
     def test_approved_with_complaint_quarantined(self):
         # his 01:21 note on a ★4 approve: «why يرفع المعنويات dosent feel good» —
         # approval stands in gold, the phrase never teaches

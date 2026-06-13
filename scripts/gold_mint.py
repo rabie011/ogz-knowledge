@@ -38,7 +38,7 @@ def law_violations(caption: str, occasion: str, brand_tokens: list = None) -> li
     reflects his ruling; mint and gate can never diverge again.)"""
     from caption_filter import cultural_check
     _, hits = cultural_check(caption, occasion)
-    from render_client_slot import STANDING_WORN
+    from caption_filter import STANDING_WORN
     hits += [f"worn_phrase:{w}" for w in STANDING_WORN if w in caption]
     return hits
 

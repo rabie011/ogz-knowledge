@@ -22,11 +22,7 @@ from post_unit import chain_for
 # a gold entry carrying a banned formula must never reach few-shot, even before
 # Mohamed rules on it (June 13: 4 conflicted golds sat in few-shot slot 3 for ~2h —
 # his drop_conflicted ruling existed but no wire consumed it)
-STANDING_WORN = ["لحظة", "لحظات", "يجمعنا", "تجمعنا", "له طعم ثاني", "لها طعم خاص",
-                 "في كل لقمة", "احلي مع", "أحلى مع",
-                 "يرفع المعنويات"]  # احلي مع: Mohamed 01:25 · يرفع المعنويات: his 01:21 note
-                                    # «why يرفع المعنويات dosent feel good» on a ★4 approve —
-                                    # the approval stands in gold; the phrase can't few-shot
+from caption_filter import STANDING_WORN  # single copy lives in the filter (June 13)
 
 # TASTE GUARDS (June 13 — the write-only-organ catch): a client's kill_patterns organ
 # must CHANGE the render, not decorate the profile. Lexicon per known pattern;

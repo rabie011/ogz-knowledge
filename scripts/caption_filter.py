@@ -10,6 +10,13 @@ _FLIP_TAIL = re.compile(r"(اللي|حتى)\s+\S+\s+(قبل|بعد)\s*ما\s")
 # Philosophical openers
 _PHILO_OPEN = re.compile(r"^\s*[\"«']?\s*(لمّا|لما|إذا|تخيل|تخيّل)\b")
 # The cliché list (verbatim strings, checked literally)
+# THE single worn-formula copy (June 13 — moved here from render_client_slot so the
+# FILTER enforces it too: his ★3 «the caption is clishy» fixture passed check() while
+# carrying في كل لقمة. Pens are told to avoid; if they disobey, the filter kills.
+# Sites reading this: prompt bans + few-shot gold quarantine + mint pre-gate + check().
+STANDING_WORN = ["لحظة", "لحظات", "يجمعنا", "تجمعنا", "له طعم ثاني", "لها طعم خاص",
+                 "في كل لقمة", "احلي مع", "أحلى مع", "يرفع المعنويات"]
+
 _CLICHES = [
     "أكبر من الكلام", "ما ينتهي", "يحكي حكاية", "حكاية أجداد", "الطعم يقول",
     "يكمّل اللحظة", "يكمل اللحظة", "الشوق ل", "أكبر من أي", "ما يحتاج تعريف",
@@ -49,6 +56,10 @@ def check(caption: str) -> tuple[bool, list[str]]:
     dia_ok, dia_hits = dialect_check(cap)
     if not dia_ok:
         reasons.extend(f"dialect:{h}" for h in dia_hits)
+    for w in STANDING_WORN:
+        if w in cap:
+            reasons.append(f"worn:{w}")
+            break
     return (len(reasons) == 0), reasons
 
 

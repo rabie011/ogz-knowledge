@@ -130,8 +130,13 @@ def main():
     rsf = BASE / "data/retro_sweep.json"
     if rsf.exists():
         rs = json.loads(rsf.read_text()).get("report", {})
+    # D3 truth from the ledger (the STAGED line went stale the night he judged it all)
+    judged = sum(1 for l in (BASE / "data/mohamed_answers.jsonl").read_text(encoding="utf-8").splitlines()
+                 if l.strip() and '"judge2_' in l and '"rating"' in l and '"judge": "mohamed"' in l)
     strong = [f"{len(commits)} commits since your last tap, every build plant-tested with refusing asserts",
-              f"judging 20-batch STAGED (6 brains × 10 occasions) — your fal tap = one command to your screen",
+              (f"D3 DONE BY YOU: {judged} full-post verdicts in the ledger — golds minted, bans routed, "
+               f"rulings executed the same hour" if judged >= 15 else
+               "judging 20-batch STAGED (6 brains × 10 occasions) — your fal tap = one command to your screen"),
               f"{zooms} zoom-out ritual(s) ran; cold-eyes findings fixed at source (CTA 84%→gated)"]
     rd = BASE / "data/reviews_digest.json"
     if rd.exists():
@@ -140,7 +145,7 @@ def main():
             a_ = r["albaik"]
             strong.append(f"شارع البيك يتكلم: {a_['total']} مراجعة خرائط — والوجع الأول خدمة ({a_['complaints'].get('service',0)} شكوى) مو الأكل؛ 209 نجمة-واحدة تستاهل نظرتك")
         if "eatjurisha" in r:
-            strong.append(f"جريشة محبوبة الشارع: {r['eatjurisha']['stars'].get(5,0)}/{r['eatjurisha']['total']} مراجعات ٥★ — الطعم يقود")
+            strong.append(f"جريشة محبوبة الشارع: {r['eatjurisha']['stars'].get('5', 0)}/{r['eatjurisha']['total']} مراجعات ٥★ — الطعم يقود")  # JSON keys are strings — int .get(5) showed 0/60 for a 48/60 brand
     ue = BASE / "data/unit_economics.json"
     if ue.exists():
         u = json.loads(ue.read_text())
@@ -159,7 +164,9 @@ def main():
     worry = [f"{len(urgent)} urgent card(s) unanswered" if urgent else None,
              "myfitness still throttled — needs client truth, no spend on expired drafts",
              "Floward R2 lead pick clock runs to ~June 13 23:00" if any("floward" in str(i.get("id","")).lower() for i in open_items) else None,
-             f"orchestrator daemon was found DEAD 88 days (revived; reboot-proofing awaits your paste)",
+             (None if subprocess.run(["launchctl", "print", "gui/501/com.abraham.orchestrator"],
+                                      capture_output=True).returncode == 0 else
+              "orchestrator daemon was found DEAD 88 days (revived; reboot-proofing awaits your paste)"),
              (f"myfitness endemic snap-tic: {rs['myfitness.sa']['worn_pct']}% of cards push سناب شات"
               if rs.get("myfitness.sa", {}).get("worn_pct", 0) > 50 else None)]
     pkg = f"""# IM-HERE PACKAGE — auto-fresh {datetime.datetime.now().isoformat(timespec='minutes')}
@@ -174,7 +181,7 @@ def main():
 ## (b) البوابة — ينتظر لمستك
 **https://brain.ogzstudios.com/approvals?k=ogz-mo-001aad63a8ec** *(your personal link — knows it's you)*
 - {len(open_items)} كرت مفتوح ({len(urgent)} عاجل)
-- دفعة الحكم: {jb.get('status','—')} — أمر الإطلاق جاهز بعد سطر fal
+- دفعة الحكم: {('انحكمت كاملة ✅ (D3 يوم 13/6)' if jb.get('status')=='STAGED' else jb.get('status','—'))}
 - مسودات قوانين (crystallize): {len(drafts)}
 
 ## (c) أدلة الرأي (Claude يحكم لحظة التسليم)

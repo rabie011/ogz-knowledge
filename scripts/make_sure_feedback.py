@@ -93,7 +93,10 @@ def run_checks() -> dict:
                 gate_ok = False
         if e.get("event") == "verified" and e.get("exit_code") != 0:
             gate_ok = False
-        if e.get("event") not in ("open", "fix_claimed", "verified", "closed", "reopened", "voided"):
+        if e.get("event") == "recurred" and not e.get("quote"):
+            gate_ok = False   # recurred = quote-preserving note (June 13) — a quoteless one is noise
+        if e.get("event") not in ("open", "fix_claimed", "verified", "closed", "reopened",
+                                   "voided", "recurred"):
             gate_ok = False
     c["evidence_gates"] = gate_ok
 

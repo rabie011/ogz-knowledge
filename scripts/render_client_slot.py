@@ -220,7 +220,7 @@ def brain_method(brain: str) -> str:
     return f.read_text()[:2800] if f.exists() else ""
 
 
-LIFE_CONTEXTS = ["عائلة في البيت", "أصدقاء وشلة", "شخص وحده — لحظة هدوء مع نفسه",
+LIFE_CONTEXTS = ["عائلة في البيت", "أصدقاء وشلة", "شخص وحده — هدوء مع نفسه",
                   "يوم عمل ودوام", "الشارع والحي والسوق", "حركة ورياضة وطلعة",
                   "ضيوف ومناسبة اجتماعية"]
 
@@ -410,8 +410,28 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     for o, hit in taste_killed:
         print(f"  ✂️ taste-kill [{hit}] (his ruling): {o[:50]}…", file=sys.stderr)
     cleaned = kept
-    surv, _ = filter_options({f"opt_{i}": o for i, o in enumerate(cleaned)})
-    final = list(surv.values())[:3] if surv else cleaned[:3]
+    surv, dropped_reasons = filter_options({f"opt_{i}": o for i, o in enumerate(cleaned)})
+    if surv:
+        final = list(surv.values())[:3]
+    else:
+        # ALL options filter-killed (zoom-out catch June 13: the old fallback silently
+        # re-admitted them — including CULTURAL hard kills like dua+brand). Hard kills
+        # (cultural/dialect) may NEVER ship; soft style kills (worn/cliche) re-admit
+        # least-bad, flagged loudly — eyes decide downstream.
+        HARD = ("cultural:", "dialect:")
+        soft_only = [o for i2, o in enumerate(cleaned)
+                     if not any(r.startswith(HARD)
+                                for r in dropped_reasons.get(f"opt_{i2}", []))]
+        for i2, o in enumerate(cleaned):
+            print(f"  ✂️ filter-kill {dropped_reasons.get(f'opt_{i2}', [])}: {o[:50]}…",
+                  file=sys.stderr)
+        final = soft_only[:3]
+        if final:
+            print(f"  ⚠️ ALL options filter-killed — {len(final)} soft-killed re-admitted "
+                  "FLAGGED (least-bad; hard cultural/dialect kills stayed dead)", file=sys.stderr)
+        else:
+            print("  🛑 every option carried a HARD kill — slot renders with zero captions, "
+                  "regen needed", file=sys.stderr)
     # his diversity ruling: a fresh emotional core leads when recent slots repeat one
     final = diversity_prefer(final, c.get("recent_cores", []))
     # CTA-density rule (June 11, RABIE-ruled): a feed that sells in every line reads like
@@ -422,7 +442,11 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     # one-module law: the renderer's frozen FILLER would drift exactly like its
     # frozen EVENT_CLAIM did this morning)
     from truth_guards import FILLER
-    cleaned2 = [o for o in final if not FILLER.search(o)] or final[:1]  # never return zero
+    cleaned2 = [o for o in final if not FILLER.search(o)]
+    if not cleaned2 and final:
+        print(f"  ⚠️ all options carry FILLER — least-bad re-admitted FLAGGED: "
+              f"{final[0][:50]}…", file=sys.stderr)
+        cleaned2 = final[:1]
     final = cleaned2
     kept_cta = False
     out = []

@@ -70,8 +70,21 @@ def audit(fix: bool = True) -> dict:
                         and str(e.get("source")).split("portal:", 1)[1] in ans_ids)
                        or e.get("confirmer") == "mohamed"
                        for e in chk["gold"]), f"{handle}: unconfirmed entry survived in gold"
+        # SERVABLE count (zoom-out catch June 13: the worn few-shot quarantine took
+        # myfitness 1→0 SILENTLY — the renderer acted as if he never minted gold)
+        try:
+            from caption_filter import STANDING_WORN
+            servable = [e for e in keep
+                        if not any(w in (e.get("line") or e.get("caption") or "")
+                                   for w in STANDING_WORN)]
+        except ImportError:
+            servable = keep
         report["clients"][handle] = {**counts, "gold_now": len(keep),
+                                     "servable_fewshot": len(servable),
                                      "seed_unconfirmed": len(quarantined)}
+        if keep and not servable:
+            print(f"  ⚠️ {handle}: ALL {len(keep)} gold worn-quarantined — few-shot "
+                  "starved; renderer falls back to corpus exemplars", file=__import__('sys').stderr)
     report["clean"] = (dirty == 0) if not fix else True
     report["moved_this_run"] = dirty if fix else 0
     return report

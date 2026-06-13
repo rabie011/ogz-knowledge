@@ -3,9 +3,11 @@
 
 The consultative moat: we read the client's street (Maps reviews) and bring them an
 insight their feed can't see — «your pain is SERVICE, not food». This generates the
-ping as a presentation draft per client (presentations/service_ping.md) and, when a
-threshold is crossed, stages a 60-second card for MOHAMED's gate. Nothing is ever
-sent to a client without his tap (outbound law).
+ping as an INTERNAL presentation draft per client (presentations/service_ping.md)
++ data/service_pings.json (read by the morning brief). NO card is staged and NOTHING
+goes near a client: B201 (albaik outreach ruling — dry-run vs real contact) is an
+OPEN mohamed_must; until he rules, drafts stay internal. (Docstring corrected June 13
+— the earlier «stages a card» claim was false: self-audit law.)
 
 Thresholds (counts, never feelings):
   ping-worthy   — top complaint ≥ 3% of total reviews AND ≥ 10 absolute

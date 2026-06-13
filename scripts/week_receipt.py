@@ -154,8 +154,14 @@ def main():
     if rsf.exists():
         rs = json.loads(rsf.read_text()).get("report", {})
     # D3 truth from the ledger (the STAGED line went stale the night he judged it all)
-    judged = sum(1 for l in (BASE / "data/mohamed_answers.jsonl").read_text(encoding="utf-8").splitlines()
-                 if l.strip() and '"judge2_' in l and '"rating"' in l and '"judge": "mohamed"' in l)
+    _seen_posts = set()
+    for _l in (BASE / "data/mohamed_answers.jsonl").read_text(encoding="utf-8").splitlines():
+        if _l.strip() and '"judge2_' in _l and '"rating"' in _l and '"judge": "mohamed"' in _l:
+            try:
+                _seen_posts.add(json.loads(_l).get("item_id"))
+            except Exception:
+                pass
+    judged = len(_seen_posts)  # UNIQUE posts (raw line count once inflated 20→30: re-judges)
     strong = [f"{len(commits)} commits since your last tap, every build plant-tested with refusing asserts",
               (f"D3 DONE BY YOU: {judged} full-post verdicts in the ledger — golds minted, bans routed, "
                f"rulings executed the same hour" if judged >= 15 else
@@ -179,8 +185,11 @@ def main():
     if gm.exists():
         s0 = (json.loads(gm.read_text()).get("sessions") or [{}])[-1]
         if s0.get("median_sec_per_verdict"):
-            strong.append(f"your last portal session: {s0['verdicts']} verdicts at median "
-                           f"{s0['median_sec_per_verdict']}s each — the 60-second law holds, measured")
+            # only claim "measured" if the metrics are NEWER than his last answer
+            _ans_m = (BASE / "data/mohamed_answers.jsonl").stat().st_mtime
+            if (BASE / "data/gate_metrics.json").stat().st_mtime >= _ans_m - 3600:
+                strong.append(f"your last portal session: {s0['verdicts']} verdicts at median "
+                               f"{s0['median_sec_per_verdict']}s each — the 60-second law holds, measured")
     if rs:
         strong.append("retro sweep: albaik corpus armor-clean ("
                        + ", ".join(f"{h} {v['armor_caught_pct']}% caught" for h, v in rs.items()) + ")")

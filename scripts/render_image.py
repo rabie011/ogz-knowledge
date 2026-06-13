@@ -87,6 +87,18 @@ def product_imagery_hit(card: dict, card_path: str) -> str | None:
 
 
 def render(card_path: str) -> str | None:
+    # MOHAMED'S LIVE RULING (fal_key_go=no_photos, 2026-06-12 14:59): NO fal image
+    # spend until he says otherwise. This gate was MISSING — the ruling had zero
+    # consumers (zoom-out catch 2026-06-13). The script REFUSES, never warns.
+    import sys as _sys
+    from pathlib import Path as _P
+    _rl = _P(__file__).parent.parent / "data/mohamed_rulings_live.json"
+    if _rl.exists():
+        _r = json.loads(_rl.read_text())
+        if _r.get("no_fal_photos"):
+            _sys.exit("🛑 REFUSED: Mohamed's live ruling no_fal_photos=true "
+                      "(fal_key_go=no_photos, 2026-06-12) — zero image spend until his go. "
+                      "Flip data/mohamed_rulings_live.json ONLY on his tap.")
     key = env("FAL_KEY") or env("FAL_API_KEY")
     if not key:
         print("NO FAL KEY — staged only (image_prompt saved to card)")

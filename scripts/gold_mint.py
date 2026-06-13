@@ -111,6 +111,14 @@ def mint() -> list:
         key = hashlib.sha1(caption.encode()).hexdigest()[:12]
         if any(e.get("key") == key for e in gold["gold"]):
             continue
+        # HIS DROP RULING IS PERMANENT until he reverses it BY NAME (zoom-out catch
+        # June 13: dedupe only saw live gold, so a re-approval would silently
+        # RESURRECT an entry his drop_conflicted ruling struck)
+        if any((e.get("key") or e.get("id")) == key for e in gold.get("dropped", [])):
+            print(f"  🧊 mint refused: {caption[:40]}… is in 'dropped' by his ruling "
+                  f"({next(e.get('dropped_by','') for e in gold['dropped'] if (e.get('key') or e.get('id')) == key)[:60]}) "
+                  "— restoring needs an explicit restore ruling, not a re-approval", file=sys.stderr)
+            continue
         gold["gold"].append({
             "key": key, "line": caption, "caption": caption, "occasion": card.get("occasion"),
             "rating": r["rating"], "source": f"portal:{r.get('item_id')}",

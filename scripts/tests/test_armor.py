@@ -219,6 +219,12 @@ class TestWornGoldQuarantine(unittest.TestCase):
         clean = "كنز صغير لبطل صغير"
         self.assertFalse(any(w in clean for w in STANDING_WORN))
 
+    def test_approved_with_complaint_quarantined(self):
+        # his 01:21 note on a ★4 approve: «why يرفع المعنويات dosent feel good» —
+        # approval stands in gold, the phrase never teaches
+        from render_client_slot import STANDING_WORN
+        self.assertTrue(any(w in "والآن دور البيك يرفع المعنويات" for w in STANDING_WORN))
+
 
 if __name__ == "__main__":
     unittest.main()

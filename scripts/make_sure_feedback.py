@@ -242,6 +242,15 @@ def run_checks() -> dict:
     c["trust_violations"] = n_viol
     c["trust_budget_zero"] = n_viol == 0
 
+    # 12g. PRIVACY AUDIT FRESH (B031): the quarterly wall audit ran <90d ago and passed
+    pa = B / "data/privacy_audit_last.json"
+    if pa.exists():
+        rep = json.loads(pa.read_text())
+        c["privacy_audit_fresh"] = (rep.get("pass") is True and
+                                    (now - _dt(rep.get("ts", ""))) < timedelta(days=90))
+    else:
+        c["privacy_audit_fresh"] = False
+
     # 12. OPEN-ISSUE PULSE
     ist = json.loads((B / "data/issues_state.json").read_text()) \
         if (B / "data/issues_state.json").exists() else {"oldest_open_days": 0}
@@ -253,7 +262,7 @@ def run_checks() -> dict:
              "evidence_gates", "receipt_alive", "scorecards_fresh", "hand_recount",
              "no_quarantine_graveyard", "append_only", "card_budget_ok", "issue_pulse_ok",
              "gold_wire_e2e", "verdicts_applied", "rulings_applied", "founder_note_parity",
-             "trust_budget_zero"]
+             "trust_budget_zero", "privacy_audit_fresh"]
     c["_verdict"] = all(c[g] for g in gates)
     c["_failed"] = [g for g in gates if not c[g]]
     return c

@@ -149,6 +149,18 @@ class TestTruthGuards(unittest.TestCase):
         self.assertNotIn("#فولو_فور_فولو", s[0])
 
 
+class TestV6BriefHashtags(unittest.TestCase):
+    def test_brief_real_tags_survive_v6_pattern(self):
+        # June 13: the 41-brand v6 path called apply_guards without real_hashtags —
+        # the brand's own brief tags died. This mirrors the fixed call exactly.
+        brief_hashtags = "#انتم_والبيك_جيران #صنع_في_السعودية"
+        tags = {x.lstrip("#") for x in brief_hashtags.split() if x.startswith("#")}
+        s, k = apply_guards(["جيرة عمر، وطعم ما يتغير #انتم_والبيك_جيران #حظك_حلو"],
+                            "البيك", {}, real_hashtags=tags)
+        self.assertIn("#انتم_والبيك_جيران", s[0])
+        self.assertNotIn("#حظك_حلو", s[0])
+
+
 class TestTasteGuard(unittest.TestCase):
     """June 13: kill_patterns was a WRITE-ONLY organ — his family×7 ruling changed
     nothing at render. This suite pins the wire."""

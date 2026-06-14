@@ -1,0 +1,82 @@
+{
+  "chain_id": "T48",
+  "title": "Food Spread Tablet Planning",
+  "locked": false,
+  "native_video": false,
+  "family": "TF13 · Lifestyle Context",
+  "sectors": [
+    "F&B",
+    "Restaurant",
+    "Catering",
+    "Services"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Required",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@aseeb.najd",
+    "@diplomat_sweets",
+    "@laylali_riyadh"
+  ],
+  "cultural_spec": "CS-13, CS-21",
+  "drama_dial": "clean abundant (palette discipline — busy scene)",
+  "color_story": "Abundant food spread on marble with a tablet showing the menu — rich food colors against cool marble, modern tech accent.",
+  "when_to_use": "Modern dining/planning lifestyle — abundance plus modern convenience. Restaurants, catering, food services, hospitality tech.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} / {brand.name} identity (menu brand, food, or service). Identity DNA: {product.identity_dna}\nSpread arrangement, shot angle (top-down or three-quarter), and tablet placement are creative decisions; the brand (on tablet menu, packaging, or presentation) reads accurate. INTEGRATION: one soft daylight holds the entire spread, the marble, and the tablet — the screen's true glow lives inside that light, every dish shares its shadow direction.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with appetizing-lifestyle lift. Material truth: {product.material_texture} where the brand's product appears; real food textures with honest appetizing detail, authentic marble veining, true tablet screen glow. No CGI food, no fake-perfect arrangement.\n\n[SCALE CALIBRATION]\n{product.dimensions} where applicable — dishes, tablet, and ingredients at true tabletop scale to each other; the spread's abundance built from honestly sized elements.\n\n[FRAMING & PROXIMITY]\nElevated top-down or three-quarter, close over the spread — abundance filling the frame edge to edge, the viewer at the table's edge.\n\n[COLOR & CONTRAST]\nPalette discipline for a busy scene: rich warm appetizing food colors against cool marble as the controlled contrast; the tablet screen and brand provide the modern accent. The brand's color reads clearly within the abundance.\n\n[LIGHT & LENS]\nONE soft even daylight with gentle directional quality revealing food texture and marble sheen; the tablet's subtle true glow within it. Full spread sharp.\n\n[NATURAL PLACEMENT]\nDishes and tablet sit as a real table is set — honest weights, true contacts, the tablet resting at a believable reading angle.\n\n[COMPANION ELEMENTS]\nSTRUCTURAL EXCEPTION: the composed abundant spread IS this chain's scene — restraint applies as no scatter beyond the deliberate arrangement; every element belongs to the meal.\n\n[SCENE]\nFood spread planning composition. An abundant arranged spread on marble — multiple dishes, fresh ingredients, appetizing variety — with a tablet resting among it showing the menu/brand. Modern, aspirational, the contemporary hospitality-planning moment. Choice points: arrangement geometry, shot angle, tablet position, dish variety per brief.\n\n[SUBJECT]\nThe abundant spread plus the tablet showing menu/brand — food in appetizing physical truth, marble and tablet authentic, brand visible on screen or packaging.\n\n[BRAND CONSTRAINTS]\nFood spread plus one tablet. No human elements (hands only if essential). No pork, no alcohol (CS-21). Modern Saudi dining context (CS-13). No identifiable real-brand tablet logos; the only readable text is the brand's own menu on the screen. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal food-lifestyle photography, maximum fidelity. Appetizing abundant grade, marble-and-tech contrast. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — Saudi/Gulf dishes for Saudi cuisine spreads (CS-21). For Ramadan: iftar spread context, evening warmth. For gatherings: traditional communal arrangement.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: arrangement geometry, shot angle, dish selection per brief, tablet position. The abundance recomposes each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Spread, tablet, marble, brand elements, {product.material_texture} — all preserved.\n\n[MOTION]\nPrimary — atmosphere: steam rises from hot dishes; the tablet screen carries a gentle glow-breath; fresh details glisten.\nSecondary — light: soft daylight shifts subtly across the spread.\nTertiary — camera: extremely subtle top-down or three-quarter push-in.\n\n[WHAT STAYS STATIC]\nFood arrangement and colors locked. Tablet and brand locked. Marble stable. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Inviting abundant pacing.\n\n[OUTPUT]\nPhotoreal food-lifestyle cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3542,
+    "video_chars": 714,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.name",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

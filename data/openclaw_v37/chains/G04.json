@@ -1,0 +1,86 @@
+{
+  "chain_id": "G04",
+  "title": "Product on Car Dashboard",
+  "locked": false,
+  "native_video": false,
+  "family": "TF-GROUND · Product in Saudi Environment",
+  "sectors": [
+    "F&B",
+    "Beverage",
+    "Retail",
+    "Auto-culture"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "grow",
+    "brand"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "2-3× per week",
+  "image_model": "fal-ai/flux-2-pro/edit    (8,000 chars)",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v    (2,500 chars)",
+  "ref_accounts": [
+    "@barnscoffee"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "",
+  "color_story": "",
+  "when_to_use": "On-the-go lifestyle — the product on a dashboard with open Saudi context through the windscreen.",
+  "image_prompt_template": "[BRAND LOCK · identity invariant, placement and composition open]\nThe reference image teaches the {product.name} brand identity. Identity is invariant — windshield context, interior, and time of day are creative decisions.\nIdentity DNA: {product.identity_dna}\nINTEGRATION: The product on the dashboard is one captured car-interior moment. Through-windshield light fills the cabin and lights the product — sky tint on its top edge, warm dashboard tones on its lower edge; foreground dust drifts in the same air volume.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character}, phone_natural with editorial lift, photoreal. Real leather/vinyl grain, sun-warmth, faint dust, honest windscreen reflections. Material truth: {product.material_texture} — faint interior reflection on semi-gloss zones.\n\n[SCALE CALIBRATION]\n{product.dimensions}. Render the product-to-companion proportion honestly; both small on the dashboard surface.\n\n[FRAMING & PROXIMITY]\nMedium-close proximity — product and companion on the dash fill the foreground; through-windshield context is an intimate backdrop band, not a vast empty expanse.\n\n[COLOR & CONTRAST · brand-derived]\nBrand-derived interior field (per {brand.color_field_palette} — tan, cream, dark grey) with the through-windshield sky as a saturated band. Anchored to {brand.palette.primary}. No foreign-color interior.\n\n[LIGHT & LENS · hard directional, mood not spec]\nThrough-windshield daylight with directional rake catching the dash and product. Hard enough to throw a defined product shadow on the dash. Model chooses light direction and color-temp mood (warm morning, hard midday, golden afternoon). POPPING COLOR INTENT: saturated sky band, rich warm interior, {brand.palette.primary} as the sharp foreground anchor. Lens: natural interior perspective; model chooses depth for windshield context.\n\n[NATURAL PLACEMENT]\nThe product and companion came to rest on the dash naturally — product may lie, lean against the windscreen base, or stand if the dash cradles it; companion set down. Not posed.\n\n[COMPANION ELEMENTS · restrained]\nONE hero companion from {product.companion_elements} (e.g. a serving cup with steam), resting on the dash or in a cupholder. Optionally one clean shape. No scatter.\n\n[SCENE · creative seed]\nAn on-the-go moment — the product on the dashboard, open Saudi context through the windscreen. Model chooses: windshield context (desert highway, Riyadh boulevard, AlUla road, Jeddah corniche, Najdi dunes); interior (vintage cream/tan + wood-grain, modern dark-grey + chrome, mid-range cloth + beige); natural placement; time of day; POV (passenger-seat, low driver-seat, near-windshield).\n\n[SUBJECT]\nCar interior reads classical or modern Saudi (CS-13), authentic wear and sun-warmth. The product sits naturally, branded face toward the imagined photographer.\n\n[BRAND CONSTRAINTS]\nSingle product. ONE companion. No humans, no driver's hand, no passenger. Saudi interior per CS-13. No plates/external identifiers. {brand.anti_attributes}\n\n[OUTPUT]\n8K photoreal lifestyle commercial photography. Saturated warm grade, {brand.palette.primary} sharp. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} sets open Saudi through the windshield (Najdi desert, Riyadh, AlUla, Jeddah). Interior per CS-13. {saudi.material_context} supplies the companion (e.g. finjan per CS-18). For {saudi.occasion_overlay}: matching context.\n\n[TEXT OVERLAY — conditional, agent appends only when brief.text_request is present]\nRender this text directly in the image: \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}, contrasting color. If absent, no text appears.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary windshield context, interior, natural placement, time of day, POV. Hold constant: hard directional light, brand-derived interior, one companion, honest proportion, material texture. Each render a different road moment.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The product, companion, dashboard, through-windshield context — all preserved exactly. Product silhouette, all label color values, every Arabic ({product.label_text_arabic}) and Latin ({product.label_text_latin}) character, logo, material finish — character-perfect.\n\n[MOTION]\nThe world outside the windscreen drifts gently (landscape parallax as if parked with heat-haze, or slow passing scenery); steam rises from the companion; light shifts warmth. A subtle push-in. The product stays locked on the dash — no movement, no distortion.\n\n[WHAT STAYS STATIC]\nProduct silhouette, every label character, color values, logo, material finish — locked. Dashboard placement held. Capture character {brand.aesthetic.capture_character} preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. No cuts.\n\n[OUTPUT]\n8K photoreal lifestyle cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3975,
+    "video_chars": 954,
+    "image_blocks": [
+      "BRAND LOCK · identity invariant, placement and composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST · brand-derived",
+      "LIGHT & LENS · hard directional, mood not spec",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS · restrained",
+      "SCENE · creative seed",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, agent appends only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.palette.primary",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.companion_elements",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.label_text_arabic",
+      "product.label_text_latin",
+      "product.material_texture",
+      "product.name",
+      "saudi.material_context",
+      "saudi.occasion_overlay",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "chain_id": "U02",
+  "title": "Promotional Offer",
+  "locked": false,
+  "native_video": false,
+  "family": "TF15 · Promotional & Text",
+  "sectors": [
+    "F&B",
+    "Retail",
+    "Beauty",
+    "Services"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "harvest",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "3-5× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@aseeb.najd",
+    "@barnscoffee",
+    "@danatreasures"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "bold promo punch",
+  "color_story": "Bold promotional energy — strong brand color field with high-contrast price/offer typography. The deal IS the design.",
+  "when_to_use": "Price-led conversion — discount, bundle, or offer composed boldly with the product. TEXT IS CENTRAL. The most conversion-direct chain.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe offer layout — badge style, price placement, field geometry — is a creative decision; the product reads brand-accurate, composed with the offer typography. INTEGRATION: one punchy light holds product and field; the offer graphics live in the same designed grade — one promotional photograph, not a sticker collage.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with bold-promo clarity. Material truth: {product.material_texture} — authentic product substrate, honest light, real soft shadow. Promo graphics clean and bold. No CGI flatness.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the product at true size; the offer typography scaled as the dominant graphic without dwarfing the hero into a thumbnail.\n\n[FRAMING & PROXIMITY]\nTight conversion layout — product large and near, offer unmissable beside/around it; engineered for instant comprehension at feed size.\n\n[COLOR & CONTRAST]\nBold saturated brand-color field from {brand.color_field_palette} engineered for attention — never a borrowed promo red unless the brand owns it; high-contrast offer typography (white or brand accent) on the field; the product punches as hero.\n\n[LIGHT & LENS]\nONE clean punchy commercial light, bright with controlled shadow. Full composition sharp.\n\n[NATURAL PLACEMENT]\nThe product stands or lies with honest gravity within the designed field.\n\n[SCENE — TEXT CENTRAL]\nPromotional offer composition. The product hero against the bold brand-color field, the offer/price composed as the dominant graphic message — a large price, a discount badge, a bundle callout. Instant comprehension, scroll-stopping. Choice points: badge style, field geometry, price placement, product pose.\n\n[SUBJECT]\nThe product hero plus the bold offer typography/graphics — one high-impact promotional layout.\n\n[TEXT — CORE BLOCK for this family]\nRender the promotional typography directly as the dominant message:\n- Offer: \"{brief.text_request.copy}\" — price, discount %, bundle deal\n- Style: {brief.text_request.style} — default bold high-impact promo type\n- Placement: dominant, unmissable, composed with the product\n- ARABIC RULE: Arabic offer text RTL character-perfect at the SHORTEST possible copy; until the deterministic overlay node ships, Arabic-heavy offers route to post-production typography. SAR currency formatting per market.\nThe offer text IS the message — essential to this chain.\n\n[BRAND CONSTRAINTS]\nSingle product hero with bold offer graphics. No fabricated claims beyond brief. No human elements. No other readable text. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal promotional composition with integrated bold typography, maximum fidelity. Punchy saturated grade. No watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.color_palette_adjust} aligns to brand. Arabic offer typography per the Arabic rule. For occasions: offer themed to Ramadan/Eid/seasonal sale.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: badge style, field geometry, price placement, product pose. The deal hits differently each time; the numbers never change.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, {product.material_texture}, offer typography (every character), brand-color field, layout — all preserved.\n\n[MOTION]\nPrimary — offer graphics: the price/offer text and badge animate in punchy — a quick settle, pop, or emphasis pulse drawing the eye.\nSecondary — product: subtle highlight drift.\nTertiary — camera: subtle push-in for energy.\n\n[WHAT STAYS STATIC]\nProduct identity locked. Offer content locked — no price/text changes. Brand-color field stable. Capture character preserved.\n\n[PACING & DURATION]\n4 seconds. Continuous single take. Punchy conversion-focused pacing.\n\n[OUTPUT]\nPhotoreal promotional motion-graphic. Silent. No watermark.",
+  "_stats": {
+    "image_chars": 3273,
+    "video_chars": 720,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE — TEXT CENTRAL",
+      "SUBJECT",
+      "TEXT — CORE BLOCK for this family",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

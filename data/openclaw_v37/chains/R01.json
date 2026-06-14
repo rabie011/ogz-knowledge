@@ -1,0 +1,82 @@
+{
+  "chain_id": "R01",
+  "title": "Apparel Flat Lay",
+  "locked": false,
+  "native_video": false,
+  "family": "TF18 · Product Flat Lay",
+  "sectors": [
+    "Fashion",
+    "Retail",
+    "Apparel"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@tiadress",
+    "@planb_boutique",
+    "@themodestbride"
+  ],
+  "cultural_spec": "CS-01, CS-22",
+  "drama_dial": "palette discipline, fashion-styled",
+  "color_story": "Styled apparel laid out top-down with coordinated accessories — fabric texture and color as hero, accessories completing the look.",
+  "when_to_use": "Fashion apparel flat lay — the complete look laid out. Fashion, abaya brands, lookbooks; the outfit story at a glance.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} apparel identity — fabric, cut, color, detail. Identity DNA, preserved through the overhead angle: {product.identity_dna}\nThe garment's lay, fold language, and accessory styling are creative decisions; the garment reads brand-accurate in fabric, color, and detail. INTEGRATION: one soft overhead light reveals the fabric's true texture and ties garment and accessories into a single styled photograph.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with fashion flat-lay grade, overhead. Material truth: {product.material_texture} — real fabric texture and weave, honest natural drape and fold as laid out, authentic accessory materials, true color. No plastic-perfect fabric, no impossibly-flat styling.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the garment at true worn-size proportions; accessories (shoes, bag, jewelry) at honest real scale beside it. The look reads shoppable because the sizes are true.\n\n[FRAMING & PROXIMITY]\nThe complete look fills the frame — garment generous and central, accessories close in the styling flow, negative space designed not vacant.\n\n[COLOR & CONTRAST]\nThe garment's fabric color and texture are the hero — its true brand color; coordinated accessories echo a {brand.color_field_palette}-harmonized palette; clean negative space.\n\n[LIGHT & LENS]\nONE soft even overhead light with gentle directional quality revealing fabric texture and drape. Full look sharp.\n\n[NATURAL PLACEMENT]\nThe garment lies as real fabric lies — honest folds, natural sleeve placement, true drape weight; accessories rest with real contact.\n\n[COMPANION ELEMENTS]\nThe coordinated accessories ARE the curated companions — derived from the look's world (shoes, bag, jewelry, scarf), completing never crowding.\n\n[SCENE]\nApparel flat lay, shot overhead. The apparel piece (abaya, dress, garment) laid out and styled with coordinated accessories as a complete look on a clean designed background. Styled, aspirational, shoppable-at-a-glance. Choice points: lay and fold language, accessory selection, arrangement flow, background tone.\n\n[SUBJECT]\nThe garment as hero, accessories telling the complete look — fabric texture, detail, and accessories in authentic truth.\n\n[BRAND CONSTRAINTS]\nThe apparel garment hero with coordinated accessories. No human elements (flat lay, not worn). Clean background. Modest fashion styling where applicable (CS-01). No readable text on accessories. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal apparel flat-lay photography, maximum fidelity. Styled fashion grade, fabric-texture hero. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.apparel_context} — for abaya/modest fashion, styling reflects Saudi modest fashion conventions (CS-01); accessories appropriate to Saudi taste. {saudi.color_palette_adjust} tunes palette.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: lay and fold language, accessory mix, arrangement flow, background tone. The same garment styled into a new look each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Garment, {product.material_texture}, accessories, arrangement, overhead framing — all preserved. Brand elements locked.\n\n[MOTION]\nPrimary — fabric: the garment shifts gently as if from a soft breath, drape settling subtly; accessory details catch shifting light.\nSecondary — light: soft overhead light breathes.\nTertiary — camera: imperceptible overhead push-in.\n\n[WHAT STAYS STATIC]\nGarment identity locked — fabric, color, detail, material texture. Arrangement stable. Overhead angle constant. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Gentle fashion flat-lay pacing.\n\n[OUTPUT]\nPhotoreal apparel flat-lay cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3313,
+    "video_chars": 768,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.color_palette_adjust"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "chain_id": "V03",
+  "title": "Product Unboxing Loop — NATIVE t2v",
+  "locked": false,
+  "native_video": true,
+  "family": "TF22 · Video (Native)",
+  "sectors": [
+    "Retail",
+    "Beauty",
+    "F&B",
+    "Tech",
+    "Fashion"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Optional (product to feature)",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@tiadress",
+    "@planb_boutique"
+  ],
+  "cultural_spec": "CS-01, CS-08",
+  "drama_dial": "bright satisfying (ASMR-clean)",
+  "color_story": "Clean satisfying unboxing — bright even light, the product revealed from beautiful packaging, true product color emerging.",
+  "when_to_use": "Satisfying unboxing loop — the hands-and-product reveal that drives social engagement. Loop-friendly.",
+  "image_prompt_template": "",
+  "video_prompt_template": "[BRAND LOCK — when a product is provided]\n{product.identity_dna} — the featured product is revealed brand-accurate, brand-readable face emerging toward camera, true brand color; {product.material_texture} governs both packaging substrate and product surface.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: clean_studio with ASMR-satisfying clarity. Material truth: crisp real packaging (card flexes, tissue rustles, lid lifts with honest weight), real Saudi hands with authentic skin texture and warm undertone, true product reflectance. No CGI-clean perfection.\n\n[SCENE]\nA satisfying product unboxing loop. Beautiful branded packaging opens to reveal the product on a clean bright surface — packaging and product as heroes at true real-world scale to the hands and to each other ({product.dimensions}). The reveal is the satisfying payoff. Modern, crisp, social-native. No faces — hands and product only.\n\n[MOTION]\nONE coherent unboxing action: hands (single person, hands/forearms only, right-hand per CS-08, modest sleeve per CS-01) open the packaging and reveal the product in one smooth satisfying motion — lid lifting, product emerging, a gentle turn to show it. Designed to loop seamlessly. One clear unhurried motion.\n\n[COLOR & CONTRAST]\nBright clean field; the product's true brand color from {brand.color_field_palette} emerges as the chromatic payoff of the reveal. One bright even light system.\n\n[STYLE & PACING]\nClean satisfying ASMR-style unboxing. Tactile, crisp. 5–6 seconds, loop-friendly. The satisfying reveal moment.\n\n[CONSTRAINTS]\nSingle product revealed. Hands: single person, hands/forearms only, right-hand (CS-08), modest sleeve (CS-01). Brand-readable face revealed toward camera. True product color. No readable text beyond the brand's own packaging.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.apparel_context} fills the sleeve register. {saudi.scene_context} can localize the surface/setting.\n\n[OUTPUT]\nPhotoreal native unboxing loop, maximum fidelity. Clean satisfying grade. Silent. No text overlay, no watermark.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: packaging-opening choreography, reveal angle, surface tone, the product's emerging turn. A fresh satisfying reveal each loop.",
+  "_stats": {
+    "image_chars": 0,
+    "video_chars": 2226,
+    "image_blocks": [],
+    "video_blocks": [
+      "BRAND LOCK — when a product is provided",
+      "REALISM & CAPTURE CHARACTER",
+      "SCENE",
+      "MOTION",
+      "COLOR & CONTRAST",
+      "STYLE & PACING",
+      "CONSTRAINTS",
+      "SAUDI ADAPTATION — conditional",
+      "OUTPUT",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "n_image_blocks": 0,
+    "placeholders": [
+      "brand.color_field_palette",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "saudi.apparel_context",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

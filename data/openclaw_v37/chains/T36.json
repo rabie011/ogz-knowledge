@@ -1,0 +1,78 @@
+{
+  "chain_id": "T36",
+  "title": "Beauty Extreme Close-Up",
+  "locked": false,
+  "native_video": false,
+  "family": "TF09 · Portrait & Model",
+  "sectors": [
+    "Beauty",
+    "Cosmetics",
+    "Skincare"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required (product reference; model generated)",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@tiadress"
+  ],
+  "cultural_spec": "CS-24, CS-22",
+  "drama_dial": "luminous beauty-soft",
+  "color_story": "Luminous skin glow, dewy highlight, rich eye makeup tones. Warm intimate beauty palette. The makeup product's signature color is the chromatic hero on the skin.",
+  "when_to_use": "Intimate beauty hero — extreme close-up of eyes or partial face showing glowing makeup/skin result. The tight crop is itself a face-fidelity mitigation. SINGLE SUBJECT, tightly cropped.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} beauty product identity — its color payoff, finish, signature shade. Identity DNA: {product.identity_dna}\nThe exact crop (eyes/brow/cheekbone or lips/cheek) and gaze direction are creative decisions; the product's signature color/finish shows accurately on the skin. INTEGRATION: one soft beauty light creates the dewy glow, the catchlight, and the shade's true payoff together — the makeup lives on lit skin, not painted over it.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with luminous beauty grade, macro beauty standard. Material truth of skin and product: real pores, fine peach-fuzz catching light, natural texture, honest individual variation, true dewy highlight, real lash detail; the makeup sits on real skin. No CGI-smooth skin, no porcelain uniformity.\n\n[SCALE CALIBRATION]\nTrue macro facial scale — lashes, skin texture, and shade payoff at honest close-up proportion; the crop intimate but anatomically true.\n\n[FRAMING & PROXIMITY]\nExtreme intimate crop — eyes and partial face, or lips and cheek — filling the frame. (Deliberate face-fidelity mitigation: the tight crop avoids the hardest AI failure zone while delivering aspirational beauty.)\n\n[COLOR & CONTRAST]\nLuminous warm skin glow as the base; the makeup product's signature color (lip shade, eye tone) is the chromatic hero on the skin at true saturation — the brand's own shade from its real palette, never an invented tone.\n\n[LIGHT & LENS]\nONE soft luminous beauty system: large soft key creating dewy glow, gentle fill preserving dimensional skin texture, catchlight in the eye. Macro sharpness on eyes/lips with soft falloff.\n\n[NATURAL PLACEMENT]\nThe expression and gaze are a real human micro-moment — natural, composed, alive.\n\n[SCENE]\nExtreme beauty close-up. Tightly cropped Saudi woman's eyes and partial face (or lips and partial face) showing the glowing makeup result — luminous skin, defined eyes, rich shade payoff. Aspirational, intimate, luminous. Choice points: crop selection, gaze direction, highlight placement.\n\n[SUBJECT]\nONE Saudi woman, extreme close-up. Modesty register respected even in tight crop ({brand.modesty_register}, CS-24): traditional/mainstream — eyes focus with hijab edge visible; modern/editorial — fuller face features. Warm honey-bronze skin with authentic texture, the makeup result luminous and true to the product's shade.\n\n[BRAND CONSTRAINTS]\nSINGLE subject, tightly cropped. No full group. Modesty per register even in close crop (CS-24). The beauty result reads aspirational-real, achievable, not fantasy-airbrushed. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal beauty macro photography, maximum fidelity. Luminous warm beauty grade, true shade payoff, glowing skin. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.apparel_context} governs crop framing relative to hijab (CS-24). {saudi.color_palette_adjust} tunes makeup tones toward Saudi-market-preferred shades.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: crop selection (eyes vs lips), gaze direction, highlight placement, depth falloff. The intimate moment renews; the shade stays true.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The cropped face/eyes/lips, skin texture, makeup result, lighting — all preserved character-perfect.\n\n[MOTION]\nSINGLE subtle motion: a slow natural blink, OR the faintest smile beginning at the lip corner, OR eyes shifting gently toward camera. ONE micro-expression only — extreme close-ups amplify motion; restraint is essential.\nSecondary: the catchlight shifts microscopically; dewy highlight glimmers faintly.\n\n[WHAT STAYS STATIC]\nFacial features, skin tone, makeup result, crop framing — all locked. Modesty maintained. Capture character preserved. Camera absolutely steady (close-ups punish drift).\n\n[PACING & DURATION]\n4 seconds. Continuous single take. Very slow intimate pacing — one tiny human moment.\n\n[OUTPUT]\nPhotoreal beauty macro cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3447,
+    "video_chars": 863,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.modesty_register",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.identity_dna",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.color_palette_adjust"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

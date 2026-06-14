@@ -1,0 +1,81 @@
+{
+  "chain_id": "T23",
+  "title": "Gallery Pedestal Solo",
+  "locked": false,
+  "native_video": false,
+  "family": "TF06 · Studio Production Reveal",
+  "sectors": [
+    "Luxury Retail",
+    "Fragrance",
+    "Fashion",
+    "Beauty"
+  ],
+  "quality_tier": "luxury",
+  "intent": [
+    "launch"
+  ],
+  "reference_image": "Required",
+  "frequency": "1× per quarter",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@alyafie_jewelry",
+    "@planb_boutique"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "clean even, gallery restraint",
+  "color_story": "Museum-gallery minimalism — soft neutral walls, single clean pedestal, gentle museum lighting. Restrained palette so the product brand color reads as the single art object on display.",
+  "when_to_use": "Art-object positioning for luxury launches, designer collaborations, premium fragrance/fashion. The gallery restraint is the prestige signal; less is everything.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe product is exhibited as a museum object; pedestal material, wall tone, and viewing angle are curatorial decisions left open. INTEGRATION: one soft museum light system governs product, pedestal, and wall together — the same gentle directional quality, the same soft shadow logic, one coherent gallery atmosphere.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with gallery restraint. Material truth: {product.material_texture} — the substrate presents its genuine surface under museum light. Subtle real wall texture, honest pedestal material (matte stone or painted wood), authentic soft directional shadow. No CGI render, no sterile flatness.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size on a gallery pedestal proportioned to exhibit it; the generous negative space is curated emptiness around an honestly scaled object, never an accidentally tiny one.\n\n[FRAMING & PROXIMITY]\nThe museum approach: the viewer stands before the piece at contemplation distance — the product clearly the destination of the frame, near enough that its material reads, the negative space deliberate and composed.\n\n[COLOR & CONTRAST]\nDeliberately restrained neutral palette (soft gallery white-grey, neutral pedestal) creates museum calm; the product's brand color from {brand.color_field_palette} is the single chromatic event — the art object the gallery exists to display.\n\n[LIGHT & LENS]\nONE soft museum directional light from above-front, gentle quality, controlled soft shadow beneath the product, even gallery ambience as its quiet extension. Lens and depth chosen for a sharp product against a softly neutral wall.\n\n[NATURAL PLACEMENT]\nThe product stands centered and plumb on the pedestal — deliberate curatorial placement, honestly seated.\n\n[SCENE]\nMuseum gallery composition. Product atop a minimal clean pedestal (matte white, pale stone, or warm-neutral) in an understated gallery, soft neutral wall with gentle depth behind, generous composed negative space. Reverent, collectible, prestige through restraint. Choice points: pedestal material and height, wall tone, camera height and distance.\n\n[SUBJECT]\nSingle hero product as gallery art object; pedestal and space deliberately understated; quiet authentic material truth.\n\n[BRAND CONSTRAINTS]\nSingle hero product on the pedestal. Gallery deliberately minimal — no human elements, no other artworks, no props, no readable wall text. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal fine-art product photography, maximum fidelity. Restrained gallery grade, single brand-color art-object accent. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — gallery context is culturally neutral; for heritage brands the pedestal may shift to warm Najdi stone. {saudi.color_palette_adjust} tunes wall tone.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: pedestal material and height, wall tone, viewing distance and height, shadow softness. The exhibition changes; the artwork's identity never does.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, every label character, {product.material_texture}, pedestal, gallery wall, museum lighting — all locked.\n\n[MOTION]\nPrimary — camera: a slow, smooth, reverent dolly forward toward the product, ~7% closer — the museum approach.\nSecondary — light: museum lighting holds steady with the faintest ambient breathing.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Pedestal and product fixed. Gallery wall constant. Capture character preserved.\n\n[PACING & DURATION]\n6 seconds. Continuous single take. Slow reverent gallery-approach pacing.\n\n[OUTPUT]\nPhotoreal fine-art cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3424,
+    "video_chars": 709,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

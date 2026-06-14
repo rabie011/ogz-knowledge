@@ -1,0 +1,79 @@
+{
+  "chain_id": "T11",
+  "title": "Noir Smoke & Spotlight",
+  "locked": false,
+  "native_video": false,
+  "family": "TF03 · Spotlight & Dark Stage",
+  "sectors": [
+    "Retail",
+    "Beauty",
+    "Fragrance"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@alyafie_jewelry",
+    "@danatreasures"
+  ],
+  "cultural_spec": "CS-22, CS-19",
+  "drama_dial": "single hard key, deep dark",
+  "color_story": "Hard side-spotlight rakes the product casting long dramatic shadow. Atmospheric smoke catches the side light. Masculine cinema-noir palette — deep blacks, single warm or steel-cool key, brand color as the sharp accent.",
+  "when_to_use": "Cinema-noir masculine drama. Masculine fragrance, oud, watches, premium men's grooming, bold retail — anything that wants a moody, powerful, film-noir character. The shadow is as important as the product.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe hard side light models the product's form while brand-readable surfaces face camera; key angle, shadow length, and smoke density are creative decisions. INTEGRATION: one hard side key governs everything — the product's raked modeling, the long cast shadow, the lit smoke — a single coherent noir light system.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: broadcast_cinematic with noir grade — deep dynamic range, film-noir commercial aesthetic. Material truth: {product.material_texture} — the lit side reveals real micro-texture as the substrate truly behaves under raking light; the shadow side falls to rich honest black with form still readable. The smoke shows true turbulent fluid behavior; the cast shadow has authentic penumbra softening. No CGI render, no flat digital smoke.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size; the cast shadow is proportionally honest to the object casting it, long and theatrical but physically real.\n\n[FRAMING & PROXIMITY]\nThe product and its shadow share the frame as co-subjects — close, present, powerful. The noir darkness surrounds a near hero, not a distant one.\n\n[COLOR & CONTRAST]\nNoir restraint: deep blacks dominate; the single key carries warm amber (oud-masculine) or steel-cool (modern-masculine) tone; the product's brand color from {brand.color_field_palette} punches as the one sharp chromatic accent on the lit face. Nothing else carries color.\n\n[LIGHT & LENS]\nONE hard key from the extreme side (80–90°), no fill — the shadow side falls to deep black. Smoke catches the side beam; the long cast shadow crosses the surface into the dark. Lens and depth chosen for a sharp product with smoke and shadow atmospheric.\n\n[NATURAL PLACEMENT]\nThe product stands or rests off-center as its form and gravity dictate, the side light defining its honest posture.\n\n[SCENE]\nCinema-noir composition. Product slightly off-center, hard-raked from one side, long dramatic shadow cast across the surface, smoke drifting through the side beam in turbulent wisps, the unlit side and surround in deep noir shadow. Masculine, powerful, cinematic. Choice points: key angle, shadow direction, smoke density, product offset.\n\n[SUBJECT]\nSingle product, hard-modeled by the side light. Lit side in full material detail; shadow side dark with readable form. The cast shadow is a compositional element. Smoke surrounds, never obscures the brand-readable face.\n\n[BRAND CONSTRAINTS]\nSingle product only. No human elements. Smoke around the product, not on it. The dramatic shadow is intentional. Background deep noir black. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal cinema-noir product photography, maximum fidelity. Deep-black noir grade, single-key drama, brand-color accent. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — for oud/masculine heritage the smoke reads as bukhoor (CS-19), key warms to amber. {saudi.color_palette_adjust} sets key temperature.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: key angle and temperature, shadow length and direction, smoke behavior, product offset and rotation. Noir mood constant; the frame never repeats.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, every label character, {product.material_texture}, the side-light modeling, cast shadow, smoke, noir darkness — all locked.\n\n[MOTION]\nPrimary — smoke: drifts through the side beam in slow turbulent wisps, curling and dissipating.\nSecondary — light: the hard key flickers fractionally (under 4%) as from an unstable theatrical source, subtly shifting the cast shadow.\nTertiary — camera: extremely subtle 2% lateral drift, deepening the dimensional noir feel.\n\n[WHAT STAYS STATIC]\nProduct identity locked — labels, colors, material texture. Product and shadow positions fixed. Noir black surround constant. Capture character: broadcast_cinematic noir preserved.\n\n[PACING & DURATION]\n6 seconds. Continuous single take. Slow brooding noir pacing.\n\n[OUTPUT]\nPhotoreal cinema-noir cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3524,
+    "video_chars": 902,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

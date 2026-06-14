@@ -1,0 +1,80 @@
+{
+  "chain_id": "T05",
+  "title": "Ingredient / Aromatic Explosion",
+  "locked": false,
+  "native_video": false,
+  "family": "TF02 · Splash & Motion",
+  "sectors": [
+    "F&B",
+    "Beauty"
+  ],
+  "quality_tier": "universal → premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "1-2× per week",
+  "image_model": "fal-ai/flux-2-pro/edit    (8,000 chars)",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v    (2,500 chars)",
+  "ref_accounts": [
+    "@barnscoffee"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "",
+  "color_story": "",
+  "when_to_use": "\"What's inside\" reveal — the product surrounded by its derived hero ingredients in arrested motion.",
+  "image_prompt_template": "[BRAND LOCK · identity invariant, composition open]\nThe reference image teaches the {product.name} brand identity. Identity is invariant — product orientation, ingredient arrangement, and lighting are creative decisions.\nIdentity DNA: {product.identity_dna}\nINTEGRATION: Product and ingredients share one captured moment under one warm key. Suspended elements tint the product's nearest edges; the dark atmosphere wraps the whole suspension as one volume.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: high-speed product-and-ingredient, photoreal. Material truth: {product.material_texture}. Each ingredient rendered as the real thing — honest texture, natural colour variation. No CGI ingredients, no plastic surfaces.\n\n[SCALE CALIBRATION]\n{product.dimensions}. Ingredients are small accents relative to the product — render the size relationship honestly, never oversized.\n\n[FRAMING & PROXIMITY]\nHero proximity — product ~30-40% of frame, ingredients suspended close around it. Tight, not vast.\n\n[COLOR & CONTRAST · brand-derived]\nDeep {brand.palette.background_tone} field. Anchored to {brand.palette.primary} + the lead ingredient's colour. Disciplined to a few colours from {brand.color_field_palette}. No foreign accents.\n\n[LIGHT & LENS · dramatic, mood not spec]\nDramatic strobe with warm appetite atmosphere. Model chooses key direction (upper angles to define every edge), warm fill, optional steam. Moody dark backdrop. Lens: macro intimacy.\n\n[SCENE · creative seed]\nThe product as hero of its own ingredient moment — RESTRAINED. Model chooses ONE lead ingredient to feature (derived from the product) plus an optional splash arc — NOT all ingredients at once. A few suspended pieces of the lead ingredient, not a dense scatter. Model chooses explosion geometry (upward arc, radial, gentle mid-fall) and camera elevation.\n\n[SUBJECT]\nThe lead ingredient (and optional splash), rendered true. Product is the absolute center; the lead ingredient orbits sparingly. Restraint over abundance.\n\n[BRAND CONSTRAINTS]\nSingle hero product. ONE lead ingredient featured — never a scatter of many small props (it cheapens the frame). No human hands. {brand.anti_attributes}\n\n[OUTPUT]\n8K photoreal high-speed product photography. Rich warm grade, deep blacks. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.material_context} supplies culturally-correct ingredients (e.g. cardamom/saffron/dates for Arabic coffee per CS-21) — but ONE leads per render. No milk/sugar/Western decoration where culturally inappropriate. No alcohol, no pork.\n\n[TEXT OVERLAY — conditional, agent appends only when brief.text_request is present]\nRender this text directly in the image: \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}, contrasting color. If absent, no text appears.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary which single ingredient leads, explosion geometry, product orientation, camera elevation. Hold constant: restraint (one lead ingredient), brand palette, dramatic strobe, material texture. Each render features a different lead ingredient — never an overloaded scatter.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product silhouette, proportions, all label color values, every Arabic ({product.label_text_arabic}) and Latin ({product.label_text_latin}) character, logo, material finish — preserved exactly. Only the suspended ingredients and camera move.\n\n[MOTION]\nThe suspended lead ingredient drifts and settles with gentle gravity over the duration; an optional splash arc completes its motion once. A slow push-in on the product. The product never moves or distorts — the life is in the floating ingredients.\n\n[WHAT STAYS STATIC]\nProduct silhouette, every label character, color values, logo, material finish — locked. Capture character {brand.aesthetic.capture_character} preserved. No synthetic grain.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. No cuts.\n\n[OUTPUT]\n8K photoreal high-speed cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3140,
+    "video_chars": 911,
+    "image_blocks": [
+      "BRAND LOCK · identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST · brand-derived",
+      "LIGHT & LENS · dramatic, mood not spec",
+      "SCENE · creative seed",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, agent appends only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 13,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.palette.background_tone",
+      "brand.palette.primary",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.label_text_arabic",
+      "product.label_text_latin",
+      "product.material_texture",
+      "product.name",
+      "saudi.material_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "brand_visual_dna_v37_v1.schema.json",
+  "title": "Brand Visual DNA — OpenClaw v3.7",
+  "description": "The contract that feeds the OpenClaw v3.7 prompt converter. Persists the brand-level and product-level placeholders the 15-block image prompt consumes. brief.* (from the generation request) and saudi.* (from the Cultural Spec library) are runtime fills and are NOT stored here. v3.7 philosophy: lock identity, open everything else; brand-derived colour; mood not spec. The v3.2 fixed-camera-spec fields (focal_length, key_fill_ratio, camera_angle, color_grade_lock, depth_of_field, sensor_look, signature_camera_move) are DELIBERATELY ABSENT — v3.7 makes those the model's creative choices. See ADR-0001-v37-visual-dna.",
+  "type": "object",
+  "required": ["schema_version", "brand_ulid", "brand", "products"],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": { "const": "brand_visual_dna_v37_v1" },
+    "brand_ulid": { "type": "string" },
+    "brand_name_normalized": { "type": "string" },
+    "sector": { "type": "string" },
+    "brand": { "$ref": "#/$defs/brandBlock" },
+    "products": {
+      "type": "array",
+      "description": "Per-product truth. The prompt is always about ONE product; the converter selects a product and fills product-level fields from its record, brand-level from the shared block. A product MAY override brand-level fields (palette/color_field_palette/capture_character/anti_attributes) when a sub-line differs (cold-mind catch).",
+      "items": { "$ref": "#/$defs/product" }
+    },
+    "provenance": { "$ref": "#/$defs/provenance" },
+    "_alignment": { "type": "string", "description": "openclaw_v3.7" }
+  },
+  "$defs": {
+    "provenance": {
+      "type": "object",
+      "required": ["source", "date_added", "confirmer", "confidence", "scope"],
+      "properties": {
+        "source": { "type": "string" },
+        "date_added": { "type": "string" },
+        "confirmer": { "type": "string", "description": "mohamed/client = GREEN; agent_derived = YELLOW; '' / pending = RED" },
+        "confidence": { "enum": ["confirmed", "candidate", "experimental", "inferred"] },
+        "scope": { "enum": ["brand", "product", "sector", "global"] }
+      }
+    },
+    "statusField": {
+      "type": "object",
+      "description": "A v3.7 placeholder value + its readiness. status drives the gap engine and the converter's fill-source tag. GREEN=client-confirmed (organ) · YELLOW=agent-derived candidate via the canon's own logic, RENDERABLE as a working default, NEVER silently promoted to confirmed (RABIE anti-hallucination law) · RED=client-only, cannot be inferred (exact hex, wordmark, deep identity); the reference image still carries identity so RED does not block rendering.",
+      "required": ["value", "status"],
+      "properties": {
+        "value": { "type": ["string", "array", "null"] },
+        "status": { "enum": ["GREEN", "YELLOW", "RED"] },
+        "provenance": { "$ref": "#/$defs/provenance" },
+        "example": { "type": "string" }
+      }
+    },
+    "brandBlock": {
+      "type": "object",
+      "description": "Shared across all the brand's products.",
+      "properties": {
+        "region": { "$ref": "#/$defs/statusField", "description": "e.g. Riyadh / Najd / KSA-wide" },
+        "tone_register": { "$ref": "#/$defs/statusField", "description": "celebratory / reverent / playful" },
+        "quality_tier": { "$ref": "#/$defs/statusField", "description": "universal / premium / luxury" },
+        "price_position": { "$ref": "#/$defs/statusField", "description": "value / mid-market / premium" },
+        "modesty_register": { "$ref": "#/$defs/statusField", "description": "STRICT default (Saudi) — modest, no skin, no mixed-gender intimacy" },
+        "palette": {
+          "type": "object",
+          "properties": {
+            "primary": { "$ref": "#/$defs/statusField", "description": "brand primary colour, e.g. 'brand red #C8102E'" },
+            "background_tone": { "$ref": "#/$defs/statusField", "description": "brand-owned backdrop tone; not clinical white unless the brand owns it" }
+          }
+        },
+        "color_field_palette": { "$ref": "#/$defs/statusField", "description": "NEW v3.7 — the brand-OWNED saturated colours usable as background/surface color-fields for chiaroscuro blocking. NEVER an accent borrowed from a reference image. Excludes any colour the brand does not own." },
+        "capture_character": { "$ref": "#/$defs/statusField", "description": "aesthetic of capture, e.g. clean_studio / warm_lifestyle_film / film_grain_warmth" },
+        "anti_attributes": { "$ref": "#/$defs/statusField", "description": "things never to render (red lines + cultural + brand)" }
+      }
+    },
+    "product": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string" },
+        "identity_dna": { "$ref": "#/$defs/statusField", "description": "the locked identity preserved at any angle; the reference image teaches it. Wordmark, signature colour, form. Usually RED until client confirms." },
+        "silhouette_description": { "$ref": "#/$defs/statusField" },
+        "material_finish": { "$ref": "#/$defs/statusField" },
+        "material_texture": { "$ref": "#/$defs/statusField", "description": "NEW v3.7 — material-truth for the real substrate (flexible film, glass, rigid carton, metal tin, fried-food crust...). How it behaves under light." },
+        "dimensions": { "$ref": "#/$defs/statusField", "description": "NEW v3.7 — real-world size + a scale-anchor object, e.g. '≈10cm tall; a serving cup is ≈5-6cm, so product is ~1.5-2× cup height'." },
+        "companion_elements": { "$ref": "#/$defs/statusField", "description": "NEW v3.7 — the product's 'world' of related objects + the restraint rule (one hero companion per scene)." },
+        "label_text_arabic": { "$ref": "#/$defs/statusField", "description": "exact Arabic wordmark — highest-risk identity element (canon hard-rule 9); verify every generation. Usually RED." },
+        "label_text_latin": { "$ref": "#/$defs/statusField" },
+        "reference_images": {
+          "type": "array",
+          "description": "RABIE catch — paths to CONFIRMED real photos of THIS product (clients/<h>/media/...). The flux-2-pro/edit identity anchor. Each carries provenance that it is verified to be this product, not a lookalike.",
+          "items": {
+            "type": "object",
+            "required": ["path"],
+            "properties": {
+              "path": { "type": "string" },
+              "confirmed": { "type": "boolean" },
+              "provenance": { "$ref": "#/$defs/provenance" }
+            }
+          }
+        },
+        "overrides": {
+          "type": "object",
+          "description": "Optional per-product overrides of brand-level fields (cold-mind catch). Same shape as brandBlock fields. Absent = inherit brand.",
+          "additionalProperties": true
+        },
+        "provenance": { "$ref": "#/$defs/provenance" }
+      }
+    }
+  }
+}

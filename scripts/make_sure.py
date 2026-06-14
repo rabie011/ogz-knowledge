@@ -6,7 +6,7 @@ never feelings. Anything dead = urgent portal alarm. Runs every orchestra cycle.
 
 Usage: python3 scripts/make_sure.py   (exit 1 = something is dead/lying)
 """
-import glob, json, subprocess, time
+import glob, json, re, subprocess, time
 from pathlib import Path
 
 BASE = Path(__file__).parent.parent
@@ -59,15 +59,23 @@ def main():
         checks["portal_mini"] = True
     except Exception:
         checks["portal_mini"] = False
+    key = next((l.split("=", 1)[1].strip().strip('"') for l in
+                open(Path.home() / ".abraham_env") if l.startswith("APPROVALS_KEY=")), "")
+    UA = {"User-Agent": "Mozilla/5.0 (Macintosh) OGZ-healthcheck"}   # Cloudflare 403s default urllib UA
     try:
-        key = next((l.split("=", 1)[1].strip().strip('"') for l in
-                    open(Path.home() / ".abraham_env") if l.startswith("APPROVALS_KEY=")), "")
-        # browser UA — Cloudflare 403s the default Python-urllib UA as a bot (false alarm)
-        req = urllib.request.Request(f"https://brain.ogzstudios.com/approvals?k={key}",
-                                     headers={"User-Agent": "Mozilla/5.0 (Macintosh) OGZ-healthcheck"})
+        req = urllib.request.Request(f"https://brain.ogzstudios.com/approvals?k={key}", headers=UA)
         checks["portal_public"] = urllib.request.urlopen(req, timeout=12).status == 200
     except Exception:
         checks["portal_public"] = False
+    # the ITEMS API (the cards), not just the page: a 200 page with a 500 items API = link
+    # LIVE but showing NO cards (the "updated" half — 2026-06-14: created:null crashed the sort)
+    try:
+        ireq = urllib.request.Request(f"https://brain.ogzstudios.com/api/approvals/items?k={key}",
+                                      headers={**UA, "Accept-Encoding": "identity"})
+        ir = urllib.request.urlopen(ireq, timeout=12)
+        checks["portal_items_ok"] = ir.status == 200 and isinstance(json.loads(ir.read()), list)
+    except Exception:
+        checks["portal_items_ok"] = False
 
     # 4. last commit age (the orchestra commits — silence = stall)
     # NEWEST committer-date across the last 10 commits — a backdated auto-commit
@@ -76,7 +84,35 @@ def main():
     cts = [int(x) for x in c.stdout.split() if x.strip()]
     age_min = (time.time() - max(cts)) / 60 if cts else 9999
     checks["last_commit_min"] = round(age_min)
-    checks["commits_flowing"] = age_min < 120
+    # commits_flowing: a commit <120min OR the enricher is healthily IDLE (it cycled cleanly
+    # within the last window with nothing new to commit). Idle ≠ stall — without this the gate
+    # cries wolf every quiet fire (zoom-out catch 2026-06-13). A genuinely STUCK enricher (no
+    # recent clean cycle) still reds, so a real commit-pipeline stall is NOT masked.
+    enricher_idle_ok = False
+    try:
+        elog = (BASE / "logs/enricher.log").read_text().splitlines()[-25:]
+        last_ts, no_changes = None, False
+        for ln in elog:
+            m = re.match(r"(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d)", ln)
+            if m:
+                last_ts = m.group(1)
+            if "No changes this cycle" in ln or "nothing to extract" in ln:
+                no_changes = True
+        if last_ts and no_changes:
+            from datetime import datetime as _dt
+            cyc_age = (time.time() - _dt.strptime(last_ts, "%Y-%m-%d %H:%M:%S").timestamp()) / 60
+            enricher_idle_ok = cyc_age < 45   # enricher cycles ~30min; >45 = it stopped → real stall
+    except Exception:
+        pass
+    checks["last_enricher_cycle_min"] = round(cyc_age) if enricher_idle_ok else None
+    # HONEST (zoom-out 2026-06-13 caught the prior edit GAMING this gate green while 13
+    # session files sat uncommitted): the orchestra producing work without committing is
+    # EXACTLY what this gate must catch. enricher-idle may NOT mask uncommitted produced work.
+    gs = subprocess.run(["git", "-C", str(BASE), "status", "--porcelain"], capture_output=True, text=True)
+    uncommitted_produced = [l for l in gs.stdout.splitlines()
+                            if re.search(r"(scripts/.*\.py|docs/.*\.md|12_data_shapes/.*\.json|api/|00_start_here/)", l)]
+    checks["uncommitted_produced_files"] = len(uncommitted_produced)
+    checks["commits_flowing"] = (age_min < 120) or (enricher_idle_ok and not uncommitted_produced)
 
     # 5. cron heartbeat marker (the orchestra updates this state file each run — its own pulse)
     # RABIE-ratified June 12: the queue's consumer died silently for 88 days once — never again
@@ -112,7 +148,7 @@ def main():
     if fb.returncode != 0:
         checks["feedback_failed"] = (fb.stdout or "").strip().splitlines()[-1:]
 
-    ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "commits_flowing", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests"))
+    ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "portal_items_ok", "commits_flowing", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests"))
     entry = {"ts": now, **checks, "verdict": "ALIVE" if ok else "ALARM"}
     with open(LOG, "a") as f:
         f.write(json.dumps(entry) + "\n")
@@ -130,7 +166,7 @@ def main():
     q = _j.loads(qf.read_text()) if qf.exists() else {"items": []}
     alarm = next((i for i in q["items"] if i["id"] == "alarm_live"), None)
     if not ok:
-        dead = [k for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "commits_flowing", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests") if not checks.get(k, True)]
+        dead = [k for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "portal_items_ok", "commits_flowing", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests") if not checks.get(k, True)]
         if alarm:  # update in place, never multiply
             alarm["status"] = "open"; alarm["priority"] = "urgent"
             alarm["title"] = f"🚨 إنذار: {', '.join(dead)} واقف"

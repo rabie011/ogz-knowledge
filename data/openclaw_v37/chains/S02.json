@@ -1,0 +1,82 @@
+{
+  "chain_id": "S02",
+  "title": "Saudi Man Lifestyle — Thobe Casual Moment",
+  "locked": false,
+  "native_video": false,
+  "family": "",
+  "sectors": [
+    "F&B",
+    "Retail",
+    "Grooming",
+    "Lifestyle"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Optional",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@aseeb.najd",
+    "@barnscoffee",
+    "@cafe.najd"
+  ],
+  "cultural_spec": "CS-01, CS-22, CS-13",
+  "drama_dial": "authentic phone-natural",
+  "color_story": "Authentic phone daylight — crisp white thobe, real setting tones, the product candidly present.",
+  "when_to_use": "Authentic single-man UGC targeting Saudi men. SINGLE SUBJECT, reliable.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} identity. Identity DNA: {product.identity_dna}\nHis setting, pose, and candid framing are creative decisions; the product is naturally present, brand-readable where framing allows. INTEGRATION: the setting's available daylight is the one light over thobe, skin, product, and space.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: phone_natural — authentic UGC. Material truth: {product.material_texture} — the product true in the candid light; real Saudi skin with authentic texture and warm undertone; the white thobe with real cotton crispness and natural folds; honest daylight, true candid expression. No glossy over-production, no plastic skin.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the product at true hand/table scale within his real moment.\n\n[FRAMING & PROXIMITY]\nFriend-distance candid framing — he and the product present and near, the setting soft behind.\n\n[COLOR & CONTRAST]\nAuthentic-but-alive: real setting tones, white thobe clarity as the bright field, the product's color from {brand.color_field_palette} natural in the moment, warm true skin.\n\n[LIGHT & LENS]\nONE truth: natural available daylight, honest and slightly imperfect like real phone capture. Phone-natural perspective, moderate authentic depth.\n\n[NATURAL PLACEMENT]\nHe sits or stands as a man actually relaxes — honest weight, the product held or placed exactly as a hand would.\n\n[COMPANION ELEMENTS]\nThe candid setting carries the context — no staged props.\n\n[SCENE]\nAuthentic casual-moment composition. A SINGLE Saudi man in white thobe and ghutra in a relaxed everyday moment with the brand product — café, majlis, home, or a pleasant spot. Candid, mid-moment, friend-shot. Choice points: setting, pose, product placement, candid angle.\n\n[SUBJECT]\nONE Saudi man only. Crisp white thobe and ghutra/shemagh styled contemporary (CS-01), or modern casual register per brand. Warm honey-bronze skin, real texture, groomed, relaxed candid expression. Authentic, never costume.\n\n[BRAND CONSTRAINTS]\nSINGLE subject — one man only, never a group, no other people. Product naturally present. Authentic thobe styling (CS-01). Authentic Saudi setting (CS-13). No readable text on background items. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal authentic UGC photography (phone aesthetic), maximum fidelity. Honest natural grade. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} fills the setting (CS-13). {saudi.apparel_context} fills thobe/ghutra by region (CS-01).\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: setting, pose, candid angle, product placement. A different honest moment; his identity rules never vary.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. His appearance, thobe, ghutra, the product, {product.material_texture}, the setting — all preserved.\n\n[MOTION]\nSINGLE primary motion only: ONE natural candid action — a relaxed sip, OR a confident nod, OR a warm glance toward the product. NO complex motion.\nSecondary: gentle ambient life (thobe shifts naturally, soft background motion).\n\n[WHAT STAYS STATIC]\nFacial features, skin tone, thobe/ghutra, product identity and material texture — locked. Setting stable. Capture character: phone_natural preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Relaxed candid UGC pacing.\n\n[OUTPUT]\nPhotoreal authentic UGC cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 2924,
+    "video_chars": 745,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "chain_id": "U03",
+  "title": "Occasion Greeting",
+  "locked": false,
+  "native_video": false,
+  "family": "TF16 · Occasion & Cultural",
+  "sectors": [
+    "F&B",
+    "Retail",
+    "Beauty",
+    "Services",
+    "Hospitality"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "grow"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "occasion-triggered",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@aseeb.najd",
+    "@danatreasures",
+    "@diplomat_sweets"
+  ],
+  "cultural_spec": "CS-13, CS-19, CS-21, occasion overlay fields",
+  "drama_dial": "occasion-themed (dignified festive)",
+  "color_story": "Occasion-themed — Founding/National Day: Saudi green + white + gold; Eid: warm festive gold + jewel tones; Ramadan: deep night blue/purple + gold crescent warmth. The occasion sets the entire color world.",
+  "when_to_use": "Occasion greeting — national holidays (Founding Day Feb 22, National Day Sep 23), Islamic occasions (Ramadan, Eid Al-Fitr, Eid Al-Adha), seasonal moments. AUTO-TRIGGERED by the occasion layer. The greeting text is core.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} / {brand.name} identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe occasion scene's composition is the creative space; the brand/product is present respectfully — never overwhelming the occasion's dignity. Brand DNA preserved but secondary to the occasion's meaning. INTEGRATION: the occasion's themed light (lantern glow, proud daylight, festive warmth) is the one system holding occasion elements and brand together.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default film_grain_warmth for occasion warmth, dignified festive standard. Material truth: {product.material_texture} where the product appears; authentic occasion elements — real crescent/lantern/flag textures, true material character. No plastic festive props, no kitsch.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the brand element at honest scale within the occasion scene; lanterns, dates, flags at true real-world proportion.\n\n[FRAMING & PROXIMITY]\nThe occasion's beauty fills the frame with the brand near but deferential — a warm, close, dignified greeting, not a distant tableau.\n\n[COLOR & CONTRAST]\nThe occasion sets the ENTIRE color world (Saudi green+white+gold for national days; festive gold+jewel for Eid; night-blue+gold for Ramadan); the brand color from {brand.color_field_palette} integrates respectfully within it — the one chain where the occasion palette leads and the brand follows.\n\n[LIGHT & LENS]\nONE occasion-themed light — warm festive glow for Eid, serene night warmth for Ramadan, bright proud daylight for National/Founding Day.\n\n[NATURAL PLACEMENT]\nOccasion elements and brand sit with honest physics — lanterns hang true, dates rest in their bowl, the product placed respectfully within the scene.\n\n[COMPANION ELEMENTS]\nOccasion elements ARE the scene; the brand/product is the respectful guest. Restraint: dignified curation, never prop-pile.\n\n[SCENE — OCCASION CENTRAL]\nOccasion greeting composition, built around the specific occasion (filled by {saudi.occasion_overlay}):\n- Founding Day (Feb 22): Saudi heritage pride — Najdi cultural elements, Diriyah motifs, Saudi green, the 1727 founding spirit\n- National Day (Sep 23): modern Saudi pride — green and white, flag motifs, modern Riyadh + heritage blend, celebratory\n- Ramadan: spiritual night warmth — crescent moon, lanterns (fanoos), deep night-blue/purple with gold, dates, serene reverent mood\n- Eid Al-Fitr: festive joy — warm gold, jewel tones, sweets, celebration\n- Eid Al-Adha: dignified celebration — heritage warmth, gathering, generosity\nBeautiful, dignified, culturally true. Choice points: scene composition within the occasion's world, element selection, depth.\n\n[SUBJECT]\nThe occasion as hero, the brand integrated respectfully. Occasion elements rendered authentically (CS-13, CS-19, CS-21). If any human presence: single-subject, modest, dignified.\n\n[TEXT — CORE BLOCK for this family]\nRender the occasion greeting typography (often Arabic-primary):\n- Greeting: \"{brief.text_request.copy}\" — e.g. كل عام وأنتم بخير · رمضان كريم · عيد مبارك · يوم التأسيس · اليوم الوطني\n- Style: {brief.text_request.style} — elegant occasion-appropriate type, often Arabic calligraphic\n- ARABIC RULE: the Arabic greeting is typically primary and dignified — keep to the shortest established greeting form; for calligraphic Arabic, prefer post-production typography until the deterministic overlay node ships\nThe greeting is central to this chain.\n\n[BRAND CONSTRAINTS]\nOccasion dignity comes first; the brand integrates respectfully, never crassly commercial on sacred/national moments. Authentic Saudi occasion elements (CS-13, CS-19, CS-21). Religious occasions handled with reverence. No other readable text. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal occasion greeting composition with dignified typography, maximum fidelity. Occasion-themed grade. No watermark.\n\n[SAUDI ADAPTATION — CENTRAL (this is the brief, not conditional)]\n{saudi.occasion_overlay} defines the entire scene. {saudi.scene_context} and {saudi.color_palette_adjust} execute the occasion's visual world authentically. This block drives the chain.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: scene composition within the occasion's world, element selection and arrangement, depth and light warmth. The same occasion greeted freshly each year, each post.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Occasion scene, brand integration, greeting typography (every character), themed elements — all preserved.\n\n[MOTION]\nPrimary — occasion atmosphere: gentle themed motion — lantern glow flickering (Ramadan), flags or banners stirring softly (national days), festive elements shimmering (Eid). Dignified, not busy.\nSecondary — typography: the greeting settles in elegantly.\nTertiary — camera: slow dignified push-in.\n\n[WHAT STAYS STATIC]\nBrand integration locked. Greeting content locked. Occasion scene stable. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Dignified celebratory pacing.\n\n[OUTPUT]\nPhotoreal occasion greeting motion. Silent (or gentle ambient if appropriate). No watermark.",
+  "_stats": {
+    "image_chars": 4469,
+    "video_chars": 790,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE — OCCASION CENTRAL",
+      "SUBJECT",
+      "TEXT — CORE BLOCK for this family",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — CENTRAL (this is the brief, not conditional)",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.name",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.occasion_overlay",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

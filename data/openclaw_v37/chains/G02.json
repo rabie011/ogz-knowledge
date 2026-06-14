@@ -1,0 +1,86 @@
+{
+  "chain_id": "G02",
+  "title": "Product Nested in Garment / Pocket",
+  "locked": false,
+  "native_video": false,
+  "family": "TF-GROUND · Product in Saudi Environment",
+  "sectors": [
+    "F&B",
+    "Retail",
+    "Beauty"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "grow",
+    "brand"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "2-3× per week",
+  "image_model": "fal-ai/flux-2-pro/edit    (8,000 chars)",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v    (2,500 chars)",
+  "ref_accounts": [
+    "@tiadress",
+    "@barnscoffee"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "",
+  "color_story": "",
+  "when_to_use": "Intimate everyday — the product nested in a garment pocket (thobe/abaya), fabric only, no wearer.",
+  "image_prompt_template": "[BRAND LOCK · identity invariant, placement and composition open]\nThe reference image teaches the {product.name} brand identity. Identity is invariant — fabric drape, pocket framing, and accent are creative decisions.\nIdentity DNA: {product.identity_dna}\nINTEGRATION: Product and garment are one warm intimate moment. The fabric reflects onto the product at the pocket-contact edges; soft window light wraps fabric folds and the product with the same softness; the pocket-shadow holding the product is the same shadow defining the fabric wrinkles.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character}, phone_natural with editorial lift, photoreal. Real cotton weave, micro-fiber detail, honest wrinkles, authentic fabric tone. Material truth: {product.material_texture} — the pocket fabric gently presses against any soft/pliable product surface.\n\n[SCALE CALIBRATION]\n{product.dimensions}. The product fits inside a chest pocket with its branded top portion emerging — honest pocket-to-product proportion.\n\n[FRAMING & PROXIMITY]\nIntimate proximity — pocket and product are the focal subject, most of the frame the fabric. Tight, no dead space.\n\n[COLOR & CONTRAST · brand-derived]\nThe garment fabric is the clean color field (per {saudi.apparel_context}). {brand.palette.primary} is the singular saturated accent; the product's dark/light body the secondary anchor. High clarity through chromatic economy. No foreign accents.\n\n[LIGHT & LENS · soft natural, gentle contrast, mood not spec]\nSoft natural indoor light — filtered window, warm-neutral. Gentler than the hard editorial chains (this is intimate, not graphic-bold) but still directional enough to reveal weave and a soft shadow. Model chooses light direction and how strongly shadow reveals the fabric. Lens: macro intimacy; model chooses depth across fabric texture.\n\n[NATURAL PLACEMENT]\nThe product sits in the pocket naturally — slight backward tilt as pocket geometry creates, branded top emerging, supported by fabric. Not posed stiffly.\n\n[COMPANION ELEMENTS · minimal]\nMinimal — the fabric is the story. Optionally ONE small cultural accent at frame edge from {product.companion_elements} or {saudi.material_context}, OR nothing for purest minimalism. No scatter.\n\n[SCENE · creative seed]\nThe product nested in a garment pocket, fabric only — no wearer. \"Travels with me through the day.\" Model chooses: framing scale (tight macro, medium chest-drape, wider shoulder/collar); pocket angle; fabric drape (heavy, summer-weight, pressed-formal); accent (one small element, or none).\n\n[SUBJECT]\nReal garment fabric per {saudi.apparel_context} — honest weave, subtle wrinkles, authentic pocket stitching (CS-01). The product nestles naturally, branded face emerging.\n\n[BRAND CONSTRAINTS]\nSingle product in pocket. Only fabric — no wearer, no skin, no face. One small accent permitted. {brand.anti_attributes}\n\n[OUTPUT]\n8K photoreal lifestyle commercial photography. Soft natural grade, true {brand.palette.primary} punch. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.apparel_context} sets the garment (Najdi thobe cotton per CS-01, or abaya fabric per {brand.modesty_register}). {saudi.material_context} supplies any small cultural accent. {saudi.scene_context} for register.\n\n[TEXT OVERLAY — conditional, agent appends only when brief.text_request is present]\nRender this text directly in the image: \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}, contrasting color. If absent, no text appears.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary framing scale, pocket angle, fabric drape, accent choice, natural light direction. Hold constant: garment color field, soft intimate light, material texture. Each render a different everyday moment.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The garment, pocket, product, accent — all preserved exactly. Product silhouette, all label color values, every Arabic ({product.label_text_arabic}) and Latin ({product.label_text_latin}) character, logo, material finish — character-perfect.\n\n[MOTION]\nThe fabric breathes with the faintest natural movement — as if the wearer just inhaled — and the soft window light shifts gently. The product stays nestled, locked in form and position. Extremely subtle, intimate pacing.\n\n[WHAT STAYS STATIC]\nProduct silhouette, every label character, color values, logo, material finish — locked. Pocket placement held. Capture character {brand.aesthetic.capture_character} preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. No cuts.\n\n[OUTPUT]\n8K photoreal lifestyle cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3804,
+    "video_chars": 887,
+    "image_blocks": [
+      "BRAND LOCK · identity invariant, placement and composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST · brand-derived",
+      "LIGHT & LENS · soft natural, gentle contrast, mood not spec",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS · minimal",
+      "SCENE · creative seed",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, agent appends only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.modesty_register",
+      "brand.palette.primary",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.companion_elements",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.label_text_arabic",
+      "product.label_text_latin",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.material_context",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

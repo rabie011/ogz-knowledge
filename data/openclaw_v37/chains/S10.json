@@ -1,0 +1,84 @@
+{
+  "chain_id": "S10",
+  "title": "Saudi Outdoor Lifestyle — Heritage Setting",
+  "locked": false,
+  "native_video": false,
+  "family": "",
+  "sectors": [
+    "F&B",
+    "Fashion",
+    "Beauty",
+    "Retail",
+    "Tourism"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Optional",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@aseeb.najd",
+    "@tiadress",
+    "@danatreasures"
+  ],
+  "cultural_spec": "CS-13, CS-01, CS-24, CS-22",
+  "drama_dial": "golden heritage warmth",
+  "color_story": "Golden Saudi heritage-outdoor light — Diriyah mudbrick, AlUla rock, Najdi architecture, or palm groves; cultural-pride warmth.",
+  "when_to_use": "Heritage outdoor lifestyle — rooting the brand in Saudi cultural pride and stunning heritage settings. SINGLE SUBJECT, reliable.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} identity. Identity DNA: {product.identity_dna}\nThe heritage setting, pose, and golden hour are creative decisions; the product is naturally present, brand-readable toward camera against the heritage backdrop. INTEGRATION: one golden outdoor sun holds subject, product, and heritage materials — mudbrick, sandstone, or palm glowing in the same light that warms her or his skin.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: phone_natural with golden heritage warmth (or broadcast_cinematic for more production). Material truth: {product.material_texture} — the product true in golden light; real Saudi skin with authentic texture and warm undertone; true heritage material textures (mudbrick grain, sandstone strata, palm fronds); candid proud expression. No plastic skin, no staged stiffness.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the product at true hand scale; the heritage architecture at honest monumental proportion behind a real human figure.\n\n[FRAMING & PROXIMITY]\nThe subject and product near and proud in the foreground, the stunning heritage setting opening in golden soft depth behind — pride framed close.\n\n[COLOR & CONTRAST]\nHeritage-outdoor palette — warm earth tones (mudbrick beige, sandstone honey, palm green), golden light, true skin; the product's color from {brand.color_field_palette} as focal point. Deep Saudi pride.\n\n[LIGHT & LENS]\nONE light: golden-hour Saudi outdoor sun, directional and beautiful, the heritage materials glowing. Subject and product sharp, heritage backdrop soft.\n\n[NATURAL PLACEMENT]\nA real relaxed stance — honest weight, the product held or present as in a true moment.\n\n[COMPANION ELEMENTS]\nThe heritage setting IS the world — no staged props.\n\n[SCENE]\nHeritage outdoor composition. A SINGLE Saudi subject (man or woman per brief) in a stunning Saudi heritage setting — Diriyah mudbrick architecture, AlUla rock formations, Najdi traditional architecture, or palm groves — with the brand product naturally present, golden light bathing the scene. Relaxed, proud, connected. Choice points: heritage setting, pose, sun direction, depth.\n\n[SUBJECT]\nONE Saudi subject only. Man: thobe/ghutra or modern; woman: modest abaya/hijab per {brand.modesty_register} (CS-24, CS-01). Warm honey-bronze skin, real texture, proud relaxed expression. Modesty maintained.\n\n[BRAND CONSTRAINTS]\nSINGLE subject — never a group. Product naturally present. Modesty maintained (CS-01, CS-24). Authentic Saudi heritage setting (CS-13) rendered with cultural respect. No readable text in frame. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal heritage-outdoor UGC photography, maximum fidelity. Golden cultural-pride grade. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} fills the specific heritage setting (Diriyah / AlUla / Najdi / palm grove). {saudi.apparel_context} fills attire by register. Cultural pride is central.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: heritage setting, pose, sun direction, depth, golden warmth. A different proud golden hour each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The subject's appearance, attire, the product, {product.material_texture}, the heritage setting — all preserved. Modesty maintained.\n\n[MOTION]\nSINGLE primary motion: one natural action — the subject turns warmly toward camera, OR lifts/presents the product, OR a relaxed proud gesture. Composed. NO complex motion.\nSecondary: gentle outdoor ambient — a soft breeze moving fabric, warm light shifting across heritage materials.\n\n[WHAT STAYS STATIC]\nFacial features, skin tone, attire, product identity — locked. Modesty maintained. Heritage setting stable. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Relaxed proud heritage pacing.\n\n[OUTPUT]\nPhotoreal heritage-outdoor UGC cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3333,
+    "video_chars": 831,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.modesty_register",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

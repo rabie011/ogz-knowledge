@@ -1,0 +1,80 @@
+{
+  "chain_id": "T31",
+  "title": "Foggy Cityscape Above Clouds",
+  "locked": false,
+  "native_video": false,
+  "family": "TF08 · Cinematic Environment",
+  "sectors": [
+    "Tech",
+    "Fashion",
+    "Fragrance",
+    "Corporate"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@planb_boutique",
+    "@danatreasures"
+  ],
+  "cultural_spec": "CS-13",
+  "drama_dial": "epic cool atmospheric",
+  "color_story": "Modern Riyadh skyline emerging from soft fog — cool blue-grey atmosphere with warm tower lights piercing through. Epic urban gradient. Product brand color is the bold focal cut against the misty depth.",
+  "when_to_use": "Epic urban-aspirational for tech, fashion, fragrance, corporate, Vision-2030 era brands. Ambition, modernity, reach — Riyadh towers, KAFD.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nForeground surface, skyline arrangement, and fog density are creative decisions. INTEGRATION: one atmospheric light system holds frame — the cool diffused light that softens the towers also wraps the product, with the warm tower lights as accents within the same fog; the product's cool rim and soft shadow belong to that atmosphere.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: broadcast_cinematic with epic-urban grade. Material truth: {product.material_texture} — the substrate in cool ambient light reads true (matte film holding the cool cast, glass edge-lit against the mist). Real fog density variation, honest architectural detail emerging and dissolving, authentic glow bloom of tower lights through mist. No flat digital fog.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size on its foreground ledge; the towers read at real architectural scale in the atmospheric distance. The product is honest and near; the city is vast and far.\n\n[FRAMING & PROXIMITY]\nThe product sharp and close on the foreground ledge, the misty skyline opening in layered depth behind — aspiration framed from an intimate vantage.\n\n[COLOR & CONTRAST]\nEpic urban gradient — cool blue-grey fog with warm tower lights glowing through; the product's brand color from {brand.color_field_palette} is the bold focal cut against the misty depth. Three registers: cool atmosphere, warm city accents, brand cut.\n\n[LIGHT & LENS]\nONE atmosphere: cool diffused daylight or blue-hour light through fog, soft ambient on the product with a cool rim, warm tower accents piercing within it. Lens and depth chosen for a sharp product against atmospheric cityscape depth.\n\n[NATURAL PLACEMENT]\nThe product stands or rests on the implied ledge with honest gravity and a true contact shadow in the soft light.\n\n[SCENE]\nFoggy cityscape composition. Product sharp in the foreground; a modern skyline emerges from soft fog or rises above clouds behind — towers piercing the mist, lights glowing, atmospheric layers receding. Epic, ambitious, Vision-2030-era aspiration. Choice points: fog density, skyline arrangement, blue-hour vs morning haze, foreground surface.\n\n[SUBJECT]\nSingle hero product in sharp foreground; the misty cityscape the epic aspirational backdrop, in authentic truth.\n\n[BRAND CONSTRAINTS]\nSingle hero product. No human elements. No identifiable real-brand building signage and NO readable text anywhere — generic modern towers. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal epic-urban photography, maximum fidelity. Cool aspirational grade, foggy depth, bold brand-color focal cut. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — the skyline reads as modern Riyadh (Kingdom Tower, KAFD, Vision-2030 architecture) emerging from morning haze (CS-13), not generic NYC/Dubai. {saudi.color_palette_adjust} tunes fog and light tone.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: fog density and movement, skyline composition, hour of light, foreground surface and camera height. The city emerges differently each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, every label character, {product.material_texture}, foggy cityscape, tower lights — all locked.\n\n[MOTION]\nPrimary — fog: drifts slowly across the cityscape, towers emerging and softening, lights glimmering through.\nSecondary — light: blue-hour light shifts fractionally, tower lights twinkling subtly.\nTertiary — camera: extremely subtle 2% push-in or slow rise.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Product fixed and sharp. Skyline stable (fog moves, buildings hold). Capture character preserved.\n\n[PACING & DURATION]\n6 seconds. Continuous single take. Slow epic aspirational pacing.\n\n[OUTPUT]\nPhotoreal epic-urban cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3426,
+    "video_chars": 772,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

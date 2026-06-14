@@ -1,0 +1,82 @@
+{
+  "chain_id": "T25",
+  "title": "Soft Pink Petals Scatter",
+  "locked": false,
+  "native_video": false,
+  "family": "TF07 · Pastel & Shadow Play",
+  "sectors": [
+    "Beauty",
+    "Fragrance",
+    "Retail"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@tiadress",
+    "@themodestbride"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "bright pastel pop (romantic-soft register)",
+  "color_story": "Soft romantic pink field with scattered rose petals. Gentle warm-pink monochrome with real petal texture as the only variation. Product brand color is the tender focal accent.",
+  "when_to_use": "Romantic feminine beauty — beauty, fragrance, bridal, romantic retail. Tenderness, femininity, gift-worthiness. Strong for bridal season, Mother's Day, romantic launches.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe product holds the romantic pink world; petal scatter pattern, density, and product angle are creative decisions. INTEGRATION: one soft beauty light holds petals, field, and product in the same tender glow — petal translucency, product reflectance, and every soft shadow belong to that single source.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with romantic softness. Material truth: {product.material_texture} — the substrate in soft light shows its genuine surface. Rose petals with real velvet texture, natural color variation, soft curling edges, honest translucency where light passes through. No plastic petals, no fake uniform scatter.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size among real rose petals (each petal a few centimeters); the petal-to-product proportion is the honest anchor that sells the scene's reality.\n\n[FRAMING & PROXIMITY]\nClose and tender — the product near, petals gathering at its base and drifting past, the soft pink world wrapping a present hero.\n\n[COLOR & CONTRAST]\nSoft romantic pink monochrome — background and petals in gentle warm-pink saturation; the product's brand color from {brand.color_field_palette} is the tender focal accent anchoring the romantic world. No third color.\n\n[LIGHT & LENS]\nONE soft diffused beauty light from upper-front, gentle quality, very soft shadow, petal edges glowing translucent. Lens and depth chosen for a sharp product, sharp nearest petals, soft far petals.\n\n[NATURAL PLACEMENT]\nThe product rests centered with honest gravity; petals lie flat, stand on edge, overlap — natural scatter physics, never rigid arrangement.\n\n[COMPANION ELEMENTS]\nThe petals ARE this chain's world — no additional companion object enters the frame.\n\n[SCENE]\nRomantic petal composition. Product on a soft pink surface, fresh rose petals scattered naturally around its base, a few drifting nearby, the dreamy pink background gentle behind. Tender, feminine, gift-worthy. Choice points: scatter density and pattern, petal freshness character, product turn, camera height.\n\n[SUBJECT]\nSingle hero product amid the petals; petal texture and product material in full physical truth.\n\n[BRAND CONSTRAINTS]\nSingle hero product. Rose petals the only styling element. No human elements. Soft pink background. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal romantic beauty photography, maximum fidelity. Soft pink grade, tender brand-color accent. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — suits bridal/gift contexts; for Saudi wedding season petals may include Damask rose (ward taifi from Taif). {saudi.color_palette_adjust} tunes pink warmth.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: scatter density and pattern, drifting-petal count, camera height, product turn, pink depth. A different romantic moment each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, every label character, {product.material_texture}, scattered petals, soft pink background — all locked.\n\n[MOTION]\nPrimary — petals: one or two drift down slowly from above, settling near the product; existing petals shift microscopically in gentle air.\nSecondary — light: the soft beauty light gently breathes.\nTertiary — camera: imperceptible 1.5% push-in.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Product position fixed. Background constant. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Gentle romantic pacing — petals drift like a soft moment.\n\n[OUTPUT]\nPhotoreal romantic beauty cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3270,
+    "video_chars": 776,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

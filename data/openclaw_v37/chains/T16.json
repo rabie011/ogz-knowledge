@@ -1,0 +1,82 @@
+{
+  "chain_id": "T16",
+  "title": "Retail Boutique Interior",
+  "locked": false,
+  "native_video": false,
+  "family": "TF04 · Natural Environment",
+  "sectors": [
+    "Retail",
+    "Beauty",
+    "Fashion"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@tiadress",
+    "@planb_boutique",
+    "@danatreasures"
+  ],
+  "cultural_spec": "CS-13",
+  "drama_dial": "palette discipline (warm retail — busy scene, controlled color)",
+  "color_story": "Sophisticated retail palette — warm display lighting, rich materials (wood, brass, stone), curated neutral backdrop. Product brand color is the curated focal accent.",
+  "when_to_use": "Aspirational retail context for retail, fashion accessories, beauty, premium goods. \"This product lives in a beautiful curated Saudi boutique.\" The environment signals quality tier.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe product is photographed INSIDE this boutique — display choice, angle, and framing are creative decisions for a curated retail placement. INTEGRATION: the boutique's warm display lighting is the governing light system; the product catches the same pools and accents that model the brass and stone around it, its shadow agreeing with the display lighting's direction.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default broadcast_cinematic with retail-editorial warmth. Material truth: {product.material_texture} — the substrate sits on the display surface as its real self under warm accent light. Real wood grain, brass patina, stone texture; honest directional warmth with soft pools. No CGI render, no sterile showroom.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size on the display: anchored against plinth height and shelf depth. A curated object at honest retail scale.\n\n[FRAMING & PROXIMITY]\nAt the display, close — the product commands the curated foreground while the boutique glows softly behind. The viewer leans in to the piece, not surveying the store.\n\n[COLOR & CONTRAST]\nPalette discipline for a busy scene: warm display light and rich neutral materials (wood, brass, stone) form the controlled field; the product's brand color from {brand.color_field_palette} is the single curated focal accent the lighting celebrates. Background merchandise stays chromatically quiet.\n\n[LIGHT & LENS]\nONE governing light system: warm directional retail display lighting forming soft pools with controlled shadow, a subtle accent on the product within the same system. Lens and depth chosen for a sharp product and softly aspirational boutique depth.\n\n[NATURAL PLACEMENT]\nThe product is placed as a merchandiser would — square or deliberately angled on the plinth/shelf, gravity-honest with a true contact shadow.\n\n[COMPANION ELEMENTS]\nThe boutique scene IS the companion — no additional hero prop. Any hint of other curated merchandise stays softly out of focus, chromatically quiet, and text-free.\n\n[SCENE]\nHigh-end boutique composition. Product staged on a curated display surface (wooden plinth, brass shelf, or stone pedestal) within a sophisticated Saudi boutique; warm ambiance, rich materials, an architectural hint behind in soft focus. A beautiful curated retail moment (CS-13). Choice points: display surface, camera height, product angle, background depth.\n\n[SUBJECT]\nSingle hero product on the display; the boutique context softly secondary, signaling quality and aspiration. Display materials and lighting rendered with authentic truth.\n\n[BRAND CONSTRAINTS]\nSingle hero product. Boutique context softly secondary. No human elements. NO readable text anywhere in the background — neighboring merchandise, signage, and packaging carry no legible wordmarks; out of focus or plain surfaces only. A real high-end Saudi retail space (CS-13), never a generic Western store. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal retail lifestyle photography, maximum fidelity. Warm aspirational grade — display warmth, rich materials, brand-color focal accent. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} fills the boutique register — modern Saudi luxury retail (Riyadh malls, boutique districts). {saudi.material_context} can specify Saudi-preferred display materials.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: display surface and material, camera height, product angle, boutique depth and warmth. A different curated corner each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product position, display surface, boutique context, retail lighting, {product.material_texture} — all preserved. Every label character locked.\n\n[MOTION]\nPrimary — light: display lighting shifts gently, accent highlights sliding fractionally across the product as if from a slowly adjusting source.\nSecondary — atmosphere: soft ambient depth, faint bokeh shimmer of boutique lighting.\nTertiary — camera: extremely subtle 2% push-in, drawing the viewer into the curated moment.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Display and product fixed. Boutique context stable. Lighting warmth constant. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Smooth aspirational retail pacing.\n\n[OUTPUT]\nPhotoreal retail lifestyle cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3919,
+    "video_chars": 897,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.material_context",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

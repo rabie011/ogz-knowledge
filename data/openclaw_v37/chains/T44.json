@@ -1,0 +1,80 @@
+{
+  "chain_id": "T44",
+  "title": "Dropper Drip Mid-Fall",
+  "locked": false,
+  "native_video": false,
+  "family": "TF12 · Active Product Moment",
+  "sectors": [
+    "Beauty",
+    "Skincare",
+    "Serum"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@tiadress"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "high-speed crisp, fresh-precise",
+  "color_story": "Crystal-clear or amber serum droplet catching light mid-fall against a clean gradient. The droplet is a tiny glowing lens; the serum color is the chromatic hero.",
+  "when_to_use": "Serum efficacy hero — a droplet suspended about to fall, showing the formula's clarity and richness. Precision, potency, freshness; the suspended droplet is the science-luxury moment.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} identity — dropper, bottle, the serum's true color/clarity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nBottle presence (below or beside), gradient tone, and crop are creative decisions; dropper and bottle read brand-accurate, the serum's true color and clarity preserved. INTEGRATION: one high-speed light system freezes droplet, dropper, and bottle together — the droplet's lens-glow, the glass reflections, and the gradient falloff are a single photographed instant.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: high-speed macro photography — frozen-instant strobe character, premium skincare grade. Material truth: {product.material_texture} — real glass reflectance on dropper and bottle; the suspended droplet with true surface tension forming a perfect-imperfect sphere, real internal refraction (a tiny lens), honest light-catch; serum with authentic viscosity. No CGI droplet, no fake fluid.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true dropper-and-bottle scale; the droplet at honest millimeter size relative to the dropper tip. The tiny-real proportion is the precision story.\n\n[FRAMING & PROXIMITY]\nMacro-close on the suspended instant — dropper tip and droplet commanding the frame, bottle as near anchor; the viewer inside the moment of release.\n\n[COLOR & CONTRAST]\nThe crystal-clear or true-color serum droplet glows as a tiny lens; the serum/product color is the chromatic hero against a clean gradient drawn from {brand.palette.background_tone} within {brand.color_field_palette}. Precise fresh palette — droplet, brand color, gradient. Nothing else.\n\n[LIGHT & LENS]\nONE dramatic high-speed key from upper-side, hard enough to freeze and light the droplet as a glowing lens, with a cool rim for separation as its counterpart within the same system. Macro sharpness on droplet and dropper tip.\n\n[NATURAL PLACEMENT]\nPhysics truth: the droplet hangs at the true instant before release — surface tension honest, the fall line plumb beneath the tip.\n\n[SCENE]\nActive serum drip composition. Dropper in the upper frame, a single droplet suspended mid-fall just below the tip — caught at the instant before falling. Bottle visible below or beside. Clean gradient background. Precise, fresh, scientific-luxurious. Choice points: bottle placement, gradient tone, crop, droplet stage.\n\n[SUBJECT]\nThe dropper, the suspended droplet, the serum — surface tension, internal refraction, light-catch in full physical truth; serum clarity and color true.\n\n[BRAND CONSTRAINTS]\nSingle product (dropper + bottle). No hands, no human elements, no text. The droplet is the hero action. Serum color true. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal high-speed skincare macro photography, maximum fidelity. Fresh precise grade, glowing droplet, true serum color. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — scientifically neutral; for heritage/oud-based serums, amber tones and warm rim apply. {saudi.color_palette_adjust} respects true product color.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: droplet stage (forming/hanging/just-released), bottle placement, gradient tone within brand range, crop. The precise instant is caught differently each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Dropper, bottle, suspended droplet, serum color, {product.material_texture}, background — all locked. Every label character preserved.\n\n[MOTION]\nPrimary — the droplet: completes its fall in extreme slow motion, descending and impacting a surface (or the serum pool) below, a delicate crown ripple forming; a new droplet begins forming at the tip.\nSecondary — light: the droplet's glowing lens-catch shifts as it falls.\n\n[WHAT STAYS STATIC]\nProduct identity locked — dropper, bottle, labels, serum color, material texture. Background stable. Capture character: high-speed macro preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Hyper-slow-motion droplet pacing.\n\n[OUTPUT]\nPhotoreal high-speed skincare cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3522,
+    "video_chars": 836,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.palette.background_tone",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "chain_id": "V05",
+  "title": "New Arrival Reveal Video — NATIVE t2v",
+  "locked": false,
+  "native_video": true,
+  "family": "TF22 · Video (Native)",
+  "sectors": [
+    "Retail",
+    "Beauty",
+    "F&B",
+    "Fashion",
+    "Tech"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch"
+  ],
+  "reference_image": "Optional (product to reveal)",
+  "frequency": "per launch",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@tiadress",
+    "@planb_boutique"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "cinematic anticipation-to-glory",
+  "color_story": "Building from dark/mysterious to the product emerging in hero light — shadow and anticipation resolving into full brand-color glory.",
+  "when_to_use": "Cinematic launch reveal — anticipation → reveal → product glory. The launch-day native-video companion to U06.",
+  "image_prompt_template": "",
+  "video_prompt_template": "[BRAND LOCK — when a product is provided]\n{product.identity_dna} — the revealed hero renders brand-accurate, brand-readable face resolving toward camera in the reveal, {product.material_texture} true under the emerging hero light.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: broadcast_cinematic launch grade. Material truth: the product's substrate behaves honestly as light finds it (glass catching the bloom, film creasing true, metal edging crisp). No CGI-clean emergence.\n\n[SCENE]\nA cinematic new-product launch reveal. The sequence builds anticipation — beginning in shadow, mystery, or abstract brand-world atmosphere — then resolves to the product emerging into hero light in full glory at honest real-world scale. The arc: anticipation → reveal → product glory. Cinematic, exciting, climactic.\n\n[MOTION]\nONE building motion arc: the camera moves through anticipation (drifting through shadow, light, or brand-atmosphere) toward the product, which emerges into hero light — a light bloom, a turn into illumination, or a rise into frame. The reveal is the climactic payoff, resolving on the brand-readable face. One coherent unhurried build.\n\n[COLOR & CONTRAST]\nDark anticipation field resolving into the product's true brand color from {brand.color_field_palette} at full saturation — the chromatic arrival IS the climax. One hero light system emerging from the dark.\n\n[STYLE & PACING]\nCinematic launch-reveal. Building anticipation resolving to climactic reveal. 6–8 seconds.\n\n[CONSTRAINTS]\nSingle product revealed as hero. True brand color emerging in full saturation. No human elements. No readable text beyond the product's own label.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.color_palette_adjust} can tune the anticipation atmosphere; for occasion launches the reveal world themes accordingly.\n\n[OUTPUT]\nPhotoreal native launch reveal, maximum fidelity. Cinematic anticipation-to-glory grade. Silent (brief may add audio). No text overlay unless the brief requests launch typography. No watermark.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: anticipation world (shadow/light/abstract brand atmosphere), camera path, reveal mechanism (bloom/turn/rise), climax framing. Every launch arrives differently; the hero never changes.",
+  "_stats": {
+    "image_chars": 0,
+    "video_chars": 2255,
+    "image_blocks": [],
+    "video_blocks": [
+      "BRAND LOCK — when a product is provided",
+      "REALISM & CAPTURE CHARACTER",
+      "SCENE",
+      "MOTION",
+      "COLOR & CONTRAST",
+      "STYLE & PACING",
+      "CONSTRAINTS",
+      "SAUDI ADAPTATION — conditional",
+      "OUTPUT",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "n_image_blocks": 0,
+    "placeholders": [
+      "brand.color_field_palette",
+      "product.identity_dna",
+      "product.material_texture",
+      "saudi.color_palette_adjust"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

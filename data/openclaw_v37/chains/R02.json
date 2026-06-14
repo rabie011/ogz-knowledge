@@ -1,0 +1,81 @@
+{
+  "chain_id": "R02",
+  "title": "Apparel On-Model",
+  "locked": false,
+  "native_video": false,
+  "family": "TF19 · On-Model Apparel",
+  "sectors": [
+    "Fashion",
+    "Retail",
+    "Apparel"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required (garment reference; model generated)",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@tiadress",
+    "@themodestbride",
+    "@planb_boutique"
+  ],
+  "cultural_spec": "CS-01, CS-24, CS-22",
+  "drama_dial": "clean editorial (studio) / warm golden (location)",
+  "color_story": "The garment color and fabric are the hero, worn and alive on a single model against a complementary editorial backdrop.",
+  "when_to_use": "On-model apparel hero — fit, drape, and styling on-body. SINGLE SUBJECT. The key conversion content for fashion.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} garment identity — fabric, cut, color, detailing. Identity DNA, preserved across any camera angle: {product.identity_dna}\nPose, studio-vs-location setting, and crop are creative decisions; the garment reads brand-accurate in fabric, cut, color, and detail as worn — drape and fit true to the real piece. INTEGRATION: one light system models the model and the garment together — the key that flatters her face defines the fabric's folds; backdrop or location lives in the same light.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio or broadcast_cinematic with fashion-editorial grade. Material truth: the garment drapes with true fabric weight, honest fold dynamics, real fit on a real body, authentic fabric texture per its substrate. Real Saudi skin with authentic texture and warm undertone, natural confident expression. No plastic skin, no CGI-clean fabric.\n\n[SCALE CALIBRATION]\nTrue garment-on-body scale — the cut and length honest to the real piece on a real human frame; accessories at true proportion.\n\n[FRAMING & PROXIMITY]\nThe model and garment command the frame — full-length or three-quarter, near enough that fabric texture and detailing read; the backdrop frames, never swallows.\n\n[COLOR & CONTRAST]\nThe garment's color and fabric — its true brand color — are the hero chromatic statement, worn and alive; a complementary clean backdrop tuned toward {brand.color_field_palette} harmony supports; skin warm and true.\n\n[LIGHT & LENS]\nONE editorial fashion light system — soft key with dimensional modeling (studio) or natural golden warmth (location) — flattering the garment's fabric and the model together. Model and garment sharp, backdrop soft.\n\n[NATURAL PLACEMENT]\nHer pose is a real body's pose — weight honestly carried, the garment falling and folding by true gravity, mid-gesture or composed.\n\n[SCENE]\nOn-model editorial composition. A SINGLE Saudi model wears the garment in an editorial fashion shoot — studio (clean complementary backdrop) or location (modern Saudi setting). Fashion-editorial pose: confident, showing fit, drape, and styling to advantage. The garment is the hero, worn and alive. Choice points: pose, setting, crop, backdrop tone.\n\n[SUBJECT]\nONE Saudi model only — never a group. Modesty register {brand.modesty_register} (CS-24): mainstream = styled hijab + the modest garment; modern = loose elegant scarf with front hair visible, fashion-forward; editorial = high-fashion modest styling. Warm honey-bronze skin, real texture, confident carriage. Modesty maintained.\n\n[BRAND CONSTRAINTS]\nSINGLE subject only — one model, never a group, no other people. Modesty per register (CS-01, CS-24). The garment and styling read authentic modern Saudi fashion, not Western generic or costume. No readable text in frame. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal fashion-editorial photography, maximum fidelity. Garment-forward grade, true skin, confident styling. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.apparel_context} fills styling by region/register (CS-01, CS-24). {saudi.scene_context} fills location if location shoot (modern Saudi setting). {saudi.color_palette_adjust} tunes backdrop.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: pose, setting (studio vs location), crop, backdrop tone, styling details within register. The garment lives a new moment each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The model's appearance, modest styling, the worn garment, backdrop — all preserved character-perfect. Modesty maintained every frame.\n\n[MOTION]\nSINGLE primary motion only (validated for human content): ONE natural action — a slow confident turn showing the garment's drape, OR a gentle walk-in-place revealing the fit, OR a soft adjustment of the garment. The fabric moves naturally with the single action. NO complex multi-limb choreography.\nSecondary: fabric drape and any scarf/hair (modern register) move naturally with the single motion, modesty preserved.\n\n[WHAT STAYS STATIC]\nModel's features, skin tone, modest styling, garment identity — locked. Modesty compliance absolute every frame including fabric motion. Backdrop stable. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Confident editorial pacing — one believable styled moment.\n\n[OUTPUT]\nPhotoreal fashion-editorial cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3694,
+    "video_chars": 1037,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.modesty_register",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.identity_dna",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

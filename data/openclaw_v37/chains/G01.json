@@ -1,0 +1,87 @@
+{
+  "chain_id": "G01",
+  "title": "Product on Classical Saudi Car Hood",
+  "locked": false,
+  "native_video": false,
+  "family": "TF-GROUND · Product in Saudi Environment",
+  "sectors": [
+    "F&B",
+    "Beverage",
+    "Retail",
+    "Auto-culture"
+  ],
+  "quality_tier": "universal → premium",
+  "intent": [
+    "launch",
+    "grow",
+    "brand"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "2-3× per week",
+  "image_model": "fal-ai/flux-2-pro/edit    (8,000 chars)",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v    (2,500 chars)",
+  "ref_accounts": [
+    "@barnscoffee"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "",
+  "color_story": "",
+  "when_to_use": "Bold editorial lifestyle hero — the product on a classical Saudi vehicle's hood. Road-trip / car-culture",
+  "image_prompt_template": "[BRAND LOCK · identity invariant, placement and composition open]\nThe reference image teaches the {product.name} brand identity. Identity is invariant — placement, orientation, framing, and lighting are creative decisions.\nIdentity DNA: {product.identity_dna}\nINTEGRATION: Product, companion, and hood are one moment under one hard light. The hood's saturated paint reflects faintly onto the product; contact shadows agree in direction and hardness; steam/companion and product share the same shaft of light.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character}, broadcast_cinematic high-contrast editorial, photoreal — not CGI. Material truth: {product.material_texture} — including faint car-color reflection on any semi-gloss zones. Real paint texture, clear-coat specular, micro-dust from desert driving.\n\n[SCALE CALIBRATION]\n{product.dimensions}. The product is small relative to the hood; render the product-to-companion proportion honestly per the dimensions anchor. The product is NOT enlarged for emphasis.\n\n[FRAMING & PROXIMITY]\nMedium-close hero proximity. Product occupies ~25-35% of frame at a rule-of-thirds anchor. We see only the immediate hood area around the product and companion. No vast empty hood or sky.\n\n[COLOR & CONTRAST · brand-derived field]\nThe car-body color FIELD is drawn from {brand.color_field_palette} and culturally-grounded Saudi car colors — NEVER a color foreign to the brand, never a hue borrowed from a reference image. The product and {brand.palette.primary} contrast against that field. Discipline to a few colors: the car field, the product's own colors, and warm context amber. No muddy mid-tones.\n\n[LIGHT & LENS · dramatic, shadow-cutting]\nHARD directional light — never soft. A single dominant source (low raking golden-hour, or hard editorial key) creates a bright lit band where the product sits and DEEP near-black shadow elsewhere. The shadow CUTS across the frame. Background falls into shadow — a pool of light on the subject. Specular gleam on glossy paint and any companion; the product's material truth holds; {brand.palette.primary} catches a bright highlight. Lens: medium-close, shallow-enough depth to soften the dark backdrop.\n\n[NATURAL PLACEMENT]\nThe product and companion came to rest naturally — gravity governs orientation. The product may lie flat (brand face angled to camera), lean, or sit propped. The companion sits as if just set down. Nothing in a perfect grid. Brand-readable face toward camera is a probable outcome of the close framing, not a forced pose.\n\n[COMPANION ELEMENTS · restrained]\nONE hero companion from {product.companion_elements}, placed with natural physics (e.g. a serving cup with rising steam). Optionally ONE more clean shape — never garnish scatter of many small props.\n\n[SCENE · creative seed]\nA bold editorial still-life on a classical Saudi vehicle's hood — one product, one companion, hard light, brand-derived color, deep shadow. Model chooses: vehicle (from the culturally-grounded Saudi-classic set — NOT colors foreign to the brand); time/light for max contrast (low golden-hour rake, side-lit dusk — background dark); natural placement; setting band (Saudi desert, AlUla, Riyadh silhouette — kept dark).\n\n[SUBJECT]\nThe product is hero by light and color contrast; the single companion tells its story; the brand-derived saturated hood is the color field; the dark setting is negative space.\n\n[BRAND CONSTRAINTS]\nSingle product hero. ONE companion, optionally one clean shape. One vehicle. No humans. No license plates (or generic/blurred). {brand.anti_attributes}\n\n[OUTPUT]\n8K photoreal commercial lifestyle photography, high-contrast editorial grade. Deep rich shadows, brand-derived saturated field, {brand.palette.primary} popping. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} sets a Saudi-classical vehicle per CS-13. {saudi.material_context} supplies the companion (e.g. finjan per CS-18). For {saudi.occasion_overlay}: subtle Saudi-green accent (Founding Day).\n\n[TEXT OVERLAY — conditional, agent appends only when brief.text_request is present]\nRender this text directly in the image: \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}, contrasting color. If absent, no text appears.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary car color (within the brand-derived range only), light direction and shadow-cut location, natural placement, second-companion presence. Hold constant: hard directional light, brand-derived palette, deep shadow, honest proportion, material texture. Never a foreign color, never cluttered, never soft.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The product, companion, hood, setting — all preserved exactly. Product silhouette, all label color values, every Arabic ({product.label_text_arabic}) and Latin ({product.label_text_latin}) character, logo, material finish — character-perfect.\n\n[MOTION]\nThe world breathes: steam rises from the companion, heat-haze shimmers off the hood, the hard light shifts warmth 10-15% as if the sun moves. A slow push-in toward the product. The product and companion never move, rotate, or distort — only light and atmosphere are alive.\n\n[WHAT STAYS STATIC]\nProduct silhouette, every label character, color values, logo, material finish — locked. Natural placement held. Capture character {brand.aesthetic.capture_character} preserved. Deep shadow-cut maintained.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. No cuts.\n\n[OUTPUT]\n8K photoreal lifestyle cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 4655,
+    "video_chars": 969,
+    "image_blocks": [
+      "BRAND LOCK · identity invariant, placement and composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST · brand-derived field",
+      "LIGHT & LENS · dramatic, shadow-cutting",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS · restrained",
+      "SCENE · creative seed",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, agent appends only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.palette.primary",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.companion_elements",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.label_text_arabic",
+      "product.label_text_latin",
+      "product.material_texture",
+      "product.name",
+      "saudi.material_context",
+      "saudi.occasion_overlay",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

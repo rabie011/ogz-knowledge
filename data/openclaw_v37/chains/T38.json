@@ -1,0 +1,82 @@
+{
+  "chain_id": "T38",
+  "title": "Magazine Cover With Typography",
+  "locked": false,
+  "native_video": false,
+  "family": "TF10 · Editorial Poster",
+  "sectors": [
+    "Beauty",
+    "Retail",
+    "Fashion"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@tiadress",
+    "@danatreasures",
+    "@planb_boutique"
+  ],
+  "cultural_spec": "CS-22, CS-24 (if subject present)",
+  "drama_dial": "clean even, premium-editorial",
+  "color_story": "Bold magazine-cover palette — strong hero color, confident typographic contrast designed as one cover composition.",
+  "when_to_use": "Magazine-cover editorial — product or single subject composed with magazine typography as an integral design element. TEXT IS CENTRAL. Premium launches, brand statements, editorial campaigns.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} / {brand.name} identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nCover layout choices — hero angle, type zones, masthead position — are creative decisions within magazine-cover logic. INTEGRATION: hero and typography are designed together as ONE cover; the light that models the hero defines the cover's overall grade, and the type zones live in deliberately composed space, not pasted over.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with high-editorial-magazine grade, premium cover-shoot standard. Material truth: {product.material_texture} for a product hero; real skin, single subject, modesty per register (CS-24) for a human hero. Authentic texture, honest light, real depth. No plastic perfection.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the hero at honest scale, framed with cover intentionality; type zones proportioned as real magazine design (masthead, cover lines) relative to the hero.\n\n[FRAMING & PROXIMITY]\nThe hero dominates the cover the way premium covers work — large, near, commanding, with designed negative space reserved for the type, never accidental dead space.\n\n[COLOR & CONTRAST]\nBold magazine-cover palette: a strong hero color anchoring the composition, drawn from {brand.color_field_palette}, deliberately paired against the typographic color as one cover-design system. The brand owns every color on its cover.\n\n[LIGHT & LENS]\nONE premium editorial cover light system — clean, confident, magazine-grade modeling appropriate to the hero (product or subject). Lens and depth serving cover clarity.\n\n[NATURAL PLACEMENT]\nThe hero is composed with cover intentionality — a deliberate, gravity-honest stance or placement that anchors the layout.\n\n[SCENE — TEXT CENTRAL]\nMagazine cover composition. The hero (product or SINGLE Saudi subject) composed as a premium cover with deliberate space for editorial typography that is part of the design: masthead-style headline zone at top, supporting cover-line zones, hero in the dominant visual space. Bold, premium, designed-as-one. Choice points: masthead position, cover-line arrangement, hero crop.\n\n[SUBJECT]\nThe hero product or ONE single Saudi subject (modesty register per CS-24 if human) — strong central presence, editorial styling, designed negative space for type.\n\n[TEXT — CORE BLOCK for this family]\nRender editorial magazine typography directly in the image as a central design element:\n- Masthead/headline: \"{brief.text_request.copy}\" (or brand-appropriate cover headline) — bold editorial display type\n- Style: {brief.text_request.style} — default high-fashion magazine masthead aesthetic\n- Placement: integrated cover layout — headline prominent, hero dominant\n- Latin and/or Arabic per {brief.text_request} — ARABIC RULE: shortest copy only (single word most reliable) until the deterministic overlay node ships; Arabic-heavy covers route to post-production typography for character accuracy\nThe typography is essential to this chain — designed WITH the image as a unified cover.\n\n[BRAND CONSTRAINTS]\nSingle hero (one product or one subject). If human: single subject, modesty per register (CS-24). Typography reads as authentic premium editorial design — no garbled characters, no pseudo-text anywhere else in frame. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal editorial magazine-cover composition with integrated typography, maximum fidelity. Premium designed grade. No watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} and {saudi.apparel_context} (if subject) per register. Arabic masthead typography for Saudi-market covers per the Arabic rule above.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: masthead position, cover-line arrangement, hero crop and angle, cover palette pairing within the brand range. Each generation is a new issue of the same magazine.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The hero, composition, typography content and placement (every character) — all preserved.\n\n[MOTION]\nPrimary — hero: extremely subtle motion (product: slow drift/rotation; subject: one micro-expression).\nSecondary — typography: the type may animate in subtly (gentle fade or settle) as a motion-poster effect, OR stay static while the hero breathes.\nTertiary — camera: imperceptible push-in.\n\n[WHAT STAYS STATIC]\nHero identity and material texture locked. Typography content locked — no character changes. Composition stable. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Premium motion-poster pacing.\n\n[OUTPUT]\nPhotoreal editorial motion-cover. Silent. No watermark.",
+  "_stats": {
+    "image_chars": 3982,
+    "video_chars": 770,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE — TEXT CENTRAL",
+      "SUBJECT",
+      "TEXT — CORE BLOCK for this family",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.name",
+      "brief.text_request",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

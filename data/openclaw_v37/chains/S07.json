@@ -1,0 +1,81 @@
+{
+  "chain_id": "S07",
+  "title": "Saudi Friends Group — Café Setting — HIGH RISK",
+  "locked": false,
+  "native_video": false,
+  "family": "",
+  "sectors": [
+    "F&B",
+    "Retail",
+    "Lifestyle"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Optional",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@barnscoffee",
+    "@cafe.najd",
+    "@coffeebeantealeaf.sa"
+  ],
+  "cultural_spec": "CS-24, CS-01, CS-13, CS-22",
+  "drama_dial": "warm social golden",
+  "color_story": "Warm modern café social energy — golden light, the product on the table amid a friends moment.",
+  "when_to_use": "Friends social moment — single-gender group, social-proof energy. Use when the social message justifies the effort, fallback ready.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} identity. Identity DNA: {product.identity_dna}\nThe table composition and social suggestion are creative decisions within the risk-note approach; the product sits naturally on the table, brand-readable face toward camera. INTEGRATION: the café's warm golden light holds table, product, and every suggested figure in one social glow.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: phone_natural with warm social-candid grade. Material truth: {product.material_texture} — the product true on the table; real warm café light, authentic candid social energy, honest phone framing. No plastic staging.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the product at true tabletop scale among real cups and plates.\n\n[FRAMING & PROXIMITY]\nTable-forward per the risk note: the table and shared product fill the near foreground; the friends' togetherness reads through reaching hands and warm soft presence, never a wide sharp group portrait.\n\n[COLOR & CONTRAST]\nWarm social café palette — inviting golden tones; the product on the table as the focal anchor from {brand.color_field_palette}; friends as warm context.\n\n[LIGHT & LENS]\nONE warm modern café light, golden and social. Table and product sharp; friends' presence soft.\n\n[NATURAL PLACEMENT]\nThe table is set as friends actually share it — honest cups mid-drink, the product placed where a hand set it; reaching hands obey real anatomy.\n\n[COMPANION ELEMENTS]\nThe shared café table IS the scene — its real cups and plates are the honest context, nothing staged beyond it.\n\n[SCENE — MULTI-SUBJECT, table-forward per risk note]\nCafé friends composition. Three or four Saudi friends (single-gender group) share a social moment in a modern Saudi café, the brand product on the table. PREFERRED FRAMING: the table and product in the foreground with togetherness SUGGESTED — hands reaching for drinks, partial figures, warm laughter energy in softly-out-of-focus presence. Choice points: table composition, hands choreography, depth of social suggestion.\n\n[SUBJECT — multi-subject caution]\nSingle-gender group of Saudi friends. If figures shown: few and partly soft, modesty maintained for all (CS-24, CS-01). PREFER table and product as hero, friends as warm context. Warmth over crowd.\n\n[BRAND CONSTRAINTS]\nProduct on the table as anchor. Single-gender group. Modesty for all visible figures (CS-01, CS-24). Authentic modern Saudi café (CS-13). Table-forward framing per risk note. No readable text on background items. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal authentic social UGC photography (phone aesthetic), maximum fidelity. Warm social grade. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} fills the modern Saudi café (CS-13). {saudi.apparel_context} for visible figures (CS-01, CS-24).\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: table composition, hands choreography, café depth, golden warmth. The social energy renews — within the risk-note approach always.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Café table, product, {product.material_texture}, any friends presence, warm light — all preserved. Modesty maintained.\n\n[MOTION — multi-subject caution]\nMINIMAL and table-focused: steam from drinks, ONE hand reaching for a cup, warm ambient social energy in the soft background. AVOID multi-person choreography (it fails). STRONGLY PREFER a STILL if figures destabilize.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Table stable. Any figures hold position, modesty maintained. Capture character: phone_natural preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Warm social pacing. (If figures degrade, deliver as still.)\n\n[OUTPUT]\nPhotoreal authentic social UGC cinematography (or still). Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3247,
+    "video_chars": 829,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE — MULTI-SUBJECT, table-forward per risk note",
+      "SUBJECT — multi-subject caution",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION — multi-subject caution",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

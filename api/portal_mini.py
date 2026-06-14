@@ -148,8 +148,10 @@ def items(request: Request, k: str = ""):
             out.append({kk: it.get(kk) for kk in SLIM_KEYS})   # answered = slim (payload diet)
         else:
             out.append(dict(it, lane=_card_lane(it, lm)))
+    # coerce None → "" : a card with created:null (or a slim answered dict missing it) crashed
+    # the sort (None < str) → the WHOLE items API 500'd → the live link showed no cards (2026-06-14)
     out.sort(key=lambda x: (x.get("status") == "answered",
-                            0 if x.get("priority") == "urgent" else 1, x.get("created", "")))
+                            0 if x.get("priority") == "urgent" else 1, x.get("created") or ""))
     # private,no-cache makes the browser attach If-None-Match automatically → free 304 polling
     return JSONResponse(out, headers={"ETag": etag, "Cache-Control": "private, no-cache"})
 

@@ -1,0 +1,83 @@
+{
+  "chain_id": "T03",
+  "title": "Splash Ring Around Product",
+  "locked": false,
+  "native_video": false,
+  "family": "TF02 · Splash & Motion",
+  "sectors": [
+    "F&B",
+    "Beverage",
+    "Beauty"
+  ],
+  "quality_tier": "universal → premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "2-4× per week",
+  "image_model": "fal-ai/flux-2-pro/edit    (8,000 chars)",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v    (2,500 chars)",
+  "ref_accounts": [
+    "@barnscoffee"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "",
+  "color_story": "",
+  "when_to_use": "Dynamic hero for any pourable/drinkable/liquid-relevant product. High-energy launch and grow posts.",
+  "image_prompt_template": "[BRAND LOCK · identity invariant, composition open]\nThe reference image teaches the {product.name} brand identity. Identity is invariant — splash composition, product angle, and light are creative choices.\nIdentity DNA: {product.identity_dna}\nINTEGRATION: The product and the splash share one high-speed strobe event. Droplets cast colored reflection onto the product's nearest edges; the atmospheric haze between droplets and product shares the light volume; any suspended companion sits in the same focus plane.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: high-speed flash, photoreal. Material truth: {product.material_texture}. Droplets vary chaotically — some spherical, some elongating, some mid-deformation; authentic refraction and surface tension. No cartoon water, no over-stylized symmetric splash.\n\n[SCALE CALIBRATION]\n{product.dimensions}. Render any suspended companions (beans, fruit, garnish) at honest small scale relative to the product — accents, not oversized.\n\n[FRAMING & PROXIMITY]\nHero proximity — product ~30-40% of frame at the centre of the splash ring, tight enough that the ring reaches the frame edges.\n\n[COLOR & CONTRAST · brand-derived]\nDeep {brand.palette.background_tone} radial field. Anchored to {brand.palette.primary}. The splash liquid's colour is derived from the product (cold/clear vs hot/amber vs the product's own liquid). Field colours from {brand.color_field_palette}. No colours foreign to the brand.\n\n[LIGHT & LENS · dramatic, mood not spec]\nHard high-speed strobe energy. Model chooses key direction (side rake or top halo), rim placement and warmth matched to the product (warm rim for hot products, cool for cold), atmospheric haze. Deep radial backdrop fading toward black. The primary brand colour catches the strobe. Lens: macro for splash texture; aperture deep enough that ring and product stay crisp.\n\n[SCENE · creative seed]\nThe product caught at its moment of action — a ring of its derived liquid frozen mid-motion around it, with optional derived companions suspended within. Model chooses: ring character (complete halo, crown arc, partial asymmetric, explosive scatter); companion positions; camera angle; product orientation within the splash.\n\n[SUBJECT]\nLiquid rendered true to the product — correct colour, true specular highlights, edge tension. The product stays dry — splash is around it, never on it.\n\n[BRAND CONSTRAINTS]\nSingle product. No humans. Splash around, never on, the product. {brand.anti_attributes}\n\n[OUTPUT]\n8K photoreal high-speed product photography. Editorial grade toward {brand.palette.primary}. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context}. {saudi.material_context} supplies any culturally-specific companion (e.g. cardamom for Arabic coffee per CS-21). {saudi.color_palette_adjust} warms the rim. No alcohol cues; food/beverage rules per CS-21.\n\n[TEXT OVERLAY — conditional, agent appends only when brief.text_request is present]\nRender this text directly in the image: \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}, contrasting color. If absent, no text appears.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary ring shape/density, companion positions, product orientation, light direction, camera angle. Hold constant: brand-derived palette, product-matched liquid, dramatic strobe, material texture. Each render a different instant of the same action.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product silhouette, proportions, all label color values, every Arabic ({product.label_text_arabic}) and Latin ({product.label_text_latin}) character, logo, material finish — preserved exactly. The product stays dry and undistorted; only the splash and camera move.\n\n[MOTION]\nThe frozen splash ring animates into life: liquid droplets pulse outward and fall with real gravity over the duration, the ring breathing once. A slow micro push-in on the product. The product itself never moves, rotates, or gets wet — the motion is entirely in the surrounding liquid.\n\n[WHAT STAYS STATIC]\nProduct silhouette, every label character, color values, logo, material finish — locked. Capture character {brand.aesthetic.capture_character} preserved. No synthetic grain, no fake shake.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. No cuts.\n\n[OUTPUT]\n8K photoreal high-speed cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3433,
+    "video_chars": 988,
+    "image_blocks": [
+      "BRAND LOCK · identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST · brand-derived",
+      "LIGHT & LENS · dramatic, mood not spec",
+      "SCENE · creative seed",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, agent appends only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 13,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.palette.background_tone",
+      "brand.palette.primary",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.label_text_arabic",
+      "product.label_text_latin",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.material_context",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

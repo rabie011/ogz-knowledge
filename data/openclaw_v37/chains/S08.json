@@ -1,0 +1,83 @@
+{
+  "chain_id": "S08",
+  "title": "Saudi Workplace Moment — Modern Office",
+  "locked": false,
+  "native_video": false,
+  "family": "",
+  "sectors": [
+    "Corporate",
+    "Tech",
+    "Services",
+    "F&B"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Optional",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@aseeb.najd",
+    "@barnscoffee",
+    "@danatreasures"
+  ],
+  "cultural_spec": "CS-24, CS-01, CS-13, CS-22",
+  "drama_dial": "clean modern aspirational",
+  "color_story": "Modern Vision-2030 office light — clean contemporary workspace, the product naturally present in a professional moment.",
+  "when_to_use": "Professional workplace UGC — modern Saudi professional life, Vision-2030 energy. SINGLE SUBJECT, reliable.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} identity. Identity DNA: {product.identity_dna}\nThe work moment, office depth, and crop are creative decisions; the product is naturally present in the professional moment, brand-readable toward camera. INTEGRATION: one bright modern daylight (through office glass) holds professional, product, and workspace in a single aspirational frame.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: phone_natural with modern-professional lift (or clean_studio for a more produced feel). Material truth: {product.material_texture} — the product true in the office light; real Saudi skin with authentic texture, honest modern-office light, true professional candor, real workspace detail. No staged corporate stiffness.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the product at true desk/hand scale within a real workspace.\n\n[FRAMING & PROXIMITY]\nThe professional and the product near and engaged — the modern office breathing aspirationally soft behind.\n\n[COLOR & CONTRAST]\nModern professional palette — clean contemporary office tones, true skin; the product's color from {brand.color_field_palette} as focal point. Confident Vision-2030 energy.\n\n[LIGHT & LENS]\nONE light: bright natural daylight through glass, contemporary and aspirational. Subject and product sharp, office soft.\n\n[NATURAL PLACEMENT]\nA real working posture — honest engagement, the product placed or held as in actual work.\n\n[COMPANION ELEMENTS]\nThe real workspace carries the context — no staged props.\n\n[SCENE]\nModern workplace composition. A SINGLE Saudi professional (man in thobe or modern business attire; woman in professional modest attire) in a contemporary Vision-2030 era office — clean modern design, glass, natural light, modern Riyadh/KAFD aesthetic — the brand product naturally present, a confident work moment. Choice points: work moment, office depth, crop, attire register.\n\n[SUBJECT]\nONE Saudi professional only. Man: thobe or modern business attire; woman: professional modest attire per {brand.modesty_register} (CS-24, CS-01). Warm honey-bronze skin, real texture, confident professional expression.\n\n[BRAND CONSTRAINTS]\nSINGLE subject. Product naturally present. Modesty per register (CS-01, CS-24). Modern Saudi office (CS-13), Vision-2030 aesthetic, not generic Western. No readable text on screens or background items. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal modern workplace UGC photography, maximum fidelity. Aspirational professional grade. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} fills the modern Saudi office (KAFD, modern Riyadh corporate). {saudi.apparel_context} fills professional attire by register.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: work moment, office depth, crop, attire within register. A different confident minute of modern Saudi work.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The professional's appearance, attire, the product, {product.material_texture}, the office — all preserved. Modesty maintained.\n\n[MOTION]\nSINGLE primary motion: one natural professional action — a confident glance up from work, OR lifting the coffee, OR a subtle engaged gesture. Composed. NO complex motion.\nSecondary: subtle modern-office ambient life softly behind.\n\n[WHAT STAYS STATIC]\nFacial features, skin tone, attire, product identity — locked. Modesty maintained. Office stable. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Confident professional pacing.\n\n[OUTPUT]\nPhotoreal modern workplace UGC cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3096,
+    "video_chars": 763,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.modesty_register",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

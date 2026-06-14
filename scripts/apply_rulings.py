@@ -21,9 +21,18 @@ Honors OGZ_BASE for sandboxed tests. Every handler is idempotent and asserts its
 effect on disk before claiming applied (self-audit law).
 """
 import json
+import re
 import sys
 from datetime import datetime
 from pathlib import Path
+
+# DIRECTIVE GUARD (zoom-out 2026-06-14): a passport answer that is a META-INSTRUCTION
+# ("go search the client", "no answer for this brand, figure it out") must NOT be stored
+# as the brand's organ value — it poisoned albaik's identity/red_lines with his command.
+_PASSPORT_DIRECTIVE = re.compile(
+    r"go\s*(check|search)|search (for )?the client|extract every|no answer for this brand|"
+    r"figure (it )?out|let the system|consider.*(role|is the role)|could be for (a )?new brand|"
+    r"very established brand", re.I)
 
 sys.path.insert(0, str(Path(__file__).parent))
 from feedback_lib import base
@@ -371,6 +380,20 @@ def h_passport(b: Path, row: dict) -> str:
     prov = {"source": f"passport:{answerer}", "confirmer": confirmer,
             "confidence": "confirmed", "date": (ts or "")[:10]}
 
+    # DIRECTIVE GUARD: a meta-instruction is not the brand's value — route to extraction_mode
+    if _PASSPORT_DIRECTIVE.search(answer):
+        mode = ("no_answer_figure_out"
+                if re.search(r"no answer|figure (it )?out|let the system", answer, re.I)
+                else "auto_research")
+        emp = b / f"clients/{handle}/profile/extraction_mode.json"
+        write_organ(str(emp), {"mode": mode, "note": answer[:200], "by": confirmer,
+                               "date": (ts or "")[:10], "source": "passport directive (not stored as a value)"})
+        pp = b / f"clients/{handle}/profile/passport.json"
+        data = json.loads(pp.read_text()) if pp.exists() else {"handle": handle, "answers": {}}
+        data["answers"][field] = {"directive": answer, "answerer": answerer, "mode": mode, "ts": ts}
+        write_organ(str(pp), data)
+        return f"{handle}.{field}: DIRECTIVE → extraction_mode={mode} (NOT stored as an organ value)"
+
     # 1. raw passport ledger (the client's verbatim truth, attributed)
     pp = b / f"clients/{handle}/profile/passport.json"
     data = json.loads(pp.read_text()) if pp.exists() else {"handle": handle, "answers": {}}
@@ -441,6 +464,20 @@ def h_crystallize_later(b: Path, row: dict) -> str:
 
 
 # prefix dispatch: (prefix, answer) pairs that match any item_id with that prefix
+def h_v37_direction(b: Path, row: dict) -> str:
+    """Mohamed's v3.7 first-render decision (the directional card). His tap is a write; it
+    needs a reader (Rule #6). Records his choice to data/v37_direction.json so the orchestra
+    acts on it — and so it stops flagging UNCONSUMED. 2026-06-14: he chose phoneshoot_batch."""
+    ans = row.get("answer", "")
+    meaning = {"phoneshoot_batch": "produce no-key phone-shoot posts (caption + shoot brief, $0) for his taste-gate",
+               "render_now": "flip no_fal_photos + B141, render the v3.7 batch (≤$3)",
+               "confirm_first": "confirm palette/material per brand before any render"}.get(ans, ans)
+    p = b / "data/v37_direction.json"
+    p.write_text(json.dumps({"choice": ans, "ts": row.get("ts"), "by": "mohamed",
+                             "meaning": meaning, "status": "claude_to_act"}, ensure_ascii=False, indent=2))
+    return f"v3.7 direction recorded: {ans} → {meaning}"
+
+
 PREFIX_HANDLERS = {
     ("ratify2_", "ratify"): h_recipe_verdict,
     ("ratify2_", "kill"): h_recipe_verdict,
@@ -477,6 +514,9 @@ HANDLERS = {
     ("approvals_idea_gate", "A"): h_idea_gate,   # his architecture decision (was dead-end)
     ("approvals_idea_gate", "B"): h_idea_gate,
     ("approvals_idea_gate", "C"): h_idea_gate,
+    ("v37_alignment_summary", "phoneshoot_batch"): h_v37_direction,
+    ("v37_alignment_summary", "render_now"): h_v37_direction,
+    ("v37_alignment_summary", "confirm_first"): h_v37_direction,
 }
 
 

@@ -1,0 +1,84 @@
+{
+  "chain_id": "T12",
+  "title": "Bathroom Marble Counter",
+  "locked": false,
+  "native_video": false,
+  "family": "TF04 · Natural Environment",
+  "sectors": [
+    "Beauty",
+    "Home",
+    "Retail"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Required",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@tiadress",
+    "@danatreasures",
+    "@planb_boutique"
+  ],
+  "cultural_spec": "CS-13",
+  "drama_dial": "soft natural",
+  "color_story": "Cool white marble with warm gold fixtures — classic luxury bathroom contrast. Soft natural daylight. Product brand color sits as the focal accent against the marble-and-gold neutral field.",
+  "when_to_use": "Luxury bathroom context for skincare, beauty, fragrance, home/bath products. Communicates \"this belongs in a beautiful Saudi home.\" Context grounds the product in lived luxury.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe product is photographed INSIDE this bathroom — placement on the counter, camera angle, and framing are creative decisions for a real placed object. INTEGRATION: the window daylight that defines the room defines the product; its surface picks up cool marble bounce and warm gold reflection at the edges, its contact shadow agrees with every other shadow in the scene, it shares the room's focus plane logic. Never a studio-lit product on an environment photo.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with natural-light warmth. Material truth: {product.material_texture} — the substrate behaves as its real self on the marble (film lies with soft honest creases, glass stands with true refraction, a jar sits with real weight). Real marble veining, honest gold-metal reflectance with tiny water spots, true fabric weave on the towel. No CGI-clean render, no over-styled showroom sterility.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the product reads at true size against the bathroom's real-world anchors: counter depth, faucet height, folded towel. A serum bottle is hand-small beside the faucet; a large jar reads proportionally bigger. Honest scale, never a giant hero looming over the counter.\n\n[FRAMING & PROXIMITY]\nHero through closeness — frame in at counter level so the product commands the foreground while the bathroom breathes softly behind. No wide empty-room dead space; the viewer is at the counter, near the product.\n\n[COLOR & CONTRAST]\nThe marble-and-gold neutral field (cool white + warm gold) sets the elegant base; the product's brand color from {brand.color_field_palette} is the focal chromatic accent that draws the eye. One natural green counter-note maximum. No borrowed colors.\n\n[LIGHT & LENS]\nONE light logic: soft natural daylight from a side window — gentle, directional, soft-shadowed — with warm bounce returning from the gold fixtures as part of the same system. Lens and depth chosen for a sharp product and softly contextual environment.\n\n[NATURAL PLACEMENT]\nThe product sits exactly as a person would have placed it on the counter — square, slightly turned, or honestly leaning per its substrate. Gravity governs.\n\n[COMPANION ELEMENTS]\nONE hero companion drawn from {product.companion_elements} (e.g., a neatly folded hand towel OR a small green plant OR the gold faucet softly behind — never all crowding together). The companion obeys the same light and physics. Restraint is the luxury.\n\n[SCENE]\nLuxury bathroom counter composition. Product on polished warm-white marble as the focal subject, soft window daylight from the side, the chosen companion supporting, the room reading as a beautiful real Saudi bathroom (CS-13) — aspirational-real, never a sterile showroom. Choice points: camera height, product turn, companion selection and placement, depth treatment.\n\n[SUBJECT]\nSingle hero product on the marble, the one companion softly secondary. Marble, metal, fabric — every material rendered with authentic truth.\n\n[BRAND CONSTRAINTS]\nSingle hero product. One companion maximum from the bathroom's authentic world. No human elements. The interior reads as a real upscale Saudi home (CS-13), not a Hollywood set. No readable text on any background object. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal interior lifestyle photography, maximum fidelity. Soft luxury grade — warm whites, gold accents, brand-color focal punch. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} fills the interior register — modern Saudi luxury bathroom. {saudi.material_context} can specify Saudi-preferred marble and fixture styles. For Ramadan/Eid: warm evening light variant.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: camera height and angle, product position and turn, which single companion appears, window-light direction, depth of field. The bathroom moment is never the same twice.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product position, marble, fixtures, companion, lighting, {product.material_texture} — all preserved. Every label character locked.\n\n[MOTION]\nPrimary — light: daylight shifts fractionally as if a cloud passes the window, the highlight gliding across product and marble.\nSecondary — atmosphere: leaves (if plant present) shift microscopically; faint steam-warmth shimmer if bath-related.\nTertiary — camera: extremely subtle 1.5% push-in.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Counter, fixtures, companion positions fixed. Light direction and warmth. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Calm serene pacing — a quiet luxury moment.\n\n[OUTPUT]\nPhotoreal interior lifestyle cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 4308,
+    "video_chars": 863,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.companion_elements",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.material_context",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

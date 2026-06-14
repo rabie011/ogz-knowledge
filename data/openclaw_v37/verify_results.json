@@ -1,0 +1,221 @@
+[
+  {
+    "handle": "albaik",
+    "verdict": "drifting",
+    "chain": "G03",
+    "char_within_cap": true,
+    "fifteen_blocks_present": false,
+    "brand_derived_colour": "pass",
+    "hallucination_risk": {
+      "level": "none",
+      "note": "Adversarially checked the one thing most likely to be a hallucination — the product name التوأم كرسبي بيك ('Twin Crispy Baik'). It is GROUNDED: raw Instagram caption at clients/albaik/raw/instagram/2026-06-11/posts.jsonl literally reads 'عيدكم غير مع التوأم كرسبي بيك x2 دبل القرمشة ودبل المتعة'. This is a REAL البيك product, NOT the lnasser/التوأم jewelry hallucination scar (different brand, different context). Likewise البيك اكسبرس in the stale saved JSON is a real restaurant format announced in raw captions (12 hits). No invented wordmark, no invented colour, no fabricated brand fact reaches the prompt: every brand-specific identity field is rendered as a loud «CLIENT: confirm…» RED placeholder rather than guessed. 'brand red' appears 4x as a DERIVED candidate (YELLOW status in visual_dna.json, confirmer=agent_derived), never asserted as confirmed fact."
+    },
+    "hard_rule_findings": [
+      {
+        "rule": "HR1: One hard light source governs product+environment; no fixed mm/f-stop/K as commands (ledger #1)",
+        "status": "pass",
+        "note": "LIGHT & LENS block uses mood/intent language only: 'Warm intimate tungsten… Model chooses key direction, fill from below, shadow depth.' Regex scan for \\d+mm, f/\\d, \\d{3,4}K, ISO, fps over the full prompt returned ZERO fixed-spec hits. 'Lens: portrait compression; model chooses depth' is intent, not a command. CREATIVE VARIANCE DIRECTIVE present (block 14)."
+      },
+      {
+        "rule": "HR2: One hero companion element maximum per environmental scene",
+        "status": "risk",
+        "note": "Block ends correctly with 'integrate ONE hero companion only' AND 'never crowds' — but the SAME sentence offers 'model chooses the count (minimal trio, quartet, or expanded with a small detail at the edge)'. 'Trio/quartet/expanded' is about cultural-element count not the hero companion, but a generative model reading the block will see 'quartet' and 'ONE hero only' in one breath — internal tension that brushes the one-hero hard rule. Hostile read: ambiguous enough to risk garnish-scatter (the exact bug v3.6 killed)."
+      },
+      {
+        "rule": "HR3: Neighbouring shelf products carry NO readable text",
+        "status": "pass",
+        "note": "BRAND CONSTRAINTS block carries 'no readable text on neighbouring objects'. Appropriate for an environmental tray scene. Present and explicit."
+      },
+      {
+        "rule": "HR4: Color fields derived from brand palette, never reference images",
+        "status": "pass",
+        "note": "COLOR & CONTRAST is explicitly 'brand-derived': 'authentic culturally-grounded tones… real heritage colours, not borrowed accents… Anchored to brand red as the modern note.' البيك's actual red/white/orange is NEVER literally injected as a borrowed accent. Explicit anti-borrow guard 'no borrowed reference colours' present in constraints. The colour comes from visual_dna color_field_palette (YELLOW-derived), not from the reference image C06eKDFIYGt.jpg. This is the rule the canon cares most about (ledger #8) and it holds."
+      },
+      {
+        "rule": "HR5: Scale proportion-anchored to a real-world anchor object",
+        "status": "pass",
+        "note": "SCALE CALIBRATION: 'a meal box ≈20–25cm wide; a chicken piece ≈8–10cm, so a piece is ~⅓ the box width — honest serving scale.' Expressed as a ratio to an anchor object exactly as ledger #9 requires."
+      },
+      {
+        "rule": "HR6: Material reads as its true substrate",
+        "status": "pass",
+        "note": "REALISM block: 'crisp golden-brown crust with honest oil sheen and visible craggy texture; tender steam-moist interior where broken; true fried-food surface, never plastic-uniform.' Correct fried-chicken substrate truth, names behaviour not just adjective."
+      },
+      {
+        "rule": "HR7: TEXT OVERLAY conditional — fires only on brief.text_request",
+        "status": "pass",
+        "note": "No --text passed, so TEXT OVERLAY block correctly dropped (converter logged 'conditional blocks dropped: [TEXT OVERLAY (no text_request)]'). No empty text block emitted. Result is 14 blocks not 15 — which is CORRECT per canon §1.6, not a defect."
+      },
+      {
+        "rule": "HR8: T02 stays locked-tight",
+        "status": "pass",
+        "note": "N/A — this is chain G03 (Product on Cultural Majlis Tray, TF-GROUND), not T02. No violation possible."
+      },
+      {
+        "rule": "HR9: Arabic wordmark fidelity is highest-risk; verify every generation",
+        "status": "risk",
+        "note": "Correctly surfaced as RED/client_needed: product.identity_dna, product.label_text_arabic, product.label_text_latin all render as «CLIENT: confirm wordmark/colour/form». The system honestly refuses to invent the wordmark. BUT: brand identity rests entirely on reference image clients/albaik/media/C06eKDFIYGt.jpg, which this review could not visually confirm contains the التوأم كرسبي بيك wordmark (the ref is auto-picked as the first .jpg, with no per-product binding — visual_dna product.reference_images is []). The prompt tells the model to 'teach identity from the reference' but nothing asserts that reference actually shows this product. Highest-risk element is flagged, not solved."
+      },
+      {
+        "rule": "HR10: Char limits — image blocks < 8,000",
+        "status": "pass",
+        "note": "Live run = 4790 chars; saved JSON lint = 4822. Both well under 8000. Lint self-reports '✅ clean'. Verified independently by re-running and recomputing length."
+      }
+    ],
+    "top_fixes": [
+      "STALE SAMPLE (reproducibility risk): data/openclaw_v37/samples/albaik_G03.json does NOT match the requested run. The saved file used product 'البيك اكسبرس' and scene tail '— التمر والقهوة جنبه'; the requested run uses 'التوأم كرسبي بيك' and a different scene. The sample was generated by an older invocation (no --save was passed in the requested command, so it was never refreshed). Anyone trusting the saved JSON as the canonical G03 prompt is reading the wrong product. Regenerate with --save using the exact requested args, or delete the stale sample.",
+      "Fix the dangling grammar fragment in SAUDI ADAPTATION: prompt emits 'For : deepen Ramadan evening warmth or add Founding-Day green thread.' — the saudi.occasion_overlay placeholder resolved to empty (no --occasion), leaving 'For :' with nothing after 'For'. Either drop the clause when occasion is empty or rephrase. Cosmetic but it reaches the model and looks like a templating leak.",
+      "Resolve the COMPANION one-hero tension: the block says 'minimal trio, quartet, or expanded' AND 'integrate ONE hero companion only' in the same breath. Separate cultural-element count from the single-hero-companion rule explicitly, or the model may scatter 3–4 props (the v3.6 garnish-clutter regression).",
+      "Bind a per-product reference image. pick_reference() blindly takes the first .jpg in media/ (C06eKDFIYGt.jpg) with no evidence it shows التوأم كرسبي بيك; visual_dna product.reference_images is empty []. Since the whole BRAND LOCK depends on 'the reference image carries the identity', an unbound/mismatched reference silently breaks identity fidelity (HR9). Wire product→reference and assert it exists.",
+      "Zero GREEN organ-confirmed visual fields: every visual_dna brand/product field is YELLOW (agent-derived candidate) or RED (client_needed). The prompt is a defensible CANDIDATE, not a confirmed brand spec. Do not render/ship to client before the RED identity fields (wordmark, exact colour/hex, form) are client-confirmed — surface these as the gap-questions per Rule #11."
+    ]
+  },
+  {
+    "brand_derived_colour": "pass",
+    "chain": "U01",
+    "char_within_cap": true,
+    "fifteen_blocks_present": true,
+    "handle": "eatjurisha",
+    "hallucination_risk": {
+      "level": "high",
+      "note": "SEVERE, persisted hallucination. جريش الرياض sells traditional Najdi home dishes — جريش is a soft savory crushed-wheat porridge, NOT fried. Yet _sectorize() classified the brand as 'fried_chicken' because the products list contains 'إضافة دجاج للجريشة' (the دجاج keyword matches against the whole concatenated products string, not the product actually being rendered). Result: the REALISM block describes جريش as 'crisp golden-brown crust with honest oil sheen and visible craggy texture... true fried-food surface', and SCALE anchors it to 'a meal box ≈20–25cm wide; a chicken piece ≈8–10cm, so a piece is ~⅓ the box width'. This is a fabricated material/scale identity contradicting the real dish. WORSE: it is baked into clients/eatjurisha/profile/visual_dna.json — EVERY product (جريش, رز كابلي, سليق, plain white rice تمن, لازانيا/lasagna, قرصان) carries the identical fried-chicken material_texture and dimensions. The organ itself is poisoned, so every future render of this brand inherits the lie."
+    },
+    "verdict": "broken",
+    "hard_rule_findings": [
+      {
+        "rule": "1. One hard light source governs product + environment",
+        "status": "pass",
+        "note": "LIGHT & LENS gives single 'premium catalog lighting — controlled, dimensional' with model-chosen key/fill/rim; no competing sources. INTEGRATION line in BRAND LOCK ties one studio light to backdrop+product+contact shadow. Compliant for a clean-studio chain."
+      },
+      {
+        "rule": "2. One hero companion max per environmental scene",
+        "status": "pass",
+        "note": "N/A correctly handled: U01 is clean-studio; COMPANION ELEMENTS block legitimately omitted per canon §1.6 (studio chains use hero-framing line). SUBJECT/BRAND CONSTRAINTS both state 'no secondary elements / no props'. No companion smuggled in."
+      },
+      {
+        "rule": "3. Neighboring shelf products carry NO readable text",
+        "status": "pass",
+        "note": "Single-subject clean-studio; no neighbors. anti_attributes still carries 'no readable text on neighbouring objects'. Not applicable but not violated."
+      },
+      {
+        "rule": "4. Color fields derived from brand palette, never reference images",
+        "status": "risk",
+        "note": "Rendered COLOR block is clean: 'anchored to brand red against a clean brand-owned neutral' + explicit 'no borrowed reference colours'. PASSES at the block level. BUT hostile flag: the underlying brand.color_field_palette organ value is 'warm brand red and golden-brown against cream' — 'golden-brown/cream' is a fried-chicken appetite-palette artifact, not a verified جريش/Najdi palette, and 'brand red' is an UNCONFIRMED guess (organ status YELLOW, 'exact hex is RED until client confirms'). The palette is derivation-default, not brand-grounded, so 'brand-derived' is technically true but the brand's actual colors are unknown — treat as risk."
+      },
+      {
+        "rule": "5. Scale proportion-anchored to a real-world anchor object",
+        "status": "fail",
+        "note": "Structurally proportion-anchored (good form: 'a piece is ~⅓ the box width'), BUT the anchor is WRONG: it anchors جريش to 'a meal box ≈20–25cm' and 'a chicken piece ≈8–10cm'. جريش is a porridge served in a bowl/صحن, has no 'pieces' and no 'meal box'. The proportion math describes a fried-chicken combo, not the dish. Anchored to the wrong object = fails the intent of rule 5."
+      },
+      {
+        "rule": "6. Material reads as its true substrate",
+        "status": "fail",
+        "note": "DIRECT VIOLATION. Material truth must match the real substrate. The prompt commands 'crisp golden-brown crust with honest oil sheen... true fried-food surface, never plastic-uniform'. جريش's true substrate is a soft, moist, savory crushed-wheat porridge — no crust, no fry, no oil sheen. The substrate description is for a different food entirely. This is the rule-6 failure mode (wrong substrate) made flagrant."
+      },
+      {
+        "rule": "7. TEXT OVERLAY conditional — fires only on text_request",
+        "status": "pass",
+        "note": "No text_request passed; converter correctly dropped the TEXT OVERLAY block (lint: 'conditional blocks dropped: TEXT OVERLAY (no text_request)'). No empty text block present. Compliant."
+      },
+      {
+        "rule": "8. T02 Pure Silhouette stays locked-tight",
+        "status": "pass",
+        "note": "N/A — chain is U01 (Product Hero Static / clean even), not T02. CREATIVE VARIANCE DIRECTIVE present, which is correct for U01 (only T02-type chains stay variance-locked). No violation."
+      },
+      {
+        "rule": "9. Arabic wordmark fidelity is highest-risk identity element — verify every generation",
+        "status": "risk",
+        "note": "Handled honestly but UNRESOLVED: product.identity_dna, label_text_arabic, label_text_latin all resolved to client_needed RED placeholders ('«CLIENT: exact Arabic wordmark...»', '«CLIENT: locked identity of جريش... confirm wordmark/colour/form»'). The prompt does NOT assert a fabricated wordmark (good — avoids hallucinating one), but identity is entirely unconfirmed, so any generation cannot be wordmark-verified. Per rule 9 this is unverified = risk, not a clean pass."
+      },
+      {
+        "rule": "10. Char limits: image < 8,000",
+        "status": "pass",
+        "note": "Lint reports 4652/8000 chars for the image prompt — comfortably within cap. Verified via converter LINT line. Compliant."
+      }
+    ],
+    "top_fixes": [
+      "Fix _sectorize() in scripts/openclaw_convert.py: it matches chicken keywords (دجاج, etc.) against the entire concatenated brand+products string, so the single side-item 'إضافة دجاج للجريشة' mis-classifies the WHOLE Najdi-dish brand as fried_chicken. Classify on the SPECIFIC product being rendered (the --product arg), not the brand-wide product list; add a 'traditional_dish'/'porridge'/'rice' product-kind with correct material+scale profiles.",
+      "Purge and regenerate clients/eatjurisha/profile/visual_dna.json: every product (جريش, رز كابلي, سليق, تمن, لازانيا, قرصان, etc.) currently carries the identical fried_chicken material_texture ('golden-brown crust... true fried-food surface') and fried_chicken dimensions ('meal box... chicken piece'). The organ is poisoned at rest — fix the source, not just the runtime output.",
+      "Add per-dish material/scale truth: جريش = soft moist crushed-wheat savory porridge in a bowl/صحن, steam, no crust/no fry; رز كابلي/سليق = rice plates; لازانيا = baked pasta. Anchor scale to a serving bowl/plate (≈22–26cm) and a spoon, not a 'meal box' and 'chicken piece'.",
+      "The task claim that the prompt was saved to data/openclaw_v37/samples/eatjurisha_U01.json is FALSE — that file does not exist (only albaik_G03, albaik_U01, alnasserjewelry_T08 are present). Either persist the sample or correct the claim before relying on it.",
+      "Confirm brand palette with client: brand.palette.primary is a YELLOW guess ('brand red... exact hex is RED until client confirms') and color_field_palette inherited the fried-chicken 'golden-brown/cream' appetite palette. Get the real جريش الرياض colors before treating any render as on-brand.",
+      "Fix the SAUDI block rendering artifact: '{saudi.occasion_overlay}' resolved empty leaving the dangling fragment 'For Premium+ during :' and a doubled 'may warm... may warm the backdrop...' clause; suppress the occasion clause when no occasion is present."
+    ]
+  },
+  {
+    "brand_derived_colour": "pass",
+    "chain": "T08",
+    "char_within_cap": true,
+    "fifteen_blocks_present": false,
+    "handle": "alnasserjewelry",
+    "hallucination_risk": {
+      "level": "high",
+      "note": "Every concrete brand claim in the prompt body is an agent-derived JEWELRY-SECTOR DEFAULT, not a fact grounded in مجوهرات الناصر's reality. visual_dna.json marks them all status=YELLOW, confirmer=agent_derived, confidence=candidate, source='openclaw_v3.7 derivation logic'. fingerprint.json l3_visual is empty {}, red_lines empty, voice unborn — the brand has ZERO confirmed visual DNA on disk. Yet the prompt asserts as declarative fact: 'polished 18-22k gold', 'faceted gemstone refraction and internal fire', the 'oxblood/midnight/forest or warm gold' palette, and 'a ring ~2cm'. Highest-risk item: 'faceted gemstone refraction and internal fire' — a gold-jewelry brand may sell plain gold with NO gemstones, so this invents a product attribute. The reference image (DM-uD85sOOd.jpg) and identity_dna are correctly flagged RED/client_needed in the meta fill-report, but the PROMPT TEXT a renderer reads carries no in-text hedge — derived candidates are indistinguishable from confirmed facts inside the prompt body. A reader cannot tell a confirmed brand fact from a sector guess."
+    },
+    "top_fixes": [
+      "Tag agent-derived brand claims inside the prompt body (not only in the side fill-report) so a renderer/reviewer cannot mistake jewelry-sector defaults (18-22k gold, gemstone fire, oxblood/midnight/forest palette, 2cm ring) for confirmed مجوهرات الناصر facts; or gate the prompt on client confirmation of these YELLOW fields before render.",
+      "Drop 'faceted gemstone refraction and internal fire' until the client confirms the product line actually contains gemstones — for a plain-gold ring it is an invented attribute.",
+      "Fix the garbled SAUDI block: {saudi.color_palette_adjust} was concatenated into the template fragment producing a broken, lowercase-start run-on ('...candlelight reverence. may warm toward gold/sand/amber for heritage/luxury sectors can warm the beam toward gold.'). Repair grammar/dedupe in the chain template + saudi_fields wiring.",
+      "Resolve the input/sample mismatch: the requested verification is the RING (خاتم/خواتم ذهب), but the saved sample data/openclaw_v37/samples/alnasserjewelry_T08.json holds the NECKLACE (عقد/عقود ذهب) with scene='x' — regenerate and re-save with --save so the on-disk artifact matches the audited prompt.",
+      "Reconcile NATURAL PLACEMENT presence with canon §1.6: T08 is a studio spotlight/dark-stage chain; canon says studio chains use a hero-framing line instead of NATURAL PLACEMENT. Confirm this is an intentional exception or replace the block."
+    ],
+    "verdict": "drifting",
+    "hard_rule_findings": [
+      {
+        "rule": "HR1 — One hard light source governs product and environment",
+        "status": "pass",
+        "note": "LIGHT & LENS specifies 'ONE hard overhead spotlight... no fill; shadows fall to true black'; INTEGRATION line in BRAND LOCK ties the single spotlight to both void and product. Single-source is explicit."
+      },
+      {
+        "rule": "HR2 — One hero companion element max per environmental scene",
+        "status": "pass",
+        "note": "Studio/dark-stage chain: COMPANION ELEMENTS block is legitimately absent (canon §1.6: clean studio chains omit it). BRAND CONSTRAINTS enforces 'No props, no secondary objects' — zero companions, well within the one-max ceiling."
+      },
+      {
+        "rule": "HR3 — Neighboring shelf products carry NO readable text",
+        "status": "pass",
+        "note": "Not a shelf chain, but rule still honored: BRAND CONSTRAINTS includes 'no readable text on neighbouring objects' and OUTPUT forbids any logo other than the product's own."
+      },
+      {
+        "rule": "HR4 — Color fields derived from brand palette, never reference images",
+        "status": "pass",
+        "note": "COLOR block: 'the brand's own luxury palette' + 'No borrowed accent colors' + BRAND CONSTRAINTS 'no borrowed reference colours'. Source is visual_dna.color_field_palette (derived), not the ref image. CAVEAT: the palette itself is YELLOW/agent_derived, not client-confirmed — brand-derived in mechanism, but unverified in content."
+      },
+      {
+        "rule": "HR5 — Scale proportion-anchored to a real-world anchor object",
+        "status": "pass",
+        "note": "SCALE block anchors to real objects: 'a ring ~2cm... against a hand or pad', 'pool... proportionate to the object standing in it', 'never enlarged for drama'. Proportion-anchored. CAVEAT: the 2cm figure is a sector default, not measured from this brand's product."
+      },
+      {
+        "rule": "HR6 — Material reads as true substrate",
+        "status": "risk",
+        "note": "REALISM block names true gold/metal behavior (specular, micro-scratches, 'never CGI-perfect'). Mechanically compliant. BUT the substrate claim 'faceted gemstone refraction and internal fire' is an unconfirmed invented attribute — if the product is plain gold this describes a material that is not present."
+      },
+      {
+        "rule": "HR7 — TEXT OVERLAY conditional, fires only on brief.text_request",
+        "status": "pass",
+        "note": "No --text given; converter dropped TEXT OVERLAY ('conditional blocks dropped: TEXT OVERLAY (no text_request)'). No empty text block emitted. Correct."
+      },
+      {
+        "rule": "HR8 — T02 Pure Silhouette stays locked-tight",
+        "status": "pass",
+        "note": "N/A — this is T08 (Single Overhead Spotlight), not T02. No CREATIVE VARIANCE suppression required; variance directive correctly present."
+      },
+      {
+        "rule": "HR9 — Arabic wordmark fidelity is highest-risk identity element; verify every generation",
+        "status": "risk",
+        "note": "identity_dna and label_text_arabic are correctly RED/«CLIENT: confirm wordmark» in the organ and BRAND LOCK. But the prompt provides NO actual wordmark and OUTPUT only says 'no logo other than the product's own' — there is no positive instruction to preserve/verify the Arabic wordmark, and the wordmark text is unknown. High-risk element is flagged but not actively guarded in-prompt."
+      },
+      {
+        "rule": "HR10 — Char limits: image < 8000",
+        "status": "pass",
+        "note": "Live ring prompt = 4891/8000 chars (saved necklace sample 4832/8000). Lint reports clean, no over-cap. Well within limit."
+      },
+      {
+        "rule": "15-block order/presence (§1.3)",
+        "status": "risk",
+        "note": "Block ORDER matches canon exactly. Rendered prompt = 13 blocks: COMPANION ELEMENTS legitimately absent (clean-studio rule §1.6), TEXT OVERLAY legitimately dropped (no text_request). DEVIATION: NATURAL PLACEMENT is present, but canon §1.6 says studio chains should use a hero-framing line instead of NATURAL PLACEMENT — this is a borderline architecture deviation inherited from the T08 chain template, not introduced by the conversion."
+      }
+    ]
+  }
+]

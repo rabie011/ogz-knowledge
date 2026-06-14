@@ -1,0 +1,80 @@
+{
+  "chain_id": "T45",
+  "title": "Perfume Spray Application",
+  "locked": false,
+  "native_video": false,
+  "family": "TF12 · Active Product Moment",
+  "sectors": [
+    "Fragrance",
+    "Perfume",
+    "Oud"
+  ],
+  "quality_tier": "luxury",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@alyafie_jewelry",
+    "@danatreasures",
+    "@diplomat_sweets"
+  ],
+  "cultural_spec": "CS-19",
+  "drama_dial": "high-speed ethereal, luminous-dark",
+  "color_story": "Fine perfume mist catching light against dark or warm gradient — the mist glows like illuminated vapor. Product brand color anchors below the luminous spray.",
+  "when_to_use": "Fragrance spray hero — a bottle mid-spray, fine mist glowing in light. The sensory moment of application; scent made visible.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} fragrance bottle identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nSpray-cone direction, backdrop warmth, and crop are creative decisions; the bottle reads brand-accurate, brand-readable face toward camera, nozzle actively spraying. INTEGRATION: one light system holds bottle and mist together — the backlight that ignites the mist also rims the glass; spray and anchor are one photographed event.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: high-speed macro with luxury-fragrance grade, frozen-instant strobe character. Material truth: {product.material_texture} — true glass and cap reflectance; the mist with real atomized droplet dispersion — varied particle sizes, authentic spray-cone physics, honest light-scatter glow. No CGI mist, no flat digital fog.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true bottle size; the spray cone at honest atomizer scale, the fine particles real-mist small. The delicacy of true scale is the luxury.\n\n[FRAMING & PROXIMITY]\nClose on bottle and erupting mist — the luminous cone and its anchor filling the frame, the dark gradient pressing near.\n\n[COLOR & CONTRAST]\nThe luminous glowing mist (cool-white or warm-gold per register, tuned to {brand.color_field_palette}) is the ethereal hero; the product's brand color anchors the bottle below the spray. Two chromatic players against the dark/warm gradient.\n\n[LIGHT & LENS]\nONE light logic: a dramatic key with strong backlight making the fine mist glow as it scatters — the backlight is the system's defining act. Dark or warm gradient backdrop for mist contrast. Sharpness on bottle and near-mist.\n\n[NATURAL PLACEMENT]\nPhysics truth: the cone erupts from the nozzle with real atomizer geometry, particles dispersing and decelerating honestly.\n\n[SCENE]\nFragrance spray composition. The bottle captured mid-spray, a fine luminous mist erupting in an elegant cone, frozen as it catches the light, glowing against the gradient. Bottle anchor; illuminated spray the ethereal action. Sensory, luxurious, scent-made-visible. Choice points: cone direction, backdrop warmth, mist density, crop.\n\n[SUBJECT]\nThe bottle and its glowing mist — atomized dispersion and light-scatter in full physical truth; glass and brand details true.\n\n[BRAND CONSTRAINTS]\nSingle fragrance bottle. No hands, no human elements, no text. The mist is the hero action. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal high-speed fragrance macro photography, maximum fidelity. Luminous ethereal grade, glowing mist, brand-color anchor. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — for oud/heritage fragrance, the mist carries warm-gold tone evoking bukhoor luxury (CS-19); warm backdrop. {saudi.color_palette_adjust} sets mist temperature.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: cone direction and density, backdrop warmth, crop, mist-glow temperature within register. The ethereal instant re-forms every time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Bottle, every label character, {product.material_texture}, the mist cone, lighting — all locked.\n\n[MOTION]\nPrimary — the mist: continues dispersing in slow motion, the cone expanding, fine particles drifting outward and settling, glowing in the light; a fresh subtle spray pulse may emerge.\nSecondary — atmosphere: the dispersed mist drifts gently in ambient air.\n\n[WHAT STAYS STATIC]\nBottle identity locked — labels, glass, cap, color, material texture. Background stable. Capture character: high-speed macro preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Hyper-slow ethereal spray pacing.\n\n[OUTPUT]\nPhotoreal high-speed fragrance cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3244,
+    "video_chars": 770,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "chain_id": "T52",
+  "title": "Ceramic Stacked Modern Plinth",
+  "locked": false,
+  "native_video": false,
+  "family": "TF14 · Premium Pedestal",
+  "sectors": [
+    "Beauty",
+    "Fragrance",
+    "Luxury Retail",
+    "Home"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@planb_boutique",
+    "@alyafie_jewelry"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "clean design-editorial",
+  "color_story": "Stacked ceramic plinth forms in soft matte earth tones — sculptural designer geometry. Muted sophisticated palette (sand, clay, cream).",
+  "when_to_use": "Designer-object presentation — sculptural modern forms positioning the product as a design object. Contemporary curated taste.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe plinth stack's geometry, earth-tone selection, and camera angle are creative decisions; the product reads brand-accurate atop the sculptural arrangement. INTEGRATION: one soft directional light models the matte ceramic geometry and the product as a single still life — shared shadow logic, shared falloff.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with design-editorial grade. Material truth: {product.material_texture} — the substrate true under soft light; the ceramics with real matte clay texture, honest hand-formed character, subtle surface variation. No plastic-perfect ceramic.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size atop ceramic forms proportioned as a designer plinth (sculptural blocks, not monuments); the stack serves the product's honest scale.\n\n[FRAMING & PROXIMITY]\nThe product and its sculptural stack command the frame — close design-gallery presence, geometry leading the eye upward to the hero.\n\n[COLOR & CONTRAST]\nMuted sophisticated palette — soft matte earth-tone ceramics (sand, clay, cream, tunable toward {brand.color_field_palette}-harmonious earths); the product's brand color reads as the designer-object focal accent against the restrained forms.\n\n[LIGHT & LENS]\nONE soft directional studio light, gentle quality modeling the matte forms with subtle shadow, revealing the sculptural geometry. Product and plinth sharp, background soft.\n\n[NATURAL PLACEMENT]\nThe product stands centered and stable atop the stack — deliberate curatorial placement with honest contact.\n\n[SCENE]\nDesigner ceramic plinth composition. The product atop a stack of sculptural ceramic forms (cylinders, spheres, geometric blocks) in soft matte earth tones — an artful designer arrangement on a clean complementary background. Contemporary, curated, design-forward. Choice points: stack geometry, earth-tone mix, camera angle, background tone.\n\n[SUBJECT]\nThe product atop the sculptural plinth — matte ceramic texture and geometry as designer styling, all in authentic truth.\n\n[BRAND CONSTRAINTS]\nSingle product on the ceramic plinth. Sculptural forms the only styling. No human elements. Clean background. No text. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal design-editorial photography, maximum fidelity. Muted sophisticated grade, sculptural ceramic, brand-color designer accent. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.color_palette_adjust} — ceramic tones can shift toward the Saudi earth palette (desert sand, Najdi clay, Diriyah mudbrick tones). Culturally neutral otherwise.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: stack geometry and form mix, earth-tone selection, camera angle and height, shadow softness. A new sculpture for the same object each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, {product.material_texture}, ceramic plinth forms, background, lighting — all preserved. Brand elements locked.\n\n[MOTION]\nPrimary — light: soft directional light shifts gently, modeling shadow sliding subtly across the matte geometry and product.\nSecondary — camera: a slow smooth dolly or gentle arc around the plinth, revealing the sculptural forms dimensionally; brand face stays toward camera.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Plinth arrangement stable. Background constant. Capture character preserved.\n\n[PACING & DURATION]\n6 seconds. Continuous single take. Slow design-gallery pacing.\n\n[OUTPUT]\nPhotoreal design-editorial cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3165,
+    "video_chars": 789,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

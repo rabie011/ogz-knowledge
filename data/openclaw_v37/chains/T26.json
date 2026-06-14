@@ -1,0 +1,83 @@
+{
+  "chain_id": "T26",
+  "title": "Ribbon Flat Lay Tactile",
+  "locked": false,
+  "native_video": false,
+  "family": "TF07 · Pastel & Shadow Play",
+  "sectors": [
+    "Beauty",
+    "Retail",
+    "Fashion",
+    "Fragrance"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@tiadress",
+    "@danatreasures",
+    "@planb_boutique"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "bright pastel pop (tactile-sheen register)",
+  "color_story": "Flowing satin ribbon in soft pastel sheen, top-down flat lay. Tactile fabric highlights catch light. Product brand color is the focal jewel on the fabric.",
+  "when_to_use": "Tactile gift-worthy flat lay for beauty, fragrance, fashion accessories, gift-set launches. The satin sheen communicates luxury and giftability. Strong for gifting occasions.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved through the overhead angle: {product.identity_dna}\nThe product rests in the top-down flat lay with brand-readable face up; the ribbon's flow path, curve language, and the product's position on or beside it are creative decisions. INTEGRATION: one overhead light system holds ribbon and product together — the sheen rolling along the satin folds and the product's top-light reflectance come from the same source; their soft shadows share one direction.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with tactile sheen. Material truth: {product.material_texture} — the substrate viewed from above presents its true top surfaces. The satin shows real silky sheen with honest highlight rolloff along folds, authentic weave, natural drape and curl; the pastel surface gently textured. No plastic ribbon, no fake-perfect drape.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size against standard ribbon width (a few centimeters); the ribbon flows in honest proportion to the product it presents.\n\n[FRAMING & PROXIMITY]\nThe flat lay frames close — the ribbon's curves lead directly to a near, generous hero; no vacant tabletop expanses.\n\n[COLOR & CONTRAST]\nSoft pastel base (blush, champagne, or sage — chosen or derived to harmonize with {brand.color_field_palette}, never borrowed from an unrelated reference) with the ribbon's silky sheen as luminous texture; the product's brand color is the focal jewel resting on the fabric.\n\n[LIGHT & LENS]\nONE soft overhead system with a slight directional bias to roll the sheen along the satin folds; gentle controlled shadow. Perfectly overhead framing; full flat-lay sharpness.\n\n[NATURAL PLACEMENT]\nTop-down placement with honest physics: the product lies or sits with true weight on/beside the fabric, the ribbon draping and curling as real satin does under it and around it.\n\n[COMPANION ELEMENTS]\nThe ribbon IS the companion — one ribbon, no further props.\n\n[SCENE]\nTop-down flat lay. A length of satin ribbon flows across the frame in elegant curves and folds; the product rests on or beside it, face up, on a soft complementary pastel surface. Curated-tactile, gift-worthy, social-native. Choice points: ribbon path and curl language, product position, pastel pairing, sheen direction.\n\n[SUBJECT]\nSingle hero product on the ribbon, viewed top-down; ribbon sheen and product material in full physical truth.\n\n[BRAND CONSTRAINTS]\nSingle hero product. ONE satin ribbon is the only styling element. No human elements. Soft pastel surface. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal flat-lay commercial photography, maximum fidelity. Soft pastel grade, satin sheen, brand-color focal jewel. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — gift-worthy flat lay suits Eid and wedding gifting; ribbon can shift to gold satin for premium Saudi occasions. {saudi.color_palette_adjust} tunes pastel tone.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: ribbon path, curve and curl language, product position relative to the flow, pastel pairing, sheen direction. The gift moment re-stages every time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, every label character, {product.material_texture}, satin ribbon, pastel surface — all locked. Top-down framing preserved.\n\n[MOTION]\nPrimary — the ribbon: loose ends shift gently as if from a soft breath of air, the sheen sliding along the folds as they move microscopically.\nSecondary — light: the directional sheen highlight drifts subtly across the satin.\nTertiary — camera: imperceptible 1.5% overhead push-in.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Product position fixed. Top-down angle constant. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Gentle tactile pacing.\n\n[OUTPUT]\nPhotoreal flat-lay cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3476,
+    "video_chars": 794,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

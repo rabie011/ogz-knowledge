@@ -1,0 +1,84 @@
+{
+  "chain_id": "F05",
+  "title": "Cloud Kitchen Packaging",
+  "locked": false,
+  "native_video": false,
+  "family": "TF20 · Premium Fragrance & Packaging",
+  "sectors": [
+    "F&B",
+    "Cloud Kitchen",
+    "Delivery",
+    "Restaurant"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Required",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@aseeb.najd",
+    "@laylali_riyadh",
+    "@diplomat_sweets"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "clean elevated appetizing",
+  "color_story": "Premium F&B packaging hero — clean appetizing staging making delivery/takeaway packaging look craveable. Brand-led packaging palette.",
+  "when_to_use": "Premium F&B packaging hero — the delivery-era essential. Cloud kitchens, delivery brands, packaged F&B; the packaging IS the brand touchpoint.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} packaging identity — box/cup/bag form, branding, colors, label. Identity DNA, preserved across any camera angle: {product.identity_dna}\nStaging, food-hint styling, and camera angle are creative decisions; the packaging reads brand-accurate — true form, branding, label characters (Arabic branding character-perfect), brand colors, brand-readable face toward camera. INTEGRATION: one warm commercial light holds packaging, surface, and any food hint in a single appetizing photograph.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with premium packaging-commercial grade. Material truth: {product.material_texture} — real packaging substrate (kraft paper, coated card, cup texture) with honest surface and print character, true reflectance, real soft shadow. No plastic-perfect box.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true delivery-packaging size; any food hint or prop at honest scale beside it; real takeaway proportions.\n\n[FRAMING & PROXIMITY]\nThe packaging commands the frame at craveable closeness — hero-product respect for a delivery box, near and elevated.\n\n[COLOR & CONTRAST]\nBrand-led packaging palette — the packaging's brand color from {brand.color_field_palette} leading, warm appetizing support, clean modern surface; the packaging punches as the craveable branded hero.\n\n[LIGHT & LENS]\nONE clean warm commercial light, appetizing and elevated with controlled soft shadow. Packaging sharp.\n\n[NATURAL PLACEMENT]\nThe packaging sits with honest weight and true contact — a kraft box square on the surface, a cup with real base shadow, a bag with natural slump.\n\n[COMPANION ELEMENTS]\nONE hero companion maximum: a subtle hint of the food (a glimpse inside, a garnish detail) OR one complementary brand prop — never crowding the branded hero.\n\n[SCENE]\nPremium packaging showcase. The branded F&B packaging as hero with elevated staging — clean modern surface, warm appetizing light, the one chosen hint. Elevated, branded, appetizing — the delivery-era brand moment. Choice points: staging surface, food-hint vs prop, camera angle, packaging pose.\n\n[SUBJECT]\nThe branded packaging as hero — material, branding, and any subtle food hint in appetizing authentic truth.\n\n[BRAND CONSTRAINTS]\nSingle branded packaging hero. Subtle food hint or one brand prop only. No human elements. No pork, no alcohol. No readable text beyond the packaging's own branding. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal premium packaging photography, maximum fidelity. Elevated appetizing grade, brand-color packaging hero. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — staging reflects Saudi F&B branding aesthetics. Arabic branding on packaging rendered accurately (verify wordmark fidelity). {saudi.color_palette_adjust} aligns to brand.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: staging surface, food-hint vs prop, camera angle, packaging pose. The delivery moment elevates differently each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The packaging, every label/branding character, {product.material_texture}, staging, lighting — all preserved.\n\n[MOTION]\nPrimary — the packaging: a slow subtle rotation (~12°) showing the branding, OR a gentle reveal of a food hint (lid lifting slightly, steam escaping). Brand face stays toward camera.\nSecondary — atmosphere: if hot food, a warm steam wisp; appetizing glisten on any visible food.\n\n[WHAT STAYS STATIC]\nPackaging identity locked — form, branding, colors, material texture. Staging stable. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Elevated appetizing pacing.\n\n[OUTPUT]\nPhotoreal premium packaging cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3298,
+    "video_chars": 775,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

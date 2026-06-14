@@ -1,0 +1,82 @@
+{
+  "chain_id": "S05",
+  "title": "Saudi Woman Beauty Routine — Bathroom Mirror — COMPLIANCE-SENSITIVE",
+  "locked": false,
+  "native_video": false,
+  "family": "",
+  "sectors": [
+    "Beauty",
+    "Skincare",
+    "Cosmetics"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Optional",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@tiadress",
+    "@themodestbride"
+  ],
+  "cultural_spec": "CS-24, CS-22, CS-13",
+  "drama_dial": "soft intimate phone-natural",
+  "color_story": "Soft at-home light, clean private bathroom — intimate self-care warmth, the product's color focal.",
+  "when_to_use": "At-home beauty routine UGC — private self-care framing. SINGLE SUBJECT; the sensitivity is compliance, not AI difficulty.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} identity. Identity DNA: {product.identity_dna}\nThe routine moment and crop are creative decisions within the compliance frame; the skincare product is naturally present in the routine, brand-readable toward camera. INTEGRATION: one soft bathroom light holds her, the mirror, and the product in a single private moment.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: phone_natural with soft self-care warmth. Material truth: {product.material_texture} — the product true in her hand; real skin with authentic texture and a healthy natural glow (not airbrushed), honest soft light, true candid self-care expression, real application. No plastic skin, no staged glamour.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the product at true palm/fingertip scale within the real routine.\n\n[FRAMING & PROXIMITY]\nIntimate-private framing — her routine and the product near and focused; the private bathroom soft behind.\n\n[COLOR & CONTRAST]\nSoft intimate self-care palette — clean private bathroom tones, warm true skin with healthy glow; the product's color from {brand.color_field_palette} as the focal point.\n\n[LIGHT & LENS]\nONE soft at-home bathroom light — morning or evening, gentle and flattering, honest phone-natural quality. Subject and product sharp, setting soft.\n\n[NATURAL PLACEMENT]\nThe routine gestures are real — honest application pressure, the product held as it's truly used.\n\n[COMPANION ELEMENTS]\nNone beyond the honest routine — the private moment is the world.\n\n[SCENE — PRIVATE AT-HOME, compliance-sensitive]\nAt-home beauty routine. A SINGLE Saudi woman applies skincare at a clean bathroom mirror in her private home — an authentic morning or evening self-care moment. Intimate-private and strictly modest: focus on the routine and product, modest at-home clothing, the genuine ritual. Choice points: routine moment, crop, light hour.\n\n[SUBJECT]\nONE Saudi woman only. PRIVATE at-home context: per {brand.modesty_register} and the genuine private-home framing, hair may be uncovered ONLY in this authentic private self-care context, kept strictly modest, non-suggestive, focused on the routine (CS-24). Modest at-home clothing. Warm honey-bronze skin with authentic healthy glow. If brand register is conservative: hair covered, or shift to S04 hands-only.\n\n[BRAND CONSTRAINTS]\nSINGLE subject. PRIVATE self-care context, strictly modest and non-objectifying (CS-24). Focus on the routine. No other people. Authentic Saudi home (CS-13). No readable text on background items. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal authentic self-care UGC photography (phone aesthetic), maximum fidelity. Soft intimate grade. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.apparel_context} governs the modest at-home framing per register (CS-24). {saudi.scene_context} fills the Saudi home bathroom.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: routine moment, crop, light hour, bathroom character. The compliance frame never varies.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Her appearance, modest at-home framing, the product, {product.material_texture}, the private bathroom — all preserved. Modesty/privacy maintained every frame.\n\n[MOTION]\nSINGLE primary motion: one natural routine action — gently applying the product to the cheek/face, OR a soft satisfied expression as it's used. Calm, strictly modest, routine-focused. NO complex motion.\nSecondary: subtle ambient — soft light shift, a strand of hair settling.\n\n[WHAT STAYS STATIC]\nFacial features, skin tone, modest framing, product identity — locked. Modesty/privacy every frame. Bathroom stable. Capture character: phone_natural preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Calm intimate self-care pacing.\n\n[OUTPUT]\nPhotoreal authentic self-care UGC cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3251,
+    "video_chars": 877,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE — PRIVATE AT-HOME, compliance-sensitive",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.modesty_register",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

@@ -390,6 +390,7 @@ function renderCard(){
   if(idx>=open.length) idx=open.length-1;
   const it=open[idx]; curId=it.id;
   const judge=LANE_VIEW==='judge';
+  const composer=judge||LANE_VIEW==='decide';   // Decide lane ALSO gets write + rating + Submit (Mohamed: "button to submit my words")
   const me=nameOf(WHO);
   const j=jget(it.id);
 
@@ -444,16 +445,16 @@ function renderCard(){
         if(o.ai_generated) h+=`<div class="scene">🤖 AI scene only — judging it = judging the idea</div>`; }
       h+=`<div class="cap island">${esc(o.label)}</div></div>`;
     });
-    if(judge) h+=`<div class="hint">Tap to select — nothing sends until you hit Submit.</div>`;
+    if(composer) h+=`<div class="hint">Tap to select — nothing sends until you hit Submit.</div>`;
   } else if(it.kind==='caption_pick'||it.kind==='buttons'){
     (it.options||[]).forEach((o,i)=>{
       const sel=j.choice===i;
-      h+=`<button class="opt ${o.rec?'rec':''} ${judge?(sel?'sel':(j.choice!=null?'dim':'')):''} ${it.kind==='caption_pick'?'island':''}"
-          dir="auto" onclick="${judge?`selOpt('${esc(it.id)}',${i})`:`decide('${esc(it.id)}',${i})`}">
+      h+=`<button class="opt ${o.rec?'rec':''} ${composer?(sel?'sel':(j.choice!=null?'dim':'')):''} ${it.kind==='caption_pick'?'island':''}"
+          dir="auto" onclick="${composer?`selOpt('${esc(it.id)}',${i})`:`decide('${esc(it.id)}',${i})`}">
           ${o.rec?'<span class="star">⭐ Recommended</span>':''}${esc(o.label)}
           ${o.explain?'<span class="ex" dir="auto">↳ '+esc(o.explain)+'</span>':''}</button>`;
     });
-    if(judge&&it.options&&it.options.length) h+=`<div class="hint">Tap to select — nothing sends until you hit Submit.</div>`;
+    if(composer&&it.options&&it.options.length) h+=`<div class="hint">Tap to select — nothing sends until you hit Submit.</div>`;
   } else if(it.kind==='numbers'){
     h+=`<div class="numrow">`;
     for(const n of it.fields) h+=`<label class="small" dir="auto">${esc(n.label)}<br>
@@ -467,7 +468,7 @@ function renderCard(){
   /* judge-lane composer: verdict + rating + chips + write box.
      RULE: a card WITH options → picking one IS the verdict (no Approve/Reject);
      a single-content card (no options) → Approve/Reject buttons. Never both. */
-  if(judge){
+  if(composer){
     const hasOpts = it.options && it.options.length;
     if(!hasOpts && !['numbers','text'].includes(it.kind)){
       h+=`<div class="verdict">
@@ -510,7 +511,7 @@ function renderCard(){
       <button onclick="move(-1)">⏮</button></div>`;
   h+=`</div>`;
   stage.innerHTML=h;
-  if(judge){ document.getElementById('subbar').classList.remove('hide'); syncBar(it.id); }
+  if(composer){ document.getElementById('subbar').classList.remove('hide'); syncBar(it.id); }
 }
 
 function buildDeep(it){

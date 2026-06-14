@@ -1,0 +1,82 @@
+{
+  "chain_id": "T27",
+  "title": "Cherry Blossom Backdrop",
+  "locked": false,
+  "native_video": false,
+  "family": "TF07 · Pastel & Shadow Play",
+  "sectors": [
+    "Beauty",
+    "Fragrance",
+    "Retail"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1× per month (seasonal)",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@tiadress",
+    "@themodestbride"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "bright pastel pop (dreamy-spring register)",
+  "color_story": "Soft cherry-blossom pink with delicate white-pink blossoms, petals drifting. Dreamy spring palette with airy depth. Product brand color is the fresh focal note in the blossom haze.",
+  "when_to_use": "Spring blossom dreaminess for beauty, fragrance, spring/seasonal launches. Renewal, freshness, delicate beauty.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe product holds the sharp foreground against the blossom world; the blossoms' density, the drifting petals' paths, and the product's angle are creative decisions. INTEGRATION: one soft spring light holds the whole frame — blossoms glowing translucent in it, the product catching it with the same gentle quality, all soft shadows in one direction.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with dreamy spring softness. Material truth: {product.material_texture} — the substrate in soft spring light presents its true surface. Blossoms with real petal delicacy, natural white-to-pink gradient, honest branch texture; drifting petals with authentic motion-soft edges. No plastic blossoms, no fake-perfect bloom.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size against real blossom scale (each bloom small, branches fine); the product is honestly proportioned in front of a real flowering depth.\n\n[FRAMING & PROXIMITY]\nThe product close and sharp in the foreground, the blossom field opening in dreamy depth behind — hero through nearness, the spring world as atmosphere.\n\n[COLOR & CONTRAST]\nDreamy spring palette — soft white-pink blossoms creating the airy depth field; the product's brand color from {brand.color_field_palette} is the fresh focal note standing clear against the blossom haze. Two players: blossom-pink and brand color.\n\n[LIGHT & LENS]\nONE soft diffused spring daylight, gentle quality, airy soft shadow, backlit blossoms glowing translucent. Lens and depth chosen for a sharp product, dreamy blossom bokeh, soft drifting petals.\n\n[NATURAL PLACEMENT]\nThe product stands or rests with honest gravity at the foreground's natural surface.\n\n[COMPANION ELEMENTS]\nThe blossoms ARE the chain's world — no further companion object.\n\n[SCENE]\nCherry blossom composition. Product sharp in the foreground, cherry blossom branches in full bloom filling the background in dreamy bokeh, a few petals drifting mid-fall around it, soft spring light bathing everything. Fresh, delicate, renewal. Choice points: blossom density, petal count and drift paths, product turn, camera height.\n\n[SUBJECT]\nSingle hero product sharp in the foreground; the blossom backdrop dreamy behind; blossom texture and product material in authentic truth.\n\n[BRAND CONSTRAINTS]\nSingle hero product in foreground. Cherry blossoms are the backdrop element. No human elements. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal spring beauty photography, maximum fidelity. Dreamy spring grade, soft blossom field, fresh brand-color focal note. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — blossom backdrop is seasonal-neutral; for Saudi spring, shift to almond blossom or local flowering varieties. {saudi.color_palette_adjust} tunes blossom tone.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: blossom density and depth, drifting-petal paths, product turn, camera height, light softness. Spring renews differently each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, every label character, {product.material_texture}, blossom backdrop, drifting petals — all locked.\n\n[MOTION]\nPrimary — petals: blossom petals drift down gently and continuously through the frame around the product, a soft falling-blossom motion.\nSecondary — backdrop: blossom branches sway very gently, the bokeh shimmering.\nTertiary — camera: imperceptible 1.5% push-in.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Product position fixed and sharp. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Gentle drifting spring pacing.\n\n[OUTPUT]\nPhotoreal spring beauty cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3395,
+    "video_chars": 750,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

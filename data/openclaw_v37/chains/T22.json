@@ -1,0 +1,81 @@
+{
+  "chain_id": "T22",
+  "title": "Gold Spotlight Pedestal",
+  "locked": false,
+  "native_video": false,
+  "family": "TF06 · Studio Production Reveal",
+  "sectors": [
+    "Fragrance",
+    "Jewelry",
+    "Oud",
+    "Luxury Retail"
+  ],
+  "quality_tier": "luxury",
+  "intent": [
+    "launch"
+  ],
+  "reference_image": "Required",
+  "frequency": "1× per quarter",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@alyafie_jewelry",
+    "@danatreasures",
+    "@diplomat_sweets"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "warm opulent single key",
+  "color_story": "Reflective gold pedestal catching warm directional spotlight. Gold-on-warm-dark luxury palette. The product brand color punches against the gold reflectance — opulent, Saudi-luxury-resonant.",
+  "when_to_use": "Opulent pedestal presentation. The gold resonates strongly with Saudi luxury aesthetics. Fragrance, oud, jewelry, premium launches — maximum opulence; the gold pedestal itself signals prestige.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe product crowns the gold pedestal; camera angle, pedestal proportion, and spotlight character are creative decisions. INTEGRATION: one warm directional spotlight governs everything — the product's modeling, the pedestal's specular highlights, the gold bounce returning onto the product's lower surfaces, the warm-dark falloff behind. One light, one physical system.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with luxury warmth. Material truth: {product.material_texture} — the substrate catches the warm key and the gold bounce as its true self. Real reflective gold-metal behavior on the pedestal: honest specular highlights, a soft mirror of the product's base. No CGI render, no plastic-gold, no artificial sparkle overlay.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size atop the pedestal; the pedestal is proportioned to present the product (a plinth that serves, never a column that dwarfs). The product-to-pedestal ratio reads as deliberate luxury staging.\n\n[FRAMING & PROXIMITY]\nClose, reverent, ascending — the product and gold pedestal-top fill the frame as the luminous center; the warm dark surround presses near.\n\n[COLOR & CONTRAST]\nOpulent warm palette: glowing gold pedestal against warm-dark surround; the product's brand color from {brand.color_field_palette} punches against the gold reflectance as the prized focal subject. Two chromatic players only — the gold and the brand color.\n\n[LIGHT & LENS]\nONE warm directional spotlight from upper-side, hard-soft quality modeling product and pedestal together, the gold returning warm fill as part of the same system. Lens and depth chosen for a sharp product and pedestal-top against a softly deepening warm dark.\n\n[NATURAL PLACEMENT]\nThe product stands centered and plumb on the pedestal — the one deliberate ceremonial placement this chain calls for — honestly seated with a true mirrored contact on the polished gold.\n\n[SCENE]\nOpulent pedestal composition. Product atop a reflective gold cylindrical pedestal under the warm spotlight, the polished surface softly mirroring its base, warm dark gradient deepening toward the edges. Prestigious, Saudi-luxury. Choice points: camera height, pedestal height and finish, spotlight angle, background warmth.\n\n[SUBJECT]\nSingle hero product on the gold pedestal; the reflective gold is the supporting luxury element. Gold reflectance and product material in full physical truth.\n\n[BRAND CONSTRAINTS]\nSingle hero product. The gold pedestal is the only supporting element. No human elements. Warm dark background. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal luxury product photography, maximum fidelity. Opulent warm-gold grade, brand-color punch. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — gold resonates with Saudi luxury; for Eid/Founding Day a subtle gold particle haze may drift in the warm air. {saudi.color_palette_adjust} tunes the gold warmth.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: camera height, pedestal proportion and finish, spotlight angle and warmth, background depth. Opulence constant; staging fresh.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, every label character, {product.material_texture}, gold pedestal, reflection, warm spotlight — all locked.\n\n[MOTION]\nPrimary — the pedestal: product and pedestal rotate together with extreme slowness, ~20° over the duration, the gold catching shifting highlights. Brand-readable face stays toward camera.\nSecondary — atmosphere: faint warm particles drift through the spotlight.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked — sharp through the rotation. Spotlight direction, warm-dark background. Capture character preserved.\n\n[PACING & DURATION]\n6 seconds. Continuous single take. Slow opulent pacing.\n\n[OUTPUT]\nPhotoreal luxury cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3540,
+    "video_chars": 778,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

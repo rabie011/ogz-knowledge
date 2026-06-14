@@ -1,0 +1,79 @@
+{
+  "chain_id": "B02",
+  "title": "Service Showcase Static",
+  "locked": false,
+  "native_video": false,
+  "family": "TF17 · Before / After",
+  "sectors": [
+    "Beauty",
+    "Skincare",
+    "Salon",
+    "Aesthetic Services"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Required",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@tiadress",
+    "@themodestbride"
+  ],
+  "cultural_spec": "CS-24, CS-22",
+  "drama_dial": "soft aspirational glow",
+  "color_story": "Aspirational beauty-result glow — soft flattering light, true radiant result, clean elegant backdrop. The single result speaks for itself.",
+  "when_to_use": "Single-result beauty showcase — the achieved result without a before comparison. ELEVATED COMPLIANCE, modest framing, single subject. Cleaner and more aspirational than the split.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} / {brand.name} service identity. Identity DNA: {product.identity_dna}\nThe result crop and backdrop tone are creative decisions within elevated compliance; the service result is honest and aspirational, brand context accurate. INTEGRATION: one soft beauty light creates the result's glow and the backdrop's elegance together — a single aspirational photograph.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: clean_studio with aspirational beauty-result grade — glowing-but-honest. Material truth of skin/hair/nails: real radiant texture, honest achievable glow, true result — aspirational but real, never airbrushed fantasy. No impossible result.\n\n[SCALE CALIBRATION]\nTrue anatomical scale at the chosen crop — the result area at honest close-up proportion.\n\n[FRAMING & PROXIMITY]\nClose on the result — radiant skin, styled hair within register, elegant nails, or the treatment result filling the frame aspirationally.\n\n[COLOR & CONTRAST]\nAspirational beauty glow — soft radiant result tones against a clean elegant backdrop tuned toward {brand.color_field_palette} compatibility; the result is the focus, color soft and flattering.\n\n[LIGHT & LENS]\nONE soft flattering beauty light, glowing and aspirational with gentle dimensional shadow. Result area sharp.\n\n[NATURAL PLACEMENT]\nThe pose is a natural composed human moment presenting the result honestly.\n\n[SCENE — ELEVATED COMPLIANCE]\nService showcase composition. A single beautiful image of the achieved result — shown modestly and aspirationally against a clean elegant backdrop. The result glows. Single-result, aspirational, trustworthy. Choice points: crop, backdrop tone, glow emphasis.\n\n[SUBJECT]\nSINGLE subject, ELEVATED modest framing (CS-24). The result on the appropriate area only, modest register respected, never objectifying. Radiant achievable beauty; real skin, honest glow.\n\n[BRAND CONSTRAINTS]\nSINGLE subject. ELEVATED modesty (CS-24) — result area only. Honest achievable result. No readable text. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal beauty showcase photography, maximum fidelity. Glowing aspirational grade, honest result. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.apparel_context} governs modest framing (CS-24). Result respects Saudi modesty fully.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: crop selection within compliance, backdrop tone, glow emphasis, pose nuance. The aspiration renews; the modesty rules never vary.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The result, modest framing, lighting, backdrop — all preserved. Modesty maintained.\n\n[MOTION]\nSINGLE subtle motion: a gentle glow-shimmer across the result (radiant skin catching light), OR if hair, the faintest movement, OR a soft light breath emphasizing the glow. Restrained, aspirational.\n\n[WHAT STAYS STATIC]\nSubject identity, modest framing, result area — locked. Modesty compliance absolute. Lighting stable. Capture character preserved.\n\n[PACING & DURATION]\n4 seconds. Continuous single take. Soft aspirational pacing.\n\n[OUTPUT]\nPhotoreal beauty showcase cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 2733,
+    "video_chars": 681,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE — ELEVATED COMPLIANCE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.name",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.identity_dna",
+      "product.name",
+      "saudi.apparel_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

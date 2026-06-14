@@ -1,0 +1,84 @@
+{
+  "chain_id": "T07",
+  "title": "Smoke Ring Mystique",
+  "locked": false,
+  "native_video": false,
+  "family": "TF02 · Splash & Motion",
+  "sectors": [
+    "F&B (hot)",
+    "Beauty",
+    "Fragrance",
+    "Luxury"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "1-2× per week / hero",
+  "image_model": "fal-ai/flux-2-pro/edit    (8,000 chars)",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v    (2,500 chars)",
+  "ref_accounts": [
+    "@barnscoffee",
+    "@danatreasures"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "",
+  "color_story": "",
+  "when_to_use": "Premium mystique hero. Hot drinks (steam/smoke), fragrance/oud (incense), luxury reveals.",
+  "image_prompt_template": "[BRAND LOCK · identity invariant, composition open]\nThe reference image teaches the {product.name} brand identity. Identity is invariant — smoke pattern, product angle, and light atmosphere are creative decisions.\nIdentity DNA: {product.identity_dna}\nINTEGRATION: The product sits within a volumetric smoke atmosphere — the same warm light making the smoke translucent also catches the product's edges. The deep warm shadow defining the negative space is the same shadow defining the product's lower third.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: cinematic luxury, film_grain_warmth, photoreal. Material truth: {product.material_texture}. Real smoke — turbulent fluid dynamics, varied opacity, natural curls. Subtle film grain in shadow. No CGI smoke, no symmetric perfect curls.\n\n[SCALE CALIBRATION]\n{product.dimensions}. The product is the sole subject within the smoke at honest scale.\n\n[FRAMING & PROXIMITY]\nHero proximity — product ~40-50% of frame, smoke curling in the immediate surround, deep shadow beyond.\n\n[COLOR & CONTRAST · brand-derived]\nDeep warm shadow field — {brand.palette.background_tone} fading to near-black. Anchored to {brand.palette.primary}. Field colours from {brand.color_field_palette}. No foreign accents.\n\n[LIGHT & LENS · warm drama, mood not spec]\nWarm cinematic key with strong back-rim — premium register. Model chooses key direction, back-rim placement and intensity (the rim making smoke translucent), shadow depth. The shadow cuts deep. The primary brand colour glows softly at the rim. Lens: portrait compression or near-macro.\n\n[SCENE · creative seed]\nCeremonial mystique — the product within a slow vortex of smoke/incense. Model chooses: smoke flow (ring at midline, ascending vortex, lateral drift, dense-base thinning up); density (enveloping, medium, sparse wisps); product angle; optional single derived companion at the base if it enriches without cluttering; surface visibility (dark surface, tray edge, floating).\n\n[SUBJECT]\nSmoke rendered true — volumetric behavior, density variation, honest light scatter. Smoke around the product, never obscuring brand elements.\n\n[BRAND CONSTRAINTS]\nSingle product. Optional single companion only. No humans. Smoke around, not on, the product. {brand.anti_attributes}\n\n[OUTPUT]\n8K photoreal luxury cinematography. Warm rich grade, deep blacks, {brand.palette.primary} with rim warmth. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context}. Smoke is authentic bukhoor/oud ceremony per CS-19 — NOT Western smoke, NOT shisha, NOT fog-machine. Subtle gold particles permitted at premium tier or during {saudi.occasion_overlay}.\n\n[TEXT OVERLAY — conditional, agent appends only when brief.text_request is present]\nRender this text directly in the image: \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}, contrasting color. If absent, no text appears.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary smoke flow, density, product angle, optional-companion presence, surface, rim direction. Hold constant: warm brand palette, deep shadow-cut, material texture. Each render a different ceremonial moment.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product silhouette, proportions, all label color values, every Arabic ({product.label_text_arabic}) and Latin ({product.label_text_latin}) character, logo, material finish — preserved exactly. Only the smoke and camera move.\n\n[MOTION]\nThe smoke curls and rises in a slow continuous vortex around the product; density shifts naturally; the back-rim catches the moving volume. A gentle push-in. The product holds form and position absolutely.\n\n[WHAT STAYS STATIC]\nProduct silhouette, every label character, color values, logo, material finish — locked. Capture character {brand.aesthetic.capture_character} preserved. No synthetic grain.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. No cuts.\n\n[OUTPUT]\n8K photoreal luxury cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3165,
+    "video_chars": 849,
+    "image_blocks": [
+      "BRAND LOCK · identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST · brand-derived",
+      "LIGHT & LENS · warm drama, mood not spec",
+      "SCENE · creative seed",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, agent appends only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 13,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.palette.background_tone",
+      "brand.palette.primary",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.label_text_arabic",
+      "product.label_text_latin",
+      "product.material_texture",
+      "product.name",
+      "saudi.occasion_overlay",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "chain_id": "U04",
+  "title": "Behind the Scenes",
+  "locked": false,
+  "native_video": false,
+  "family": "TF13 · Lifestyle Context",
+  "sectors": [
+    "F&B",
+    "Retail",
+    "Beauty",
+    "Hospitality",
+    "Services"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@aseeb.najd",
+    "@barnscoffee",
+    "@cafe.najd"
+  ],
+  "cultural_spec": "CS-08, CS-13, CS-01 (if human)",
+  "drama_dial": "authentic phone-documentary",
+  "color_story": "Authentic phone-camera warmth — real workspace tones, honest natural light, slightly imperfect. Deliberately un-polished for trust.",
+  "when_to_use": "Authenticity/process content — the human craft behind the brand. Trust-building, founder story, process transparency. If a person appears: single-subject, hands/partial-body preferred.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} / {brand.name} identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe candid framing, process moment, and workspace angle are creative decisions; the product reads brand-accurate even in candid framing. INTEGRATION: the workspace's real available light is the only light — product, hands, tools, and clutter all live in the same honest uneven illumination; nothing reads studio-lit.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: phone_natural — authentic, deliberately un-polished, documentary-candid as if on a real phone during actual work. Material truth: {product.material_texture} — the product mid-process behaves as its real substrate. Natural slightly-uneven phone light, honest workspace clutter, real material textures, true-to-life color. This chain's TRUST comes from looking real, not produced. No glossy over-production, no staged-perfect set.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true working scale among real tools, vessels, and hands; everything at honest workbench proportion.\n\n[FRAMING & PROXIMITY]\nCandid-close on the process — the working hands and the product taking shape fill the frame; the viewer stands at the maker's shoulder, not across the room.\n\n[COLOR & CONTRAST]\nDeliberately authentic, not hyper-saturated — real workspace tones with the product/process color from the brand's true palette sitting naturally and truthfully. Trust through honesty, not polish.\n\n[LIGHT & LENS]\nONE truth: the workspace's natural available light — slightly uneven, honest, phone-camera quality with real shadows and authentic ambiance. Natural phone perspective, moderate depth.\n\n[NATURAL PLACEMENT]\nEverything sits where work put it — tools mid-use, ingredients where the hand left them, the product honestly in-progress.\n\n[COMPANION ELEMENTS]\nThe working process IS the world — tools and materials genuinely in use, never staged props. No decorative additions.\n\n[SCENE]\nBehind-the-scenes composition. The product mid-creation in a real working environment — kitchen, workshop, roastery, atelier, prep area — authentic process visible: materials in use, the product taking shape, honest workspace. If a person is present: hands or partial body only, working. Candid, real, trust-building. Choice points: process moment, camera angle, workspace depth.\n\n[SUBJECT]\nThe product-in-process within a real working context. If human presence: SINGLE person, hands/forearms/partial-body only, right-hand work preferred (CS-08), modest sleeve (CS-01). The authentic process is the subject.\n\n[BRAND CONSTRAINTS]\nProduct authentic within process. If human: single person, partial-body, modesty maintained (CS-01, CS-08). Real Saudi working environment (CS-13). No glossy over-production. No readable text on background items. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal authentic-documentary photography (phone-camera aesthetic), maximum fidelity. Honest natural grade. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} fills the authentic Saudi working environment (CS-13). {saudi.apparel_context} if hands/partial-body present (CS-01, CS-08).\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: process moment, camera angle and candid framing, workspace character, hand action. A different honest minute of the same real work.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, {product.material_texture}, process scene, working context, any partial-body element — all preserved. Brand-readable elements locked.\n\n[MOTION]\nSINGLE coherent process motion: one authentic working action unfolds — a hand stirring, pouring, assembling, finishing the product. ONE believable candid motion, phone-documentary style.\nSecondary: ambient workspace life — steam, a tool, natural movement softly in the scene.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. If human: single-subject and modesty maintained. Working environment stable. Capture character: phone_natural preserved — the authentic look is essential.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Natural candid documentary pacing.\n\n[OUTPUT]\nPhotoreal authentic-documentary cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3596,
+    "video_chars": 902,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.name",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

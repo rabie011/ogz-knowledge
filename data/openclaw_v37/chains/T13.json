@@ -1,0 +1,81 @@
+{
+  "chain_id": "T13",
+  "title": "Kitchen Window Morning",
+  "locked": false,
+  "native_video": false,
+  "family": "TF04 · Natural Environment",
+  "sectors": [
+    "F&B",
+    "Home"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "launch",
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Required",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@aseeb.najd",
+    "@cafe.najd",
+    "@laylali_riyadh"
+  ],
+  "cultural_spec": "CS-13",
+  "drama_dial": "soft natural (warm morning)",
+  "color_story": "Warm morning sunlight streaming across rustic wood. Honest natural tones — wood browns, cream walls, soft shadow. Product brand color glows in the morning light as the warm focal point.",
+  "when_to_use": "Morning kitchen warmth for F&B (coffee, breakfast, pantry) and home brands. The warm start-of-day Saudi home moment — inviting, natural, everyday-aspirational.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe product is photographed INSIDE this morning kitchen — angle, counter position, and framing are creative decisions. INTEGRATION: the streaming window sun is the one light defining wood, wall, and product alike; the product's surface carries the warm cast, its shadow runs long and parallel with every other morning shadow.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: phone_natural with warm editorial lift — captured as if on a high-end phone in real morning light. Material truth: {product.material_texture} — the substrate sits on the wood as its real self, catching the warm beam truthfully. Rustic wood with genuine grain, knots, honest age; faint dust in the light beam; everyday lived-in character. No CGI wood, no staged set.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size against the kitchen's anchors: counter depth, window sill, any companion vessel. The product is a real countertop object, honestly small in a real room.\n\n[FRAMING & PROXIMITY]\nIn close at counter level — the product holds the warm foreground, kitchen context breathing softly behind. The viewer stands at the counter in the morning light, not across the room.\n\n[COLOR & CONTRAST]\nWarm morning palette — wood browns and cream set the cozy base; the product's brand color from {brand.color_field_palette} glows as the focal point catching the sun. No borrowed accents.\n\n[LIGHT & LENS]\nONE light: warm low morning sun through the side window — soft directional rake, long gentle shadows, the beam faintly visible in the air. Lens and depth chosen for a sharp product and softly atmospheric kitchen.\n\n[NATURAL PLACEMENT]\nThe product rests where a hand left it this morning — gravity-honest, perhaps slightly turned, a sachet leaning against a canister if its substrate leans.\n\n[COMPANION ELEMENTS]\nONE hero companion from {product.companion_elements} (a simple ceramic cup, a wooden scoop, the product's prepared result steaming gently — one only). Same light, same physics, supporting never competing.\n\n[SCENE]\nMorning kitchen composition. Product on a rustic warm-toned wooden counter near the window, morning sun raking across, soft kitchen context behind — cream wall, window frame hint. The warm start of a Saudi morning (CS-13). Choice points: camera height, sun angle, product turn, companion choice.\n\n[SUBJECT]\nSingle hero product on the wood; the counter and the morning light are the supporting characters, rendered with authentic truth.\n\n[BRAND CONSTRAINTS]\nSingle hero product, one companion maximum, softly secondary context. No human elements. A real Saudi home kitchen (CS-13), warm and lived-in. No readable text on any background object. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal lifestyle photography, maximum fidelity. Warm morning grade — wood tones, cream warmth, brand-color glow. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} fills the kitchen register — modern Saudi home or traditional Najdi kitchen. For Ramadan: pre-dawn suhoor warmth or evening iftar-prep light.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: sun angle and beam visibility, camera height, product position and turn, companion selection. A different real morning every time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product position, counter, window, morning light, context, {product.material_texture} — all preserved. Every label character locked.\n\n[MOTION]\nPrimary — light: the morning sunbeam slowly strengthens and shifts angle by a few degrees, the warm highlight gliding across wood and product.\nSecondary — atmosphere: fine dust motes drift through the visible beam.\nTertiary — camera: extremely subtle 1.5% push-in.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Counter, window, context fixed. Warm morning temperature. Capture character: phone_natural preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Gentle waking-morning pacing.\n\n[OUTPUT]\nPhotoreal lifestyle cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3589,
+    "video_chars": 811,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.companion_elements",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

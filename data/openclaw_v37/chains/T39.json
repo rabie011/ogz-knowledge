@@ -1,0 +1,78 @@
+{
+  "chain_id": "T39",
+  "title": "Billboard Mockup On Building",
+  "locked": false,
+  "native_video": false,
+  "family": "TF10 · Editorial Poster",
+  "sectors": [
+    "Retail",
+    "Corporate",
+    "F&B",
+    "Beauty"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@planb_boutique",
+    "@danatreasures"
+  ],
+  "cultural_spec": "CS-13",
+  "drama_dial": "clean even, architectural-real",
+  "color_story": "Brand campaign rendered large on a modern building's billboard against sky. Campaign color dominates; architecture and sky frame it. The brand made monumental.",
+  "when_to_use": "Out-of-home campaign mockup — launch announcements, brand presence statements, campaign \"in the world,\" investor/brand-deck visuals. TEXT/campaign visual central.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} / {brand.name} campaign identity. Identity DNA: {product.identity_dna}\nStreet vs aerial perspective, building composition, and billboard proportion are creative decisions. The campaign visual on the billboard reads brand-accurate — logo, product, colors correct at billboard scale. INTEGRATION: the billboard belongs to the architecture — real mounting, real perspective, the same daylight grading building, billboard surface, and sky as one photograph.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: broadcast_cinematic with architectural-realism grade — a real out-of-home photograph. Material truth: the billboard surface shows honest real-world mounting and subtle sheen, and the campaign's product hero renders with {product.material_texture} truth even at billboard magnification; authentic modern architecture, real daylight and sky, true perspective. No flat pasted-on billboard.\n\n[SCALE CALIBRATION]\nTrue out-of-home scale — the billboard at honest architectural proportion on the building, the campaign's product hero rendered at believable billboard magnification, legible from the street.\n\n[FRAMING & PROXIMITY]\nThe billboard commands the frame from a believable street or aerial vantage — monumental and near enough to read, the building and sky framing rather than shrinking it.\n\n[COLOR & CONTRAST]\nThe brand campaign color from {brand.color_field_palette} dominates the billboard at full saturation; modern architecture (glass, concrete) and sky frame it. The brand made large and bold against the urban sky.\n\n[LIGHT & LENS]\nONE light: natural daylight with clear sky, the billboard well-lit and legible, real architectural perspective. Lens chosen for architectural lines and full-composition clarity.\n\n[NATURAL PLACEMENT]\nThe billboard sits on the building as real OOH installations do — structurally mounted, perspective-true, weather-real.\n\n[SCENE — TEXT CENTRAL]\nOut-of-home composition. A large billboard displaying the brand campaign — hero product/visual plus campaign typography — mounted on a modern building, photographed from street or aerial perspective against the sky. Aspirational arrival: the brand made monumental and legitimate. Choice points: vantage, building character, billboard proportion, sky state.\n\n[SUBJECT]\nThe brand campaign on the billboard — hero visual plus campaign text at billboard scale on believable modern architecture.\n\n[TEXT — CORE BLOCK for this family]\nRender the campaign typography on the billboard as central:\n- Campaign headline: \"{brief.text_request.copy}\" — bold OOH display type, legible at scale\n- Style: {brief.text_request.style} — default bold out-of-home campaign aesthetic\n- The typography is part of the campaign visual on the billboard, essential not optional\n- ARABIC RULE: shortest copy only until the deterministic overlay node ships; Arabic-heavy campaigns route to post-production for character fidelity at scale\n\n[BRAND CONSTRAINTS]\nThe billboard campaign is the single brand element. Generic modern architecture — no identifiable real-brand buildings, no other real-brand advertising, no other readable text anywhere in the scene. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal out-of-home campaign photography with billboard typography, maximum fidelity. Aspirational grade. No watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — the building reads as modern Riyadh/Jeddah architecture (CS-13). Arabic campaign typography per the Arabic rule.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: vantage (street vs aerial), building character, billboard proportion, sky and hour. The campaign arrives in a different corner of the city each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The billboard campaign, building, sky, typography (every character) — all preserved.\n\n[MOTION]\nPrimary — atmosphere: clouds drift slowly behind the building, daylight shifting subtly across the billboard; if digital, a gentle content glow-breath.\nSecondary — camera: a slow cinematic push-in or rise toward the billboard, emphasizing scale.\n\n[WHAT STAYS STATIC]\nCampaign visual and typography locked. Building stable. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Slow aspirational reveal pacing.\n\n[OUTPUT]\nPhotoreal out-of-home cinematography. Silent. No watermark.",
+  "_stats": {
+    "image_chars": 3748,
+    "video_chars": 669,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE — TEXT CENTRAL",
+      "SUBJECT",
+      "TEXT — CORE BLOCK for this family",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.name",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

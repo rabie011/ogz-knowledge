@@ -1,0 +1,82 @@
+{
+  "chain_id": "T30",
+  "title": "Desert Sand Dune Placement",
+  "locked": false,
+  "native_video": false,
+  "family": "TF08 · Cinematic Environment",
+  "sectors": [
+    "F&B",
+    "Beauty",
+    "Fragrance",
+    "Fashion",
+    "Heritage"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@aseeb.najd",
+    "@danatreasures",
+    "@diplomat_sweets"
+  ],
+  "cultural_spec": "CS-13, CS-22",
+  "drama_dial": "epic golden landscape (hard low sun)",
+  "color_story": "Golden Saudi desert dune — warm sand tones, deep ridge shadows, vast clear sky gradient. The desert IS the Saudi-native color world. Product brand color anchors against the endless golden sand.",
+  "when_to_use": "The signature Saudi-native landscape chain — Empty Quarter / AlUla / Nafud dune aesthetic. For any brand wanting to root deeply in Saudi land and identity. Cinematic and unmistakably Saudi.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nDune position, ridge geometry, and horizon height are creative decisions. INTEGRATION: the low desert sun is the one light over everything — it sculpts the ridge shadows, warms the product's surfaces, and grades the sky; the product's long shadow runs with the dune's own; fine sand gathers honestly at its base.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: broadcast_cinematic with Saudi-landscape grade. Material truth: {product.material_texture} — the substrate sits in real sand as its true self (film with warm-lit creases, glass catching desert glare, fine grains resting against its base edge). Real sand grain, wind-rippled patterns, honest ridge shadows, authentic desert-sky gradient. No flat digital sand.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size against the desert's vastness: the product is an honest small human-made object on an immense dune; sand ripples read at real centimeter scale around it. The scale contrast IS the drama — never an artificially giant product on a miniature dune.\n\n[FRAMING & PROXIMITY]\nClose to the product on the sand — the hero near and grounded while the ridge curves away and the vast horizon opens behind. Epic depth earned through a near foreground, not a distant speck.\n\n[COLOR & CONTRAST]\nThe Saudi desert IS the color world — warm golden sand at full saturation, deep ridge shadows, blue-gold sky gradient; the product's brand color from {brand.color_field_palette} anchors against the endless golden landscape as the human-made focal point.\n\n[LIGHT & LENS]\nONE light: strong low golden-hour desert sun, raking warmly across the ridges, long elegant shadows, sculpted sand texture revealed. Lens and depth chosen for a sharp product and near dune with an atmospheric distant horizon.\n\n[NATURAL PLACEMENT]\nThe product rests on the sand exactly as gravity and the slope dictate — settled slightly into the surface, leaning with the grade if its substrate leans, fine grains against its base.\n\n[SCENE]\nSaudi desert dune composition. Product on the crest or warm-lit slope of a golden dune, the wind-sculpted ridge curving away, vast horizon and gradient sky beyond, fine windblown sand catching light at its base. Empty Quarter, Nafud, or AlUla register — vast, golden, iconic, deeply Saudi-native. Choice points: ridge geometry, horizon height, sun direction, sand drift.\n\n[SUBJECT]\nSingle hero product on the sand; dune and sky the epic Saudi-native environment, in authentic truth.\n\n[BRAND CONSTRAINTS]\nSingle hero product. No human elements, no footprints, no vehicles. Authentic Saudi desert (CS-13), not generic Sahara or Hollywood. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal Saudi landscape photography, maximum fidelity. Epic golden desert grade, vast sky, brand-color anchor. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} fills the specific desert — Empty Quarter (Rub al Khali) red dunes, Nafud golden, or AlUla rock-and-sand. {saudi.color_palette_adjust} tunes sand tone. For Founding/National Day: subtle Saudi-green or flag-tone accent possible.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: ridge geometry, sun direction and height, horizon line, sand-drift presence, camera height. The desert composes itself differently each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, every label character, {product.material_texture}, dune, ridge, sky gradient — all locked.\n\n[MOTION]\nPrimary — sand: fine windblown sand drifts gently across the dune surface and around the product's base, the desert breeze made visible.\nSecondary — light: the golden sun shifts subtly, ridge shadows lengthening and warming toward deeper gold.\nTertiary — camera: extremely subtle 2% push-in or slow rise revealing more horizon.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Product position fixed. Dune form stable (sand drifts, the dune holds). Sky gradient constant. Capture character preserved.\n\n[PACING & DURATION]\n6 seconds. Continuous single take. Slow epic desert pacing — vast and unhurried.\n\n[OUTPUT]\nPhotoreal Saudi landscape cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3639,
+    "video_chars": 885,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

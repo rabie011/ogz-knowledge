@@ -1,0 +1,79 @@
+{
+  "chain_id": "T10",
+  "title": "Column Light From Above",
+  "locked": false,
+  "native_video": false,
+  "family": "TF03 · Spotlight & Dark Stage",
+  "sectors": [
+    "Beauty",
+    "Retail"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@alyafie_jewelry",
+    "@danatreasures",
+    "@diplomat_sweets"
+  ],
+  "cultural_spec": "CS-22, CS-19",
+  "drama_dial": "single hard key, deep dark + atmosphere",
+  "color_story": "A visible volumetric column of light descends through atmospheric haze onto the product. The beam itself glows (warm or cool); the product brand color anchors the base. Sacred, descending-light drama.",
+  "when_to_use": "Descending-beam reverence — light through a cathedral window, a beam through incense smoke. Premium/heritage launches, fragrance, oud, jewelry — anything that earns a chosen-by-the-light treatment.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe product sits at the base of the descending column with brand-readable surfaces catching the beam; beam width, haze density, and product orientation are creative decisions. INTEGRATION: the descending column is the single light event — it defines the product's top-lit modeling, the visible haze, and the deep surrounding shadow as one continuous physical system.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: film_grain_warmth — atmospheric cinema, subtle warm grain in shadow regions. Material truth: {product.material_texture} — the substrate catches the descending beam as its real self (top surfaces lit true, lower portions in honest atmospheric shadow). The volumetric beam shows real scatter through suspended haze, density variation across the column, honest light-shaft physics. No CGI god-ray, no plastic surfaces.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size; the column is a grand vertical event relative to the product, the small-against-the-light proportion creating the sacred scale contrast.\n\n[FRAMING & PROXIMITY]\nThe beam and its base — where the product stands — anchor the frame. The product holds presence through the lit pool; the vertical column gives height without pushing the hero into distant smallness.\n\n[COLOR & CONTRAST]\nThe glowing column (warm amber for heritage/oud, cool white for modern beauty) is the dominant luminous element; the product's brand color from {brand.color_field_palette} anchors the base at full saturation. Rich darkness everywhere else. No third color.\n\n[LIGHT & LENS]\nONE sharp column light from directly above, heavy atmospheric haze revealing the beam's full descent, no fill — surroundings fall to deep shadow. Lens and depth chosen for a sharp product and beam-base with the upper column softly atmospheric.\n\n[NATURAL PLACEMENT]\nThe product rests at the beam's landing pool exactly as gravity places it — standing plumb, or lying with honest folds if its substrate lies.\n\n[SCENE]\nDescending light-column composition. A sharp vertical shaft falls from the upper frame through visible haze onto the product at its base, center-frame. Surrounding darkness deepens toward the edges. The mood is sacred, descending, chosen. Choice points: beam width, haze character, base-pool spread, camera height.\n\n[SUBJECT]\nSingle product at the base of the beam, upper surfaces raked by the descending light, lower portions in atmospheric shadow, the column itself rendered with authentic volumetric scatter.\n\n[BRAND CONSTRAINTS]\nSingle product only. No human elements, no props. The descending column is the only light. Background dark. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal atmospheric product photography, maximum fidelity. Deep cinema grade, luminous descending beam, brand-color base anchor. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — for oud/heritage the haze reads as bukhoor/oud incense smoke (CS-19), beam warms to gold. {saudi.color_palette_adjust} sets beam temperature.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: beam width and angle nuance, haze density, product orientation in the pool, camera height. The sacred descent never repeats identically.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, every label character, {product.material_texture}, the light column, haze, dark surround — all locked.\n\n[MOTION]\nPrimary — the column: atmospheric particles drift slowly downward through the visible beam, density shifting gently as if smoke moves through it.\nSecondary — the product: subtle catch-light shifts as the beam breathes ~6%.\n\n[WHAT STAYS STATIC]\nProduct identity locked — labels, colors, material texture. Beam and product positions fixed. Dark surround constant. Capture character: film_grain_warmth preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Slow sacred pacing. Audio: subtle low ambient atmospheric tone (Seedance native audio).\n\n[OUTPUT]\nPhotoreal atmospheric cinematography via Seedance. Subtle ambient audio. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3562,
+    "video_chars": 853,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

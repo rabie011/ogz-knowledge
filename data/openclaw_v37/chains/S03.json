@@ -1,0 +1,82 @@
+{
+  "chain_id": "S03",
+  "title": "Saudi Family — Iftar Table Gathering — HIGH RISK",
+  "locked": false,
+  "native_video": false,
+  "family": "",
+  "sectors": [
+    "F&B",
+    "Retail",
+    "Services",
+    "Hospitality"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Optional",
+  "frequency": "Ramadan-triggered",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@aseeb.najd",
+    "@diplomat_sweets",
+    "@laylali_riyadh"
+  ],
+  "cultural_spec": "CS-15, CS-18, CS-21, CS-24, CS-13",
+  "drama_dial": "warm reverent golden",
+  "color_story": "Warm Ramadan iftar gathering — golden evening glow, abundant table, multi-generational warmth.",
+  "when_to_use": "Multi-generational Ramadan family iftar — emotionally powerful. Use when the togetherness message justifies the effort, fallback ready.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} / {brand.name} identity. Identity DNA: {product.identity_dna}\nThe table's arrangement and the gathering's framing are creative decisions within the risk-note approach; the brand integrates into the iftar table respectfully, secondary to the family moment. INTEGRATION: the golden iftar-hour glow holds table, brand element, and every suggested figure in one warm light system.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: phone_natural with warm family-candid grade (or film_grain_warmth for a more produced feel). Material truth: {product.material_texture} for the brand element; real warm evening light, authentic Saudi iftar foods, honest gathering candor. No plastic spread, no inauthentic staging.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the brand element at honest scale among real iftar anchors (dates, finjan, dallah, dishes) at true tabletop proportion.\n\n[FRAMING & PROXIMITY]\nTable-forward per the risk note: the abundant table fills the near foreground; family presence reads through closeness of hands and warmth of soft figures, never a wide sharp group portrait.\n\n[COLOR & CONTRAST]\nWarm Ramadan family palette — golden evening glow, rich food tones, amber togetherness; the brand integrates within (occasion palette leads).\n\n[LIGHT & LENS]\nONE light system: warm golden iftar-hour glow after Maghrib, lamp warmth within it. Table sharp, background family presence soft.\n\n[NATURAL PLACEMENT]\nThe table is laid as a real iftar is laid — honest weights, dallah and finjan per serving ritual (CS-18); reaching hands obey real anatomy and right-hand custom (CS-08).\n\n[COMPANION ELEMENTS]\nSTRUCTURAL EXCEPTION: the composed iftar table IS the scene; restraint = nothing outside the authentic table.\n\n[SCENE — MULTI-SUBJECT, table-forward per risk note]\nRamadan family iftar composition. An extended Saudi family gathered around an abundant iftar table, warm golden evening light. PREFERRED FRAMING: the abundant table in the foreground (dates, water, traditional Saudi dishes — CS-21) with togetherness SUGGESTED through hands reaching to share, partial figures, warm softly-out-of-focus background presence. Reverent, warm, multi-generational. Choice points: table arrangement, hands choreography, depth of family suggestion.\n\n[SUBJECT — multi-subject caution]\nIf full figures appear: few and partly soft, modesty maintained for all (CS-24). PREFER the table as hero, family as warm context. Warmth over crowd.\n\n[BRAND CONSTRAINTS]\nBrand integrated respectfully. No pork, no alcohol (CS-21). Authentic Saudi iftar (CS-15, CS-18, CS-21). Modesty for all visible figures (CS-24). Reverent Ramadan treatment. Table-forward framing per risk note. No readable text beyond the brand's own label. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal warm Ramadan family photography, maximum fidelity. Warm reverent abundant grade. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — CENTRAL (occasion-driven)]\n{saudi.occasion_overlay} = Ramadan iftar drives the scene. {saudi.scene_context} fills authentic family iftar by region.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: table arrangement, hands choreography, depth and warmth of the suggested gathering. The same togetherness, never the same frame — within the risk-note approach always.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Table, brand integration, {product.material_texture}, warm light, any family presence — all preserved. Modesty maintained.\n\n[MOTION — multi-subject caution]\nMINIMAL and table-focused: steam rising from dishes, warm light flickering, ONE hand reaching to share a date. AVOID multi-person choreography (it fails). STRONGLY PREFER a STILL if motion destabilizes figures.\n\n[WHAT STAYS STATIC]\nBrand integration locked. Table stable. Any figures hold position, modesty maintained. Warm temperature. Capture character preserved.\n\n[PACING & DURATION]\n5-6 seconds. Continuous single take. Slow reverent warmth. (If figures degrade, deliver as still.)\n\n[OUTPUT]\nPhotoreal warm Ramadan family cinematography (or still). Silent — reverent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3540,
+    "video_chars": 823,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE — MULTI-SUBJECT, table-forward per risk note",
+      "SUBJECT — multi-subject caution",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — CENTRAL (occasion-driven)",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION — multi-subject caution",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.name",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.occasion_overlay",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "chain_id": "T33",
+  "title": "Hijab Full-Figure Colored Backdrop",
+  "locked": false,
+  "native_video": false,
+  "family": "TF09 · Portrait & Model",
+  "sectors": [
+    "Retail",
+    "Beauty",
+    "Fashion"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required (product/brand reference; model generated)",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@tiadress",
+    "@themodestbride",
+    "@planb_boutique"
+  ],
+  "cultural_spec": "CS-24, CS-01, CS-22",
+  "drama_dial": "clean editorial, high-saturation backdrop",
+  "color_story": "Single vivid solid-color studio backdrop against which the model and her modest fashion pop. Backdrop color and brand/garment color are the two chromatic anchors.",
+  "when_to_use": "Editorial modest-fashion hero for modest fashion retail, abaya brands, beauty. The bold backdrop color is the scroll-stopping hook.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} / {brand.name} identity (garment, product, or brand palette). Identity DNA, preserved across any camera angle: {product.identity_dna}\nPose, gesture, and framing (full-figure or three-quarter) are creative decisions; the featured garment/product reads brand-accurate, brand-readable surfaces camera-friendly if held. INTEGRATION: one studio light system models her and saturates the backdrop together — her rim light separates her from the same color field her shadow falls within.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with editorial-fashion lift. Material truth: {product.material_texture} for any featured product; the garment fabric drapes with true weight and natural fold shadows. Real Saudi skin: natural pores, honest individual variation, warm authentic undertone; expression real and self-possessed. No plastic skin, no porcelain uniformity, no over-retouching.\n\n[SCALE CALIBRATION]\n{product.dimensions} for any held/worn product — true to-hand and to-body scale; the garment's proportions honest to a real wearer.\n\n[FRAMING & PROXIMITY]\nFull-figure or three-quarter, the model commanding the frame against the pure color — confident editorial presence, never a small distant figure in empty backdrop.\n\n[COLOR & CONTRAST]\nThe vivid solid backdrop is one bold chromatic anchor at full saturation, chosen from or harmonized to {brand.color_field_palette} — the agent derives a tone the brand can own (e.g., deep teal, rich terracotta, royal blue, warm mustard, as brand-compatible candidates), never a color borrowed from an unrelated reference. The garment/brand color is the second anchor; skin reads warm and true.\n\n[LIGHT & LENS]\nClean editorial studio system: large soft key from upper-front, gentle fill, subtle hair/rim light separating model from backdrop — even fashion-catalog clarity with soft modeling shadow. Lens and depth chosen for a sharp model against a cleanly saturated field.\n\n[NATURAL PLACEMENT]\nHer pose is a real body's pose — weight honestly carried, fabric falling with gravity, mid-gesture or composed stillness as a human truly stands.\n\n[SCENE]\nEditorial modest-fashion composition. A SINGLE Saudi woman, full-figure or three-quarter, posed confidently against the vivid solid backdrop. Fashion-editorial: relaxed-powerful. The featured garment/product clearly presented. Choice points: pose and gesture, backdrop tone (brand-derived), crop, camera height.\n\n[SUBJECT]\nONE Saudi woman only — never a group. Modesty register {brand.modesty_register} from the 4-point spectrum (CS-24 governs):\n- traditional: full hijab, conservative elegant abaya, fully covered, refined\n- mainstream: neatly styled hijab, modest fashionable abaya, contemporary everyday Saudi\n- modern: loose elegant scarf with front waves of hair visible at the hairline, fashion-forward modest outfit, statement jewelry\n- editorial: fashion-forward styled hair visible with artful scarf draping, high-fashion modest silhouette, bold styling\nSaudi cosmopolitan features, warm honey-bronze skin, contemporary makeup appropriate to register, confident self-possessed expression, real skin texture.\n\n[BRAND CONSTRAINTS]\nSINGLE subject only — one woman, never a group, no other people in frame. Modesty maintained per register, never violated. Authentic modern Saudi fashion (CS-01, CS-24) — not Western generic, not costume-orientalist. No readable text anywhere in frame. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal editorial fashion photography, maximum fidelity. Confident high-saturation grade — bold backdrop, true skin, brand-color presence. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.apparel_context} fills exact abaya/hijab styling by region and register (CS-01, CS-24). {saudi.color_palette_adjust} tunes backdrop toward Saudi-resonant tones. For Founding/National Day: backdrop or styling may incorporate Saudi green.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: pose and gesture, backdrop tone within the brand-derived range, crop and camera height, styling details within register. Her identity rules hold; the editorial moment is new each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The model's appearance, modest styling, garment, backdrop color, every brand-readable element — all preserved character-perfect. Modesty maintained across every frame.\n\n[MOTION]\nSINGLE primary motion only (validated for human content): ONE subtle natural action — a slow confident turn of the head toward camera, OR a gentle hand adjustment of the garment, OR a soft natural smile forming. The rest stays composed. NO multi-limb choreography.\nSecondary: abaya/scarf fabric shifts naturally with the single motion, modesty preserved throughout.\n\n[WHAT STAYS STATIC]\nFacial features, skin tone, modest styling, garment, backdrop color — all locked. Modesty compliance absolute. Capture character preserved. Camera steady.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Calm confident editorial pacing — one believable human moment.\n\n[OUTPUT]\nPhotoreal editorial fashion cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 4449,
+    "video_chars": 995,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.modesty_register",
+      "brand.name",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.color_palette_adjust"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

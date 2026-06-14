@@ -1,0 +1,82 @@
+{
+  "chain_id": "T46",
+  "title": "Beverage Pour Stream",
+  "locked": false,
+  "native_video": false,
+  "family": "TF12 · Active Product Moment",
+  "sectors": [
+    "F&B (beverages)",
+    "Coffee",
+    "Cold drinks"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@barnscoffee",
+    "@cafe.najd",
+    "@coffeebeantealeaf.sa"
+  ],
+  "cultural_spec": "CS-18, CS-21",
+  "drama_dial": "high-speed crisp, appetite-saturated",
+  "color_story": "Rich beverage stream pouring in a glossy ribbon from height — coffee browns, juice golds, or true drink color — into a glass catching the crown splash.",
+  "when_to_use": "Beverage pour hero — the classic dynamic pour for coffee, juice, cold drinks. Freshness and abundance; the pour is the appetite trigger.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} beverage identity — its true color, the source vessel/packaging. Identity DNA, preserved across any camera angle: {product.identity_dna}\nPour height, splash stage, and gradient tone are creative decisions; the source vessel reads brand-accurate, brand-readable face toward camera, the beverage's true color preserved. INTEGRATION: one liquid-light system holds vessel, stream, and glass together — the glow in the falling ribbon, the splash highlights, and the vessel's reflections share the same frozen instant.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: high-speed liquid photography — frozen-instant strobe character, premium beverage grade. Material truth: {product.material_texture} — true vessel substrate (glass, can, carton, brass dallah); the stream with real flow physics, surface texture and twist; the glass catching impact with a chaotic real crown splash, rising bubbles, honest refraction. No CGI liquid, no fake splash symmetry.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true vessel and glass sizes; the pour height and stream width at honest real-pour proportion between them.\n\n[FRAMING & PROXIMITY]\nTight on the action — stream, splash crown, and vessels filling the frame at appetite distance; the dynamic event near and immediate.\n\n[COLOR & CONTRAST]\nThe beverage's true color at full appetizing saturation — coffee brown, juice gold, or the drink's real hue — glossy and rich in stream and glass, against a clean or warm gradient from {brand.palette.background_tone} within {brand.color_field_palette}.\n\n[LIGHT & LENS]\nONE light logic: a dramatic key freezing the stream with a backlight making the liquid glow with transparency and color — key and backlight one designed liquid-light system. Sharpness on stream and glass.\n\n[NATURAL PLACEMENT]\nPhysics truth: the stream falls plumb with honest gravity twist; the crown splash erupts with real chaotic asymmetry; the glass fills as liquid truly fills.\n\n[COMPANION ELEMENTS]\nThe receiving glass is the chain's structural companion — one glass, nothing more.\n\n[SCENE]\nBeverage pour composition. The drink pours from a source (bottle, can, pitcher, or dallah) at height in a steady glossy stream into the glass below, a crown splash rising at impact, frozen at peak drama against the clean/warm gradient. Dynamic, fresh, abundant. Choice points: pour height, splash stage, gradient tone, vessel angle.\n\n[SUBJECT]\nThe stream, the receiving glass, the source vessel — flow, refraction, true color, crown splash in full physical truth. The beverage is the hero.\n\n[BRAND CONSTRAINTS]\nSingle beverage hero (source + glass). No hands holding vessels unless culturally required — a dallah pour may imply a hand: keep to wrist only if so (CS-18). No alcohol. No text beyond the product's own label. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal high-speed beverage photography, maximum fidelity. Saturated appetizing grade, glossy pour, true drink color. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — for Saudi coffee, the pour can be from a brass dallah into a finjan, respecting serving ritual (CS-18, CS-21). {saudi.color_palette_adjust} respects true beverage color.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: pour height, splash stage, vessel angle, gradient tone within brand range. The pour catches a different peak instant each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Source vessel, glass, beverage color, {product.material_texture}, the stream, the crown splash — all locked.\n\n[MOTION]\nPrimary — the pour: continues in a steady stream, the glass filling ~15% over the duration, the crown splash evolving with new droplets. Real-time pour physics.\nSecondary — bubbles/surface: rising bubbles and surface motion in the glass.\n\n[WHAT STAYS STATIC]\nSource vessel identity locked — labels, color, material texture. Glass position locked. Beverage true color. Background stable. Capture character: high-speed preserved.\n\n[PACING & DURATION]\n6 seconds. Continuous single take. Real-time pour pacing — natural liquid physics.\n\n[OUTPUT]\nPhotoreal high-speed beverage cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3647,
+    "video_chars": 809,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.palette.background_tone",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "chain_id": "T02",
+  "title": "Pure Product Silhouette",
+  "locked": true,
+  "native_video": false,
+  "family": "TF01 · Product Hero (Clean)",
+  "sectors": [
+    "F&B",
+    "Retail",
+    "Beauty",
+    "Home",
+    "Fitness"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "as needed (catalog)",
+  "image_model": "fal-ai/flux-2-pro/edit    (8,000 chars)",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v    (2,500 chars)",
+  "ref_accounts": [
+    "@tiadress",
+    "@danatreasures"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "",
+  "color_story": "",
+  "when_to_use": "Marketplace cutout. Product detail pages, comparison grids — anywhere uniform framing across SKUs",
+  "image_prompt_template": "[BRAND LOCK · identity AND composition locked by design]\nThe reference image teaches the {product.name} brand identity. This chain intentionally constrains composition — its purpose is uniform marketplace presentation where many SKUs must look identical in framing.\nIdentity DNA: {product.identity_dna}\nINTEGRATION: The soft contact shadow flows from the product onto the backdrop seamlessly — the product sits ON the surface. Diffused light wraps the edges without a visual line between product and backdrop.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: clean_studio, photoreal. Material truth: {product.material_texture}. (Texture is the one element that carries full v3.7 detail here; everything else stays marketplace-clean.)\n\n[SCALE CALIBRATION]\n{product.dimensions}. Occupies 60% of frame height — marketplace standard.\n\n[FRAMING & PROXIMITY — LOCKED]\nProduct centered, front-facing, perfectly squared to camera, 60% frame height, symmetric negative space. Locked for marketplace uniformity.\n\n[COLOR & CONTRAST — LOCKED]\nSingle clean field — warm-tinted off-white (#F8F5F0), not clinical pure white. Product colors true. No gradient, no environmental color, no foreign accents.\n\n[LIGHT & LENS — even, LOCKED]\nEven diffused upper-front softbox at neutral 5000K, minimizing harsh shadow on the product while preserving a soft contact shadow falling lower-right. 50% low-front fill. 85mm-equivalent, deep depth. Camera eye-level, perfectly squared. Functional, not dramatic.\n\n[SCENE]\nPure silhouette — locked. Product centered on warm off-white, single soft elongated contact shadow lower-right at low opacity, generous symmetric negative space.\n\n[SUBJECT]\nSingle product, isolated silhouette. Label text readable, edges crisp, colors accurate.\n\n[BRAND CONSTRAINTS]\nSingle product. No humans. No props. Single off-white tone, no gradient. {brand.anti_attributes}\n\n[OUTPUT]\n8K photoreal e-commerce product photography. Clean warm-neutral grade. No overlay text, no watermark, no borders.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.color_palette_adjust} may shift the backdrop fractionally warmer (toward #F5F0E8). Otherwise culturally neutral by design.\n\n[TEXT OVERLAY — conditional, agent appends only when brief.text_request is present]\nRender this text directly in the image: \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}, contrasting color. If absent, no text appears.\n\n[CREATIVE VARIANCE DIRECTIVE]\nIntentionally low-variance. Only contact-shadow direction/softness varies subtly. Framing, light, and orientation stay consistent — marketplace uniformity is the brief.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product silhouette, proportions, all label color values, every Arabic ({product.label_text_arabic}) and Latin ({product.label_text_latin}) character, logo, material finish — preserved exactly. Only the camera moves.\n\n[MOTION]\nMinimal, locked-off feel: an almost imperceptible slow push-in (~5% over duration) on a perfectly squared product. No rotation. The clean even light holds steady. The restraint reinforces the marketplace-clean register.\n\n[WHAT STAYS STATIC]\nEverything except the subtle push: silhouette, label, color, logo, material, backdrop, even lighting — all locked. Capture character clean_studio preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. No cuts.\n\n[OUTPUT]\n8K photoreal e-commerce cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 2633,
+    "video_chars": 841,
+    "image_blocks": [
+      "BRAND LOCK · identity AND composition locked by design",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY — LOCKED",
+      "COLOR & CONTRAST — LOCKED",
+      "LIGHT & LENS — even, LOCKED",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, agent appends only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 13,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.label_text_arabic",
+      "product.label_text_latin",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

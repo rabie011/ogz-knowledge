@@ -1,0 +1,82 @@
+{
+  "chain_id": "B03",
+  "title": "Beauty Product Flat Lay",
+  "locked": false,
+  "native_video": false,
+  "family": "TF18 · Product Flat Lay",
+  "sectors": [
+    "Beauty",
+    "Cosmetics",
+    "Skincare"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@tiadress",
+    "@planb_boutique"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "palette discipline, editorial-curated",
+  "color_story": "Curated top-down beauty arrangement — the product hero among complementary props in a designed palette. Brand color leading, props echoing, clean negative space.",
+  "when_to_use": "Editorial beauty flat lay — cosmetics/skincare launches, collection reveals, beauty editorial. Curated overhead taste; social-native and shareable.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} identity. Identity DNA, preserved through the overhead angle: {product.identity_dna}\nThe arrangement geometry, prop selection, and negative-space design are creative decisions; the product reads brand-accurate, brand-readable face up toward the overhead camera. INTEGRATION: one soft overhead light holds product and props on one surface with one shadow direction — a single curated photograph, never a collaged board.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with editorial flat-lay grade, perfectly overhead. Material truth: {product.material_texture} — the product's top surfaces true; fresh petals with real delicacy, real fabric weave, true tool materials, honest soft shadow, natural arrangement character. No plastic props, no sterile-perfect placement.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the product at true size among real-scale props (petals a few centimeters, tools at honest hand size); the arrangement's believability lives in true proportions.\n\n[FRAMING & PROXIMITY]\nThe curated arrangement fills the frame with intentional negative space as design — the hero large and central in the composition's flow, never a small object lost on a wide surface.\n\n[COLOR & CONTRAST]\nEditorial flat-lay harmony with palette discipline: the brand color from {brand.color_field_palette} leads; props echo the brand-derived palette (never tones borrowed from an unrelated reference); clean negative space gives the arrangement room to breathe.\n\n[LIGHT & LENS]\nONE soft even overhead light with gentle directional quality for subtle shadow and dimension. Perfectly overhead; full arrangement sharp.\n\n[NATURAL PLACEMENT]\nEvery element lies with honest top-down physics — petals curling naturally, fabric draping with real folds, the product resting face-up with true contact shadow.\n\n[COMPANION ELEMENTS]\nCurated-arrangement logic: props derived from {product.companion_elements} (florals, a fabric length, a beauty tool, a raw ingredient) — selected to echo the product's story, supporting never crowding; the hero stays unmistakable.\n\n[SCENE]\nBeauty flat lay, shot directly overhead. The product hero surrounded by a curated arrangement of complementary props with editorial taste and intentional negative space, on a clean designed background. Curated, tasteful, complete. Choice points: arrangement geometry, prop selection within the derived world, negative-space design, background tone.\n\n[SUBJECT]\nThe product as flat-lay hero, props supporting — all materials in authentic truth, arranged with editorial intention.\n\n[BRAND CONSTRAINTS]\nProduct hero with curated complementary props. No human elements. Clean designed background. Props support, never crowd. No readable text on any prop. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal beauty flat-lay photography, maximum fidelity. Curated editorial grade, brand-color harmony. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.color_palette_adjust} tunes the palette toward Saudi-resonant tones; props can include Saudi elements (Taif rose, oud chips, gold) for heritage beauty brands.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: arrangement geometry, prop selection and count, negative-space flow, background tone within the brand range. A newly curated board each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, {product.material_texture}, prop arrangement, background, top-down framing — all preserved. Brand elements locked.\n\n[MOTION]\nPrimary — props: petals or fabric edges shift gently as if from soft air; a fresh element glistens.\nSecondary — light: soft overhead light shifts subtly across the arrangement.\nTertiary — camera: imperceptible overhead push-in.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Arrangement stable. Top-down angle constant. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Gentle editorial flat-lay pacing.\n\n[OUTPUT]\nPhotoreal beauty flat-lay cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3615,
+    "video_chars": 747,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.companion_elements",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

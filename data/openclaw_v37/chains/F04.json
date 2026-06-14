@@ -1,0 +1,79 @@
+{
+  "chain_id": "F04",
+  "title": "Menu Price Card",
+  "locked": false,
+  "native_video": false,
+  "family": "TF15 · Promotional & Text",
+  "sectors": [
+    "F&B",
+    "Restaurant",
+    "Cafe"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "harvest",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@aseeb.najd",
+    "@cafe.najd",
+    "@laylali_riyadh"
+  ],
+  "cultural_spec": "CS-21, CS-22",
+  "drama_dial": "clean appetizing designed",
+  "color_story": "Appetizing food photo paired with a clean bilingual menu card — warm food colors against clean typographic layout.",
+  "when_to_use": "Food menu card — dish photo with bilingual (Arabic + English) name and price. TEXT IS CENTRAL; bilingual typography essential.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} / {brand.name} food and menu identity. Identity DNA: {product.identity_dna}\nLayout balance, card design, and dish angle are creative decisions; the dish and brand elements read accurate within the menu card design. INTEGRATION: one appetizing light grades dish and card together — one designed menu photograph.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with appetizing menu-commercial grade. Material truth: real appetizing food texture, honest plate and card material, true color. Menu typography clean and legible. No plastic dish.\n\n[SCALE CALIBRATION]\n{product.dimensions} where applicable — the dish at true plated scale; the card proportioned as real menu design beside it.\n\n[FRAMING & PROXIMITY]\nA balanced close layout — appetizing dish hero near, menu card legible beside; order-decision distance.\n\n[COLOR & CONTRAST]\nWarm appetizing food colors as the hero against a clean typographic layout grounded in {brand.color_field_palette}. Crisp, appetizing, informative.\n\n[LIGHT & LENS]\nONE clean appetizing food light, warm and inviting with controlled highlight on the dish. Full composition sharp.\n\n[NATURAL PLACEMENT]\nThe dish sits plated as the kitchen sends it — honest portion, true garnish physics; the card flat or gently angled.\n\n[SCENE — TEXT CENTRAL]\nMenu price card composition. An appetizing photo of the dish paired with a clean menu-card layout showing the item's bilingual name (Arabic + English) and price — a professional menu card balancing food hero with legible typography. Appetizing, informative, order-ready. Choice points: layout balance, card design language, dish angle.\n\n[SUBJECT]\nThe dish photo plus the bilingual menu typography (name + price), composed as a clean menu card; food appetizing-true.\n\n[TEXT — CORE BLOCK for this family]\nRender the bilingual menu typography directly:\n- Item name + price: \"{brief.text_request.copy}\" — bilingual Arabic + English, with price\n- Style: {brief.text_request.style} — default clean professional menu type\n- Placement: menu-card layout balanced with the food photo\n- ARABIC RULE: Arabic name RTL character-perfect at the shortest viable form; until the overlay node ships, Arabic-heavy menus route to post-production typography. (CS-21 governs dish authenticity.)\nBilingual menu text IS the message — essential to this chain.\n\n[BRAND CONSTRAINTS]\nDish hero plus menu card typography. No pork, no alcohol (CS-21). No human elements. No other readable text. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal menu-card composition with bilingual typography, maximum fidelity. Appetizing clean grade. No watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — authentic naming and presentation for Saudi dishes (CS-21). Bilingual Arabic-English standard. For Ramadan: iftar menu theming.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: layout balance, card design language, dish angle and plating moment. The menu redesigns; names and prices never change.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Dish photo, menu typography (every character), layout — all preserved.\n\n[MOTION]\nPrimary — atmosphere: steam rises from the hot dish; appetizing glisten.\nSecondary — typography: menu text settles in gently.\nTertiary — camera: subtle push-in toward the dish.\n\n[WHAT STAYS STATIC]\nDish identity locked. Menu content locked — names/prices unchanged. Layout stable. Capture character preserved.\n\n[PACING & DURATION]\n4 seconds. Continuous single take. Clean appetizing menu pacing.\n\n[OUTPUT]\nPhotoreal menu-card motion. Silent. No watermark.",
+  "_stats": {
+    "image_chars": 3110,
+    "video_chars": 600,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE — TEXT CENTRAL",
+      "SUBJECT",
+      "TEXT — CORE BLOCK for this family",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.name",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.name",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

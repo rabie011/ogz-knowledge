@@ -1,0 +1,82 @@
+{
+  "chain_id": "S09",
+  "title": "Saudi Mother & Daughter Moment — MODERATE RISK",
+  "locked": false,
+  "native_video": false,
+  "family": "",
+  "sectors": [
+    "Beauty",
+    "Retail",
+    "F&B",
+    "Fashion"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Optional",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@tiadress",
+    "@themodestbride"
+  ],
+  "cultural_spec": "CS-24, CS-01, CS-13",
+  "drama_dial": "warm tender",
+  "color_story": "Warm generational tenderness — soft light, two generations together with the product.",
+  "when_to_use": "Generational warmth — mother (forties) and adult daughter (twenties) with the product. Mother-daughter campaigns, generational messaging.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} identity. Identity DNA: {product.identity_dna}\nThe shared moment and intimate composition are creative decisions within the risk-note approach; the product is naturally shared between them, brand-readable toward camera. INTEGRATION: one soft warm light holds both women and the product in a single tender moment.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: phone_natural with warm tender grade. Material truth: {product.material_texture} — the product true between them; real Saudi skin with authentic texture on BOTH, honest warm light, true tender candid expressions. No plastic skin, no staged stiffness.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the product at true shared-hands scale within the intimate moment.\n\n[FRAMING & PROXIMITY]\nIntimate close composition per the risk note — the two composed close together around the product, never a wide two-shot; intimacy makes two faces more reliable AND more moving.\n\n[COLOR & CONTRAST]\nWarm family palette — gentle home tones, true skin on both; the product as the shared focal point from {brand.color_field_palette}.\n\n[LIGHT & LENS]\nONE soft warm natural light, gentle and tender. Both subjects and product sharp, setting soft.\n\n[NATURAL PLACEMENT]\nA real shared gesture — one handing or applying the product to the other with honest anatomy and tenderness.\n\n[COMPANION ELEMENTS]\nNone — the shared product moment is the world.\n\n[SCENE — TWO-SUBJECT, compose intimate per risk note]\nMother-daughter composition. A Saudi mother (forties, warm mature presence) and her adult daughter (twenties) share a warm moment with the brand product — at home or a pleasant setting — composed CLOSE TOGETHER in an intimate shared moment (sharing skincare, coffee, a beauty item). Both in modest hijab. Warm generational tenderness. Choice points: shared action, setting, crop within the intimate frame.\n\n[SUBJECT — two subjects, compose intimate]\nTWO Saudi women — mother and daughter, both in modest hijab (canonical), modesty maintained (CS-24, CS-01). Composed close. Warm honey-bronze skin, real texture, tender genuine expressions. If faces degrade: tighten toward shared-hands-with-product (S04 logic).\n\n[BRAND CONSTRAINTS]\nTWO subjects, composed intimate (risk note). Both modest hijab (CS-01, CS-24). Product shared naturally. Authentic Saudi home (CS-13). No readable text on background items. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal warm generational UGC photography (phone aesthetic), maximum fidelity. Warm tender grade. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.apparel_context} fills modest hijab styling for both (CS-01, CS-24). {saudi.scene_context} fills the Saudi home.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: the shared action, setting, crop within the intimate frame, light warmth. The tenderness renews — within the risk-note approach always.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Both women's appearances, modest hijab, the product, {product.material_texture}, the warm setting — all preserved. Modesty every frame.\n\n[MOTION — two-subject caution]\nSINGLE shared motion only: ONE simple shared action — a warm shared look, OR one gently applies/hands the product to the other, OR a soft shared smile. Two subjects cannot sustain complex independent motion. If either face destabilizes, deliver as a STILL.\nSecondary: gentle ambient warmth.\n\n[WHAT STAYS STATIC]\nBoth subjects' features, skin tones, modest hijab, product identity — locked. Modesty every frame. Setting stable. Capture character: phone_natural preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Warm tender pacing — one shared moment. (If faces degrade, deliver as still.)\n\n[OUTPUT]\nPhotoreal warm generational UGC cinematography (or still). Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3142,
+    "video_chars": 944,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE — TWO-SUBJECT, compose intimate per risk note",
+      "SUBJECT — two subjects, compose intimate",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION — two-subject caution",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

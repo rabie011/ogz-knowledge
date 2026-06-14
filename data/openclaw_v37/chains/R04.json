@@ -1,0 +1,83 @@
+{
+  "chain_id": "R04",
+  "title": "Collection Story Flat Lay — COLLECTION chain",
+  "locked": false,
+  "native_video": false,
+  "family": "TF18 · Product Flat Lay",
+  "sectors": [
+    "Retail",
+    "Fashion",
+    "Beauty",
+    "F&B"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@tiadress",
+    "@danatreasures",
+    "@planb_boutique"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "palette discipline, brand-world cohesive",
+  "color_story": "A full product line as a narrative flat lay — the collection's shared color story told through coordinated arrangement. Complete, considered, brand-cohesive.",
+  "when_to_use": "Collection/range reveal — line launches, gift sets, brand-world storytelling. Shows the full range and how the pieces relate.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} / {brand.name} collection identity. Identity DNA, preserved through the overhead angle: {product.identity_dna}\nThe narrative arrangement (by size, by use-order, by hero-to-supporting) is the creative decision; EVERY product reads brand-accurate, brand-readable faces up, the line shown as a cohesive family. Identity fidelity on each piece. INTEGRATION: one soft overhead light, consistent across the arrangement, makes the collection read as one photographed family.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with collection-editorial grade, overhead. Material truth: {product.material_texture} across the range — real materials, authentic surface variation, honest soft shadow, true coordinated color. No plastic-perfect lineup.\n\n[SCALE CALIBRATION]\n{product.dimensions} per piece — the line's true relative sizes ARE part of the story (travel size beside full size, hero beside supporting); honest proportions across the range.\n\n[FRAMING & PROXIMITY]\nThe full line fills the frame in its narrative flow — complete and near, sequenced to be read, never scattered across emptiness.\n\n[COLOR & CONTRAST]\nThe collection's shared color story from {brand.color_field_palette} told through coordinated arrangement — the brand-world palette as a cohesive family, hero pieces leading.\n\n[LIGHT & LENS]\nONE soft even overhead light, consistent across the arrangement so the collection reads as a unified family. Full collection sharp.\n\n[NATURAL PLACEMENT]\nEach piece rests with honest weight and true contact in its narrative position.\n\n[COMPANION ELEMENTS]\nCOLLECTION EXCEPTION: the line IS the hero. Subtle complementary props (if any) only tie the story — minimal, never competing with the range's readability.\n\n[SCENE]\nCollection story flat lay, shot overhead. The full product line in a considered narrative layout — grouped or sequenced to tell the collection's story — shared color story evident, clean designed background. Complete, cohesive, brand-world storytelling. Choice points: narrative logic (size/use/hero order), grouping geometry, prop presence, background tone.\n\n[SUBJECT]\nThe full collection as hero, arranged to tell the line's story — each product and the cohesive arrangement in authentic truth.\n\n[BRAND CONSTRAINTS]\nThe product collection from one line. Coordinated props minimal if any. No human elements. Clean background. One cohesive story. No readable text beyond the products' own labels. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal collection flat-lay photography, maximum fidelity. Cohesive brand-world grade. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.color_palette_adjust} aligns the collection palette to brand and Saudi-market taste. For occasion collections: themed arrangement.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: narrative logic, grouping geometry, prop presence, background tone. The same family, a new telling each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Collection (every piece, every label character), {product.material_texture}, arrangement, background, overhead framing — all preserved.\n\n[MOTION]\nPrimary — light: soft overhead light shifts gently across the collection, highlights gliding over the coordinated pieces revealing the family relationship.\nSecondary — props: any complementary element shifts subtly.\nTertiary — camera: imperceptible overhead push-in or slow reveal across the arrangement.\n\n[WHAT STAYS STATIC]\nCollection identities locked — every piece. Arrangement stable. Overhead angle constant. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Considered brand-story pacing.\n\n[OUTPUT]\nPhotoreal collection flat-lay cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3252,
+    "video_chars": 835,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.name",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

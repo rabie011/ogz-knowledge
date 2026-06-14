@@ -1,0 +1,81 @@
+{
+  "chain_id": "T29",
+  "title": "Library Light Beam",
+  "locked": false,
+  "native_video": false,
+  "family": "TF08 · Cinematic Environment",
+  "sectors": [
+    "Fragrance",
+    "Luxury Retail",
+    "Heritage",
+    "Beauty"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@alyafie_jewelry",
+    "@diplomat_sweets"
+  ],
+  "cultural_spec": "CS-13",
+  "drama_dial": "warm tungsten chiaroscuro (scholarly)",
+  "color_story": "Deep warm wood tones, dust-filled golden beam cutting through dim library air. Scholarly warm-amber palette with rich shadow. Product brand color glows where the beam lands.",
+  "when_to_use": "Scholarly heritage atmosphere for fragrance, premium retail, heritage brands, intellectual/refined positioning. Warm, contemplative, prestigious.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nTable position, beam angle, and library depth are creative decisions. INTEGRATION: one warm beam governs the whole room — it lands on the product, fills the air with lit dust, and leaves the shelving in the same warm shadow; the product's reflectance and shadow belong to that single diagonal light.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: film_grain_warmth — scholarly cinema, subtle warm grain in shadow. Material truth: {product.material_texture} — the substrate catches the warm beam as its true self on the dark polished wood. Real wood grain and age patina, authentic dust-filled volumetric scatter, true material depth in the shadowed shelving. No flat digital beam, no plastic wood.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size on the reading table; anchored against table depth and the book spines behind. An honest table-top object in a grand dim room.\n\n[FRAMING & PROXIMITY]\nAt the table with the product — close in the beam's landing pool, the library's warm depth receding behind. The viewer leans into the lit moment.\n\n[COLOR & CONTRAST]\nScholarly warm-amber palette — deep wood browns, dim golden shadow; the product's brand color from {brand.color_field_palette} glows where the beam lands as the single illuminated focal point in the warm dim space.\n\n[LIGHT & LENS]\nONE dramatic warm beam from a high side angle (as from a tall window), cutting diagonally through dust-filled air; deep warm shadow fills the rest. Lens and depth chosen for a sharp product and beam with softly atmospheric library depth.\n\n[NATURAL PLACEMENT]\nThe product rests on the table as a reader's hand left it — gravity-honest, true contact shadow on the polished wood.\n\n[SCENE]\nOld library composition. Product on a dark polished wooden table in the warm diagonal beam, dust motes floating visibly, rich wooden shelving and rows of books softly out of focus in warm shadow behind. Scholarly, contemplative, timeless. Choice points: beam angle, table position, library depth, dust density.\n\n[SUBJECT]\nSingle hero product in the beam; the library and dust-filled light are the cinematic styling, in authentic truth.\n\n[BRAND CONSTRAINTS]\nSingle hero product. The library softly secondary. No human elements. No readable book titles or text anywhere — generic spines only. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal cinematic heritage photography, maximum fidelity. Warm scholarly grade, dust-filled beam, glowing brand-color focal point. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — the library can shift toward a traditional Saudi/Islamic scholarly aesthetic: warm Najdi wood, Arabic manuscript context (generic, non-readable), brass details (CS-13). {saudi.color_palette_adjust} tunes warmth.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: beam angle and width, table position, library depth and shelving character, dust density. A different contemplative hour each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, every label character, {product.material_texture}, table, beam, library context — all locked.\n\n[MOTION]\nPrimary — the beam: dust motes drift slowly through the volumetric light, swirling gently in warm air.\nSecondary — light: the beam's intensity breathes subtly as if clouds pass the distant window.\nTertiary — camera: extremely subtle 1.5% push-in.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Product and table fixed. Library context stable. Capture character: film_grain_warmth preserved.\n\n[PACING & DURATION]\n6 seconds. Continuous single take. Slow contemplative scholarly pacing.\n\n[OUTPUT]\nPhotoreal cinematic heritage cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3311,
+    "video_chars": 774,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

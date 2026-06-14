@@ -1,0 +1,80 @@
+{
+  "chain_id": "T28",
+  "title": "Rain-Slick Neon Street",
+  "locked": false,
+  "native_video": false,
+  "family": "TF08 · Cinematic Environment",
+  "sectors": [
+    "Fashion",
+    "Tech",
+    "Beauty (bold)",
+    "Retail (youth)"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@planb_boutique",
+    "@tiadress"
+  ],
+  "cultural_spec": "CS-13",
+  "drama_dial": "full editorial punch (maximum saturation)",
+  "color_story": "Wet asphalt mirroring saturated neon — electric magenta, cyan, deep blue reflections. Cyberpunk-noir maximum saturation. Product brand color cuts through the neon haze as the sharp hero accent.",
+  "when_to_use": "Cyberpunk-noir energy for bold fashion, tech, youth retail, statement beauty. Riyadh Boulevard night energy, youthful drops. Maximum chromatic intensity.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nStreet position, camera angle, and neon arrangement are creative decisions. INTEGRATION: the product lives inside this night street — the neon colors that bleed across the wet asphalt also rim the product's edges; its reflection sits in the same wet mirror as the signs'; one continuous night-light system.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: broadcast_cinematic with cyberpunk grade, deep dynamic range. Material truth: {product.material_texture} — the substrate catches multiple colored sources as its real self (film creases carrying magenta rim, glass refracting cyan, metal edge-lighting true). Wet asphalt with real water-sheen, neon reflections breaking on the rippled surface, authentic glow bloom and color bleed. No flat digital neon, no plastic-wet surface.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size on the street surface or ledge; the neon signs read at real urban-signage scale behind, the product an honest street-level object before the glowing depth.\n\n[FRAMING & PROXIMITY]\nLow and close at street level — the product near and commanding, its wet reflection immediate, the neon city receding in dramatic bokeh. The viewer crouches with the hero in the night.\n\n[COLOR & CONTRAST]\nMaximum chromatic intensity — electric magenta, cyan, and deep blue neon at full saturation reflecting on wet asphalt; the product's brand color from {brand.color_field_palette} cuts through the neon haze as the sharp hero accent. The neon palette bends to flatter the brand color, never to drown it.\n\n[LIGHT & LENS]\nThe neon signs ARE the light system — multiple saturated colored sources acting as one coherent night-street logic: colored rim and edge light on the product, the wet surface mirroring it, deep night shadow between the highlights. Lens and depth chosen for a sharp product against dramatic neon bokeh.\n\n[NATURAL PLACEMENT]\nThe product sits on the wet surface as gravity placed it — standing, leaning, or lying with honest contact, its reflection true to its posture.\n\n[SCENE]\nRain-slick neon street. Product on wet reflective ground or a wet ledge on a night street, saturated neon glowing in the background bokeh, colors bleeding across the wet surface around it. Cyberpunk-noir, urban-night, bold. Choice points: neon color balance, camera height, reflection prominence, street depth.\n\n[SUBJECT]\nSingle hero product on the wet surface; the neon environment and wet reflections are the cinematic styling, in full physical truth.\n\n[BRAND CONSTRAINTS]\nSingle hero product. No human elements. No real-brand neon signage and NO readable text in any sign — generic glowing shapes/colors only. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal cyberpunk-noir photography, maximum fidelity. Maximum-saturation neon grade, wet reflections, sharp brand-color hero accent. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — modern Riyadh Boulevard night aesthetic (CS-13), not a generic Tokyo/Western cyberpunk cliché. {saudi.color_palette_adjust} tunes the neon palette.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: neon color mix and placement, camera height, wet-surface character, street depth, product posture. The night never repeats.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, every label character, {product.material_texture}, wet surface, neon reflections, night street — all locked.\n\n[MOTION]\nPrimary — neon: signs flicker and pulse subtly, colored reflections shimmering and rippling on the wet surface around the product.\nSecondary — atmosphere: faint drizzle or mist drifts through the colored light; a subtle wisp of street steam.\nTertiary — camera: extremely subtle 2% lateral drift.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Product position fixed. Neon sources stable (flicker, don't relocate). Capture character: broadcast_cinematic preserved.\n\n[PACING & DURATION]\n6 seconds. Continuous single take. Moody urban-night pacing.\n\n[OUTPUT]\nPhotoreal cyberpunk-noir cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3589,
+    "video_chars": 847,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

@@ -118,6 +118,13 @@ def main():
     log = subprocess.run(["git", "-C", str(BASE), "log", f"--since={since}",
                           "--pretty=%h %s"], capture_output=True, text=True).stdout.strip()
     commits = [l for l in log.split("\n") if l] if log else []
+    # HONEST (zoom-out 2026-06-13 caught '0 commits' bragged as STRONG while 13 produced files
+    # sat uncommitted): produced work on disk but not in git is a WORRY, never a strength.
+    _gs = subprocess.run(["git", "-C", str(BASE), "status", "--porcelain"],
+                         capture_output=True, text=True).stdout
+    uncommitted_produced = [l for l in _gs.splitlines()
+                            if any(p in l for p in ("scripts/", "docs/", "12_data_shapes/", "api/", "00_start_here/"))
+                            and l.strip().endswith((".py", ".md", ".json", ".html"))]
     cards = len(list(BASE.glob("clients/*/posts/*.json")))
     backlog = json.loads((BASE / "data/backlog.json").read_text())
     done = [s for s in backlog["steps"] if s["status"] == "done"]
@@ -172,7 +179,8 @@ def main():
         armor_line = (f"ARMOR PROOF on our own {_tot} rendered captions: {round(_kil/_tot*100,1)}% "
                       f"would die under today's laws — and the curve is FLAT ({_eras}): the pens "
                       "never self-improved; YOUR judging built every ban. The moat thesis, in numbers.")
-    strong = [f"{len(commits)} commits since your last tap, every build plant-tested with refusing asserts",
+    strong = [(f"{len(commits)} commits since your last tap, every build plant-tested with refusing asserts"
+               if commits and not uncommitted_produced else None),
               armor_line,
               (f"D3 DONE BY YOU: {judged} full-post verdicts in the ledger — golds minted, bans routed, "
                f"rulings executed the same hour" if judged >= 15 else
@@ -229,7 +237,7 @@ def main():
 
 ## (c) أدلة الرأي (Claude يحكم لحظة التسليم)
 STRONG: {' · '.join(x for x in strong if x)}
-WORRY: {' · '.join(x for x in worry if x)}
+WORRY: {(f"⚠ {len(uncommitted_produced)} produced files UNCOMMITTED (the v3.7 build + portal fix) — on disk, NOT in git; say «bosh» to persist+push · " if uncommitted_produced else "")}{' · '.join(x for x in worry if x)}
 {feedback_closure_section()}
 {taste_section()}"""
     (BASE / "data/im_here.md").write_text(pkg)

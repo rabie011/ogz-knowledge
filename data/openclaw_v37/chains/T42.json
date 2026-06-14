@@ -1,0 +1,79 @@
+{
+  "chain_id": "T42",
+  "title": "Lipstick Smear With Roses",
+  "locked": false,
+  "native_video": false,
+  "family": "TF11 · Texture & Macro",
+  "sectors": [
+    "Beauty",
+    "Cosmetics"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@tiadress",
+    "@themodestbride"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "product-color immersion (romantic register)",
+  "color_story": "Rich lipstick shade as the bold chromatic hero — bullet and creamy smear in true color, fresh roses echoing the tone. Romantic beauty palette.",
+  "when_to_use": "Romantic lipstick hero for lip-product launches, romantic beauty campaigns, gifting season. The smear shows true shade and creamy texture; roses add romance.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} lipstick identity — true shade, finish, and bullet form. Identity DNA: {product.identity_dna}\nSmear gesture, rose arrangement, and crop are creative decisions; bullet and smear show the true signature shade and finish, the bullet's brand-readable details preserved. INTEGRATION: one soft light holds bullet, smear, and roses in a single romantic system — shared shadows, shared glow, one photographed moment.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: clean_studio with romantic beauty-editorial grade, macro standard. Material truth: {product.material_texture} — the smear with real creamy texture, honest drag marks, pigment density; the bullet's true material sheen; fresh roses with real petal velvet, natural color variation, subtle dew. No plastic roses, no fake-perfect smear.\n\n[SCALE CALIBRATION]\n{product.dimensions} — a real lipstick bullet (finger-length) beside its true-width smear and real-scale rose blooms; honest macro-to-close proportions among the three.\n\n[FRAMING & PROXIMITY]\nIntimate macro-to-close — bullet, smear, and roses near and sensual; the composition breathes through closeness.\n\n[COLOR & CONTRAST]\nThe lipstick shade is the bold chromatic hero — bullet and smear in true rich color from the product's real palette; fresh roses echo the tone (reds/pinks) as romantic support. One color family, two voices.\n\n[LIGHT & LENS]\nONE soft romantic directional light, warm and gentle, revealing creamy smear texture and making petals glow. Macro sharpness on bullet and smear; roses soft.\n\n[NATURAL PLACEMENT]\nThe bullet lies as gravity placed it beside the swiped smear; petals and blooms rest with natural physics, never a rigid arrangement.\n\n[COMPANION ELEMENTS]\nThe roses are this chain's ONE hero companion — fresh blooms echoing the shade. Nothing else enters.\n\n[SCENE]\nRomantic lipstick composition. A lipstick bullet beside a bold creamy smear of its shade swiped across a clean surface, fresh roses arranged nearby echoing the lip color, soft romantic light. Sensual, editorial, gift-worthy. Choice points: smear gesture and direction, rose placement and count, crop, surface tone.\n\n[SUBJECT]\nThe bullet, its creamy smear, and fresh roses — shade payoff and texture in full physical truth.\n\n[BRAND CONSTRAINTS]\nThe lipstick (bullet + smear) is the hero; roses romantic support only. No hands, no full faces, no text. Shade true to the real product. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal romantic beauty macro photography, maximum fidelity. Rich true-shade grade, romantic rose support. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — for Saudi bridal/gifting, roses can be Taif Damask roses (ward taifi). {saudi.color_palette_adjust} respects true product shade.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: smear gesture, rose arrangement, crop and angle, surface tone. The romance restages; the shade holds true.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The bullet, smear, roses, lighting — all preserved.\n\n[MOTION]\nPrimary — light: soft romantic light shifts gently, the smear's creamy sheen and the petals' glow shifting subtly.\nSecondary — roses: petals shift microscopically in soft air; a dew drop may glisten.\nTertiary — camera: extremely subtle macro push-in toward the smear.\n\n[WHAT STAYS STATIC]\nLipstick shade, bullet form, smear, rose arrangement — all locked. Capture character preserved.\n\n[PACING & DURATION]\n4 seconds. Continuous single take. Slow sensual romantic pacing.\n\n[OUTPUT]\nPhotoreal romantic beauty macro cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3193,
+    "video_chars": 693,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

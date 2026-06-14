@@ -1,0 +1,80 @@
+{
+  "chain_id": "T40",
+  "title": "Brand Announcement Card",
+  "locked": false,
+  "native_video": false,
+  "family": "TF10 · Editorial Poster",
+  "sectors": [
+    "Beauty",
+    "Retail",
+    "F&B"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "launch",
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Required",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@tiadress",
+    "@planb_boutique",
+    "@danatreasures"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "clean even, announcement-crisp",
+  "color_story": "Branded packaging beside a clean typography card on a split pastel background. Designed announcement palette — pastel base, brand color, clean type.",
+  "when_to_use": "Social announcement card for product announcements, new arrivals, promotions. The most everyday/flexible editorial-poster chain. TEXT is central.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe balance of packaging and card, the split's angle, and the card's design are creative decisions. The packaging reads brand-accurate, brand-readable face toward camera. INTEGRATION: one clean light holds packaging, card, and pastel field together — shared soft shadows, one surface, one designed photograph.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with crisp announcement grade. Material truth: {product.material_texture} — the packaging substrate honest (film pliable, carton crisp, glass weighted); real card-stock texture, true soft shadows. No CGI-clean flatness.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the packaging at true size beside a real announcement-card-sized insert; honest tabletop proportions between the two.\n\n[FRAMING & PROXIMITY]\nA tight, designed composition — packaging and card close and balanced, the pastel field active design space, not emptiness.\n\n[COLOR & CONTRAST]\nDesigned announcement palette: split pastel base derived from {brand.color_field_palette}-harmonious pastels (the agent derives tones the brand can own — never borrowed reference colors), the brand color on the packaging, clean typographic contrast on the card.\n\n[LIGHT & LENS]\nONE soft even commercial light, clean and bright with gentle soft shadow. Full-composition sharpness.\n\n[NATURAL PLACEMENT]\nPackaging and card sit with honest gravity on the surface — the packaging standing or lying as its substrate dictates, the card flat or gently propped.\n\n[SCENE — TEXT CENTRAL]\nAnnouncement card composition. The branded packaging beside a clean typography card (a designed announcement insert) on a split pastel background — product on one side, message card on the other, two-tone field unifying. Crisp, modern, designed-for-sharing. Choice points: split angle, card design language, packaging pose, pastel pairing within brand range.\n\n[SUBJECT]\nThe branded packaging plus the typography card, composed as a designed announcement — packaging hero, card carrying the message, pastel field unifying.\n\n[TEXT — CORE BLOCK for this family]\nRender the announcement typography on the card directly:\n- Message: \"{brief.text_request.copy}\" — clean modern announcement type (new arrival, launch, offer)\n- Style: {brief.text_request.style} — default clean modern sans-serif announcement aesthetic\n- Placement: on the typography card within the composition\n- ARABIC RULE: shortest copy only (single word most reliable) until the deterministic overlay node ships; Arabic-heavy announcements route to post-production typography\nThe typography IS the announcement — essential to this chain.\n\n[BRAND CONSTRAINTS]\nSingle branded packaging plus one typography card. Split pastel background. No human elements. No readable text anywhere except the card and the product's own label. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal announcement-card composition with integrated typography, maximum fidelity. Clean pastel grade. No watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.color_palette_adjust} tunes pastels toward Saudi-resonant tones. Arabic announcement typography per the Arabic rule. For occasions: pastel and message shift to occasion theme.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: split angle and pastel pairing, card design language, packaging pose and position, shadow softness. The announcement layout redesigns itself each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Packaging, {product.material_texture}, typography card, pastel background, message (every character) — all preserved.\n\n[MOTION]\nPrimary — typography: the announcement text settles/fades in gently as a motion-card effect.\nSecondary — packaging: a subtle highlight drift or micro-rotation.\nTertiary — camera: imperceptible push-in.\n\n[WHAT STAYS STATIC]\nPackaging identity and material texture locked. Typography content locked. Pastel background stable. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Clean announcement pacing.\n\n[OUTPUT]\nPhotoreal announcement motion-card. Silent. No watermark.",
+  "_stats": {
+    "image_chars": 3600,
+    "video_chars": 695,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE — TEXT CENTRAL",
+      "SUBJECT",
+      "TEXT — CORE BLOCK for this family",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

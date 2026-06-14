@@ -1,0 +1,84 @@
+{
+  "chain_id": "H01",
+  "title": "Hand & Product — Sky / Window Hero",
+  "locked": false,
+  "native_video": false,
+  "family": "TF05 · Hand & Human Touch",
+  "sectors": [
+    "F&B",
+    "Beverage",
+    "Retail"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "3-4× per week",
+  "image_model": "fal-ai/flux-2-pro/edit    (8,000 chars)",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v    (2,500 chars)",
+  "ref_accounts": [
+    "@barnscoffee"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "",
+  "color_story": "",
+  "when_to_use": "Everyday lifestyle hero — a hand holding the product against open sky / out of a car window. Universal,",
+  "image_prompt_template": "[BRAND LOCK · identity invariant, composition open]\nThe reference image teaches the {product.name} brand identity. Identity is invariant — hand pose, sky composition, and light angle are creative decisions.\nIdentity DNA: {product.identity_dna}\nINTEGRATION: Hand and product are one captured event under one light. The same light warms skin and product; the sky's gradient tints the product's upper edge; the sleeve fabric reflects faintly onto the product's lower edge.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character}, phone_natural with editorial lift, photoreal. Real skin — pores, natural undertone, knuckles, faint veins, real nail beds. Sleeve fabric drapes with honest weight. Material truth: {product.material_texture} — including faint sky reflection on any semi-gloss zones.\n\n[SCALE CALIBRATION]\n{product.dimensions}. The product sits naturally within a hand's grip at honest hand-to-product proportion.\n\n[FRAMING & PROXIMITY]\nHero proximity — hand and product fill the upper-center third, sky filling the rest but kept intimate, not a vast empty void.\n\n[COLOR & CONTRAST · brand-derived]\nSaturated sky as the field — the {saudi.color_palette_adjust} sky tone (or brand-appropriate sky). Anchored to {brand.palette.primary} popping against the sky, with skin and sleeve as supporting tones. Field from {brand.color_field_palette}. No foreign accents.\n\n[LIGHT & LENS · hard directional, mood not spec]\nHard directional golden-hour light with real clarity — defined enough to throw a clear shadow. Model chooses rake direction (upper-left, upper-right, or rim-lit from behind). POPPING COLOR INTENT: deep saturated sky, warm skin, product popping, {brand.palette.primary} as the chromatic anchor. Lens: natural phone-perspective; model chooses depth for hand vs sky.\n\n[SCENE · creative seed]\nA single hand raising the product into open sky — a window-down moment of personal ownership. Model chooses: hand position (overhead toward sky, mid-height center, low-and-forward, angled across frame); grip and product angle (fingers wrapped face-squared, thumb-forefinger pinch, fist-grip, relaxed cradle); sky composition (deep blue dominant, gold-blue horizon, sunset-pink, midday cobalt); context cue (car-door curve, window frame, side-mirror, near-absent); light angle.\n\n[SUBJECT]\nA single hand per {saudi.apparel_context} / {brand.modesty_register} — real skin texture, sleeve cuff at the wrist, optional accessory per CS-06. Right-hand grip preferred (CS-08). Confident but real, never modeling-stiff.\n\n[BRAND CONSTRAINTS]\nSingle product. Only the hand — no full body, no face, no other people. Context suggested only. {brand.anti_attributes}\n\n[OUTPUT]\n8K photoreal editorial commercial photography. Warm grade, color pushed toward popping, {brand.palette.primary} sharp. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} fills the cultural register. {saudi.apparel_context} fills the wrist/sleeve styling (e.g. white thobe cuff, Najdi cut). {saudi.color_palette_adjust} for the sky. Right-hand rule per CS-08. Women framing per CS-24 and {brand.modesty_register}. For {saudi.occasion_overlay}: light shifts to match the occasion.\n\n[TEXT OVERLAY — conditional, agent appends only when brief.text_request is present]\nRender this text directly in the image: \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}, contrasting color. If absent, no text appears.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary hand position, grip and product angle, sky composition, context cue, light direction. Hold constant: brand-derived sky field, hard golden-hour light, material texture, CS-08 grip. Each render a different ownership moment.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The hand, product, sleeve fabric, accessories, sky gradient, context cue — all preserved exactly. Product silhouette, all label color values, every Arabic ({product.label_text_arabic}) and Latin ({product.label_text_latin}) character, logo, material finish — character-perfect.\n\n[MOTION]\nTwo layers: the hand holds steady with the faintest natural human micro-settle (not a shake); the sky and light shift subtly — clouds drift, warmth shifts 10-15% — as a real outdoor moment unfolds. A slow push-in. The product never rotates or distorts.\n\n[WHAT STAYS STATIC]\nProduct silhouette, every label character, color values, logo, material finish — locked. Hand pose and grip stable. Capture character {brand.aesthetic.capture_character} preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. No cuts.\n\n[OUTPUT]\n8K photoreal lifestyle cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3746,
+    "video_chars": 959,
+    "image_blocks": [
+      "BRAND LOCK · identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST · brand-derived",
+      "LIGHT & LENS · hard directional, mood not spec",
+      "SCENE · creative seed",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, agent appends only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 13,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.modesty_register",
+      "brand.palette.primary",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.label_text_arabic",
+      "product.label_text_latin",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.color_palette_adjust",
+      "saudi.occasion_overlay",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

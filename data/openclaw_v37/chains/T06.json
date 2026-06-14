@@ -1,0 +1,78 @@
+{
+  "chain_id": "T06",
+  "title": "Ice Cube Cluster Embrace",
+  "locked": false,
+  "native_video": false,
+  "family": "TF02 · Splash & Motion",
+  "sectors": [
+    "Beverage (cold)",
+    "F&B"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "seasonal / cold-product lines",
+  "image_model": "fal-ai/flux-2-pro/edit    (8,000 chars)",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v    (2,500 chars)",
+  "ref_accounts": [
+    "@barnscoffee"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "",
+  "color_story": "",
+  "when_to_use": "Cold-refreshment hero. Best for genuinely cold/iced products. Conceptually mismatched for hot products —",
+  "image_prompt_template": "[BRAND LOCK · identity invariant, composition open]\nThe reference image teaches the {product.name} brand identity. Identity is invariant — cluster arrangement and lighting are creative decisions.\nIdentity DNA: {product.identity_dna}\nINTEGRATION: Ice cluster and product in one cold-volume event under one cool key. Condensation forms on both ice and product where they meet; the cool cast tints both equally.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: cold-product editorial, photoreal. Material truth: {product.material_texture} — plus real condensation beading where the cold meets the product surface. Real ice with angular fracture geometry, frost crystallization, melt-water. No CGI ice, no perfect geometric cubes.\n\n[SCALE CALIBRATION]\n{product.dimensions}. Render the ice cluster scaled honestly around the product.\n\n[FRAMING & PROXIMITY]\nHero proximity — product ~30-40% of frame, cluster filling the immediate surround. Tight.\n\n[COLOR & CONTRAST · brand-derived]\nCool-toned field with a {brand.palette.background_tone} undertone shifting cooler at the edges. Anchored to {brand.palette.primary}. (The one chain where a cool field is acceptable — it serves the cold concept.) No foreign warm accents.\n\n[LIGHT & LENS · dramatic, mood not spec]\nCool cinematic with cold rim. Model chooses key direction (upper angles for ice facet definition), cool rim placement (back, side, top halo), vapour haze density. The primary brand colour still pops. Deep cool backdrop. Lens: macro or natural-perspective.\n\n[SCENE · creative seed]\nCold-refreshment hero — the product embraced by an ice cluster. Model chooses cluster arrangement (wrapping the lower half, floating around, dense-behind/sparse-front, asymmetric) and frost vapour density.\n\n[SUBJECT]\nSingle product embraced by ice. Real frost, refraction, melt-water. Condensation where temperature meets temperature.\n\n[BRAND CONSTRAINTS]\nSingle product. No humans. Real angular ice. {brand.anti_attributes}\n\n[OUTPUT]\n8K photoreal cold-product photography. Cool-toned grade, controlled saturation, {brand.palette.primary} preserved sharp. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context}. Faint warm-cool contrast (a warm desert tone at deep edges) reinforces cold-against-heat. The agent skips this chain for hot/warm products.\n\n[TEXT OVERLAY — conditional, agent appends only when brief.text_request is present]\nRender this text directly in the image: \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}, contrasting color. If absent, no text appears.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary cluster arrangement, ice angles/sizes, vapour density, light direction, camera height. Hold constant: material texture, cool drama. Each render a different cold moment.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product silhouette, proportions, all label color values, every Arabic ({product.label_text_arabic}) and Latin ({product.label_text_latin}) character, logo, material finish — preserved exactly. Only the ice, condensation, vapour, and camera move.\n\n[MOTION]\nFrost vapour curls upward gently; a single condensation droplet traces down the product surface; the ice settles almost imperceptibly. A slow push-in. The product stays locked in form and position.\n\n[WHAT STAYS STATIC]\nProduct silhouette, every label character, color values, logo, material finish — locked. Capture character preserved. No synthetic grain.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. No cuts.\n\n[OUTPUT]\n8K photoreal cold-product cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 2802,
+    "video_chars": 832,
+    "image_blocks": [
+      "BRAND LOCK · identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST · brand-derived",
+      "LIGHT & LENS · dramatic, mood not spec",
+      "SCENE · creative seed",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, agent appends only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 13,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.palette.background_tone",
+      "brand.palette.primary",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.label_text_arabic",
+      "product.label_text_latin",
+      "product.material_texture",
+      "product.name",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

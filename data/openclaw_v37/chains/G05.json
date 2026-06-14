@@ -1,0 +1,82 @@
+{
+  "chain_id": "G05",
+  "title": "Product on Retail Shelf — Hero Stands Out",
+  "locked": false,
+  "native_video": false,
+  "family": "TF-GROUND · Product in Saudi Environment",
+  "sectors": [
+    "Retail",
+    "F&B",
+    "Beauty"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "2-3× per week",
+  "image_model": "fal-ai/flux-2-pro/edit    (8,000 chars)",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v    (2,500 chars)",
+  "ref_accounts": [
+    "@barnscoffee"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "",
+  "color_story": "",
+  "when_to_use": "Shelf presence — the hero product standing out from a field of competitors, no hands. CRITICAL:",
+  "image_prompt_template": "[BRAND LOCK · identity invariant, placement and composition open]\nThe reference image teaches the {product.name} brand identity. Identity is invariant — shelf arrangement, camera angle, and lighting balance are creative decisions.\nIdentity DNA: {product.identity_dna}\nINTEGRATION: The hero product is one of the products on the shelf — same overhead light lights it and the neighbors; cool back-shelf light wraps its edges. It stands out by forward position and a slightly stronger key, NOT by being studio-lit on a documentary shelf.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character}, broadcast_cinematic saturated commercial grade, photoreal. Real shelf wear, price-rail smudges, real material variation on neighbors, authentic retail LED cast. Material truth: {product.material_texture}.\n\n[SCALE CALIBRATION]\n{product.dimensions}. The hero product is the SAME physical size as the surrounding competitor packs — it stands out by position and light, not size.\n\n[FRAMING & PROXIMITY]\nMedium proximity — the hero product and its immediate shelf row fill the frame, deeper shelves receding. Tight enough to feel the shelf moment.\n\n[COLOR & CONTRAST · disciplined, hero pops]\nThe surrounding shelf is a saturated rainbow of competing packs (the field is the retail chaos). The hero pops with {brand.palette.primary} clarity by forward position and a stronger key. Hero's own palette disciplined per {brand.color_field_palette}. No foreign accents on the hero.\n\n[LIGHT & LENS · retail + hero key, mood not spec]\nRetail lighting — warm overhead with cool shelf-depth behind. Model chooses key brightness on the hero vs ambient on neighbors, warm/cool ratio, and any directional emphasis making the hero separate without breaking integration. (Can't fully shadow-cut — retail is bright — but push contrast.) Lens: wide immersive or natural perspective.\n\n[NATURAL PLACEMENT]\nThe hero product sits on its shelf naturally — forward of its neighbors as if recently restocked, facing camera, maybe slightly tilted. Not perfectly posed.\n\n[COMPANION ELEMENTS]\nNone — the shelf context is the scene.\n\n[SCENE · creative seed]\nA retail shelf moment — the hero stands out from a field of generics, positioned slightly forward. No hands. Model chooses: camera angle (slight low-angle, eye-level, high-angle three-quarter, close-medium); shelf arrangement (dense rainbow, organized rows, partial cooler-door at edge); hero shelf position; background depth.\n\n[SUBJECT]\nSurrounding packs are generic — recognizable category types with NO readable text and NO invented brand names. Keep neighbors slightly soft so any printed elements read as ambient color noise, never legible fake labels. Hero carries full label fidelity.\n\n[BRAND CONSTRAINTS]\nHero product is the only branded item with readable fidelity. ALL neighbors have NO readable text — plain colored packaging or out-of-focus. Do NOT invent brand names. No humans. {brand.anti_attributes}\n\n[OUTPUT]\n8K photoreal cinematic commercial photography. Saturated overhead-retail grade, {brand.palette.primary} sharp against the field. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} sets a modern Saudi supermarket aisle per CS-13. Generic neighbors may carry Arabic-script color blocks (no real names).\n\n[TEXT OVERLAY — conditional, agent appends only when brief.text_request is present]\nRender this text directly in the image: \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}, contrasting color. If absent, no text appears.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary camera angle, shelf arrangement, hero position, background depth, overhead-light balance. Hold constant: neighbors have NO readable text, hero same size as neighbors, material texture. Each render a different shelf moment — never with fake brand labels.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The hero product, shelf, surrounding packs — all preserved exactly. Hero product silhouette, all label color values, every Arabic ({product.label_text_arabic}) and Latin ({product.label_text_latin}) character, logo, material finish — character-perfect. Surrounding packs stay text-free.\n\n[MOTION]\nA slow dolly push-in toward the hero product through the shelf field, the surrounding packs softening as the hero sharpens — drawing the eye to the chosen product. The hero never moves or distorts; surrounding packs stay text-free.\n\n[WHAT STAYS STATIC]\nHero product silhouette, every label character, color values, logo, material finish — locked. Surrounding packs remain text-free. Capture character {brand.aesthetic.capture_character} preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. No cuts.\n\n[OUTPUT]\n8K photoreal retail cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3875,
+    "video_chars": 958,
+    "image_blocks": [
+      "BRAND LOCK · identity invariant, placement and composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST · disciplined, hero pops",
+      "LIGHT & LENS · retail + hero key, mood not spec",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE · creative seed",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, agent appends only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.palette.primary",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.label_text_arabic",
+      "product.label_text_latin",
+      "product.material_texture",
+      "product.name",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "chain_id": "T09",
+  "title": "Ring Backlight Halo",
+  "locked": false,
+  "native_video": false,
+  "family": "TF03 · Spotlight & Dark Stage",
+  "sectors": [
+    "Beauty",
+    "Retail"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@alyafie_jewelry",
+    "@planb_boutique"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "luminous-halo dark",
+  "color_story": "Glowing circular halo of cool or warm rim light behind the product. The ring is the second chromatic anchor; the product brand color is the first. Silhouette drama with luminous edge.",
+  "when_to_use": "Halo-backlit silhouette hero. Use for beauty, skincare, premium retail — anything that benefits from a luminous, almost-sacred framing. Strong on dark feeds where the glow pops.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe product renders against the backlit halo with edges catching the rim glow while the front face stays brand-readable. Exact halo size, product offset, and rim intensity are creative decisions. INTEGRATION: one lighting event — the halo ring — governs the entire frame; the product's rim bloom, ambient front fill, and the deepening dark all belong to that single source logic.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio. Material truth: {product.material_texture} — the substrate's real behavior at the glowing edge (specular bloom on glass, soft glow-wrap on matte film, crisp rim on metal) and at the shadowed front face, where real texture stays visible. The halo glows with authentic light diffusion, never a flat digital ring. No CGI-clean glow, no plastic uniformity, no artificial lens-flare overlay.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true real-world size; the halo ring is proportioned to the product (a generous ring that frames, never dwarfs or crowds the silhouette).\n\n[FRAMING & PROXIMITY]\nThe product and its halo dominate the frame — centered, iconic, near. The dark margins deepen toward the edges but the luminous event fills the viewer's attention. No distant-object emptiness.\n\n[COLOR & CONTRAST]\nTwo chromatic anchors only: the halo's glow (warm gold or cool tone — chosen to serve {brand.color_field_palette}, never borrowed from a reference) and the product's own brand color. These two create the entire palette against the dark surround.\n\n[LIGHT & LENS]\nONE circular ring light directly behind the product — warm for heritage registers, cool for beauty-tech (agent picks per brand) — with only the minimal ambient front fill needed to keep the face brand-readable. Lens and depth treatment chosen for a sharp product and a softly bloomed halo.\n\n[NATURAL PLACEMENT]\nThe product stands as its form dictates before the ring — plumb, square, or honestly leaning if its substrate would.\n\n[SCENE]\nBacklit halo composition. Product centered against the glowing ring, front face in soft shadow lifted by subtle bounce, edges glowing with rim light, background deepening to dark at the frame edges so the halo reads as the single luminous event. Centered, reverent, iconic. Choice points: halo diameter, rim intensity, product rotation.\n\n[SUBJECT]\nSingle product, halo-framed. Edges catch rim light; the front face stays brand-readable. Material truth at both the glowing edge and the shadowed face.\n\n[BRAND CONSTRAINTS]\nSingle product only. No human elements, no props. The backlight ring and minimal frontal fill are the only light. Background dark. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal product photography, maximum fidelity. Dark cinema grade with luminous halo and brand-color punch. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — minimal localization. For heritage/oud: halo warms to deep lamp-glow gold. {saudi.color_palette_adjust} sets halo temperature.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: halo diameter and intensity, product rotation, camera height, the balance between silhouette and readable face. Identity locked; the halo moment fresh every time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product silhouette, every label character, colors, {product.material_texture}, the halo ring, the dark surround — all locked.\n\n[MOTION]\nPrimary — light: the halo pulses with extremely subtle luminance breathing, brightening ~8% then settling, as if alive.\nSecondary — atmosphere: faint particles drift through the rim glow at the product's edges.\nTertiary — camera: imperceptible 1.5% push-in.\n\n[WHAT STAYS STATIC]\nProduct identity locked — labels, colors, material texture. Halo position and silhouette fixed. Dark surround constant. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Slow, meditative — the halo breathes.\n\n[OUTPUT]\nPhotoreal product cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3599,
+    "video_chars": 804,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "chain_id": "R03",
+  "title": "Price Tag Reveal",
+  "locked": false,
+  "native_video": false,
+  "family": "TF15 · Promotional & Text",
+  "sectors": [
+    "Retail",
+    "Fashion",
+    "Beauty"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "harvest",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@tiadress",
+    "@planb_boutique",
+    "@danatreasures"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "dramatic reveal (single key)",
+  "color_story": "Retail product with a dramatic price-tag reveal — clean product hero, the tag as a designed focal graphic with reveal drama.",
+  "when_to_use": "Retail price reveal — price drops, sale reveals, new-price announcements. TEXT IS CENTRAL; the dramatic tag reveal creates the deal-discovery moment.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nTag styling, reveal staging, and crop are creative decisions; the product reads brand-accurate, the price tag composed as the focal reveal. INTEGRATION: one dramatic light stages product and tag together — the reveal spotlight that finds the tag also models the product; one theatrical retail moment.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with dramatic reveal lift. Material truth: {product.material_texture} — authentic product substrate; real tag texture, string, paper/card. No plastic tag.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the product at true size with a real retail-tag-sized tag; honest proportions between hero and tag.\n\n[FRAMING & PROXIMITY]\nTight on the discovery — product and tag near, the reveal moment filling the frame.\n\n[COLOR & CONTRAST]\nBrand color from {brand.color_field_palette} anchors the product; the tag is the crisp focal graphic the lighting reveals. Retail-conversion palette with reveal drama.\n\n[LIGHT & LENS]\nONE dramatic directional light creating the spotlight-reveal feel on tag and product, controlled shadow for drama. Product and tag sharp.\n\n[NATURAL PLACEMENT]\nThe tag hangs or rests with honest string-and-card physics against the product; the product posed as retail presents it.\n\n[SCENE — TEXT CENTRAL]\nPrice tag reveal composition. The product hero with its price tag presented dramatically — the tag catching the spotlight as a designed focal reveal, the price prominent. The composition makes the price the discovery. Choice points: tag styling, reveal staging, crop, shadow drama.\n\n[SUBJECT]\nThe product plus the dramatic price tag — both in authentic truth, the price as the focal reveal.\n\n[TEXT — CORE BLOCK for this family]\nRender the price tag typography directly:\n- Price/reveal: \"{brief.text_request.copy}\" — the price, possibly with \"was/now\" or sale framing\n- Style: {brief.text_request.style} — default crisp retail price-tag type\n- Placement: on the tag as the dramatic focal reveal\n- ARABIC RULE: Arabic/SAR numerals per brief at shortest viable copy; Arabic-heavy reveals route to post-production until the overlay node ships\nThe price reveal IS the message — essential to this chain.\n\n[BRAND CONSTRAINTS]\nSingle product with one price tag. No fabricated claims beyond brief. No human elements. No other readable text. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal price-reveal composition with tag typography, maximum fidelity. Dramatic retail grade. No watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.color_palette_adjust} aligns to brand. Arabic price typography / SAR currency for Saudi market. For sale events: themed reveal.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: tag styling, reveal staging, crop, shadow drama. The discovery moment restages; the price never changes.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, {product.material_texture}, price tag, typography (every character), lighting — all preserved.\n\n[MOTION]\nPrimary — the reveal: the tag swings gently into the spotlight, OR the price text emphasis-pulses as the reveal lands.\nSecondary — light: the reveal spotlight intensifies.\nTertiary — camera: push-in toward the tag.\n\n[WHAT STAYS STATIC]\nProduct identity locked. Price content locked. Layout stable. Capture character preserved.\n\n[PACING & DURATION]\n4 seconds. Continuous single take. Dramatic reveal pacing.\n\n[OUTPUT]\nPhotoreal price-reveal motion. Silent. No watermark.",
+  "_stats": {
+    "image_chars": 3014,
+    "video_chars": 647,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE — TEXT CENTRAL",
+      "SUBJECT",
+      "TEXT — CORE BLOCK for this family",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

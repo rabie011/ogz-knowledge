@@ -1,0 +1,80 @@
+{
+  "chain_id": "T53",
+  "title": "Marble Plinth With Spotlight",
+  "locked": false,
+  "native_video": false,
+  "family": "TF14 · Premium Pedestal",
+  "sectors": [
+    "Fragrance",
+    "Jewelry",
+    "Luxury Retail",
+    "Beauty"
+  ],
+  "quality_tier": "luxury",
+  "intent": [
+    "launch"
+  ],
+  "reference_image": "Required",
+  "frequency": "1× per quarter",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@alyafie_jewelry",
+    "@danatreasures",
+    "@diplomat_sweets"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "museum single key",
+  "color_story": "Elegant marble plinth under a precise directional spotlight — museum-quality. Cool-warm veining, dramatic single-light pool, deep surround.",
+  "when_to_use": "Museum-quality presentation — the highest-prestige pedestal chain. Luxury fragrance, fine jewelry, premium launches; marble plus spotlight is the pinnacle of refined presentation.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nMarble character, spotlight angle, and camera height are creative decisions; the product reads brand-accurate, spotlit atop the marble. INTEGRATION: one precise spotlight defines everything — the tight pool on product and plinth top, the marble's lit veining, the rapid falloff into deep surround; one museum light.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with museum-luxury grade. Material truth: {product.material_texture} — the substrate true under the precise pool; the marble with real veining variation, honest polished sheen. No plastic-perfect marble, no artificial glow.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size on a plinth proportioned to exhibit it; the spotlight pool scaled to the treasure it presents.\n\n[FRAMING & PROXIMITY]\nClose, reverent — product and lit plinth-top the singular focus, the deep surround near and pressing; museum intimacy, not gallery distance.\n\n[COLOR & CONTRAST]\nRefined museum palette — cool or warm marble veining catching the spotlight, deep surround; the product's brand color from {brand.color_field_palette} is the illuminated treasure, the single chromatic focus.\n\n[LIGHT & LENS]\nONE precise directional spotlight from upper-side — tight controlled pool on product and plinth top, rapid falloff into deep surround shadow, only the subtlest fill preserving brand readability within the same system. Product and plinth-top sharp, surround deep.\n\n[NATURAL PLACEMENT]\nThe product stands centered and plumb — ceremonial museum placement, true contact on the polished marble.\n\n[SCENE]\nMuseum marble plinth composition. The product atop an elegant marble plinth (white Calacatta veining or warm-toned), a single precise spotlight pooling tightly on product and plinth top, light falling into a deep surround — the illuminated treasure. Refined, prestigious, museum-grade. Choice points: marble character, spotlight angle, pool tightness, camera height.\n\n[SUBJECT]\nThe product atop the marble plinth, museum-spotlit — veining and product material in full physical truth; the singular illuminated treasure.\n\n[BRAND CONSTRAINTS]\nSingle product on the marble plinth. Plinth and spotlight the only elements. No human elements. Deep surround. No text. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal museum-luxury photography, maximum fidelity. Refined marble-and-spotlight grade, brand-color treasure focus. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.color_palette_adjust} — marble can shift to warm Saudi-preferred tones; spotlight warms for heritage/oud. For Eid/Founding Day: subtle gold accent possible.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: marble character, spotlight angle and pool tightness, camera height, surround depth. The treasure is exhibited anew each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, every label character, {product.material_texture}, marble plinth, spotlight pool, deep surround — all locked.\n\n[MOTION]\nPrimary — light: the spotlight intensifies subtly ~10%, the product emerging more fully as the treasure; OR the plinth slowly rotates (~15°), veining and product catching shifting light, brand face toward camera.\nSecondary — atmosphere: faint particles drift through the beam.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Marble plinth and product positions (unless slow rotation). Deep surround constant. Capture character preserved.\n\n[PACING & DURATION]\n6 seconds. Continuous single take. Slow reverent museum pacing.\n\n[OUTPUT]\nPhotoreal museum-luxury cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3194,
+    "video_chars": 823,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

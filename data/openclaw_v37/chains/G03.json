@@ -1,0 +1,86 @@
+{
+  "chain_id": "G03",
+  "title": "Product on Cultural Majlis Tray",
+  "locked": false,
+  "native_video": false,
+  "family": "TF-GROUND · Product in Saudi Environment",
+  "sectors": [
+    "F&B",
+    "Beauty",
+    "Luxury",
+    "Heritage"
+  ],
+  "quality_tier": "universal → premium",
+  "intent": [
+    "launch",
+    "grow",
+    "brand"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "1-2× per week / heritage",
+  "image_model": "fal-ai/flux-2-pro/edit    (8,000 chars)",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v    (2,500 chars)",
+  "ref_accounts": [
+    "@danatreasures",
+    "@barnscoffee"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "",
+  "color_story": "",
+  "when_to_use": "Heritage hospitality — the product welcomed onto a traditional majlis tray. Warm tungsten chiaroscuro,",
+  "image_prompt_template": "[BRAND LOCK · identity invariant, placement and composition open]\nThe reference image teaches the {product.name} brand identity. Identity is invariant — tray viewpoint, element arrangement, and tungsten character are creative decisions.\nIdentity DNA: {product.identity_dna}\nINTEGRATION: The product belongs to the still-life. Metallic elements reflect warm gold onto the product's edges; tungsten tints every surface — vessels, product, dates, textile — the same warmth; textile warm-gold thread rhymes with {brand.palette.primary}.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: film_grain_warmth heritage cinema, photoreal, warm-toned film science, organic grain in shadow. Real metal patina (CS-18), genuine wood/textile, natural dates, honest ceramic. Material truth: {product.material_texture}. No Hollywood-Middle-East gloss.\n\n[SCALE CALIBRATION]\n{product.dimensions}. Render the size hierarchy honestly among the product and the cultural elements (per {saudi.material_context} object sizes).\n\n[FRAMING & PROXIMITY]\nIntimate tray proximity — the still-life fills the frame, edges falling soft. No dead space.\n\n[COLOR & CONTRAST · brand-derived + authentic heritage]\nWarm tungsten field plus authentic culturally-grounded tones from {saudi.material_context} (metal gold, textile deep-reds — real heritage colours, not borrowed accents). Anchored to {brand.palette.primary} as the modern note.\n\n[LIGHT & LENS · warm tungsten chiaroscuro, mood not spec]\nWarm intimate tungsten — a cultural interior after sunset. Directional and moody with deep shadow in negative space — WARM and soft-edged, not hard editorial, so it reads intimate. Model chooses key direction, fill from below (surface reflection), shadow depth, optional gentle flicker. POPPING COLOR INTENT: rich warmth, metallic gold gleam, textile depth, {brand.palette.primary} as the modern note. Lens: portrait compression; model chooses depth across the tray.\n\n[NATURAL PLACEMENT]\nThe product sits naturally beside the elements as if just set down — upright on its base or gently leaning. Elements rest in their natural positions. Not a perfect grid.\n\n[COMPANION ELEMENTS · heritage built-in, restrained]\nThe cultural elements ARE the companions — RESTRAINED: model chooses the count (minimal trio, quartet, or expanded with a small detail at the edge) but never crowds. Singular pieces, drawn from {saudi.material_context} / {product.companion_elements}.\n\n[SCENE · creative seed]\nHeritage hospitality — the product welcomed onto a traditional tray. Model chooses: tray viewpoint (top-down, three-quarter elevated, near-eye-level intimate, low-angle); tray material; element arrangement and count (restrained); textile visibility (rug edge at lower frame, cushion in bokeh, near-absent).\n\n[SUBJECT]\nAuthentic cultural elements per CS-13 / {saudi.material_context} (e.g. brass dallah + Najdi spout per CS-18, dates per CS-21, Najdi textile). The product reads as modern but welcome.\n\n[BRAND CONSTRAINTS]\nSingle product hero. Cultural elements as singular supporting context — never multiples. No alcohol, no pork (CS-21). Authentic per CS-13. No humans. {brand.anti_attributes}\n\n[OUTPUT]\n8K photoreal heritage commercial photography. Warm rich grade, {brand.palette.primary} sharp. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} sets the register. {saudi.material_context} supplies the full majlis config per CS-15 (vessels CS-18, dates CS-21, Najdi textile with warm-gold thread rhyming with the brand colour). For {saudi.occasion_overlay}: deepen Ramadan evening warmth or add Founding-Day green thread.\n\n[TEXT OVERLAY — conditional, agent appends only when brief.text_request is present]\nRender this text directly in the image: \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}, contrasting color. If absent, no text appears.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary tray viewpoint, material, arrangement, element count (restrained), textile visibility, tungsten character. Hold constant: warm tungsten chiaroscuro, material texture, restraint, CS-13 authenticity. Each render a different majlis moment.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The product, cultural elements, tray, textile — all preserved exactly. Product silhouette, all label color values, every Arabic ({product.label_text_arabic}) and Latin ({product.label_text_latin}) character, logo, material finish — character-perfect.\n\n[MOTION]\nSteam rises from the serving vessel; the tungsten light flickers warmly as if from a nearby flame; the warm atmosphere breathes. A gentle push-in toward the product. The product and elements never move or distort — only warm light and steam are alive.\n\n[WHAT STAYS STATIC]\nProduct silhouette, every label character, color values, logo, material finish — locked. Element placement held. Capture character film_grain_warmth preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. No cuts.\n\n[OUTPUT]\n8K photoreal heritage cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 4159,
+    "video_chars": 909,
+    "image_blocks": [
+      "BRAND LOCK · identity invariant, placement and composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST · brand-derived + authentic heritage",
+      "LIGHT & LENS · warm tungsten chiaroscuro, mood not spec",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS · heritage built-in, restrained",
+      "SCENE · creative seed",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, agent appends only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.palette.primary",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.companion_elements",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.label_text_arabic",
+      "product.label_text_latin",
+      "product.material_texture",
+      "product.name",
+      "saudi.material_context",
+      "saudi.occasion_overlay",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

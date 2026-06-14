@@ -1,0 +1,82 @@
+{
+  "chain_id": "T49",
+  "title": "Kitchen Countertop Morning",
+  "locked": false,
+  "native_video": false,
+  "family": "TF13 · Lifestyle Context",
+  "sectors": [
+    "F&B",
+    "Home",
+    "Appliances"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Required",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@aseeb.najd",
+    "@cafe.najd",
+    "@laylali_riyadh"
+  ],
+  "cultural_spec": "CS-13",
+  "drama_dial": "soft natural (bright wholesome)",
+  "color_story": "Bright modern kitchen morning — clean counters, fresh breakfast elements, warm-cool balance. Product centered as the breakfast hero.",
+  "when_to_use": "Breakfast-moment lifestyle — the wholesome modern Saudi morning. F&B breakfast products, spreads, cereals, coffee; home/appliances.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nBreakfast arrangement, camera angle, and counter depth are creative decisions; the product reads brand-accurate as the centered hero. INTEGRATION: one bright morning light fills the kitchen — the product, the fresh breakfast elements, and the counter share its warmth and its soft shadow direction.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default phone_natural with bright morning lift. Material truth: {product.material_texture} — the product substrate honest among real fresh-food textures, real counter character, natural lived-in warmth. No staged-sterile kitchen, no plastic food.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size among real breakfast anchors: a bowl, bread, fruit at honest scale; the product centered but never inflated.\n\n[FRAMING & PROXIMITY]\nAt the counter — the product and its breakfast world close and inviting, the bright kitchen breathing soft behind.\n\n[COLOR & CONTRAST]\nFresh wholesome palette — clean bright kitchen tones, fresh food colors, warm morning glow; the product's color from {brand.color_field_palette} is the centered focal pop.\n\n[LIGHT & LENS]\nONE bright morning light — fresh, clean, soft directional warmth, airy and wholesome. Product sharp, breakfast context soft.\n\n[NATURAL PLACEMENT]\nThe product stands or rests at the breakfast scene's center as a hand placed it — honest contact among the fresh elements.\n\n[COMPANION ELEMENTS]\nONE hero companion from {product.companion_elements} leads (the prepared result, a poured drink, a fresh ingredient); the remaining breakfast elements stay soft, secondary, uncrowded.\n\n[SCENE]\nKitchen breakfast composition. A bright modern countertop with a morning breakfast scene arranged around the centered product — fresh elements, clean counter, soft-focus bright kitchen behind, morning light filling the space. Wholesome, relatable, modern Saudi morning. Choice points: arrangement, camera height, hero companion, light direction.\n\n[SUBJECT]\nThe product as centered breakfast hero amid fresh morning context — freshness, counter, and light in wholesome truth.\n\n[BRAND CONSTRAINTS]\nProduct centered as hero, breakfast context supporting. No human elements (hands only if essential). No pork, no alcohol. Real modern Saudi kitchen (CS-13). No readable text on background packaging — neighboring items text-free or out of focus. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal lifestyle photography, maximum fidelity. Fresh wholesome morning grade, product focal pop. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} fills the kitchen register — modern Saudi family kitchen. For Ramadan: suhoor pre-dawn or iftar context. Breakfast elements reflect Saudi morning foods where relevant.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: breakfast arrangement, hero companion, camera height, light direction. A fresh different morning each generation.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, {product.material_texture}, breakfast scene, counter, morning light — all preserved. Brand elements locked.\n\n[MOTION]\nPrimary — atmosphere: steam from a hot element, fresh food glisten, morning light shifting gently across the counter.\nSecondary — ambient: soft bright kitchen life behind, gentle light breath.\nTertiary — camera: extremely subtle push-in toward the product.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Breakfast arrangement stable. Kitchen fixed. Morning warmth constant. Capture character: phone_natural preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Fresh wholesome morning pacing.\n\n[OUTPUT]\nPhotoreal lifestyle cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3292,
+    "video_chars": 801,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.companion_elements",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

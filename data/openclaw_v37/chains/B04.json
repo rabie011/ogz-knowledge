@@ -1,0 +1,80 @@
+{
+  "chain_id": "B04",
+  "title": "Booking CTA",
+  "locked": false,
+  "native_video": false,
+  "family": "TF21 · Service CTA",
+  "sectors": [
+    "Services",
+    "Salon",
+    "Beauty",
+    "Hospitality",
+    "Healthcare"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "harvest"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@tiadress"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "clean inviting conversion",
+  "color_story": "Clean inviting service palette with a clear appointment/booking visual and strong CTA. Trustworthy, clear, action-driving.",
+  "when_to_use": "Service booking conversion — appointment-slot visual driving bookings. Salons, clinics, services, hospitality. TEXT/CTA central.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} / {brand.name} service identity. Identity DNA: {product.identity_dna}\nThe service visual (result, welcoming space, or representative product) and CTA layout are creative decisions; the brand context is accurate, composed with the booking CTA. INTEGRATION: one clean inviting light grades visual and CTA graphics together — one designed conversion photograph.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with inviting service-commercial grade. Material truth: {product.material_texture} where a product appears; authentic service-context material, honest light, real soft shadow. CTA graphics clean and clear. No CGI flatness.\n\n[SCALE CALIBRATION]\n{product.dimensions} where applicable — service visual at honest scale; the appointment-slot graphic proportioned as a designed UI cue, legible at feed size.\n\n[FRAMING & PROXIMITY]\nA tight conversion layout — inviting visual near, the booking CTA unmissable; designed for the tap.\n\n[COLOR & CONTRAST]\nClean inviting service palette — trustworthy brand tones from {brand.color_field_palette}, a clear appointment-slot cue, and a strong CTA accent within the brand's own range.\n\n[LIGHT & LENS]\nONE clean inviting commercial light, trustworthy and warm with gentle shadow. Full composition sharp.\n\n[NATURAL PLACEMENT]\nThe service visual sits with honest physics; CTA graphics composed as designed layout elements.\n\n[SCENE — TEXT CENTRAL]\nBooking CTA composition. A clean inviting service visual composed with a clear appointment/booking cue — a calendar/slot graphic, available times, a strong booking call-to-action. Inviting visual, unmissable CTA. Choice points: service visual selection, slot-graphic style, CTA placement.\n\n[SUBJECT]\nThe service context visual plus the booking CTA graphics — one conversion-designed layout.\n\n[TEXT — CORE BLOCK for this family]\nRender the booking CTA typography directly:\n- CTA: \"{brief.text_request.copy}\" — e.g. \"Book now\", available slots, appointment prompt\n- Style: {brief.text_request.style} — default clean inviting CTA type with appointment-slot graphic\n- Placement: unmissable booking call-to-action with appointment cue\n- ARABIC RULE: Arabic/bilingual CTA at shortest viable copy; until the deterministic overlay node ships, Arabic-heavy CTAs route to post-production typography\nThe booking CTA IS the message — essential to this chain.\n\n[BRAND CONSTRAINTS]\nService visual plus booking CTA. No fabricated availability beyond brief. If human present: single-subject, modest (CS-24). No other readable text. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal service-CTA composition with integrated typography, maximum fidelity. Clean inviting grade. No watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.color_palette_adjust} aligns to brand. Arabic/bilingual booking CTA per the Arabic rule.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: service visual, slot-graphic style, CTA placement, palette balance within brand range. The invitation re-designs; the offer never changes.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Service visual, booking CTA (every character), appointment cue, layout — all preserved.\n\n[MOTION]\nPrimary — CTA: the booking call-to-action and appointment-slot graphic animate in invitingly — a settle, a gentle pulse drawing the tap.\nSecondary — service visual: subtle warmth/highlight drift.\nTertiary — camera: subtle push-in toward the CTA.\n\n[WHAT STAYS STATIC]\nService context locked. CTA content locked. Layout stable. Capture character preserved.\n\n[PACING & DURATION]\n4 seconds. Continuous single take. Inviting conversion pacing.\n\n[OUTPUT]\nPhotoreal service-CTA motion-graphic. Silent. No watermark.",
+  "_stats": {
+    "image_chars": 3139,
+    "video_chars": 670,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE — TEXT CENTRAL",
+      "SUBJECT",
+      "TEXT — CORE BLOCK for this family",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.name",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

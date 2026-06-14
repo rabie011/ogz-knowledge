@@ -1,0 +1,81 @@
+{
+  "chain_id": "U05",
+  "title": "Social Proof — TEXT-CENTRAL",
+  "locked": false,
+  "native_video": false,
+  "family": "TF13 · Lifestyle Context",
+  "sectors": [
+    "F&B",
+    "Retail",
+    "Beauty",
+    "Services",
+    "Hospitality"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@aseeb.najd",
+    "@barnscoffee",
+    "@danatreasures"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "clean even, designed",
+  "color_story": "Clean designed layout — product hero with review/rating/press visuals as designed graphic elements. Brand palette plus clean typographic credibility cues.",
+  "when_to_use": "Credibility content — reviews, ratings, rankings, press features beside the product. TEXT is central. Conversion-stage, harvest-intent.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe proof layout — element arrangement, badge style, quote placement — is a creative decision; the product reads brand-accurate, brand-readable face toward camera. INTEGRATION: one clean light holds product and designed proof elements on one surface and grade — a single designed photograph, not collaged layers.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with designed-graphic clarity. Material truth: {product.material_texture} — authentic product substrate, honest light, real soft shadow. The graphic proof elements clean and designed. No CGI flatness.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the product at true size; proof graphics proportioned as designed accents around it, never overwhelming the hero.\n\n[FRAMING & PROXIMITY]\nA tight, designed layout — product prominent and near, proof elements arranged close as trustworthy accents; no scattered empty canvas.\n\n[COLOR & CONTRAST]\nBrand palette from {brand.color_field_palette} anchors the field; clean credibility cues (star-rating gold, badge accent) provide designed contrast. Trustworthy, polished.\n\n[LIGHT & LENS]\nONE clean even commercial light, bright and trustworthy with gentle soft shadow. Full-composition sharpness.\n\n[NATURAL PLACEMENT]\nThe product stands or lies with honest gravity within the designed layout.\n\n[SCENE — TEXT CENTRAL]\nSocial proof composition. Product hero composed with designed credibility graphics — star ratings, a short customer quote, a ranking badge, or a press cue — arranged on a clean brand-aligned background. Polished, credible, social-native. Choice points: proof element selection and arrangement, background tone within brand range, product pose.\n\n[SUBJECT]\nThe product hero plus designed social-proof elements (ratings, quote, badge) as one trustworthy layout.\n\n[TEXT — CORE BLOCK for this family]\nRender the social-proof typography directly as designed elements:\n- Proof content: \"{brief.text_request.copy}\" — star rating, short customer quote, ranking, press cue\n- Style: {brief.text_request.style} — default clean trustworthy modern type with rating graphics\n- Placement: designed credibility accents around the product\n- ARABIC RULE: shortest copy only until the deterministic overlay node ships; Arabic-heavy proof routes to post-production typography\nThe proof text IS the message — essential to this chain.\n\n[BRAND CONSTRAINTS]\nSingle product hero with designed proof graphics. No fabricated claims beyond what the brief provides. No real third-party logos unless authorized. No other readable text. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal social-proof composition with integrated typography, maximum fidelity. Clean trustworthy grade. No watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.color_palette_adjust} aligns to brand. Arabic proof typography per the Arabic rule.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: proof element selection, layout arrangement, background tone, product pose. The credibility story redesigns each time; the claims never change.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, {product.material_texture}, proof elements, layout, typography (every character) — all preserved.\n\n[MOTION]\nPrimary — proof elements: rating stars or cues settle/animate in gently as a motion-graphic effect.\nSecondary — product: subtle highlight drift or micro-rotation.\nTertiary — camera: imperceptible push-in.\n\n[WHAT STAYS STATIC]\nProduct identity locked. Proof content locked — no number or text changes. Layout stable. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Clean credible motion-graphic pacing.\n\n[OUTPUT]\nPhotoreal social-proof motion-graphic. Silent. No watermark.",
+  "_stats": {
+    "image_chars": 3244,
+    "video_chars": 690,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE — TEXT CENTRAL",
+      "SUBJECT",
+      "TEXT — CORE BLOCK for this family",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

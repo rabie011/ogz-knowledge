@@ -1,0 +1,86 @@
+{
+  "chain_id": "T01",
+  "title": "Floating Product Levitation",
+  "locked": false,
+  "native_video": false,
+  "family": "TF01 · Product Hero (Clean)",
+  "sectors": [
+    "F&B",
+    "Retail",
+    "Beauty",
+    "Home",
+    "Fitness"
+  ],
+  "quality_tier": "universal → premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "2-3× per week",
+  "image_model": "fal-ai/flux-2-pro/edit    (8,000 chars)",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v    (2,500 chars)",
+  "ref_accounts": [
+    "@barnscoffee",
+    "@danatreasures"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "",
+  "color_story": "",
+  "when_to_use": "Premium launch reveal. Hero shots, announcement posts, anything needing weightless prestige.",
+  "image_prompt_template": "[BRAND LOCK · identity invariant, composition open]\nThe reference image teaches the {product.name} brand identity. Identity is invariant — float angle, framing, and lighting are creative decisions.\nIdentity DNA: {product.identity_dna}\nINTEGRATION: The product is suspended within the scene's atmospheric volume, not floating on a flat backdrop. The gradient wraps three-dimensionally; deeper tones cast subtle reflection onto the product's edges; atmospheric particles share the same light source.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character}, broadcast_cinematic grade. Material truth: {product.material_texture}. The product reads as physically present in space, not a 3D render composited onto a background. No CGI-clean perfection, no artificial floating glow.\n\n[SCALE CALIBRATION]\n{product.dimensions}. As the sole suspended subject it occupies ~60% of frame height at honest scale.\n\n[FRAMING & PROXIMITY]\nPremium hero proximity. Product ~60% of frame with strong negative space — intimate, not a vast empty void.\n\n[COLOR & CONTRAST · brand-derived]\nDeep {brand.palette.background_tone} gradient field, wrapping to darker edges. Anchored to {brand.palette.primary}. Color-field drawn from {brand.color_field_palette}. No colors foreign to the brand, no clinical tones.\n\n[LIGHT & LENS · dramatic, mood not spec]\nCinematic premium light — singular, directional, with rich shadow falloff suggesting altitude. Model chooses key direction (upper angles for the float), rim placement (warm back-right, amber back-left, or top halo), atmospheric particles. The primary brand color catches a bright rim highlight. Deep rich shadow on the lower third for dimensional weight. Lens: portrait compression or near-macro; model chooses backdrop fall depth.\n\n[SCENE · creative seed]\nA premium gravity-defying reveal with luxury-launch prestige. Model chooses: float angle (vertical hover, forward tilt, three-quarter rotation, off-axis tilt); position (centered, off-center, slightly low); backdrop character (radial gradient, warm-dark wraparound, atmospheric haze, near-black void with localized pool).\n\n[SUBJECT]\nSingle product defying gravity, part of the atmospheric volume. Full physical material truth.\n\n[BRAND CONSTRAINTS]\nSingle product. No humans. No props. {brand.anti_attributes}\n\n[OUTPUT]\n8K photoreal commercial product photography. Editorial premium grade, rich blacks, controlled highlights. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional, agent appends if context matches]\n{saudi.scene_context}. {saudi.color_palette_adjust} may warm the backdrop. Subtle gold/bukhoor-coded particles in the atmospheric volume permitted at premium register or during {saudi.occasion_overlay}.\n\n[TEXT OVERLAY — conditional, agent appends only when brief.text_request is present]\nRender this text directly in the image: \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}, contrasting color. If absent, no text appears.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary float angle, position, rim placement, particle density, backdrop gradient direction. Hold constant: brand-derived palette, dramatic single light, material texture. Each render a different premium moment.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product silhouette, proportions, all label color values, every Arabic ({product.label_text_arabic}) and Latin ({product.label_text_latin}) character, logo, material finish — preserved exactly. Only the camera and atmosphere move.\n\n[MOTION]\nSlow orbital drift around the suspended product, ~10-15 degrees over the duration, as if circling a weightless object. Atmospheric particles drift gently. The product rotates with the orbit only enough to stay naturally presented — it does not spin independently. Smooth, dreamlike pacing.\n\n[WHAT STAYS STATIC]\nProduct silhouette, every label character, color values, logo, material finish — locked. Capture character {brand.aesthetic.capture_character} preserved every frame. No synthetic grain, no fake shake.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. No cuts.\n\n[OUTPUT]\n8K photoreal product cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3255,
+    "video_chars": 966,
+    "image_blocks": [
+      "BRAND LOCK · identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST · brand-derived",
+      "LIGHT & LENS · dramatic, mood not spec",
+      "SCENE · creative seed",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional, agent appends if context matches",
+      "TEXT OVERLAY — conditional, agent appends only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 13,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.palette.background_tone",
+      "brand.palette.primary",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.label_text_arabic",
+      "product.label_text_latin",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.occasion_overlay",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

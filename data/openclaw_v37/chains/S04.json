@@ -1,0 +1,83 @@
+{
+  "chain_id": "S04",
+  "title": "Hands-Only Product Interaction — Saudi Context — SAFEST",
+  "locked": false,
+  "native_video": false,
+  "family": "",
+  "sectors": [
+    "F&B",
+    "Beauty",
+    "Retail",
+    "Tech",
+    "Services"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Optional",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@barnscoffee",
+    "@tiadress"
+  ],
+  "cultural_spec": "CS-08, CS-01, CS-13",
+  "drama_dial": "clean authentic phone-natural",
+  "color_story": "Clean authentic phone light on a Saudi-context surface — the product held or used by hands only.",
+  "when_to_use": "Hands-only product interaction — human warmth without face-AI risk. The reliable workhorse across all sectors.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} identity. Identity DNA: {product.identity_dna}\nThe hand action, grip, and setting are creative decisions; the product is held/used naturally, brand-readable face toward camera through the grip. INTEGRATION: one natural phone-light holds hands, product, and surface in a single honest moment.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: phone_natural — authentic UGC. Material truth: {product.material_texture} — true reflectance in the grip; real Saudi hands with authentic skin texture, warm honey-bronze undertone, natural knuckle and nail detail. No plastic skin, no staged sterility.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true to-hand scale; the grip itself is the proportion anchor (a sachet folds in the fingers, a bottle fills the palm honestly).\n\n[FRAMING & PROXIMITY]\nClose on hands and product — the interaction filling the frame, the Saudi-context setting soft behind.\n\n[COLOR & CONTRAST]\nThe product's color from {brand.color_field_palette} is the focal point; warm true skin and modest sleeve frame it naturally. Clean authentic palette.\n\n[LIGHT & LENS]\nONE natural phone-camera light, honest and clean. Phone-equivalent macro/normal perspective; hands and product sharp.\n\n[NATURAL PLACEMENT]\nThe grip and gesture obey real hand anatomy — honest finger pressure, the product's substrate responding truly (film flexing, glass weighted).\n\n[COMPANION ELEMENTS]\nNone — hands, product, and an honest surface only.\n\n[SCENE]\nHands-only interaction. A single pair of Saudi hands holds or uses the product naturally — opening, applying, presenting, or holding — in an authentic Saudi-context setting (real surface; home, café, or workspace softly behind). No face; hands and product are the subject. Choice points: action, grip, surface, setting depth.\n\n[SUBJECT]\nSaudi hands only — no face, no full body. Warm honey-bronze, real texture, modest sleeve at the wrist (white thobe cuff or modern abaya sleeve per register, CS-01). Right-hand interaction preferred (CS-08).\n\n[BRAND CONSTRAINTS]\nSingle product, hands-only — no face, no full body, no other people. Modest sleeve (CS-01), right-hand preferred (CS-08). Authentic Saudi context (CS-13). No readable text beyond the product's own label. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal authentic UGC photography (phone aesthetic), maximum fidelity. Clean honest grade. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.apparel_context} fills the sleeve (CS-01). {saudi.scene_context} fills the surface/setting.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: hand action and grip, surface, setting depth, sleeve register. The interaction renews; the rules never vary.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Hands, product, {product.material_texture}, modest sleeve, setting — all preserved. Every label character locked.\n\n[MOTION]\nSINGLE primary motion: one natural hand action — turning the product to show it, opening/using it, or a gentle presenting gesture. Smooth and authentic; the product stays brand-readable.\nSecondary: subtle ambient setting life.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Hands and modest sleeve consistent. Setting stable. Capture character: phone_natural preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Natural authentic interaction pacing.\n\n[OUTPUT]\nPhotoreal authentic UGC cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 2950,
+    "video_chars": 760,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

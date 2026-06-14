@@ -1,0 +1,81 @@
+{
+  "chain_id": "T32",
+  "title": "Brutalist Architecture Portrait",
+  "locked": false,
+  "native_video": false,
+  "family": "TF08 · Cinematic Environment",
+  "sectors": [
+    "Fashion",
+    "Tech",
+    "Beauty (bold)",
+    "Fragrance (modern)"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@planb_boutique",
+    "@tiadress",
+    "@danatreasures"
+  ],
+  "cultural_spec": "CS-13, CS-22",
+  "drama_dial": "full editorial punch (hard architectural)",
+  "color_story": "Raw concrete in warm-grey and sand tones, hard directional sun, strong geometric shadow. Minimal monochrome-architectural palette. Product brand color is the single bold chromatic statement.",
+  "when_to_use": "Modern editorial architecture for bold fashion, tech, modern fragrance, statement beauty. Contemporary design confidence; editorial-magazine aesthetic. Concrete restraint with brand-color boldness.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe concrete forms, shadow geometry, and product position are creative decisions. INTEGRATION: one hard sun governs concrete and product — the same crisp geometric shadows that cut the planes cut across or beside the product; its surface carries the sun's raking angle and the concrete's warm bounce.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: broadcast_cinematic with architectural-editorial grade. Material truth: {product.material_texture} — the substrate under hard sun reads true (raking light revealing film grain-creases or glass edge highlights). Real board-form concrete texture, honest aggregate, weathering marks, crisp true-edged shadows. No flat digital concrete.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size on or against the architectural forms; ledges and planes read at real built scale, the product an honest object within monumental geometry.\n\n[FRAMING & PROXIMITY]\nThe product near, framed by the geometry — close enough that material reads, the architectural lines leading to it rather than dwarfing it into the distance.\n\n[COLOR & CONTRAST]\nMinimal monochrome-architectural palette — warm-grey and sand-toned concrete with strong shadow geometry; the product's brand color from {brand.color_field_palette} is the single bold chromatic statement punching against the restrained concrete world.\n\n[LIGHT & LENS]\nONE hard directional sun creating crisp geometric shadows across the planes — strong contrast between lit concrete and shadow. Lens and depth chosen for crisp product AND crisp architecture.\n\n[NATURAL PLACEMENT]\nThe product sits on the ledge or against the plane as gravity places it — square, leaning, or lying honestly with a true hard-light contact shadow.\n\n[SCENE]\nBrutalist architecture composition. Product on or against raw concrete forms — clean geometric planes, angular ledges, board-formed walls — hard sun raking across, geometric shadows becoming part of the composition. Contemporary, confident, editorial. Choice points: shadow geometry, plane arrangement, product position, camera angle.\n\n[SUBJECT]\nSingle hero product against the concrete; the architecture and geometric shadows the modern editorial styling, in authentic truth.\n\n[BRAND CONSTRAINTS]\nSingle hero product. No human elements. Generic brutalist architecture — no identifiable real buildings, no readable signage or text. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal architectural-editorial photography, maximum fidelity. Minimal concrete grade, geometric shadow, bold brand-color statement. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — modern Saudi brutalist/contemporary design (KAFD, modern Riyadh civic architecture), warm sand-toned concrete rather than cold grey (CS-13). {saudi.color_palette_adjust} warms the concrete tone.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: shadow angles and geometry, plane composition, sun height, product position, camera angle. The geometry recomposes every time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, every label character, {product.material_texture}, concrete architecture, geometric shadows — all locked.\n\n[MOTION]\nPrimary — light: the hard sun shifts angle slowly, crisp geometric shadows sliding across the planes and product — architectural shadow play in motion.\nSecondary — atmosphere: faint dust or heat shimmer in the strong sunlight.\nTertiary — camera: extremely subtle 2% push-in or lateral track along the lines.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Product fixed. Architecture stable (shadows move, concrete holds). Capture character preserved.\n\n[PACING & DURATION]\n6 seconds. Continuous single take. Slow confident editorial pacing.\n\n[OUTPUT]\nPhotoreal architectural-editorial cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3360,
+    "video_chars": 847,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

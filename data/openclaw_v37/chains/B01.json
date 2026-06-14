@@ -1,0 +1,77 @@
+{
+  "chain_id": "B01",
+  "title": "Before / After Service",
+  "locked": false,
+  "native_video": false,
+  "family": "TF17 · Before / After",
+  "sectors": [
+    "Beauty",
+    "Skincare",
+    "Salon",
+    "Aesthetic Services"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Required",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@danatreasures",
+    "@tiadress"
+  ],
+  "cultural_spec": "CS-24, CS-22",
+  "drama_dial": "clean even clinical",
+  "color_story": "Clean clinical-aspirational palette — even neutral lighting, true skin tones, the result spoken through clarity. Consistent color across the split so the improvement reads honestly.",
+  "when_to_use": "Beauty service proof — a split before-and-after. ELEVATED COMPLIANCE: strictly modest framing, single subject, result on appropriate areas only (skin, hair within modesty, nails, treatment zones). The honest result drives the booking decision.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} / {brand.name} service identity. Identity DNA: {product.identity_dna}\nThe split layout (side-by-side vs divided) and the treatment-area crop are creative decisions within elevated compliance; the service brand context is accurate, the result honest and achievable. INTEGRATION: ONE identical light system across both halves — same source, same angle, same grade — so the comparison is physically fair; the only variable is the result.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: clean_studio with honest clinical-aspirational grade, consistent lighting across both halves. Material truth of skin: real authentic texture in BOTH before and after — the after is improved, not airbrushed to fantasy. Honest true-to-life result, consistent color. No CGI-smooth fake result, no deceptive over-retouching, no impossible transformation.\n\n[SCALE CALIBRATION]\nTrue anatomical scale — the treatment area at identical crop and magnification in both halves; the comparison reads at matched scale or it doesn't read at all.\n\n[FRAMING & PROXIMITY]\nTight on the treatment area in both halves — close enough that real texture and the honest improvement read clearly.\n\n[COLOR & CONTRAST]\nClean neutral palette with true skin tones; the result reads through clarity, not color drama. Identical white balance across both halves.\n\n[LIGHT & LENS]\nONE even clinical-aspirational light, identical across both halves — fair, trustworthy, flattering-real. Treatment area sharp.\n\n[NATURAL PLACEMENT]\nThe subject's position and angle match across both halves — same pose, same turn, the honest constancy that makes the comparison legitimate.\n\n[SCENE — ELEVATED COMPLIANCE]\nBefore/after split composition. A clean split-frame showing the same treatment area before and after — consistent angle, consistent lighting, honest comparison. The treatment zone shown modestly: facial skin within modest framing, hair within modesty register, nails, hands, or the specific area. Clean neutral background. Choice points: split orientation, crop selection, background tone.\n\n[SUBJECT]\nSINGLE subject, ELEVATED modest framing (CS-24). The before/after shows ONLY the appropriate treatment area — never objectifying, never exposing beyond the modest register, fully Saudi-appropriate. For facial/skin: modest crop respecting hijab register. The honest result is the subject.\n\n[BRAND CONSTRAINTS]\nSINGLE subject. ELEVATED modesty (CS-24) — treatment area only. Honest achievable result, no deceptive transformation. No full-body exposure. No readable text (labels fire only via the conditional block). {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal before/after beauty photography, maximum fidelity. Clean honest grade, consistent comparison. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.apparel_context} governs modest framing of the treatment area (CS-24). Result presentation respects Saudi modesty fully.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style} (e.g. \"before / after\" labels), placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: split orientation, crop selection within compliance, background tone. The honesty rules never vary.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The before/after composition, treatment area, modest framing, consistent lighting — all preserved. Modesty maintained.\n\n[MOTION]\nPrimary — transition: a clean wipe or dissolve between before and after states, OR a subtle reveal of the after result. ONE honest, clear transition.\nSecondary: minimal — the comparison clarity is the point.\n\n[WHAT STAYS STATIC]\nSubject identity, modest framing, treatment area — locked. Modesty compliance absolute. Consistent lighting across both states. Capture character preserved.\n\n[PACING & DURATION]\n4 seconds. Continuous single take. Clean honest reveal pacing.\n\n[OUTPUT]\nPhotoreal before/after cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3367,
+    "video_chars": 750,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE — ELEVATED COMPLIANCE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.name",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.identity_dna",
+      "product.name",
+      "saudi.apparel_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "chain_id": "T15",
+  "title": "Café Outdoor Terrace",
+  "locked": false,
+  "native_video": false,
+  "family": "TF04 · Natural Environment",
+  "sectors": [
+    "F&B",
+    "Beauty"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "launch",
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Required",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@barnscoffee",
+    "@cafe.najd",
+    "@coffeebeantealeaf.sa"
+  ],
+  "cultural_spec": "CS-13, CS-22",
+  "drama_dial": "hard golden-hour, outdoor-natural",
+  "color_story": "Golden-hour warmth across an outdoor terrace. Saturated warm light, deep shadows, café greenery. Product brand color glows as the warm centerpiece. The most color-alive TF04 chain.",
+  "when_to_use": "Golden-hour café moment for F&B (coffee, cold drinks, desserts) and lifestyle brands. Modern Saudi third-wave café culture — Boulevard, Diriyah, Jeddah corniche. Warm, social, aspirational-everyday.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe product is photographed AT this terrace table — table position, angle, golden-light direction are creative decisions. INTEGRATION: the low golden sun is the single light defining terrace, greenery, and product as one system; the product glows with the same warm cast that backlights the leaves, its long shadow parallel to every other shadow on the terrace.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: phone_natural with golden editorial lift — a high-end phone in real golden-hour light. Material truth: {product.material_texture} — the substrate catches the raking gold truthfully (condensation beads on a cold cup, film creases glowing warm, glass refracting the low sun). Honest café-table wear, warm haze in the air. No CGI render, no over-styled set.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size on a real café table; anchored against the table surface and any companion vessel. An honest tabletop object, never an oversized hero.\n\n[FRAMING & PROXIMITY]\nSeated at the table with the product — close, foreground-commanding, terrace world glowing softly behind. The viewer is in the moment, not observing from across the terrace.\n\n[COLOR & CONTRAST]\nSaturated golden-hour palette — warm gold light, deep café greens, rich shadow; the product's brand color from {brand.color_field_palette} glows as the warm centerpiece fully alive in the light. The most color-vibrant TF04 chain — hard light, deep shadow, alive.\n\n[LIGHT & LENS]\nONE light: low golden-hour sun raking from the side — warm, directional, hard-edged with long shadows, backlit greenery glowing translucent. Lens and depth chosen for a sharp product in dreamy golden bokeh.\n\n[NATURAL PLACEMENT]\nThe product sits where a server or hand just placed it — gravity-honest on the table, naturally turned, real contact shadow.\n\n[COMPANION ELEMENTS]\nONE hero companion from {product.companion_elements} (a filled glass of the prepared drink, a small plate, a finjan — one only), in the same golden light with the same physics.\n\n[SCENE]\nGolden-hour terrace composition. Product on an outdoor café table, terrace greenery and modern Saudi café architecture in soft golden bokeh behind, golden sky beyond. The warm social pleasure of a modern Saudi café moment (CS-13) — Boulevard, Diriyah, or Jeddah corniche register, never a generic Western coffee shop. Choice points: camera height, sun direction, product turn, companion choice, terrace depth.\n\n[SUBJECT]\nSingle hero product on the terrace table, café context softly secondary, every surface in the golden light rendered true.\n\n[BRAND CONSTRAINTS]\nSingle hero product, one companion maximum. No human elements. Modern Saudi café register (CS-13). No readable text on any background object — café signage and menus stay out of focus or text-free. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal lifestyle photography, maximum fidelity. Saturated golden-hour grade — warm gold, café green, glowing brand color. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} fills the café register — Riyadh Boulevard / Diriyah / Jeddah corniche terrace. {saudi.color_palette_adjust} tunes the golden warmth. For Ramadan: post-iftar evening terrace ambiance.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: sun direction, camera height and seat position, product turn, companion, terrace depth and greenery. A different golden evening each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product position, table, terrace context, golden light, {product.material_texture} — all preserved. Every label character locked.\n\n[MOTION]\nPrimary — atmosphere: terrace greenery sways gently in a soft breeze, backlit leaves shimmering in the gold.\nSecondary — light: the golden hour warms fractionally toward sunset, shadows lengthening slightly.\nTertiary — camera: extremely subtle 1.5% push-in.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Table and product fixed. Greenery sways but doesn't relocate. Golden temperature. Capture character: phone_natural preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Relaxed warm café pacing.\n\n[OUTPUT]\nPhotoreal lifestyle cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3776,
+    "video_chars": 821,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.companion_elements",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

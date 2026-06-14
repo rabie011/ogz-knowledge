@@ -1,0 +1,85 @@
+{
+  "chain_id": "H02",
+  "title": "Hand & Product — Cultural Moment",
+  "locked": false,
+  "native_video": false,
+  "family": "TF05 · Hand & Human Touch",
+  "sectors": [
+    "F&B",
+    "Beauty",
+    "Luxury",
+    "Heritage"
+  ],
+  "quality_tier": "universal → premium",
+  "intent": [
+    "launch",
+    "grow",
+    "brand"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "1-2× per week / heritage campaigns",
+  "image_model": "fal-ai/flux-2-pro/edit    (8,000 chars)",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v    (2,500 chars)",
+  "ref_accounts": [
+    "@danatreasures",
+    "@barnscoffee"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "",
+  "color_story": "",
+  "when_to_use": "Heritage moment — a hand holding the product beside authentic cultural elements. Warm, intimate. Best for",
+  "image_prompt_template": "[BRAND LOCK · identity invariant, composition open]\nThe reference image teaches the {product.name} brand identity. Identity is invariant — gesture pose, cultural-element arrangement, and tungsten character are creative decisions.\nIdentity DNA: {product.identity_dna}\nINTEGRATION: Hand, product, and the cultural element share one warm tungsten-lit moment. Metallic/ceramic elements reflect warmth onto the product's nearest edges; tungsten tints the sleeve cuff, skin, product edge, and cultural objects equally; textile warm-gold threads rhyme with {brand.palette.primary}.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: film_grain_warmth heritage, photoreal, warm-toned film science, subtle warm grain in shadow. Real skin, honest material patina, authentic ceramic. Material truth: {product.material_texture}. No Hollywood-Middle-East gloss.\n\n[SCALE CALIBRATION]\n{product.dimensions}. Render the size hierarchy honestly among the product and its companions (per {saudi.material_context} object sizes).\n\n[FRAMING & PROXIMITY]\nIntimate hero proximity — product and the gesture fill the frame, the cultural element close, background falling deep.\n\n[COLOR & CONTRAST · brand-derived + authentic heritage]\nWarm tungsten field, plus authentic culturally-grounded tones from {saudi.material_context} (e.g. brass gold, Najdi textile deep reds — real heritage colours, not borrowed accents). Anchored to {brand.palette.primary} as the modern chromatic note.\n\n[LIGHT & LENS · warm tungsten chiaroscuro, mood not spec]\nWarm intimate tungsten — the quality of a cultural interior after sunset. Directional and moody with deep shadow in the negative space, but WARM and soft-edged, not hard editorial, so it reads as intimate. Model chooses key direction, fill from below (surface reflection), shadow depth. POPPING COLOR INTENT: rich warmth, metallic gleam, {brand.palette.primary} as the modern note. Lens: portrait compression; model chooses depth across the elements.\n\n[SCENE · creative seed]\nAn intimate heritage moment — a hand interacting with the product beside authentic cultural elements. Model chooses: gesture pose (holding upright beside the element, mid-pass, lifting from beside it, resting in reverence); which element foregrounds; element count (RESTRAINED — never crowded); depth/focus.\n\n[SUBJECT]\nA hand per {saudi.apparel_context} / {brand.modesty_register} — sleeve cuff, optional accessory, right-hand grip (CS-08). Cultural elements authentic per CS-13 / {saudi.material_context}.\n\n[BRAND CONSTRAINTS]\nSingle product. Cultural elements as singular supporting pieces — never multiples. Only the hand — no faces. Authentic per CS-13. No alcohol, no pork (CS-21). {brand.anti_attributes}\n\n[OUTPUT]\n8K photoreal heritage commercial photography. Warm rich grade, {brand.palette.primary} sharp. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} sets the register. {saudi.material_context} supplies the elements (majlis per CS-15, vessels per CS-18, dates per CS-21). {saudi.apparel_context} fills the cuff. Textile warm-gold thread rhymes with the brand colour. For {saudi.occasion_overlay}: deepen evening warmth (Ramadan) or add Saudi-green textile thread (Founding Day).\n\n[TEXT OVERLAY — conditional, agent appends only when brief.text_request is present]\nRender this text directly in the image: \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}, contrasting color. If absent, no text appears.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary gesture pose, which element foregrounds, element count (restrained), hand position, depth of field. Hold constant: warm tungsten chiaroscuro, material texture, restraint, CS-08 grip. Each render a different heritage moment.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The hand, product, sleeve, accessories, cultural elements, surface — all preserved exactly. Product silhouette, all label color values, every Arabic ({product.label_text_arabic}) and Latin ({product.label_text_latin}) character, logo, material finish — character-perfect.\n\n[MOTION]\nThe hand holds the product with a slow, intentional settle as if presenting it; steam (if hot) or a candle flicker adds warm life; the tungsten light breathes subtly. A gentle push-in. The product never rotates or distorts.\n\n[WHAT STAYS STATIC]\nProduct silhouette, every label character, color values, logo, material finish — locked. Cultural elements stable. Capture character film_grain_warmth preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. No cuts.\n\n[OUTPUT]\n8K photoreal heritage cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3755,
+    "video_chars": 904,
+    "image_blocks": [
+      "BRAND LOCK · identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST · brand-derived + authentic heritage",
+      "LIGHT & LENS · warm tungsten chiaroscuro, mood not spec",
+      "SCENE · creative seed",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, agent appends only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 13,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.modesty_register",
+      "brand.palette.primary",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.label_text_arabic",
+      "product.label_text_latin",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.material_context",
+      "saudi.occasion_overlay",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

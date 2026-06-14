@@ -1,0 +1,83 @@
+{
+  "chain_id": "R05",
+  "title": "Fragrance / Oud Showcase",
+  "locked": false,
+  "native_video": false,
+  "family": "TF20 · Premium Fragrance & Packaging",
+  "sectors": [
+    "Fragrance",
+    "Oud",
+    "Perfume",
+    "Luxury Retail"
+  ],
+  "quality_tier": "luxury",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@alyafie_jewelry",
+    "@danatreasures",
+    "@diplomat_sweets"
+  ],
+  "cultural_spec": "CS-19, CS-22",
+  "drama_dial": "warm tungsten chiaroscuro",
+  "color_story": "Deep luxury staging — rich oud-warm tones, gold accents, dark opulent surround, the bottle as the glowing jewel. The Saudi oud-market luxury palette: amber, gold, deep brown.",
+  "when_to_use": "Premium fragrance/oud hero — the single most important chain for the lucrative Saudi fragrance/oud sector. Opulence, sophistication, the prestige of fine fragrance.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} fragrance bottle identity — form, glass, cap, label, signature details. Identity DNA, preserved across any camera angle: {product.identity_dna}\nStaging surface, oud-context styling, and camera height are creative decisions; the bottle reads brand-accurate — true glass form, cap, label characters (Latin AND Arabic character-perfect — Arabic wordmark fidelity is the highest-risk identity element), brand color, brand-readable face toward camera. INTEGRATION: one warm key holds bottle, staging, and atmosphere — its refraction through the glass, its gleam on the gold, its glow in any bukhoor wisp are a single luxury light system.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: film_grain_warmth — opulent fragrance cinema, subtle warm grain. Material truth: {product.material_texture} — real glass refraction, honest reflectance, true liquid color within; authentic cap material (metal/weighted); real texture on luxury surfaces. No plastic-perfect glass, no artificial sparkle.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true bottle size on real staging anchors: oud chips at honest centimeter scale, a brass burner at true vessel size, the gold tray proportioned to the bottle it presents.\n\n[FRAMING & PROXIMITY]\nClose and reverent — the glowing bottle commanding the frame, the oud-luxury world pressing warm and near, deep dark beyond.\n\n[COLOR & CONTRAST]\nSaudi oud-luxury palette — amber, gold, deep brown warmth; the bottle's brand color from {brand.color_field_palette} and the liquid's true hue glow as the treasured hero against the deep opulent surround.\n\n[LIGHT & LENS]\nONE warm directional luxury key modeling the bottle and catching glass refraction, a warm rim within the same system for separation, deep falloff into opulent dark. Bottle sharp, staging soft, background deep.\n\n[NATURAL PLACEMENT]\nThe bottle stands plumb on its rich surface (dark marble, polished wood, gold tray) — true weighted contact, real mirror-kiss on a polished surface.\n\n[COMPANION ELEMENTS]\nONE hero companion from {product.companion_elements} (oud wood chips OR a brass incense burner with a bukhoor wisp OR a gold accent) — authentic Saudi fragrance signifiers (CS-19), restrained, never crowding the jewel.\n\n[SCENE]\nPremium fragrance showcase. The bottle as glowing hero in deep luxury staging — a rich surface, warm directional light, the chosen oud-context companion, deep luxurious surround falling to opulent dark. Sophisticated, prestigious, the luxury of fine fragrance and oud. Choice points: surface, companion selection, camera height, warm-dark depth.\n\n[SUBJECT]\nThe fragrance bottle as luxury hero — glass refraction, true liquid color, cap material, staging in full physical truth.\n\n[BRAND CONSTRAINTS]\nSingle fragrance bottle hero. Authentic Saudi luxury staging (CS-19). No human elements. Deep opulent surround. No readable text beyond the bottle's own label. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal luxury fragrance photography, maximum fidelity. Opulent warm grade, glowing bottle hero, true liquid color. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — oud/bukhoor staging is core to the Saudi fragrance market (CS-19): oud chips, brass burner, gold elements. {saudi.material_context} fills authentic luxury surfaces. For Eid: gold particle haze in the warm air.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: staging surface, companion selection, camera height, warm-dark depth, refraction emphasis. The jewel is presented anew each time; its identity never wavers.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The bottle, every label character (Arabic wordmark verified), {product.material_texture}, glass refraction, liquid color, luxury staging, warm light — all locked.\n\n[MOTION]\nPrimary — the bottle: extremely slow rotation (~15°) catching shifting glass refraction and warm highlights, brand face staying toward camera; OR a slow warm light bloom revealing the bottle.\nSecondary — atmosphere: if bukhoor/oud present, a soft smoke wisp curls warmly; gold particles drift faintly.\n\n[WHAT STAYS STATIC]\nBottle identity locked — glass, cap, labels, liquid color, material texture. Luxury staging stable. Warm temperature. Capture character: film_grain_warmth preserved.\n\n[PACING & DURATION]\n6 seconds. Continuous single take. Slow opulent fragrance pacing.\n\n[OUTPUT]\nPhotoreal luxury fragrance cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3823,
+    "video_chars": 904,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.companion_elements",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.material_context",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

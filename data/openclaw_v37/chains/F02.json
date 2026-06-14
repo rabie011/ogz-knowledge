@@ -1,0 +1,83 @@
+{
+  "chain_id": "F02",
+  "title": "Beverage Showcase",
+  "locked": false,
+  "native_video": false,
+  "family": "TF13 · Lifestyle Context",
+  "sectors": [
+    "F&B (beverages)",
+    "Coffee",
+    "Cafe"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Required",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@barnscoffee",
+    "@cafe.najd",
+    "@coffeebeantealeaf.sa"
+  ],
+  "cultural_spec": "CS-13, CS-21",
+  "drama_dial": "warm natural (café register)",
+  "color_story": "Appetizing beverage hero in warm café context — rich drink color, warm wood/marble surface, soft ambient glow. Fresh, social, crave-worthy.",
+  "when_to_use": "Café-style beverage hero — the drink styled and ready in its natural café home. Coffee shops, beverage brands, café menus.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} beverage identity — drink color, cup/glass, branding. Identity DNA, preserved across any camera angle: {product.identity_dna}\nSurface choice, café depth, and styling moment are creative decisions; the beverage and vessel read brand-accurate, true drink color preserved. INTEGRATION: the café's warm ambient light is the one system — it glows in the drink, warms the wood or marble, and softens into the bokeh behind; steam or condensation catches that same light.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default phone_natural with warm café lift. Material truth: {product.material_texture} — real drink texture (crema, foam, condensation, ice), honest café surface (wood grain, marble), true vessel reflectance. No plastic-perfect drink, no sterile set.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true cup/glass size on a real café surface; foam, ice, and condensation at honest beverage scale.\n\n[FRAMING & PROXIMITY]\nAt the table with the drink — close, crave-distance, the café ambiance breathing warm behind.\n\n[COLOR & CONTRAST]\nThe beverage's rich true color at appetizing saturation is the hero; warm café tones (wood, marble, ambient glow) support; soft café bokeh behind. Inviting, crave-worthy.\n\n[LIGHT & LENS]\nONE warm café light system — soft directional with inviting ambient glow, a backlight quality catching steam or condensation within the same system. Drink sharp, café context warm bokeh.\n\n[NATURAL PLACEMENT]\nThe drink sits where the barista set it — honest contact, true settle of foam or ice, the vessel turned as a hand would leave it.\n\n[COMPANION ELEMENTS]\nONE hero companion maximum from {product.companion_elements} (a small plate, a date, a spoon — or none); the café scene itself carries the context.\n\n[SCENE]\nCafé beverage showcase. The drink presented appetizingly on a café surface in a warm café context — soft-focus ambiance behind (warm lighting, interior hint, plant or window glow). Styled ready-to-enjoy: perfect foam, glistening condensation, fresh ice. The drink in its natural home. Choice points: surface, café depth, styling moment, companion or none.\n\n[SUBJECT]\nThe beverage hero in café context — drink texture, vessel, and surface in appetizing physical truth; ambiance softly secondary.\n\n[BRAND CONSTRAINTS]\nSingle beverage hero. Café context softly secondary. No human elements (hands only if essential). No alcohol. Authentic modern Saudi café (CS-13). No readable text on background items — menus and signage out of focus or text-free. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal café beverage photography, maximum fidelity. Warm inviting grade, appetizing true drink color. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} fills the café register — modern Saudi specialty café (Boulevard, Diriyah). For Saudi coffee: finjan/dallah context (CS-18, CS-21). {saudi.color_palette_adjust} tunes warmth.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: surface and café depth, styling moment (fresh pour vs settled), camera height, companion presence. A different inviting cup each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Beverage, vessel, {product.material_texture}, café surface and context, drink color — all preserved. Brand elements locked.\n\n[MOTION]\nPrimary — beverage: appetite motion — steam rises from a hot drink, OR condensation beads trickle on a cold one, OR foam settles gently. The drink's living freshness.\nSecondary — café ambiance: soft bokeh shimmer, gentle ambient life.\nTertiary — camera: extremely subtle push-in toward the drink.\n\n[WHAT STAYS STATIC]\nBeverage identity locked — vessel, branding, true drink color, material texture. Café surface and context stable. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Warm inviting café pacing.\n\n[OUTPUT]\nPhotoreal café beverage cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3406,
+    "video_chars": 830,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.companion_elements",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

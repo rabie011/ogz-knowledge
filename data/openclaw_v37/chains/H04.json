@@ -1,0 +1,82 @@
+{
+  "chain_id": "H04",
+  "title": "Hand Detail Macro — Reverence",
+  "locked": false,
+  "native_video": false,
+  "family": "TF05 · Hand & Human Touch",
+  "sectors": [
+    "Beauty",
+    "Fragrance",
+    "Luxury",
+    "Jewelry"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "brand"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "1× per week / premium",
+  "image_model": "fal-ai/flux-2-pro/edit    (8,000 chars)",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v    (2,500 chars)",
+  "ref_accounts": [
+    "@danatreasures"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "",
+  "color_story": "",
+  "when_to_use": "Premium reverence close-up — fingers cradling the product like a treasure. Best for high-tier/luxury",
+  "image_prompt_template": "[BRAND LOCK · identity invariant, composition open]\nThe reference image teaches the {product.name} brand identity. Identity is invariant — fingertip pose, product orientation, and key angle are creative decisions.\nIdentity DNA: {product.identity_dna}\nINTEGRATION: Hand and product are ONE light event — a single warm key catches both with the same falloff. Skin warmth reflects onto the product at the fingertip contact; the deep shadow embraces both equally.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: film_grain_warmth at premium register, photoreal, subtle warm grain in shadow. Real skin — pores, knuckle definition, fine palm lines, faint veins. Material truth: {product.material_texture} — fingers may slightly indent soft/pliable materials where they grip.\n\n[SCALE CALIBRATION]\n{product.dimensions}. The product sits naturally cradled in a hand at honest proportion.\n\n[FRAMING & PROXIMITY]\nExtreme close hero proximity — product and contact-point fingers fill the frame, deep negative space around.\n\n[COLOR & CONTRAST · brand-derived]\nDeep dark field. Skin warmth + {brand.palette.primary} as the single sharp chromatic accent against cinema-deep negative space. Field from {brand.color_field_palette}. No foreign accents.\n\n[LIGHT & LENS · single hard key, mood not spec]\nSingle cinematic warm key against deep shadow — reverent treatment. Model chooses key direction (upper-left, upper-right, top halo), warmth, rim placement. The shadow falls deep and rich. POPPING COLOR INTENT: warm skin, {brand.palette.primary} as the sharp accent. Lens: macro at extreme shallow depth — only the contact point sharp.\n\n[SCENE · creative seed]\nLuxury reverence close-up — fingers cradling the product like a treasure against deep negative space. Model chooses: fingertip pose (thumb-forefinger pinch, palm cradle, fingertip balance, refined hold); product orientation; wrist visibility; depth of field.\n\n[SUBJECT]\nA hand per {saudi.apparel_context} / {brand.modesty_register} — defined skin, sleeve cuff at frame edge, right-hand grip (CS-08), women framing per CS-24.\n\n[BRAND CONSTRAINTS]\nSingle product. Only the hand, wrist forward maximum. Pure deep darkness, no props. {brand.anti_attributes}\n\n[OUTPUT]\n8K photoreal premium commercial photography. Rich black grade, single-light warmth, {brand.palette.primary} sharp. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.apparel_context} fills the cuff (e.g. white thobe or bisht edge; abaya sleeve with modest accessory per {brand.modesty_register} and CS-24). Key warmth per {saudi.color_palette_adjust}. Right-hand rule per CS-08.\n\n[TEXT OVERLAY — conditional, agent appends only when brief.text_request is present]\nRender this text directly in the image: \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}, contrasting color. If absent, no text appears.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary fingertip pose, product orientation, wrist visibility, key angle, depth. Hold constant: single hard key, deep shadow, material texture, CS-08 grip. Each render a different reverent moment.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The hand, product, sleeve cuff — all preserved exactly. Product silhouette, all label color values, every Arabic ({product.label_text_arabic}) and Latin ({product.label_text_latin}) character, logo, material finish — character-perfect.\n\n[MOTION]\nThe fingers turn the product a few degrees as if presenting it to the light; the single key catches a new highlight as it turns; the deep shadow holds. Extremely slow, reverent pacing. The product turns only enough to reveal — it does not spin or distort.\n\n[WHAT STAYS STATIC]\nProduct silhouette, every label character, color values, logo, material finish — locked. Capture character film_grain_warmth preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. No cuts.\n\n[OUTPUT]\n8K photoreal premium cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3109,
+    "video_chars": 873,
+    "image_blocks": [
+      "BRAND LOCK · identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST · brand-derived",
+      "LIGHT & LENS · single hard key, mood not spec",
+      "SCENE · creative seed",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, agent appends only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 13,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.modesty_register",
+      "brand.palette.primary",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.label_text_arabic",
+      "product.label_text_latin",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.color_palette_adjust"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

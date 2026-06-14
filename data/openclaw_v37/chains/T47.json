@@ -1,0 +1,80 @@
+{
+  "chain_id": "T47",
+  "title": "Laptop With Coffee Morning",
+  "locked": false,
+  "native_video": false,
+  "family": "TF13 · Lifestyle Context",
+  "sectors": [
+    "F&B",
+    "Tech",
+    "Services",
+    "Coffee"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Required",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@barnscoffee",
+    "@cafe.najd"
+  ],
+  "cultural_spec": "CS-13",
+  "drama_dial": "soft natural (warm morning)",
+  "color_story": "Warm morning sunlight across a modern desk — laptop, branded coffee cup, soft productivity warmth. Aspirational everyday.",
+  "when_to_use": "Morning productivity lifestyle — the modern Saudi professional morning. Coffee brands, tech, services, co-working.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} identity (the branded cup/product). Identity DNA, preserved across any camera angle: {product.identity_dna}\nDesk arrangement, camera angle, and window-light direction are creative decisions; the branded product reads brand-accurate, naturally placed. INTEGRATION: the morning window sun is the one light over desk, laptop, and cup — the warm beam grazes them all, the cup's steam catches it, every shadow runs from the same window.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: phone_natural with warm editorial lift — a high-end phone in a real morning workspace. Material truth: {product.material_texture} — the branded cup with true reflectance, perhaps a steam wisp. Real desk character, honest morning light, authentic laptop and material textures. No staged-perfect desk.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the cup at true hand size beside a real laptop; desk objects at honest workspace proportion. The laptop anchors the cup's scale.\n\n[FRAMING & PROXIMITY]\nAt the desk, in the seat — the cup near and focal, laptop and context soft around it; the viewer's own morning, not an observed office.\n\n[COLOR & CONTRAST]\nWarm morning palette — neutral desk tones bathed in golden light; the branded cup's color from {brand.color_field_palette} is the focal warm accent. Aspirational everyday-premium.\n\n[LIGHT & LENS]\nONE light: warm morning sun from a side window — soft directional, long gentle shadows, the beam faintly visible. Cup sharp, desk context soft.\n\n[NATURAL PLACEMENT]\nThe cup sits where a hand set it down between sips — honest contact, naturally turned; the laptop open mid-work.\n\n[COMPANION ELEMENTS]\nThe laptop is the structural scene-partner; beyond it, ONE subtle companion maximum (a notebook OR a plant) from the desk's honest world.\n\n[SCENE]\nMorning productivity composition. A modern laptop open on a clean desk, the branded cup beside it as focal product, warm sun streaming from a side window, subtle context softly behind (modern home-office). The aspirational productive-morning moment. Choice points: camera angle, beam direction, cup position, companion choice.\n\n[SUBJECT]\nThe branded cup as hero; laptop and desk the productive-morning context — materials and light in authentic truth.\n\n[BRAND CONSTRAINTS]\nBranded product (cup) is hero. Laptop and desk softly secondary. No human elements. No identifiable real-brand laptop logos (generic modern laptop) — laptop screen carries no readable text. Real modern Saudi workspace (CS-13). {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal lifestyle photography, maximum fidelity. Warm morning grade — golden productivity warmth, branded-cup focal accent. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} fills the workspace register — modern Saudi home-office or co-working (CS-13). For Ramadan: evening/night productivity warmth.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: desk arrangement, beam angle, camera height, cup position and turn, companion. A different real morning at the same desk.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Branded cup, {product.material_texture}, laptop, desk, morning light — all preserved. Brand elements locked.\n\n[MOTION]\nPrimary — atmosphere: steam rises gently from the cup; the warm beam glides subtly across the desk.\nSecondary — ambient: soft dust-mote drift in the light; faint background life.\nTertiary — camera: extremely subtle push-in toward the cup.\n\n[WHAT STAYS STATIC]\nBranded cup identity and material texture locked. Laptop, desk fixed. Morning warmth constant. Capture character: phone_natural preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Calm productive-morning pacing.\n\n[OUTPUT]\nPhotoreal lifestyle cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3311,
+    "video_chars": 754,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "chain_id": "T04",
+  "title": "Beverage Pour Crown Splash",
+  "locked": false,
+  "native_video": false,
+  "family": "TF02 · Splash & Motion",
+  "sectors": [
+    "F&B",
+    "Beverage"
+  ],
+  "quality_tier": "universal → premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "2-3× per week",
+  "image_model": "fal-ai/flux-2-pro/edit    (8,000 chars)",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v    (2,500 chars)",
+  "ref_accounts": [
+    "@barnscoffee"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "",
+  "color_story": "",
+  "when_to_use": "\"Product becomes the drink\" reveal. The product is shown as the source, pouring into a derived serving vessel.",
+  "image_prompt_template": "[BRAND LOCK · identity invariant, composition open]\nThe reference image teaches the {product.name} brand identity. Identity is invariant — pour angle, vessel placement, and lighting are creative decisions.\nIdentity DNA: {product.identity_dna}\nINTEGRATION: Product, pouring stream, and receiving vessel are one captured event under one warm backlight. Any surface beneath reflects tones onto both; the crown splash sits in the same atmospheric volume as the product.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: high-speed liquid, photoreal. Material truth: {product.material_texture}. Real flow physics, correct viscosity, honest refraction. No CGI water, no syrup-thick fakery.\n\n[SCALE CALIBRATION]\n{product.dimensions}. Render the product-to-vessel proportion honestly per the dimensions anchor.\n\n[FRAMING & PROXIMITY]\nHero proximity — product, stream, and vessel fill the frame intimately, no dead space.\n\n[COLOR & CONTRAST · brand-derived]\n{brand.palette.background_tone} field. Anchored to {brand.palette.primary} + the derived liquid colour + the vessel. Field colours from {brand.color_field_palette}. No foreign colours.\n\n[LIGHT & LENS · dramatic, mood not spec]\nWarm backlit appetite drama — the liquid arc glows translucent. Model chooses key direction, backlight placement (rear-right, rear-left, full back-glow), surface-reflection strength. Hard enough to freeze droplets. Lens: macro for liquid texture, or natural-perspective showing product, arc, and vessel.\n\n[SCENE · creative seed]\nThe product as the source, mid-pour into a derived serving vessel — the \"product becomes the drink\" reveal. Model chooses: product pour position (the opened edge as the stream origin); vessel placement; crown splash character (gentle ring, high crown, low ripple); surface (tray, wood, warm-dark void).\n\n[SUBJECT]\nLiquid rendered true to the product. The receiving vessel is the culturally/category-correct one. Product dry except where the pour connects at its opening.\n\n[BRAND CONSTRAINTS]\nSingle source product. No human hands holding vessels — captured magic. Vessel is category-authentic. {brand.anti_attributes}\n\n[OUTPUT]\n8K photoreal high-speed liquid photography. Rich saturated grade toward {brand.palette.primary}. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.material_context} supplies the serving vessel (e.g. finjan + brass tray per CS-18). Pour may respect right-to-left serving convention per CS-21. {saudi.color_palette_adjust} warms the liquid. No alcohol cues.\n\n[TEXT OVERLAY — conditional, agent appends only when brief.text_request is present]\nRender this text directly in the image: \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}, contrasting color. If absent, no text appears.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary pour position, vessel placement, crown character, backlight direction, surface type. Hold constant: brand palette, backlit drama, material texture, honest product-to-vessel proportion. Each render a different pour instant.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product silhouette, proportions, all label color values, every Arabic ({product.label_text_arabic}) and Latin ({product.label_text_latin}) character, logo, material finish — preserved exactly. The product does not distort; only the pour and camera move.\n\n[MOTION]\nThe pour stream flows continuously from the product's opening into the vessel; the crown splash rises and settles once over the duration; steam (if a hot product) drifts upward. A gentle push-in. The product holds its position and form throughout — only the liquid is alive.\n\n[WHAT STAYS STATIC]\nProduct silhouette, every label character, color values, logo, material finish — locked. Capture character {brand.aesthetic.capture_character} preserved. No synthetic grain.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. No cuts.\n\n[OUTPUT]\n8K photoreal high-speed cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3044,
+    "video_chars": 951,
+    "image_blocks": [
+      "BRAND LOCK · identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST · brand-derived",
+      "LIGHT & LENS · dramatic, mood not spec",
+      "SCENE · creative seed",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, agent appends only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 13,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.palette.background_tone",
+      "brand.palette.primary",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.label_text_arabic",
+      "product.label_text_latin",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.material_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

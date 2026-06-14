@@ -1,0 +1,82 @@
+{
+  "chain_id": "T35",
+  "title": "Modest Fashion Walking Shot",
+  "locked": false,
+  "native_video": false,
+  "family": "TF09 · Portrait & Model",
+  "sectors": [
+    "Fashion",
+    "Retail",
+    "Beauty"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required (garment/brand reference; model generated)",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@tiadress",
+    "@themodestbride",
+    "@planb_boutique"
+  ],
+  "cultural_spec": "CS-01, CS-24, CS-13, CS-22",
+  "drama_dial": "warm golden urban (outdoor-natural)",
+  "color_story": "Flowing abaya catching motion against a modern Saudi urban backdrop. The fabric movement is the hero; warm urban tones support.",
+  "when_to_use": "Dynamic modest fashion motion for abaya/modest fashion brands, lifestyle retail. The flowing fabric communicates elegance and confidence; modern Saudi urban context grounds it.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} / {brand.name} garment identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nStride moment, urban backdrop, and camera position are creative decisions; the garment reads brand-accurate in cut, fabric, and detail even in motion. INTEGRATION: the urban daylight that warms the architecture models her and the flowing fabric — one sun, one shadow direction, the abaya's motion-folds lit by the same light that grazes the pavement.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default broadcast_cinematic with fashion-film motion. Material truth: the abaya fabric flows with true physical weight, authentic motion-drape, honest fold dynamics mid-stride; {product.material_texture} for any featured product. Real Saudi skin and natural expression, real urban-light interaction. No CGI-fabric, no frozen-stiff motion.\n\n[SCALE CALIBRATION]\nTrue human scale within real architecture — walkway widths, plaza elements at honest built proportion to her figure.\n\n[FRAMING & PROXIMITY]\nShe commands the frame mid-stride — near, dynamic, the urban setting in soft supporting depth, never a distant figure lost in plaza.\n\n[COLOR & CONTRAST]\nThe flowing abaya's color — from {brand.color_field_palette} / the garment's true brand color — is the hero chromatic statement in motion; warm modern-urban Saudi tones (sandstone, glass, warm pavement) support; skin warm and true.\n\n[LIGHT & LENS]\nONE light: natural urban daylight, golden-hour warmth preferred, directional enough to model the flowing fabric and cast dynamic soft shadows. Lens and depth chosen for a sharp model with crisp fabric motion against a soft urban backdrop.\n\n[NATURAL PLACEMENT]\nHer stride is a real walk — natural gait, weight transferring honestly, the fabric trailing by true physics.\n\n[SCENE]\nDynamic modest-fashion composition. A SINGLE Saudi woman in a flowing abaya mid-stride, fabric caught in elegant motion behind and around her, modern Saudi urban environment — contemporary Riyadh architecture, Boulevard walkway, modern plaza — softly out of focus behind. Graceful, confident, alive. Choice points: stride moment, fabric-flow direction, urban depth, camera height and distance.\n\n[SUBJECT]\nONE Saudi woman only — never a group. Modesty register {brand.modesty_register} (CS-24): mainstream = styled hijab + modest flowing abaya; modern = loose elegant scarf with front hair visible, fashion-forward flowing silhouette; editorial = high-fashion modest drama. Warm honey-bronze skin, confident graceful carriage, real texture. Modesty maintained throughout the motion.\n\n[BRAND CONSTRAINTS]\nSINGLE subject only — one woman, never a group, no other people in frame. Modesty maintained across the motion — flowing fabric never compromises coverage. Authentic modern Saudi urban setting (CS-13), not generic Western city. No readable signage or text in frame. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal fashion-film photography, maximum fidelity. Dynamic warm urban grade — flowing garment hero, modern Saudi context. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} fills the urban setting (Riyadh Boulevard, modern Jeddah, KAFD plaza). {saudi.apparel_context} fills abaya styling by region/register (CS-01, CS-24).\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: stride moment and fabric-flow, urban backdrop composition, hour of light, camera height and distance. The walk is never the same frame twice.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The model's appearance, modest styling, flowing abaya, urban setting — all preserved character-perfect. Modesty maintained across every frame.\n\n[MOTION]\nSINGLE coherent motion: she walks forward gracefully at a natural pace, the abaya flowing elegantly with her stride. ONE continuous believable action — walking — not layered competing motions. The fabric movement is the visual richness.\nSecondary: hair tendrils (if modern register) or scarf edge move naturally with the walk; urban background carries gentle ambient life softly out of focus.\n\n[WHAT STAYS STATIC]\nFacial features, skin tone, garment identity, modest styling — all locked. Modesty compliance absolute including fabric motion. Urban context stable. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Graceful walking pace — natural, elegant, confident.\n\n[OUTPUT]\nPhotoreal fashion-film cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3768,
+    "video_chars": 1006,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.modesty_register",
+      "brand.name",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

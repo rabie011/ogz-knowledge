@@ -1,0 +1,81 @@
+{
+  "chain_id": "T34",
+  "title": "Thobe On Geometric Cube",
+  "locked": false,
+  "native_video": false,
+  "family": "TF09 · Portrait & Model",
+  "sectors": [
+    "Retail",
+    "Fashion",
+    "Grooming"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required (product/brand reference; model generated)",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@planb_boutique",
+    "@tiadress"
+  ],
+  "cultural_spec": "CS-01, CS-22",
+  "drama_dial": "clean editorial, graphic contrast",
+  "color_story": "Crisp white thobe against a bold saturated geometric prop and clean backdrop. White-on-bold-color contrast. Brand/product color is the third accent note.",
+  "when_to_use": "Modern menswear editorial for menswear, men's grooming, modern retail. Contemporary confident Saudi masculinity; the white thobe against bold color is the graphic hook.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} / {brand.name} identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nSeated posture, cube position, and backdrop tone are creative decisions; any featured product reads brand-accurate, camera-friendly if held. INTEGRATION: one studio system lights man, cube, and backdrop together — his rim separation, the cube's clean shading, and his soft grounded shadow share the same light logic.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with modern editorial lift. Material truth: {product.material_texture} for any featured product; the white thobe shows authentic cotton crispness, natural fold shadows, true white (never blown out). Real Saudi skin, honest texture, warm undertone, composed confident expression. No plastic skin, no over-retouching.\n\n[SCALE CALIBRATION]\n{product.dimensions} for any featured product at honest to-hand scale; the cube proportioned as real seating-height furniture relative to a real man.\n\n[FRAMING & PROXIMITY]\nThe man and his bold cube command the frame — close editorial presence, graphic simplicity through nearness, not emptiness.\n\n[COLOR & CONTRAST]\nWhite thobe against a bold saturated geometric prop — the prop color drawn from or harmonized to {brand.color_field_palette} (the agent derives a brand-ownable bold tone; yellow as classic default only where brand-compatible), against a clean complementary backdrop. The brand/product color is the third accent note.\n\n[LIGHT & LENS]\nClean editorial studio system: soft key upper-front, gentle fill, subtle rim separating the white thobe from the backdrop, even modern clarity. Lens and depth chosen for a sharp model against a clean field.\n\n[NATURAL PLACEMENT]\nSeated naturally on or beside the cube — weight honestly settled, thobe falling with true gravity folds.\n\n[SCENE]\nModern menswear editorial. A SINGLE Saudi man in a crisp white thobe, seated on or beside the bold geometric cube against a clean complementary backdrop. Relaxed-confident, design-forward, graphic simplicity. Choice points: posture, cube color within brand-derived range, backdrop tone, crop.\n\n[SUBJECT]\nONE Saudi man only — never a group. Crisp white thobe (CS-01), ghutra/shemagh styled contemporary or bare-headed modern per register. Warm honey-bronze skin, real texture, groomed contemporary appearance, confident composed expression. Modern confident Saudi masculinity — not costume, not stereotype.\n\n[BRAND CONSTRAINTS]\nSINGLE subject only — one man, never a group, no other people. Thobe and styling authentic modern Saudi (CS-01), not costume-orientalist. No readable text anywhere in frame. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal modern menswear editorial photography, maximum fidelity. Clean high-contrast grade — white thobe, bold geometric color, brand accent. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.apparel_context} fills thobe and headwear specifics by region (Najdi/Hejazi cut, ghutra vs bare-headed) (CS-01). {saudi.color_palette_adjust} tunes the prop color.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: posture and seating, cube color within brand range, backdrop tone, crop and camera height, headwear per register. The graphic concept holds fresh.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The model's appearance, white thobe, geometric prop, backdrop, brand-readable elements — all preserved character-perfect.\n\n[MOTION]\nSINGLE primary motion only: ONE subtle natural action — a confident slow head turn toward camera, OR a relaxed shift of seated posture, OR a subtle thobe adjustment. The rest composed. NO complex choreography.\nSecondary: thobe fabric shifts naturally with the single motion.\n\n[WHAT STAYS STATIC]\nFacial features, skin tone, white thobe, prop, backdrop — all locked. Capture character preserved. Camera steady.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Calm confident editorial pacing.\n\n[OUTPUT]\nPhotoreal menswear editorial cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3552,
+    "video_chars": 788,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.name",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.color_palette_adjust"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

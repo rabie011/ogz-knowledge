@@ -1,0 +1,81 @@
+{
+  "chain_id": "T24",
+  "title": "Pink-Mint Split Background",
+  "locked": false,
+  "native_video": false,
+  "family": "TF07 · Pastel & Shadow Play",
+  "sectors": [
+    "Beauty",
+    "Retail"
+  ],
+  "quality_tier": "universal",
+  "intent": [
+    "launch",
+    "grow",
+    "harvest"
+  ],
+  "reference_image": "Required",
+  "frequency": "2-3× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@tiadress",
+    "@planb_boutique",
+    "@danatreasures"
+  ],
+  "cultural_spec": "CS-22",
+  "drama_dial": "bright pastel pop",
+  "color_story": "Bold split pastel field — soft pink meeting soft mint, hard color division. Crisp botanical shadow cast across. The pastels ARE the popping color; the product is the clean focal anchor where they meet.",
+  "when_to_use": "Playful pastel pop for beauty, youthful retail, lifestyle brands wanting bright, modern, social-native energy. The bold pastel split is the scroll-stopping hook.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe product anchors the split pastel field; the division's angle, the shadow's foliage character, and the product's exact bridge position are creative decisions. INTEGRATION: one bright source lights field and product together AND casts the botanical shadow — the shadow falls across backdrop and product with one continuous geometry; the product's contact shadow belongs to the same light.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with crisp modern lift. Material truth: {product.material_texture} — the substrate under bright even light behaves as its real self. The pastel backdrop shows subtle real surface gradient and honest paper/wall texture; the botanical shadow carries authentic soft penumbra edges. No CGI flatness, no fake-sharp shadow.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size against the graphic field; the botanical shadow's fronds are real-foliage scale relative to the product, the split division proportioned so the product genuinely bridges both zones.\n\n[FRAMING & PROXIMITY]\nThe product near and commanding at the color seam — graphic negative space is part of the design language here, but the hero stays close and large enough that material texture reads.\n\n[COLOR & CONTRAST]\nThe two pastels ARE the popping color statement — divided graphically at full pastel saturation. Pastel selection serves the brand: defaults of soft pink + soft mint, or substituted from {brand.color_field_palette}-harmonious pastel derivatives (the agent derives pastels the brand can own — never tones borrowed from an unrelated reference). The product's brand color sits as the clean focal anchor, harmonizing or contrasting.\n\n[LIGHT & LENS]\nONE bright source, even and frontal in feel but hard enough to throw the crisp botanical shadow — clean, controlled, the foliage shadow the single intentional shadow event. Lens and depth chosen for crisp product AND crisp shadow.\n\n[NATURAL PLACEMENT]\nThe product stands or rests at the seam as its substrate honestly sits — plumb bottle, square jar, or a sachet with true pliable lean.\n\n[SCENE]\nSplit-pastel composition. Background divided into two bold pastel zones with a clean graphic division (vertical or diagonal), the product bridging at the meeting line, a crisp botanical shadow (palm frond, monstera, tropical silhouette) cast across backdrop and partly over the product. Bright, modern, social-native. Choice points: division angle, foliage species, shadow direction, product offset.\n\n[SUBJECT]\nSingle hero product bridging the pastel zones; the split field and botanical shadow are the styling. Full physical truth under the bright light.\n\n[BRAND CONSTRAINTS]\nSingle hero product. The split background and ONE botanical shadow are the only elements. No human elements. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal modern commercial photography, maximum fidelity. Bright pastel grade, graphic split, crisp brand-color anchor. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — pastels are culturally neutral; {saudi.color_palette_adjust} can shift toward Saudi-resonant tones (sand-cream + soft sage). For Founding Day: pink-mint can shift to white-green.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: division angle and direction, foliage species and shadow density, product offset, pastel pairing within the brand-derived range. The graphic concept holds; the design never repeats.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, every label character, {product.material_texture}, split pastel background, botanical shadow — all locked.\n\n[MOTION]\nPrimary — the botanical shadow: sways gently as if the casting foliage moves in a soft breeze, drifting subtly across field and product.\nSecondary — camera: extremely subtle 2% push-in.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Pastel zones fixed. Product position fixed. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Light, breezy, modern pacing.\n\n[OUTPUT]\nPhotoreal modern commercial cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3844,
+    "video_chars": 694,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

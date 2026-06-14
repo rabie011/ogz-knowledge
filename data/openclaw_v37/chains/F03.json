@@ -1,0 +1,83 @@
+{
+  "chain_id": "F03",
+  "title": "Ramadan Iftar Spread — HIGH RISK",
+  "locked": false,
+  "native_video": false,
+  "family": "TF16 · Occasion & Cultural",
+  "sectors": [
+    "F&B",
+    "Restaurant",
+    "Catering",
+    "Hospitality"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "Ramadan-triggered",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@aseeb.najd",
+    "@diplomat_sweets",
+    "@laylali_riyadh"
+  ],
+  "cultural_spec": "CS-15, CS-18, CS-21, CS-13, CS-08",
+  "drama_dial": "occasion-themed (warm reverent golden)",
+  "color_story": "Warm Ramadan iftar table — golden evening glow, rich traditional dish colors, dates and water, brass and ceramic. Reverent and abundant.",
+  "when_to_use": "Ramadan iftar hero — the breaking-of-fast moment. AUTO-TRIGGERS during Ramadan. F&B, restaurants, catering, hospitality Ramadan campaigns. Deeply Saudi, reverent.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} / {brand.name} identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nSpread arrangement, shot angle, and dish selection are creative decisions; the brand/product (a dish, beverage, or packaged item) integrates into the iftar spread, brand-readable but respectful of the occasion. INTEGRATION: the golden iftar-hour light — just after Maghrib, lamp warmth supplementing within the same system — holds the entire spread, the brass, the dates, and the brand element in one reverent glow.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: film_grain_warmth — Ramadan evening cinema, warm grain. Material truth: {product.material_texture} for the brand element; real food textures of authentic Saudi iftar dishes, honest dates with natural variation, true brass dallah patina, authentic ceramic and textile. No plastic spread, no inauthentic Hollywood-Arabian aesthetic.\n\n[SCALE CALIBRATION]\n{product.dimensions} — the brand element at honest scale among real iftar anchors: dates, a finjan, the dallah, serving dishes all at true tabletop proportion.\n\n[FRAMING & PROXIMITY]\nElevated top-down or three-quarter, close over the table — the abundance edge to edge, the viewer seated at the iftar table.\n\n[COLOR & CONTRAST]\nWarm Ramadan palette — golden evening glow, rich traditional dish colors, deep dates brown, brass gold, the serene abundance of iftar; the brand color integrates within the warm spread, never shouting over the occasion.\n\n[LIGHT & LENS]\nONE light system: the warm golden iftar-hour glow just after sunset, lamp warmth supplementing as part of it. Rich, reverent, abundant. Spread sharp.\n\n[NATURAL PLACEMENT]\nEvery dish, date bowl, and vessel sits as a real iftar table is laid — honest weights and contacts, the dallah and finjan placed per serving ritual (CS-18).\n\n[COMPANION ELEMENTS]\nSTRUCTURAL EXCEPTION: the composed iftar spread IS the scene — dates and water prominent as the traditional fast-breaking elements, dallah and finjan per ritual; restraint applies as nothing outside the authentic iftar table enters.\n\n[SCENE — OCCASION CENTRAL]\nRamadan iftar spread composition. A full, beautifully abundant iftar table set for breaking the fast — dates and water prominent, traditional and modern Saudi dishes (CS-21), a brass dallah and finjan (CS-18), warm ceramic, geometric Saudi textile. Warm golden evening light. The brand integrates as one beautiful element. Reverent, abundant, spiritual-festive. Choice points: arrangement geometry, shot angle, dish selection by region, textile character.\n\n[SUBJECT]\nThe iftar spread as hero, brand integrated. Authentic Saudi iftar foods, dates, water, dallah, traditional serving elements in full physical truth (CS-15, CS-18, CS-21). No human figures — or hands only, right-hand serving (CS-08).\n\n[BRAND CONSTRAINTS]\nIftar spread hero, brand integrated respectfully. No pork, no alcohol (CS-21). Authentic Saudi iftar (CS-15, CS-18, CS-21), not generic Arabian. Reverent treatment of the religious occasion. No readable text beyond the brand's own label. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal Ramadan iftar photography, maximum fidelity. Warm reverent abundant grade. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — CENTRAL (this is the brief, not conditional)]\n{saudi.occasion_overlay} = Ramadan iftar drives the scene. {saudi.scene_context} fills authentic Saudi iftar dishes and serving by region. {saudi.material_context} fills dallah/ceramic/textile authenticity. This block drives the chain.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style} (Ramadan greeting if requested; shortest Arabic form, post-production preferred), placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: arrangement geometry, shot angle, regional dish selection, textile and vessel character. The iftar table is laid anew each evening.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Iftar spread, dishes, dates, dallah, brand integration, {product.material_texture}, warm light — all preserved.\n\n[MOTION]\nPrimary — atmosphere: steam rises gently from hot iftar dishes; warm lamp light flickers softly; the serene evening glow breathes.\nSecondary — if dallah present: a subtle steam wisp from the coffee.\nTertiary — camera: slow reverent push-in or gentle top-down descent over the spread.\n\n[WHAT STAYS STATIC]\nBrand integration locked. Spread arrangement stable. Dates, dallah, dishes fixed. Warm temperature constant. Capture character: film_grain_warmth preserved.\n\n[PACING & DURATION]\n6 seconds. Continuous single take. Slow reverent abundant pacing.\n\n[OUTPUT]\nPhotoreal Ramadan iftar cinematography. Silent — reverent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 4052,
+    "video_chars": 834,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE — OCCASION CENTRAL",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — CENTRAL (this is the brief, not conditional)",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.name",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.material_context",
+      "saudi.occasion_overlay",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "chain_id": "T14",
+  "title": "Bedroom Side Table Morning",
+  "locked": false,
+  "native_video": false,
+  "family": "TF04 · Natural Environment",
+  "sectors": [
+    "Beauty",
+    "Home"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@tiadress",
+    "@danatreasures",
+    "@themodestbride"
+  ],
+  "cultural_spec": "CS-13",
+  "drama_dial": "soft natural (softest, intimate)",
+  "color_story": "Soft neutral linen tones — warm beige, cream, taupe. Gentle morning light. Quiet, calm, intimate. Product brand color is the single gentle accent in the soft neutral field.",
+  "when_to_use": "Intimate bedroom calm for beauty (night creams, fragrance), home (candles, textiles), wellness. A quiet personal-ritual moment — the gentlest of the natural-environment chains.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference image teaches the {product.name} brand identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nThe product is photographed INSIDE this calm bedroom — table position, angle, and framing are creative decisions. INTEGRATION: one soft diffused morning light defines linen, table, and product together; the product carries the room's gentle warmth, its soft shadow agreeing with the scene's quiet light.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with soft natural warmth. Material truth: {product.material_texture} — the substrate rests with its honest weight and surface behavior in the gentle light. Real linen weave with soft natural wrinkles, honest table material. No CGI render, no over-styled staging.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true intimate size against the side table and linen folds; a night cream is palm-small on the table, honestly scaled to its real world.\n\n[FRAMING & PROXIMITY]\nClose and quiet — the product near, the linen world soft behind. Intimacy through proximity; no wide empty bedroom.\n\n[COLOR & CONTRAST]\nA deliberately soft neutral palette (warm beige, cream, taupe) creates calm; the product's brand color from {brand.color_field_palette} is the single gentle chromatic accent — present, not loud, in keeping with the intimate mood.\n\n[LIGHT & LENS]\nONE soft diffused natural morning light, very gentle directionality, minimal shadow — the whole scene quietly, evenly held. Lens and depth chosen for a sharp product against dreamy-soft linen.\n\n[NATURAL PLACEMENT]\nThe product sits as part of a real nightly ritual — placed by hand, gravity-honest, perhaps beside a folded linen corner.\n\n[COMPANION ELEMENTS]\nONE hero companion maximum from {product.companion_elements} (a folded linen corner, a small simple object) — or none. Minimal is the mood.\n\n[SCENE]\nIntimate bedroom side-table composition. Product on a minimal table (light wood or soft-painted) against softly blurred neutral linen bedding, gentle diffused morning light. A calm Saudi home space (CS-13), intimate not staged. Choice points: camera height, product turn, linen arrangement, companion or none.\n\n[SUBJECT]\nSingle hero product, the quiet hero of a personal moment. Linen weave, table, gentle light — authentic truth throughout.\n\n[BRAND CONSTRAINTS]\nSingle hero product, minimal elements. No human elements. No readable text on any background object. A real calm Saudi bedroom (CS-13). {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal intimate lifestyle photography, maximum fidelity. Soft neutral grade — beige and cream, gentle brand-color accent. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} fills the bedroom register — modern calm Saudi home. For Ramadan: subtle pre-dawn or evening warmth.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: camera angle, product placement, linen folds, light softness, companion presence. The quiet moment stays fresh.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product position, table, linen, soft light, {product.material_texture} — all preserved. Every label character locked.\n\n[MOTION]\nPrimary — light: the soft morning light gently breathes, brightening fractionally as the day wakes.\nSecondary — atmosphere: linen shifts microscopically in the gentlest air.\nTertiary — camera: imperceptible 1% push-in.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Table, linen positions fixed. Soft light direction and warmth. Capture character preserved.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Very slow, serene, intimate.\n\n[OUTPUT]\nPhotoreal intimate lifestyle cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3258,
+    "video_chars": 748,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.companion_elements",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "chain_id": "T43",
+  "title": "Food Texture Extreme Macro",
+  "locked": false,
+  "native_video": false,
+  "family": "TF11 · Texture & Macro",
+  "sectors": [
+    "F&B",
+    "Restaurant",
+    "Dessert"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@aseeb.najd",
+    "@diplomat_sweets",
+    "@laylali_riyadh"
+  ],
+  "cultural_spec": "CS-21",
+  "drama_dial": "product-color immersion (appetite-warm register)",
+  "color_story": "The food's own rich appetite-colors fill the frame — golden crusts, glossy sauces, melting textures. Mouthwatering saturated palette. Texture-as-craving.",
+  "when_to_use": "Mouthwatering food macro — the craving-trigger shot for F&B, restaurant, dessert launches. The texture itself creates appetite.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} food identity — true colors, textures, signature character. Identity DNA: {product.identity_dna}\nThe craving moment (drizzle, pull, break, crust) and light direction are creative decisions; the food shows its true appetizing character — real colors, authentic textures, signature details. INTEGRATION: one warm light and one dish — glisten, steam, and shadow belong to the same physical plate, never a composited texture.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: clean_studio with extreme food-macro grade. Material truth at food level: {product.material_texture} — glossy sauce with honest viscosity and light-catch, melting cheese with authentic stretch, flaky pastry with true crumb and golden layering, juicy detail with real moisture. Honest appetizing imperfection. No plastic food.\n\n[SCALE CALIBRATION]\n{product.dimensions} translated to macro food scale — crumb, drizzle, and crust at true close-up proportion; an honest bite-distance view.\n\n[FRAMING & PROXIMITY]\nThe appetizing texture fills the frame — bite-close, immersive, the viewer's hunger distance.\n\n[COLOR & CONTRAST]\nThe food's own rich appetite-colors fill the frame at full mouthwatering saturation — golden crusts, glossy sauce reds and browns, fresh ingredient hues. Pure craving-trigger immersion; nothing competes.\n\n[LIGHT & LENS]\nONE warm directional food-macro light raking to reveal texture, glisten, and steam — appetite-warm with controlled glossy highlights. Macro sharpness on the craving detail, soft appetizing falloff.\n\n[NATURAL PLACEMENT]\nThe food behaves with real physics — the drizzle flows, the pull stretches, the break crumbles as the real dish truly would.\n\n[SCENE]\nExtreme food texture macro. The food's most appetizing texture fills the frame — glossy drizzle, melting pull, flaky break, juicy interior, golden crust; steam may rise. Abstract, sensory, mouthwatering. Choice points: craving moment, light rake direction, steam presence, crop depth.\n\n[SUBJECT]\nThe food texture as sole subject — no full plating, no hands. Craveable color, sheen, and moisture in full appetizing truth.\n\n[BRAND CONSTRAINTS]\nThe food texture only — no full plating, no hands, no utensils, no text. Saudi market: no pork, no alcohol (CS-21). True to the real product. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal food macro photography, maximum fidelity. Mouthwatering warm grade, appetizing texture detail. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — for Saudi cuisine, textures reflect authentic Saudi/Gulf dishes (CS-21). For Ramadan: warm iftar-context tones.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: craving moment (drizzle vs pull vs break), light rake, steam, crop depth. A new trigger of the same appetite each time.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The food texture, colors, sheen, steam, lighting — all preserved.\n\n[MOTION]\nPrimary — appetite motion: steam rises gently; if sauce, a slow glossy drip moves; if cheese, the faintest settling pull; moisture glistens. The craving detail in slow motion.\nSecondary — light: warm light shifts subtly, glossy highlights gliding across the texture.\nTertiary — camera: extremely subtle macro push-in.\n\n[WHAT STAYS STATIC]\nFood colors, texture, form — all locked (the food doesn't morph). Capture character preserved.\n\n[PACING & DURATION]\n4 seconds. Continuous single take. Slow mouthwatering macro pacing.\n\n[OUTPUT]\nPhotoreal food macro cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3050,
+    "video_chars": 748,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

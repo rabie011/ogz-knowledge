@@ -1,0 +1,81 @@
+{
+  "chain_id": "T51",
+  "title": "Reflective Gold Pedestal Smoke",
+  "locked": false,
+  "native_video": false,
+  "family": "TF14 · Premium Pedestal",
+  "sectors": [
+    "Fragrance",
+    "Oud",
+    "Jewelry",
+    "Luxury Retail"
+  ],
+  "quality_tier": "luxury",
+  "intent": [
+    "launch"
+  ],
+  "reference_image": "Required",
+  "frequency": "1× per quarter",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@alyafie_jewelry",
+    "@danatreasures",
+    "@diplomat_sweets"
+  ],
+  "cultural_spec": "CS-19, CS-22",
+  "drama_dial": "warm opulent single key",
+  "color_story": "Reflective gold cylindrical pedestal with soft smoke wisps curling around. Gold-and-smoke luxury — warm reflectance, ceremonial vapor, deep warm dark.",
+  "when_to_use": "Opulent pedestal with mystique — gold luxury plus ceremonial smoke. The most premium fragrance/oud/jewelry launches; deeply Saudi-luxury-resonant.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nCamera height, pedestal proportion, and smoke choreography are creative decisions; the product reads brand-accurate, smoke curling around without obscuring it. INTEGRATION: one warm key governs everything — the product's modeling, the gold's specular highlights and mirrored base, the smoke's lit translucency, the warm-dark falloff; one ceremonial light system.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: film_grain_warmth — opulent luxury cinema, subtle warm grain. Material truth: {product.material_texture} — the substrate catches the warm key and gold bounce truly. Real reflective gold with honest speculars and a soft mirror of the product's base; smoke with true volumetric turbulence. No plastic gold, no flat digital smoke.\n\n[SCALE CALIBRATION]\n{product.dimensions} — true size atop a pedestal proportioned to present it; smoke wisps at honest bukhoor-vapor scale curling around real-sized forms.\n\n[FRAMING & PROXIMITY]\nClose, ceremonial — product and gold pedestal-top the luminous center, smoke weaving near, warm dark pressing in.\n\n[COLOR & CONTRAST]\nOpulent gold-and-smoke palette — glowing gold pedestal, warm ceremonial vapor, deep warm dark; the product's brand color from {brand.color_field_palette} punches against the gold reflectance as the prized hero.\n\n[LIGHT & LENS]\nONE warm directional key modeling product and pedestal, its rim catching the smoke for translucency, deep warm-dark surround. Product and pedestal sharp; smoke and background soft.\n\n[NATURAL PLACEMENT]\nThe product stands centered and plumb on the gold — ceremonial placement, true mirrored contact on the polished surface.\n\n[COMPANION ELEMENTS]\nThe smoke is the chain's ONE ceremonial companion — around, never on, never obscuring the brand face.\n\n[SCENE]\nOpulent pedestal-with-smoke composition. Product atop a reflective gold cylindrical pedestal, soft smoke wisps curling slowly around — semi-transparent, ascending, ceremonial, reading as bukhoor/oud incense. Deep warm-dark gradient behind. Opulent, mysterious, deeply Saudi-luxury. Choice points: camera height, pedestal proportion, smoke density and path, background depth.\n\n[SUBJECT]\nThe product atop the gold pedestal, soft smoke around — gold reflectance, volumetric smoke, and product material in full physical truth.\n\n[BRAND CONSTRAINTS]\nSingle product on the gold pedestal. Smoke around, not obscuring. No human elements. Warm dark background. No text. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal opulent luxury photography, maximum fidelity. Gold-and-smoke warm grade, brand-color hero punch. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} — smoke reads as bukhoor/oud incense (CS-19), gold resonates with Saudi luxury. For Eid/Founding Day: subtle gold particles in the smoke. {saudi.color_palette_adjust} tunes gold warmth.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: smoke density and choreography, camera height, pedestal proportion and finish, key warmth. The ceremony never repeats.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. Product, every label character, {product.material_texture}, gold pedestal, reflection, smoke wisps, warm light — all locked.\n\n[MOTION]\nPrimary — smoke: wisps curl and rise slowly around pedestal and product in ceremonial vortex motion, new tendrils forming and dissipating.\nSecondary — the pedestal: optional extremely slow rotation (~15°) of product+pedestal, gold catching shifting highlights; brand face stays toward camera.\nTertiary — atmosphere: warm particles drift through the light.\n\n[WHAT STAYS STATIC]\nProduct identity and material texture locked. Gold pedestal stable. Warm-dark background. Capture character: film_grain_warmth preserved.\n\n[PACING & DURATION]\n6 seconds. Continuous single take. Slow opulent ceremonial pacing.\n\n[OUTPUT]\nPhotoreal opulent luxury cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3367,
+    "video_chars": 891,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

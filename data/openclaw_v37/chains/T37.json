@@ -1,0 +1,84 @@
+{
+  "chain_id": "T37",
+  "title": "Full Studio Portrait Solo",
+  "locked": false,
+  "native_video": false,
+  "family": "TF09 · Portrait & Model",
+  "sectors": [
+    "Retail",
+    "Beauty",
+    "Fashion",
+    "Corporate"
+  ],
+  "quality_tier": "premium",
+  "intent": [
+    "launch",
+    "grow"
+  ],
+  "reference_image": "Required (product/brand reference; model generated)",
+  "frequency": "1-2× per month",
+  "image_model": "fal-ai/flux-2-pro/edit",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v",
+  "ref_accounts": [
+    "@tiadress",
+    "@danatreasures",
+    "@planb_boutique"
+  ],
+  "cultural_spec": "CS-24, CS-01, CS-22",
+  "drama_dial": "clean editorial, classical restraint",
+  "color_story": "Classical portrait lighting on a neutral backdrop — controlled, timeless, dignified. Restrained neutral palette lets the subject and any brand/garment color carry the chromatic weight.",
+  "when_to_use": "Classic dignified portrait for brand ambassadors, founder features, refined retail/beauty/corporate. The most classical, restrained, timeless of the portrait chains.",
+  "image_prompt_template": "[BRAND LOCK — identity invariant, composition open]\nThe provided reference teaches the {product.name} / {brand.name} identity. Identity DNA, preserved across any camera angle: {product.identity_dna}\nPose, crop (full or three-quarter), and backdrop tone are creative decisions; any featured product/garment reads brand-accurate. INTEGRATION: one classical light system models subject and backdrop together — the key's dimensional shadow, the rim's separation, and the backdrop's gentle falloff are one portrait logic.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: {brand.aesthetic.capture_character} — default clean_studio with classical-portrait grade. Material truth: {product.material_texture} for any featured product; clothing with true fabric weight. Real Saudi skin, authentic texture, honest individual character, natural dignified expression; classical lighting revealing real dimensional form. No plastic skin, no over-retouching.\n\n[SCALE CALIBRATION]\n{product.dimensions} for any featured product at honest to-hand/to-body scale; the figure framed at true human proportion within the portrait space.\n\n[FRAMING & PROXIMITY]\nDignified full or three-quarter portrait presence — the subject near, commanding, composed; the neutral field a frame, not an emptiness.\n\n[COLOR & CONTRAST]\nDeliberately restrained neutral backdrop (warm grey, soft taupe, or deep neutral — warmed or tuned toward {brand.color_field_palette} compatibility) lets the subject's presence and any brand/garment color carry the chromatic weight. Refined, never loud.\n\n[LIGHT & LENS]\nONE classical portrait system: soft key at 45° (Rembrandt or loop character), gentle fill preserving dimensional shadow, subtle hair/rim light. Timeless, controlled, flattering-real. Lens and depth chosen for a sharp subject against a softly neutral field.\n\n[NATURAL PLACEMENT]\nThe pose is composed, dignified, honestly weighted — a real person standing or seated in self-possession.\n\n[SCENE]\nClassical studio portrait. A SINGLE Saudi subject (man or woman per brief) in a dignified full or three-quarter portrait against the neutral backdrop, classical lighting modeling face and form with timeless elegance. Restrained, classic, refined. Choice points: pose, crop, backdrop tone, key character (Rembrandt vs loop).\n\n[SUBJECT]\nONE Saudi subject only — never a group. Modesty register {brand.modesty_register} fully respected (CS-24, CS-01). Warm honey-bronze skin, real texture, dignified composed expression, attire appropriate to register and brand. Classical portraiture dignity — respect and timelessness.\n\n[BRAND CONSTRAINTS]\nSINGLE subject only — never a group, never multiple figures, no other people. Modesty per register (CS-24). Dignified, respectful, authentic Saudi presentation — not costume, not stereotype. No readable text in frame. {brand.anti_attributes}\n\n[OUTPUT]\nPhotoreal classical portrait photography, maximum fidelity. Refined neutral grade, dignified subject presence. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.apparel_context} fills attire by register and region (CS-01, CS-24). {saudi.color_palette_adjust} can warm the neutral backdrop.\n\n[TEXT OVERLAY — conditional, only when brief.text_request is present]\nRender \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary across generations: pose and crop, backdrop tone, key character and shadow depth, attire details within register. Classical dignity, freshly composed.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The subject's appearance, attire, modest styling, neutral backdrop, classical lighting — all preserved character-perfect.\n\n[MOTION]\nSINGLE primary motion: one dignified natural action — a slow composed head turn toward camera, OR a subtle settling of posture, OR a gentle natural breath. Restrained. NO complex motion.\nSecondary: clothing settles naturally; the faintest ambient presence.\n\n[WHAT STAYS STATIC]\nFacial features, skin tone, attire, modest styling, backdrop — all locked. Modesty maintained. Capture character preserved. Camera steady.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. Slow dignified classical pacing.\n\n[OUTPUT]\nPhotoreal classical portrait cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 3527,
+    "video_chars": 795,
+    "image_blocks": [
+      "BRAND LOCK — identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST",
+      "LIGHT & LENS",
+      "NATURAL PLACEMENT",
+      "SCENE",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 14,
+    "placeholders": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.modesty_register",
+      "brand.name",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.material_texture",
+      "product.name",
+      "saudi.apparel_context",
+      "saudi.color_palette_adjust"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

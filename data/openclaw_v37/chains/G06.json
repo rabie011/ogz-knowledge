@@ -1,0 +1,87 @@
+{
+  "chain_id": "G06",
+  "title": "Product on Heritage Surface",
+  "locked": false,
+  "native_video": false,
+  "family": "TF-GROUND · Product in Saudi Environment",
+  "sectors": [
+    "F&B",
+    "Beauty",
+    "Luxury",
+    "Heritage"
+  ],
+  "quality_tier": "universal → premium",
+  "intent": [
+    "launch",
+    "grow",
+    "brand"
+  ],
+  "reference_image": "Recommended",
+  "frequency": "1-2× per week",
+  "image_model": "fal-ai/flux-2-pro/edit    (8,000 chars)",
+  "video_model": "fal-ai/kling-video/v1.6/pro/i2v    (2,500 chars)",
+  "ref_accounts": [
+    "@danatreasures",
+    "@barnscoffee"
+  ],
+  "cultural_spec": "",
+  "drama_dial": "",
+  "color_story": "",
+  "when_to_use": "Heritage rootedness — the product on identifiably Saudi heritage stone/material. Golden-hour hard rake.",
+  "image_prompt_template": "[BRAND LOCK · identity invariant, placement and composition open]\nThe reference image teaches the {product.name} brand identity. Identity is invariant — heritage surface, light angle, and placement are creative decisions.\nIdentity DNA: {product.identity_dna}\nINTEGRATION: The product on heritage stone is one golden-hour moment. The warm stone reflects subtle color onto the product's base — the brand color rhymes warmly with the stone; the long stone-shadow is the same shadow dropping from the product; fine desert particles drift across stone and product alike.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: film_grain_warmth heritage cinema, photoreal, warm-toned film, warm grain in shadow. Real stone truth — mudbrick straw inclusions, sandstone striations, coral-stone fossil character, weathered wood grain. Material truth: {product.material_texture}.\n\n[SCALE CALIBRATION]\n{product.dimensions}. Render the product-to-companion proportion honestly; both small on the heritage surface.\n\n[FRAMING & PROXIMITY]\nMedium-close proximity — product and companion on the stone fill the frame, the surface texture filling the surround, edges soft. No vast dead space.\n\n[COLOR & CONTRAST · brand-derived earth]\nWarm earth field from Saudi heritage stone (mudbrick beige, sandstone honey, coral-stone rose, AlUla red-earth, weathered-wood brown — authentic earth tones, not borrowed candy accents). Anchored to {brand.palette.primary} rhyming with the warm tones. Field per {brand.color_field_palette} + {saudi.material_context}.\n\n[LIGHT & LENS · golden-hour hard rake, mood not spec]\nSaudi golden-hour directional rake — hard quality catching stone texture, long shadows revealing depth. The shadow can cut across the frame for drama. Background falls into warm shade. Model chooses rake direction (upper-left/right, near-frontal, low-side shadow-emphasis). POPPING COLOR INTENT: warm earth field at full natural depth, {brand.palette.primary} as the modern accent rhyming with the honey tones. Lens: portrait compression; model chooses depth for surface vs context.\n\n[NATURAL PLACEMENT]\nThe product and companion came to rest on the stone naturally — product may lie, lean, or stand; companion set down. Not posed in a grid.\n\n[COMPANION ELEMENTS · restrained]\nONE hero companion from {product.companion_elements} (e.g. a serving cup with steam). Optionally one clean shape only if it stays minimal. No scatter.\n\n[SCENE · creative seed]\nHeritage textural placement — the product on identifiably Saudi heritage material, rooted in place and time. Model chooses: surface (Diriyah mudbrick, Najdi sandstone, Hejazi coral-stone, weathered wood, AlUla rock); placement (centered, off-centered rule-of-thirds, near a corner); light angle; architectural anchor (subtle Najdi carving at edge, mudbrick joint, coral fossil, or pure texture); frame depth.\n\n[SUBJECT]\nAuthentic Saudi material truth per CS-13 — specifically Diriyah/Najdi/Hejazi/AlUla, not generic Middle Eastern. Honest, scale-correct texture. The product is the modern note against heritage stone.\n\n[BRAND CONSTRAINTS]\nSingle product. ONE companion. Only heritage surface — no other props, no humans. Specifically Saudi per CS-13. {brand.anti_attributes}\n\n[OUTPUT]\n8K photoreal heritage commercial photography. Warm earth-tone grade, {brand.palette.primary} sharp. No overlay text, no watermark.\n\n[SAUDI ADAPTATION — conditional]\n{saudi.scene_context} maps the surface to brand region per CS-13 (Najdi sandstone for Riyadh, Hejazi coral-stone for Jeddah, Diriyah mudbrick for national-heritage, AlUla rock for premium). {saudi.material_context} supplies the companion. For {saudi.occasion_overlay}: Founding/National Day heritage emphasis.\n\n[TEXT OVERLAY — conditional, agent appends only when brief.text_request is present]\nRender this text directly in the image: \"{brief.text_request.copy}\" — style: {brief.text_request.style}, placement: {brief.text_request.zone}, contrasting color. If absent, no text appears.\n\n[CREATIVE VARIANCE DIRECTIVE]\nVary surface, placement, golden-hour angle, architectural anchor, frame depth. Hold constant: golden-hour hard rake, brand-derived earth field, one companion, honest proportion, material texture. Each render a different heritage moment.",
+  "video_prompt_template": "[STARTING IMAGE HOLD]\nStarting image is immutable ground truth. The product, companion, heritage surface, architectural anchor — all preserved exactly. Product silhouette, all label color values, every Arabic ({product.label_text_arabic}) and Latin ({product.label_text_latin}) character, logo, material finish — character-perfect.\n\n[MOTION]\nThe golden-hour light rakes slowly across the stone as if the sun moves, lengthening shadows over the duration; fine particles drift; steam rises from the companion. A gentle push-in. The product never moves or distorts — only light and air are alive.\n\n[WHAT STAYS STATIC]\nProduct silhouette, every label character, color values, logo, material finish — locked. Natural placement held. Capture character film_grain_warmth preserved. Golden-hour shadow-cut maintained.\n\n[PACING & DURATION]\n5 seconds. Continuous single take. No cuts.\n\n[OUTPUT]\n8K photoreal heritage cinematography. Silent. No text overlay, no watermark.",
+  "_stats": {
+    "image_chars": 4240,
+    "video_chars": 961,
+    "image_blocks": [
+      "BRAND LOCK · identity invariant, placement and composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST · brand-derived earth",
+      "LIGHT & LENS · golden-hour hard rake, mood not spec",
+      "NATURAL PLACEMENT",
+      "COMPANION ELEMENTS · restrained",
+      "SCENE · creative seed",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional",
+      "TEXT OVERLAY — conditional, agent appends only when brief.text_request is present",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "video_blocks": [
+      "STARTING IMAGE HOLD",
+      "MOTION",
+      "WHAT STAYS STATIC",
+      "PACING & DURATION",
+      "OUTPUT"
+    ],
+    "n_image_blocks": 15,
+    "placeholders": [
+      "brand.anti_attributes",
+      "brand.color_field_palette",
+      "brand.palette.primary",
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "product.companion_elements",
+      "product.dimensions",
+      "product.identity_dna",
+      "product.label_text_arabic",
+      "product.label_text_latin",
+      "product.material_texture",
+      "product.name",
+      "saudi.material_context",
+      "saudi.occasion_overlay",
+      "saudi.scene_context"
+    ]
+  },
+  "provenance": {
+    "source": "OpenClaw_Master_Prompt_Library_v3_7_COMPLETE.md",
+    "date_added": "2026-06-13",
+    "confirmer": "alhareth+mohamed (canon)",
+    "confidence": "confirmed",
+    "scope": "global"
+  }
+}

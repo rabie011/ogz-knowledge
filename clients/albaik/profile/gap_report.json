@@ -1,59 +1,67 @@
 {
-  "questions": [
-    "الخطوط الحمراء: وش ما ننشر أبداً؟",
-    "الهدف: مبيعات مباشرة، بناء براند، ولا الاثنين؟ كم نسبة العروض؟",
-    "كم طلب باليوم تقدرون تستوعبون؟",
-    "مين يتكلم باسم البراند؟",
-    "تأكيد المنتجات والأسعار (المرشّحين مرفقين)",
-    "مين منافسينك اللي تتابعهم؟ (2-3)",
-    "أهداف العمل القادمة (إطلاقات، فروع، مواسم مهمة لكم؟)",
-    "الخطوط الحمراء: وش ما ننشر أبداً؟ (وجوه العائلة؟ قصة الوالدة؟ أسعار؟)",
-    "مين ينطق باسم البراند: صوت البنت؟ صوت العائلة؟ صوت محايد؟",
-    "وش اللي يميزكم بكلمات صاحبة المشروع نفسها؟ (USP)",
-    "الهدف من المحتوى: مبيعات مباشرة ولا بناء براند ولا الاثنين؟ (نسبة العروض)"
+ "questions": [
+  "الهدف: مبيعات مباشرة، بناء براند، ولا الاثنين؟ كم نسبة العروض؟",
+  "كم طلب باليوم تقدرون تستوعبون؟",
+  "تأكيد المنتجات والأسعار (المرشّحين مرفقين)",
+  "أهداف العمل القادمة (إطلاقات، فروع، مواسم مهمة لكم؟)"
+ ],
+ "organs_red": [
+  "red_lines",
+  "goals",
+  "l1_strategy"
+ ],
+ "organs_yellow": [
+  "truth_pack(candidates)",
+  "l2_voice(stats)"
+ ],
+ "v37_visual": {
+  "scored": "2026-06-13",
+  "schema": "openclaw_v3.7",
+  "red": 24,
+  "yellow": 49,
+  "green": 1,
+  "red_fields": [
+   "product[0].identity_dna",
+   "product[0].label_text_arabic",
+   "product[0].label_text_latin",
+   "product[1].identity_dna",
+   "product[1].label_text_arabic",
+   "product[1].label_text_latin",
+   "product[2].identity_dna",
+   "product[2].label_text_arabic",
+   "product[2].label_text_latin",
+   "product[3].identity_dna",
+   "product[3].label_text_arabic",
+   "product[3].label_text_latin",
+   "product[4].identity_dna",
+   "product[4].label_text_arabic",
+   "product[4].label_text_latin",
+   "product[5].identity_dna",
+   "product[5].label_text_arabic",
+   "product[5].label_text_latin",
+   "product[6].identity_dna",
+   "product[6].label_text_arabic"
   ],
-  "organs_red": [
-    "red_lines",
-    "goals",
-    "l1_strategy"
+  "renderable": "yes — YELLOW candidates render as working defaults; RED carried by reference image",
+  "confirm_questions": [
+   "v37_albaik_palette",
+   "v37_albaik_products_phys",
+   "v37_albaik_identity_ref"
+  ]
+ },
+ "established_research": {
+  "mode": "auto_research",
+  "filled": [
+   "l1_strategy",
+   "red_lines",
+   "goals.goal_ratio"
   ],
-  "organs_yellow": [
-    "truth_pack(candidates)",
-    "l2_voice(stats)"
-  ],
-  "v37_visual": {
-    "scored": "2026-06-13",
-    "schema": "openclaw_v3.7",
-    "red": 24,
-    "yellow": 49,
-    "green": 1,
-    "red_fields": [
-      "product[0].identity_dna",
-      "product[0].label_text_arabic",
-      "product[0].label_text_latin",
-      "product[1].identity_dna",
-      "product[1].label_text_arabic",
-      "product[1].label_text_latin",
-      "product[2].identity_dna",
-      "product[2].label_text_arabic",
-      "product[2].label_text_latin",
-      "product[3].identity_dna",
-      "product[3].label_text_arabic",
-      "product[3].label_text_latin",
-      "product[4].identity_dna",
-      "product[4].label_text_arabic",
-      "product[4].label_text_latin",
-      "product[5].identity_dna",
-      "product[5].label_text_arabic",
-      "product[5].label_text_latin",
-      "product[6].identity_dna",
-      "product[6].label_text_arabic"
-    ],
-    "renderable": "yes — YELLOW candidates render as working defaults; RED carried by reference image",
-    "confirm_questions": [
-      "v37_albaik_palette",
-      "v37_albaik_products_phys",
-      "v37_albaik_identity_ref"
-    ]
+  "note": "established brand — researched (experimental), NOT asked. Mohamed confirms/corrects, never asked cold.",
+  "confirm_instead": "أكّد أو صحّح ملف البراند المستنتج (هوية/خطوط حمراء/هدف) — بدل ما نسأل من الصفر",
+  "mined": {
+   "posts": 521,
+   "reviews": 997,
+   "offer_rate": 0.05
   }
+ }
 }

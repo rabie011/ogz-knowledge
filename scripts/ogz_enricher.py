@@ -614,7 +614,7 @@ def validate() -> bool:
 
 
 # ── Commit + Sync ──────────────────────────────────────────────────────────────
-def commit_and_sync(report: dict) -> bool:
+def commit_and_sync(report: dict, cycle_num: int = 0) -> bool:
     """git add → commit → rsync to Drive → git push. Returns success."""
     msg_parts = []
     if report.get("accounts_extracted"):
@@ -756,7 +756,7 @@ def cycle(state: dict, cycle_num: int) -> dict:
     if report:
         log.info(f"  Changes this cycle: {report}")
         if validate():
-            commit_and_sync(report)
+            commit_and_sync(report, cycle_num)
             telegram_report(report, cycle_num)
         else:
             log.error("  ❌ Validation failed — rolling back ENRICHER-OWNED paths only")

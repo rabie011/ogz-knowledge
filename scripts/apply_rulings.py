@@ -39,7 +39,8 @@ from feedback_lib import base
 
 ANSWERS = "data/mohamed_answers.jsonl"
 LEDGER = "data/applied_rulings.jsonl"
-ACK_ANSWERS = {"ack", "seen", "ok", "noted"}  # answers that ARE the whole action
+ACK_ANSWERS = {"ack", "seen", "ok", "noted", "comment"}  # answers that ARE the whole action
+# "comment" = he left a note (read as feedback, not a ruling to apply to an organ)
 
 
 def _read_jsonl(p: Path) -> list:

@@ -56,6 +56,15 @@ def pick_posts(n: int) -> list:
                 continue
             if not (d.get("captions") and d.get("brain")):
                 continue
+            # PRE-SHIP GATE (auto, 2026-06-14): no post reaches his judge lane without passing —
+            # the cultural/occasion misses (royal family, Hajj hook) get blocked by the SYSTEM,
+            # not by Mohamed's eye or by Claude pulling cards after the fact.
+            try:
+                import pre_ship_gate as _g
+                if _g.gate(d, handle).get("block"):   # KILL (cultural) OR a learned-rejection pattern
+                    continue
+            except Exception:
+                pass
             slot = _parse(d.get("slot"))
             date = slot.get("date", d.get("date", ""))
             if f"judge2_{handle}_{date}" in existing:

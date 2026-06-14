@@ -85,9 +85,27 @@ def build(handle: str, sector: str, start: datetime.date) -> dict:
         if o["days"] > 20:
             put(d0 + datetime.timedelta(days=o["days"] // 2), {**o, "beat": "mid_season"})
 
-    # evergreen themes rotate through the client's REAL material
-    ever = ([m["occasion"] + ": " + m["evidence"][:60] for m in moments] +
-            [f"منتج حقيقي: {p['name']}" for p in truth.get("product_candidates", [])] +
+    # evergreen themes rotate through the client's REAL material — but OCCASION-NEUTRAL ONLY
+    # (June 14 root fix): a daily slot must never inherit an Eid/Ramadan/National-Day moment
+    # hook, or its caption fabricates that holiday on a plain day. Calendar-occasion moments
+    # belong only on the matching occasion slots (which use lens_theme). Also drop garbage
+    # "products" (prepositions like «على», mangled Latin like «Liaqti.tu»).
+    import re as _re
+    from occasion_align import CALENDAR_OCC_MOMENTS, occ_hits
+    _STOP = set("على عن من في إلى الى مع و أو يا هذا هذه the a an of on".split())
+    _good = lambda n: bool((n or "").strip()) and (n or "").strip() not in _STOP \
+        and len((n or "").strip()) > 2 and not _re.search(r"[A-Za-z]+\.[a-z]{2,}", n or "")
+    # RED-LINE markers a daily theme must never carry (RABIE 2026-06-14: moment EVIDENCE texts
+    # held «بحضور صاحب السمو الأمير سعود» / «معالي أمين العاصمة» — royal/official patronage that
+    # red_lines.json forbids in commercial content). Filter the TEXT, not just the occasion tag.
+    _ROYAL = _re.compile(r"الأمير|الأميرة|سمو|معالي|سعادة|آل ?سعود|ولي ?العهد|أمين ?العاصمة|الملك ")
+    def _neutral(m):
+        ev = m.get("evidence") or ""
+        return (m.get("occasion") not in CALENDAR_OCC_MOMENTS
+                and not occ_hits(ev)          # evidence text invents no calendar occasion
+                and not _ROYAL.search(ev))     # and names no royal/official figure
+    ever = ([m["occasion"] + ": " + m["evidence"][:60] for m in moments if _neutral(m)] +
+            [f"منتج حقيقي: {p['name']}" for p in truth.get("product_candidates", []) if _good(p.get("name"))] +
             [f"قناة: اطلب عبر {c['name']}" for c in truth.get("channels", []) if c["name"] != "linktree"])
     if not ever:
         ever = ["voice-birth follow-up (newborn: material comes from the birth week)"]

@@ -82,6 +82,34 @@ def gate(post, handle):
         hard.append("imported new-culture (Easter/Christmas/Halloween) as Saudi occasion")
     if handle == "eatjurisha" and DINE_IN.search(text):
         hard.append("dine-in scene — jurisha is a CLOUD KITCHEN (delivery only)")
+    # OCCASION ALIGNMENT (June 14, "confirmed with occasion") — HARD: a daily post that invents
+    # a holiday, or an occasion post that drifts to a different holiday, never ships. Shared,
+    # boundary-safe logic (Rule #6) — عيد inside سعيد/يعيدني is not Eid (Rule #9).
+    try:
+        import occasion_align as _oa
+        _slot = post.get("slot") or {"occasion": post.get("occasion"), "type": post.get("type")}
+        # scan BOTH doors (RABIE 2026-06-14): captions AND the visual shoot-card brief — a daily
+        # post whose VISUAL stages a Ramadan suhoor is just as misaligned as one whose caption does.
+        _vis = " ".join(str(x) for x in (post.get("visual") or {}).get("phone_shoot_card") or [])
+        for _t in list(caps or []) + ([_vis] if _vis else []):
+            _mis = _oa.caption_misaligned(_slot, _t or "")
+            if _mis:
+                hard.append(f"occasion misalignment — {_mis}")
+                break
+    except Exception:
+        pass
+    # CLIENT-RULES (RABIE NO-GO 2026-06-14): enforce the client's CONFIRMED organs —
+    # real-person/face/family/voice (cultural_overrides), cloud-kitchen format, cross-brand bleed,
+    # brand-name register. Any block-severity organ violation is a HARD kill (caption + visual).
+    try:
+        import client_rules as _cr
+        for kind, sev, detail in _cr.violations(post, handle):
+            if sev == "block":
+                hard.append(f"client-rule: {detail}")
+            else:
+                soft.append(f"client-rule: {detail}")
+    except Exception:
+        pass
 
     # WORN phrases (soft — caption weakness)
     worn_hit = [w for w in WORN if w in text]

@@ -114,6 +114,27 @@ def main():
     checks["uncommitted_produced_files"] = len(uncommitted_produced)
     checks["commits_flowing"] = (age_min < 120) or (enricher_idle_ok and not uncommitted_produced)
 
+    # 4b. STAGING BOUNDARY (zoom-out 2026-06-14): the gate must BITE at staging, not just in
+    # tests — no gate-BLOCKED post may be live in his judge lane (a one-off stage once bypassed
+    # the gate). Re-gate every open judge card each cycle; alarm if any would be blocked.
+    try:
+        import pre_ship_gate as _psg
+        q4 = json.loads(QUEUE.read_text()) if QUEUE.exists() else {"items": []}
+        blocked_live = []
+        for it in q4["items"]:
+            if it.get("id", "").startswith("judge2_") and it.get("status") == "open":
+                mm = re.match(r"judge2_(.+?)_(\d{4}-\d\d-\d\d)", it["id"])
+                if not mm:
+                    continue
+                hh, dd = mm.group(1), mm.group(2)
+                hits = glob.glob(str(BASE / f"clients/{hh}/posts/{dd}*.json"))
+                if hits and _psg.gate(json.loads(open(hits[0]).read()), hh).get("block"):
+                    blocked_live.append(it["id"])
+        checks["judge_cards_gated"] = not blocked_live
+        checks["_blocked_live"] = blocked_live or None
+    except Exception:
+        checks["judge_cards_gated"] = True
+
     # 5. cron heartbeat marker (the orchestra updates this state file each run — its own pulse)
     # RABIE-ratified June 12: the queue's consumer died silently for 88 days once — never again
     o = subprocess.run(["pgrep", "-f", "orchestrator_daemon.py"], capture_output=True)
@@ -148,7 +169,7 @@ def main():
     if fb.returncode != 0:
         checks["feedback_failed"] = (fb.stdout or "").strip().splitlines()[-1:]
 
-    ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "portal_items_ok", "commits_flowing", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests"))
+    ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "portal_items_ok", "commits_flowing", "judge_cards_gated", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests"))
     entry = {"ts": now, **checks, "verdict": "ALIVE" if ok else "ALARM"}
     with open(LOG, "a") as f:
         f.write(json.dumps(entry) + "\n")
@@ -166,7 +187,7 @@ def main():
     q = _j.loads(qf.read_text()) if qf.exists() else {"items": []}
     alarm = next((i for i in q["items"] if i["id"] == "alarm_live"), None)
     if not ok:
-        dead = [k for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "portal_items_ok", "commits_flowing", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests") if not checks.get(k, True)]
+        dead = [k for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "portal_items_ok", "commits_flowing", "judge_cards_gated", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests") if not checks.get(k, True)]
         if alarm:  # update in place, never multiply
             alarm["status"] = "open"; alarm["priority"] = "urgent"
             alarm["title"] = f"🚨 إنذار: {', '.join(dead)} واقف"

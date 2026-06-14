@@ -182,15 +182,42 @@ class TestTasteGuard(unittest.TestCase):
         self.assertEqual(len(killed), 1, (kept, killed))
         self.assertIn("جريشة جاهزة على سفرتك", kept)  # جاهزة = ready, not the app
 
-    def test_never_empties(self):
+    def test_all_killed_returns_empty_NEVER_readmits(self):
+        """Rule #8 (June 14 root-hunt fix): when EVERY option carries his taste-kill ruling,
+        taste_guard returns EMPTY — it must NOT re-admit the least-bad killed line. The old
+        `kept=[options[0]]` re-shipped a caption his ruling just killed (THE leak behind his
+        'all the same / repetition' complaint). The caller regenerates with feedback or holds
+        the slot; a ruled-against caption never ships."""
         from render_client_slot import taste_guard
         kept, killed = taste_guard(["لمة العيلة عند جدتي"], self.KP)
-        self.assertEqual(len(kept), 1)  # least-bad survives flagged
+        self.assertEqual(kept, [])          # refuses — does NOT re-admit the killed line
+        self.assertEqual(len(killed), 1)    # and reports what it killed, for the regen feedback
 
     def test_inactive_pattern_no_kill(self):
         from render_client_slot import taste_guard
         kept, killed = taste_guard(["العيلة كلها هنا"], [])
         self.assertFalse(killed)
+
+
+class TestFewShotNotPoisonedByBannedGold(unittest.TestCase):
+    """June 14 root-hunt of Mohamed's 'all the same / repetition' complaint: the gold few-shot
+    was teaching the pen the exact formulas he banned (all 6 jurisha gold were delivery-CTA or
+    family-scene). A gold line matching an ACTIVE kill_pattern must never lead the few-shot."""
+
+    def test_jurisha_fewshot_has_no_banned_core(self):
+        import json
+        from pathlib import Path
+        from render_client_slot import load_client, TASTE_GUARD_LEXICON
+        B = Path(__file__).parent.parent.parent
+        if not (B / "clients/eatjurisha/profile/gold.json").exists():
+            self.skipTest("no jurisha gold")
+        c = load_client("eatjurisha")
+        active = [k.get("pattern") for k in c.get("kill_patterns", []) if isinstance(k, dict)]
+        if not active:
+            self.skipTest("no active kill_patterns")
+        leaked = [e for e in c["exemplars"]
+                  if any(p in TASTE_GUARD_LEXICON and TASTE_GUARD_LEXICON[p].search(e) for p in active)]
+        self.assertEqual(leaked, [], f"few-shot still teaches a banned formula: {leaked}")
 
 
 class TestSceneDiversity(unittest.TestCase):

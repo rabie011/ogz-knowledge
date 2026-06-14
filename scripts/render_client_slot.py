@@ -140,16 +140,20 @@ def batch_diversity_check(slots: list, ceiling: float = 0.30) -> dict:
 
 
 def taste_guard(options: list, kill_patterns: list) -> tuple[list, list]:
-    """Returns (kept, killed). Never empties the set — if every option violates,
-    the least-bad first option survives flagged (human eyes decide downstream)."""
+    """Returns (kept, killed). Rule #8 — REFUSE, don't warn: if EVERY option carries a
+    founder taste-kill ruling, kept is EMPTY. The caller REGENERATES with the kill reasons
+    fed back, or HOLDS the slot — a ruled-against caption NEVER ships.
+    (June 14 root-hunt of Mohamed's 'all the same / repetition' complaint: the old
+    `kept=[options[0]]` re-admitted a caption his ruling had JUST killed — so when the pen
+    produced only delivery-CTA/family-scene formulas, the gauntlet correctly killed all 3
+    and this line shipped the killed one anyway. THE leak that shipped his repetitive
+    patterns. Proven on a live test slot 2026-06-14.)"""
     active = [k.get("pattern") for k in kill_patterns if isinstance(k, dict)]
     kept, killed = [], []
     for o in options:
         hit = next((p for p in active
                     if p in TASTE_GUARD_LEXICON and TASTE_GUARD_LEXICON[p].search(o)), None)
         (killed if hit else kept).append((o, hit) if hit else o)
-    if not kept and options:
-        kept = [options[0]]
     return kept, killed
 
 
@@ -194,18 +198,29 @@ def load_client(handle: str) -> dict:
         va = next((x for x in v.get("voices", []) if x.get("id") in ("A", "voice_a")), None)
         if va:
             exemplars = va.get("posts", [])[:3] + exemplars[:2]
+    # FEW-SHOT QUARANTINE (June 14 root-hunt of Mohamed's 'all the same / repetition'):
+    # a few-shot example matching an ACTIVE kill_pattern TEACHES the pen the exact formula
+    # he banned. All 6 jurisha gold AND many corpus top-liked captions were delivery-CTA or
+    # family-scene → the pen reproduced his banned cores. NO few-shot source (gold, corpus,
+    # voice-birth) may carry an active-banned formula.
+    _tf = cdir / "profile/taste.json"
+    _active = [k.get("pattern") for k in (json.loads(_tf.read_text()).get("kill_patterns", [])
+               if _tf.exists() else []) if isinstance(k, dict)]
+    _teaches_banned = lambda ln: (any(w in ln for w in STANDING_WORN)
+                                  or any(pp in TASTE_GUARD_LEXICON and TASTE_GUARD_LEXICON[pp].search(ln)
+                                         for pp in _active))
     # GOLD first (June 12, the ceiling stretch): lines the chair rated >=4 are the
     # strongest few-shot signal — they lead, corpus exemplars fill behind
     gold_entries = []
     gf = cdir / "profile/gold.json"
     if gf.exists():
-        gold_entries = json.loads(gf.read_text()).get("gold", [])
-        # gold quarantine: banned-formula lines never few-shot (see STANDING_WORN)
-        gold_entries = [g for g in gold_entries
-                        if not any(w in g.get("line", "") for w in STANDING_WORN)]
+        gold_entries = [g for g in json.loads(gf.read_text()).get("gold", [])
+                        if not _teaches_banned(g.get("line", ""))]
         gold_lines = [g["line"] for g in gold_entries]
         if gold_lines:
             exemplars = gold_lines[:3] + [e for e in exemplars if e not in gold_lines][:2]
+    # final sweep across ALL sources — formula-teaching lines never reach the pen
+    exemplars = [e for e in exemplars if not _teaches_banned(e)]
     truth = p("truth_pack")
     # grounding corpus for the noun guard: everything the client has actually said
     corpus_text = " ".join([x.get("caption") or "" for x in posts] + [prof.get("biography", "")]
@@ -282,12 +297,28 @@ def route_brain(slot: dict, alt: int = 0) -> str:
         return ("firaasa", "authenticity")[alt % 2]
     if slot.get("type") == "competitor_reference":
         return "paradox"
-    return ("metaphor", "paradox")[alt % 2]
+    # daily slots: spread across ALL FOUR non-occasion brains (June 14 — the *-11 batch came
+    # out 100% paradox because the old 2-brain date-PARITY keyed identical for every date
+    # ending in 1; a batch using one brain isn't using the 5-CD-brain range). Digit-sum%4
+    # rotates brains even across same-parity / adjacent dates.
+    DAILY = ("metaphor", "paradox", "firaasa", "authenticity")
+    seed = sum(int(ch) for ch in str(slot.get("date", "")) if ch.isdigit()) or alt
+    return DAILY[seed % 4]
 
 
 def brain_method(brain: str) -> str:
+    """The CD brain's actual METHODOLOGY BODY — not the YAML front-matter.
+    (Root-hunt 2026-06-14: the old [:2800] returned ONLY the front-matter — the front-matter
+    ends at char ~3395 — so the creative METHOD never reached the angle pen; every brain fell
+    back to the generic 'concrete scene' prompt → captions collapsed to the brand-mean formula.
+    THE #1 repetition cause. Now: skip the front-matter, inject the method body.)"""
     f = BASE / "20_cd_brains" / BRAIN_FILES[brain]
-    return f.read_text()[:2800] if f.exists() else ""
+    if not f.exists():
+        return ""
+    t = f.read_text()
+    marks = [m.start() for m in re.finditer(r"^---\s*$", t, re.M)]
+    body = t[marks[1] + 3:] if len(marks) >= 2 else t   # content AFTER the YAML front-matter
+    return body.strip()[:3200]   # the core methodology that makes this brain creative + distinct
 
 
 LIFE_CONTEXTS = ["عائلة في البيت", "أصدقاء وشلة", "شخص وحده — هدوء مع نفسه",
@@ -304,6 +335,33 @@ def life_context(handle: str, date: str) -> str:
 
 
 def make_angle(c: dict, slot: dict, sector: str, brain: str | None = None) -> dict:
+    import occasion_align as _oa
+    import client_rules as _cr
+    _ov = _cr._overrides(c["handle"])
+    _ab = []
+    if _ov.get("real_person_mentions") == "off":
+        _ab.append("NO named real person (roles only — never «الكابتن عادل»)")
+    if str(_ov.get("family_voice_lines", "")).startswith("blocked"):
+        _ab.append("NO family member speaking/quoted")
+    if _ov.get("face_visibility") == "never" or _ov.get("family_member_visibility") == "never":
+        _ab.append("the scene must work with NO visible faces/family (hands/food/objects/place)")
+    if _cr._is_cloud_kitchen(c["handle"]):
+        _ab.append("DELIVERY-ONLY — never a dine-in/restaurant/cart scene; the food arrives")
+    if sector in _cr.FOOD_SECTORS:
+        _ab.append("NO gym/workout setting (food brand)")
+    organ_rule = ("\nCLIENT RULES (confirmed — never break): " + "؛ ".join(_ab) + ".") if _ab else ""
+    # CEO STRATEGY BRIEF (Phase 2, June 14): the CD brain produces INSIDE the C-suite frame —
+    # the strategy stage already analysed the full client organs; the angle pursues its pillars/angles.
+    _sb = BASE / "clients" / c["handle"] / "profile" / "strategy_brief.json"
+    strat_rule = ""
+    if _sb.exists():
+        _s = json.loads(_sb.read_text())
+        _pil = (_s.get("everyday_pillars") or [])[:6]
+        _ang = (_s.get("angles_to_pursue") or [])[:5]
+        if _pil or _ang:
+            strat_rule = ("\nCEO STRATEGY (produce inside this): positioning «" + (_s.get("positioning") or "")[:80]
+                          + "»; everyday pillars " + json.dumps(_pil, ensure_ascii=False)
+                          + ("; pursue an angle like: " + json.dumps(_ang, ensure_ascii=False)[:400] if _ang else "") + ".")
     facts = json.loads((BASE / "data/occasion_facts.json").read_text())
     occ = slot.get("occasion", "")
     key = {"saudi_national_day": "saudi_national_day"}.get(occ, occ)
@@ -317,17 +375,29 @@ def make_angle(c: dict, slot: dict, sector: str, brain: str | None = None) -> di
         m = brain_method(brain)
         if m:
             method = f"\n\nYOUR METHODOLOGY (you are the {brain} CD brain — apply this method to find the angle):\n{m}\n"
+    # OCCASION TRUTH at the ANGLE layer (RABIE 2026-06-14 — the visual leaks because the ANGLE
+    # invented a holiday, then shot_card built the brief from that angle). A daily scene has NO
+    # holiday; example moments that show one are filtered OUT so the pen isn't seeded with it.
+    daily = _oa.is_daily(slot)
+    occ_rule = ("\nTHIS IS AN EVERYDAY SCENE — there is NO holiday. The scene must NOT be set in or "
+                "reference Eid, Ramadan, National Day, Founding Day, Hajj, or Mother's Day — even if an "
+                "example moment below shows one. A plain ordinary day." if daily else
+                f"\nTHE SCENE IS DURING «{_oa.slot_occ_key(slot) or occ}» — live inside THAT occasion, no other.")
+    moments_pool = [m for m in c["moments"]
+                    if not (daily and _oa.occ_hits(m.get("evidence") or ""))]  # drop occasion moments on daily
+    ex = [m["evidence"][:70] for m in (lambda ms, d: [ms[(sum(ord(ch) for ch in d) + j) % len(ms)]
+          for j in range(min(3, len(ms)))])(moments_pool, slot.get("date", ""))] if moments_pool else []
     sys_p = ("You are a Saudi creative director generating ONE angle (idea), not a caption. "
              "An angle is a CONCRETE SCENE: WHO (specific person/role) + WHEN (specific beat) + WHAT (specific gesture) "
              "+ where the product sits naturally inside that exact moment. BANNED: brand-as-bridge/symbol/soul metaphors, "
              "abstract culture/heritage sentences, anything a TV voiceover could say. "
-             + method +
+             + occ_rule + organ_rule + strat_rule + method +
              'Return JSON: {"scene_ar": "...", "why_it_lands": "...", "post_type": "moment|announcement|offer|greeting"}')
     user = (f"البراند: {c['brand_ar']} (bio: {c['bio'][:150]})\n"
             f"المنتجات الحقيقية: {products[:8]}\nالقنوات: {channels or 'غير معروفة — لا تخترع قناة'}\n"
             f"السياق: {slot.get('occasion') or slot.get('angle_theme','')} · beat: {slot.get('beat','evergreen')}\n"
             + (f"عدسة القطاع×المناسبة: {json.dumps(lens, ensure_ascii=False)[:600]}\n" if lens else "")
-            + (f"لحظات حقيقية من منشوراتهم: {json.dumps([m['evidence'][:70] for m in (lambda ms, d: [ms[(sum(ord(ch) for ch in d) + j) % len(ms)] for j in range(min(3, len(ms)))])(c['moments'], slot.get('date',''))], ensure_ascii=False)}\n" if c["moments"] else "")
+            + (f"لحظات حقيقية من منشوراتهم: {json.dumps(ex, ensure_ascii=False)}\n" if ex else "")
             + ("NOTE: this brand speaks English-first — the scene may be EN-hook + AR-idea bilingual.\n" if c["en_led"] else "")
             + f"سياق الحياة لهذا اليوم — المشهد يعيش داخله (مو شرط عائلة!): {life_context(c['handle'], slot['date'])}\n"
             + f"التاريخ الفعلي للنشر: {slot['date']}")
@@ -363,19 +433,54 @@ def cta_allowed(handle: str, slot: dict) -> bool:
 
 
 def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
+    import occasion_align as _oa
+    import client_rules as _cr
+    # the client's CONFIRMED organs, fed to the pen so it produces clean (not produce→block→waste)
+    _ov = _cr._overrides(c["handle"])
+    _organ_bits = []
+    if _ov.get("real_person_mentions") == "off":
+        _organ_bits.append("NEVER name a real person (no «الكابتن عادل», no «أبو فلان») — roles only, never names")
+    if str(_ov.get("family_voice_lines", "")).startswith("blocked"):
+        _organ_bits.append("NEVER put words in a family member's mouth (no «أختي تقول:…», no «الجد يهمس»)")
+    if _cr._is_cloud_kitchen(c["handle"]):
+        _organ_bits.append("DELIVERY-ONLY cloud kitchen — never a restaurant/cafe/dine-in/food-cart/branch scene")
+    if _cr._sector(c["handle"]) in _cr.FOOD_SECTORS:
+        _organ_bits.append("NEVER a gym/workout setting or post-workout framing (this is a food brand)")
+    organ_clause = ("CLIENT RULES (the founder confirmed these — breaking one kills the post): "
+                    + "؛ ".join(_organ_bits) + ". " if _organ_bits else "")
     taste = json.loads((BASE / "data/founder_taste.json").read_text())
     products = [x["name"] for x in c["truth"]["product_candidates"]][:5]
     channels = [x["name"] for x in c["truth"]["channels"] if x["name"] != "linktree"]
+    # LEARNED phrase-bans (Mohamed's prior 'no's) — fed to the pen so it AVOIDS them upfront,
+    # not produces→blocks→wastes (June 14 Consumer-Law gap: the bans had a reader in
+    # pre_ship_gate but the PRODUCER never saw them, so 6/8 fresh posts blocked on «أول لقمة»).
+    _lf = BASE / "data/learned_gate_rules.json"
+    _lg = json.loads(_lf.read_text()) if _lf.exists() else {}
+    learned_bans = sorted(set([p for p in _lg.get("phrase_bans", []) if p]
+                          + [r.get("phrase_ban") for r in _lg.get("rules", []) if r.get("phrase_ban")]))
+    # OCCASION TRUTH (June 14 — "confirmed with occasion, everything aligned"): tell the pen the
+    # slot's REAL calendar status. A daily slot has NO occasion → forbid all holiday words; an
+    # occasion slot must live inside THAT occasion only. The gauntlet below enforces it.
+    if _oa.is_daily(slot):
+        occ_clause = ("THIS IS AN EVERYDAY POST — there is NO holiday today. NEVER mention or imply "
+                      "Eid, Ramadan, National Day, Founding Day, Hajj, or Mother's Day. Just the ordinary "
+                      "everyday moment (a regular day, a meal, a workout, a craving). ")
+    else:
+        _ok = _oa.slot_occ_key(slot) or slot.get("occasion")
+        occ_clause = (f"TODAY'S OCCASION IS «{_ok}» — the caption must live inside THAT occasion and NO other "
+                      "(never blend a different holiday into it). ")
     bilingual = ("Write EN hook + Arabic idea (bilingual, NOT translation). "
                  "English lines carry a CONCRETE moment or real instruction — never fitness-influencer filler "
                  "('Feeling strong!', 'Ready for more!', 'New week, new you'). The bar: "
                  "'Your Friday just got better — تحرّك مع لياقتي، الكابتن في جيبك'."
                  if c["en_led"] else "Write Saudi Arabic only.")
     sys_p = (f"You write Instagram captions for {c['brand_ar']}. ONE angle, given below — every caption is that angle. "
+             f"Always write the brand name in Arabic exactly as «{c['brand_ar']}» — NEVER transliterate it into Latin "
+             "letters (no 'Liaqti', no 'Liaqti.tu') — a mangled Latin name reads as a fake and gets killed. "
              "The caption LIVES INSIDE the scene: write from inside that exact moment (its person, its time, its gesture). "
              "The PHOTO already shows the scene — so the caption NEVER narrates it (never 'الأم تضغط الزر، الجد يملأ الأطباق'). "
              "Write what the person in that moment would SAY or feel — the voice FROM the scene, not a description OF it. "
-             "The occasion appears only THROUGH the scene — the scene IS the celebration. "
+             + occ_clause + organ_clause +
              f"{bilingual} Short captions. Concrete and warm. Offers need what/how-much/where clarity. "
              f"Use ONLY these real facts — products: {products}, channels: {channels or 'NONE — never invent ordering channels'}. "
              + ("Speak only of what the reader can DO today with these real products and channels. "
@@ -383,6 +488,8 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
                 "TODAY IS A BRAND-BUILD DAY: zero selling energy, NO ordering CTA, do NOT mention "
                 "delivery apps or ordering — the moment only (the channels above exist; just don't push them today). ")
              + (f"WORN OUT this month — find another way to say it: {c.get('worn_phrases')}. " if c.get("worn_phrases") else "")
+             + (f"FORBIDDEN PHRASES — the founder rejected these exact phrasings; NEVER use them: {learned_bans}. "
+                if learned_bans else "")
              + (("BANNED THEMES for this client (the founder's explicit ruling — find a different "
                  "emotional core): " + ", ".join(k.get("pattern", "") for k in c.get("kill_patterns", [])) + ". ")
                 if c.get("kill_patterns") else "")
@@ -392,27 +499,43 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     for ex in c["exemplars"][:3]:
         few += [{"role": "user", "content": "اكتب بصوت البراند"}, {"role": "assistant", "content": ex}]
     user = f"الفكرة (الزاوية): {angle['scene_ar']}\nالسياق: {slot.get('occasion') or slot.get('angle_theme','')} في {slot['date']}\nاكتب 3 خيارات."
-    opts = []
-    try:
-        opts += json.loads(gpt([{"role": "system", "content": sys_p}] + few + [{"role": "user", "content": user}], temp=0.85)).get("options", [])
-    except Exception as e:
-        print(f"  gpt pen failed: {e}", file=sys.stderr)
-    try:
-        # pen diversity (June 12): the second pen enters the scene from its least
-        # obvious angle — different DOOR, same truth. Two pens, two temperaments.
-        DOORS = ["the SOUND of the moment (what you hear before you see)",
-                 "the SIDE CHARACTER (the little sister, the neighbor, the delivery man)",
-                 "the second AFTER the expected moment (the empty plate, the closed door)",
-                 "the OBJECT's point of view (the pot, the box, the doorbell)"]
-        door = DOORS[sum(ord(ch) for ch in slot.get("date", "")) % 4]
-        diversity = (f"\nYOUR PEN'S TEMPERAMENT: enter the scene through {door}. "
-                     "Same scene, same truth, unexpected entry.")
-        txt = sonnet(sys_p + diversity + "\nReturn ONLY the JSON object.", few + [{"role": "user", "content": user}])
-        m = re.search(r"\{.*\}", txt, re.S)
-        if m:
-            opts += json.loads(m.group(0)).get("options", [])
-    except Exception as e:
-        print(f"  sonnet pen failed: {e}", file=sys.stderr)
+    # DOORS — structural variety so the 3 options can't collapse into ONE shape (June 14
+    # root-hunt: the #1 repetition driver was one formula echoed 3×). Each option enters
+    # the scene through a DIFFERENT door. Moved onto the LIVE pen (gpt): the 2nd pen
+    # (sonnet) is DARK — Anthropic credit balance too low, HTTP 400, verified 2026-06-14 —
+    # so the diversity engine had been off entirely; the one live pen now carries it.
+    DOORS = ["the SOUND of the moment (what you hear before you see)",
+             "the SIDE CHARACTER (the little sister, the neighbor, the delivery man)",
+             "the second AFTER the expected moment (the empty plate, the closed door)",
+             "the OBJECT's point of view (the pot, the box, the doorbell)",
+             "a SENSORY detail — steam, texture, a smell — with no person named",
+             "a QUESTION the reader is already asking themselves"]
+    base = sum(ord(ch) for ch in slot.get("date", ""))
+    doors3 = [DOORS[(base + j) % len(DOORS)] for j in range(3)]
+
+    def _gen(extra: str = "") -> list:
+        """One generation pass (reused by the regen loop). extra = kill-feedback directive."""
+        directive = ("\n\nThe 3 options MUST be structurally different from each other — "
+                     f"option 1 enters the scene through {doors3[0]}; option 2 through {doors3[1]}; "
+                     f"option 3 through {doors3[2]}. None may read like a delivery-app push or a "
+                     "generic family-gathering line." + extra)
+        got = []
+        try:
+            got += json.loads(gpt([{"role": "system", "content": sys_p + directive}] + few
+                                  + [{"role": "user", "content": user}], temp=0.95)).get("options", [])
+        except Exception as e:
+            print(f"  gpt pen failed: {str(e)[:60]}", file=sys.stderr)
+        try:  # 2nd pen — only if Anthropic has credits; silent + harmless when dark
+            txt = sonnet(sys_p + f"\nYOUR PEN'S TEMPERAMENT: enter through {DOORS[(base + 3) % len(DOORS)]}."
+                         + extra + "\nReturn ONLY the JSON object.", few + [{"role": "user", "content": user}])
+            m = re.search(r"\{.*\}", txt, re.S)
+            if m:
+                got += json.loads(m.group(0)).get("options", [])
+        except Exception as e:
+            print(f"  sonnet pen dark ({str(e)[:40]}) — gpt-only this slot", file=sys.stderr)
+        return got
+
+    opts = _gen()
     # truth guard 1: strip hashtags that aren't the client's real ones
     # truth guard 2 (June 11, RABIE-ruled): kill EVENT CLAIMS — inviting people to a
     # gathering/session that isn't in the truth pack is a fabricated fact ("join us in
@@ -460,25 +583,87 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
                 return m.group(0)
         return None
 
-    cleaned = []
-    for o in opts:
-        o = re.sub(r"#([\wء-ي_]+)", lambda m: m.group(0) if m.group(1) in real_tags else "", o).strip()
-        if not o:
-            continue
-        if EVENT_CLAIM.search(o):
-            print(f"  ✂️ event-claim killed: {o[:60]}…", file=sys.stderr)
-            continue
-        if is_emotional and OFFER.search(o):
-            print(f"  ✂️ offer-on-emotional killed: {o[:60]}…", file=sys.stderr)
-            continue
-        bad = ungrounded(o)
-        if bad:
-            print(f"  ✂️ ungrounded name killed [{bad}]: {o[:50]}…", file=sys.stderr)
-            continue
-        cleaned.append(o)
+    _clean_reasons = []  # why _clean dropped lines this pass (for regen feedback)
+
+    def _clean(raw: list) -> list:
+        out = []
+        _clean_reasons.clear()
+        for o in raw:
+            o = re.sub(r"#([\wء-ي_]+)", lambda m: m.group(0) if m.group(1) in real_tags else "", o).strip()
+            # JSON-artifact strip (June 14): the pen sometimes returns a string carrying its own
+            # closing quote/comma/brace («...والدعم.',») — scrub trailing structural junk, then
+            # if a stray UNBALANCED double-quote remains (odd count → dangling dialogue), drop the
+            # naked quote chars so the line reads clean (balanced dialogue quotes are left intact).
+            o = re.sub(r"""['"`]*\s*[,}\]]+\s*$""", "", o).strip().strip('"“”').strip()
+            if o.count('"') % 2 == 1:
+                o = o.replace('"', "").strip()
+            if not o:
+                continue
+            if EVENT_CLAIM.search(o):
+                print(f"  ✂️ event-claim killed: {o[:60]}…", file=sys.stderr)
+                continue
+            if any(b in o for b in learned_bans):
+                hit = next(b for b in learned_bans if b in o)
+                print(f"  ✂️ learned-ban killed [{hit}]: {o[:50]}…", file=sys.stderr)
+                _clean_reasons.append("learned")
+                continue
+            # CLIENT-RULES caption-level kill (real-person/family-voice/brand-register/cross-brand) —
+            # the confirmed organs; visual-level rules (faces/family) are enforced in shot_card + gate.
+            _cv = [(k, det) for k, sev, det in _cr.violations({"captions": [o]}, c["handle"]) if sev == "block"]
+            if _cv:
+                print(f"  ✂️ client-rule killed [{_cv[0][0]}]: {o[:50]}…", file=sys.stderr)
+                _clean_reasons.append("organ")
+                continue
+            # OCCASION ALIGNMENT (June 14 — "confirmed with occasion"): a daily caption that
+            # invents a holiday, or an occasion caption that wanders to another holiday, is
+            # killed → the regen loop feeds the reason back. NEVER ships misaligned.
+            mis = _oa.caption_misaligned(slot, o)
+            if mis:
+                print(f"  ✂️ occasion-misalign killed [{mis}]: {o[:50]}…", file=sys.stderr)
+                _clean_reasons.append("occasion")
+                continue
+            if is_emotional and OFFER.search(o):
+                print(f"  ✂️ offer-on-emotional killed: {o[:60]}…", file=sys.stderr)
+                continue
+            bad = ungrounded(o)
+            if bad:
+                print(f"  ✂️ ungrounded name killed [{bad}]: {o[:50]}…", file=sys.stderr)
+                _clean_reasons.append("ungrounded")
+                continue
+            out.append(o)
+        return out
+
+    cleaned = _clean(opts)
     kept, taste_killed = taste_guard(cleaned, c.get("kill_patterns", []))
     for o, hit in taste_killed:
         print(f"  ✂️ taste-kill [{hit}] (his ruling): {o[:50]}…", file=sys.stderr)
+    # REGEN, don't re-admit (Rule #8 + the June 14 root-hunt fix): if EVERYTHING was killed —
+    # by his taste rulings OR by occasion-misalignment OR by an ungrounded name — the pen is
+    # stuck on a shape it can't ship; feed the exact reason back and try again. NEVER re-admit
+    # a killed caption; hold the slot if the pen still can't escape (zero-caption path catches it).
+    tries = 0
+    while not kept and (taste_killed or _clean_reasons) and tries < 2:
+        tries += 1
+        banned_cores = "، ".join(sorted({h for _, h in taste_killed if h}))
+        forbidden = "؛ ".join(o[:40] for o, _ in taste_killed[:4])
+        bits = []
+        if banned_cores:
+            bits.append(f"the founder's rulings [{banned_cores}] (FORBIDDEN shapes: «{forbidden}»)")
+        if "occasion" in _clean_reasons:
+            bits.append("inventing a HOLIDAY/occasion — this slot has none; write a plain everyday moment with NO eid/ramadan/national-day/hajj")
+        if "ungrounded" in _clean_reasons:
+            bits.append("an invented name — use only the real brand/products in Arabic")
+        if "learned" in _clean_reasons:
+            bits.append(f"a phrase the founder explicitly rejected before — avoid these exact phrasings: {learned_bans}")
+        if "organ" in _clean_reasons:
+            bits.append("breaking a confirmed client rule — " + ("؛ ".join(_organ_bits) if _organ_bits else "no named person / no family voice line / no cross-brand frame"))
+        extra = ("\n\nREGENERATE — your last attempt was REJECTED for: " + "؛ ".join(bits) +
+                 ". Find a COMPLETELY different angle on the same scene.")
+        print(f"  ↻ regen {tries}: rejected ({'; '.join(bits)[:80]}) — feeding back", file=sys.stderr)
+        cleaned = _clean(_gen(extra))
+        kept, taste_killed = taste_guard(cleaned, c.get("kill_patterns", []))
+        for o, hit in taste_killed:
+            print(f"  ✂️ taste-kill [{hit}] (regen {tries}): {o[:50]}…", file=sys.stderr)
     cleaned = kept
     surv, dropped_reasons = filter_options({f"opt_{i}": o for i, o in enumerate(cleaned)})
     if surv:
@@ -533,10 +718,23 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
 
 
 def shot_card(c: dict, angle: dict) -> list[str]:
-    out = gpt([{"role": "system", "content":
-                "You write PHONE shoot-cards for Saudi SME owners — 3 numbered instructions in simple Saudi Arabic, "
-                "each doable at home with a phone in 2 minutes. Conservative cultural defaults (hands/food/place safe, "
-                'no faces unless the scene demands). Return JSON: {"shots": ["...", "...", "..."]}'},
+    # the VISUAL door respects the confirmed organs (RABIE 2026-06-14: shot-cards directed visible
+    # faces/family/children on brands whose cultural_overrides forbid them, and the gate caught it
+    # only after). Source-fix: never DIRECT what the client forbids.
+    import client_rules as _cr
+    _ov = _cr._overrides(c["handle"])
+    rules = ["NO visible human faces, expressions, smiles, or eye-contact directions — hands/food/objects/place only"
+             if _ov.get("face_visibility") == "never" else "",
+             "NO family members or children in frame"
+             if _ov.get("family_member_visibility") == "never" else "",
+             "show DELIVERY — packaging/box/the food arriving; never a restaurant/dine-in/cart/branch setting"
+             if _cr._is_cloud_kitchen(c["handle"]) else ""]
+    rules = " · ".join(r for r in rules if r)
+    sysp = ("You write PHONE shoot-cards for Saudi SME owners — 3 numbered instructions in simple Saudi Arabic, "
+            "each doable at home with a phone in 2 minutes. Conservative cultural defaults (hands/food/place safe). "
+            + (f"HARD CLIENT RULES (never break): {rules}. " if rules else "no faces unless the scene demands. ")
+            + 'Return JSON: {"shots": ["...", "...", "..."]}')
+    out = gpt([{"role": "system", "content": sysp},
                {"role": "user", "content": f"البراند: {c['brand_ar']}\nالمشهد: {angle['scene_ar']}"}], temp=0.5, max_tok=300)
     return [re.sub(r"^\s*\d+[\.\)]\s*", "", s).strip() for s in json.loads(out).get("shots", [])[:3]]
 

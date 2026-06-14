@@ -57,10 +57,13 @@ def mine(handle):
 def fill(handle, force=False, quiet=False):
     p = B / "clients" / handle / "profile"
     em = json.loads((p / "extraction_mode.json").read_text()) if (p / "extraction_mode.json").exists() else {}
-    if em.get("mode") != "auto_research":
+    mode = em.get("mode")
+    # serves BOTH of Mohamed's extraction modes: auto_research (established → researched) and
+    # no_answer_figure_out (no client → derived from extraction + sector default role)
+    if mode not in ("auto_research", "no_answer_figure_out"):
         if quiet:
-            return None   # --all loop: silently skip non-established brands
-        sys.exit(f"🛑 {handle} is not auto_research (mode={em.get('mode')}) — this reader only serves established brands")
+            return None   # --all loop: silently skip new-brand (ask-the-client) brands
+        sys.exit(f"🛑 {handle} mode={mode} — this reader serves auto_research + no_answer_figure_out only")
     # idempotent skip: already research-filled → don't re-mine 521 posts every cycle (cheap)
     fp0 = json.loads((p / "fingerprint.json").read_text()) if (p / "fingerprint.json").exists() else {}
     if not force and (fp0.get("l1_strategy") or {}).get("_research"):
@@ -79,7 +82,9 @@ def fill(handle, force=False, quiet=False):
     # 1. l1_strategy — established brand SPEAKS as the brand; positioning/usp from the corpus
     fp = json.loads((p / "fingerprint.json").read_text())
     l1 = fp.setdefault("l1_strategy", {})
-    l1["who_speaks"] = "البراند نفسه (علامة راسخة — صوت مؤسسي واثق، ليس صوت صاحب فرد)"
+    l1["who_speaks"] = ("البراند نفسه (علامة راسخة — صوت مؤسسي واثق، ليس صوت صاحب فرد)"
+                        if mode == "auto_research" else
+                        "البراند (مُستنتج آلياً — لا إجابة عميل؛ صوت افتراضي للقطاع، يصححه محمد لو رجع)")
     l1["positioning"] = (f"علامة راسخة مشهورة؛ يحضر في المحتوى: {top}؛ منتجات أساسية: "
                          f"{'، '.join(products) if products else '—'}؛ "
                          f"نسبة العروض في الفيد ≈{int(m['offer_rate']*100)}%")
@@ -105,6 +110,10 @@ def fill(handle, force=False, quiet=False):
     g = json.loads((p / "goals.json").read_text())
     if not g.get("goal_ratio"):
         g["goal_ratio"] = {"value": "بناء براند ~70% / عروض ~30% (علامة راسخة)", **prov("auto_research")}
+    # bump the answered counter to match filled fields (readiness_honest gate: answered>=confirmed —
+    # the same counter-lie class as the jurisha goals bug; filling a field must move the counter)
+    confirmed = sum(1 for k in ("goal_ratio", "capacity_ceiling", "usp_his_words") if g.get(k))
+    g["answered"] = max(g.get("answered", 0), confirmed)
     (p / "goals.json").write_text(json.dumps(g, ensure_ascii=False, indent=1))
 
     # 4. gap_report established-aware: drop the FORBIDDEN new-brand Qs (now researched, experimental)
@@ -113,10 +122,11 @@ def fill(handle, force=False, quiet=False):
     before = list(gr.get("questions", []))
     kept = [q for q in before if not any(fq in q for fq in FORBIDDEN_Q)]
     gr["questions"] = kept
-    gr["established_research"] = {
-        "mode": "auto_research", "filled": ["l1_strategy", "red_lines", "goals.goal_ratio"],
-        "note": "established brand — researched (experimental), NOT asked. Mohamed confirms/corrects, never asked cold.",
-        "confirm_instead": "أكّد أو صحّح ملف البراند المستنتج (هوية/خطوط حمراء/هدف) — بدل ما نسأل من الصفر",
+    gr["auto_filled"] = {
+        "mode": mode, "filled": ["l1_strategy", "red_lines", "goals.goal_ratio"],
+        "note": ("established brand — researched (experimental), NOT asked." if mode == "auto_research"
+                 else "no client answer — system DERIVED from extraction + sector default role (experimental); NOT asked cold."),
+        "confirm_instead": "أكّد أو صحّح الملف المستنتج (هوية/خطوط حمراء/هدف) — بدل ما نسأل من الصفر",
         "mined": {"posts": m["n_posts"], "reviews": m["n_reviews"], "offer_rate": m["offer_rate"]}}
     grf.write_text(json.dumps(gr, ensure_ascii=False, indent=1))
 

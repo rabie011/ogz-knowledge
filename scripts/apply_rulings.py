@@ -487,9 +487,16 @@ PREFIX_HANDLERS = {
     ("law_draft_", "no"): h_law_draft,
 }
 
-# item-prefix only (answer is arbitrary free text) — the client passport intake
+def h_pairwise_noop(b: Path, row: dict) -> str:
+    """Pairwise A-vs-B picks are consumed by pairwise.consume() (called at main() start) into the
+    taste-preference ledger — this no-op just marks them handled so they don't trip UNCONSUMED."""
+    return f"pairwise pick {row.get('item_id')}={row.get('answer')} → taste-calibration ledger"
+
+
+# item-prefix only (answer is arbitrary free text) — the client passport intake + pairwise picks
 ITEM_PREFIX_HANDLERS = {
     "passport_": h_passport,
+    "pw_": h_pairwise_noop,
 }
 
 HANDLERS = {
@@ -591,6 +598,15 @@ def pending_unhandled(b: Path) -> list:
 
 def main():
     b = base()
+    # PAIRWISE consumer (Rule #6/#7 — the A-vs-B tap needs a handler that RUNS): every portal answer
+    # cycle, fold his new pairwise picks into the taste-preference ledger so they never sit unconsumed.
+    try:
+        import sys as _s
+        _s.path.insert(0, str(b / "scripts"))
+        import pairwise as _pw
+        _n = _pw.consume()
+    except Exception:
+        pass
     applied = {(r["item_id"], r["answer"]) for r in _read_jsonl(b / LEDGER)}
     done, errors = [], []
     seen = set()

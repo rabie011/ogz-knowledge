@@ -41,8 +41,15 @@ def pick_posts(n: int) -> list:
     existing = {it["id"] for it in json.loads(qf.read_text())["items"]} if qf.exists() else set()
     picked, seen_brains = [], set()
     pools = []
-    for handle in ("eatjurisha", "albaik"):
-        files = sorted(glob.glob(str(base() / f"clients/{handle}/posts/*__v[56].json")), reverse=True)
+    # myfitness.sa LEADS the rotation (June 14): it was excluded entirely, so his judge queue
+    # was 100% food (jurisha + albaik) — a direct cause of his "why everything home and food".
+    # The only non-food pilot now opens every batch so the queue isn't a food monoculture.
+    for handle in ("myfitness.sa", "eatjurisha", "albaik"):
+        # sort by RENDER TIME (newest first), not filename: today's fixed-pipeline renders must
+        # lead, or the ~160 old pre-fix __v6 posts on disk would dominate the date-sorted pick
+        # and his "new batch" would be the OLD repetitive captions (June 14).
+        files = sorted(glob.glob(str(base() / f"clients/{handle}/posts/*__v[56].json")),
+                       key=lambda f: -Path(f).stat().st_mtime)
         pools.append((handle, files))
     i = 0
     while len(picked) < n and any(f for _, f in pools):

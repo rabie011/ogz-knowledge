@@ -1,0 +1,384 @@
+{
+  "summary": "Validate/challenge the internal report against GitHub + papers + real practitioners: per-claim confirm-and-refute, skeptic pass, synthesis with real sources/repos",
+  "agentCount": 8,
+  "logs": [
+    "Hunt: 6/6 claims validated; verdicts: C1=partly, C2=partly, C3=partly, C4=partly, C5=partly, C6=partly"
+  ],
+  "result": {
+    "claims": 6,
+    "hunt": [
+      {
+        "claim_id": "C1",
+        "verdict": "partly",
+        "real_implementations": [
+          {
+            "name": "VPL — Variational Preference Learning (WEIRDLabUW)",
+            "url": "https://github.com/WEIRDLabUW/vpl_llm",
+            "what": "NeurIPS 2024 (arXiv 2408.10075). Encodes a few pairwise preference labels per user into a latent z, then conditions the reward model on it. Real measured table: on UF-P-2 with Llama2-7B, personalized VPL hits 76.41% reward-model accuracy vs ~47-49% for non-personalized Bradley-Terry/DPL baselines, using only K=16 preference pairs per user. This is the closest real source to C1's exact '~76%' and 'dozens of labels' numbers."
+          },
+          {
+            "name": "FSPO — Few-Shot Preference Optimization (Asap7772 / Stanford, Anikait Singh et al.)",
+            "url": "https://github.com/Asap7772/fewshot-preference-optimization",
+            "what": "arXiv 2502.19312. Frames personalization as meta-learning: infer a per-user reward from a handful of labeled preferences. Reports 87% win-rate personalizing to synthetic users and ~70% to REAL human users in open-ended QA. Directly supports the data-efficiency + pairwise-preference half of C1, on generative (not just classification) tasks."
+          },
+          {
+            "name": "Best-Worst Scaling vs Rating Scales (Kiritchenko & Mohammad, NAACL 2016 / arXiv 1712.01765)",
+            "url": "https://arxiv.org/abs/1712.01765",
+            "what": "The canonical pairwise-beats-stars reliability study. Comparative (best-worst) annotation reaches split-half reliability ~0.80-0.90 vs ~0.55-0.70 for 0-N rating scales, and needs fewer annotations for equal/better reliability. This is the empirical backbone of 'pairwise > stars'."
+          },
+          {
+            "name": "RewardBench (allenai)",
+            "url": "https://github.com/allenai/reward-bench",
+            "what": "arXiv 2403.13787. Establishes the 'generic ~60%' floor: leading open RMs score 77-82% overall but drop below 60% / to near-chance on hard subjective subsets ('Chat Hard'). This is where C1's '~62% generic' realistically comes from for taste-like judgments."
+          },
+          {
+            "name": "When Personalization Meets Reality (Dong, Hu et al.)",
+            "url": "https://arxiv.org/abs/2502.19158",
+            "what": "CONTRA-evidence. 8 personalization methods, 3 datasets: gains are dataset-dependent (method gaps reach 36% only when users strongly disagree), a plain per-user fine-tuned reward model is already a STRONG baseline (fancy collaborative methods add only ~6%), and personalization can cause up to a 20% drop on safety/reasoning. Headline lifts do not transfer for free."
+          }
+        ],
+        "evidence_for": [
+          "VPL (arXiv 2408.10075, NeurIPS 2024) measures personalized reward-model accuracy of 76.41% on UF-P-2/Llama2-7B vs ~47-49% non-personalized baseline, from K=16 preference pairs per user — C1's '~76%' and 'dozens of labels' are real, traceable numbers, not invented.",
+          "FSPO (arXiv 2502.19312, Stanford) achieves ~70% win-rate personalizing to REAL users from a few labeled preferences, proving the few-shot pairwise approach works on generative tasks, not just classification benchmarks.",
+          "Pairwise > stars for reliability is well established: Kiritchenko & Mohammad (arXiv 1712.01765) show best-worst/comparative annotation reaches 0.80-0.90 split-half reliability vs 0.55-0.70 for rating scales, and a wide literature confirms pairwise judgments are cognitively easier and reduce scale-inconsistency noise (the exact problem with one person assigning 0-5 stars).",
+          "RewardBench (arXiv 2403.13787) confirms generic reward models hover near 60% / chance on hard subjective subsets, so C1's '~62% generic' baseline is realistic.",
+          "The mechanism is sound and is literally how RLHF reward models are trained — pairwise preferences, not absolute scores — which is the production-proven design pattern."
+        ],
+        "evidence_against": [
+          "The specific pairing '~76% personal vs ~62% generic' is NOT from one canonical study — the 76% is VPL's Llama2 number and the 62% is a RewardBench-style floor; presenting them as a single measured head-to-head on caption taste would be an over-claim. The honest framing is 'order-of-magnitude direction confirmed,' not 'these two exact percentages will reproduce on OGZ data.'",
+          "O(n^2) annotation cost: full pairwise comparison scales quadratically (m * n(n-1)/2 comparisons). For ranking many caption candidates this gets expensive fast — the data-efficiency win is per-label, not per-decision; you may need many comparisons to rank a large pool (EZ-Sort, arXiv 2508.21550, exists specifically to mitigate this).",
+          "Intransitivity: Bradley-Terry (the model under most of these methods) assumes a globally transitive ordering. One person's 'taste' is frequently intransitive (A>B>C>A across moods/contexts), which the standard model cannot represent — a real failure mode for single-person calibration (arXiv 2103.12094, 2601.07158).",
+          "'When Personalization Meets Reality' (arXiv 2502.19158) shows the headline lift is dataset-dependent and a plain per-user fine-tune is already strong (collaborative methods add only ~6%); it also documents up to 20% degradation on safety/reasoning from personalization — so 'just personalize and you win' is refuted.",
+          "Sparse single-annotator data overfits: directly training on a few dozen of one person's labels gives unstable alignment unless you regularize (e.g., represent the user as a combination of base preference vectors). The data-efficiency claim holds ONLY with that latent/meta-learning structure, not with naive fine-tuning on dozens of labels.",
+          "Most real numbers (VPL, FSPO) are on English Q&A / reviews, not Arabic creative captions — the 76% is not measured on a Saudi-taste creative-writing distribution, so transfer is unproven."
+        ],
+        "practical_takeaway": "C1 is directionally TRUE and worth adopting, but adopt the mechanism, not the exact numbers. Concretely for OGZ: (1) Switch the founder's calibration from 0-5 stars to A-vs-B pairwise — this is the single best-supported move (reliability 0.80-0.90 vs 0.55-0.70, and kills scale-drift in one annotator). (2) Do NOT build a from-scratch fine-tuned model on dozens of labels — that overfits; instead use the VPL/FSPO pattern (a small latent user-vector / few-shot prompt on top of a base preference model) so dozens of labels are enough. (3) Treat '76% vs 62%' as a plausible target range, not a promise — measure YOUR own agreement-with-founder on a held-out set before quoting any number (this also satisfies the report's own C2). (4) Guard the two real failure modes: cap pairwise volume (rank small pools of 5-10, not the full corpus, to avoid O(n^2) cost — matches the best-of-N approach in C3) and watch for intransitivity (if the founder's pairwise labels cycle, that's signal his taste is context-dependent, and a single global score will never fit — you'd need context conditioning). Start the pairwise calibration UI this week; it's low-cost, high-confidence, and reversible."
+      },
+      {
+        "claim_id": "C2",
+        "verdict": "partly",
+        "real_implementations": [
+          {
+            "name": "LitBench (drfein/LitBench)",
+            "url": "https://github.com/drfein/LitBench",
+            "what": "Canonical repo for the LitBench creative-writing judge benchmark (arXiv:2507.00769, July 2025). 2,480 human-labeled story-pair comparisons + 43,827 training pairs from Reddit. Measures judge AGREEMENT with human preference. Result: best off-the-shelf judge Claude-3.7-Sonnet = 73% agreement; trained Bradley-Terry/generative reward models = 78%. Directly the thing OGZ should build: a held-out human-labeled pair set to measure judge-vs-human agreement. HF dataset linked in README."
+          },
+          {
+            "name": "EQ-Bench Judgemark v2 + creative-writing-bench",
+            "url": "https://github.com/EQ-bench/creative-writing-bench",
+            "what": "The practitioner-standard harness for exactly OGZ's problem: scoring how well an LLM judge aligns with HUMAN creative-writing rankings (Judgemark = stability + separability + human-correlation vs LMSys Arena creative category). Confirms creative judging is task/judge-dependent and noisy; v3 moved to pairwise Elo because rubric scoring was unstable. Leaderboard: eqbench.com/judgemark-v2.html"
+          },
+          {
+            "name": "lm-sys/FastChat (llm_judge / MT-Bench)",
+            "url": "https://github.com/lm-sys/FastChat/tree/main/fastchat/llm_judge",
+            "what": "Reference implementation of LLM-as-a-judge from Zheng et al. (arXiv:2306.05685, NeurIPS 2023). Ships 3K expert votes + 30K human-preference conversations and the agreement-computation code. Source of the canonical '>80% agreement, same as human-human' figure — and of the position/verbosity/self-enhancement bias measurements OGZ is citing."
+          },
+          {
+            "name": "Can LLM be a Personalized Judge? (jhoubin / paper repo)",
+            "url": "https://arxiv.org/abs/2406.11657",
+            "what": "EMNLP 2024 Findings. Most powerful LLM as a PERSONALIZED judge reaches only 72.5% on binary preference (random=50%) — low agreement with individual ground truth. Key for OGZ: verbal uncertainty estimation works — judges ARE calibrated enough that filtering to high-certainty samples yields high agreement. This is the actionable cure, not 'report-only'."
+          }
+        ],
+        "evidence_for": [
+          "Directional pattern CONFIRMED by real papers: LLM judges are strong on objective tasks, weak on subjective/creative. eugeneyan's evaluator survey (https://eugeneyan.com/writing/llm-evaluators/) reports summarization correlation only 0.3-0.6 vs 0.8-0.9 human-expert, faithfulness Spearman 0.55, and gpt-4 failing to down-score perturbed long-form answers >50% of the time, while objective factuality hit 0.85 accuracy.",
+          "Self-preference bias is REAL and quantified: 'Self-Preference Bias in LLM-as-a-Judge' (arXiv:2410.21819) shows GPT-4 systematically favors its own (lower-perplexity) outputs; 'Quantifying and Mitigating Self-Preference Bias' (arXiv:2604.22891) measures it and cuts it 31.5%. MT-Bench (2306.05685) originally measured Claude self-enhancement at ~25% higher win-rate on its own outputs.",
+          "Overconfidence is REAL and quantified: 'Overconfidence in LLM-as-a-Judge' (arXiv:2508.06225, Aug 2025) finds GPT-4o clusters at 90-100% stated confidence but ~49.7% accuracy on JudgeBench (ECE 39.25%); across 14 models confidence far exceeds accuracy. This validates OGZ's rule to DISTRUST the judge's own confidence number.",
+          "'Report agreement-with-human, not AI confidence' is STRONGLY validated as best practice. eugeneyan recommends Cohen's kappa (chance-corrected) over raw correlation, and classification metrics (precision/recall) over confidence. Patronus/LangChain/FINOS guidance all say calibrate the judge against human-labeled examples until Cohen's kappa > 0.8 and human-review low-confidence cases. The whole field measures judges by human-agreement, exactly as the claim prescribes.",
+          "The ~80% general-task baseline is real and correctly contextualized: Zheng et al. (MT-Bench, 2306.05685) — GPT-4 judge >80% agreement with humans, matching human-human agreement (~80%). So 'general ~80%' is a faithful citation.",
+          "Creative writing IS genuinely harder, with hard numbers near OGZ's range: even purpose-built benchmarks cap off-the-shelf judges at 73% (LitBench, Claude-3.7-Sonnet) and EQ-Bench Judgemark shows Spearman rank-correlations of only 0.14-0.63 between judge and human creative rankings depending on prompt/judge. Personalized judging (single person's taste — OGZ's exact case) caps at 72.5% on binary (arXiv:2406.11657)."
+        ],
+        "evidence_against": [
+          "OVER-CLAIM #1 — the precise '58% creative / 47% open-ended' figures are NOT from a paper. Both trace to a single vendor blog (Galileo AI, https://galileo.ai/blog/llm-as-a-judge-vs-human-evaluation) which gives NO research citation. WebFetch of that page confirms 'it does not provide a specific research citation for these particular statistics.' Treat 58%/47% as folklore, not a benchmark.",
+          "OVER-CLAIM #2 — '47% / +0.08 is the EXPECTED baseline' is FALSE and dangerous. On a binary/pairwise creative task, random = 50%; OGZ's 47% is BELOW chance, and +0.08 correlation is essentially noise. Real off-the-shelf creative judges score 72-73% (LitBench), and personalized judges 72.5% (2406.11657) — all well ABOVE chance. So 47% is NOT 'expected'; it signals a broken/mis-pointed judge (e.g. inverted labels, wrong rubric, prompt bug), not a fundamental ceiling. Using 'it's the expected baseline' to excuse 47% would hide a real defect.",
+          "The pessimism is curable, not a wall. The very paper on personalized judging (2406.11657) shows verbal UNCERTAINTY ESTIMATION recovers high agreement on high-certainty samples; LitBench shows a lightweight trained reward model jumps to 78%; 'LLM-as-a-Fuser' (2508.06225) lifted a weak judge +47% accuracy and cut ECE -53%. So 'judges are near-random on creative, just report agreement' under-sells the fix — selective prediction + a small trained head are standard remedies.",
+          "Bias direction matters for OGZ's setup: self-preference bias is about a judge favoring ITS OWN generations. If OGZ's judge and writer are the same/related model, this inflates scores — but it does NOT explain near-random agreement with the FOUNDER. The relevant failure for OGZ is lack of personalization to one person's taste (2406.11657), which is a different mechanism than the generic self-preference/overconfidence literature the claim leans on.",
+          "Human ground truth itself is noisy (~80% human-human agreement, MT-Bench), and LLM judges correlate BETTER with non-expert than expert annotators (eugeneyan). For a single connoisseur (the founder) with idiosyncratic taste, even a perfectly calibrated judge has a low ceiling — so 'report agreement with human' must specify WHICH human and account for the founder's own self-consistency, or the metric is unstable."
+        ],
+        "practical_takeaway": "Adopt the spirit of C2 but reject its excuse-making. DO: measure the judge by agreement-with-the-founder on a held-out, human-labeled PAIR set (copy LitBench/Judgemark methodology — drfein/LitBench + EQ-bench/creative-writing-bench), report Cohen's kappa (chance-corrected) not raw %, and never trust the judge's own confidence number (overconfidence is proven, arXiv:2508.06225). DO NOT accept '47%/+0.08 is the expected baseline' — that is below random and is a red flag, not a floor; real creative judges hit 72-78%. First debug the 47% (label inversion? wrong rubric? judge==writer self-preference?). Then fix with the proven low-data cures: (1) selective prediction via verbalized uncertainty, keep only high-certainty calls (arXiv:2406.11657); (2) train a tiny Bradley-Terry reward head on a few hundred founder-labeled pairs (LitBench got 78% this way) — which also resolves C1's pairwise-personalization point. The claim's 'creative is harder + report agreement + distrust confidence' is right; its '47% is normal' is wrong and would mask a bug."
+      },
+      {
+        "claim_id": "C3",
+        "verdict": "partly",
+        "real_implementations": [
+          {
+            "name": "huggingface/trl — BestOfNSampler",
+            "url": "https://huggingface.co/docs/trl/v0.21.0/best_of_n",
+            "what": "Production-grade library class (in huggingface/trl, github.com/huggingface/trl) that generates N candidates (default sample_size=4) and selects the top by a callable reward pipeline. This is the canonical, widely-used 'generate-then-rank' primitive — confirms the MECHANISM is real and shippable. Caveat: the example reward is a generic sentiment classifier (a proxy), exactly the weak-judge trap."
+          },
+          {
+            "name": "Shalev-Lifshitz/MultiAgentVerification (BoN-MAV, 30⭐)",
+            "url": "https://github.com/Shalev-Lifshitz/MultiAgentVerification",
+            "what": "The closest real repo to C3's exact wording: 'BoN-MAV' = best-of-N + multiple 'Aspect Verifiers' (off-the-shelf LLMs each prompted to check one aspect), select the candidate with most approvals. Paper arXiv 2502.20379. CONTRA: every benchmark is verifiable (MATH, MMLU-Pro, GPQA-Diamond, HumanEval) — ZERO creative/open-ended writing. No evidence aspect-verifier reranking lifts creative quality."
+          },
+          {
+            "name": "Nextdoor production deployment — 'Let AI Entertain You' (arXiv 2312.12457)",
+            "url": "https://arxiv.org/abs/2312.12457",
+            "what": "Real industry deployment (Zeng et al., Dec 2023): generate N notification subject lines, rank by a reward model via rejection sampling (= best-of-N), shipped to ~85M users → +1% Sessions, +0.4% WAU. The strongest FOR evidence for content (not just reasoning). DECISIVE NUANCE for OGZ: the ranker predicts ENGAGEMENT from real user feedback (clicks), NOT a generic taste/quality judge. Its abstract literally names the 'clean but mediocre' problem: 'even if the generated content seems more informative or well-written, it does not necessarily lead to an increase in user activities.'"
+          },
+          {
+            "name": "CyberAgentAILab/regularized-bon + srbon",
+            "url": "https://github.com/CyberAgentAILab/regularized-bon",
+            "what": "Code for 'Regularized Best-of-N Sampling' (ICML 2024) and BoN-strategy evaluation. Real, but their existence is itself contra-evidence: they exist because plain BoN reward-hacks — they add a proximity/KL regularizer specifically to stop the reranker selecting hacked outputs."
+          },
+          {
+            "name": "Khalaf et al. — Inference-Time Reward Hacking in LLMs (arXiv 2506.19248)",
+            "url": "https://arxiv.org/abs/2506.19248",
+            "what": "Direct contra-paper (Jun 2025, Harvard): formally shows Best-of-N can DEGRADE true quality as N grows — higher reward-model score, worse actual output — when the ranker is an imperfect proxy. The failure intensifies with more inference compute (bigger N)."
+          }
+        ],
+        "evidence_for": [
+          "MECHANISM IS REAL AND STANDARD: best-of-N + reward-model reranking is a first-class, documented primitive in huggingface/trl (BestOfNSampler) and is served in production via vLLM reranker/pooling models (docs.vllm.ai). Not vaporware.",
+          "ASPECT-VERIFIER VARIANT EXISTS EXACTLY AS DESCRIBED: Shalev-Lifshitz 'BoN-MAV' (arXiv 2502.20379, 30⭐ repo) implements 'generate N, rank with multiple aspect-verifiers, pick most-approved' — C3's phrasing almost verbatim — and reports stronger test-time scaling than self-consistency and single reward-model verification.",
+          "A REAL PRODUCTION CONTENT WIN EXISTS: Nextdoor (arXiv 2312.12457) deployed generate-then-rank (rejection sampling) for subject-line copy to ~85M users and measured +1% Sessions / +0.4% WAU — direct precedent that ranking generated short marketing copy beats single-shot generation in production.",
+          "CREATIVE-AIMED RANKERS ARE BEING BUILT: 'Rewarding Creativity' (RLCS, arXiv 2601.07149, Alibaba, Jan 2026) builds a multi-dimensional generative reward model for storytelling reaching 72.4% win-rate vs SFT — proof the research direction toward aspect/rubric verifiers for creative text is active and shows gains over baselines."
+        ],
+        "evidence_against": [
+          "'STANDARD CURE' IS OVERWHELMINGLY A VERIFIABLE-TASK STORY, NOT A CREATIVE ONE: the canonical BoN+verifier wins (MAV, most test-time-compute work) are all on MATH/MMLU-Pro/GPQA/HumanEval — tasks with a checkable answer. The claim smuggles reasoning-benchmark credibility into a creative-taste use-case where the evidence is far thinner.",
+          "BoN AMPLIFIES A BAD RANKER — IT DOES NOT FIX ONE: Gao/Schulman/Hilton 2023 'Scaling Laws for Reward Model Overoptimization' (arXiv 2210.10760, ICML 2023) show BoN follows a Goodhart overoptimization curve; Khalaf et al. 2025 (arXiv 2506.19248) prove BoN can make true quality WORSE as N rises when the ranker is imperfect. OGZ's judge is provably near-random vs the founder (+0.08), so ranking 5-10 candidates with it would select the most reward-hacked, not the best — actively harmful.",
+          "REWARD-HACKING / STYLE & LENGTH BIAS: BoN rerankers reliably over-select for length, formatting, and stylistic spurious features (multiple 2024-2026 papers: arXiv 2312.09244, 2505.12843). For Arabic SME captions this means BoN would systematically pick the most verbose/templated 'clean but mediocre' candidate — the exact pathology it is claimed to cure. That whole sub-field of regularized-BoN (CyberAgentAILab/regularized-bon) exists only because plain BoN hacks.",
+          "THE ONE PRODUCTION CONTENT WIN RANKS BY ENGAGEMENT, NOT TASTE: Nextdoor's reward model is trained on real click/engagement feedback, not a quality judge — the lift came from a grounded objective signal OGZ does not have. Best-of-N is only as good as its verifier; with no calibrated verifier the technique is empty.",
+          "CEILING IS LOW EVEN AT SOTA: the best dedicated creative reward model found (RLCS, arXiv 2601.07149) reaches only ~68% alignment with human creativity judgments and explicitly 'reflects the preferences of particular annotators' — i.e. a verifier good enough to make BoN safe for OGZ does not exist off-the-shelf and must itself be built/calibrated to the founder first."
+        ],
+        "practical_takeaway": "Adopt best-of-N generate-then-rank, but ONLY after a verifier exists — it is a multiplier on the ranker, not a substitute for one. Sequencing matters: (1) FIRST fix the judge — build a founder-calibrated PAIRWISE verifier (per C1) and/or aspect/rubric verifiers, and measure its human-agreement; do NOT plug OGZ's current near-random judge into BoN, because Gao 2023 + Khalaf 2025 show that demonstrably makes output WORSE as N grows (it selects the most reward-hacked, length/template-biased caption — the exact 'clean but mediocre' failure). (2) Keep N small (4-8); large N maximizes overoptimization risk with a weak ranker. (3) Hard-guard against length/style hacking (length-normalize or aspect-gate). (4) The real production precedent (Nextdoor) ranks by an ENGAGEMENT signal, so if/when OGZ gets click/save data, train the verifier on that, not on generic 'quality.' Use huggingface/trl BestOfNSampler or BoN-MAV (aspect verifiers) as the implementation scaffold, but treat the verifier — calibrated to the founder's taste — as the entire ballgame."
+      },
+      {
+        "claim_id": "C4",
+        "verdict": "partly",
+        "real_implementations": [
+          {
+            "name": "CHATS-lab/verbalized-sampling (official repo)",
+            "url": "https://github.com/CHATS-lab/verbalized-sampling",
+            "what": "The authors' own implementation. 771 stars, 85 forks, active through Jan 2026. Model-agnostic CLI/API; prompts the model for N responses WITH probabilities. README itself claims '2-3x diversity improvement while maintaining quality' (note: louder than the paper's 1.6-2.1x)."
+          },
+          {
+            "name": "Paper: 'Verbalized Sampling: How to Mitigate Mode Collapse and Unlock LLM Diversity'",
+            "url": "https://arxiv.org/abs/2510.01171",
+            "what": "arXiv:2510.01171 (v1 2025-10-01, v3 2025-10-10). Zhang, Yu, Chong, Sicilia, Tomz, Manning, Shi (Northeastern + Stanford + West Virginia U). Source of the 1.6-2.1x diversity and 'no quality loss' claims; ties mode collapse to typicality bias in preference data."
+          },
+          {
+            "name": "Contra-evidence: 'No Single Best Model for Diversity: Learning a Router for Sample Diversity'",
+            "url": "https://arxiv.org/abs/2604.02319",
+            "what": "Liu, Xu, Padmakumar, Ippolito, Choi (arXiv:2604.02319, Apr 2026). Independent diversity-benchmark paper that EXCLUDED VS because it 'performs similarly (if not worse than) our generated all baseline.' Their Tables 15-16 show the verbalized-all prompt scoring below plain generate-all on coverage."
+          },
+          {
+            "name": "OpenReview submission page",
+            "url": "https://openreview.net/forum?id=9jQkmGunGo",
+            "what": "VS is a submission under review, not a confirmed peer-reviewed acceptance as of mid-2026. Status matters: the data-efficiency / quality claims have not cleared formal peer review in what I could find."
+          },
+          {
+            "name": "VentureBeat coverage + ecosystem of forks/plugins",
+            "url": "https://venturebeat.com/ai/researchers-find-adding-this-one-simple-sentence-to-prompts-makes-ai-models",
+            "what": "Mainstream practitioner pickup; plus 15+ GitHub forks/Claude-Code skills/MCP servers (e.g. Dmajji/verbalized_sampling_skill, v1truv1us/verbalized-sampling-mcp, istale/verbalize-sampling-snippet). Real adoption, mostly hobbyist; none are rigorous independent quality replications."
+          }
+        ],
+        "evidence_for": [
+          "REAL method with a real, well-starred official repo (CHATS-lab/verbalized-sampling, 771 stars / 85 forks, active to Jan 2026) and a real paper (arXiv:2510.01171, Oct 2025) from credible authors (Christopher Manning, Stanford; Northeastern; West Virginia U).",
+          "The 1.6-2.1x diversity multiplier on creative writing IS in the paper, and is partially backed by HUMAN eval, not just an automatic metric: 30 Prolific annotators, VS beat direct prompting on jokes (3.01 vs 1.83) and stories (3.06 vs 2.74) on a 4-point Likert scale, with high inter-annotator agreement on stories (0.87) and jokes (0.86).",
+          "Mechanism is plausible and named: the paper attributes RLHF mode collapse to 'typicality bias' in preference data (annotators favor familiar text) — a concrete, falsifiable hypothesis, not hand-waving. VS is training-free and stacks with temperature/top-p.",
+          "Independent emergentmind/practitioner write-ups report VS-related calibration improvements (ECE ~0.097 vs ~0.24 baseline) and the technique got mainstream pickup (VentureBeat, the-decoder, Analytics Vidhya)."
+        ],
+        "evidence_against": [
+          "The strongest contra-evidence: an INDEPENDENT diversity benchmark (Liu et al., arXiv:2604.02319, Apr 2026) explicitly DROPPED VS from its main experiments, stating verbatim it 'performs similarly (if not worse than) our generated all baseline.' Their Table 15 coverage numbers show verbalized-all BELOW plain generate-all (e.g. 92.80 vanilla vs 87.15/76.33 verbalized; 94.10 vs 92.21/91.21/92.00). So at least one outside group failed to reproduce a net benefit.",
+          "The 'with probabilities' framing is partly theater: the authors THEMSELVES do not use the verbalized probabilities for the answer distribution in open-ended QA ('we calculate the answer distribution from the frequency of each unique answer, not from the verbalized probability distribution'). The numbers the model emits are an uncalibrated prompt signal, not a real distribution — separate calibration literature (arXiv:2410.06707, arXiv:2305.14975) shows verbalized probabilities from RLHF'd models are generally poorly calibrated.",
+          "'Replicated' is an overclaim. As of mid-2026 the paper is an OpenReview submission UNDER REVIEW, not a confirmed peer-reviewed acceptance; the Hacker News thread was effectively dead (2 points, no substantive discussion). The dozens of GitHub forks are hobbyist re-wrappers, not rigorous independent quality replications.",
+          "Authors' own admitted limitations cut against a free lunch: VS needs MULTIPLE LLM calls (cost + latency), and 'smaller models may struggle to produce well-calibrated or meaningfully diverse distributions' — benefit scales with model capability. The '1.6-2.1x' is also inflated to '2-3x' in the repo's own README, a sign of claim drift.",
+          "The 'maintained quality' claim is weakest exactly where OGZ lives: quality was judged by generic Prolific annotators on English jokes/stories. That is NOT evidence it maintains quality under a SPECIFIC person's taste on ARABIC SME captions with cultural red-lines. Diversity-up can mean wandering off-brand or into the very dua+brand red-line territory OGZ kills."
+        ],
+        "practical_takeaway": "VS is a real, cheap, worth-trying generator-side trick for OGZ — but treat it as a DIVERSITY knob, never as a quality or taste solution, and do not believe the 'maintained quality' claim for your case. Concretely: (1) Use VS only as the candidate generator feeding C3's best-of-N + a pairwise judge calibrated to Mohamed's taste (C1) — diversity is useless without a reader that picks, exactly per the Consumer Law. VS WIDENS the funnel; it does not pick the winner. (2) Ignore the emitted 'probabilities' — they're uncalibrated; use them only to nudge spread, then re-rank by your own verifier, not by the model's numbers. (3) Expect a real cost: multiple calls per caption (money discipline — cap candidates, e.g. 5). (4) The contra-evidence (Liu et al. found it no better than plain generate-all) means you MUST measure it on YOUR data with YOUR judge before trusting it — generate 20 captions with VS vs plain generate-N, have Mohamed rate both blind, and only keep VS if it lifts his accept-rate, not an automatic diversity score. Verify the number before you say it."
+      },
+      {
+        "claim_id": "C5",
+        "verdict": "partly",
+        "real_implementations": [
+          {
+            "name": "modAL-python/modAL",
+            "url": "https://github.com/modAL-python/modAL",
+            "what": "Mature modular active-learning framework for Python (2,353 stars, updated June 2026). Plug-in query strategies (uncertainty, query-by-committee, expected error reduction) for exactly the 'minimize how many items a human labels' loop. The most battle-tested general AL toolkit."
+          },
+          {
+            "name": "webis-de/small-text",
+            "url": "https://github.com/webis-de/small-text",
+            "what": "Active Learning for Text Classification in Python (644 stars, v2.0.0.dev4 released May 2026, actively maintained). Ships query strategies, class-balancing, coresets, subsampling, AND stopping criteria — the practical pieces a busy-human calibration loop needs. Closest off-the-shelf fit for a low-data text-labeling budget."
+          },
+          {
+            "name": "alextamkin/generative-elicitation (GATE)",
+            "url": "https://github.com/alextamkin/generative-elicitation",
+            "what": "Official code for 'Eliciting Human Preferences with Language Models' (Li, Tamkin, Goodman, Andreas; arXiv 2310.11589; ICLR 2025), 136 stars, updated May 2026. Implements generative open-ended/yes-no questions, generative edge-cases, pool-based AL, and supervised baselines. Directly the C5 idea: an LM actively queries ONE person to elicit their preference with less effort than writing prompts or labeling examples."
+          },
+          {
+            "name": "nirjhar-das/active-preference-optimization (APO)",
+            "url": "https://github.com/nirjhar-das/active-preference-optimization",
+            "what": "Official code for 'Active Preference Optimization for Sample Efficient RLHF' (arXiv 2402.10500). Queries preferences on the most uncertain contexts; proves the sub-optimality gap matches an Omega(d/sqrt(T)) lower bound up to log factors. Theory-grounded evidence that active querying is provably sample-efficient — but only 4 stars, research-grade, not production."
+          }
+        ],
+        "evidence_for": [
+          "GATE (arXiv 2310.11589, ICLR 2025, Belinda Li/Alex Tamkin/Noah Goodman/Jacob Andreas) is exactly C5's use-case: an LM actively elicits ONE human's preferences via free-form questions/edge-cases. Users reported it took LESS effort than prompting or example-labeling and surfaced considerations they hadn't anticipated. Official repo alextamkin/generative-elicitation (136 stars) is real and updated May 2026.",
+          "Production-grade AL libraries exist and are alive: modAL (2,353 stars) and small-text (644 stars, release May 2026) implement the uncertainty/diversity query loops + stopping criteria needed for a low-data human-labeling budget.",
+          "LabelBench (arXiv 2306.09910) reports a >4x (75%) annotation-cost reduction vs random on CIFAR-10; a radiology study (PMC10365082) hit 93.1% accuracy after labeling only 5% of images. Real, measured label savings under the right conditions.",
+          "Active Preference Optimization (arXiv 2402.10500) gives a PROVEN sample-complexity result (matches Omega(d/sqrt(T)) lower bound) for querying the most-uncertain preferences — theory backing the data-efficiency intuition. Active Preference Learning (arXiv 2402.08114) shows a 1-6% win-rate lift over random within a fixed label budget on IMDB/TLDR.",
+          "Recent 2025 personalization-from-few-labels work converges on the same idea: LoRe low-rank reward modeling (arXiv 2504.14439) and FSPO few-shot preference optimization adapt to a new user from a small label set — supporting the 'few labels per person' premise C5 leans on."
+        ],
+        "evidence_against": [
+          "DECISIVE: 'Parting with Illusions about Deep Active Learning' (Mittal et al., arXiv 1912.05361) concludes AL 'helps most when you have large budgets and weak base models; it struggles in low-data settings' — the OPPOSITE of C5's pitch, which sells AL precisely because the human is busy and labels are few. C5's strongest selling regime is AL's documented weakest regime.",
+          "Same paper: AL's advantage largely DISAPPEARS once you add data augmentation, semi-supervised learning, or self-supervised pretraining — all of which an LLM-based caption pipeline already has baked in. The confounders that erase AL's edge are exactly OGZ's starting conditions.",
+          "Clinical-text study (PMC3422824, PubMed 22707743) found AL strategies 'do not always perform better than random sampling' and needed as many or more instances than random for given accuracy/AUC — random is a stubbornly strong, near-free baseline at small N.",
+          "The measured lift is modest where it does work for preference text: APL (arXiv 2402.08114) reports only 1-6% over random within a fixed budget — NOT the dramatic 'minimize labels' story; it also re-initializes the model each round (extra compute) and its hybrid strategy didn't reliably beat plain preference-certainty.",
+          "FATAL for OGZ specifically: AL only minimizes labels relative to a trusted metric/model. Per C2, OGZ's taste-judge is near-random on creative quality — so AL would efficiently spend Mohamed's scarce attention optimizing toward a broken target (acquisition functions use the model's own uncertainty, which is meaningless if the model can't judge taste). Active learning amplifies whatever signal the base model has; if that signal is noise, AL accelerates toward noise.",
+          "The strongest C5-adjacent method (GATE) has NO quantitative label-count reduction in the paper — only qualitative 'more informative / less effort' user reports across toy domains (email validation, content recommendation, moral reasoning), none of them creative-content taste in a non-English dialect. Transfer to Arabic Saudi caption taste is unproven."
+        ],
+        "practical_takeaway": "Do NOT adopt classic uncertainty-based active learning as the headline fix — the literature says it underperforms random sampling in exactly OGZ's low-label, pretrained regime (arXiv 1912.05361, PMC3422824), and worse, AL would just efficiently optimize toward a judge that C2 shows is near-random on creative taste. Sequence it correctly: FIRST fix the judge (get the human-agreement metric above the ~58% creative-LLM-judge floor via pairwise comparisons per C1), THEN layer active learning so Mohamed's scarce attention picks the most-informative PAIRS. The right tool is GATE-style generative elicitation (repo: alextamkin/generative-elicitation) — let the model actively ASK Mohamed targeted questions / show him disagreement edge-cases — rather than passive pool-based AL, since GATE is the one method designed for one busy human and reduces effort qualitatively. Prototype with small-text (text-classification AL + stopping criteria, actively maintained) but keep RANDOM sampling as the honest baseline in every calibration round and refuse to ship AL unless it beats random on held-out human-agreement by a measured margin (the APL lift was only 1-6%). Net: C5 is a real, repo-backed technique, but it is a phase-2 multiplier on a working judge, never the cure for a broken one."
+      },
+      {
+        "claim_id": "C6",
+        "verdict": "partly",
+        "real_implementations": [
+          {
+            "name": "HasanBGit/Saudi-Dialect-ALLaM",
+            "url": "https://github.com/HasanBGit/Saudi-Dialect-ALLaM",
+            "what": "Official code for the arXiv paper 2508.13525 (Aug 2025). LoRA (rank 32) fine-tune of SDAIA's ALLaM-7B-Instruct for Hijazi+Najdi generation on 5,466 synthetic pairs. Apache-2.0, created 2025-08-19, pushed 2025-12-16, only ~5 stars. Most directly on-point for OGZ: the Dialect-Token variant lifted Saudi-alignment from 47.97% (base) to 84.21% and cut MSA-leakage 32.6%->6.2%. Dataset kept PRIVATE. This is the closest real analog to what OGZ is doing, and it is a small academic effort, not a product."
+          },
+          {
+            "name": "arxiv 2507.10216 — Absher benchmark",
+            "url": "https://arxiv.org/abs/2507.10216",
+            "what": "First fine-grained benchmark for Saudi dialects + cultural nuance: 18,000+ MCQs across 6 categories incl. Najdi/Central. Finding: SOTA + Arabic-centric LLMs 'struggle significantly'; best model Qwen 63% on word-level, ALLaM only 48% on proverbs; 'notable performance gaps, particularly in tasks requiring cultural inference.' Quantifies how far the field is from Saudi cultural competence."
+          },
+          {
+            "name": "arxiv 2501.13944 — Fanar (QCRI/HBKU)",
+            "url": "https://arxiv.org/abs/2501.13944",
+            "what": "Production Arabic-centric multimodal platform (Fanar Star 7B + Prime 9B), with an explicit MSA->dialect and English->dialect translation service and dialect-tuned image gen. Fanar 2.0 (arxiv 2603.16397) adds broader dialect + 'culturally intelligent' image/video. A real shipping platform OGZ competes against on the Arabic-content layer."
+          },
+          {
+            "name": "SDAIA ALLaM (arxiv 2407.15390) + HUMAIN Chat",
+            "url": "https://arxiv.org/abs/2407.15390",
+            "what": "Saudi-government Arabic LLM (3T tokens, 400+ experts). UI-level eval of ALLaM-34B via HUMAIN Chat (arxiv 2508.17378) reports Najdi/Hijazi ~3.8/5 with 'perfect dialect fidelity but' weaker on deeper tasks — shows the Saudi-built stack OGZ should build ON TOP OF, not reinvent."
+          },
+          {
+            "name": "mdSHash/arabic-llm-eval",
+            "url": "https://github.com/mdSHash/arabic-llm-eval",
+            "what": "Arabic LLM-as-Judge evaluation benchmark (created 2026-05, 0 stars). Evidence that 'LLM-as-judge for Arabic' is an active but immature niche — directly relevant to OGZ's near-random judge, and confirms nobody has a turnkey Arabic taste-judge."
+          },
+          {
+            "name": "Spouki77/DZContent-Maker",
+            "url": "https://github.com/Spouki77/DZContent-Maker",
+            "what": "AI Instagram caption generator for Algerian businesses (Arabic+French, created 2025-06, 0 stars). The ONLY GitHub repo found that is a dialect-aware Arabic IG-caption generator for a real market — and it is a tiny hobby project, no taste-calibration, no brand-voice. Confirms the dialect-caption-for-SMEs space is wide open."
+          }
+        ],
+        "evidence_for": [
+          "Real, recent Arabic-first / Saudi-dialect systems DO exist and the problem is recognized as hard: Saudi-Dialect-ALLaM (arxiv 2508.13525, Aug 2025) is a published, code-released LoRA fine-tune specifically for Hijazi+Najdi generation — exactly OGZ's domain.",
+          "Striking corroboration of OGZ's own numbers: the UNTUNED ALLaM-7B base scored 47.97% Saudi-dialect alignment in 2508.13525 — essentially the same ~47% the OGZ judge hits. Dialect-specific tuning pushed it to 84.21%, and cut MSA-leakage from 32.6% to 6.2%. This says the 47% baseline is normal for an untuned Saudi-Arabic system and that targeted, low-data tuning measurably moves it.",
+          "The Absher benchmark (arxiv 2507.10216, 18k+ MCQs, six categories incl. Najdi) finds SOTA and Arabic-centric models 'struggle significantly' with Saudi cultural nuance — best proverb score (ALLaM) only 48%. Independent confirmation that Saudi cultural/taste competence is genuinely unsolved, so OGZ is working a real frontier, not a solved problem.",
+          "Where OGZ is AHEAD: no GitHub repo or platform found pairs Saudi-dialect generation with (a) per-brand voice, (b) a person-calibrated taste judge, and (c) an end-to-end caption->image creative pipeline. DZContent-Maker (Algerian IG captions) is the nearest caption-generator and is a 0-star hobby project with no taste layer. arabic-llm-eval (LLM-as-judge for Arabic) is 0 stars, created weeks ago. The taste/brand niche is genuinely open.",
+          "Sovereign Saudi/Gulf infrastructure OGZ can build ON exists and is improving fast: SDAIA's ALLaM (3T tokens), HUMAIN Chat deployment, Fanar 2.0 with explicit dialect translation. The dialect-generation primitive is becoming a commodity — OGZ's defensible layer is the taste/brand judge on top, not the dialect model itself."
+        ],
+        "evidence_against": [
+          "DIALECT FIDELITY != TASTE/BRAND QUALITY — the core over-claim risk. Surveys (arxiv 2510.13430; cultural-benchmarking 2605.00119) repeatedly find that high dialect fidelity does NOT guarantee cultural appropriateness; ALLaM eval (2508.17378) literally reports 'perfect dialect fidelity' alongside mediocre deeper-task scores. Saudi-Dialect-ALLaM's headline 84% is a CLASSIFIER alignment metric (MARBERTv2 GLF proxy), not human taste. OGZ's actual gap is the founder's taste, which NONE of these systems measure — so 'we're behind on dialect' would misdiagnose the problem.",
+          "The most relevant repo is academically thin: Saudi-Dialect-ALLaM = 5 stars, 5,466 SYNTHETIC single-turn pairs, dataset withheld, 3 annotators / 100 prompts of human eval, MARBERTv2 admitted as an 'imperfect Saudi/Gulf proxy.' Treating its 84%/47% numbers as a target to beat would be importing a weak, synthetic, non-taste metric into OGZ's pipeline.",
+          "Almost no real practitioner/production analog exists for OGZ's exact task. The only dialect IG-caption repo (DZContent-Maker) is a 0-star non-Saudi hobby project. The 'practitioner' tools surfaced (Yasmina/Yango, ARWriter.ai, Truescho lists) are vendor/SEO blog content with no benchmarks, no taste calibration, and unverifiable quality claims — they are marketing, not evidence that the problem is solved or that a method works.",
+          "Benchmarks are comprehension MCQs, not generation/taste. Absher and DialectalArabicMMLU measure whether a model UNDERSTANDS Saudi dialect (multiple choice), not whether it WRITES a caption a Saudi founder loves. So the 'field struggles with Saudi nuance' evidence supports the problem being hard but does NOT validate any specific cure for OGZ's writer/judge.",
+          "Failure mode for OGZ: chasing dialect-model parity (fine-tuning to raise a GLF/alignment score) could produce captions that pass the dialect classifier yet still get killed by the founder — the same near-random-judge problem, just relocated. The contra-conclusion: dialect is a commoditizing input; OGZ's moat is the person-calibrated taste judge (C1/C2), and C6 should not be read as 'go fine-tune a Saudi dialect model.'"
+        ],
+        "practical_takeaway": "C6 is REAL but easy to mis-act on. (1) Confirmed: Saudi-dialect/Arabic-first systems exist (Saudi-Dialect-ALLaM, ALLaM, Fanar) and the ~47% untuned Saudi-alignment baseline matches OGZ's own 47% judge number — reassuring that the starting point is normal, and that targeted low-data tuning measurably helps DIALECT. (2) But do NOT conflate dialect fidelity with taste/brand quality — every survey separates them, and OGZ's actual gap is the founder's taste, which no existing system measures. Treat dialect as a commoditizing input (build ON ALLaM/Fanar primitives, don't reinvent a Saudi LLM). (3) OGZ is genuinely AHEAD in the open niche of brand-voice + person-calibrated taste-judge + caption->image pipeline (nearest competitor is a 0-star hobby repo). Concrete moves: read HasanBGit/Saudi-Dialect-ALLaM for its dialect-token + GLF-classifier technique as a CHEAP dialect-leakage guardrail (not a quality metric); use Absher/DialectalArabicMMLU only to spot-check dialect comprehension; keep the moat investment on the taste-judge (C1/C2), not on chasing a dialect-alignment score."
+      }
+    ],
+    "skeptic": {
+      "overstated": [
+        "C1 numbers are spliced, not measured: '~76% personal vs ~62% generic' is VPL's Llama2-7B figure (arXiv 2408.10075) glued to a RewardBench-style floor (arXiv 2403.13787) — NOT one head-to-head study on caption taste. Both are English Q&A/reviews, zero Arabic creative. The report presents a frankenstein pairing as if it will reproduce on OGZ data. Direction is real; the two exact percentages are a promise nobody measured.",
+        "C2's '47% / +0.08 is the EXPECTED baseline' is the single most dangerous over-claim in the report and it is FALSE. On a binary/pairwise creative task random = 50%; 47% is BELOW chance and +0.08 correlation is noise. Real off-the-shelf creative judges hit 72-73% (LitBench, drfein/LitBench, Claude-3.7-Sonnet) and even personalized judges reach ~72.5% (arXiv 2406.11657). 47% is not a 'fundamental ceiling' — it signals a BROKEN judge (inverted labels, wrong rubric, prompt bug, or that the AI-judge experiment was run on random pairs). Calling it 'expected' would launder a real defect into an excuse. Hunt's own against-evidence flagged this; the report buried it.",
+        "C2's '58% creative / 47% open-ended' agreement figures are folklore. They trace to ONE vendor blog (Galileo AI) with no research citation — WebFetch confirmed no source. Quoting them as benchmark fact is exactly the Rule #9 sin (verify the number before you say it).",
+        "C3 is presented as a parallel 'standard production cure' when it is structurally DOWNSTREAM of C1 and dead without it. Best-of-N reranking only works if the verifier/reward model beats chance. C2 says OGZ's judge is at 47% (sub-chance). The literature is explicit: BoN with a weak reward model = reward hacking — it amplifies length/format/style spurious correlations (arXiv 2404.01054 MBR-BoN, arXiv 2312.09244 Helping or Herding, arXiv 2604.04648 pessimism-for-BoN). Reranking 5-10 candidates with a sub-random judge actively selects WORSE captions. The report sells C3 as ready; it cannot ship until C1 produces a judge that clears chance on a held-out founder set.",
+        "C6's implied 'OGZ is ahead' framing on the Arabic angle is half-true at best. The report under-states how much real infra exists — Jais, AceGPT (aclanthology 2024.naacl-long.450), Fanar, plus Saudi-specific benchmarks Absher (ScienceDirect S1110016825012487) and SaudiCulture (Springer s44443-025-00137-9). OGZ is NOT in a vacuum and should harvest these benchmarks instead of pretending to be first."
+      ],
+      "lab_not_reality": [
+        "C4 Verbalized Sampling — the headline 'cure' that will NOT survive OGZ's reality. Repo is real and popular (github.com/CHATS-lab/verbalized-sampling, 771 stars) and the 1.6-2.1x creative-diversity number is real (arXiv 2510.01171, Oct 2025). BUT the paper's own stated limitation is fatal here: 'works best with more capable models; weaker models may lack the ability to follow the instructions' (confirmed via thinkthereforeai.substack.com). OGZ's Anthropic key has been CREDITS-DEPLETED since June 12 (verified in MEMORY.md) — the system is forced onto cheap models (Groq/OpenRouter/cheap tier per ~/.abraham_env). The VS lift is demonstrated on frontier models; on the cheap tier OGZ must run, it is UNPROVEN and likely degrades. Also note the repo was last pushed 2026-01-03 — not actively maintained. VS is a 10-minute prompt experiment, not a pillar.",
+        "C1 'train a lightweight personal preference model from dozens of labels' as a from-scratch fine-tune is a lab fantasy for a 1-founder dataset. A few dozen labels from ONE annotator overfit and give unstable alignment unless you use the latent-user-vector / meta-learning structure (VPL repo WEIRDLabUW/vpl_llm — but only 27 stars, last push Aug 2024, research-grade; FSPO Asap7772/fewshot-preference-optimization — 16 stars, dormant since Feb 2025). These are unmaintained academic repos, not production tooling. Standing up either on a dry key with no GPU budget is not a this-week move.",
+        "C2/personalization optimism collides with the personalized-judge literature itself: arXiv 2406.11657 concludes LLM-as-personalized-judge is LESS reliable than assumed, with low/inconsistent human agreement, and arXiv 2510.05135 (Curiosity-Driven Personalized Creative Judgment) treats personalized creative judging as an OPEN hard problem. 'Just personalize and you win' is refuted; the lab itself hasn't solved this, and personalization can even degrade safety/reasoning up to 20% (arXiv 2502.19158).",
+        "C5 active learning is real (30-70% fewer labels — IntuitionLabs, Label Your Data; survey arXiv 2502.11767) but the machinery (uncertainty sampling loop, embedding model, retraining cycle) is overkill against a dataset of ONE busy founder doing 20 ratings a batch. The cost is plumbing, not labels. For n=one-annotator, smart fixed batching beats an active-learning pipeline.",
+        "C6's Arabic models are a cautionary tale, not a toolbox: Jais/AceGPT/Fanar FAIL at Saudi dialect GENERATION — they 'explain the prompt instead of generating a dialectal response' (DialectalArabicMMLU arXiv 2510.27543, survey 2510.13430). So the academic Arabic stack cannot do OGZ's actual job. Their benchmarks (Absher, SaudiCulture) are useful as EVAL sets; their generators are not drop-in replacements."
+      ],
+      "cheapest_real_move": "\"Ship ONE thing this week and only this: replace the founder's 0-5 star calibration with A-vs-B PAIRWISE on small pools of 5-10 captions. This is the only move with both high research backing (best-worst/comparative reliability 0.80-0.90 vs 0.55-0.70 for rating scales — Kiritchenko & Mohammad, arXiv 1712.01765) AND zero dependence on the dry Anthropic key, GPUs, or fine-tuning. It is a UI change, reversible, and costs nothing. Then do the FREE diagnostic that the report skipped: take the existing AI-judge and measure its agreement-with-founder on a held-out set of his pairwise calls (Cohen's kappa, chance-corrected). That one number tells you whether 47% is a fundamental ceiling or a BUG — and I bet it's a bug (inverted labels / wrong rubric / random-pair eval), because every real creative judge in the literature beats chance. Fix the judge to clear chance FIRST. Only after the judge beats chance does best-of-N (C3) become safe to turn on — until then reranking with it makes captions worse. Park C4/C5/fine-tuning: they are frontier-model, GPU, or pipeline bets that don't survive a dry-key 3-client reality.\"",
+      "verdict": "\"The report's DIRECTION is right (pairwise > stars, judge agreement > confidence, generate-then-rank, diversity prompting) but it over-claims numbers it never measured and sequences the cures backwards. Three hard corrections: (1) 47%/+0.08 is NOT an 'expected baseline' — it's below chance and almost certainly a broken/mis-pointed judge; treating it as a ceiling hides a defect (Rule #8: refuse, don't excuse). (2) Best-of-N (C3) is downstream of fixing the judge, not parallel — reranking with a sub-random verifier selects worse captions (reward hacking, arXiv 2404.01054/2312.09244). (3) Verbalized Sampling (C4), fine-tuned personal reward models (C1 as build), and active learning (C5) are frontier-model / GPU / pipeline bets that will not survive OGZ's dry Anthropic key (depleted June 12) + 1-founder + 3-client reality — they are lab-correct, not field-cheap. The cheapest real move (pairwise UI + a free kappa-vs-founder diagnostic to expose the broken judge) beats the academically-correct stack and ships this week. Every quoted percentage (76/62, 58/47) is folklore or a cross-study splice — measure YOUR own founder-agreement before any number reaches Mohamed (Rule #9). Net: adopt the mechanisms, throw out the numbers, fix the judge before you rank, and shelve the frontier toys until the key is funded and a real client dataset exists.\""
+    },
+    "synthesis": {
+      "holds": [
+        "C1 mechanism (pairwise > stars for one-person taste calibration) HOLDS. Best-Worst Scaling is provably more reliable than rating scales for a single subjective dimension (Kiritchenko & Mohammad, ACL 2017 / arXiv:1712.01765, https://arxiv.org/abs/1712.01765). Pairwise is also how production RLHF reward models are actually trained. Switching the founder from 0-5 stars to A-vs-B is the single best-supported move in the whole report.",
+        "C1 data-efficiency direction HOLDS, but only with latent/meta-learning structure. VPL (arXiv:2408.10075, NeurIPS 2024, repo https://github.com/WEIRDLabUW/vpl_llm) and FSPO (arXiv:2502.19312, repo https://github.com/Asap7772/fewshot-preference-optimization) both show personalization from a few dozen labeled preferences works — FSPO hits 87% Alpaca-Eval win-rate personalizing to REAL users. Dozens of labels is enough IF you use a user-vector/few-shot head on a base model, not naive fine-tuning.",
+        "C2 'LLM judges are weak on creative, strong on objective' HOLDS. LitBench (arXiv:2507.00769, EACL 2026, repo https://github.com/drfein/LitBench) caps the best off-the-shelf judge (Claude-3.7-Sonnet) at 73% on creative writing; mid-size open models score 56-60%. The general-task ~80% baseline traces to MT-Bench (Zheng et al., arXiv:2306.05685). Creative IS genuinely harder.",
+        "C2 'report agreement-with-human, never trust AI confidence' HOLDS STRONGLY. Overconfidence is real and measured: 'Overconfidence in LLM-as-a-Judge' (arXiv:2508.06225) documents predicted confidence far exceeding actual accuracy across models. Field best practice (Cohen's kappa vs human labels) confirms the prescription.",
+        "C4 Verbalized Sampling is a REAL, published method, not hype. 'Verbalized Sampling: How to Mitigate Mode Collapse and Unlock LLM Diversity' (Zhang, Yu, Chong, ... Manning, Shi; arXiv:2510.01171, OpenReview 9jQkmGunGo). It is training-free, model-agnostic, and identifies typicality bias in preference data as the root cause of RLHF mode collapse — directly relevant to OGZ's 'clean but mediocre/repetitive' problem.",
+        "C5 Active learning to minimize human labels HOLDS and is practical. Active Preference Optimization (arXiv:2402.10500) and RLTHF reach full-human-annotation-level alignment with only 6-7% of the labeling effort — exactly the 'busy founder labels few items' use case.",
+        "C6 Arabic/Saudi infrastructure exists and is harvestable HOLDS. AceGPT (arXiv:2309.12053, repo https://github.com/FreedomIntelligence/AceGPT) trains a reward model sensitive to local culture via RLAIF; SaudiCulture (arXiv:2503.17485) and Absher (arXiv:2507.10216) are real Saudi-specific cultural/dialect benchmarks. OGZ is NOT in a vacuum and should harvest these."
+      ],
+      "shaky": [
+        "C2's claim that 47% / +0.08 is the 'EXPECTED baseline' is FALSE and dangerous — the single worst error in the report. On a binary/pairwise creative task random = 50%, so 47% is BELOW chance and +0.08 correlation is noise. Real off-the-shelf creative judges score 72-73% (LitBench) and personalized judges recover to 'above 80%' on high-certainty samples (arXiv:2406.11657). 47% is not a ceiling — it signals a BROKEN judge (inverted labels, wrong rubric, prompt bug, or random-pair experiment). Calling it 'expected' would launder a real defect into an excuse and violate the system's own Rule #9.",
+        "C2's '58% creative / 47% open-ended agreement' figures are FOLKLORE. WebFetch of the source (Galileo AI blog, https://galileo.ai/blog/llm-as-a-judge-vs-human-evaluation) confirms these percentages are presented with NO research citation, while the rest of that page cites papers. Quoting them as benchmark fact is exactly the Rule #9 sin.",
+        "C1's specific pairing '~76% personal vs ~62% generic' is SPLICED, not measured. 76% is VPL's Llama2-7B number on English UltraFeedback; 62% is a RewardBench-style floor. They are not one head-to-head study, and neither is on Arabic creative captions. Adopt the direction; treat the two exact percentages as an unproven target to measure on YOUR held-out founder set, never a promise.",
+        "C3 (best-of-N rerank) is presented as a parallel ready-to-ship cure, but it is structurally DOWNSTREAM of C1 and DANGEROUS while the judge is sub-chance. Reward-hacking literature is explicit: BoN with a weak/sub-chance reward model amplifies length/format/style spurious correlations and selects WORSE candidates as N grows (arXiv:2406.02900 scaling laws for overoptimization; arXiv:2604.04648 pessimism-for-BoN; reward-hacking surveys). C3 cannot ship until C1 produces a verifier that provably clears chance on a held-out founder set.",
+        "C4's '1.6-2.1x diversity' is understated/mis-quoted. The actual Verbalized Sampling paper reports 2-3x diversity improvement (arXiv:2510.01171). Method holds; cite the correct multiplier and note the gain is on English creative tasks, not yet measured on Arabic captions.",
+        "C1's data-efficiency is conditional, not free. 'When Personalization Meets Reality' (arXiv:2502.19158) shows gains are dataset-dependent, a plain per-user fine-tune is already strong (collaborative methods add only ~6%), AND personalization can cause up to 20% degradation on safety/reasoning (the 'personalization tax'). 'Just personalize and you win' is refuted; sparse single-annotator data overfits without regularization. Also: Bradley-Terry under these methods assumes transitive taste — a single person's taste is often intransitive (mood/context-dependent), an unmodeled failure mode."
+      ],
+      "adopt": [
+        {
+          "tool": "Best-Worst Scaling / pairwise A-vs-B calibration (Kiritchenko & Mohammad method)",
+          "url": "https://arxiv.org/abs/1712.01765",
+          "use_for": "Replace the founder's 0-5 star calibration with A-vs-B pairwise judgments THIS WEEK. Highest-confidence, lowest-cost, reversible move; kills single-annotator scale-drift. Rank small pools of 5-10 (not the full corpus) to cap O(n^2) cost."
+        },
+        {
+          "tool": "FSPO — Few-Shot Preference Optimization (Stanford, Asap7772)",
+          "url": "https://github.com/Asap7772/fewshot-preference-optimization",
+          "use_for": "The blueprint for personalizing to ONE user (the founder) from a few dozen labels via meta-learning — NOT a from-scratch fine-tune. Python, built on Eric Mitchell's DPO codebase. This is how 'dozens of labels' becomes enough."
+        },
+        {
+          "tool": "VPL — Variational Preference Learning (WEIRDLabUW)",
+          "url": "https://github.com/WEIRDLabUW/vpl_llm",
+          "use_for": "Latent user-vector pattern so the personal reward model regularizes instead of overfitting the founder's sparse labels. Also gives a way to detect if his taste is multi-modal/context-dependent (intransitivity signal)."
+        },
+        {
+          "tool": "LitBench — creative-writing judge benchmark + trained reward models (drfein)",
+          "url": "https://github.com/drfein/LitBench",
+          "use_for": "Proves the 47% judge is broken (real creative judges hit 73-78%) and provides a Bradley-Terry / generative reward-model recipe that lifts creative-judge accuracy to 78%. Use as the template for building OGZ's caption verifier before any best-of-N."
+        },
+        {
+          "tool": "Verbalized Sampling (training-free prompting)",
+          "url": "https://arxiv.org/abs/2510.01171",
+          "use_for": "Drop-in prompt fix for 'clean but repetitive/mode-collapsed' captions: ask the brain for N caption candidates WITH probabilities. Training-free, works on Claude today, orthogonal to temperature. Pairs with the pairwise judge to pick the winner."
+        },
+        {
+          "tool": "Active Preference Optimization / RLTHF (data-efficient labeling)",
+          "url": "https://arxiv.org/abs/2402.10500",
+          "use_for": "Pick the most informative caption pairs for the founder to label so calibration reaches target with ~6-7% of the labels — protects his attention (ADHD contract)."
+        },
+        {
+          "tool": "AceGPT + Saudi cultural reward model (FreedomIntelligence)",
+          "url": "https://github.com/FreedomIntelligence/AceGPT",
+          "use_for": "Real precedent for an Arabic reward model 'sensitive to local culture and values' via RLAIF — directly the OGZ pattern. Harvest its approach rather than claiming OGZ is first."
+        },
+        {
+          "tool": "SaudiCulture + Absher benchmarks",
+          "url": "https://arxiv.org/abs/2503.17485",
+          "use_for": "Off-the-shelf Saudi cultural-competence and dialect benchmarks (Absher: arXiv:2507.10216) to evaluate the brain's Arabic/Saudi-taste output instead of building eval from scratch."
+        }
+      ],
+      "revised_recommendation": "Adopt the report's MECHANISMS, reject its NUMBERS as promises. Concrete sequence: (1) THIS WEEK switch the founder's calibration from 0-5 stars to A-vs-B pairwise (BWS) — highest-confidence, cheapest, reversible; it directly fixes the single-annotator scale-drift that is part of why the judge is at 47%. (2) FIRST diagnose the broken judge — 47%/+0.08 is BELOW chance, so it is almost certainly a defect (inverted labels, wrong rubric, prompt bug, or the AI-judge experiment was run on random pairs), NOT a fundamental ceiling. Real creative judges hit 72-78%. Do not accept 47% as 'expected.' (3) Build the personal verifier using the FSPO/VPL latent-user pattern (few-shot head on a base model), NOT a from-scratch fine-tune on dozens of labels (that overfits and risks the 20% 'personalization tax'). (4) Measure YOUR OWN agreement-with-founder (Cohen's kappa) on a held-out set before quoting any percentage — treat '76% vs 62%' as a target to beat, not a guarantee. (5) GATE best-of-N (C3) behind the verifier clearing chance — reranking 5-10 candidates with a sub-chance judge actively selects WORSE captions (reward hacking). (6) Use Verbalized Sampling NOW (training-free prompt) to fix repetitive/mode-collapsed captions — it is the one immediately-shippable diversity fix. (7) Harvest AceGPT's culture-aware RLAIF approach and the SaudiCulture/Absher benchmarks instead of building Arabic eval from scratch.",
+      "what_the_report_got_wrong": "Three things. (1) The most dangerous error: framing OGZ's 47% / +0.08 judge as the 'EXPECTED baseline.' It is BELOW random (50%) and is noise — a signal the judge is broken, not a law of nature. Real creative judges score 72-78% (LitBench) and personalized judges recover above 80% on high-certainty samples (arXiv:2406.11657). The report's own against-evidence flagged this and it was buried; calling 47% 'expected' would hide a fixable defect and violate Rule #9. (2) It quotes uncited folklore as fact: the 58%/47% agreement figures come from a single Galileo AI vendor blog with NO research citation (confirmed by fetching the page), and the '76% vs 62%' pairing is two unrelated English-benchmark numbers spliced into a fake head-to-head — neither measured on Arabic creative captions. (3) It presents best-of-N reranking (C3) as a ready, parallel cure when it is structurally downstream of a working judge and actively harmful with a sub-chance verifier (reward hacking amplifies spurious style/length correlations). Minor: Verbalized Sampling's real diversity gain is 2-3x, not the report's 1.6-2.1x. Overall the report's DIRECTION is sound and its recommended moves are worth adopting — but it over-claims certainty, presents lab/English numbers as guarantees for Arabic taste, and under-states that personalization carries a real safety/reasoning tax (up to 20%, arXiv:2502.19158).",
+      "sources": [
+        "VPL — Personalizing RLHF with Variational Preference Learning (NeurIPS 2024): https://arxiv.org/abs/2408.10075 | repo https://github.com/WEIRDLabUW/vpl_llm",
+        "FSPO — Few-Shot Preference Optimization (Stanford, Singh et al.): https://arxiv.org/abs/2502.19312 | repo https://github.com/Asap7772/fewshot-preference-optimization | 87% Alpaca-Eval win-rate to real users",
+        "Best-Worst Scaling More Reliable than Rating Scales (Kiritchenko & Mohammad, ACL 2017): https://arxiv.org/abs/1712.01765",
+        "LitBench — Reliable Evaluation of Creative Writing (EACL 2026): https://arxiv.org/abs/2507.00769 | repo https://github.com/drfein/LitBench | best off-the-shelf judge 73%, trained RM 78%",
+        "MT-Bench / LLM-as-a-Judge (Zheng et al.): https://arxiv.org/abs/2306.05685 | GPT-4 judge >80% human agreement on general tasks",
+        "Galileo AI blog (SOURCE of the uncited 58%/47% folklore figures): https://galileo.ai/blog/llm-as-a-judge-vs-human-evaluation — confirmed NO research citation for those percentages",
+        "Can LLM be a Personalized Judge? (Dong, Hu, Collier): https://arxiv.org/abs/2406.11657 — uncertainty estimation recovers 'above 80%' agreement on high-certainty binary samples",
+        "Overconfidence in LLM-as-a-Judge: Diagnosis and Confidence-Driven Solution: https://arxiv.org/abs/2508.06225 — overconfidence phenomenon + LLM-as-a-Fuser remedy",
+        "Verbalized Sampling: How to Mitigate Mode Collapse and Unlock LLM Diversity (Zhang et al.): https://arxiv.org/abs/2510.01171 — training-free, 2-3x diversity, typicality bias root cause",
+        "When Personalization Meets Reality (Dong, Hu et al.): https://arxiv.org/abs/2502.19158 — gains dataset-dependent, collaborative +~6% only, up to 20% safety/reasoning degradation ('personalization tax')",
+        "Active Preference Optimization for Sample-Efficient RLHF: https://arxiv.org/abs/2402.10500 | RLTHF reaches full-human alignment with ~6-7% labels",
+        "Scaling Laws for Reward Model Overoptimization in Direct Alignment Algorithms: https://arxiv.org/abs/2406.02900 — BoN rises-then-falls with imperfect reward",
+        "Mitigating Reward Hacking for Best-of-N with Pessimism: https://arxiv.org/abs/2604.04648",
+        "AceGPT — Localizing LLMs in Arabic (RLAIF with culture-sensitive reward model): https://arxiv.org/abs/2309.12053 | repo https://github.com/FreedomIntelligence/AceGPT",
+        "SaudiCulture benchmark: https://arxiv.org/abs/2503.17485 | Absher Saudi-dialect benchmark: https://arxiv.org/abs/2507.10216",
+        "Fanar — Arabic-Centric Multimodal Generative AI Platform: https://arxiv.org/abs/2501.13944",
+        "eugeneyan — Evaluating LLM-Evaluators (Cohen's kappa best practice): https://eugeneyan.com/writing/llm-evaluators/"
+      ]
+    }
+  }
+}

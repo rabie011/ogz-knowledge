@@ -605,6 +605,7 @@ def main():
         _s.path.insert(0, str(b / "scripts"))
         import pairwise as _pw
         _n = _pw.consume()
+        import taste_elo as _te; _te.main()  # recompute Mohamed-Elo from his accumulating picks (Rule #6)
     except Exception:
         pass
     applied = {(r["item_id"], r["answer"]) for r in _read_jsonl(b / LEDGER)}

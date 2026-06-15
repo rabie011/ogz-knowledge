@@ -33,6 +33,17 @@ class TestPairwiseLoop(unittest.TestCase):
         src = inspect.getsource(ar.main)
         self.assertIn("pairwise", src, "pairwise.consume() not wired into apply_rulings.main()")
 
+    def test_writer_and_reader_same_file(self):
+        """Consumer Law (June 15 severed-wire scar): the file the PORTAL writes taps to MUST be the
+        file consume() reads, or every live pick is silently lost."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("portal_mini", Path(__file__).parent.parent.parent / "api/portal_mini.py")
+        # read the portal's ANSWERS path textually (avoid importing the FastAPI app)
+        psrc = (Path(__file__).parent.parent.parent / "api/portal_mini.py").read_text()
+        self.assertIn("mohamed_answers.jsonl", psrc, "portal answer file changed")
+        self.assertTrue(pw.ANSWERS.name == "mohamed_answers.jsonl",
+                        f"consume() reads {pw.ANSWERS.name} but the portal writes mohamed_answers.jsonl — severed wire")
+
 
 if __name__ == "__main__":
     unittest.main()

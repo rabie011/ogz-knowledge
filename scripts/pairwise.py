@@ -21,7 +21,9 @@ B = Path(__file__).parent.parent
 sys.path.insert(0, str(B / "scripts"))
 PREFS = B / "data/pairwise_prefs.jsonl"
 PAIRS = B / "data/pairwise_pairs.json"
-ANSWERS = B / "data/answers.jsonl"
+ANSWERS = B / "data/mohamed_answers.jsonl"   # the file the PORTAL actually writes (June 15: was
+# pointed at answers.jsonl which the portal never writes → every live tap was silently lost. The
+# Consumer-Law bug: writer (portal) and reader (consume) MUST be the same file.
 QUEUE = B / "data/decision_queue.json"
 CLIENTS = ["eatjurisha", "albaik", "myfitness.sa"]
 
@@ -69,16 +71,17 @@ def push_cards(n_per_brand=4):
     pairs = form_pairs(n_per_brand)
     pushed = 0
     for p in pairs:
+        # kind=caption_pick so the portal renders BOTH captions as tappable buttons; the pick posts
+        # the option's `v` ("a"/"b") which consume() reads. judge_lane → it lives in the Decide lane.
         card = {
-            "id": p["id"], "kind": "pairwise", "judge_lane": True, "lane": "creative",
+            "id": p["id"], "kind": "caption_pick", "judge_lane": True, "lane": "creative",
             "tag": "Pick", "status": "open", "priority": "normal",
-            "title": f"{p['handle']} · which caption is better?",
+            "title": f"{p['handle']} · which would you post?",
             "handle": p["handle"],
-            "need": "Reply with the letter of the BETTER caption — A or B. (No scores — just which one you'd post.)",
-            "pair_a": p["a"]["caption"], "pair_b": p["b"]["caption"],
-            "post_idea": f"A) {p['a']['caption']}\n\nB) {p['b']['caption']}",
-            "island_text": f"A) {p['a']['caption'][:120]}   ·vs·   B) {p['b']['caption'][:120]}",
-            "why": "This is taste calibration — your pick teaches the system your eye (it currently judges at ~chance).",
+            "need": "Tap the caption you'd actually post — gut only, no scores.",
+            "options": [{"label": p["a"]["caption"], "v": "a"},
+                        {"label": p["b"]["caption"], "v": "b"}],
+            "why": "Taste calibration — your pick teaches the system your eye (it currently judges at ~chance).",
         }
         try:
             qd.push_attributed(card, made_by="system:pairwise", via="scripts/pairwise.py",

@@ -48,5 +48,17 @@ class TestClientRules(unittest.TestCase):
                                       "visual": {"phone_shoot_card": ["لقطة مقربة للطبق واليدين فقط"]}}), set())
 
 
+
+    def test_caption_too_long_is_killed(self):
+        """His #1 red-line (SHORT) now has an enforcer (Rule #6). A runaway caption is BLOCKED;
+        a normal short one is clean. The ceiling is a drift-catcher, not his fine taste threshold."""
+        import client_rules as cr
+        long_cap = "و" * (cr.MAX_CAPTION_CHARS + 5)
+        kinds = [v[0] for v in cr.violations({"captions": [long_cap]}, "albaik")]
+        self.assertIn("caption_too_long", kinds)
+        short_ok = [v[0] for v in cr.violations({"captions": ["نكهة تجمعكم اليوم."]}, "albaik")]
+        self.assertNotIn("caption_too_long", short_ok)
+
+
 if __name__ == "__main__":
     unittest.main()

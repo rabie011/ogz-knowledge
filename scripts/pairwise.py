@@ -93,11 +93,36 @@ def push_cards(n_per_brand=4):
     return pushed
 
 
+def _pairs_from_cards():
+    """The DURABLE pair source: each pushed pw_ card embeds BOTH captions in its options, and the
+    card persists in the queue. form_pairs() OVERWRITES pairwise_pairs.json, so a tap on a card
+    whose pair was overwritten would be silently dropped (June 15 severed-surface scar: 11 of his
+    15 open taps would have vanished). Reconstructing the pair from the card makes every live card
+    resolvable regardless of the side-file's state."""
+    if not QUEUE.exists():
+        return {}
+    q = json.loads(QUEUE.read_text())
+    out = {}
+    for c in (q.get("items", []) if isinstance(q, dict) else q):
+        cid = str(c.get("id", ""))
+        if not cid.startswith("pw_"):
+            continue
+        opts = {o.get("v"): o.get("label") for o in (c.get("options") or [])}
+        if "a" in opts and "b" in opts and opts["a"] and opts["b"]:
+            out[cid] = {"handle": c.get("handle", "?"),
+                        "a": {"caption": opts["a"], "brain": "?"},
+                        "b": {"caption": opts["b"], "brain": "?"}}
+    return out
+
+
 def consume():
-    """Handler (Rule #6/#7): read his A/B picks from the answers ledger → the preference ledger."""
+    """Handler (Rule #6/#7): read his A/B picks from the answers ledger → the preference ledger.
+    Resolves each pick from the DURABLE card (queue) first, enriched by the pairs side-file where
+    present — so no tap is ever lost to a pairs-file overwrite (Consumer-Law backstop)."""
     if not ANSWERS.exists():
         print("no answers yet"); return 0
-    pairs = {p["id"]: p for p in (json.loads(PAIRS.read_text()) if PAIRS.exists() else [])}
+    file_pairs = {p["id"]: p for p in (json.loads(PAIRS.read_text()) if PAIRS.exists() else [])}
+    pairs = {**_pairs_from_cards(), **file_pairs}  # card = durable backstop; file enriches (brain)
     seen = set()
     if PREFS.exists():
         seen = {json.loads(l)["pair_id"] for l in PREFS.read_text().splitlines() if l.strip()}

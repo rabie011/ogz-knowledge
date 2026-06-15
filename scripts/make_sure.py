@@ -178,6 +178,13 @@ def main():
     for k, v in checks.items():
         print(f"  {'✅' if (v if isinstance(v, bool) else True) else '🔴'} {k}: {v}")
     print(f"\n{'🟢 MAKE-SURE: ALIVE' if ok else '🔴 MAKE-SURE: ALARM'}")
+    # SURFACE (not a check — never alarms): the research-request audit trail Mohamed asked for was
+    # write-only (logged, read by nothing). Give the write-only organ its reader (Rule #6, June 15).
+    try:
+        import research_open
+        print(research_open.summary_line())
+    except Exception:
+        pass
 
     # ONE reusable alarm card (dedupe) — a persistent red must NOT flood his phone with
     # a new card every cycle (June 13: 20 stacked alarm cards = noise, ADHD-contract breach).

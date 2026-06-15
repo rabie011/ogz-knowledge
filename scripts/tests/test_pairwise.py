@@ -45,5 +45,20 @@ class TestPairwiseLoop(unittest.TestCase):
                         f"consume() reads {pw.ANSWERS.name} but the portal writes mohamed_answers.jsonl — severed wire")
 
 
+
+    def test_tap_resolves_from_durable_card_not_overwritable_file(self):
+        """June 15 severed-surface scar: form_pairs() overwrites pairwise_pairs.json, so a tap on a
+        live card whose pair was overwritten would vanish. consume() must resolve from the DURABLE
+        card (queue), which embeds both captions. Locks that every pushed pw_ card stays resolvable."""
+        import json
+        from_cards = pw._pairs_from_cards()
+        q = json.loads((Path(__file__).parent.parent.parent / "data/decision_queue.json").read_text())
+        open_pw = [c for c in q.get("items", []) if str(c.get("id","")).startswith("pw_") and c.get("status","open")=="open"]
+        if not open_pw:
+            self.skipTest("no open pairwise cards")
+        missing = [c["id"] for c in open_pw if c["id"] not in from_cards]
+        self.assertEqual(missing, [], f"{len(missing)} live cards unresolvable from the durable card — his taps would vanish")
+
+
 if __name__ == "__main__":
     unittest.main()

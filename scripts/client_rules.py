@@ -49,6 +49,13 @@ LEGAL_NAME = re.compile(r"®|Food Systems|Company|\bLLC\b|\bCo\.\b|\bEst\.\b|Tra
 
 FOOD_SECTORS = {"f_and_b"}
 
+# His #1 documented complaint (2026-06-07 review, 25/30 weak/fail): captions "طويل/طويل جدا".
+# It was a LAW with no enforcer (Rule #6). This is a DRIFT-CEILING, not a taste threshold —
+# set well above current output (median 78 · p90 138 · max 181) so it kills nothing good today
+# but REFUSES runaway length (Rule #8). His fine "is 130 too long?" calibration comes from his
+# pairwise taps, never a number I pick (Rule #12).
+MAX_CAPTION_CHARS = 220
+
 
 def _overrides(handle):
     f = B / "clients" / handle / "profile" / "cultural_overrides.json"
@@ -120,6 +127,11 @@ def violations(post, handle):
     for c in caps:
         if LEGAL_NAME.search(c):
             out.append(("brand_register", "block", f"English legal name/® in an Arabic caption: {c[:45]}"))
+            break
+    for c in caps:
+        if len(c) > MAX_CAPTION_CHARS:
+            out.append(("caption_too_long", "block",
+                        f"caption {len(c)} chars > {MAX_CAPTION_CHARS} drift-ceiling (his #1 red-line: SHORT)"))
             break
     return out
 

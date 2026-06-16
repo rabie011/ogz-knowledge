@@ -25,6 +25,7 @@ ANSWERS = B / "data/mohamed_answers.jsonl"   # the file the PORTAL actually writ
 # pointed at answers.jsonl which the portal never writes → every live tap was silently lost. The
 # Consumer-Law bug: writer (portal) and reader (consume) MUST be the same file.
 QUEUE = B / "data/decision_queue.json"
+OUT_ELO = B / "data/taste_elo.json"   # the Mohamed-Elo signal the active selector reads (Step 5)
 CLIENTS = ["eatjurisha", "albaik", "myfitness.sa"]
 
 
@@ -80,35 +81,107 @@ def form_pairs(n_per_brand=4):
     return pairs
 
 
-def push_cards(n_per_brand=4):
+def _card_for(p):
+    """Build the caption_pick card for a pair — born WITH context (per-option scene + shared occasion).
+    kind=caption_pick → the portal renders BOTH captions as tappable buttons; the pick posts the
+    option's `v` ("a"/"b") which consume() reads. Shared by random (push_cards) and active (push_active)."""
+    a, b = p["a"], p["b"]
+    card = {
+        "id": p["id"], "kind": "caption_pick", "judge_lane": True, "lane": "creative",
+        "tag": "Pick", "status": "open", "priority": "normal",
+        "title": f"{p['handle']} · which would you post?",
+        "handle": p["handle"],
+        "need": "Tap the caption you'd actually post — gut only, no scores.",
+        "options": [{"label": a["caption"], "v": "a", "scene": _scene_line(a)},
+                    {"label": b["caption"], "v": "b", "scene": _scene_line(b)}],
+        "why": "Taste calibration — your pick teaches the system your eye (it currently judges at ~chance).",
+    }
+    if a.get("occasion") and a["occasion"] == b.get("occasion"):
+        card["post_occasion"] = a["occasion"]
+    return card
+
+
+def _push(pairs):
     import queue_decision as qd
-    pairs = form_pairs(n_per_brand)
     pushed = 0
     for p in pairs:
-        # kind=caption_pick so the portal renders BOTH captions as tappable buttons; the pick posts
-        # the option's `v` ("a"/"b") which consume() reads. judge_lane → it lives in the Decide lane.
-        a, b = p["a"], p["b"]
-        card = {
-            "id": p["id"], "kind": "caption_pick", "judge_lane": True, "lane": "creative",
-            "tag": "Pick", "status": "open", "priority": "normal",
-            "title": f"{p['handle']} · which would you post?",
-            "handle": p["handle"],
-            "need": "Tap the caption you'd actually post — gut only, no scores.",
-            # born WITH context (June 16): per-option scene + a card-level occasion when both share it
-            "options": [{"label": a["caption"], "v": "a", "scene": _scene_line(a)},
-                        {"label": b["caption"], "v": "b", "scene": _scene_line(b)}],
-            "why": "Taste calibration — your pick teaches the system your eye (it currently judges at ~chance).",
-        }
-        if a.get("occasion") and a["occasion"] == b.get("occasion"):
-            card["post_occasion"] = a["occasion"]
         try:
-            qd.push_attributed(card, made_by="system:pairwise", via="scripts/pairwise.py",
+            qd.push_attributed(_card_for(p), made_by="system:pairwise", via="scripts/pairwise.py",
                                reason=f"pairwise taste calibration — {p['handle']}")
             pushed += 1
         except Exception as e:
             print(f"  push failed {p['id']}: {str(e)[:50]}")
     print(f"✅ pushed {pushed} pairwise cards ({len(pairs)} pairs) to the portal")
     return pushed
+
+
+def push_cards(n_per_brand=4):
+    return _push(form_pairs(n_per_brand))
+
+
+def _judged_or_live_pids():
+    """pids we must NOT re-push: already judged (in prefs), or already on the portal (open OR answered
+    pw_ cards). The active selector only ever proposes NEW pairs — it never touches the live 11."""
+    seen = set()
+    if PREFS.exists():
+        seen |= {json.loads(l).get("pair_id") for l in PREFS.read_text().splitlines() if l.strip()}
+    if QUEUE.exists():
+        q = json.loads(QUEUE.read_text())
+        seen |= {str(c.get("id", "")) for c in q.get("items", []) if str(c.get("id", "")).startswith("pw_")}
+    return seen
+
+
+def active_pairs(n=5, w_close=0.5, w_conn=0.5):
+    """ACTIVE-PICK (Step 5b, June 16): rank candidate same-brand pairs by INFORMATION GAIN so a few
+    taps teach the model the most. score = w_close·(close strength = hardest discrimination) +
+    w_conn·(low comparison degree = improves a star-shaped, barely-connected graph). Connectivity
+    matters most early (most captions are never-compared), so w_conn ties weight with w_close and
+    breaks ties. HARD-excludes anything already judged or already on the portal. NEW pairs only —
+    the live 11 are never touched. The '~5 taps ≈ 15' benefit is a CLAIM that must be MEASURED
+    (agreement vs random) before it's stated to Mohamed (Rule #9) — this only proposes the pairs."""
+    cands = _produced()
+    by_h = {}
+    for c in cands:
+        by_h.setdefault(c["handle"], []).append(c)
+    # the elo signal (guard missing: never-compared → degree 0, neutral strength 1.0)
+    elo = json.loads(OUT_ELO.read_text()) if OUT_ELO.exists() else {}
+    strength = elo.get("strengths", {})
+    degree = elo.get("n_comparisons", {})
+    excluded = _judged_or_live_pids()
+    cands = []
+    for h, lst in by_h.items():
+        for i in range(len(lst)):
+            for j in range(i + 1, len(lst)):
+                a, b = lst[i], lst[j]
+                if a["caption"] == b["caption"]:
+                    continue
+                pid = _pid(a, b)
+                if pid in excluded:
+                    continue
+                cands.append({"id": pid, "handle": h, "a": a, "b": b,
+                              "sa": strength.get(a["caption"], 1.0), "sb": strength.get(b["caption"], 1.0),
+                              "da": degree.get(a["caption"], 0), "db": degree.get(b["caption"], 0)})
+    # GREEDY coverage: after each pick, bump a virtual degree on its two captions so the next pick
+    # favors STILL-uncovered captions — otherwise one zero-degree caption dominates the whole batch.
+    from collections import Counter
+    used = Counter()
+    picked = []
+    while cands and len(picked) < n:
+        def _score(c):
+            close = 1.0 / (1.0 + abs(c["sa"] - c["sb"]))
+            da, db = c["da"] + used[c["a"]["caption"]], c["db"] + used[c["b"]["caption"]]
+            conn = 1.0 / (1.0 + da) + 1.0 / (1.0 + db)
+            return (w_close * close + w_conn * conn, conn)
+        best = max(cands, key=_score)
+        picked.append({"id": best["id"], "handle": best["handle"], "a": best["a"], "b": best["b"]})
+        used[best["a"]["caption"]] += 1
+        used[best["b"]["caption"]] += 1
+        cands.remove(best)
+    return picked
+
+
+def push_active(n=5):
+    return _push(active_pairs(n))
 
 
 def _pairs_from_cards():
@@ -192,8 +265,8 @@ def agreement():
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["form", "push", "consume", "agreement"])
-    ap.add_argument("--n", type=int, default=4, help="pairs per brand")
+    ap.add_argument("cmd", choices=["form", "push", "consume", "agreement", "active", "active-preview"])
+    ap.add_argument("--n", type=int, default=4, help="pairs (per brand for form/push; total for active)")
     a = ap.parse_args()
     if a.cmd == "form":
         ps = form_pairs(a.n); print(f"formed {len(ps)} pairs → {PAIRS.name}")
@@ -203,6 +276,13 @@ def main():
         consume()
     elif a.cmd == "agreement":
         agreement()
+    elif a.cmd == "active-preview":
+        ps = active_pairs(a.n)
+        print(f"active-pick proposes {len(ps)} NEW pairs (ranked by info-gain; live 11 untouched):")
+        for p in ps:
+            print(f"  {p['handle']}: {p['a']['caption'][:40]}  ⚔  {p['b']['caption'][:40]}")
+    elif a.cmd == "active":
+        push_active(a.n)
 
 
 if __name__ == "__main__":

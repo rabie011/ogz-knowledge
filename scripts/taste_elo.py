@@ -119,11 +119,21 @@ def main():
     ids, pi = bradley_terry(pairs)
     ranked = sorted(((id2cap[ids[m]], float(pi[m])) for m in range(len(ids))), key=lambda x: -x[1])
     live = [p for p in prefs if p.get("source") != "seed_from_ratings"]
+    # active-pick signal (Step 5a, June 16): per-caption strength + comparison DEGREE, keyed by the
+    # FULL caption so the selector can look them up. Purely additive — no existing consumer breaks.
+    from collections import Counter
+    deg = Counter()
+    for p in prefs:
+        deg[p["winner_caption"]] += 1
+        deg[p["loser_caption"]] += 1
+    strengths = {id2cap[ids[m]]: round(float(pi[m]), 5) for m in range(len(ids))}
     out = {"n_pairs": len(prefs), "n_live_picks": len(live), "n_rescued": len(prefs) - len(live),
            "held_out_agreement_pct": held,
            "last_pick_feedback": feedback_for(prefs),
            "top5_he_likes": [c[:70] for c, _ in ranked[:5]],
-           "bottom5_he_rejects": [c[:70] for c, _ in ranked[-5:]]}
+           "bottom5_he_rejects": [c[:70] for c, _ in ranked[-5:]],
+           "strengths": strengths,
+           "n_comparisons": {c: deg[c] for c in strengths}}
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=1))
     print(f"TASTE-ELO: {len(prefs)} pairs ({len(live)} live picks + {out['n_rescued']} rescued)")
     print(f"  held-out agreement: {held}%  [random=50% · the broken absolute judge was 47%]")

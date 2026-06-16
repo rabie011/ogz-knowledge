@@ -29,16 +29,30 @@ CLIENTS = ["eatjurisha", "albaik", "myfitness.sa"]
 
 
 def _produced():
-    """All produced pilot captions (newest render per slot), as candidates: (handle, date, caption, brain)."""
+    """All produced pilot captions (newest render per slot), as candidates with scene CONTEXT so
+    cards are born judgeable-in-context (June 16): (handle, date, caption, brain, occasion, scene)."""
     out = []
     for h in CLIENTS:
         for f in glob.glob(str(B / f"clients/{h}/posts/*__auto.json")) or glob.glob(str(B / f"clients/{h}/posts/*__v6.json")):
             d = json.loads(Path(f).read_text())
             caps = d.get("captions") or []
             if caps:
+                slot = d.get("slot") or {}
+                idea = d.get("idea") or {}
+                occ = slot.get("occasion") or slot.get("type") or slot.get("angle_theme")
                 out.append({"handle": h, "date": Path(f).name.split("__")[0],
-                            "caption": caps[0], "brain": d.get("brain", "?")})
+                            "caption": caps[0], "brain": d.get("brain", "?"),
+                            "occasion": occ if occ and occ != "daily" else (slot.get("angle_theme") or "يومي"),
+                            "scene": idea.get("scene_ar")})
     return out
+
+
+def _scene_line(c):
+    """Short per-option context «occasion — scene» (matches backpatch_pw_context._ctx_line)."""
+    occ, scene = (c.get("occasion") or "").strip(), (c.get("scene") or "").strip()
+    if occ and scene:
+        return f"{occ} — {scene[:90]}"
+    return occ or (scene[:90] if scene else "")
 
 
 def _pid(a, b):
@@ -73,16 +87,20 @@ def push_cards(n_per_brand=4):
     for p in pairs:
         # kind=caption_pick so the portal renders BOTH captions as tappable buttons; the pick posts
         # the option's `v` ("a"/"b") which consume() reads. judge_lane → it lives in the Decide lane.
+        a, b = p["a"], p["b"]
         card = {
             "id": p["id"], "kind": "caption_pick", "judge_lane": True, "lane": "creative",
             "tag": "Pick", "status": "open", "priority": "normal",
             "title": f"{p['handle']} · which would you post?",
             "handle": p["handle"],
             "need": "Tap the caption you'd actually post — gut only, no scores.",
-            "options": [{"label": p["a"]["caption"], "v": "a"},
-                        {"label": p["b"]["caption"], "v": "b"}],
+            # born WITH context (June 16): per-option scene + a card-level occasion when both share it
+            "options": [{"label": a["caption"], "v": "a", "scene": _scene_line(a)},
+                        {"label": b["caption"], "v": "b", "scene": _scene_line(b)}],
             "why": "Taste calibration — your pick teaches the system your eye (it currently judges at ~chance).",
         }
+        if a.get("occasion") and a["occasion"] == b.get("occasion"):
+            card["post_occasion"] = a["occasion"]
         try:
             qd.push_attributed(card, made_by="system:pairwise", via="scripts/pairwise.py",
                                reason=f"pairwise taste calibration — {p['handle']}")

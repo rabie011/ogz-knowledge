@@ -452,7 +452,8 @@ function renderCard(){
       h+=`<button class="opt ${o.rec?'rec':''} ${composer?(sel?'sel':(j.choice!=null?'dim':'')):''} ${it.kind==='caption_pick'?'island':''}"
           dir="auto" onclick="${composer?`selOpt('${esc(it.id)}',${i})`:`decide('${esc(it.id)}',${i})`}">
           ${o.rec?'<span class="star">⭐ Recommended</span>':''}${esc(o.label)}
-          ${o.explain?'<span class="ex" dir="auto">↳ '+esc(o.explain)+'</span>':''}</button>`;
+          ${o.explain?'<span class="ex" dir="auto">↳ '+esc(o.explain)+'</span>':''}
+          ${o.scene?'<span class="ex" dir="auto">📅 '+esc(o.scene)+'</span>':''}</button>`;
     });
     if(composer&&it.options&&it.options.length) h+=`<div class="hint">Tap to select — nothing sends until you hit Submit.</div>`;
   } else if(it.kind==='numbers'){
@@ -695,11 +696,11 @@ async function flushOutbox(){
     const res=await postBody(e.body);
     if(res==='403'){ const hh=held(); hh.push(e.body); setHeld(hh); }  // NEVER silently drop
     else if(res===false){ left.push(e); }
-    else if(res&&res.receipt){ patchSnackReceipt(e.body,res.receipt); }
+    else if(res&&res.receipt){ patchSnackReceipt(e.body,res.receipt,res.taste); }
   }
   setOutbox(left);
 }
-function patchSnackReceipt(body,rc){
+function patchSnackReceipt(body,rc,taste){
   if(!SNACK_BODY||SNACK_BODY.client_ts!==body.client_ts) return;
   const s=document.getElementById('snack');
   let line='Recorded ✓';
@@ -707,6 +708,7 @@ function patchSnackReceipt(body,rc){
   else if(rc.will_open_case) line='Rejected → opens a case on '+(playerEn(rc.player)||'the maker');
   else if(rc.gold_candidate) line='Approved ★ → kept as a gold example';
   else if(rc.kind==='approved') line='Approved ✓ recorded';
+  if(taste) line=taste;   // pairwise calibration nudge wins for a pick (June 16): "Pick #N ✓ — …"
   s.innerHTML=`<span dir="auto">${esc(line)}</span>`;
 }
 function renderOutboxPill(){

@@ -9,7 +9,7 @@ Runs on the heartbeat after each tap (wired into apply_rulings) so the taste sig
 current. Uses BOTH his rescued past ratings (30 seed pairs) and his fresh pilot picks.
 Usage: python3 scripts/taste_elo.py
 """
-import json, sys
+import json, sys, hashlib
 from pathlib import Path
 import numpy as np
 
@@ -55,6 +55,35 @@ def bradley_terry(pairs, iters=200, tol=1e-9):
     return ids, pi
 
 
+def _emoji(s):
+    return any(ord(ch) > 0x1F000 for ch in s)
+
+
+def feedback_for(prefs):
+    """HONEST instant-tap feedback at low N (June 16). Names a within-pair SURFACE trait the latest
+    pick showed + how consistently his picks lean that way — pure counts, no LLM. Deliberately does
+    NOT claim 'the model agrees N%' (degenerate at ~6 picks) nor a brain lean (brain='?' on card
+    pairs) — those would overclaim (Rule #9). Its only job: make the tap feel like it landed."""
+    live = [p for p in prefs if p.get("source") != "seed_from_ratings"]
+    if not live:
+        return "First pick logged ✓ — the model's starting to learn your eye."
+    n = len(live)
+    last = live[-1]
+    w, l = last.get("winner_caption", ""), last.get("loser_caption", "")
+    tail = "logged"
+    if len(w) < len(l):
+        shorter = sum(1 for p in live if len(p.get("winner_caption", "")) < len(p.get("loser_caption", "")))
+        tail = f"you picked the shorter one ({shorter}/{n} of your picks lean short)"
+    elif len(w) > len(l):
+        longer = sum(1 for p in live if len(p.get("winner_caption", "")) > len(p.get("loser_caption", "")))
+        tail = f"you picked the richer one ({longer}/{n} lean longer)"
+    elif ("؟" in w or "?" in w) and not ("؟" in l or "?" in l):
+        tail = "you went with the one that asks a question"
+    elif _emoji(w) != _emoji(l):
+        tail = "you picked the one " + ("with" if _emoji(w) else "without") + " an emoji"
+    return f"Pick #{n} ✓ — {tail}. The model's learning your eye."
+
+
 def main():
     prefs = _prefs()
     if not prefs:
@@ -69,8 +98,10 @@ def main():
     # held-out agreement (leave-out 20%): does BT trained on the rest rank the held-out winner higher?
     import random as _r
     order = list(range(len(pairs)))
-    # deterministic shuffle (no Math.random ban concern — this is python, but keep it stable)
-    order.sort(key=lambda i: hash(prefs[i]["winner_caption"]) & 0xffff)
+    # STABLE shuffle: Python's hash() is per-process randomized (PYTHONHASHSEED), so the old
+    # `hash(...)` split was non-reproducible — the held-out number flipped run-to-run (Rule #9: a
+    # number that lies). md5 is stable across processes, so the split + the agreement % are now fixed.
+    order.sort(key=lambda i: int(hashlib.md5(prefs[i]["winner_caption"].encode()).hexdigest(), 16))
     k = max(1, len(pairs) // 5)
     test, train = order[:k], order[k:]
     agree = total = 0
@@ -90,6 +121,7 @@ def main():
     live = [p for p in prefs if p.get("source") != "seed_from_ratings"]
     out = {"n_pairs": len(prefs), "n_live_picks": len(live), "n_rescued": len(prefs) - len(live),
            "held_out_agreement_pct": held,
+           "last_pick_feedback": feedback_for(prefs),
            "top5_he_likes": [c[:70] for c, _ in ranked[:5]],
            "bottom5_he_rejects": [c[:70] for c, _ in ranked[-5:]]}
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=1))

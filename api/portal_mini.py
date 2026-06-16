@@ -128,6 +128,24 @@ def scorecards(k: str = ""):
 SLIM_KEYS = ("id", "title", "status", "answered", "answered_by", "created", "tag")
 
 
+def _single_open_pw(out):
+    """Of the OPEN pairwise (pw_) cards, surface only the FIRST in the given (already-sorted) order —
+    the rest stay queued and surface one after each tap. ALL non-pw open cards and ALL answered cards
+    pass through untouched. Derived purely from queue state, so the ETag (queue mtime) stays valid:
+    answering a pw_ card rewrites the queue → mtime bumps → the next pw_ appears on the next poll.
+    Born June 16: 15 pw_ cards stacked = a wall against Mohamed's own no-flood rule + the ADHD
+    60-second-gate contract. This makes calibration a gate, not a wall."""
+    seen_open_pw = False
+    kept = []
+    for it in out:
+        if str(it.get("id", "")).startswith("pw_") and it.get("status") != "answered":
+            if seen_open_pw:
+                continue            # withhold — only ONE open pairwise card at a time
+            seen_open_pw = True
+        kept.append(it)
+    return kept
+
+
 @app.get("/api/approvals/items")
 def items(request: Request, k: str = ""):
     if not _ok(k):
@@ -152,6 +170,7 @@ def items(request: Request, k: str = ""):
     # the sort (None < str) → the WHOLE items API 500'd → the live link showed no cards (2026-06-14)
     out.sort(key=lambda x: (x.get("status") == "answered",
                             0 if x.get("priority") == "urgent" else 1, x.get("created") or ""))
+    out = _single_open_pw(out)   # one open pairwise card at a time (60-sec gate, not a 15-card wall)
     # private,no-cache makes the browser attach If-None-Match automatically → free 304 polling
     return JSONResponse(out, headers={"ETag": etag, "Cache-Control": "private, no-cache"})
 
@@ -275,7 +294,20 @@ async def answer(request: Request, k: str = ""):
     import sys as _s2
     _s2.path.insert(0, str(REPO / "scripts"))
     from feedback_lib import classify_receipt
-    return {"ok": True, "receipt": classify_receipt(entry)}
+    resp = {"ok": True, "receipt": classify_receipt(entry)}
+    # INSTANT TASTE FEEDBACK for a pairwise pick (June 16): consume this fresh tap → recompute the
+    # Mohamed-Elo (pure-numpy, instant, zero-key) → surface the honest nudge. pw_-gated so the shared
+    # classify_receipt is never touched. Makes the tap feel like it landed, not like a survey.
+    if str(entry["item_id"]).startswith("pw_"):
+        try:
+            import pairwise as _pw, taste_elo as _te
+            _pw.consume(); _te.main()
+            _tj = json.loads((DATA_ROOT / "data" / "taste_elo.json").read_text())
+            if _tj.get("last_pick_feedback"):
+                resp["taste"] = _tj["last_pick_feedback"]
+        except Exception:
+            pass   # feedback is a nicety — never fail the tap on it
+    return resp
 
 
 @app.get("/api/approvals/receipt")

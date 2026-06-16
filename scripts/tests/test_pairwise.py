@@ -46,6 +46,17 @@ class TestPairwiseLoop(unittest.TestCase):
 
 
 
+    def test_new_pairs_carry_scene_context(self):
+        """June 16: a freshly-formed pair's candidates must carry occasion+scene so push_cards can
+        stamp per-option context — and _pid must stay a pure function of the captions (id stability)."""
+        pairs = pw.form_pairs(2)
+        if not pairs:
+            self.skipTest("no produced captions")
+        p = pairs[0]
+        self.assertIn("occasion", p["a"], "candidate lost occasion context")
+        self.assertEqual(p["id"], pw._pid(p["a"], p["b"]), "id derivation drifted from the caption pair")
+        self.assertIsInstance(pw._scene_line(p["a"]), str)
+
     def test_tap_resolves_from_durable_card_not_overwritable_file(self):
         """June 15 severed-surface scar: form_pairs() overwrites pairwise_pairs.json, so a tap on a
         live card whose pair was overwritten would vanish. consume() must resolve from the DURABLE

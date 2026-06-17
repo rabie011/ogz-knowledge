@@ -1,7 +1,11 @@
 # HANDOVER — ogz-knowledge
 
-Developer onboarding for the OGZ Studios Saudi creative-intelligence system. Read this first,
-then `README.md` (build briefing) and `docs/` for deep dives. Last updated 2026-06-17.
+Developer onboarding for the OGZ Studios Saudi creative-intelligence system.
+
+> **➡️ To understand HOW THE SYSTEM WORKS, read [`docs/HOW_IT_WORKS.md`](docs/HOW_IT_WORKS.md) first**
+> (the mental model + architecture diagrams). This file is setup + known-issues; that one is the map.
+
+Then `README.md` (original build briefing) and `docs/` for deep dives. Last updated 2026-06-17.
 
 ---
 

@@ -6,7 +6,7 @@ never feelings. Anything dead = urgent portal alarm. Runs every orchestra cycle.
 
 Usage: python3 scripts/make_sure.py   (exit 1 = something is dead/lying)
 """
-import glob, json, re, subprocess, time
+import glob, json, os, re, subprocess, time
 from pathlib import Path
 
 BASE = Path(__file__).parent.parent

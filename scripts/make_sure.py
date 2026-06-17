@@ -59,8 +59,14 @@ def main():
         checks["portal_mini"] = True
     except Exception:
         checks["portal_mini"] = False
-    key = next((l.split("=", 1)[1].strip().strip('"') for l in
-                open(Path.home() / ".abraham_env") if l.startswith("APPROVALS_KEY=")), "")
+    # tolerant key read (June 17 handover fix): a dev clone has no ~/.abraham_env — fall back to the
+    # env var and never crash (an empty key just yields portal_public=False, not a FileNotFoundError).
+    _envf = Path.home() / ".abraham_env"
+    key = ""
+    if _envf.exists():
+        key = next((l.split("=", 1)[1].strip().strip('"') for l in _envf.read_text().splitlines()
+                    if l.startswith("APPROVALS_KEY=")), "")
+    key = key or os.environ.get("APPROVALS_KEY", "")
     UA = {"User-Agent": "Mozilla/5.0 (Macintosh) OGZ-healthcheck"}   # Cloudflare 403s default urllib UA
     try:
         req = urllib.request.Request(f"https://brain.ogzstudios.com/approvals?k={key}", headers=UA)

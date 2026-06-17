@@ -27,17 +27,29 @@ under `clients/<handle>/`.
 ## 2. Quickstart
 
 ```bash
-python3 -m pip install -r requirements.txt      # Python 3.11+ (built on 3.14)
-python3 -m unittest discover -s scripts/tests -q # 106 tests, must stay green
-python3 scripts/verify_ship_ready.py            # data-quality health check (see Known Issues #2)
+# 1. install (Python 3.11+, built on 3.14)
+python3 -m venv .venv && source .venv/bin/activate
+python3 -m pip install -r requirements.txt
 
-# the feedback portal (the calibration UI the founder taps on):
+# 2. prove it works — ZERO key, ZERO network, hermetic:
+python3 -m unittest discover -s scripts/tests -q   # → Ran 106 tests, OK
+python3 scripts/taste_elo.py                        # → prints the Mohamed-Elo from the shipped picks
+
+# 3. the feedback portal (the calibration UI) — mint your OWN keys first (the founder's never ship):
+python3 scripts/gen_portal_key.py                   # writes local keys + prints your /approvals URL
 python3 -m uvicorn api.portal_mini:app --port 4199 --host 127.0.0.1
-#   → http://localhost:4199/approvals?k=<key>   (key lives in data/portal_team.json — see Security)
+#   → open the printed  http://localhost:4199/approvals?k=<your-key>
+
+# 4. system health (optional; the live-portal sub-check needs keys, but it won't crash without them):
+python3 scripts/make_sure.py
 ```
 
-LLM keys are read from `~/.abraham_env` (NOT in this repo). OpenAI is the live pen; Anthropic
-credits are depleted (see Known Issues #4). Most maintenance scripts are **zero-key** (pure Python).
+> `scripts/verify_ship_ready.py` currently **exits non-zero** (18 organ-schema items) — expected,
+> see Known Issues #2. Don't treat it as "the build is broken."
+
+**Keys:** LLM keys (caption generation) come from `~/.abraham_env` OR shell env vars
+(`OPENAI_API_KEY`, `ANTHROPIC_API_KEY`). OpenAI is the live pen; Anthropic credits are depleted
+(Known Issues #4). Everything in steps 2–3 is **zero-key** — you can see the system work immediately.
 
 ---
 

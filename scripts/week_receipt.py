@@ -114,6 +114,14 @@ def mohamed_last_seen() -> str:
 
 def main():
     since = mohamed_last_seen()
+    # personal portal key read at RUNTIME (June 17 handover fix: never hardcode the live key in
+    # source — it leaks into every clone + git history). Falls back to a placeholder off-machine.
+    _pkf = Path.home() / ".abraham_env"
+    _pk = ""
+    if _pkf.exists():
+        _pk = next((l.split("=", 1)[1].strip().strip('"') for l in _pkf.read_text().splitlines()
+                    if l.startswith("APPROVALS_KEY=")), "")
+    _pk = _pk or "<YOUR_PERSONAL_KEY>"
     # (a) WORK SINCE HE LEFT — commits are the spine (evidence law: hashes, not feelings)
     log = subprocess.run(["git", "-C", str(BASE), "log", f"--since={since}",
                           "--pretty=%h %s"], capture_output=True, text=True).stdout.strip()
@@ -230,7 +238,7 @@ def main():
 - إنذارات: {alarms} · جولات zoom-out: {zooms}
 
 ## (b) البوابة — ينتظر لمستك
-**https://brain.ogzstudios.com/approvals?k=ogz-mo-001aad63a8ec** *(your personal link — knows it's you)*
+**https://brain.ogzstudios.com/approvals?k={_pk}** *(your personal link — knows it's you)*
 - {len(open_items)} كرت مفتوح ({len(urgent)} عاجل)
 - دفعة الحكم: {('انحكمت كاملة ✅ (D3 يوم 13/6)' if jb.get('status')=='STAGED' else jb.get('status','—'))}
 - مسودات قوانين (crystallize): {len(drafts)}

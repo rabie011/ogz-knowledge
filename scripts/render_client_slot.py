@@ -158,10 +158,17 @@ def taste_guard(options: list, kill_patterns: list) -> tuple[list, list]:
 
 
 def env(k):
-    for l in open(os.path.expanduser("~/.abraham_env")):
-        if l.startswith(k + "="):
-            return l.split("=", 1)[1].strip().strip('"')
-    sys.exit(f"no {k}")
+    # ~/.abraham_env first, then the shell env (June 17 handover fix: a dev sets OPENAI_API_KEY /
+    # ANTHROPIC_API_KEY in their shell and has no .abraham_env — don't force them to create one).
+    p = os.path.expanduser("~/.abraham_env")
+    if os.path.exists(p):
+        for l in open(p):
+            if l.startswith(k + "="):
+                return l.split("=", 1)[1].strip().strip('"')
+    v = os.environ.get(k)
+    if v:
+        return v
+    sys.exit(f"no {k} (set it in ~/.abraham_env or export it as an env var)")
 
 
 def gpt(messages, temp=0.7, max_tok=900, fmt_json=True):

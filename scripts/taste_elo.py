@@ -55,6 +55,29 @@ def bradley_terry(pairs, iters=200, tol=1e-9):
     return ids, pi
 
 
+def held_out_live(pairs, prefs):
+    """HONEST live-pick generalization (June 17). The public held_out_agreement_pct mixes the 30
+    rescued seed pairs (rating-5 vs rating-0 — TRIVIALLY separable) with his real pilot picks; the
+    md5 split lets the rescued pairs carry the number to ~100% while every live pick is silently
+    DROPPED (each live caption is seen once → no strength when held out → excluded). That 100% is a
+    number that lies (Rule #9). This measures ONLY what we care about: hold out ONE of his live
+    pairwise picks, does BT trained on everything else rank his chosen caption above the rejected
+    one? Leave-one-out (tiny N). Returns (pct, n_testable). n_testable==0 while the pilot pairs are
+    DISCONNECTED is the TRUTH — not a 100%. It rises only when the sampler reuses captions so the
+    comparison graph connects."""
+    live_idx = [i for i, p in enumerate(prefs) if p.get("source") != "seed_from_ratings"]
+    agree = total = 0
+    for held in live_idx:
+        train = [pairs[i] for i in range(len(pairs)) if i != held]
+        ids, pi = bradley_terry(train)
+        strength = {ids[m]: pi[m] for m in range(len(ids))}
+        w, l = pairs[held]
+        if w in strength and l in strength and strength[w] != strength[l]:
+            total += 1
+            agree += strength[w] > strength[l]
+    return (round(agree / total * 100) if total else None), total
+
+
 def _emoji(s):
     return any(ord(ch) > 0x1F000 for ch in s)
 
@@ -114,6 +137,10 @@ def main():
                 total += 1
                 agree += strength[w] > strength[l]
     held = round(agree / total * 100) if total else None
+    # HONEST live-only number (June 17): the mixed `held` above rides on the rescued seed pairs and
+    # drops every live pick — see held_out_live's docstring. This is the only one we may quote as
+    # "his agreement", and it is undefined (0 testable) until the pilot comparison graph connects.
+    held_live, held_live_n = held_out_live(pairs, prefs)
 
     # full ranking
     ids, pi = bradley_terry(pairs)
@@ -129,6 +156,9 @@ def main():
     strengths = {id2cap[ids[m]]: round(float(pi[m]), 5) for m in range(len(ids))}
     out = {"n_pairs": len(prefs), "n_live_picks": len(live), "n_rescued": len(prefs) - len(live),
            "held_out_agreement_pct": held,
+           "held_out_agreement_degenerate": held_live_n == 0,
+           "held_out_live_pct": held_live,
+           "held_out_live_n_testable": held_live_n,
            "last_pick_feedback": feedback_for(prefs),
            "top5_he_likes": [c[:70] for c, _ in ranked[:5]],
            "bottom5_he_rejects": [c[:70] for c, _ in ranked[-5:]],
@@ -136,7 +166,11 @@ def main():
            "n_comparisons": {c: deg[c] for c in strengths}}
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=1))
     print(f"TASTE-ELO: {len(prefs)} pairs ({len(live)} live picks + {out['n_rescued']} rescued)")
-    print(f"  held-out agreement: {held}%  [random=50% · the broken absolute judge was 47%]")
+    if held_live_n:
+        print(f"  held-out LIVE agreement: {held_live}%  ({held_live_n} of his picks testable · random=50%)")
+    else:
+        print(f"  held-out LIVE agreement: UNDEFINED — 0 of {len(live)} live picks testable "
+              f"(pilot pairs are disconnected; the {held}% mixed number rides on rescued seeds, not his eye)")
     if live:
         print(f"  top he likes: {ranked[0][0][:60]}")
     else:

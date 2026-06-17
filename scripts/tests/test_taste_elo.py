@@ -56,6 +56,38 @@ class TestTasteElo(unittest.TestCase):
     def test_feedback_empty_prefs_safe(self):
         self.assertIsInstance(te.feedback_for([]), str)
 
+    def test_held_out_live_is_undefined_when_pilot_pairs_disconnected(self):
+        """June 17 scar: the public held_out_agreement_pct hit 100% riding on rescued seed pairs
+        (rating-5 vs rating-0) while EVERY live pick was dropped (each caption seen once → no
+        strength when held out). The honest live-only number must report 0 testable / None — not
+        inherit the lie (Rule #9). Three isolated live picks → nothing is testable."""
+        prefs = [
+            {"winner_caption": "أ", "loser_caption": "ب", "source": None},
+            {"winner_caption": "ج", "loser_caption": "د", "source": None},
+            {"winner_caption": "هـ", "loser_caption": "و", "source": None},
+        ]
+        caps = {}
+        cid = lambda c: caps.setdefault(c, len(caps))
+        pairs = [(cid(p["winner_caption"]), cid(p["loser_caption"])) for p in prefs]
+        pct, n = te.held_out_live(pairs, prefs)
+        self.assertEqual(n, 0, "disconnected pilot pairs must yield 0 testable")
+        self.assertIsNone(pct, "undefined must be None, never a borrowed 100%")
+
+    def test_held_out_live_scores_when_graph_connects(self):
+        """The number must RISE the moment the sampler reuses captions: A>B and A>C live, plus a
+        rescued seed B>C — hold out A>C and BT (trained on A>B, B>C) still ranks A above C."""
+        prefs = [
+            {"winner_caption": "A", "loser_caption": "B", "source": None},
+            {"winner_caption": "A", "loser_caption": "C", "source": None},
+            {"winner_caption": "B", "loser_caption": "C", "source": "seed_from_ratings"},
+        ]
+        caps = {}
+        cid = lambda c: caps.setdefault(c, len(caps))
+        pairs = [(cid(p["winner_caption"]), cid(p["loser_caption"])) for p in prefs]
+        pct, n = te.held_out_live(pairs, prefs)
+        self.assertGreater(n, 0, "a connected graph must make at least one live pick testable")
+        self.assertEqual(pct, 100)
+
 
 if __name__ == "__main__":
     unittest.main()

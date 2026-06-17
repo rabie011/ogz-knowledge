@@ -1,0 +1,26 @@
+# ogz-knowledge — Python dependencies (Python 3.11+; built/tested on 3.14)
+# Install: python3 -m pip install -r requirements.txt
+
+# core
+numpy==2.4.3            # Bradley-Terry taste-Elo (scripts/taste_elo.py), analytics
+jsonschema==4.26.0      # record/organ validation (scripts/validate.py, generate_organ_schemas.py)
+referencing==0.37.0     # cross-file $ref in schema validation
+PyYAML==6.0.3           # CD-brain front-matter, configs
+python-ulid==3.1.0      # ULIDs for record ids
+hijridate==2.6.0        # Hijri/Gregorian calendar (06_saudi_calendar)
+
+# the feedback portal (api/portal_mini.py — the calibration UI)
+fastapi==0.136.3
+uvicorn==0.48.0
+pydantic==2.12.5
+
+# LLM clients (caption generation / judging). Keys live in ~/.abraham_env (NOT in this repo).
+# Anthropic credits are currently depleted; OpenAI is the live pen — see HANDOVER.md.
+openai==2.26.0
+anthropic==0.84.0
+
+# extraction / scraping (Instagram + competitor intake)
+requests==2.32.5
+browser-cookie3==0.20.1
+# apify-client            # optional — Apify scraping; install if running extraction
+# psycopg2-binary         # optional — only if syncing the file-first data into the Postgres index

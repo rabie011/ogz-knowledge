@@ -9,7 +9,7 @@ Codes counted (from the pyramid's rejection-recovery play):
   culture_breach | off_voice | wrong_goal | too_generic | factual_error | unexplained
 Usage: python3 scripts/crystallize_loop.py            # scan + draft
 """
-import json, glob, collections
+import json, glob, re, collections
 from pathlib import Path
 
 BASE = Path(__file__).parent.parent
@@ -17,6 +17,64 @@ import datetime as _dt
 TODAY = str(_dt.date.today())
 THRESHOLD = 3
 CODES = {"culture_breach", "off_voice", "wrong_goal", "too_generic", "factual_error", "unexplained"}
+STALE_DAYS = 14  # founder_taste >2 weeks behind his latest rating = the loop is broken (B114)
+_ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
+
+
+def _max_date_in(values) -> "_dt.date | None":
+    """Newest YYYY-MM-DD found anywhere in the given strings (None if none)."""
+    found = []
+    for v in values:
+        for m in _ISO_DATE.findall(str(v)):
+            try:
+                found.append(_dt.date.fromisoformat(m))
+            except ValueError:
+                continue
+    return max(found) if found else None
+
+
+def founder_taste_staleness() -> dict:
+    """B114 tripwire: founder_taste.json IS the bar the critic judges against; it must be refreshed
+    after every rating session. If his latest rating session is >STALE_DAYS newer than the freshest
+    date stamped in founder_taste._meta, the WRITEBACK loop is broken — he keeps rating but the bar
+    never moves. Pure dates, no LLM (Rule #9). Honest no-data semantics: a missing file or no live
+    rating means nothing can be 'behind', so stale=False — we never manufacture an alarm."""
+    tf = BASE / "data/founder_taste.json"
+    if not tf.exists():
+        return {"available": False, "stale": False, "reason": "no founder_taste.json"}
+    try:
+        meta = (json.loads(tf.read_text()) or {}).get("_meta", {})
+    except Exception as e:
+        return {"available": False, "stale": False, "reason": f"unreadable founder_taste: {str(e)[:60]}"}
+    taste_date = _max_date_in(meta.values())
+    if taste_date is None:
+        return {"available": False, "stale": False, "reason": "no date stamped in founder_taste._meta"}
+
+    # latest rating session = newest live pairwise pick (his fresh eye; seeds are historical)
+    prefs = BASE / "data/pairwise_prefs.jsonl"
+    rating_dates = []
+    if prefs.exists():
+        for line in prefs.read_text().splitlines():
+            if not line.strip():
+                continue
+            try:
+                p = json.loads(line)
+            except Exception:
+                continue
+            if p.get("source") == "seed_from_ratings":
+                continue
+            d = _max_date_in([p.get("ts", "")])
+            if d:
+                rating_dates.append(d)
+    if not rating_dates:
+        return {"available": True, "stale": False, "taste_date": str(taste_date),
+                "latest_rating_date": None, "gap_days": None, "reason": "no live rating session yet"}
+
+    latest = max(rating_dates)
+    gap = (latest - taste_date).days
+    return {"available": True, "stale": gap > STALE_DAYS, "taste_date": str(taste_date),
+            "latest_rating_date": str(latest), "gap_days": gap, "n_ratings": len(rating_dates),
+            "reason": f"founder_taste {gap}d behind his latest rating (threshold {STALE_DAYS}d)"}
 
 
 def scan() -> dict:
@@ -106,6 +164,11 @@ def main():
     existing["last_run"] = TODAY
     out.write_text(json.dumps(existing, ensure_ascii=False, indent=2))
     print(f"\n{len(new)} new draft cards → data/crystallize_queue.json (queue total: {len(existing['cards'])})")
+    st = founder_taste_staleness()
+    if st.get("stale"):
+        print(f"🔴 LOOP-BROKEN: {st['reason']} — refresh founder_taste.json from his ratings")
+    else:
+        print(f"founder_taste freshness: {st.get('reason', 'ok')}")
     if not total:
         print("honest state: ledgers are young — the machine waits for real verdicts. It runs; it does not invent.")
 

@@ -175,6 +175,18 @@ def main():
     if fb.returncode != 0:
         checks["feedback_failed"] = (fb.stdout or "").strip().splitlines()[-1:]
 
+    # 6c. FOUNDER-TASTE STALENESS (B114): founder_taste.json IS the bar the critic judges against;
+    # if he keeps rating but the bar is never refreshed, the writeback loop is broken. Its own
+    # reusable card (below) — NOT folded into the process-death alarm (Rule #10: one card per condition).
+    try:
+        import crystallize_loop
+        _st = crystallize_loop.founder_taste_staleness()
+        checks["founder_taste_fresh"] = not _st.get("stale", False)
+        checks["_taste_gap_days"] = _st.get("gap_days")
+    except Exception as e:
+        checks["founder_taste_fresh"] = True
+        checks["_taste_staleness_err"] = str(e)[:60]
+
     ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "portal_items_ok", "commits_flowing", "judge_cards_gated", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests"))
     entry = {"ts": now, **checks, "verdict": "ALIVE" if ok else "ALARM"}
     with open(LOG, "a") as f:
@@ -215,6 +227,25 @@ def main():
     elif alarm and alarm.get("status") != "answered":
         alarm["status"] = "answered"; alarm["answered"] = "auto-closed: all gates green again"
         alarm["answered_by"] = "system:make_sure (machine evidence)"
+        qf.write_text(_j.dumps(q, ensure_ascii=False, indent=1))
+
+    # ONE reusable card for the founder-taste staleness condition (B114) — its own id, deduped,
+    # auto-closed the moment the bar is refreshed. Re-read the queue (alarm_live may have rewritten it).
+    q = _j.loads(qf.read_text()) if qf.exists() else {"items": []}
+    stale_card = next((i for i in q["items"] if i["id"] == "taste_stale"), None)
+    taste_stale = not checks.get("founder_taste_fresh", True)
+    if taste_stale:
+        gap = checks.get("_taste_gap_days")
+        if not stale_card:
+            subprocess.run(["python3", str(BASE / "scripts/queue_decision.py"),
+                            "--id", "taste_stale", "--urgent",
+                            "--title", "🔴 ذوقك ما تحدّث منذ أسبوعين",
+                            "--tag", "ذوق", "--desc",
+                            f"founder_taste متأخر {gap} يوم عن آخر تقييم — الحلقة مكسورة، لازم نحدّث المعيار.",
+                            "--buttons", "ack:👌 شفته"], capture_output=True)
+    elif stale_card and stale_card.get("status") != "answered":
+        stale_card["status"] = "answered"; stale_card["answered"] = "auto-closed: founder_taste refreshed"
+        stale_card["answered_by"] = "system:make_sure (machine evidence)"
         qf.write_text(_j.dumps(q, ensure_ascii=False, indent=1))
     raise SystemExit(0 if ok else 1)
 

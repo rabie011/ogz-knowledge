@@ -184,6 +184,84 @@ def push_active(n=5):
     return _push(active_pairs(n))
 
 
+def bridge_pairs(n=8):
+    """BRIDGE the disconnected graph (Step 5c, June 17). The honest held-out LIVE test
+    (taste_elo.held_out_live) is 0-testable because every one of his judged captions is a SINGLETON:
+    leave-one-out drops a pick when neither caption appears in any OTHER pair, so n_live_picks can
+    reach 50 and still measure 0. active_pairs makes it worse — it rewards degree-0 (never-compared)
+    captions and so never reuses his judged ones. bridge_pairs proposes NEW same-brand pairs that
+    REUSE a caption from his live picks, pairing two of his singletons together where possible, so
+    each judged caption gains a 2nd comparison and the comparison graph CONNECTS. n bridge pairs make
+    up to 2n live captions held-out-testable. Like active_pairs it proposes only NEW pids (the live
+    cards are never touched); the '+testable' gain is MEASURED by re-running taste_elo afterward,
+    never asserted here (Rule #9)."""
+    prod = _produced()
+    by_h = {}
+    for c in prod:
+        by_h.setdefault(c["handle"], []).append(c)
+    rec = {c["caption"]: c for c in prod}                 # caption → produced record
+    # his live-pick captions still in the produced pool, grouped by brand (order-preserving, unique)
+    live_caps = []
+    if PREFS.exists():
+        for line in PREFS.read_text().splitlines():
+            if not line.strip():
+                continue
+            p = json.loads(line)
+            if p.get("source") == "seed_from_ratings":
+                continue
+            for c in (p.get("winner_caption", ""), p.get("loser_caption", "")):
+                if c in rec:
+                    live_caps.append(c)
+    live_by_h = {}
+    for c in dict.fromkeys(live_caps):
+        live_by_h.setdefault(rec[c]["handle"], []).append(c)
+    excluded = _judged_or_live_pids()
+
+    def _new(a_rec, b_rec):
+        # NEW only: neither ordering already judged/live, and not a self-pair
+        if a_rec["caption"] == b_rec["caption"]:
+            return None
+        pid = _pid(a_rec, b_rec)
+        if pid in excluded or _pid(b_rec, a_rec) in excluded:
+            return None
+        return pid
+
+    picked, covered = [], set()
+    # PASS 1 — pair two still-uncovered live captions of the same brand (covers 2 singletons per tap)
+    for h, caps in live_by_h.items():
+        for i in range(len(caps)):
+            for j in range(i + 1, len(caps)):
+                if len(picked) >= n:
+                    break
+                a, b = caps[i], caps[j]
+                if a in covered or b in covered:
+                    continue
+                pid = _new(rec[a], rec[b])
+                if not pid:
+                    continue
+                picked.append({"id": pid, "handle": h, "a": rec[a], "b": rec[b]})
+                covered.add(a); covered.add(b)
+    # PASS 2 — any still-uncovered live caption → bridge against a non-live same-brand partner
+    for h, caps in live_by_h.items():
+        live_set = set(caps)
+        partners = [c for c in by_h.get(h, []) if c["caption"] not in live_set]
+        for a in caps:
+            if a in covered or len(picked) >= n:
+                continue
+            for pc in partners:
+                pid = _new(rec[a], pc)
+                if not pid:
+                    continue
+                picked.append({"id": pid, "handle": h, "a": rec[a], "b": pc})
+                covered.add(a)
+                break
+    return picked[:n]
+
+
+def push_bridge(n=8):
+    return _push(bridge_pairs(n))
+
+
 def _pairs_from_cards():
     """The DURABLE pair source: each pushed pw_ card embeds BOTH captions in its options, and the
     card persists in the queue. form_pairs() OVERWRITES pairwise_pairs.json, so a tap on a card
@@ -265,7 +343,8 @@ def agreement():
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["form", "push", "consume", "agreement", "active", "active-preview"])
+    ap.add_argument("cmd", choices=["form", "push", "consume", "agreement", "active", "active-preview",
+                                    "bridge", "bridge-preview"])
     ap.add_argument("--n", type=int, default=4, help="pairs (per brand for form/push; total for active)")
     a = ap.parse_args()
     if a.cmd == "form":
@@ -283,6 +362,13 @@ def main():
             print(f"  {p['handle']}: {p['a']['caption'][:40]}  ⚔  {p['b']['caption'][:40]}")
     elif a.cmd == "active":
         push_active(a.n)
+    elif a.cmd == "bridge-preview":
+        ps = bridge_pairs(a.n if a.n != 4 else 8)
+        print(f"bridge proposes {len(ps)} NEW pairs (reuse his judged captions → held-out testable):")
+        for p in ps:
+            print(f"  {p['handle']}: {p['a']['caption'][:40]}  ⚔  {p['b']['caption'][:40]}")
+    elif a.cmd == "bridge":
+        push_bridge(a.n if a.n != 4 else 8)
 
 
 if __name__ == "__main__":

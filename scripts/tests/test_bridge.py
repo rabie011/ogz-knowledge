@@ -52,6 +52,23 @@ class TestBridge(unittest.TestCase):
             touches = p["a"]["caption"] in live or p["b"]["caption"] in live
             self.assertTrue(touches, f"bridge {p['id']} reuses no judged caption — does not connect the graph")
 
+    def test_handle_filter_restricts_to_one_pilot(self):
+        """--handle albaik must yield ONLY albaik bridges (so a stranded pilot gets connected
+        without re-flooding one that already has bridges, Rule #10). The filtered set must be a
+        strict same-brand subset of the unfiltered set."""
+        allps = pw.bridge_pairs(12)
+        if not allps:
+            self.skipTest("no live picks to bridge yet")
+        brands = {p["handle"] for p in allps}
+        target = sorted(brands)[0]
+        only = pw.bridge_pairs(12, handle=target)
+        self.assertTrue(all(p["handle"] == target for p in only),
+                        f"--handle {target} leaked other brands")
+        self.assertTrue({p["id"] for p in only}.issubset({p["id"] for p in allps}),
+                        "handle-filtered bridges are not a subset of the unfiltered set")
+        if len(brands) > 1:
+            self.assertLess(len(only), len(allps), "filter did not drop the other brands' bridges")
+
     def test_bridges_make_held_out_computable(self):
         """The measured guarantee (Rule #9): with his live picks all singletons the held-out test is
         0-testable; after simulating taps on the bridges it becomes computable (n_testable > 0). We

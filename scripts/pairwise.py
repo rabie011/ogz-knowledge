@@ -184,7 +184,7 @@ def push_active(n=5):
     return _push(active_pairs(n))
 
 
-def bridge_pairs(n=8):
+def bridge_pairs(n=8, handle=None):
     """BRIDGE the disconnected graph (Step 5c, June 17). The honest held-out LIVE test
     (taste_elo.held_out_live) is 0-testable because every one of his judged captions is a SINGLETON:
     leave-one-out drops a pick when neither caption appears in any OTHER pair, so n_live_picks can
@@ -194,7 +194,8 @@ def bridge_pairs(n=8):
     each judged caption gains a 2nd comparison and the comparison graph CONNECTS. n bridge pairs make
     up to 2n live captions held-out-testable. Like active_pairs it proposes only NEW pids (the live
     cards are never touched); the '+testable' gain is MEASURED by re-running taste_elo afterward,
-    never asserted here (Rule #9)."""
+    never asserted here (Rule #9). handle: restrict to ONE pilot (so a brand with stranded live
+    picks — e.g. albaik — gets bridges without re-flooding a brand that already has them, Rule #10)."""
     prod = _produced()
     by_h = {}
     for c in prod:
@@ -215,6 +216,8 @@ def bridge_pairs(n=8):
     live_by_h = {}
     for c in dict.fromkeys(live_caps):
         live_by_h.setdefault(rec[c]["handle"], []).append(c)
+    if handle is not None:
+        live_by_h = {h: caps for h, caps in live_by_h.items() if h == handle}
     excluded = _judged_or_live_pids()
 
     def _new(a_rec, b_rec):
@@ -258,8 +261,8 @@ def bridge_pairs(n=8):
     return picked[:n]
 
 
-def push_bridge(n=8):
-    return _push(bridge_pairs(n))
+def push_bridge(n=8, handle=None):
+    return _push(bridge_pairs(n, handle))
 
 
 def _pairs_from_cards():
@@ -346,6 +349,7 @@ def main():
     ap.add_argument("cmd", choices=["form", "push", "consume", "agreement", "active", "active-preview",
                                     "bridge", "bridge-preview"])
     ap.add_argument("--n", type=int, default=4, help="pairs (per brand for form/push; total for active)")
+    ap.add_argument("--handle", default=None, help="restrict bridge to one pilot (e.g. albaik)")
     a = ap.parse_args()
     if a.cmd == "form":
         ps = form_pairs(a.n); print(f"formed {len(ps)} pairs → {PAIRS.name}")
@@ -363,12 +367,13 @@ def main():
     elif a.cmd == "active":
         push_active(a.n)
     elif a.cmd == "bridge-preview":
-        ps = bridge_pairs(a.n if a.n != 4 else 8)
-        print(f"bridge proposes {len(ps)} NEW pairs (reuse his judged captions → held-out testable):")
+        ps = bridge_pairs(a.n if a.n != 4 else 8, a.handle)
+        scope = f" [{a.handle}]" if a.handle else ""
+        print(f"bridge proposes {len(ps)} NEW pairs{scope} (reuse his judged captions → held-out testable):")
         for p in ps:
             print(f"  {p['handle']}: {p['a']['caption'][:40]}  ⚔  {p['b']['caption'][:40]}")
     elif a.cmd == "bridge":
-        push_bridge(a.n if a.n != 4 else 8)
+        push_bridge(a.n if a.n != 4 else 8, a.handle)
 
 
 if __name__ == "__main__":

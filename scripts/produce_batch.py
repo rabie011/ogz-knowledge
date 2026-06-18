@@ -22,7 +22,16 @@ from pathlib import Path
 B = Path(__file__).parent.parent
 sys.path.insert(0, str(B / "scripts"))
 import post_audit as pa
+import render_reel as rr
 from render_client_slot import scene_core, batch_diversity_check
+
+# REEL WIRING (June 18, Rule #6 — render_reel is a writer; here it finally gets its reader). A
+# slot whose COMPUTED format=='reel' (set in year_map.py off real_winning_formula.json) is
+# reel-ified — but ONLY by assembling an ALREADY-ON-DISK still into a 9:16 mp4 ($0 ffmpeg+Pillow,
+# the ungated lever). If no still exists yet (today's gated-pilot reality) the manifest marks
+# reel_pending and NO fal render is triggered. Reel emission is purely off slot['format'], never a
+# hand-authored list → Rule #12 holds.
+REELS = B / "data/reels"   # mp4 output dir (created at runtime, only when a reel actually assembles)
 
 # REAL-engagement scoring head (June 18): rank candidates by what actually won (real_winning_formula),
 # NOT the random LLM enum. v1 scores by occasion-lift (the trait fresh candidates reliably carry);
@@ -90,6 +99,17 @@ def is_clean(d, handle):
 def core_of(d):
     cs = scene_core((d.get("captions") or [""])[0]) or scene_core((d.get("slot") or {}).get("angle_theme", ""))
     return sorted(cs)[0] if cs else "_uncore"
+
+
+def _still_for(handle, date):
+    """Resolve a generated still co-located with the post, or None. NO fal, NO download, NO render —
+    returns a path ONLY if it ALREADY exists on disk (this is the hard money-gate guard: assembly
+    can never trigger a new fal spend). Glob over the system's per-slot still naming."""
+    for cand in (glob.glob(str(B / f"clients/{handle}/posts/{date}__*.jpg"))
+                 + glob.glob(str(B / f"clients/{handle}/posts/{date}__*.png"))):
+        if Path(cand).exists():
+            return cand
+    return None
 
 
 def main():
@@ -219,17 +239,50 @@ def main():
 
     def fn_of(x):
         return x.get("fn") or Path(glob.glob(str(B / f"clients/{x['h']}/posts/{x['dt']}__*{a.suffix}.json"))[0]).name
+
+    def _post_entry(x):
+        # media format is the COMPUTED slot['format'] (year_map, off real_winning_formula) — never a
+        # hand list (Rule #12). A 'reel' slot is assembled from an already-on-disk still ($0); if no
+        # still yet, it's marked reel_pending and NO fal is triggered (Rule #8: loud, never silent).
+        fmt = (x["d"].get("slot") or {}).get("format", "image")
+        e = {"handle": x["h"], "date": x["dt"], "occasion": x["occ"], "file": fn_of(x),
+             "brain": x["d"].get("brain"), "captions": x["d"].get("captions"), "media": fmt}
+        if fmt == "reel":
+            still = _still_for(x["h"], x["dt"])
+            cap = (x["d"].get("captions") or [""])[0]   # caption from the post card, never a literal
+            if still:
+                REELS.mkdir(parents=True, exist_ok=True)
+                outp = str(REELS / f"{x['h']}_{x['dt']}.mp4")
+                try:
+                    rr.render(still, cap, outp)         # $0 ffmpeg+Pillow over an existing still — no fal
+                    e["reel_path"] = outp
+                    _fr = outp.replace(".mp4", "_frame.jpg")
+                    if Path(_fr).exists():              # preview frame is best-effort — only claim a real file
+                        e["frame_path"] = _fr
+                except SystemExit as ex:                # ffmpeg/font/missing-image refusal → degrade this one
+                    e["media"] = "image"; e["reel_error"] = str(ex)[:120]
+                    emit(f"   ⚠ reel ffmpeg/refuse {x['h']} {x['dt']} — fell back to image: {str(ex)[:80]}")
+                except Exception as ex:                 # any Pillow/draw error → degrade, never abort the batch
+                    e["media"] = "image"; e["reel_error"] = str(ex)[:120]
+                    emit(f"   ⚠ reel render error {x['h']} {x['dt']} — fell back to image: {str(ex)[:80]}")
+            else:
+                e["reel_pending"] = True                # gated-pilot: still not generated yet — zero spend
+                emit(f"   ⏳ reel slot {x['h']} {x['dt']}: no still yet (awaits the $3 no_fal+key tap) — manifest marks reel_pending, NO fal triggered")
+        return e
+
     man = {"built": time.strftime("%Y-%m-%dT%H:%M:%S"), "n": len(chosen), "suffix": a.suffix, "staged": False,
            "by_client": dict(Counter(x["h"] for x in chosen)),
            "by_brain": dict(Counter(x["d"].get("brain") for x in chosen)),
            "by_core": dict(Counter(core_of(x["d"]) for x in chosen)),
            "occasion_posts": [f"{x['h']} {x['dt']} {x['occ']}" for x in chosen if x["occ"] != "daily"],
-           "posts": [{"handle": x["h"], "date": x["dt"], "occasion": x["occ"], "file": fn_of(x),
-                      "brain": x["d"].get("brain"), "captions": x["d"].get("captions")} for x in chosen]}
+           "posts": [_post_entry(x) for x in chosen]}
     (B / "data/batch_manifest.json").write_text(json.dumps(man, ensure_ascii=False, indent=1))
     emit(f"\n✅ SYSTEM PRODUCED {len(chosen)} zero-issue posts (manifest, NOT staged).")
     emit(f"   by client: {man['by_client']} · by brain: {man['by_brain']}")
     emit(f"   occasion-aligned ({len(man['occasion_posts'])}): {man['occasion_posts']}")
+    _reels = sum(1 for p in man["posts"] if p.get("media") == "reel")
+    _pend = sum(1 for p in man["posts"] if p.get("reel_pending"))
+    emit(f"   reels: {_reels} (computed format) · {_reels - _pend} assembled $0 · {_pend} reel_pending (no still yet, NO fal)")
 
 
 if __name__ == "__main__":

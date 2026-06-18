@@ -9,9 +9,10 @@ RABIE's ruling (provisional, logged): spine full, anchors rendered, quality over
 
 Usage: python3 scripts/year_map.py --handle eatjurisha [--sector f_and_b] [--start 2026-07-01]
 """
-import argparse, datetime, json, sys
+import argparse, datetime, hashlib, json, sys
 from pathlib import Path
 from hijridate import Hijri
+from hijri_util import in_ramadan
 
 BASE = Path(__file__).parent.parent
 
@@ -40,6 +41,44 @@ def real_occasions() -> list[dict]:
 
 CADENCE = {"newborn": 7, "newborn-dormant": 7, "active_dormant": 7, "active_unclassified": 7, "active": 7}  # Mohamed June 12: 7 posts every week, full calendar
 FORMULAS = ["CF_01", "CF_02", "CF_03", "CF_04", "CF_05", "CF_06", "CF_07"]
+
+# PER-SLOT FORMAT (June 18, Rule #12): a slot's media format ('image' | 'reel') is COMPUTED from
+# real_winning_formula.json — never a hand-authored list of which posts are reels. The reel cell is
+# the 2.85x Reels-placement lever, but it's a THIN sample (n=31), so it's gated + share-capped.
+# Constants are derived from the WF file, not hand-picked per client.
+REEL_SHARE_FLOOR, REEL_SHARE_CAP, MIN_N = 0.10, 0.25, 8  # ~1-in-10 floor, 1-in-4 cap, builder n-floor
+_WF = BASE / "data/real_winning_formula.json"
+
+
+def _wf() -> dict:
+    try:
+        return json.loads(_WF.read_text()).get("trait_lift", {})
+    except Exception:
+        return {}
+
+
+def _occ_lift(slug) -> float:
+    # the occasion the slot reliably carries — used as the reel-propensity score (matches the
+    # media_type lever to the occasion lever). Unknown slug → 1.0 (stable, never crashes).
+    return _wf().get("occasion", {}).get(slug or "evergreen", {}).get("lift", 1.0)
+
+
+def reel_share() -> float:
+    """Deterministic target reel-share of slots, derived from the WF media_type table.
+    GATE (Rule #9, thin-n safe): treat reel as a lever only if reel.n >= MIN_N AND reel_lift >
+    image_lift; else 0.0 → no reels ever emitted (safe no-op). Else clamp raw frequency between
+    FLOOR and CAP so a 31-obs cell can't dominate a year (live: 31/6309 → clamp to FLOOR=0.10)."""
+    mt = _wf().get("media_type", {})
+    reel, img = mt.get("reel", {}), mt.get("image", {})
+    if reel.get("n", 0) < MIN_N or reel.get("lift", 0) <= img.get("lift", 1.0):
+        return 0.0
+    tot = sum(v.get("n", 0) for v in mt.values()) or 1
+    return max(REEL_SHARE_FLOOR, min(REEL_SHARE_CAP, round(reel.get("n", 0) / tot, 3)))
+
+
+def _slot_hash(handle: str, date: str) -> int:
+    # stable tiebreak so the reel set is byte-reproducible (NOT date order, NOT a hand list)
+    return int(hashlib.sha1(f"{handle}|{date}".encode()).hexdigest(), 16)
 
 
 def lens_theme(sector: str, occ_slug: str) -> str | None:
@@ -119,17 +158,33 @@ def build(handle: str, sector: str, start: datetime.date) -> dict:
                           "major": o["major"], "moonsighting_check": o["moonsighting"],
                           "formula": FORMULAS[i % 7],
                           "angle_theme": lens_theme(sector, o["slug"]) or f"{o['slug']} × real brand moment",
+                          "format": "image",  # computed → some flip to 'reel' in the post-loop ranking pass
                           "anchor": o["major"] and o["beat"] == "day_of", "status": "planned"})
             i += 1
         elif d.weekday() in post_days:
-            # ramadan posting shifts: skip daytime-energy evergreen inside ramadan window
-            in_ramadan = datetime.date(2027, 2, 8) <= d <= datetime.date(2027, 3, 8)
-            slots.append({"date": str(d), "type": "evergreen" if not in_ramadan else "ramadan_evergreen",
+            # ramadan posting shifts: skip daytime-energy evergreen inside ramadan window.
+            # window derived from the Hijri calendar (Ramadan = Hijri month 9), correct for any
+            # year — never a hardcoded Gregorian span (B047 scar). [[hijri_util]]
+            is_ramadan = in_ramadan(d)
+            slots.append({"date": str(d), "type": "evergreen" if not is_ramadan else "ramadan_evergreen",
                           "formula": FORMULAS[i % 7],
                           "angle_theme": ever[i % len(ever)],
+                          "format": "image",  # computed → some flip to 'reel' in the post-loop ranking pass
                           "anchor": (d - start).days < 31, "status": "planned"})
             i += 1
         d += datetime.timedelta(days=1)
+
+    # FORMAT RANKING PASS (Rule #12: computed, no hand-authored reel list). Rank every slot by
+    # (occasion_lift desc, stable hash desc) and flip the top reel_share fraction to format='reel'.
+    # The highest-propensity occasions become the reels (media_type lever ⨯ occasion lever), the
+    # hash spreads ties evenly and makes the reel set byte-reproducible from the data + (handle,date).
+    # If the gate fails (thin n / reel not a real lever) share == 0 → no reels (safe no-op).
+    share = reel_share()
+    if share > 0 and slots:
+        ranked = sorted(slots, key=lambda s: (_occ_lift(s.get("occasion")), _slot_hash(handle, s["date"])),
+                        reverse=True)
+        for s in ranked[:round(share * len(slots))]:
+            s["format"] = "reel"
 
     months = {}
     for s in slots:
@@ -138,6 +193,7 @@ def build(handle: str, sector: str, start: datetime.date) -> dict:
             "window": [str(start), str(end)], "built": "2026-06-11",
             "ruling": "spine full + anchors rendered now + rest on-approach (RABIE, provisional)",
             "total_slots": len(slots), "anchors": sum(1 for s in slots if s["anchor"]),
+            "reel_share": share, "reels": sum(1 for s in slots if s.get("format") == "reel"),
             "months": months}
     out = BASE / "clients" / handle / "year_map.json"
     out.write_text(json.dumps(ymap, ensure_ascii=False, indent=2))
@@ -153,5 +209,6 @@ if __name__ == "__main__":
     m = build(a.handle, a.sector, datetime.date.fromisoformat(a.start))
     print(f"✓ year map → clients/{a.handle}/year_map.json")
     print(f"  {m['total_slots']} slots over 12 months · {m['anchors']} anchors · cadence {m['cadence_per_week']}/wk · state {m['state']}")
+    print(f"  format: {m['reels']} reel ({m['reel_share']:.0%} share, computed from WF media_type lift) · rest image")
     occ_slots = [s for mm in m['months'].values() for s in mm if s['type'] == 'occasion']
     print(f"  occasion slots: {len(occ_slots)} (majors day-of: {sum(1 for s in occ_slots if s.get('major') and s['beat']=='day_of')})")

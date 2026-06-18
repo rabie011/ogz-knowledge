@@ -11,8 +11,22 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 # Pillow on this Mac HAS libraqm → it does Arabic shaping + RTL itself. So pass RAW text with
 # direction="rtl" (NEVER pre-reshape/bidi — that double-processes into garbled, reversed glyphs,
-# the June-18 bug caught by eyeballing the frame). Emoji stripped (GeezaPro has no emoji → tofu).
-_EMOJI = re.compile("[\U0001F000-\U0001FAFF☀-➿←-⇿⬀-⯿️]")
+# the June-18 bug caught by eyeballing the frame).
+# GeezaPro has no emoji/symbol glyphs → tofu boxes. WHITELIST instead of blacklist (a blacklist
+# misses emoji; June 18 frame showed leftover tofu): keep only Arabic, Latin, digits, whitespace,
+# and basic punctuation — drop everything else (emoji, symbols, variation selectors, ZWJ).
+def _clean(text):
+    text = re.sub(r"#[^\s#]+", "", text)          # drop hashtag tokens — they belong in the IG caption,
+    text = re.sub(r"https?://\S+|@[\w.]+", "", text)  # not burned on the frame (also URLs/@handles)
+    keep = []
+    for ch in text:
+        o = ord(ch)
+        if (0x0600 <= o <= 0x06FF or 0x0750 <= o <= 0x077F or 0xFB50 <= o <= 0xFDFF
+                or 0xFE70 <= o <= 0xFEFF                    # Arabic + presentation forms
+                or 0x0020 <= o <= 0x007E                    # ASCII (Latin, digits, punct)
+                or ch in " \n\t،؛؟…—–“”‘’"):                # whitespace + Arabic/common punct
+            keep.append(ch)
+    return re.sub(r"\s+", " ", "".join(keep)).strip()
 
 W, H = 1080, 1920
 FONT_CANDIDATES = [
@@ -35,7 +49,7 @@ def _font(size):
 def arabic_overlay(caption, png_path):
     """Transparent 1080x1920 PNG: a bottom scrim + the Arabic caption. RAW text + direction='rtl'
     so libraqm shapes/joins/orders it (no manual reshape/bidi). Emoji stripped (no glyph → tofu)."""
-    caption = _EMOJI.sub("", caption).strip()
+    caption = _clean(caption)
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
     for i in range(360):                       # bottom scrim for legibility over any photo

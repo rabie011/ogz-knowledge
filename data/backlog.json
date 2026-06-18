@@ -1436,7 +1436,8 @@
       "depends_on": [
         "B081"
       ],
-      "status": "todo"
+      "status": "done",
+      "done_note": "verify_events_wired.py — orphaned-send/events-integrity audit over clients/*/events/*.jsonl (4 ERROR classes: unparseable, mohamed-not-CONFIRMED, empty pick_selected, orphaned send; legacy gaps=WARN). Wired into verify_ship_ready.py (Rule #6 consumer) + locked in test_wires. +9 tests (test_events_wired). Live ledgers: 52 events, 0 ERROR. June 19."
     },
     {
       "id": "B122",
@@ -3224,7 +3225,8 @@
       "depends_on": [
         "B034"
       ],
-      "status": "todo"
+      "status": "done",
+      "done_note": "Already wired by the B034-audit: post_audit.py:104 scans list(PERSON_AR.finditer)+list(PERSON_EN.finditer) in the truth block, grounded vs corpus + fictional-scene check. B265 closed the PROOF gap — added test_named_person_en_in_fictional_scene_flagged + test_documented_grounded_en_person_not_false_flagged + PERSON_EN write-only assertion to test_post_audit_truth.py (220 tests green). EN branch now eyes-proven, not just AR."
     },
     {
       "id": "B266",
@@ -3319,6 +3321,6 @@
         "est_minutes": 620
       }
     },
-    "todo": 112
+    "todo": 109
   }
 }

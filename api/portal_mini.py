@@ -129,19 +129,25 @@ SLIM_KEYS = ("id", "title", "status", "answered", "answered_by", "created", "tag
 
 
 def _single_open_pw(out):
-    """Of the OPEN pairwise (pw_) cards, surface only the FIRST in the given (already-sorted) order —
-    the rest stay queued and surface one after each tap. ALL non-pw open cards and ALL answered cards
-    pass through untouched. Derived purely from queue state, so the ETag (queue mtime) stays valid:
-    answering a pw_ card rewrites the queue → mtime bumps → the next pw_ appears on the next poll.
-    Born June 16: 15 pw_ cards stacked = a wall against Mohamed's own no-flood rule + the ADHD
-    60-second-gate contract. This makes calibration a gate, not a wall."""
-    seen_open_pw = False
+    """Of the OPEN pairwise (pw_) cards, surface only ONE — the rest stay queued and surface one
+    after each tap. The one shown is the HIGHEST-VALUE open card: lowest `pw_rank` (bridge=0 unlocks
+    held-out testability, active=1 information gain, random=2), ties broken by earliest `created`
+    (out arrives already created-sorted, so stable-min picks the oldest among equals). ALL non-pw
+    open cards and ALL answered cards pass through untouched. Derived purely from queue state, so the
+    ETag (queue mtime) stays valid: answering a pw_ rewrites the queue → mtime bumps → the next-best
+    pw_ appears on the next poll. Born June 16 as a no-flood gate (15 stacked cards = a wall vs the
+    ADHD 60-sec contract); June 18 it also honors the producer's ranking (Rule #6 — created-order
+    threw away the active/bridge information-gain the selectors computed, wasting his scarce taps)."""
+    open_pw = [it for it in out
+               if str(it.get("id", "")).startswith("pw_") and it.get("status") != "answered"]
+    if not open_pw:
+        return out
+    winner = min(open_pw, key=lambda it: (it.get("pw_rank", 2), it.get("created") or ""))  # rank, then earliest created
     kept = []
     for it in out:
-        if str(it.get("id", "")).startswith("pw_") and it.get("status") != "answered":
-            if seen_open_pw:
-                continue            # withhold — only ONE open pairwise card at a time
-            seen_open_pw = True
+        if (str(it.get("id", "")).startswith("pw_") and it.get("status") != "answered"
+                and it is not winner):
+            continue                # withhold — only the single highest-value pw_ card surfaces
         kept.append(it)
     return kept
 

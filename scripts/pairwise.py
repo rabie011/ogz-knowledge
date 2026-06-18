@@ -98,13 +98,20 @@ def _card_for(p):
     }
     if a.get("occasion") and a["occasion"] == b.get("occasion"):
         card["post_occasion"] = a["occasion"]
+    card["pw_rank"] = p.get("pw_rank", 2)   # serving priority: bridge<active<random (lower served first)
     return card
 
 
-def _push(pairs):
+def _push(pairs, rank=2):
+    """rank = which open pairwise card the portal serves NEXT (lower first): bridge=0 (unlocks
+    held-out testability), active=1 (information gain), random=2. The portal shows ONE pw card at a
+    time (the 60-sec gate); without this, his scarce taps drained in created-order and the
+    active/bridge ranking the producers compute was thrown away at the serving layer (Rule #6 — a
+    producer's ranking the consumer ignored). Verified by tests/test_pw_serving_rank.py."""
     import queue_decision as qd
     pushed = 0
     for p in pairs:
+        p.setdefault("pw_rank", rank)
         try:
             qd.push_attributed(_card_for(p), made_by="system:pairwise", via="scripts/pairwise.py",
                                reason=f"pairwise taste calibration — {p['handle']}")
@@ -116,7 +123,7 @@ def _push(pairs):
 
 
 def push_cards(n_per_brand=4):
-    return _push(form_pairs(n_per_brand))
+    return _push(form_pairs(n_per_brand), rank=2)
 
 
 def _judged_or_live_pids():
@@ -184,7 +191,7 @@ def active_pairs(n=5, w_close=0.5, w_conn=0.5):
 
 
 def push_active(n=5):
-    return _push(active_pairs(n))
+    return _push(active_pairs(n), rank=1)
 
 
 def bridge_pairs(n=8, handle=None):
@@ -265,7 +272,7 @@ def bridge_pairs(n=8, handle=None):
 
 
 def push_bridge(n=8, handle=None):
-    return _push(bridge_pairs(n, handle))
+    return _push(bridge_pairs(n, handle), rank=0)
 
 
 def bridge_status():

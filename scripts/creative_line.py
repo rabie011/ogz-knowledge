@@ -71,6 +71,37 @@ def ensure_assets(brand_en, occasion):
 OFFER_OCCASIONS = {"weekly_offer", "white_friday", "new_product", "summer_campaign", "daily_post"}
 
 
+def gold_lead_voice(brand_en, occasion, dna, base=BASE, n=5):
+    """Voice-reference few-shot for the render pen, GOLD FIRST (B040, Rule #6 consumer law).
+
+    The founder's rating>=4 captions (logs/brand_gold/{brand}_gold.json) are his strongest
+    taste signal — they must LEAD the voice reference, outranking engagement-ranked exemplars.
+    Mirrors v5_prompt.py's gold-first + occasion-rotation so the angle-render path and the
+    main-API path feed the pens the SAME founder-approved voice. Returns a list of caption
+    strings, gold lines first, dna exemplars filling to n, de-duplicated.
+    """
+    gold_f = base / "logs" / "brand_gold" / f"{brand_en}_gold.json"
+    all_gold = []
+    if gold_f.exists():
+        all_gold = [g["caption"] for g in json.loads(gold_f.read_text())
+                    if g.get("rating", 0) >= 4 and g.get("caption")]
+    # occasion-rotate the same way v5_prompt does so repeated requests don't fed-loop the
+    # same 3 lines (the client-path top-6 staleness bug, June 12 armor port)
+    if len(all_gold) > 3:
+        h = sum(ord(c) for c in str(occasion or ""))
+        gold = [all_gold[(h + j) % len(all_gold)] for j in range(3)]
+    else:
+        gold = all_gold
+    lines = list(gold)
+    for e in dna.get("exemplars", []):
+        cap = e.get("caption", "")
+        if cap and cap not in lines:
+            lines.append(cap)
+        if len(lines) >= n:
+            break
+    return lines[:n]
+
+
 def pick_angle(cards, occasion):
     """Sonnet as CD: pick the least-generic, most concrete angle (taste law embedded)."""
     kills = "; ".join(k["name"] + ": " + k["why"][:90] for k in TASTE["kills"])
@@ -81,9 +112,24 @@ def pick_angle(cards, occasion):
     occ_rule = ("This is an OFFER occasion — clarity beats cleverness; pick the angle that makes the offer concrete."
                 if occasion in OFFER_OCCASIONS else
                 "This is an EMOTIONAL occasion — pick the angle with the most CONCRETE human scene; reject anything that smells like a formula.")
-    out = claude(
-        f"You are the creative director. The founder's taste law — KILLS: {kills}. REWARDS: concrete warm scenes, real ideas nameable in one line. {occ_rule} Reply with ONLY the number of the best angle.",
-        [{"role": "user", "content": listing}], temp=0.2, max_tokens=10)
+    sys_prompt = (f"You are the creative director. The founder's taste law — KILLS: {kills}. "
+                  f"REWARDS: concrete warm scenes, real ideas nameable in one line. {occ_rule} "
+                  "Reply with ONLY the number of the best angle.")
+    # B064: pick_angle was the ONE unguarded LLM call in the creative_line path — it called
+    # claude() with no fallback, so a dry Anthropic key raised here and killed the whole
+    # producer at angle-selection, BEFORE the (already-guarded) render() pen could run. With
+    # OpenAI funded and Anthropic dry, the producer couldn't run end-to-end at all. Cascade:
+    # Claude pen → funded GPT pen → deterministic first angle. The pipeline now runs under
+    # ANY key state (zero-LLM-first), never raising on a dry key.
+    out = None
+    try:
+        out = claude(sys_prompt, [{"role": "user", "content": listing}], temp=0.2, max_tokens=10)
+    except Exception:
+        try:
+            out = gpt([{"role": "system", "content": sys_prompt},
+                       {"role": "user", "content": listing}], temp=0.2, max_tokens=10)
+        except Exception:
+            return angles[0]   # both pens dry → deterministic CD-pick (first/highest card)
     try:
         n = int("".join(c for c in out if c.isdigit())[:1] or "1")
         return next((a for a in angles if a.get("id") == n), angles[0])
@@ -95,7 +141,8 @@ def render(brand_en, brand_ar, occasion, angle, pack):
     """Two pens render the SAME chosen angle in the brand's voice."""
     dna = load_dna(brand_en) or {}
     openers = "، ".join(dna.get("proven_openers_ar", [])[:5])
-    exemplars = "\n".join(f"- {e.get('caption','')[:160]}" for e in dna.get("exemplars", [])[:5])
+    # GOLD FIRST (B040): founder rating>=4 captions lead the voice reference, then exemplars
+    exemplars = "\n".join(f"- {c[:160]}" for c in gold_lead_voice(brand_en, occasion, dna))
     dialect = dna.get("dialect", "saudi")
     # bilingual ONLY when the feed is genuinely English-led (majority of exemplars
     # are >50% Latin) — not when one caption happens to have a hashtag. (mcdonalds

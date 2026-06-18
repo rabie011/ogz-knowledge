@@ -11,6 +11,11 @@ Usage: python3 scripts/visual_gate_checklist.py --handle albaik [--all]
 import argparse, json, glob, sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent))
+# B144 — PERSON_AR is the ONE source (truth_guards), shared with post_audit/render.
+# Never redefine an honorific-name detector here (one-boundary law).
+from truth_guards import PERSON_AR
+
 BASE = Path(__file__).parent.parent
 
 # the deadly-defaults table (B105) — single source of truth for the strict checks
@@ -58,6 +63,19 @@ def checklist_for(handle: str, card: dict) -> dict:
     if sector == "f_and_b":
         items += [{"id": k, "check": v, "source": "forbidden_lists (food)"} for k, v in FOOD_CHECKS]
     items += [{"id": k, "check": v, "source": "truth/parked-ruling"} for k, v in ALWAYS]
+    # B144 — person-mention check: a caption naming a real TITLED person
+    # (الأمير/الشيخ/الدكتور/معالي/سمو + اسم) is a trust land-mine; "named real people" is a
+    # recorded kill (Rule #13). The human MUST verify before publish — promised at
+    # render_client_slot.py:209, implemented here.
+    named = []
+    for c in (card.get("captions") or []):
+        if isinstance(c, str):
+            named += [m.group(0).strip() for m in PERSON_AR.finditer(c)]
+    if named:
+        uniq = list(dict.fromkeys(named))
+        items.append({"id": "person_named",
+                      "check": "REQUIRES-HUMAN-VERIFY: شخص حقيقي مُسمّى في النص — " + "، ".join(uniq[:5]),
+                      "source": "truth_guards.PERSON_AR (B144)"})
     for i, line in enumerate(red.get("lines", [])):
         items.append({"id": f"client_red_{i}", "check": f"خط أحمر من العميل: {line}", "source": "client verbatim"})
     return {"law": "HUMAN EYES ARE THE VISUAL GATE — automated checks may BLOCK, never PASS",

@@ -101,10 +101,12 @@ def apply_one(g, dry):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry", action="store_true")
+    ap.add_argument("--file", default=None, help="grounded JSON to apply (default data/openclaw_v37/grounded.json)")
     a = ap.parse_args()
-    if not GROUNDED.exists():
-        sys.exit(f"no {GROUNDED.relative_to(B)} — write the workflow's grounded[] there first")
-    data = json.loads(GROUNDED.read_text())
+    src = (B / a.file) if a.file else GROUNDED
+    if not src.exists():
+        sys.exit(f"no {src} — write the grounded[] there first")
+    data = json.loads(src.read_text())
     data = data if isinstance(data, list) else data.get("grounded", [])
     total = sum(apply_one(g, a.dry) for g in data)
     print(f"  TOTAL {total} fields upgraded generic→corpus-grounded "

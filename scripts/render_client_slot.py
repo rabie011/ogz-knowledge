@@ -274,6 +274,8 @@ def load_client(handle: str) -> dict:
             "bio": prof.get("biography", ""), "truth": truth,
             "moments": p("moments_bank")["moments"], "fingerprint": p("fingerprint"),
             "state": p("state"), "exemplars": exemplars, "corpus_text": corpus_text,
+            "visual_dna": (json.loads((cdir / "profile/visual_dna.json").read_text())
+                           if (cdir / "profile/visual_dna.json").exists() else None),
             "en_led": (p("fingerprint")["l2_voice"].get("dialect") == "non_arabic")}
 
 
@@ -724,7 +726,25 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     return out
 
 
-def shot_card(c: dict, angle: dict) -> list[str]:
+def _visual_ref(c: dict) -> str:
+    """Grounding clause from the brand's visual_dna (June 18): real palette/background/color-field so
+    the shoot-card matches how the brand actually looks. Colors/setting only — no people/face language,
+    so it never conflicts with the HARD CLIENT RULES or the occasion gate. Empty if no visual_dna."""
+    vd = (c.get("visual_dna") or {}).get("brand", {})
+    def _v(*path):
+        x = vd
+        for k in path:
+            x = (x or {}).get(k, {}) if isinstance(x, dict) else {}
+        return x.get("value") if isinstance(x, dict) else None
+    bits = [f"dominant brand color {_v('palette','primary')}" if _v('palette','primary') else "",
+            f"typical background {_v('palette','background_tone')}" if _v('palette','background_tone') else "",
+            f"color field {_v('color_field_palette')}" if _v('color_field_palette') else ""]
+    bits = [b for b in bits if b]
+    return ("REAL BRAND LOOK (match it in the framing/props/setting — do NOT name colors in any caption): "
+            + "; ".join(bits) + ". ") if bits else ""
+
+
+def shot_card(c: dict, angle: dict, ground: bool = False) -> list[str]:
     # the VISUAL door respects the confirmed organs (RABIE 2026-06-14: shot-cards directed visible
     # faces/family/children on brands whose cultural_overrides forbid them, and the gate caught it
     # only after). Source-fix: never DIRECT what the client forbids.
@@ -740,6 +760,7 @@ def shot_card(c: dict, angle: dict) -> list[str]:
     sysp = ("You write PHONE shoot-cards for Saudi SME owners — 3 numbered instructions in simple Saudi Arabic, "
             "each doable at home with a phone in 2 minutes. Conservative cultural defaults (hands/food/place safe). "
             + (f"HARD CLIENT RULES (never break): {rules}. " if rules else "no faces unless the scene demands. ")
+            + (_visual_ref(c) if ground else "")
             + 'Return JSON: {"shots": ["...", "...", "..."]}')
     out = gpt([{"role": "system", "content": sysp},
                {"role": "user", "content": f"البراند: {c['brand_ar']}\nالمشهد: {angle['scene_ar']}"}], temp=0.5, max_tok=300)
@@ -753,6 +774,7 @@ def main():
     ap.add_argument("--brain", default=None, choices=list(BRAIN_FILES) + ["auto"],
                     help="route the angle through a full CD-brain methodology (auto = slot-type routing)")
     ap.add_argument("--suffix", default="", help="output filename suffix (e.g. __v2_brain)")
+    ap.add_argument("--ground", action="store_true", help="ground the shoot-card in the brand's real visual_dna (June 18)")
     a = ap.parse_args()
     gate = blackout_check()
     if not gate["publish_allowed"]:
@@ -784,7 +806,7 @@ def main():
     angle = make_angle(c, slot, ymap["sector"], brain=brain)
     captions = render_captions(c, slot, angle)
     chain = chain_for(slot.get("formula", "CF_01"), ymap["sector"], slot.get("occasion", "evergreen"))
-    shots = shot_card(c, angle)
+    shots = shot_card(c, angle, ground=a.ground)
     card = {"handle": a.handle, "date": a.date, "slot": slot, "brain": brain,
             "idea": angle, "captions": captions,
             "visual": {"phone_shoot_card": shots,

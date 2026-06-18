@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pick_set_v1.schema.json",
+  "title": "pick_set_v1",
+  "description": "B079 — the durable record of ONE human pick-of-3 (MAJORS LAW: major-occasion posts and brand-voice are never single-shot, always a human pick among 3 candidates). Distinct from the portal CARD (build_pick_item.py): the card is the UI; this is the event-grade record of what was chosen, by whom, and which ledger event it produced. Capturing Mohamed's (or the client's) pick is THE TOP — it is how the system learns the eye.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "pick_set_ulid",
+    "kind",
+    "slot",
+    "candidates",
+    "status",
+    "provenance"
+  ],
+  "properties": {
+    "pick_set_ulid": {
+      "type": "string",
+      "description": "ULID for this pick-set. Stable across the open→picked lifecycle.",
+      "minLength": 10
+    },
+    "kind": {
+      "enum": ["voice", "major_post"],
+      "description": "voice = brand-voice calibration pick (which voice is the brand's). major_post = a major-occasion post pick (MAJORS LAW)."
+    },
+    "handle": {
+      "type": "string",
+      "description": "Client handle the pick belongs to, e.g. 'eatjurisha'. Optional for cross-client voice seeds.",
+      "minLength": 2
+    },
+    "slot": {
+      "type": "string",
+      "description": "The slot this pick fills. For major_post: 'YYYY-MM-DD__occasion'. For voice: a voice-pair slug. Mirrors build_pick_item's slot.",
+      "minLength": 3
+    },
+    "candidates": {
+      "type": "array",
+      "description": "Exactly 3 candidates judged together (pick-of-3). Each names its brain/source and the option key the picker chose among.",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["option_id", "source"],
+        "properties": {
+          "option_id": {
+            "type": "string",
+            "description": "Stable id for this candidate within the set (e.g. the brain key 'cd_01' or 'A'/'B'/'C').",
+            "minLength": 1
+          },
+          "source": {
+            "type": "string",
+            "description": "Where the candidate came from: a CD-brain key, a model, or 'client_seed'.",
+            "minLength": 1
+          },
+          "post_ref": {
+            "type": "string",
+            "description": "Optional path/ref to the rendered post unit (clients/<handle>/posts/<slot>__pick_<brain>.json)."
+          }
+        }
+      }
+    },
+    "picked": {
+      "type": ["string", "null"],
+      "description": "option_id of the chosen candidate; null while status=open. MUST match one candidate's option_id when status=picked (enforced by the reader, not by JSON Schema alone)."
+    },
+    "picker": {
+      "enum": ["mohamed", "client", null],
+      "description": "Who made the pick. null while open. 'mohamed' picks feed gold/taste; 'client' picks feed the client's own fingerprint."
+    },
+    "status": {
+      "enum": ["open", "picked", "expired", "voided"],
+      "description": "open = awaiting a tap. picked = decided. expired = window passed unpicked. voided = pick-set retracted (e.g. diversity failure)."
+    },
+    "diversity_ok": {
+      "type": "boolean",
+      "description": "False = 2+ candidates converged on the same scene/person (anti-sameness gate, build_pick_item). A converged set must not be shown for a real pick."
+    },
+    "resulting_event_ulid": {
+      "type": ["string", "null"],
+      "description": "ULID of the client_event (type 'pick_selected') emitted when this set was picked. The Consumer-Law wire: a pick with no resulting event is an orphan."
+    },
+    "created": {
+      "type": "string",
+      "description": "ISO date the set was opened."
+    },
+    "picked_at": {
+      "type": ["string", "null"],
+      "description": "ISO date-time the pick was made; null while open."
+    },
+    "provenance": {
+      "$ref": "provenance_mixin_v1.schema.json"
+    }
+  }
+}

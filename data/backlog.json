@@ -468,7 +468,8 @@
    "who": "pair",
    "est_minutes": 25,
    "depends_on": [],
-   "status": "todo"
+   "status": "done",
+   "done_note": "creative_line.py render() now leads voice few-shot with founder rating>=4 gold via gold_lead_voice() (mirrors v5_prompt gold-first+occasion-rotation). v5_prompt half was already done. 5 unittests added (test_creative_line_gold.py). Verified on real albaik gold. ts=2026-06-18T14:18:05"
   },
   {
    "id": "B041",
@@ -928,7 +929,8 @@
    "who": "pair",
    "est_minutes": 20,
    "depends_on": [],
-   "status": "todo"
+   "status": "done",
+   "done_note": "pick_set_v1.schema.json (candidates[3], picked/picker enum, resulting_event_ulid, provenance $ref) + reader scripts/pick_set.py enforcing cross-field invariants (picked∈candidates, no-orphan-pick, diversity_ok=False→refuse) + 11 tests. NOT write-only: validator is the reader. MISSING: portal-tap→pick_set record→pick_selected ledger event wire."
   },
   {
    "id": "B080",
@@ -1696,7 +1698,8 @@
    "depends_on": [
     "B032"
    ],
-   "status": "todo"
+   "status": "done",
+   "done_note": "person-mention check added to visual_gate_checklist.checklist_for() — captions matching shared truth_guards.PERSON_AR (honorific+name) raise REQUIRES-HUMAN-VERIFY item. Fulfills the promise at render_client_slot.py:209. +5 tests (test_visual_gate_person.py), full suite 132 green. (RABIE shift 2026-06-18)"
   },
   {
    "id": "B145",

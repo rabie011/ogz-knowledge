@@ -8,18 +8,45 @@ Mohamed-confirmed creative formulas. Output is ideas, not captions — the found
 gates angles (cheap) before any rendering (the expensive, taste-heavy step).
 Output: data/angle_cards/{brand}__{occasion}.json  ·  feeds /api/angles + the render stage.
 """
-import argparse, glob, json, os, sys, urllib.request
+import argparse, glob, json, os, re, sys, urllib.request
 from pathlib import Path
 import yaml
+from brain_router import route_brain, brain_method   # B041: route the FULL CD methodology, not one-liners
 
 BASE = Path(__file__).parent.parent
 
-CD_LENSES = {  # salvaged diagnostic questions — ideation only
-    "firaasa": "What real Saudi behavioral moment around this product can we observe and honor?",
-    "heritage_decoder": "What word or phrase carries a double meaning here — surface + cultural depth?",
-    "authenticity_detective": "Where does the polished version break and the honest human moment show?",
-    "paradox_hunter": "What's the counterintuitive truth that makes the obvious idea wrong?",
-}
+# B041 (June 19) — ROOT FIX. The angle pen used to inject 4 salvaged one-LINE CD questions
+# (the front-matter-only trap): every brain collapsed to the generic concrete-scene prompt →
+# the brand-mean formula → the #1 repetition cause. Now each angle is ROUTED to a CD brain
+# (brain_router.route_brain) and generated through that brain's FULL methodology BODY
+# (brain_router.brain_method), spread across the CD range so a batch uses real distinct methods.
+_AR = set("ءاأبتثجحخدذرزسشصضطظعغفقكلمنهوي")
+_OCC_KEYMAP = {"national_day": "saudi_national_day", "founding_day": "saudi_founding_day"}
+_OCC_BRAINS = ("saudi_national_day", "saudi_founding_day", "ramadan",
+               "eid_al_fitr", "eid_al_adha", "arab_mothers_day", "hajj_season")
+_DAILY = ("metaphor", "paradox", "firaasa", "authenticity")   # the four non-occasion brains
+
+
+def _has_arabic(s: str) -> bool:
+    return any(ch in _AR for ch in (s or ""))
+
+
+def angle_brains(occasion: str, brand_ar: str = "", n: int = 6) -> list:
+    """Routed CD-brain spread for an angle batch (B041). Occasion batches foreground the
+    occasion's brain (route_brain) — with render's heritage→firaasa guard when the brand has
+    no Arabic root (RABIE: jurisha national-day drift) — then span the remaining range so the
+    6 angles aren't one-brain (June 14 root: one-brain batches collapse to the brand-mean
+    formula). Daily/offer batches spread across all four non-occasion brains."""
+    occ = _OCC_KEYMAP.get(occasion, occasion)
+    if occ in _OCC_BRAINS:
+        primary = route_brain({"occasion": occ})
+        if primary == "heritage" and not _has_arabic(brand_ar):
+            primary = "firaasa"
+        spread = [primary] + [b for b in ("firaasa", "authenticity", "metaphor", "paradox", "heritage")
+                              if b != primary]
+    else:
+        spread = list(_DAILY)
+    return [spread[i % len(spread)] for i in range(n)]
 
 
 def key():
@@ -51,11 +78,13 @@ BANNED (the ad-trap): metaphors that call the brand "a bridge / a symbol / the s
 sentences about "culture" or "heritage" in the abstract, anything that could be a TV-ad voiceover.
 
 Ground ONLY in the truth pack (real products, sector tension, occasion facts, precedents).
-Use the CD lenses to find the non-obvious moment. Use a formula as the frame.
-Return STRICT JSON: {"angles":[{"id":1,"lens":"...","formula":"CF_0x",
-"scene_ar":"the concrete moment in one vivid sentence — who+when+what+the product",
+Generate each angle AS its ASSIGNED CD brain — APPLY that brain's full methodology (below) to
+find the non-obvious moment; never fall back to a generic concrete-scene default. Use a formula
+as the frame. Return STRICT JSON: {"angles":[{"id":1,"brain":"<assigned brain key>","lens":"<same as brain>",
+"formula":"CF_0x","scene_ar":"the concrete moment in one vivid sentence — who+when+what+the product",
 "why_it_lands":"why a Saudi feels this — 1 sentence","post_type":
-"moment|announcement|question|greeting|story"}]}. Exactly 6 distinct scenes, distinct moments."""
+"moment|announcement|question|greeting|story"}]}. Exactly 6 distinct scenes, distinct moments,
+each honoring its assigned brain's method."""
 
 
 def sector_lens(occasion: str, sector: str) -> dict | None:
@@ -77,9 +106,18 @@ def brand_identity(brand_en: str) -> str:
     return (d.get("identity") or d.get("voice_summary") or "")[:300]
 
 
-def build(pack: dict) -> dict:
-    lenses = "\n".join(f"- {k}: {v}" for k, v in CD_LENSES.items())
+def angle_messages(pack: dict):
+    """Build the (messages, brains) for the angle call — PURE, so B041's routing+method
+    injection is testable without an API call. brains[i] is the CD brain angle i+1 is routed to;
+    each routed brain's FULL methodology body is injected (the fix), with an angle→brain map."""
+    brains = angle_brains(pack["occasion"], pack.get("brand_ar", ""))
+    uniq = list(dict.fromkeys(brains))
+    methods = "\n\n".join(f"## {b} brain\n{brain_method(b)}" for b in uniq if brain_method(b))
+    assign = " · ".join(f"angle {i + 1} → {b}" for i, b in enumerate(brains))
     forms = "\n".join(f"- {f['id']} {f['name']}: {f['when']}" for f in formulas())
+    sys_p = (SPEC + "\n\nCD METHODOLOGIES (apply the method of each angle's assigned brain):\n" + methods
+             + "\n\nANGLE→BRAIN ASSIGNMENTS (each angle MUST carry its \"brain\" and be found through "
+               "that brain's method):\n" + assign + "\n\nFORMULAS:\n" + forms)
     user = "TRUTH PACK:\n" + json.dumps(pack, ensure_ascii=False)
     ident = brand_identity(pack["brand_en"])
     if ident:
@@ -89,26 +127,32 @@ def build(pack: dict) -> dict:
         user += ("\n\nOCCASION×SECTOR LENS (how this occasion is ACTUALLY lived around this sector's product — "
                  "ground WHO/WHEN in these real moments, but use ONLY moments where THIS brand's product belongs):\n"
                  + json.dumps(lens, ensure_ascii=False))
-    body = {"model": "gpt-4o", "temperature": 0.8, "max_tokens": 1600,
-            "response_format": {"type": "json_object"},
-            "messages": [
-                {"role": "system", "content": SPEC + "\n\nCD LENSES:\n" + lenses + "\n\nFORMULAS:\n" + forms},
-                {"role": "user", "content": user}]}
+    return [{"role": "system", "content": sys_p}, {"role": "user", "content": user}], brains
+
+
+def build(pack: dict) -> dict:
+    messages, brains = angle_messages(pack)
+    body = {"model": "gpt-4o", "temperature": 0.8, "max_tokens": 1800,
+            "response_format": {"type": "json_object"}, "messages": messages}
     rq = urllib.request.Request("https://api.openai.com/v1/chat/completions",
                                 data=json.dumps(body).encode(),
                                 headers={"Authorization": f"Bearer {key()}", "Content-Type": "application/json"})
     r = json.loads(urllib.request.urlopen(rq, timeout=120).read())
     out = json.loads(r["choices"][0]["message"]["content"])
-    import re as _re
-    for a in out.get("angles", []):
+    valid = set(brains)
+    for i, a in enumerate(out.get("angles", [])):
         a["insight_ar"] = a.get("scene_ar", a.get("insight_ar", ""))   # downstream compat
         a["approach_ar"] = a.get("why_it_lands", a.get("approach_ar", ""))
-        m = _re.match(r"(CF_\d+)", str(a.get("formula", "")))           # "CF_02 Paradox Play" → "CF_02"
+        m = re.match(r"(CF_\d+)", str(a.get("formula", "")))           # "CF_02 Paradox Play" → "CF_02"
         if m:
             a["formula"] = m.group(1)
+        if a.get("brain") not in valid:                                # enforce the routed assignment
+            a["brain"] = brains[i] if i < len(brains) else brains[i % len(brains)]
+        a["lens"] = a["brain"]                                          # backward-compat (creative_line reads lens)
     out["_brand"] = pack["brand_en"]
     out["_occasion"] = pack["occasion"]
-    out["_built"] = "2026-06-11"
+    out["_brains"] = brains
+    out["_built"] = "2026-06-19"
     return out
 
 

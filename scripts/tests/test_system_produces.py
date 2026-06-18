@@ -8,7 +8,7 @@ import re, unittest
 from pathlib import Path
 
 S = Path(__file__).parent.parent
-SANCTIONED = ["produce_batch.py", "stage_from_manifest.py"]
+SANCTIONED = ["produce_batch.py", "stage_from_manifest.py", "seed_judge_cards.py"]
 DATE = re.compile(r"\"\d{4}-\d{2}-\d{2}\"")
 ARABIC_LITERAL = re.compile(r"\"[^\"]*[ء-ي]{4,}[^\"]*\"")
 

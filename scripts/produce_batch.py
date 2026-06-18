@@ -53,6 +53,21 @@ def _slots(handle):
     return [s for mm in ym["months"].values() for s in mm]
 
 
+def must_cover_majors():
+    """The MAJOR occasions the batch MUST represent (June 18 — white_friday + eid_al_adha were
+    silently dropped by the 30% cap; coverage is now RESERVED before any cap, Rule #8: never
+    silently omit a major). A slot is a must-cover anchor iff it's marked major AND it is the
+    occasion's central moment (beat=='day_of' OR anchor==True). Read from the regenerated
+    year_maps, NEVER a hand list — so a year-map edit propagates automatically (Rule #12).
+    Returns the set of distinct major occasion SLUGS present across the pilots' year_maps."""
+    majors = set()
+    for h in CLIENTS:
+        for s in _slots(h):
+            if s.get("occasion") and s.get("major") and (s.get("beat") == "day_of" or s.get("anchor")):
+                majors.add(s["occasion"])
+    return majors
+
+
 def daily_candidates(handle, n):
     """n daily slots with DISTINCT theme-tags (core variety), spread within each tag."""
     by_tag = defaultdict(list)
@@ -68,9 +83,16 @@ def daily_candidates(handle, n):
 
 
 def occasion_candidates():
-    """Each occasion → exactly ONE client (round-robin) so occasions are spread, never duplicated."""
+    """Each occasion → exactly ONE client (round-robin) so occasions are spread, never duplicated.
+    The candidate set is OCC_SLUGS (variety) UNIONED with every must-cover major (June 18 — the
+    hardcoded 5-slug subset omitted white_friday + eid_al_adha entirely, so the cap had nothing to
+    keep). Majors lead the list so they get the first, cleanest client assignment. Derived from the
+    year_maps, never a curated date list (Rule #12)."""
+    majors = must_cover_majors()
+    slugs = [s for s in OCC_SLUGS if s in majors] + sorted(majors - set(OCC_SLUGS)) \
+        + [s for s in OCC_SLUGS if s not in majors]
     out = []
-    for i, slug in enumerate(OCC_SLUGS):
+    for i, slug in enumerate(slugs):
         h = CLIENTS[i % len(CLIENTS)]
         cands = [s for s in _slots(h) if s.get("occasion") == slug and s.get("beat") == "day_of"] \
             or [s for s in _slots(h) if s.get("occasion") == slug]
@@ -143,19 +165,40 @@ def main():
             emit(f"   ◆ strategy brief refreshed for {h}")
 
     occ = occasion_candidates()
-    n_occ = min(len(occ), max(1, int(a.n * 0.30)))      # occasions ≤30% of the batch
-    occ = occ[:n_occ]
+    # RESERVE must-cover majors BEFORE the 30% truncation (June 18 — white_friday + eid_al_adha
+    # were silently dropped when the cap sliced the occasion list; Rule #8: a major is never
+    # silently omitted). Majors lead, so even if the occasion budget is < their count the cap is
+    # RAISED to keep them (a loud line, never a silent drop). Derived from year_maps, no hand list.
+    majors = must_cover_majors()
+    must_occ = [t for t in occ if t[2] in majors]            # (handle, date, slug) for each must-cover major
+    rest_occ = [t for t in occ if t[2] not in majors]
+    n_occ_budget = min(len(occ), max(1, int(a.n * 0.30)))    # the diversity target (≤30%)
+    n_occ = max(n_occ_budget, len(must_occ))                 # RAISE the cap rather than drop a major
+    if n_occ > n_occ_budget:
+        emit(f"   ⚠ occasion cap RAISED {n_occ_budget}→{n_occ}: {len(must_occ)} must-cover majors "
+             f"({[t[2] for t in must_occ]}) exceed the 30% budget — Rule #8: keep majors, never silently drop")
+    occ = (must_occ + rest_occ)[:n_occ]                      # majors first → survive the slice
     per_client = math.ceil((a.n - n_occ) / len(CLIENTS))  # daily quota per client
-    emit(f"plan: {a.n} = {n_occ} occasion (≤30%) + {per_client}×{len(CLIENTS)} daily · idempotent reuse on")
+    emit(f"plan: {a.n} = {n_occ} occasion ({len(must_occ)} must-cover majors reserved) + {per_client}×{len(CLIENTS)} daily · idempotent reuse on")
 
     # render the occasion candidates + a balanced daily pool per client (with headroom), reusing clean files
     clean_by_client = defaultdict(list)
+    clean_majors = set()                                      # which must-cover majors produced a clean card
     for h, dt, oc in occ:
         d = render(h, dt, a.suffix, a.force)
         ok = is_clean(d, h)
         emit(f"   {'✓' if ok else '✗'} OCC {h} {dt} [{oc}]")
         if ok:
             clean_by_client[h].append({"h": h, "dt": dt, "occ": oc, "d": d})
+            if oc in majors:
+                clean_majors.add(oc)
+    # Rule #8 — a reserved major with NO clean card is made LOUD (never a silent absence). The
+    # batch is not aborted (other posts are valid) but the missing major is named so the gap is
+    # visible to the producer log + the downstream verify_chain gate.
+    missing_majors = {t[2] for t in must_occ} - clean_majors
+    for m in sorted(missing_majors):
+        emit(f"   🛑 MUST-COVER MAJOR «{m}» has NO clean produced card — coverage GAP (fix the gate / "
+             f"the slot, never hand-fill). verify_chain will REFUSE on this until covered.")
     for h in CLIENTS:
         need = per_client + 4  # headroom for drops
         for (hh, dt, oc) in daily_candidates(h, need):
@@ -192,9 +235,17 @@ def main():
         for h in CLIENTS:
             clean_by_client[h].sort(key=lambda x: _lift(x["occ"]), reverse=True)
 
-    # 1) occasions first (variety) — respect core+brain caps
+    # 1) occasions first (variety). MUST-COVER MAJORS are RESERVED — taken BEFORE the diversity
+    #    caps and bypassing them (Rule #8: a major is kept, never dropped by a core/brain cap).
+    #    Each major is seated once (its first clean client). Then the rest of the occasions are
+    #    taken respecting the caps.
+    seated_major = set()
     for h in CLIENTS:
-        for x in [y for y in clean_by_client[h] if y["occ"] != "daily"]:
+        for x in [y for y in clean_by_client[h] if y["occ"] in majors]:
+            if len(chosen) < a.n and x["occ"] not in seated_major:
+                take(x); seated_major.add(x["occ"])          # reserved → ignore caps
+    for h in CLIENTS:
+        for x in [y for y in clean_by_client[h] if y["occ"] != "daily" and y not in chosen]:
             if len(chosen) < a.n and not blocked(x):
                 take(x)
     # 2) round-robin daily across clients to EQUALIZE TOTALS (a client with more occasions gets
@@ -240,12 +291,19 @@ def main():
     def fn_of(x):
         return x.get("fn") or Path(glob.glob(str(B / f"clients/{x['h']}/posts/{x['dt']}__*{a.suffix}.json"))[0]).name
 
+    def cardpath_of(x):
+        # the ABSOLUTE on-disk path of the chosen post card — so render + stage + judge-seed
+        # consume the SAME computed set instead of independently re-globbing (Rule #6/#12: one
+        # computed pick, many readers — no three re-pickers drifting apart).
+        return str(B / f"clients/{x['h']}/posts/{fn_of(x)}")
+
     def _post_entry(x):
         # media format is the COMPUTED slot['format'] (year_map, off real_winning_formula) — never a
         # hand list (Rule #12). A 'reel' slot is assembled from an already-on-disk still ($0); if no
         # still yet, it's marked reel_pending and NO fal is triggered (Rule #8: loud, never silent).
         fmt = (x["d"].get("slot") or {}).get("format", "image")
         e = {"handle": x["h"], "date": x["dt"], "occasion": x["occ"], "file": fn_of(x),
+             "card_path": cardpath_of(x),
              "brain": x["d"].get("brain"), "captions": x["d"].get("captions"), "media": fmt}
         if fmt == "reel":
             still = _still_for(x["h"], x["dt"])

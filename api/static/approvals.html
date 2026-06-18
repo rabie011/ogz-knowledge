@@ -424,10 +424,15 @@ function renderCard(){
 
   /* THE FULL POST (Mohamed: "the photo, the occasion, the idea, the reasoning —
      not the captions") — structured zones, judged as one unit */
-  if(it.post_occasion||it.post_idea||(it.post_visual&&it.post_visual.length)){
+  if(it.post_occasion||it.post_idea||it.image_url||(it.post_visual&&it.post_visual.length)){
     h+=`<div class="summary">`;
     if(it.post_occasion) h+=`<div class="row"><span class="k">Occasion</span><span class="v" dir="auto"><b>${esc(it.post_occasion)}</b></span></div>`;
     if(it.post_idea) h+=`<div class="row"><span class="k">The idea</span><span class="v island" style="display:block">${esc(it.post_idea)}</span></div>`;
+    // THE PHOTO (June 18) — the card's own visual.image_url, rendered ABOVE the shoot-card text,
+    // mirroring the post_pick per-option <img>. The text shot-card stays as the fallback when dry.
+    if(it.image_url)
+      h+=`<div class="row"><span class="k">The photo</span><span class="v" style="display:block">
+          <img src="${esc(it.image_url)}" loading="lazy" alt="" style="max-width:100%;border-radius:14px;display:block"></span></div>`;
     if(it.post_visual&&it.post_visual.length)
       h+=`<div class="row"><span class="k">The visual</span><span class="v island" style="display:block">📸 ${it.post_visual.map(esc).join('<br>📸 ')}</span></div>`;
     if(it.post_reasoning) h+=`<div class="row"><span class="k">Reasoning</span><span class="v" dir="auto">${esc(it.post_reasoning)}</span></div>`;

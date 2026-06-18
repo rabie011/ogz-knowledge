@@ -35,6 +35,36 @@ def _parse(maybe_dict):
         return {}
 
 
+def pick_from_manifest(n: int) -> list:
+    """MANIFEST-DRIVEN pick (June 18 — the judge lane now consumes produce_batch's COMPUTED pick
+    instead of re-globbing the whole posts dir, which let OLD posts drift in). Reads
+    data/batch_manifest.json, takes its posts IN ORDER, slices the first n — a DETERMINISTIC
+    first-N slice of the computed manifest (Rule #12: a slice, never a hand-pick), and loads each
+    card from its absolute card_path. Skips post-dates already in the queue (back-compat)."""
+    mf = base() / "data/batch_manifest.json"
+    man = json.loads(mf.read_text())
+    qf = base() / "data/decision_queue.json"
+    existing = {it["id"] for it in json.loads(qf.read_text())["items"]} if qf.exists() else set()
+    picked = []
+    for p in man.get("posts", [])[:n]:          # FIRST-N of the computed order — deterministic
+        cp = p.get("card_path")
+        if not cp or not Path(cp).exists():
+            print(f"  🛑 manifest post {p.get('handle')} {p.get('date')}: card_path missing on disk — skip ({cp})")
+            continue
+        try:
+            d = json.loads(Path(cp).read_text())
+        except Exception as e:
+            print(f"  🛑 manifest post {cp}: unreadable — skip ({e})")
+            continue
+        handle = p.get("handle") or d.get("handle", "")
+        slot = _parse(d.get("slot"))
+        date = slot.get("date", d.get("date", ""))
+        if f"judge2_{handle}_{date}" in existing:
+            continue
+        picked.append((handle, d, Path(cp).name))
+    return picked
+
+
 def pick_posts(n: int) -> list:
     # skip post-dates already judged (their judge2_ card exists in the queue, any status)
     qf = base() / "data/decision_queue.json"
@@ -97,6 +127,11 @@ def build_card(handle: str, d: dict, fname: str) -> dict:
         + (" · MAJOR day" if slot.get("major") else "")
     scene = idea.get("scene_ar") or str(d.get("idea"))[:400]
     shots = visual.get("phone_shoot_card") or []
+    # THE PHOTO WIRE (June 18, Rule #6): the post's image = the card's OWN visual.image_url
+    # (set by render_image.py at /static/renders/<stem>.jpg). The old wrong-key check read
+    # d.get("image_url") TOP-LEVEL — a key that is never set, so the dry-keys line printed even
+    # after a real render. Read it from the parsed visual, the one place it actually lives.
+    img = visual.get("image_url")
     angle = slot.get("angle_theme", "")
     cid = f"judge2_{handle}_{slot.get('date', d.get('date',''))}"
     return {
@@ -105,6 +140,7 @@ def build_card(handle: str, d: dict, fname: str) -> dict:
         "created": datetime.now().isoformat(timespec="seconds"), "status": "open",
         "kind": "caption_judge", "judge_lane": True, "lane": "creative",
         "handle": handle, "caption": caption, "occasion": occ_name,
+        "image_url": img,                            # the portal renders this <img> above the visual text
         "why": "Approve ★4+ → gold example. Reject → opens a case on the mind's prompt file.",
         "need": "Your verdict on the FULL post below — occasion, idea, visual, then the caption.",
         "did": f"The {d['brain']} mind wrote it for this slot ({fname}).",
@@ -113,8 +149,8 @@ def build_card(handle: str, d: dict, fname: str) -> dict:
         "post_idea": f"[{handle}] " + scene[:580],   # his 01:12 note: say the client name
         "post_visual": shots[:4],
         "post_reasoning": (f"Slot angle: {angle[:200]}" if angle else "")
-                          + (" · no AI photo: keys are dry — the visual is the phone-shoot plan"
-                             if not d.get("image_url") else ""),
+                          + ("" if img
+                             else " · no AI photo: keys are dry — the visual is the phone-shoot plan"),
         "island_text": caption,
     }
 
@@ -122,11 +158,15 @@ def build_card(handle: str, d: dict, fname: str) -> dict:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("-n", type=int, default=5)
+    ap.add_argument("--from-manifest", action="store_true",
+                    help="consume produce_batch's computed pick (data/batch_manifest.json) IN ORDER, "
+                         "first-n slice — instead of re-globbing the posts dir (June 18, Rule #12)")
     a = ap.parse_args()
     if a.n > 20:
         raise SystemExit("law batch_max_20: judging batches are 20 cards MAX per round "
                          "(Mohamed, June 12 — money + attention discipline)")
-    for handle, d, fname in pick_posts(a.n):
+    posts = pick_from_manifest(a.n) if getattr(a, "from_manifest", False) else pick_posts(a.n)
+    for handle, d, fname in posts:
         item = build_card(handle, d, fname)
         try:
             qd.push_attributed(item, made_by=f"mind:{d['brain']}", via="scripts/seed_judge_cards.py",

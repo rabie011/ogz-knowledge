@@ -24,6 +24,17 @@ sys.path.insert(0, str(B / "scripts"))
 import post_audit as pa
 from render_client_slot import scene_core, batch_diversity_check
 
+# REAL-engagement scoring head (June 18): rank candidates by what actually won (real_winning_formula),
+# NOT the random LLM enum. v1 scores by occasion-lift (the trait fresh candidates reliably carry);
+# richer traits (emotion/pillar/media) need the candidate analyzed (next step). Behind --rank (default off).
+_WF = Path(__file__).parent.parent / "data/real_winning_formula.json"
+def _lift(occ):
+    try:
+        wf = json.loads(_WF.read_text()).get("trait_lift", {}).get("occasion", {})
+        return wf.get(occ or "", {}).get("lift", 1.0)
+    except Exception:
+        return 1.0
+
 CLIENTS = ["myfitness.sa", "eatjurisha", "albaik"]
 OCC_SLUGS = ["saudi_national_day", "ramadan", "saudi_founding_day", "eid_al_fitr", "arab_mothers_day"]
 
@@ -86,6 +97,7 @@ def main():
     ap.add_argument("--n", type=int, default=20)
     ap.add_argument("--suffix", default="__auto")
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--rank", action="store_true", help="rank candidates by REAL-engagement occasion-lift (June 18)")
     a = ap.parse_args()
     log = B / "data/produce_batch.log"; lines = []
 
@@ -152,6 +164,13 @@ def main():
         if not relax_brain and brain_n[br] >= cap_brain:
             return True
         return False
+
+    # REAL-engagement ranking (June 18, --rank): within each client, prefer higher occasion-lift
+    # candidates so the producer leans toward what actually won — within the balance/cap structure,
+    # not replacing it. Default off → selection order byte-identical.
+    if getattr(a, "rank", False):
+        for h in CLIENTS:
+            clean_by_client[h].sort(key=lambda x: _lift(x["occ"]), reverse=True)
 
     # 1) occasions first (variety) — respect core+brain caps
     for h in CLIENTS:

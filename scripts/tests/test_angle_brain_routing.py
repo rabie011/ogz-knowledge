@@ -61,6 +61,23 @@ class TestAngleBrainRouting(unittest.TestCase):
         lead_method = brain_method(brains[0])
         self.assertIn(lead_method[:120], sys_p)
 
+    def test_every_calendar_slug_resolves_to_a_lens(self):
+        # Consumer Law (Rule #6) — RABIE root-hunt June 19: year_map emits SLUGS that differ
+        # from occasion_facts KEYS (singles_day_11_11 vs 11_11_shopping, mdl_beast_soundstorm
+        # vs mdl_beast). A severed slug → no lens → sector-blind angles. Lock: EVERY calendar
+        # slug must reach a real per-sector lens through sector_lens()'s alias map.
+        import re
+        ym = (Path(__file__).parent.parent / "year_map.py").read_text()
+        slugs = sorted(set(re.findall(r'"slug":\s*"([^"]+)"', ym)))
+        self.assertGreater(len(slugs), 10, "year_map slug scrape failed")
+        severed = [s for s in slugs if not B.sector_lens(s, "f_and_b")]
+        self.assertEqual(severed, [], f"calendar slugs with no reachable lens: {severed}")
+
+    def test_known_aliased_slugs_hit_their_lens(self):
+        # the two slugs this fix connected — explicit guard so a map regression is obvious
+        self.assertIsNotNone(B.sector_lens("singles_day_11_11", "retail_lifestyle"))
+        self.assertIsNotNone(B.sector_lens("mdl_beast_soundstorm", "fashion"))
+
     def test_routed_brain_is_enforced_on_invalid_model_output(self):
         # mirror build()'s enforcement: a model that omits/invents a brain gets the routed one
         brains = B.angle_brains("national_day", "شاورمر")

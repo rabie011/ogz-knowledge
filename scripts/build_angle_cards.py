@@ -87,12 +87,23 @@ as the frame. Return STRICT JSON: {"angles":[{"id":1,"brain":"<assigned brain ke
 each honoring its assigned brain's method."""
 
 
+# year_map emits calendar SLUGS that differ from occasion_facts KEYS; without this map
+# the lens lookup silently misses → sector-blind angles (the weak pocket the lens kills).
+# B061/B062 slug-alias wire — RABIE root-hunt, June 19: lenses existed but were severed
+# for these two slugs (singles_day_11_11, mdl_beast_soundstorm) until this was connected.
+_SLUG_TO_LENS_KEY = {
+    "national_day": "saudi_national_day",
+    "singles_day_11_11": "11_11_shopping",
+    "mdl_beast_soundstorm": "mdl_beast",
+}
+
+
 def sector_lens(occasion: str, sector: str) -> dict | None:
     """Per-sector occasion lens (June 11) — the fix for sector-blind occasion facts.
     Root: ramadan-for-coffee ≠ ramadan-for-restaurants; one generic fact set pushed
     every non-restaurant brand into abstract themes (the coffee×ramadan weak pocket)."""
     facts = json.loads((BASE / "data/occasion_facts.json").read_text())
-    occ = {"national_day": "saudi_national_day"}.get(occasion, occasion)
+    occ = _SLUG_TO_LENS_KEY.get(occasion, occasion)
     return (facts.get(occ, {}).get("sector_lenses") or {}).get(sector)
 
 

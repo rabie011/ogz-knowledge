@@ -2,7 +2,7 @@
 """Guards the pairwise taste-calibration loop (the moat, 2026-06-14). Locks: pairs form with stable
 ids from real pilot output; the A/B pick has a HANDLER in apply_rulings so it can never sit
 UNCONSUMED (Rule #6/#7); and the pairwise consumer is wired into apply_rulings.main()."""
-import inspect, sys, unittest
+import inspect, json, sys, unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -69,6 +69,76 @@ class TestPairwiseLoop(unittest.TestCase):
             self.skipTest("no open pairwise cards")
         missing = [c["id"] for c in open_pw if c["id"] not in from_cards]
         self.assertEqual(missing, [], f"{len(missing)} live cards unresolvable from the durable card — his taps would vanish")
+
+
+class TestConsumeRoundTrip(unittest.TestCase):
+    """END-TO-END parse guard (the gap the plumbing tests missed): a real A/B tap must round-trip
+    through consume() into a CORRECT preference record. The plumbing tests lock the file name and
+    card-resolvability; NONE exercised consume()'s actual parse — `ans.startswith` → winner →
+    p[winner]['caption'] — the single most load-bearing line of the taste-capture loop. If that
+    parse drifted (e.g. resolved 'b'→a, or matched on the caption label instead of the option `v`),
+    his taps would silently invert and corrupt the moat with zero test failure. Fully isolated:
+    swaps the module's file globals to a tmpdir, never touches real data."""
+
+    def setUp(self):
+        import tempfile
+        self._saved = {k: getattr(pw, k) for k in ("ANSWERS", "PREFS", "PAIRS", "QUEUE")}
+        self._tmp = tempfile.TemporaryDirectory()
+        d = Path(self._tmp.name)
+        pw.ANSWERS, pw.PREFS, pw.PAIRS, pw.QUEUE = d / "ans.jsonl", d / "prefs.jsonl", d / "pairs.json", d / "queue.json"
+        pw.QUEUE.write_text(json.dumps({"items": []}))  # no durable cards by default
+
+    def tearDown(self):
+        for k, v in self._saved.items():
+            setattr(pw, k, v)
+        self._tmp.cleanup()
+
+    def _pair(self):
+        return {"id": "pw_rt001", "handle": "albaik",
+                "a": {"caption": "CAP-ALPHA", "brain": "firaasa"},
+                "b": {"caption": "CAP-BETA", "brain": "paradox"}}
+
+    def test_tap_a_resolves_to_a_caption(self):
+        pw.PAIRS.write_text(json.dumps([self._pair()]))
+        pw.ANSWERS.write_text(json.dumps({"item_id": "pw_rt001", "answer": "a", "judge": "mohamed", "ts": 1}) + "\n")
+        self.assertEqual(pw.consume(), 1)
+        rec = json.loads(pw.PREFS.read_text().splitlines()[0])
+        self.assertEqual(rec["winner"], "a")
+        self.assertEqual(rec["winner_caption"], "CAP-ALPHA")
+        self.assertEqual(rec["loser_caption"], "CAP-BETA")
+        self.assertEqual(rec["winner_brain"], "firaasa")
+
+    def test_tap_b_resolves_to_b_caption(self):
+        pw.PAIRS.write_text(json.dumps([self._pair()]))
+        pw.ANSWERS.write_text(json.dumps({"item_id": "pw_rt001", "answer": "b"}) + "\n")
+        self.assertEqual(pw.consume(), 1)
+        rec = json.loads(pw.PREFS.read_text().splitlines()[0])
+        self.assertEqual(rec["winner"], "b")
+        self.assertEqual(rec["winner_caption"], "CAP-BETA")
+        self.assertEqual(rec["loser_caption"], "CAP-ALPHA")
+
+    def test_resolves_from_durable_card_when_side_file_gone(self):
+        # the June-15 scar in behavior: pair only in the durable card, side-file overwritten/empty
+        card = {"id": "pw_rt001", "handle": "albaik", "options": [
+            {"v": "a", "label": "CAP-ALPHA"}, {"v": "b", "label": "CAP-BETA"}]}
+        pw.QUEUE.write_text(json.dumps({"items": [card]}))
+        pw.ANSWERS.write_text(json.dumps({"item_id": "pw_rt001", "answer": "a"}) + "\n")
+        self.assertEqual(pw.consume(), 1)
+        rec = json.loads(pw.PREFS.read_text().splitlines()[0])
+        self.assertEqual(rec["winner_caption"], "CAP-ALPHA")
+
+    def test_non_ab_answer_is_skipped_not_corrupted(self):
+        pw.PAIRS.write_text(json.dumps([self._pair()]))
+        pw.ANSWERS.write_text(json.dumps({"item_id": "pw_rt001", "answer": "skip"}) + "\n")
+        self.assertEqual(pw.consume(), 0)
+        self.assertFalse(pw.PREFS.exists() and pw.PREFS.read_text().strip())
+
+    def test_already_seen_pid_not_double_counted(self):
+        pw.PAIRS.write_text(json.dumps([self._pair()]))
+        pw.ANSWERS.write_text(json.dumps({"item_id": "pw_rt001", "answer": "a"}) + "\n")
+        self.assertEqual(pw.consume(), 1)
+        self.assertEqual(pw.consume(), 0)  # second run: pid already in prefs → no duplicate
+        self.assertEqual(len(pw.PREFS.read_text().splitlines()), 1)
 
 
 if __name__ == "__main__":

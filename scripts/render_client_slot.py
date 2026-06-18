@@ -467,6 +467,21 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     _lg = json.loads(_lf.read_text()) if _lf.exists() else {}
     learned_bans = sorted(set([p for p in _lg.get("phrase_bans", []) if p]
                           + [r.get("phrase_ban") for r in _lg.get("rules", []) if r.get("phrase_ban")]))
+    # FOUNDER TASTE LAW (June 18 — severed-wire fix, Rule #6): founder_taste.json was loaded
+    # above and THROWN AWAY — the producing pen never saw his confirmed taste law, though the
+    # file IS the bar ("the critic mind judges against it"). creative_line.py used it; this
+    # production renderer (the grinder's pen) didn't. Now woven into sys_p so the pen AVOIDS his
+    # kills and aims for his rewards UPFRONT, instead of produce→critic-kill→regenerate (the same
+    # consumer-law gap that lost the learned phrase-bans, June 14).
+    _tk = "؛ ".join(f"{k['name']} ({k['why'][:70]})" for k in taste.get("kills", [])[:8])
+    _tr = "؛ ".join(f"{r['name']} ({r['why'][:70]})" for r in taste.get("rewards", [])[:4])
+    taste_clause = ((f"THE FOUNDER'S TASTE LAW — he KILLS these, never produce them: {_tk}. " if _tk else "")
+                    + (f"He REWARDS these, aim for them: {_tr}. " if _tr else ""))
+    # MEASUREMENT-ONLY toggle (June 18, taste_clause_ab.py eyes-test): when OGZ_TASTE_OFF=1 the pen
+    # runs WITHOUT his taste law — the "before" arm of the before/after the wire fix needs to prove
+    # it sharpens output (Rule #13: connected ≠ better). Default unset → law ON, zero production change.
+    if os.environ.get("OGZ_TASTE_OFF") == "1":
+        taste_clause = ""
     # OCCASION TRUTH (June 14 — "confirmed with occasion, everything aligned"): tell the pen the
     # slot's REAL calendar status. A daily slot has NO occasion → forbid all holiday words; an
     # occasion slot must live inside THAT occasion only. The gauntlet below enforces it.
@@ -489,7 +504,7 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
              "The caption LIVES INSIDE the scene: write from inside that exact moment (its person, its time, its gesture). "
              "The PHOTO already shows the scene — so the caption NEVER narrates it (never 'الأم تضغط الزر، الجد يملأ الأطباق'). "
              "Write what the person in that moment would SAY or feel — the voice FROM the scene, not a description OF it. "
-             + occ_clause + organ_clause +
+             + occ_clause + organ_clause + taste_clause +
              f"{bilingual} Short captions. Concrete and warm. Offers need what/how-much/where clarity. "
              f"Use ONLY these real facts — products: {products}, channels: {channels or 'NONE — never invent ordering channels'}. "
              + ("Speak only of what the reader can DO today with these real products and channels. "
@@ -566,7 +581,7 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     # truth guard 5 (June 11 — the hallucinated prince): NAMED PEOPLE die unless the
     # client's corpus contains them. Inventing a person's presence is the worst truth
     # violation possible («بحضور الأمير سعود بن عبدالله بن جلوي» — never happened).
-    from truth_guards import PERSON_AR
+    from truth_guards import PERSON_AR, PERSON_EN  # B034: EN-led feeds leak named people too
 
     strip_punct = lambda s: re.sub(r"[^\wء-ي\s]", "", s).strip()  # «دبل القرمشة،» == «دبل القرمشة»
 
@@ -578,7 +593,7 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     slot_is_documented = bool(slot.get("documented_moment"))
 
     def ungrounded(text: str) -> str | None:
-        for m in PERSON_AR.finditer(text):
+        for m in list(PERSON_AR.finditer(text)) + list(PERSON_EN.finditer(text)):
             if not slot_is_documented:
                 return m.group(0) + " (person in fictional scene)"
             if strip_punct(m.group(0)).lower() not in corpus:

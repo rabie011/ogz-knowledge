@@ -36,6 +36,14 @@ OFFER = re.compile(r"عرض|خصم|تخفيض|كود|discount|offer|% ?off|promo
 PROMO_AR = re.compile(r"(التوأم|كومبو|دبل|ميجا|تريبل)\s+\S+")
 LATIN_NAME = re.compile(r"\b([A-Za-z]+\.[A-Za-z]+|[A-Za-z]*\d+[A-Za-z]*|[A-Z]{3,})\b")
 PERSON_AR = re.compile(r"(الأمير|الأميرة|الشيخ|الشيخة|الدكتور(?:ة)?|معالي|سمو)\s+\S+(?:\s+بن\s+\S+)*")
+# B034 (June 18): EN-led feeds leak named people the Arabic guard never saw — a brand
+# captioning "Prince Mohammed" or "HRH ..." in English is the same kill as الأمير in Arabic
+# (June 14: named real people / English legal-name was 1 of RABIE's 24 old-mistakes). The
+# title must lead a Capitalized name so generic words ("the doctor said") don't trip it.
+PERSON_EN = re.compile(
+    r"\b(HRH|HH|His Royal Highness|Her Royal Highness|Prince|Princess|"
+    r"Sheikh|Sheikha|Sheik|Dr\.?)\s+[A-Z][a-z]+"
+    r"(?:\s+(?:bin|bint|al|Al|Al-)?\s*[A-Z][a-z]+)*")
 # G8 SERVICE-CLAIM (June 12 — the consultation lie survived two regens): unverified
 # service offerings die unless the corpus carries them — a fake service generates
 # real phone calls to the client.
@@ -79,7 +87,7 @@ def build_corpus(brand: str, base_dir=None) -> str:
 
 
 def ungrounded(text: str, corpus: str, documented: bool) -> str | None:
-    for m in PERSON_AR.finditer(text):
+    for m in list(PERSON_AR.finditer(text)) + list(PERSON_EN.finditer(text)):
         if not documented:
             return m.group(0) + " (person in fictional scene)"
         if strip_punct(m.group(0)).lower() not in corpus:

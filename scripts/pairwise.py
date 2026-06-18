@@ -137,8 +137,11 @@ def active_pairs(n=5, w_close=0.5, w_conn=0.5):
     w_conn·(low comparison degree = improves a star-shaped, barely-connected graph). Connectivity
     matters most early (most captions are never-compared), so w_conn ties weight with w_close and
     breaks ties. HARD-excludes anything already judged or already on the portal. NEW pairs only —
-    the live 11 are never touched. The '~5 taps ≈ 15' benefit is a CLAIM that must be MEASURED
-    (agreement vs random) before it's stated to Mohamed (Rule #9) — this only proposes the pairs."""
+    the live 11 are never touched. The active-vs-random benefit is now MEASURED (no longer a bare
+    claim): taste_sim.py replays this exact rule on his rescued ratings → data/taste_sim.json
+    (ACTIVE 7 vs RANDOM ~14.85 taps to 90%, 2.12× as of June 18). Quote that as SIM-on-rescued-
+    ratings only, never as his live agreement, which stays 0-testable until his bridge taps land
+    (Rule #9). This function only proposes the pairs; bridge_status() surfaces the measured number."""
     cands = _produced()
     by_h = {}
     for c in cands:
@@ -265,6 +268,73 @@ def push_bridge(n=8, handle=None):
     return _push(bridge_pairs(n, handle))
 
 
+def bridge_status():
+    """HONEST gated-on-taps status (Step 5d, June 18). The held-out LIVE number sits at 0 not because
+    the machine is broken but because his judged captions are singletons — and bridge cards that fix
+    that may already be STAGED on his portal, invisibly waiting. This surfaces the wait as a verified
+    number so a one-tap-session-away HOLD never reads as a stall (Rule #6: the staged bridges get a
+    consumer; Rule #10: one status line, no new card). It reports the TESTABILITY unlock only — which
+    is winner-INDEPENDENT (it depends purely on which captions get compared, not who he picks) — and
+    deliberately does NOT quote any agreement %, because that awaits his REAL taps (Rule #9).
+    Returns {staged, n_testable_now, n_testable_after}."""
+    def _structural_testable(prefs, extra_edges=()):
+        """A live pick (w,l) is held-out-testable iff, with it removed, BOTH its captions still appear
+        in some other pair — i.e. degree(w)>=2 AND degree(l)>=2 over all edges. Pure graph structure:
+        winner-INDEPENDENT and tie-free, so the number is honest regardless of who he ends up picking."""
+        from collections import Counter
+        deg = Counter()
+        edges = [(p.get("winner_caption", ""), p.get("loser_caption", "")) for p in prefs]
+        edges += list(extra_edges)
+        for a, b in edges:
+            deg[a] += 1; deg[b] += 1
+        live = [p for p in prefs if p.get("source") != "seed_from_ratings"]
+        return sum(1 for p in live
+                   if deg[p.get("winner_caption", "")] >= 2 and deg[p.get("loser_caption", "")] >= 2)
+
+    prefs = [json.loads(l) for l in PREFS.read_text().splitlines() if l.strip()] if PREFS.exists() else []
+    live_caps = set()
+    for p in prefs:
+        if p.get("source") != "seed_from_ratings":
+            live_caps.add(p.get("winner_caption", "")); live_caps.add(p.get("loser_caption", ""))
+    live_caps.discard("")
+    # staged bridges = OPEN pw_ cards on the portal that reuse one of his judged captions
+    staged = []
+    if QUEUE.exists():
+        q = json.loads(QUEUE.read_text())
+        for c in (q.get("items", []) if isinstance(q, dict) else q):
+            if not str(c.get("id", "")).startswith("pw_") or c.get("status") != "open":
+                continue
+            opts = {o.get("v"): o.get("label") for o in (c.get("options") or [])}
+            a, b = opts.get("a", ""), opts.get("b", "")
+            if a and b and (a in live_caps or b in live_caps):
+                staged.append((a, b))
+    now = _structural_testable(prefs)
+    after = _structural_testable(prefs, extra_edges=staged)
+    # Rule #6: give taste_sim.json (written by taste_sim.py, today read by nothing) its consumer.
+    # The MEASURED active-vs-random advantage is the honest replacement for the old unmeasured
+    # "~5 taps ≈ 15" claim — surfaced here, but labelled SIM (rescued ratings), never "his agreement"
+    # (Rule #9): his LIVE advantage stays 0-testable until the bridge taps land.
+    sim_clause, sim = "", None
+    SIM = PREFS.parent / "taste_sim.json"
+    if SIM.exists():
+        try:
+            sim = json.loads(SIM.read_text())
+            if sim.get("ok"):
+                sim_clause = (f" · sim advantage (rescued ratings, NOT his live eye): ACTIVE "
+                              f"{sim['active_taps_to_threshold']} vs RANDOM "
+                              f"{sim['random_taps_to_threshold_mean']} taps to "
+                              f"{int(sim['threshold']*100)}% = {sim['speedup_x']}× fewer")
+        except Exception:
+            sim = None
+    print(f"BRIDGE STATUS: {len(staged)} bridge cards staged on his portal · "
+          f"held-out-testable picks now={now} → after his taps={after} "
+          f"(testability only — agreement % awaits his real taps, Rule #9){sim_clause}")
+    return {"staged": len(staged), "n_testable_now": now, "n_testable_after": after,
+            "sim_speedup_x": (sim or {}).get("speedup_x"),
+            "sim_active_taps": (sim or {}).get("active_taps_to_threshold"),
+            "sim_random_taps": (sim or {}).get("random_taps_to_threshold_mean")}
+
+
 def _pairs_from_cards():
     """The DURABLE pair source: each pushed pw_ card embeds BOTH captions in its options, and the
     card persists in the queue. form_pairs() OVERWRITES pairwise_pairs.json, so a tap on a card
@@ -347,7 +417,7 @@ def agreement():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["form", "push", "consume", "agreement", "active", "active-preview",
-                                    "bridge", "bridge-preview"])
+                                    "bridge", "bridge-preview", "bridge-status"])
     ap.add_argument("--n", type=int, default=4, help="pairs (per brand for form/push; total for active)")
     ap.add_argument("--handle", default=None, help="restrict bridge to one pilot (e.g. albaik)")
     a = ap.parse_args()
@@ -374,6 +444,8 @@ def main():
             print(f"  {p['handle']}: {p['a']['caption'][:40]}  ⚔  {p['b']['caption'][:40]}")
     elif a.cmd == "bridge":
         push_bridge(a.n if a.n != 4 else 8, a.handle)
+    elif a.cmd == "bridge-status":
+        bridge_status()
 
 
 if __name__ == "__main__":

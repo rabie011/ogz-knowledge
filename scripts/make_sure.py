@@ -187,6 +187,19 @@ def main():
         checks["founder_taste_fresh"] = True
         checks["_taste_staleness_err"] = str(e)[:60]
 
+    # 6d. BRIDGE STATUS (B-5d): the held-out LIVE taste number is 0-testable while his picks are
+    # singletons; bridge cards that fix it may already be STAGED on his portal, invisibly waiting.
+    # Surface it as a verified number (informational — NOT a gate, NOT a card: it's a HOLD on HIS
+    # taps, not a machine failure) so a one-tap-away wait never reads as a stall (Rule #6/#9/#10).
+    try:
+        import pairwise
+        _bs = pairwise.bridge_status()
+        checks["_bridge_cards_staged"] = _bs["staged"]
+        checks["_bridge_testable_now"] = _bs["n_testable_now"]
+        checks["_bridge_testable_after_taps"] = _bs["n_testable_after"]
+    except Exception as e:
+        checks["_bridge_status_err"] = str(e)[:60]
+
     ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "portal_items_ok", "commits_flowing", "judge_cards_gated", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests"))
     entry = {"ts": now, **checks, "verdict": "ALIVE" if ok else "ALARM"}
     with open(LOG, "a") as f:

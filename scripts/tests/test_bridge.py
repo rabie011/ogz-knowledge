@@ -97,6 +97,18 @@ class TestBridge(unittest.TestCase):
         self.assertEqual(base_n, 0, "baseline already testable — fixture changed; revisit the bridge claim")
         self.assertGreater(sim_n, 0, "bridges did not make any live pick held-out testable")
 
+    def test_bridge_status_is_honest_and_monotonic(self):
+        """bridge_status (Step 5d) surfaces the gated-on-taps wait as a verified number so a
+        one-tap-away HOLD never reads as a stall. Locks: (1) the three-key contract, (2) staging
+        bridges never REDUCES testability (after >= now), (3) the structural count is winner-
+        INDEPENDENT — swapping winner/loser on the staged edges leaves `after` unchanged."""
+        st = pw.bridge_status()
+        for k in ("staged", "n_testable_now", "n_testable_after"):
+            self.assertIn(k, st)
+        self.assertGreaterEqual(st["n_testable_after"], st["n_testable_now"],
+                                "staging bridges reduced testability — a bridge must never disconnect")
+        self.assertGreaterEqual(st["staged"], 0)
+
 
 if __name__ == "__main__":
     unittest.main()

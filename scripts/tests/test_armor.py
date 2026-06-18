@@ -88,6 +88,18 @@ class TestTruthGuards(unittest.TestCase):
                             "البيك كرسبي", {"documented_moment": False})
         self.assertTrue(any(x["guard"] == "ungrounded_name" for x in k), k)
 
+    def test_g3_en_titled_person(self):
+        # B034 (June 18) — EN-led feed leaks a named person the AR guard never saw
+        s, k = apply_guards(["A proud moment hosting Prince Mohammed at our table"],
+                            "albaik crispy chicken", {"documented_moment": False})
+        self.assertTrue(any(x["guard"] == "ungrounded_name" for x in k), k)
+        # ungrounded() fires directly on EN titles in a fictional scene
+        self.assertIsNotNone(ungrounded("dinner with Dr. Khalid tonight", "albaik", False))
+        # but a documented person who IS in the corpus survives
+        self.assertIsNone(ungrounded("hosted Sheikh Abdullah", "albaik hosted sheikh abdullah", True))
+        # and generic prose with no titled name does not trip
+        self.assertIsNone(ungrounded("the doctor recommends a balanced meal", "albaik", False))
+
     def test_g3_promo_name_needs_corpus(self):
         # June 11 «التوأم كرسبي بيك x2» — invented promo name
         bad = ungrounded("جرب التوأم كرسبي بيك اليوم", "البيك دجاج كرسبي وجبات", False)

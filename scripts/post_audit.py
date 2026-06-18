@@ -26,7 +26,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 import pre_ship_gate as psg
 from render_client_slot import TASTE_GUARD_LEXICON, batch_diversity_check
-from truth_guards import FILLER, EVENT_CLAIM, PERSON_AR, PROMO_AR, LATIN_NAME
+from truth_guards import FILLER, EVENT_CLAIM, PERSON_AR, PERSON_EN, PROMO_AR, LATIN_NAME, strip_punct
 # ONE source for occasion logic (Rule #6) — boundary-safe, shared with render + gate
 from occasion_align import occ_hits, caption_misaligned, is_daily, slot_occ_key, SLUG2KEY, ALL_KEYS
 
@@ -73,6 +73,13 @@ def audit_post(d, handle):
 
     active = [k.get("pattern") for k in d.get("kill_patterns", []) if isinstance(k, dict)]
     brand_ar = (d.get("brand_ar") or "")
+    # B034-audit (June 18, RABIE zoom-out): post_audit imported PERSON_AR + PROMO_AR but never
+    # SCANNED with them — a write-only door (Rule #6 broken). A caption naming "الأمير X" / a
+    # hallucinated combo "التوأم Y" passed the audit's truth block uncaught. Wire them in,
+    # grounded against the client's corpus EXACTLY like render_client_slot.ungrounded() so a
+    # real person/promo in the brand's own captions is not false-flagged.
+    corpus = (d.get("corpus_text") or "").lower()
+    slot_documented = bool(slot.get("documented_moment"))
     for c in caps:
         # json artifact / malformed
         if re.search(r"(['\"]\s*[,}\]]\s*$)|(\}\s*$)|^\s*[\[{]", c) or c.count('"') % 2 == 1:
@@ -93,6 +100,16 @@ def audit_post(d, handle):
             issues.append(("truth", f"event-claim: {c[:40]}"))
         if FILLER.search(c):
             issues.append(("filler", f"{c[:40]}"))
+        # named people (AR + EN): ungrounded in a fictional scene = the hallucinated-prince kill
+        for m in list(PERSON_AR.finditer(c)) + list(PERSON_EN.finditer(c)):
+            if not slot_documented:
+                issues.append(("truth", f"named-person in fictional scene «{m.group(0)}»: {c[:35]}"))
+            elif strip_punct(m.group(0)).lower() not in corpus:
+                issues.append(("truth", f"ungrounded named-person «{m.group(0)}»: {c[:35]}"))
+        # promo-combo nouns (التوأم/كومبو/…): invented unless the client's corpus carries them
+        for m in PROMO_AR.finditer(c):
+            if strip_punct(m.group(0)).lower() not in corpus:
+                issues.append(("truth", f"ungrounded promo-combo «{m.group(0)}»: {c[:35]}"))
         for m in LATIN_NAME.finditer(c):
             t = re.sub(r"[^\w]", "", m.group(0)).lower()
             if "." in m.group(0) or (brand_ar and t and t not in (d.get("corpus_text") or "").lower()):

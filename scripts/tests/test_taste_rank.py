@@ -68,5 +68,42 @@ class TestTasteRank(unittest.TestCase):
                          and not t.get("held_out_agreement_degenerate"))
 
 
+class TestProduceBatchSeam(unittest.TestCase):
+    """B266 — the shadow advisory seam inside produce_batch: the wire's END CONSUMER at the real
+    production point (Rule #6 — a writer with no reader is a lie). Two contracts: (1) the consumer
+    actually exists in the production path; (2) while the gate is closed the seam steers NOTHING."""
+
+    SRC = (Path(__file__).parent.parent / "produce_batch.py").read_text()
+
+    def test_consumer_exists_in_production_path(self):
+        self.assertIn("import taste_rank as tr", self.SRC)
+        self.assertIn("tr.select(", self.SRC)
+        self.assertIn("taste_advisory", self.SRC)  # surfaced in the manifest for visibility
+
+    def test_runtime_refuses_silent_reorder_while_closed(self):
+        """The seam carries a hard assert (Rule #8 refuse-don't-warn): gate closed + order changed
+        => the run dies, never ships a silently-reordered batch."""
+        self.assertIn('"taste wire gate closed but ship order changed', self.SRC)
+
+    def test_seam_contract_on_fixture_gate_closed(self):
+        """Replicate the seam over a chosen-batch fixture with the gate CLOSED (today's reality):
+        ship order is byte-identical and the advisory records steered=False."""
+        t = {**STRONG, "held_out_live_n_testable": 0, "held_out_live_pct": None,
+             "held_out_agreement_degenerate": True}
+        chosen_caps = ["B he rejects", "A his eye loves", "C unseen"]  # weak first on purpose
+        ordered, meta = tr.select(chosen_caps, t)
+        self.assertEqual(ordered, chosen_caps)            # ship order unchanged
+        self.assertFalse(meta["wire_live"])               # steered nothing
+        self.assertEqual(meta["advisory_rank"][0], "A his eye loves")  # advisory still ranks right
+
+    def test_seam_contract_on_fixture_gate_open(self):
+        """When his taps land and the held-out proves out, the SAME seam reorders — no rewrite."""
+        t = {**STRONG, "held_out_live_n_testable": 6, "held_out_live_pct": 70,
+             "held_out_agreement_degenerate": False}
+        ordered, meta = tr.select(["B he rejects", "A his eye loves"], t)
+        self.assertEqual(ordered[0], "A his eye loves")
+        self.assertTrue(meta["wire_live"])
+
+
 if __name__ == "__main__":
     unittest.main()

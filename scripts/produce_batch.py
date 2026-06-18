@@ -23,6 +23,7 @@ B = Path(__file__).parent.parent
 sys.path.insert(0, str(B / "scripts"))
 import post_audit as pa
 import render_reel as rr
+import taste_rank as tr
 from render_client_slot import scene_core, batch_diversity_check
 
 # REEL WIRING (June 18, Rule #6 — render_reel is a writer; here it finally gets its reader). A
@@ -328,7 +329,26 @@ def main():
                 emit(f"   ⏳ reel slot {x['h']} {x['dt']}: no still yet (awaits the $3 no_fal+key tap) — manifest marks reel_pending, NO fal triggered")
         return e
 
+    # SHADOW ADVISORY — the TASTE→CREATION wire's end consumer at the real seam (B266, Rule #6).
+    # taste_rank reads Mohamed's learned taste-strengths (taste_elo's write-only organ). We call it
+    # over the system's CHOSEN captions and record what it WOULD prefer — but while its gate is
+    # closed (his bridge taps not yet landed → held-out LIVE undefined) it steers NOTHING: select()
+    # returns the captions in their original order, so ship order is byte-identical (Rule #8: the
+    # influence path is closed, not whispering; Rule #9: no unverified signal touches what ships).
+    # When his taps land and the held-out number proves out, wire_live() flips and this same call
+    # reorders — no rewrite, the consumer already exists.
+    _chosen_caps = [(x["d"].get("captions") or [""])[0] for x in chosen]
+    _ordered_caps, _ta = tr.select(_chosen_caps)
+    assert _ta["wire_live"] or _ordered_caps == _chosen_caps, \
+        "taste wire gate closed but ship order changed — refuse (Rule #8)"
+    taste_advisory = {"wire_live": _ta["wire_live"], "n_testable": _ta["n_testable"],
+                      "live_pct": _ta["live_pct"], "steered_ship_order": _ta["wire_live"],
+                      "advisory_rank": _ta["advisory_rank"]}
+    emit(f"   taste→creation wire: {'🟢 LIVE — steered selection' if _ta['wire_live'] else '⚪ SHADOW — advisory only, ship order unchanged'} "
+         f"(n_testable={_ta['n_testable']}, live_pct={_ta['live_pct']})")
+
     man = {"built": time.strftime("%Y-%m-%dT%H:%M:%S"), "n": len(chosen), "suffix": a.suffix, "staged": False,
+           "taste_advisory": taste_advisory,
            "by_client": dict(Counter(x["h"] for x in chosen)),
            "by_brain": dict(Counter(x["d"].get("brain") for x in chosen)),
            "by_core": dict(Counter(core_of(x["d"]) for x in chosen)),

@@ -320,7 +320,7 @@ def _download_media(posts: list[dict], media_dir: Path, headers: dict) -> int:
     return downloaded
 
 
-def extract_account(handle: str, handle_norm: str, sector: str, cookies: dict) -> bool:
+def extract_account(handle: str, handle_norm: str, sector: str, cookies: dict, max_posts: int = MAX_POSTS_PER_ACCT) -> bool:
     """Full extraction for one account. Returns True on success."""
     print(f"\n{'─'*55}")
     print(f"  @{handle}  [{sector}]  norm={handle_norm}")
@@ -362,7 +362,7 @@ def extract_account(handle: str, handle_norm: str, sector: str, cookies: dict) -
 
     # 3. Fetch posts
     print(f"  Fetching posts (max {MAX_POSTS_PER_ACCT}):")
-    posts = _fetch_posts(user_id, headers, MAX_POSTS_PER_ACCT)
+    posts = _fetch_posts(user_id, headers, max_posts)
     print(f"  Total posts fetched: {len(posts)}")
 
     if not posts:
@@ -419,6 +419,8 @@ def main():
     parser.add_argument("--all-retail",   action="store_true")
     parser.add_argument("--all-fnb",      action="store_true")
     parser.add_argument("--max", type=int, default=5, help="Max accounts when using --all-*")
+    parser.add_argument("--max-posts", type=int, default=MAX_POSTS_PER_ACCT, dest="max_posts",
+                        help="posts per account (default 100; raise to cover a longer window)")
     args = parser.parse_args()
 
     print("Loading Instagram session from Chrome...")
@@ -449,7 +451,7 @@ def main():
     success = 0
     failed  = 0
     for i, (handle, norm, sector) in enumerate(accounts):
-        ok = extract_account(handle, norm, sector, cookies)
+        ok = extract_account(handle, norm, sector, cookies, args.max_posts)
         if ok:
             success += 1
         else:

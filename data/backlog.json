@@ -2117,7 +2117,8 @@
    "depends_on": [
     "B179"
    ],
-   "status": "todo"
+   "status": "done",
+   "done_note": "post_pick WRITER wired: build_pick_item.record_pick() emits a pick_selected client event on a human tap (B156-gated, injectable writer); portal_mini.answer calls it on pick_ taps. Readers trust_ladder+approvers_registry no longer starve (Rule #6). The portal already renders post_pick cards (one-at-a-time gate) — the severed half was the writer, now closed. 5 tests in test_pick_writer.py."
   },
   {
    "id": "B181",

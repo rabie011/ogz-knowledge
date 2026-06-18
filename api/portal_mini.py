@@ -280,6 +280,7 @@ async def answer(request: Request, k: str = ""):
                 break
     with open(ANSWERS, "a") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    picked_card = None
     if QUEUE.exists():
         q = json.loads(QUEUE.read_text())
         for it in q["items"]:
@@ -289,12 +290,23 @@ async def answer(request: Request, k: str = ""):
                 it["answered_by"] = judge
                 if entry["fix"]:
                     it["human_fix"] = entry["fix"][:200]
+                picked_card = it
         QUEUE.write_text(json.dumps(q, ensure_ascii=False, indent=1))
     # the routing receipt — same classifier the router/end-screen use (no drift)
     import sys as _s2
     _s2.path.insert(0, str(REPO / "scripts"))
     from feedback_lib import classify_receipt
     resp = {"ok": True, "receipt": classify_receipt(entry)}
+    # POST-PICK WRITER (B180): a post_pick tap is a trust-moving human pick — record it as a
+    # pick_selected client event so trust_ladder + approvers_registry (the readers) receive it.
+    # Without this the post_pick wire is severed (Rule #6). Gated to pick_ ids; never fails the tap.
+    if str(entry["item_id"]).startswith("pick_") and picked_card is not None:
+        try:
+            import build_pick_item as _bpi
+            if _bpi.record_pick(picked_card, entry["answer"], judge):
+                resp["pick_recorded"] = True
+        except Exception:
+            pass   # the wire is a nicety on the response — never fail the tap on it
     # INSTANT TASTE FEEDBACK for a pairwise pick (June 16): consume this fresh tap → recompute the
     # Mohamed-Elo (pure-numpy, instant, zero-key) → surface the honest nudge. pw_-gated so the shared
     # classify_receipt is never touched. Makes the tap feel like it landed, not like a survey.

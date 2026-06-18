@@ -7,7 +7,7 @@ caption standalone. Becomes the standard for every future pick on the portal.
 
 Usage: python3 scripts/build_pick_item.py --handle myfitness.sa --slot 2027-02-08__ramadan --title "..."
 """
-import argparse, glob, json
+import argparse, datetime, glob, json
 from pathlib import Path
 
 BASE = Path(__file__).parent.parent
@@ -70,6 +70,40 @@ def build(handle: str, slot: str, title: str, meaning: str) -> dict:
             "meaning": meaning, "priority": "normal", "status": "open",
             "created": __import__("datetime").date.today().isoformat(), "brand_context": brand_context(handle),
             "options": opts}
+
+
+def record_pick(card: dict, answer: str, judge: str, *, writer=None, base: Path = BASE):
+    """WRITER for a post_pick tap (B180). When a HUMAN taps a post_pick card on the portal,
+    record his choice as a `pick_selected` client event so the READERS — trust_ladder +
+    approvers_registry — actually receive it. Without this the post_pick wire is SEVERED:
+    the card is built (build, above) and tapped, but nothing reaches the client ledger, so
+    the readers starve (Rule #6: a writer needs its reader; here the reader had no writer).
+    Returns the written event, or None when this isn't a writable post_pick by a human.
+    `writer` is injectable (defaults to ledger_write) so the path is unit-testable without
+    touching a real client ledger; `base` lets a test point the handle-dir check elsewhere."""
+    if not card or card.get("kind") != "post_pick":
+        return None
+    judge_l = (judge or "").lower()
+    if judge_l not in ("mohamed", "alhareth", "client"):
+        return None                                   # only human confirmers move trust (B156)
+    cid = str(card.get("id", ""))
+    if not cid.startswith("pick_"):
+        return None
+    handle = cid[len("pick_"):]
+    if not handle or not (base / "clients" / handle).is_dir():
+        return None                                   # never write into a phantom client
+    ev = {
+        "ts": datetime.date.today().isoformat(),
+        "type": "pick_selected",
+        "subject": f"{card.get('title', cid)} → {str(answer)[:120]}",
+        "pick": str(answer)[:120],        # structured winner (option id/brain) — readers don't parse the subject blob
+        "confirmer": judge_l,
+        "stamp": f"CONFIRMED BY {judge_l.upper()} (decision portal)",
+    }
+    if writer is None:
+        from ledger_write import ledger_write as writer   # validates + B156-gates at write time
+    writer(handle, ev)
+    return ev
 
 
 def main():

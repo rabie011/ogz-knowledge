@@ -1,0 +1,43 @@
+{
+  "_meta": {
+    "id": "B173",
+    "what": "Format-fit gap: chain SUPPLY vs post PRODUCTION across the 4 IG surfaces.",
+    "rule_basis": "Rule #11 (diagnose, don't barrel) · #12 (measure only, the system produces) · #6 (a downstream format-router is the reader).",
+    "note": "Structural classification only — a post's surface is read from its on-disk shape, never a self-label."
+  },
+  "surfaces": {
+    "feed_single": {
+      "supply_chains": 109,
+      "produced_posts": 1299,
+      "status": "LIVE"
+    },
+    "carousel": {
+      "supply_chains": 6,
+      "produced_posts": 0,
+      "status": "DARK"
+    },
+    "story": {
+      "supply_chains": 0,
+      "produced_posts": 0,
+      "status": "STARVED"
+    },
+    "reel": {
+      "supply_chains": 12,
+      "produced_posts": 0,
+      "status": "DARK"
+    }
+  },
+  "totals": {
+    "chains": 127,
+    "posts": 1299,
+    "uncredited_chains": 0,
+    "uncountable_posts": 0
+  },
+  "dark": [
+    "carousel",
+    "reel"
+  ],
+  "starved": [
+    "story"
+  ]
+}

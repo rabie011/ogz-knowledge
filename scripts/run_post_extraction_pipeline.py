@@ -17,6 +17,8 @@ Usage:
 import subprocess, sys, time, argparse, json, re
 from pathlib import Path
 
+from extraction_release_gate import assert_release_allowed  # B130 (Rule #8)
+
 SCRIPTS = Path(__file__).parent
 BASE    = SCRIPTS.parent
 LOGS    = BASE / "logs"
@@ -51,6 +53,13 @@ def main():
     print(f"\n{'═'*W}")
     print(f"  OGZ Post-Extraction Pipeline")
     print(f"{'═'*W}\n")
+
+    # ── Step 0: Release gate (B130, Rule #8) ────────────────────────────
+    # Refuse to run the post-extraction pipeline (which stamps compliance into the corpus the
+    # producer learns from) unless the latest calibration run proved the extractor can detect a
+    # planted hard-block. A RED/missing gate EXITS non-zero here — never proceeds with a warning.
+    print(f"  STEP 0: Extraction release gate")
+    print(f"  {assert_release_allowed()}\n")
 
     # ── Step 1: Validate ────────────────────────────────────────────────
     print(f"  STEP 1: Validate observations")

@@ -21,6 +21,8 @@ from pathlib import Path
 
 import anthropic
 
+from extraction_release_gate import assert_release_allowed  # B130 (Rule #8)
+
 REPO = Path(__file__).resolve().parent.parent
 OBS_DIR = REPO / "11_who_to_learn_from" / "observations" / "f_and_b"
 SCHEMA_DIR = REPO / "12_data_shapes"
@@ -466,6 +468,10 @@ def main():
     parser.add_argument("--count", type=int, default=25)
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
+
+    # B130 (Rule #8): refuse to extract+stamp compliance unless the calibration gate proved the
+    # extractor detects a planted hard-block. A RED/missing gate EXITS non-zero — no warn-and-run.
+    assert_release_allowed()
 
     account = args.account
     meta = ACCOUNT_META.get(account)

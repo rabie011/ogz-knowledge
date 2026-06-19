@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import json
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 import yaml
@@ -27,8 +28,27 @@ CALIBRATION_DIR = REPO_ROOT / "11_who_to_learn_from" / "_calibration_set"
 GROUND_TRUTH_PATH = CALIBRATION_DIR / "GROUND_TRUTH.yaml"
 EXTRACTIONS_DIR = CALIBRATION_DIR / "claude_extractions"
 
+# B130: the release gate the extraction entry points read (Rule #6 — this writer ships its reader
+# in scripts/extraction_release_gate.py). Persisted on EVERY decisive run so a Level-1 failure is
+# recorded, not just printed to a terminal nobody re-reads.
+GATE_PATH = REPO_ROOT / "data" / "extraction_accuracy_gate.json"
+
 COMPLETENESS_THRESHOLD = 0.80
 ACCURACY_THRESHOLD = 0.60
+
+
+def _persist_gate(exit_code: int, *, level1_passed: bool,
+                  completeness: float | None = None, accuracy: float | None = None) -> None:
+    """B130: write the latest calibration verdict so extraction_release_gate.py can refuse a RED gate.
+    level1_passed is the only field the release gate hard-blocks on; the rest is provenance."""
+    GATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    GATE_PATH.write_text(json.dumps({
+        "ts": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "exit_code": exit_code,
+        "level1_passed": bool(level1_passed),
+        "completeness": completeness,
+        "accuracy": accuracy,
+    }, ensure_ascii=False, indent=2), encoding="utf-8")
 
 REQUIRED_FIELDS = [
     "observation_ulid",
@@ -198,6 +218,7 @@ def main() -> int:
         print("\n✗ LEVEL 1 FAILED — hard block not detected.")
         print("  STOP. Do not proceed to real extraction.")
         print("  Fix the extraction prompt and re-run calibration.")
+        _persist_gate(1, level1_passed=False)
         return 1
     print("✓ Level 1 passed.\n")
 
@@ -207,6 +228,7 @@ def main() -> int:
     print(f"\nCompleteness: {completeness:.0%} (threshold: {COMPLETENESS_THRESHOLD:.0%})")
     if completeness < COMPLETENESS_THRESHOLD:
         print("✗ LEVEL 2 FAILED — too many missing fields.")
+        _persist_gate(2, level1_passed=True, completeness=completeness)
         return 2
     print("✓ Level 2 passed.\n")
 
@@ -216,11 +238,13 @@ def main() -> int:
     print(f"\nAccuracy: {accuracy:.0%} (threshold: {ACCURACY_THRESHOLD:.0%})")
     if accuracy < ACCURACY_THRESHOLD:
         print("✗ LEVEL 3 FAILED — accuracy below threshold.")
+        _persist_gate(3, level1_passed=True, completeness=completeness, accuracy=accuracy)
         return 3
     print("✓ Level 3 passed.\n")
 
     print("═══ ALL LEVELS PASSED ═══")
     print("Calibration successful. Proceed to real extraction.")
+    _persist_gate(0, level1_passed=True, completeness=completeness, accuracy=accuracy)
     return 0
 
 

@@ -1110,6 +1110,17 @@ def _routed_brain(sector: str, occasion: str) -> str | None:
         return None
 
 
+def _provenance_block(source: str = "dna_v6_feed") -> dict:
+    """B045: the PROVISIONAL provenance contract every system-produced result carries
+    (Rule #12), matching the post-card shape in render_client_slot.py. Extracted so the
+    contract is importable + guarded by test_v6_provenance (Rule #6 — a writer needs a
+    reader). confirmer stays 'pending' until Mohamed taps."""
+    return {"source": source,
+            "rendered": __import__("datetime").date.today().isoformat(),
+            "confirmer": "pending",
+            "stamp": "PROVISIONAL — pending Mohamed"}
+
+
 def _try_create_v6(req) -> dict | None:
     """The de-poisoned generation path (doctrine). None => caller falls back to legacy."""
     import sys
@@ -1238,6 +1249,9 @@ def _try_create_v6(req) -> dict | None:
                                 "routed_brain": _routed_brain(brief.get("sector", ""), brief.get("occasion", ""))},
         "visual_chain": None,
         "proof": {"generation": "v6", "judge": "scorer_v2", "few_shot": "dna_v3+gold"},
+        # B045: PROVISIONAL provenance — every system-produced result carries the stamp
+        # (Rule #12). Contract lives in _provenance_block(), guarded by test_v6_provenance.
+        "provenance": _provenance_block("dna_v6_feed"),
         "context_tokens": 0,
     }
 

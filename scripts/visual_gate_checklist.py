@@ -76,6 +76,21 @@ def checklist_for(handle: str, card: dict) -> dict:
         items.append({"id": "person_named",
                       "check": "REQUIRES-HUMAN-VERIFY: شخص حقيقي مُسمّى في النص — " + "، ".join(uniq[:5]),
                       "source": "truth_guards.PERSON_AR (B144)"})
+    # B048 — moonsighting recheck: ramadan/eid/hajj slots carry a Gregorian date that
+    # the year_map fixed MONTHS ago, but hijri dates shift with the actual moon sighting
+    # (±1-2 days, announced days before). Auto-publishing such a card risks an Eid greeting
+    # on the WRONG day — a one-shot trust break (his taste law: conservative cultural
+    # defaults, never look unprofessional). The render fixes nothing here — only a human
+    # who knows the confirmed sighting may clear it. year_map.py sets slot.moonsighting_check
+    # on the moon-dependent occasions; this is its CONSUMER (Rule #6) at the publish gate.
+    slot = card.get("slot") or {}
+    if slot.get("moonsighting_check"):
+        occ = slot.get("occasion") or "مناسبة هجرية"
+        date = slot.get("date") or "؟"
+        items.append({"id": "moonsighting_recheck",
+                      "check": (f"REQUIRES-HUMAN-VERIFY: «{occ}» تاريخه ({date}) يعتمد على رؤية الهلال — "
+                                "أكّد التاريخ الرسمي قبل النشر (قد يتقدّم أو يتأخّر يوم/يومين)"),
+                      "source": "year_map.moonsighting_check (B048)"})
     for i, line in enumerate(red.get("lines", [])):
         items.append({"id": f"client_red_{i}", "check": f"خط أحمر من العميل: {line}", "source": "client verbatim"})
     return {"law": "HUMAN EYES ARE THE VISUAL GATE — automated checks may BLOCK, never PASS",

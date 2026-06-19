@@ -812,6 +812,11 @@ def main():
     fn = out / f"{a.date}__{slot.get('occasion') or 'evergreen'}{a.suffix}.json"
     fn.write_text(json.dumps(card, ensure_ascii=False, indent=2))
     print(f"✓ {a.handle} {a.date} [{slot.get('occasion') or slot.get('angle_theme','')[:40]}]")
+    # B048: surface the moonsighting recheck at render time too (the visual gate is the
+    # enforcing consumer; this is the loud heads-up so it's not discovered only at publish).
+    if slot.get("moonsighting_check"):
+        print(f"  🌙 REQUIRES-HUMAN-VERIFY: «{slot.get('occasion')}» date {a.date} is moon-dependent "
+              "— confirm the official sighting before publish (may shift ±1-2 days)", file=sys.stderr)
     print(f"  💡 {angle['scene_ar'][:110]}")
     for i, cap in enumerate(captions, 1):
         print(f"  ✍️ {i}. {cap[:110]}")

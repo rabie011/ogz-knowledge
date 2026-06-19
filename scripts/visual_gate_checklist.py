@@ -111,6 +111,60 @@ def human_rejected(card: dict) -> bool:
     return ((card.get("visual_gate") or {}).get("verdict") or {}).get("all_clear") is False
 
 
+def verify_items(handle: str, card: dict) -> list:
+    """The REQUIRES-HUMAN-VERIFY items on a card — re-derived FRESH from the card's
+    own slot/captions (the source of truth), NEVER trusting a cached visual_gate blob.
+    A cached blob can be STALE: the albaik 2027-03-09 Eid card carries
+    slot.moonsighting_check=true, yet its cached gate (attached before B048) has NO
+    moonsighting item — exactly the land-mine that would slip to publish. Fresh
+    derivation is the only honest read (the verify items are moonsighting B048 +
+    real-person-named B144)."""
+    fresh = checklist_for(handle, card)
+    return [it for it in fresh["items"] if "REQUIRES-HUMAN-VERIFY" in it.get("check", "")]
+
+
+def record_tick(card: dict, checked_by: str, all_clear: bool, note: str = "", *, now=None) -> dict:
+    """Write the auditable per-card human tick (who / when / verdict) onto the visual
+    gate (B143). 'unchecked checklist = unpublishable card' — a recorded human
+    all_clear=True is the ONLY thing that clears a card for publish. checked_by must be
+    a human id, never a score (the +0.08 scar: AI may BLOCK, never PASS). Mutates and
+    returns the card."""
+    from datetime import datetime, timezone
+    if not checked_by:
+        raise ValueError("record_tick requires a human checked_by — human eyes ARE the visual gate")
+    ts = now or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    vg = card.setdefault("visual_gate", {})
+    vg["verdict"] = {"checked_by": checked_by, "date": ts, "all_clear": bool(all_clear),
+                     "note": note or ("cleared" if all_clear else "rejected")}
+    return card
+
+
+def publish_blocked(handle: str, card: dict):
+    """CONSUMER (Rule #6) + REFUSE-DON'T-WARN (Rule #8) at the PUBLISH path — B143,
+    the missing tooth the 2026-06-19 zoom-out named: turn the moonsighting/person FLAG
+    into a BLOCK. Returns (blocked: bool, reason: str).
+
+    A card may publish ONLY past these two cuts:
+      - human REJECTED it (verdict.all_clear is False)            → BLOCK, always.
+      - it carries REQUIRES-HUMAN-VERIFY items (re-derived fresh) → BLOCK unless a
+        human recorded all_clear=True; unchecked (None) BLOCKS too.
+    A card with no verify items and no rejection is not THIS gate's call — it returns
+    not-blocked (other gates own format/culture/truth)."""
+    verdict = ((card.get("visual_gate") or {}).get("verdict") or {})
+    cleared = verdict.get("all_clear")
+    if cleared is False:
+        return True, "human REJECTED this card (visual gate all_clear=False)"
+    verify = verify_items(handle, card)
+    if not verify:
+        return False, "no human-verify items"
+    if cleared is True:
+        who = verdict.get("checked_by") or "?"
+        when = verdict.get("date") or "?"
+        return False, f"cleared by {who} on {when} ({len(verify)} verify item(s))"
+    ids = "، ".join(it["id"] for it in verify)
+    return True, f"REQUIRES-HUMAN-VERIFY uncleared ({ids}) — no human tick"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--handle", required=True)

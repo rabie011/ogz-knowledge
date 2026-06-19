@@ -20,7 +20,7 @@ from post_unit import chain_for
 # CD-brain routing now lives in a shared module (B035) so the angle stage can route
 # on the SAME logic without importing this heavy render module. Re-exported below for
 # backward-compat (R.route_brain / rcs.brain_method / m.route_brain consumers).
-from brain_router import BRAIN_FILES, route_brain, brain_method
+from brain_router import BRAIN_FILES, route_brain, brain_method, route_decision, log_routing_decision
 
 # Standing cross-brand worn bans (law: no_template_bleed) — ALSO the gold quarantine:
 # a gold entry carrying a banned formula must never reach few-shot, even before
@@ -791,7 +791,17 @@ def main():
     # B181: re-rank few-shot for THIS slot — occasion gold leads
     if c.get("gold_entries"):
         c["exemplars"] = rank_gold_exemplars(c["gold_entries"], slot.get("occasion"), c["exemplars"])
-    brain = route_brain(slot, alt=int(a.date.replace("-", "")) ) if a.brain == "auto" else a.brain
+    if a.brain == "auto":
+        _alt = int(a.date.replace("-", ""))
+        _decision = route_decision(slot, alt=_alt)
+        brain = _decision["primary"]
+        try:  # B051: observe every routing call — best-effort, never break a render
+            log_routing_decision({**_decision, "handle": a.handle, "date": a.date},
+                                 run_id=f"{a.handle}:{a.date}")
+        except Exception:
+            pass
+    else:
+        brain = a.brain
     angle = make_angle(c, slot, ymap["sector"], brain=brain)
     captions = render_captions(c, slot, angle)
     chain = chain_for(slot.get("formula", "CF_01"), ymap["sector"], slot.get("occasion", "evergreen"))

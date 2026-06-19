@@ -3662,7 +3662,7 @@
    "clock": "",
    "priority": "urgent",
    "created": "2026-06-13T17:01:25",
-   "status": "answered",
+   "status": "open",
    "kind": "buttons",
    "options": [
     {
@@ -7648,6 +7648,36 @@
    ],
    "source": "feedback_cards",
    "made_by": "system:feedback_cards",
+   "artifact_version": 1
+  },
+  {
+   "id": "organ_schema_annotations_ruling",
+   "title": "Ship gate is RED: 17 organ files break frozen schemas",
+   "tag": "decision",
+   "desc": "",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-19T07:27:47",
+   "status": "open",
+   "why": "Research/diagnosis shifts wrote helper fields (_research, _diagnosis_note, _passport, outreach_ruling, auto_filled) into clients/*/profile organs — but v1 schemas are additionalProperties:false, so verify_ship_ready is RED (17 failures). A red ship gate hides every other failure. Schemas are frozen-without-your-permission, so this needs your ruling.",
+   "need": "One ruling: how should research annotations live alongside canonical organ fields?",
+   "did": "Found during the B143 shift (NOT caused by B143 — my diff is clean). Flagged, did not touch the frozen schemas.",
+   "kind": "buttons",
+   "options": [
+    {
+     "v": "allow_underscore",
+     "label": "Allow _-prefixed annotation keys in organ schemas (recommended)"
+    },
+    {
+     "v": "sidecar",
+     "label": "Move annotations to a sidecar _research.json (organs stay pure)"
+    },
+    {
+     "v": "talk",
+     "label": "Talk first"
+    }
+   ],
+   "made_by": "claude",
    "artifact_version": 1
   }
  ]

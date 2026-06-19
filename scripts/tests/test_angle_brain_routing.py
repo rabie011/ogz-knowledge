@@ -29,8 +29,20 @@ class TestAngleBrainRouting(unittest.TestCase):
         self.assertEqual(b[0], "firaasa")
         self.assertNotEqual(b[0], "heritage")
 
-    def test_ramadan_routes_to_firaasa(self):
-        self.assertEqual(B.angle_brains("ramadan", "بارنز")[0], "firaasa")
+    def test_ramadan_routes_to_authenticity(self):
+        # B053 (June 19): ramadan now sourced from the provenance-backed YAML = authenticity-led
+        # (the old hardcode wrongly led with firaasa). angle_brains delegates to route_brain, so
+        # this is the SAME fix flowing through one router — no second drift.
+        self.assertEqual(B.angle_brains("ramadan", "بارنز")[0], "authenticity")
+
+    def test_sector_lock_purges_forbidden_brain_from_whole_batch(self):
+        # B053: healthcare_wellness forbids paradox — it must appear NOWHERE in the 6-angle batch
+        # (the angle path used to route without sector → paradox leaked at a later index).
+        for occ in ("ramadan", "national_day", "weekly_offer", "new_product"):
+            batch = B.angle_brains(occ, "شاورمر", sector="healthcare_wellness")
+            self.assertNotIn("paradox", batch, f"paradox leaked into {occ} batch for healthcare_wellness")
+        # without the sector, the daily/offer spread DOES still include paradox (proves the lock is what removes it)
+        self.assertIn("paradox", B.angle_brains("weekly_offer", "شاورمر"))
 
     def test_daily_batch_spreads_the_four_non_occasion_brains(self):
         b = B.angle_brains("weekly_offer", "شاورمر")

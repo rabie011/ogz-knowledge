@@ -11,7 +11,7 @@ Output: data/angle_cards/{brand}__{occasion}.json  ·  feeds /api/angles + the r
 import argparse, glob, json, os, re, sys, urllib.request
 from pathlib import Path
 import yaml
-from brain_router import route_brain, brain_method   # B041: route the FULL CD methodology, not one-liners
+from brain_router import route_brain, brain_method, load_router_rules   # B041/B053: route methodology + sector locks
 
 BASE = Path(__file__).parent.parent
 
@@ -31,21 +31,27 @@ def _has_arabic(s: str) -> bool:
     return any(ch in _AR for ch in (s or ""))
 
 
-def angle_brains(occasion: str, brand_ar: str = "", n: int = 6) -> list:
+def angle_brains(occasion: str, brand_ar: str = "", n: int = 6, sector: str = "") -> list:
     """Routed CD-brain spread for an angle batch (B041). Occasion batches foreground the
     occasion's brain (route_brain) — with render's heritage→firaasa guard when the brand has
     no Arabic root (RABIE: jurisha national-day drift) — then span the remaining range so the
     6 angles aren't one-brain (June 14 root: one-brain batches collapse to the brand-mean
-    formula). Daily/offer batches spread across all four non-occasion brains."""
+    formula). Daily/offer batches spread across all four non-occasion brains.
+
+    B053 (June 19): a sector's forbidden brains (sector_safety_locks) are removed from the WHOLE
+    batch, not just the lead — else healthcare_wellness would still see paradox at a later index
+    (the angle path was the write-only door: it routed without passing sector). Pass sector through."""
     occ = _OCC_KEYMAP.get(occasion, occasion)
+    forbidden = load_router_rules()["sector_safety_locks"].get(sector or "", [])
     if occ in _OCC_BRAINS:
-        primary = route_brain({"occasion": occ})
+        primary = route_brain({"occasion": occ, "sector": sector})
         if primary == "heritage" and not _has_arabic(brand_ar):
             primary = "firaasa"
         spread = [primary] + [b for b in ("firaasa", "authenticity", "metaphor", "paradox", "heritage")
                               if b != primary]
     else:
         spread = list(_DAILY)
+    spread = [b for b in spread if b not in forbidden] or spread   # never empty: fall back if all forbidden
     return [spread[i % len(spread)] for i in range(n)]
 
 
@@ -121,7 +127,7 @@ def angle_messages(pack: dict):
     """Build the (messages, brains) for the angle call — PURE, so B041's routing+method
     injection is testable without an API call. brains[i] is the CD brain angle i+1 is routed to;
     each routed brain's FULL methodology body is injected (the fix), with an angle→brain map."""
-    brains = angle_brains(pack["occasion"], pack.get("brand_ar", ""))
+    brains = angle_brains(pack["occasion"], pack.get("brand_ar", ""), sector=pack.get("sector", ""))
     uniq = list(dict.fromkeys(brains))
     methods = "\n\n".join(f"## {b} brain\n{brain_method(b)}" for b in uniq if brain_method(b))
     assign = " · ".join(f"angle {i + 1} → {b}" for i, b in enumerate(brains))

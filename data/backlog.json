@@ -596,7 +596,10 @@
    "who": "pair",
    "est_minutes": 15,
    "depends_on": [],
-   "status": "todo"
+   "status": "done",
+   "note": "June 19: route_decision() audit record + log_routing_decision() + routing_spread() READER (Rule #6) + wired into render_client_slot live path + 6 tests (257 OK). FOLLOW-UP: auto-gate routing_spread in make_sure/post_audit; build_angle_cards + taste_clause_ab call sites not yet logging.",
+   "done_by": "pair",
+   "done_ts": "2026-06-19"
   },
   {
    "id": "B052",
@@ -617,7 +620,8 @@
    "who": "pair",
    "est_minutes": 40,
    "depends_on": [],
-   "status": "todo"
+   "status": "done",
+   "done_note": "Wired brain_router.route_decision to load occasion_overrides + sector_safety_locks from cd_brain_router_rules.yaml (was a drifted hardcode: ramadan/eid_al_adha/national_day all mis-routed). Added _apply_sector_lock — healthcare_wellness now blocks paradox (real myfitness.sa gap). angle_brains delegates to route_brain so one router, no second drift. 5 new tests, 279 total green. NOT done: boost_factor/fingerprint soft-scoring (router is deterministic by design, Rule #9) — left as a separate question, not forced."
   },
   {
    "id": "B054",
@@ -1699,7 +1703,8 @@
    "who": "pair",
    "est_minutes": 20,
    "depends_on": [],
-   "status": "todo"
+   "status": "done",
+   "done_note": "publish BLOCK (Rule #8): publish_blocked() + record_tick() in visual_gate_checklist.py + visual_gate_publish_gate.py --enforce wired into verify_ship_ready. Re-derives verify items FRESH from slot (stale cached gate cannot hide a moonsighting land-mine — proven by test + the albaik Eid card). 66 planned moon/person cards correctly would-block; 0 publish-marked → green. 11 new tests, 268 total green."
   },
   {
    "id": "B144",
@@ -1722,7 +1727,8 @@
    "who": "pair",
    "est_minutes": 40,
    "depends_on": [],
-   "status": "todo"
+   "status": "done",
+   "done_note": "render_image.cultural_constraint_clause consumes clients/<h>/profile/cultural_overrides.json → hard render constraints; face_visibility:never→no human faces lands; absent=strictest; +6 tests (test_render_cultural_constraints). RABIE orchestra shift 2026-06-19."
   },
   {
    "id": "B146",
@@ -3272,73 +3278,26 @@
    ],
    "origin": "rabie_shift_2026-06-19 whats_missing (B267 verdict 4/5)",
    "done_note": "taste_shadow_metric.py reader over taste_shadow_log.jsonl: mean order_diff + active-vs-random gap, REFUSES aggregate below FLOOR=5 runs (Rule #9). shadow_entry extended with baseline control so order_diff stays advisory-vs-baseline after gate flips (B268 control). 13 new tests, 242 suite green."
+  },
+  {
+   "id": "B053b",
+   "layer": "L3 Machines",
+   "who": "pair",
+   "est_minutes": 20,
+   "depends_on": [
+    "B053"
+   ],
+   "status": "todo",
+   "what": "Wire sector into the RENDER door's route_decision (render_client_slot.py:796)",
+   "how": "render_client_slot route_decision(slot) is called without slot['sector'] → the B053 sector safety-lock never fires on the render path (only the angle path is wired). Resolve the client's sector from logs/brand_dna/{handle}.json (myfitness.sa=healthcare_wellness) and inject into slot before route_decision so healthcare slots can't render on paradox. Add a render-path test."
   }
  ],
  "counts": {
-  "total": 264,
-  "pair": 220,
-  "mohamed_must": 44,
-  "raw_steps_swept": 442,
-  "merged_away": 178,
-  "est_minutes_total": 6920,
-  "est_minutes_pair": 6460,
-  "est_minutes_mohamed": 460,
-  "by_layer": {
-   "L1 Laws": {
-    "total": 3,
-    "pair": 3,
-    "mohamed_must": 0,
-    "est_minutes": 55
-   },
-   "L2 Organs": {
-    "total": 17,
-    "pair": 17,
-    "mohamed_must": 0,
-    "est_minutes": 350
-   },
-   "L3 Machines": {
-    "total": 46,
-    "pair": 44,
-    "mohamed_must": 2,
-    "est_minutes": 1180
-   },
-   "L4 Bedrock": {
-    "total": 37,
-    "pair": 36,
-    "mohamed_must": 1,
-    "est_minutes": 815
-   },
-   "Immune System": {
-    "total": 32,
-    "pair": 25,
-    "mohamed_must": 7,
-    "est_minutes": 730
-   },
-   "Flanks": {
-    "total": 43,
-    "pair": 33,
-    "mohamed_must": 10,
-    "est_minutes": 970
-   },
-   "Spine": {
-    "total": 45,
-    "pair": 27,
-    "mohamed_must": 18,
-    "est_minutes": 2115
-   },
-   "Eyes-test": {
-    "total": 3,
-    "pair": 1,
-    "mohamed_must": 2,
-    "est_minutes": 85
-   },
-   "Ops & Memory": {
-    "total": 38,
-    "pair": 34,
-    "mohamed_must": 4,
-    "est_minutes": 620
-   }
-  },
-  "todo": 106
+  "done": 167,
+  "superseded": 2,
+  "todo": 102,
+  "skipped": 5,
+  "staged": 2,
+  "open": 3
  }
 }

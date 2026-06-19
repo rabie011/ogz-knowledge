@@ -202,6 +202,18 @@ try:
 except Exception as e:
     check("Events-wired audit", False, str(e))
 
+# B143 (June 19): the visual-gate PUBLISH BLOCK — a card carrying a REQUIRES-HUMAN-VERIFY
+# item (moonsighting B048 / real-person-named B144) may not be MARKED for publish without a
+# human tick (Rule #8 refuse, Rule #6 consumer). Re-derives fresh from the slot so a stale
+# cached gate can't hide a land-mine. 0 marked today → green; bites the moment one is marked.
+try:
+    r = subprocess.run([sys.executable, str(Path(__file__).parent / "visual_gate_publish_gate.py"), "--enforce"],
+                       capture_output=True, text=True, timeout=120)
+    check("Visual-gate publish block (no marked card w/o human tick)", r.returncode == 0,
+          (r.stdout or "").strip().splitlines()[-1][:80])
+except Exception as e:
+    check("Visual-gate publish block", False, str(e))
+
 # Summary
 print(f"\n{'=' * 60}")
 if failures:

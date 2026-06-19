@@ -34,8 +34,45 @@ def spent_this_batch() -> int:
                if l.strip() and json.loads(l).get("day") == today)
 
 
-def chain_image_prompt(card: dict) -> str:
-    """The durable prompt: chain's visual language + the post's concrete scene."""
+def _load_cultural_overrides(handle: str) -> dict:
+    """Read the client's cultural_overrides organ — the READER for B145's render constraints
+    (Rule #6: a red-line written with no consumer is a lie that looks like safety)."""
+    f = BASE / "clients" / handle / "profile/cultural_overrides.json"
+    if f.exists():
+        try:
+            return json.loads(f.read_text())
+        except Exception:
+            return {}
+    return {}
+
+
+def cultural_constraint_clause(ov: dict) -> str:
+    """B145 — map the client's cultural red-line organ → HARD render-prompt constraint strings
+    appended pre-fal.ai. The organ's own law (cultural_overrides._law): 'absent field = strictest
+    governs'. So a missing value is read as the MOST conservative option — the renderer never
+    relaxes a constraint the client never relaxed. (Replaces the old generic 'no faces unless
+    scene demands', which silently PERMITTED faces — a leak for a face_visibility:never brand.)"""
+    parts = []
+    face = str(ov.get("face_visibility") or "never").lower()
+    if face == "never":
+        parts.append("no human faces, no recognizable people")
+    elif face in ("limited", "partial", "incidental"):
+        parts.append("faces only incidental and out of focus, never the subject")
+    # face in ("allowed", "yes", "ok") → no face constraint (client explicitly relaxed)
+    mg = str(ov.get("mixed_gender_scenes") or "none").lower()
+    if mg in ("none", "never", "separate", "segregated"):
+        parts.append("no mixed-gender scenes")
+    elif mg in ("family-only-mixing", "family-only", "family_only"):
+        parts.append("no unrelated mixed-gender interaction")
+    mod = str(ov.get("modesty_dress") or "conservative").lower()
+    if mod == "conservative":
+        parts.append("conservative modest dress, no exposed skin")
+    return ("CULTURAL CONSTRAINTS: " + "; ".join(parts) + ".") if parts else ""
+
+
+def chain_image_prompt(card: dict, overrides: dict | None = None) -> str:
+    """The durable prompt: chain's visual language + the post's concrete scene + the client's
+    cultural constraints (B145). overrides defaults to {} → strictest (per the organ law)."""
     chain_ref = (card.get("visual") or {}).get("pro_chain") or {}
     chain_block = ""
     cid = chain_ref.get("id")
@@ -53,11 +90,13 @@ def chain_image_prompt(card: dict) -> str:
                                         ("style", "lighting", "composition", "camera", "mood") if ip.get(k))[:600]
     scene = (card.get("idea") or {}).get("scene_ar", "")
     shots = (card.get("visual") or {}).get("phone_shoot_card") or []
+    cultural = cultural_constraint_clause(overrides if overrides is not None else {})
     return (f"Authentic Saudi lifestyle photograph. Scene: {scene[:300]}. "
             f"Visual details: {' '.join(shots)[:300]}. "
             + (f"Style: {chain_block}. " if chain_block else "")
-            + "Natural light, real textures, no text overlay, no faces unless scene demands, "
-              "conservative modest styling, photorealistic, shot on phone aesthetic.")
+            + "Natural light, real textures, no text overlay, photorealistic, "
+              "shot on phone aesthetic. "
+            + cultural)
 
 
 # B141 (Mohamed's case_by_case ruling, code-enforced): AI may never FAKE the
@@ -104,7 +143,8 @@ def render(card_path: str) -> str | None:
         print("NO FAL KEY — staged only (image_prompt saved to card)")
         key = None
     card = json.loads(open(card_path).read())
-    prompt = chain_image_prompt(card)
+    handle = Path(card_path).resolve().parent.parent.name
+    prompt = chain_image_prompt(card, _load_cultural_overrides(handle))
     card.setdefault("visual", {})["image_prompt"] = prompt
     hit = product_imagery_hit(card, card_path)
     if hit:

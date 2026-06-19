@@ -58,12 +58,38 @@ def _founder_kill_vocab() -> set:
     return {_norm(k.get("name")) for k in d.get("kills", []) if k.get("name")}
 
 
+def load_crosswalk(founder_kills: set) -> dict:
+    """The CONFIRMED reason_code → founder-kill translation (B083 severed-wire fix).
+
+    The three live reason_code vocabularies (portal answers, client-ledger events, founder
+    kills) are disjoint, so a kill never propagates by raw-name match. This returns ONLY the
+    entries Mohamed has CONFIRMED (status=='confirmed') whose target is a real founder-kill
+    slug — proposals and nulls translate to nothing (Rule #12: we never author taste; his tap
+    flips a proposal to confirmed). Empty until he taps → propagation stays an honest 0."""
+    path = BASE / "data/reason_code_crosswalk.json"
+    if not path.exists():
+        return {}
+    try:
+        rows = json.loads(path.read_text()).get("map", [])
+    except Exception:
+        return {}
+    out = {}
+    for r in rows:
+        if r.get("status") != "confirmed":
+            continue
+        code = _norm(r.get("code"))
+        kill = _norm(r.get("proposed_kill"))
+        if code and kill and kill in founder_kills:
+            out[code] = kill
+    return out
+
+
 def _change_key(handle: str, kind: str, subject: str) -> str:
     raw = f"{handle}|{kind}|{subject}"
     return hashlib.sha1(raw.encode("utf-8")).hexdigest()[:16]
 
 
-def derive(events, truth_pack: dict, taste: dict, founder_kills: set):
+def derive(events, truth_pack: dict, taste: dict, founder_kills: set, crosswalk: dict | None = None):
     """PURE core — no IO, no clock. Returns (new_truth_pack, new_taste, changes).
 
     Deterministic and idempotent: it re-derives the additions from the full event list,
@@ -72,6 +98,7 @@ def derive(events, truth_pack: dict, taste: dict, founder_kills: set):
     """
     tp = json.loads(json.dumps(truth_pack))   # deep copy — never mutate caller's dict
     ts = json.loads(json.dumps(taste))
+    crosswalk = crosswalk or {}
     changes = []
 
     candidates = tp.setdefault("product_candidates", [])
@@ -108,12 +135,17 @@ def derive(events, truth_pack: dict, taste: dict, founder_kills: set):
                 changes.append({"kind": "truth_confirmed", "subject": subj,
                                 "confirmer": ev.get("confirmer")})
 
-        # 2. taste kills propagation: a STRUCTURED reason_code that is a known founder kill
+        # 2. taste kills propagation: a STRUCTURED reason_code that is — directly OR via the
+        #    CONFIRMED crosswalk — a known founder kill. The crosswalk translates the live
+        #    verdict vocabularies (too_generic, cliche, ...) into founder-kill slugs; without
+        #    it the wire is severed (B083), because the vocabularies are disjoint.
         rc = _norm(ev.get("reason_code"))
-        if rc and rc in founder_kills and rc not in kills:
-            kills.append(rc)
-            changes.append({"kind": "kill_propagated", "subject": rc,
-                            "confirmer": ev.get("confirmer")})
+        mapped = rc if rc in founder_kills else crosswalk.get(rc)
+        if mapped and mapped in founder_kills and mapped not in kills:
+            kills.append(mapped)
+            changes.append({"kind": "kill_propagated", "subject": mapped,
+                            "confirmer": ev.get("confirmer"),
+                            "via": ("crosswalk:" + rc) if mapped != rc else "direct"})
 
     return tp, ts, changes
 
@@ -151,8 +183,9 @@ def replay_client(handle: str, dry_run: bool = False) -> dict:
     truth_pack = json.loads(tp_path.read_text())
     taste = json.loads(taste_path.read_text())
     founder_kills = _founder_kill_vocab()
+    crosswalk = load_crosswalk(founder_kills)
 
-    new_tp, new_taste, changes = derive(events, truth_pack, taste, founder_kills)
+    new_tp, new_taste, changes = derive(events, truth_pack, taste, founder_kills, crosswalk)
     if dry_run or not changes:
         return {"handle": handle, "changes": changes, "wrote": False}
 

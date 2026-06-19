@@ -479,6 +479,49 @@ def h_v37_direction(b: Path, row: dict) -> str:
     return f"v3.7 direction recorded: {ans} → {meaning}"
 
 
+def h_crosswalk_confirm(b: Path, row: dict) -> str:
+    """B083c — Mohamed's tap on the reason_code crosswalk card (A-47) is the gate that
+    UNSEVERS the writeback kill-wire (B083/B083b). His confirm flips proposed→confirmed in
+    data/reason_code_crosswalk.json; load_crosswalk() then propagates the translated kills.
+    Until this tap every entry stays 'proposed' and propagation is an honest 0 (Rule #12 —
+    we never author taste; his tap is the only thing that flips a proposal).
+
+    answer 'reject' → confirms nothing, records his call. answer 'confirm_all' → flips every
+    proposed entry that carries a real proposed_kill (null-target codes like tone_off/off_brief
+    can never confirm — they have no kill to map to). An optional row['confirm_codes'] list
+    restricts the flip to those codes (granular taste). Idempotent: already-confirmed rows are
+    left untouched. Self-audit: asserts the flip is on disk before claiming applied."""
+    ans = row.get("answer", "")
+    path = b / "data/reason_code_crosswalk.json"
+    if not path.exists():
+        raise RuntimeError("no data/reason_code_crosswalk.json to confirm")
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    rows = doc.get("map", [])
+    ts = row.get("ts") or datetime.now().isoformat(timespec="seconds")
+    if ans == "reject":
+        doc.setdefault("_meta", {})["stamp"] = f"REJECTED — Mohamed declined {ts} (all entries stay proposed)"
+        path.write_text(json.dumps(doc, ensure_ascii=False, indent=2))
+        return "crosswalk rejected — all entries stay proposed, kill-wire propagates an honest 0 (his call recorded)"
+    only = row.get("confirm_codes")  # optional granular subset; None = confirm_all
+    flipped = []
+    for r in rows:
+        if r.get("status") != "proposed" or not r.get("proposed_kill"):
+            continue  # already confirmed, or null-target (no kill to map to)
+        if only and r.get("code") not in only:
+            continue
+        r["status"], r["confirmer"], r["ts"] = "confirmed", "mohamed", ts
+        flipped.append(r["code"])
+    doc.setdefault("_meta", {})["stamp"] = f"CONFIRMED — Mohamed tapped {ts} ({len(flipped)} mappings live)"
+    path.write_text(json.dumps(doc, ensure_ascii=False, indent=2))
+    # self-audit (Rule #11): the flip MUST be on disk before we claim it applied
+    confirmed_now = {r["code"] for r in json.loads(path.read_text(encoding="utf-8")).get("map", [])
+                     if r.get("status") == "confirmed"}
+    missing = [c for c in flipped if c not in confirmed_now]
+    if missing:
+        raise RuntimeError(f"crosswalk flip not on disk for {missing}")
+    return f"crosswalk confirmed {len(flipped)} mappings: {flipped} → kill-wire now propagates"
+
+
 PREFIX_HANDLERS = {
     ("ratify2_", "ratify"): h_recipe_verdict,
     ("ratify2_", "kill"): h_recipe_verdict,
@@ -525,6 +568,8 @@ HANDLERS = {
     ("v37_alignment_summary", "phoneshoot_batch"): h_v37_direction,
     ("v37_alignment_summary", "render_now"): h_v37_direction,
     ("v37_alignment_summary", "confirm_first"): h_v37_direction,
+    ("reason_code_crosswalk_0619", "confirm_all"): h_crosswalk_confirm,  # B083c — flips proposed→confirmed
+    ("reason_code_crosswalk_0619", "reject"): h_crosswalk_confirm,
 }
 
 

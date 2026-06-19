@@ -7729,6 +7729,34 @@
    ],
    "made_by": "claude",
    "artifact_version": 1
+  },
+  {
+   "id": "reason_code_crosswalk_0619",
+   "title": "Confirm the reason-code → kill translation (unlocks retroactive auto-kill)",
+   "tag": "Wire",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-19T14:54:53",
+   "status": "open",
+   "kind": "buttons",
+   "judge_lane": false,
+   "lane": "strategy",
+   "why": "Your past verdicts use different words than the kill-list, so none of them ever auto-blocked future posts. These 4 translations close that gap — confirm them and every matching past verdict starts killing the pattern, across all 3 pilots.",
+   "need": "Confirm these 4 translations, or reject:\n  1. too_generic  →  very_normal\n  2. factual_error  →  service_claim_unverified\n  3. cliche  →  generic_celebration_template\n  4. weak_hook  →  weak_tail",
+   "did": "Built the crosswalk + the tap-handler (B083b/c, +16 tests). It ships ALL-PROPOSED — propagates ZERO until you tap, so nothing moves on a guess (Rule #12). Your tap is the only thing that flips it live.",
+   "options": [
+    {
+     "v": "confirm_all",
+     "label": "✅ Confirm all 4",
+     "rec": true
+    },
+    {
+     "v": "reject",
+     "label": "🗑 Reject"
+    }
+   ],
+   "made_by": "system:apply_rulings",
+   "artifact_version": 1
   }
  ]
 }

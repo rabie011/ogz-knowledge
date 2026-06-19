@@ -297,3 +297,11 @@ PREPARED (verified + inlined): both files on disk in `11_who_to_learn_from/`:
 Quarantine path available (90-day soft rule).
 YOUR TAP: «DELETE APPROVED» or «quarantine».
 (backlog B260 · Ops & Memory · ~5 min)
+
+### A-47 Confirm the reason-code → kill crosswalk (UNLOCKS auto-learning from your verdicts)
+PREPARED (verified + built this shift): the WIRE is live and tested — `data/reason_code_crosswalk.json` (organ) + `writeback_replay.load_crosswalk()`/`derive()` + B083 detector, all crosswalk-aware (10 new tests, 341 green). Root found: your verdict reasons and the founder-kill vocab are THREE disjoint languages, so none of your 12 rejects ever taught the machine a kill (B083: all 3 pilots `severed`). The crosswalk is the translation. It ships ALL-PROPOSED → propagates 0 until you confirm (Rule #12: we don't author your taste). Proposed mappings for your eye:
+- `too_generic` → **very_normal** · `cliche` → **generic_celebration_template** · `weak_hook` → **weak_tail** · `factual_error` → **service_claim_unverified**
+- `tone_off` / `off_brief` / `too_long` / `cultural_red_line` → no kill proposed (you name them or leave none)
+TO-PREP (honest): the one-TAP handler that flips a row proposed→confirmed on your answer is NOT built yet — next we-can-do step. Until then you confirm by a word here and the pair flips the rows (then every matching verdict auto-kills, retroactively).
+YOUR TAP: «confirm the 4» / pick which / «hold».
+(backlog B083b · L3 Machines / writeback · ~10 min · wire DONE, handler next)

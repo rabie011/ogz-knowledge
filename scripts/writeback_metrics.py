@@ -39,7 +39,7 @@ BASE = Path(__file__).parent.parent
 
 # reuse B082's exact human-verdict criterion so "confirmed_verdicts" here == what the
 # replay would act on (no second, drifting definition of "confirmed").
-from writeback_replay import _is_confirmed, _norm, _founder_kill_vocab  # noqa: E402
+from writeback_replay import _is_confirmed, _norm, _founder_kill_vocab, load_crosswalk  # noqa: E402
 
 ALARM_STATUSES = {"stalled", "severed"}
 
@@ -55,15 +55,21 @@ def _ev_date(ev: dict):
     return None
 
 
-def _is_feedable(ev: dict, founder_kills: set) -> bool:
-    """True iff writeback_replay.derive() could act on this confirmed event."""
+def _is_feedable(ev: dict, founder_kills: set, crosswalk: dict | None = None) -> bool:
+    """True iff writeback_replay.derive() could act on this confirmed event — a reason_code
+    counts when it is a founder-kill slug directly OR translates to one via the CONFIRMED
+    crosswalk (mirrors derive()'s exact rule, so the detector never claims feedable for
+    something the replay would skip)."""
     if _norm(ev.get("type")) == "truth_confirmed" and _norm(ev.get("subject")):
         return True
     rc = _norm(ev.get("reason_code"))
-    return bool(rc and rc in founder_kills)
+    if not rc:
+        return False
+    return rc in founder_kills or rc in (crosswalk or {})
 
 
-def diagnose(ledger_events, writeback_events, founder_kills, now=None, window_days=60):
+def diagnose(ledger_events, writeback_events, founder_kills, now=None, window_days=60,
+             crosswalk=None):
     """PURE core — no IO. Returns the per-client metric dict.
 
     `now` is a date (defaults to today); window_days bounds the promotion-recency check.
@@ -72,7 +78,7 @@ def diagnose(ledger_events, writeback_events, founder_kills, now=None, window_da
     now = now or datetime.now(timezone.utc).date()
 
     confirmed = [e for e in ledger_events if _is_confirmed(e)]
-    feedable = [e for e in confirmed if _is_feedable(e, founder_kills)]
+    feedable = [e for e in confirmed if _is_feedable(e, founder_kills, crosswalk)]
 
     by_kind = {}
     promos_in_window = 0
@@ -125,7 +131,9 @@ def diagnose_client(handle: str, now=None, window_days=60) -> dict:
     ledger = _load_jsonl(cdir / "ledger.jsonl")
     writeback = _load_jsonl(cdir / "writeback.jsonl")
     founder_kills = _founder_kill_vocab()
-    r = diagnose(ledger, writeback, founder_kills, now=now, window_days=window_days)
+    crosswalk = load_crosswalk(founder_kills)
+    r = diagnose(ledger, writeback, founder_kills, now=now, window_days=window_days,
+                 crosswalk=crosswalk)
     r["handle"] = handle
     return r
 

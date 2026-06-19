@@ -1,0 +1,20 @@
+{
+  "_meta": {
+    "purpose": "The crosswalk between the LIVE verdict reason_code vocabularies and the founder-kill vocab the writeback loop (B082) consumes. Root cause of the SEVERED wire (B083): three disjoint vocabularies never meet — portal answers speak {cliche,weak_hook,tone_off,off_brief,too_long,cultural_red_line}; client ledger events speak {too_generic,factual_error}; founder_taste.json kills speak {generic_celebration_template,very_normal,...}. A kill can only propagate when a ledger event's reason_code IS a founder-kill slug — which never happens without this translation.",
+    "law": "Rule #6 (a writer needs a reader) + Rule #12 (the system/Mohamed owns taste, we do not author it). Entries are PROVISIONAL proposals until Mohamed confirms; ONLY status=='confirmed' entries whose kill is a real founder-kill slug are ever consumed. proposed/null entries propagate NOTHING.",
+    "consumed_by": "writeback_replay.derive() (crosswalk arg) + writeback_metrics._is_feedable()",
+    "confirmed_by_card": "decision_queue id=reason_code_crosswalk_0619",
+    "updated": "2026-06-19",
+    "stamp": "PROVISIONAL — proposals await Mohamed's tap"
+  },
+  "map": [
+    {"code": "too_generic",       "source": "ledger",  "proposed_kill": "very_normal",                    "status": "proposed", "confirmer": null, "ts": null},
+    {"code": "factual_error",     "source": "ledger",  "proposed_kill": "service_claim_unverified",       "status": "proposed", "confirmer": null, "ts": null},
+    {"code": "cliche",            "source": "portal",  "proposed_kill": "generic_celebration_template",   "status": "proposed", "confirmer": null, "ts": null},
+    {"code": "weak_hook",         "source": "portal",  "proposed_kill": "weak_tail",                      "status": "proposed", "confirmer": null, "ts": null},
+    {"code": "tone_off",          "source": "portal",  "proposed_kill": null,                             "status": "proposed", "confirmer": null, "ts": null},
+    {"code": "off_brief",         "source": "portal",  "proposed_kill": null,                             "status": "proposed", "confirmer": null, "ts": null},
+    {"code": "too_long",          "source": "portal",  "proposed_kill": null,                             "status": "proposed", "confirmer": null, "ts": null},
+    {"code": "cultural_red_line", "source": "portal",  "proposed_kill": null,                             "status": "proposed", "confirmer": null, "ts": null}
+  ]
+}

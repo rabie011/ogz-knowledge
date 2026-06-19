@@ -3304,12 +3304,38 @@
    "status": "todo",
    "what": "Wire sector into the RENDER door's route_decision (render_client_slot.py:796)",
    "how": "render_client_slot route_decision(slot) is called without slot['sector'] → the B053 sector safety-lock never fires on the render path (only the angle path is wired). Resolve the client's sector from logs/brand_dna/{handle}.json (myfitness.sa=healthcare_wellness) and inject into slot before route_decision so healthcare slots can't render on paradox. Add a render-path test."
+  },
+  {
+   "id": "B083b",
+   "layer": "L3 Machines / writeback",
+   "what": "reason_code → founder-kill crosswalk organ + resolver (the severed-wire FIX): translate the 3 disjoint verdict vocabularies so confirmed maps let kills propagate",
+   "how": "data/reason_code_crosswalk.json (all-proposed) + writeback_replay.load_crosswalk/derive + B083 detector crosswalk-aware; 10 tests",
+   "who": "pair",
+   "est_minutes": 30,
+   "depends_on": [
+    "B083"
+   ],
+   "status": "done",
+   "done_note": "2026-06-19: 341 green; real-data honest 0 (all proposed); A-47 staged for Mohamed to confirm mappings"
+  },
+  {
+   "id": "B083c",
+   "layer": "L3 Machines / writeback",
+   "what": "crosswalk-confirm tap handler: Mohamed answer (A-47) flips proposed→confirmed in reason_code_crosswalk.json; then writeback_replay re-run auto-kills retroactively",
+   "how": "feedback_router or queue handler consumes the crosswalk answer + sets status/confirmer/ts; test the flip + propagation end-to-end",
+   "who": "pair",
+   "est_minutes": 20,
+   "depends_on": [
+    "B083b"
+   ],
+   "status": "done",
+   "done_note": "crosswalk-confirm tap handler (apply_rulings.h_crosswalk_confirm) — his confirm_all/reject flips proposed→confirmed, end-to-end propagation proven (+6 tests). A-47 staged to portal (Rule #7 satisfied: every answer has a reader)."
   }
  ],
  "counts": {
-  "done": 172,
+  "done": 173,
   "superseded": 3,
-  "todo": 97,
+  "todo": 98,
   "skipped": 4,
   "staged": 2,
   "open": 3

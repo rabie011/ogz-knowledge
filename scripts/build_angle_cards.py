@@ -11,7 +11,7 @@ Output: data/angle_cards/{brand}__{occasion}.json  ·  feeds /api/angles + the r
 import argparse, glob, json, os, re, sys, urllib.request
 from pathlib import Path
 import yaml
-from brain_router import route_brain, brain_method, load_router_rules   # B041/B053: route methodology + sector locks
+from brain_router import route_decision, brain_method, load_router_rules   # B041/B053/B056: route methodology + sector locks + two-CD pair
 
 BASE = Path(__file__).parent.parent
 
@@ -44,11 +44,22 @@ def angle_brains(occasion: str, brand_ar: str = "", n: int = 6, sector: str = ""
     occ = _OCC_KEYMAP.get(occasion, occasion)
     forbidden = load_router_rules()["sector_safety_locks"].get(sector or "", [])
     if occ in _OCC_BRAINS:
-        primary = route_brain({"occasion": occ, "sector": sector})
-        if primary == "heritage" and not _has_arabic(brand_ar):
-            primary = "firaasa"
-        spread = [primary] + [b for b in ("firaasa", "authenticity", "metaphor", "paradox", "heritage")
-                              if b != primary]
+        # B056 (June 19): foreground the occasion's PROVENANCE-BACKED two-CD pair — route_decision's
+        # primary AND its YAML secondary — as angles #1+#2 (the anti-sameness diagnostic pair), THEN
+        # span the rest of the range. route_brain returned only the primary, so a FIXED spread list put
+        # firaasa at #2 and the YAML's deliberate secondary (national_day→heritage+METAPHOR,
+        # ramadan→authenticity+HERITAGE) was discarded — the intended pairing never reached the angles.
+        dec = route_decision({"occasion": occ, "sector": sector})
+        primary, secondary = dec["primary"], dec.get("secondary")
+        # render's heritage→firaasa guard (brand has no Arabic root) — applied to BOTH lead brains
+        if not _has_arabic(brand_ar):
+            if primary == "heritage":
+                primary = "firaasa"
+            if secondary == "heritage":
+                secondary = "firaasa"
+        lead = list(dict.fromkeys(b for b in (primary, secondary) if b))   # distinct, order-preserving
+        spread = lead + [b for b in ("firaasa", "authenticity", "metaphor", "paradox", "heritage")
+                         if b not in lead]
     else:
         spread = list(_DAILY)
     spread = [b for b in spread if b not in forbidden] or spread   # never empty: fall back if all forbidden

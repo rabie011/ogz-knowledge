@@ -35,6 +35,23 @@ class TestAngleBrainRouting(unittest.TestCase):
         # this is the SAME fix flowing through one router — no second drift.
         self.assertEqual(B.angle_brains("ramadan", "بارنز")[0], "authenticity")
 
+    def test_secondary_brain_leads_at_position_two(self):
+        # B056 (June 19): the occasion's PROVENANCE-BACKED two-CD pair (route_decision primary AND
+        # YAML secondary) must lead the batch as angles #1+#2 — the anti-sameness diagnostic pair.
+        # The old code took only route_brain's primary then a FIXED list that put firaasa at #2,
+        # discarding the YAML's deliberate secondary. Lock the real pairing reaches angle #2.
+        self.assertEqual(B.angle_brains("national_day", "شاورمر")[1], "metaphor")   # heritage+METAPHOR
+        self.assertEqual(B.angle_brains("ramadan", "بارنز")[1], "heritage")          # authenticity+HERITAGE
+        self.assertEqual(B.angle_brains("eid_al_adha", "بارنز")[1], "authenticity")  # heritage+AUTHENTICITY
+
+    def test_heritage_secondary_demotes_without_arabic_root(self):
+        # the heritage→firaasa Arabic-root guard applies to the SECONDARY too: ramadan's YAML
+        # secondary is heritage, but a brand with no Arabic root must not get heritage in the lead
+        # pair (it would fall back to firaasa when there's no root material to decode).
+        b = B.angle_brains("ramadan", "")
+        self.assertEqual(b[0], "authenticity")
+        self.assertEqual(b[1], "firaasa")
+
     def test_sector_lock_purges_forbidden_brain_from_whole_batch(self):
         # B053: healthcare_wellness forbids paradox — it must appear NOWHERE in the 6-angle batch
         # (the angle path used to route without sector → paradox leaked at a later index).

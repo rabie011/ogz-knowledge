@@ -999,10 +999,11 @@
    "depends_on": [
     "B082"
    ],
-   "status": "todo",
+   "status": "done",
    "pair_notes": [
     "depends on B082 — see B082 pair_notes (writeback largely already realized via parked_rulings->truth_guards; re-scope before building)."
-   ]
+   ],
+   "done_note": "writeback_metrics.py — promotion counter + severed-wire detector (consumer for B082 writeback.jsonl, Rule #6). 11 tests. Eyes: all 3 active pilots SEVERED (4 confirmed verdicts each, 0 feedable) — surfaces the real bedrock: the emit path is unwired. Report-only (no portal flood, no chronic make_sure red)."
   },
   {
    "id": "B084",
@@ -3306,9 +3307,9 @@
   }
  ],
  "counts": {
-  "done": 171,
+  "done": 172,
   "superseded": 3,
-  "todo": 98,
+  "todo": 97,
   "skipped": 4,
   "staged": 2,
   "open": 3

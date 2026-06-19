@@ -18,6 +18,19 @@ def count_cards() -> int:
     return len(glob.glob(str(BASE / "clients/*/posts/*.json")))
 
 
+def taste_wire_surface(tw: dict) -> dict:
+    """Pure mapping of a taste_shadow_metric.metric() dict → the `_taste_wire_*` keys make_sure
+    surfaces. Extracted so the Rule #9 invariant is unit-testable without running the live heartbeat:
+    a numeric gap is exposed ONLY when status==OK — while INSUFFICIENT, status + n_runs/floor only,
+    NEVER a number. (B266-268, Rule #6/#9.)"""
+    out = {"_taste_wire_status": tw["status"],
+           "_taste_wire_runs": f"{tw['n_runs']}/{tw['floor']}"}
+    if tw["status"] == "OK":
+        out["_taste_wire_gap"] = tw.get("active_vs_random_gap")
+        out["_taste_wire_control_independent"] = tw.get("control_independent")
+    return out
+
+
 def main():
     now = time.strftime("%Y-%m-%dT%H:%M:%S")
     prev = json.loads(STATE.read_text()) if STATE.exists() else {}
@@ -227,6 +240,34 @@ def main():
     except Exception as e:
         checks["_bridge_status_err"] = str(e)[:60]
 
+    # 6e. INTEL-CONSUMER HEALTH (Rule #6): readers that .get() keys dropped from intelligence_layer.json
+    # silently receive {} — the brief engine's PRIMARY block ran EMPTY through the live enricher for
+    # many commits with NO ALARM (the exact rot 3 RABIE zoom-outs in a row named). Surface the count as
+    # a VISIBLE number — informational, NOT a gate: resolution is gated on Mohamed's B057c fork
+    # (rewire-vs-strip), so a refuse would pre-judge it (Rule #8 is for hard gates, this is visibility).
+    # A rising count is the alarm we never had; it auto-closes to 0 once the reads are rewired/stripped.
+    try:
+        import intel_consumer_health
+        _orph = intel_consumer_health.orphaned_intel_reads()
+        checks["_orphaned_intel_reads"] = len(_orph)
+        checks["_orphaned_intel_files"] = sorted({r["file"] for r in _orph}) or None
+    except Exception as e:
+        checks["_orphaned_intel_err"] = str(e)[:60]
+
+    # 6f. TASTE→CREATION WIRE — measurement progress (B266-268, Rule #6/#9). The wire is built end to
+    # end: produce_batch appends one divergence record per run → taste_shadow_metric reads them and
+    # computes active-vs-baseline displacement, REFUSING any aggregate below FLOOR distinct runs. That
+    # reader exists but the HEARTBEAT the orchestra reads every fire never surfaced it — so the wire's
+    # proof filling toward the FLOOR was invisible, and a one-run/one-tap-away wait could read as a
+    # stall (this is the named-priority wire when live picks >= 10). Surface status + n_runs/floor;
+    # quote the active_vs_random gap ONLY when status==OK — never a number while INSUFFICIENT (Rule #9).
+    # Informational, NOT a gate: filling the FLOOR is a HOLD on more produce runs + his taps.
+    try:
+        import taste_shadow_metric
+        checks.update(taste_wire_surface(taste_shadow_metric.metric()))
+    except Exception as e:
+        checks["_taste_wire_err"] = str(e)[:60]
+
     ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "portal_items_ok", "commits_flowing", "judge_cards_gated", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests", "immune_suite", "deadly_defaults", "events_wired", "visual_gate_publish"))
     entry = {"ts": now, **checks, "verdict": "ALIVE" if ok else "ALARM"}
     with open(LOG, "a") as f:
@@ -243,6 +284,26 @@ def main():
         print(research_open.summary_line())
     except Exception:
         pass
+    # SURFACE the intel-consumer rot honestly (the generic check-print shows ✅ for any non-bool, which
+    # would mislabel a >0 orphan count as green). One line, no card, no flood — gated on B057c.
+    _oc = checks.get("_orphaned_intel_reads")
+    if _oc:
+        print(f"⚠️  {_oc} orphaned intel reads in {len(checks.get('_orphaned_intel_files') or [])} "
+              f"reader(s) ({', '.join(checks.get('_orphaned_intel_files') or [])}) — keys dropped from "
+              f"intelligence_layer.json, silently read as empty (Rule #6; resolution gated on B057c fork)")
+    elif _oc == 0:
+        print("✅ intel-consumer health: 0 orphaned reads")
+
+    # SURFACE the taste→creation wire's measurement honestly (the generic ✅-for-any-non-bool print
+    # would green-wash an INSUFFICIENT status). One line, no card: a HOLD on produce runs + his taps.
+    _tws = checks.get("_taste_wire_status")
+    if _tws == "INSUFFICIENT":
+        print(f"⏳ taste→creation wire: {checks.get('_taste_wire_runs')} distinct runs — INSUFFICIENT, "
+              f"no number quoted (Rule #9; awaits more produce runs + his bridge taps)")
+    elif _tws == "OK":
+        print(f"📈 taste→creation wire: {checks.get('_taste_wire_runs')} runs · "
+              f"active_vs_random_gap={checks.get('_taste_wire_gap')} "
+              f"(control_independent={checks.get('_taste_wire_control_independent')})")
 
     # ONE reusable alarm card (dedupe) — a persistent red must NOT flood his phone with
     # a new card every cycle (June 13: 20 stacked alarm cards = noise, ADHD-contract breach).

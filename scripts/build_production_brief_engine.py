@@ -24,6 +24,53 @@ INTELLIGENCE = {}
 if INTEL_PATH.exists():
     INTELLIGENCE = json.loads(INTEL_PATH.read_text())
 
+# ── PRIMARY distilled-rules keys this engine reads from the intelligence layer ──
+# Thin-Brain-v3.0 (commit f80d27e4) dropped these; until B057c is resolved (strip vs
+# rewire) the engine silently read them as empty. Rule #6 + #8: every brief now CARRIES
+# an honest health flag so downstream produce/judge can SEE it ran on degraded primary
+# intel — no silent empties masquerading as guidance. This declares the state; it does
+# NOT decide the fork (no strip, no rewire).
+PRIMARY_INTEL_KEYS = [
+    "sector_playbooks", "universal_rules", "anti_patterns", "occasion_rules",
+    "visual_rules", "caption_rules", "format_rules",
+]
+
+
+def intel_health(intel: dict | None = None) -> dict:
+    """Audit the PRIMARY intel keys this engine depends on.
+
+    A key is 'missing' if absent OR falsy ({} / [] / None / "") — an empty value is a
+    severed wire dressed as data. Pure + side-effect-free so callers and tests share it.
+    Returns: {degraded: bool, missing_keys: [...], present_keys: [...], checked: [...]}.
+    """
+    if intel is None:
+        intel = INTELLIGENCE
+    missing, present = [], []
+    for k in PRIMARY_INTEL_KEYS:
+        (present if intel.get(k) else missing).append(k)
+    return {
+        "degraded": bool(missing),
+        "missing_keys": missing,
+        "present_keys": present,
+        "checked": list(PRIMARY_INTEL_KEYS),
+    }
+
+
+class IntelDegeneracyError(RuntimeError):
+    """Raised by assert_intel_complete when PRIMARY intel is degraded (Rule #8 strict mode)."""
+
+
+def assert_intel_complete(intel: dict | None = None) -> dict:
+    """Strict guard (Rule #8 — refuse, don't warn). Opt-in for callers that must HALT
+    rather than run degraded. The live daemon stays on the soft path (it tags the brief
+    degraded and continues) so we don't decide the raise-vs-degrade half of the fork."""
+    h = intel_health(intel)
+    if h["degraded"]:
+        raise IntelDegeneracyError(
+            "PRIMARY intel degraded — empty/missing keys: " + ", ".join(h["missing_keys"])
+        )
+    return h
+
 # ── Load env (same approach as fill_missing_patterns.py) ──────────────────────
 def _load_env():
     env_path = Path.home() / ".abraham_env"
@@ -453,6 +500,7 @@ def generate_brief(sector, occasion, goal, account=None):
         "generated_at": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
         "version": "2.0",
         "input": {"sector":sector,"occasion":occasion,"content_goal":goal,"account":account},
+        "intel_health": intel_health(INTELLIGENCE),
         "predicted_engagement": {
             "predicted_high_eng_rate": pred_rate,
             "grade": pred_grade,

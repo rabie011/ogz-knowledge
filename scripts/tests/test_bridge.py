@@ -108,6 +108,47 @@ class TestBridge(unittest.TestCase):
                                 "staging bridges reduced testability — a bridge must never disconnect")
         self.assertGreaterEqual(st["staged"], 0)
 
+    def test_bridge_status_reports_bt_true_not_degree(self):
+        """CONSUMER LAW LOCK (Rule #6/#9, June 19). The founder-facing `after taps=N` must equal what
+        the real consumer (taste_elo.held_out_live, Bradley-Terry) delivers once he taps — his picks
+        PLUS the bridge taps, both real choices — NOT the cheap structural degree-count, which
+        over-states it (degree>=2 is necessary but not sufficient; June 19 it diverged 11 vs 13). This
+        locks the wire so the proxy can never silently return to his phone."""
+        prefs_file = Path(__file__).parent.parent.parent / "data/pairwise_prefs.jsonl"
+        if not prefs_file.exists():
+            self.skipTest("no prefs ledger")
+        prefs = [json.loads(l) for l in prefs_file.read_text().splitlines() if l.strip()]
+        if len([p for p in prefs if p.get("source") != "seed_from_ratings"]) < 2:
+            self.skipTest("need >=2 live picks")
+        st = pw.bridge_status()
+        # rebuild the staged bridge edges exactly as bridge_status sees them
+        from pathlib import Path as _P
+        import json as _j
+        q = _j.loads((_P(__file__).parent.parent.parent / "data/decision_queue.json").read_text())
+        live_caps = set()
+        for p in prefs:
+            if p.get("source") != "seed_from_ratings":
+                live_caps.add(p.get("winner_caption", "")); live_caps.add(p.get("loser_caption", ""))
+        live_caps.discard("")
+        staged = []
+        for c in (q.get("items", []) if isinstance(q, dict) else q):
+            if not str(c.get("id", "")).startswith("pw_") or c.get("status") != "open":
+                continue
+            o = {x.get("v"): x.get("label") for x in (c.get("options") or [])}
+            a, b = o.get("a", ""), o.get("b", "")
+            if a and b and (a in live_caps or b in live_caps):
+                staged.append((a, b))
+
+        def _pairs(rows):
+            return [(r.get("winner_caption", ""), r.get("loser_caption", "")) for r in rows]
+        after_rows = prefs + [{"winner_caption": a, "loser_caption": b, "source": "live_bridge"}
+                              for a, b in staged]
+        _, bt_after = te.held_out_live(_pairs(after_rows), after_rows)
+        self.assertEqual(st["n_testable_after"], bt_after or 0,
+                         "bridge_status.after != BT-true taps-as-live total — the degree proxy is back")
+        # and it must be <= the structural upper bound that USED to be reported (sanity on the bound)
+        self.assertLessEqual(te.held_out_live(_pairs(prefs), prefs)[1] or 0, pw.structural_testable(prefs))
+
     def test_structural_testable_is_winner_independent(self):
         """The winner-independence the docstring claims, now ASSERTED (it was promised but never
         checked — a docstring that lied about its own coverage). Swapping winner<->loser on every
@@ -136,10 +177,13 @@ class TestBridge(unittest.TestCase):
         edges as seed so they add connectivity WITHOUT entering the live set — measuring how many of
         his ORIGINAL picks BT can rank, against the structural bound on that same set.
 
-        NOTE (verified this shift, June 19): on the live staged set structural=9 while BT ranks 4 of
-        his EXISTING picks — the portal's `9` is honest only because his bridge TAPS are themselves
-        real measurable picks (realistic held_out_live with taps-as-live = 9). We lock the always-true
-        bound, NOT that coincidental 9==9 equality (4 existing + 5 tap-picks), which would be fragile."""
+        NOTE (June 19): the degree proxy used to BE the portal number and the "coincidentally equal"
+        defense DRIFTED — late June 19 structural=11 while the consumer delivered 13 (taps-as-live),
+        so the proxy matched neither true value (5 existing, 13 total). bridge_status now reports the
+        BT-true consumer number directly (see test_bridge_status_reports_bt_true_not_degree). This test
+        keeps ONLY the always-true bound: BT-rankable over the SAME live set <= structural (degree is
+        necessary, not sufficient — disjoint BT components tie). structural under-counting BT would be
+        a real regression in either function."""
         prefs_file = Path(__file__).parent.parent.parent / "data/pairwise_prefs.jsonl"
         if not prefs_file.exists():
             self.skipTest("no prefs ledger")

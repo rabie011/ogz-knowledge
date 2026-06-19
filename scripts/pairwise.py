@@ -327,10 +327,12 @@ def structural_testable(prefs, extra_edges=()):
     in some other pair — i.e. degree(w)>=2 AND degree(l)>=2 over all edges. Pure graph structure:
     winner-INDEPENDENT and tie-free, so the number is honest regardless of who he ends up picking.
 
-    This is the SAME testability gate the real consumer (taste_elo.held_out_live) applies — a pick is
-    droppable there iff one of its captions is a singleton once held out. Lifted to module level + named
-    so a test can lock structural==consumer (Rule #6: the portal's `after taps=N` must equal what BT
-    delivers; a silent divergence would put a number that lies on his phone, Rule #9)."""
+    This is an UPPER BOUND on the real consumer (taste_elo.held_out_live), NOT equal to it: degree>=2
+    is NECESSARY for Bradley-Terry to rank a held-out pick but NOT sufficient — its two captions must
+    also land in the same connected BT component (disjoint components tie and stay untestable). So
+    BT-rankable <= structural, always. Kept only as the cheap bound the regression test locks; the
+    founder-facing `after taps=N` is computed by bridge_status THROUGH the consumer, never from this
+    (Rule #6/#9: the number on his phone must equal what BT delivers — June 19 it diverged 11 vs 13)."""
     from collections import Counter
     deg = Counter()
     edges = [(p.get("winner_caption", ""), p.get("loser_caption", "")) for p in prefs]
@@ -350,9 +352,17 @@ def bridge_status():
     consumer; Rule #10: one status line, no new card). It reports the TESTABILITY unlock only — which
     is winner-INDEPENDENT (it depends purely on which captions get compared, not who he picks) — and
     deliberately does NOT quote any agreement %, because that awaits his REAL taps (Rule #9).
-    Returns {staged, n_testable_now, n_testable_after}."""
-    _structural_testable = structural_testable
+    Returns {staged, n_testable_now, n_testable_after}.
 
+    THE NUMBER IS BT-TRUE, NOT A DEGREE PROXY (Rule #6/#9, fixed June 19). Earlier it reported
+    structural_testable (degree>=2), which OVER-states the consumer: degree is necessary but not
+    sufficient — captions in disjoint Bradley-Terry components tie and stay untestable. Two shifts
+    (June 17, June 19) caught the degree proxy diverging from the real consumer; the "coincidentally
+    equal" defense then DRIFTED (degree said 11 while the consumer delivered 13). So `now`/`after` are
+    now computed through the real gate (taste_elo.held_out_live). `after` counts his picks PLUS the
+    bridge taps as live (both are real choices) — exactly this line's own framing — so it equals what
+    Bradley-Terry actually delivers once he taps. structural_testable stays only as a cheap upper bound
+    for the regression test, never as the founder-facing number."""
     prefs = [json.loads(l) for l in PREFS.read_text().splitlines() if l.strip()] if PREFS.exists() else []
     live_caps = set()
     for p in prefs:
@@ -370,8 +380,14 @@ def bridge_status():
             a, b = opts.get("a", ""), opts.get("b", "")
             if a and b and (a in live_caps or b in live_caps):
                 staged.append((a, b))
-    now = _structural_testable(prefs)
-    after = _structural_testable(prefs, extra_edges=staged)
+    import taste_elo as te
+    def _hl_pairs(rows):
+        return [(r.get("winner_caption", ""), r.get("loser_caption", "")) for r in rows]
+    _, now = te.held_out_live(_hl_pairs(prefs), prefs)
+    after_rows = prefs + [{"winner_caption": a, "loser_caption": b, "source": "live_bridge"}
+                          for a, b in staged]
+    _, after = te.held_out_live(_hl_pairs(after_rows), after_rows)
+    now, after = now or 0, after or 0
     # Rule #6: give taste_sim.json (written by taste_sim.py, today read by nothing) its consumer.
     # The MEASURED active-vs-random advantage is the honest replacement for the old unmeasured
     # "~5 taps ≈ 15" claim — surfaced here, but labelled SIM (rescued ratings), never "his agreement"
@@ -394,7 +410,7 @@ def bridge_status():
     # ~4 of the existing are BT-rankable; the rest come from the taps. Agreement % still awaits real taps.
     print(f"BRIDGE STATUS: {len(staged)} bridge cards staged on his portal · "
           f"held-out-testable picks on record now={now} → after his taps={after} "
-          f"(his picks + the bridge taps, both real choices; structural upper-bound, "
+          f"(his picks + the bridge taps, both real choices; BT-true held_out_live count, "
           f"agreement % awaits his real taps, Rule #9){sim_clause}")
     return {"staged": len(staged), "n_testable_now": now, "n_testable_after": after,
             "sim_speedup_x": (sim or {}).get("speedup_x"),

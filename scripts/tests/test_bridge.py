@@ -172,5 +172,52 @@ class TestBridge(unittest.TestCase):
         self.assertGreaterEqual(struct_after, struct_now)
 
 
+class TestBridgeFullCoverage(unittest.TestCase):
+    """B280 (June 19): the old greedy matcher left one live pick held-out-untestable (the 11/12
+    ceiling) — it consumed a caption's only free partner early and stranded a caption whose sole
+    remaining partner was its own already-judged pick-mate. The fix is a MAXIMUM matching plus a
+    spare/already-covered fallback. This locks the guarantee on a controlled fixture: whenever each
+    brand has >=2 spare (non-live) pool partners, EVERY live caption is coverable, so after the
+    proposed bridges structural_testable must equal n_live (no caption left stranded). Two brands
+    exercise both paths — A: covered by live-live matching; D: a single same-pick pair (cannot bridge
+    to each other) that MUST fall back to spares."""
+
+    def _run(self, produced, live_picks):
+        import tempfile
+        prefs_rows = [{"winner_caption": w, "loser_caption": l, "pair_id": pw._pid({"caption": w}, {"caption": l})}
+                      for w, l in live_picks]
+        with tempfile.NamedTemporaryFile("w", suffix=".jsonl", delete=False) as f:
+            for r in prefs_rows:
+                f.write(json.dumps(r, ensure_ascii=False) + "\n")
+            tmp = Path(f.name)
+        orig_prefs, orig_prod, orig_excl = pw.PREFS, pw._produced, pw._judged_or_live_pids
+        try:
+            pw.PREFS = tmp
+            pw._produced = lambda: list(produced)
+            pw._judged_or_live_pids = lambda: {r["pair_id"] for r in prefs_rows}
+            ps = pw.bridge_pairs(50)
+        finally:
+            pw.PREFS, pw._produced, pw._judged_or_live_pids = orig_prefs, orig_prod, orig_excl
+            tmp.unlink()
+        edges = [(p["a"]["caption"], p["b"]["caption"]) for p in ps]
+        return prefs_rows, edges
+
+    def test_every_coverable_caption_is_bridged_when_spares_exist(self):
+        produced = (
+            [{"handle": "A", "caption": c} for c in ("A1", "A2", "A3", "A4", "As1", "As2")] +
+            [{"handle": "D", "caption": c} for c in ("D1", "D2", "Ds1", "Ds2")]
+        )
+        live_picks = [("A1", "A2"), ("A3", "A4"), ("D1", "D2")]
+        prefs_rows, edges = self._run(produced, live_picks)
+        self.assertEqual(pw.structural_testable(prefs_rows), 0, "fixture should start fully untestable")
+        self.assertEqual(pw.structural_testable(prefs_rows, edges), len(live_picks),
+                         "a coverable live caption was left stranded — the 11/12-style ceiling is back")
+        # every bridge stays NEW (never recreates a live pick) and reuses a judged caption
+        live_caps = {c for pk in live_picks for c in pk}
+        for a, b in edges:
+            self.assertNotEqual(a, b)
+            self.assertTrue(a in live_caps or b in live_caps)
+
+
 if __name__ == "__main__":
     unittest.main()

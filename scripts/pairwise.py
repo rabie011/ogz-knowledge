@@ -194,6 +194,45 @@ def push_active(n=5):
     return _push(active_pairs(n), rank=1)
 
 
+def _max_matching(nodes, adj):
+    """Maximum-cardinality matching on a SMALL general graph (the per-brand live-caption graph,
+    typically <=15 nodes). Returns a list of (a, b) pairs. Exact DP over the set of still-free nodes
+    (memoised on the frozenset of free indices) — small enough here to be exact; above a size guard it
+    falls back to a greedy maximal matching so it can never blow up (coverage is then completed by the
+    spare/already-covered pass in bridge_pairs). This replaces the old greedy i<j scan, which is only
+    MAXIMAL not MAXIMUM: it could leave a node unmatched while a perfect matching existed, because an
+    earlier pick consumed the node's only remaining free partner (B280 — albaik's stranded pick)."""
+    order = list(nodes)
+    nidx = {u: i for i, u in enumerate(order)}
+    adj_i = {nidx[u]: {nidx[v] for v in vs if v in nidx} for u, vs in adj.items()}
+    if len(order) > 20:                       # guard: stay cheap on the rare large brand
+        used, out = set(), []
+        for i, u in enumerate(order):
+            if i in used:
+                continue
+            for j in adj_i.get(i, ()):
+                if j not in used:
+                    out.append((u, order[j])); used.add(i); used.add(j); break
+        return out
+    from functools import lru_cache
+
+    @lru_cache(maxsize=None)
+    def best(free):
+        if not free:
+            return ()
+        u = min(free)                          # always branch on the lowest free index (canonical)
+        rest = free - frozenset((u,))
+        bestpairs = best(rest)                 # option: leave u unmatched
+        for v in adj_i.get(u, ()):
+            if v in free and v != u:
+                cand = ((u, v),) + best(free - frozenset((u, v)))
+                if len(cand) > len(bestpairs):
+                    bestpairs = cand
+        return bestpairs
+
+    return [(order[a], order[b]) for a, b in best(frozenset(range(len(order))))]
+
+
 def bridge_pairs(n=8, handle=None):
     """BRIDGE the disconnected graph (Step 5c, June 17). The honest held-out LIVE test
     (taste_elo.held_out_live) is 0-testable because every one of his judged captions is a SINGLETON:
@@ -240,34 +279,42 @@ def bridge_pairs(n=8, handle=None):
         return pid
 
     picked, covered = [], set()
-    # PASS 1 — pair two still-uncovered live captions of the same brand (covers 2 singletons per tap)
+    # Per-brand so the --handle filter is a clean same-brand subset (Rule #10) and matching never
+    # crosses brands. PASS 1 is now a MAXIMUM MATCHING among the brand's live captions — not the old
+    # greedy i<j scan. Greedy consumed a caption's only free partner early and could strand a caption
+    # whose sole remaining partner was its own already-judged pick-mate (excluded). albaik (10 live, 0
+    # spares) hit exactly this, leaving 1 pick at degree 1 → an 11/12 ceiling (B280). A maximum
+    # matching covers every live caption a perfect matching can reach (albaik: 5 cards cover all 10).
     for h, caps in live_by_h.items():
+        adj = {c: [] for c in caps}
         for i in range(len(caps)):
             for j in range(i + 1, len(caps)):
-                if len(picked) >= n:
-                    break
-                a, b = caps[i], caps[j]
-                if a in covered or b in covered:
-                    continue
-                pid = _new(rec[a], rec[b])
-                if not pid:
-                    continue
-                picked.append({"id": pid, "handle": h, "a": rec[a], "b": rec[b]})
-                covered.add(a); covered.add(b)
-    # PASS 2 — any still-uncovered live caption → bridge against a non-live same-brand partner
-    for h, caps in live_by_h.items():
+                if _new(rec[caps[i]], rec[caps[j]]):
+                    adj[caps[i]].append(caps[j]); adj[caps[j]].append(caps[i])
+        for a, b in _max_matching(caps, adj):
+            picked.append({"id": _new(rec[a], rec[b]), "handle": h, "a": rec[a], "b": rec[b]})
+            covered.add(a); covered.add(b)
+        # PASS 2 — every still-uncovered live caption gets one bridge so no COVERABLE caption is left
+        # stranded: prefer a non-live spare partner; if the brand has none (albaik), fall back to ANY
+        # NEW-allowed live caption (even an already-covered one — it only gains extra degree). A live
+        # caption stays uncovered ONLY when it has no allowed partner at all in its brand.
         live_set = set(caps)
-        partners = [c for c in by_h.get(h, []) if c["caption"] not in live_set]
+        spares = [c for c in by_h.get(h, []) if c["caption"] not in live_set]
         for a in caps:
-            if a in covered or len(picked) >= n:
+            if a in covered:
                 continue
-            for pc in partners:
-                pid = _new(rec[a], pc)
-                if not pid:
-                    continue
+            pid = pc = None
+            for cand in spares:
+                pid = _new(rec[a], cand)
+                if pid:
+                    pc = cand; break
+            if pc is None:
+                for other in caps:
+                    if other != a and (pid := _new(rec[a], rec[other])):
+                        pc = rec[other]; break
+            if pc is not None:
                 picked.append({"id": pid, "handle": h, "a": rec[a], "b": pc})
                 covered.add(a)
-                break
     return picked[:n]
 
 

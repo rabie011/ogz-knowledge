@@ -3662,7 +3662,7 @@
    "clock": "",
    "priority": "urgent",
    "created": "2026-06-13T17:01:25",
-   "status": "answered",
+   "status": "open",
    "kind": "buttons",
    "options": [
     {
@@ -7756,6 +7756,88 @@
     }
    ],
    "made_by": "system:apply_rulings",
+   "artifact_version": 1
+  },
+  {
+   "id": "B057c_thinbrain_primary_fork",
+   "title": "Brief engine's PRIMARY block went empty — rewire or strip?",
+   "tag": "machine",
+   "desc": "",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-19T18:51:42",
+   "status": "open",
+   "why": "Thin-Brain-v3.0 slim (f80d27e4) dropped 7 keys; 4 readers (incl. live build_production_brief_engine.py) still read them as empty — silent Rule #6 rot in the producing path.",
+   "need": "Pick A or B. Affects production brief quality.",
+   "did": "Verified the orphan with grep: intelligence_layer.json has none of the 7 keys; brief engine line 183 still reads the 'PRIMARY — distilled rules' block. Staged so B057b can execute the chosen direction + add a refuse-guard + test.",
+   "kind": "buttons",
+   "options": [
+    {
+     "v": "A",
+     "label": "Rewire readers to new thin-brain keys (restore distilled guidance)"
+    },
+    {
+     "v": "B",
+     "label": "Strip dead PRIMARY reads + guard (slim was intentional — recommended)"
+    }
+   ],
+   "made_by": "claude",
+   "artifact_version": 1
+  },
+  {
+   "id": "pw_17684ac3f24e",
+   "kind": "caption_pick",
+   "judge_lane": true,
+   "lane": "creative",
+   "tag": "Pick",
+   "status": "open",
+   "priority": "normal",
+   "title": "eatjurisha · which would you post?",
+   "handle": "eatjurisha",
+   "need": "Tap the caption you'd actually post — gut only, no scores.",
+   "options": [
+    {
+     "label": "بخار الجريش، عطر دافي يريح القلوب ويجدد الطاقة.",
+     "v": "a",
+     "scene": "evergreen — في ليلة هادئة، يدرس طالب جامعي في غرفة شقته بالرياض، مكتبه مليء بالكتب والملاحظات تحت وهج "
+    },
+    {
+     "label": "صوت الضحكات والحركة في كل مكان، لكن هدوء اللحظة يأتي مع عطر الجريش والرز الكابلي... أحلى مفاجأة لست الحبايب.",
+     "v": "b",
+     "scene": "arab_mothers_day — في زحمة يوم الأم، العائلة مجتمعة في غرفة المعيشة. الجميع مشغول بتحضير مفاجأة صغيرة للأم، ا"
+    }
+   ],
+   "why": "Taste calibration — your pick teaches the system your eye (it currently judges at ~chance).",
+   "pw_rank": 0,
+   "made_by": "system:pairwise",
+   "artifact_version": 1
+  },
+  {
+   "id": "pw_34cc49161f6f",
+   "kind": "caption_pick",
+   "judge_lane": true,
+   "lane": "creative",
+   "tag": "Pick",
+   "status": "open",
+   "priority": "normal",
+   "title": "eatjurisha · which would you post?",
+   "handle": "eatjurisha",
+   "need": "Tap the caption you'd actually post — gut only, no scores.",
+   "options": [
+    {
+     "label": "كيف يقدر الكابلي يحول كل قصة إلى ذكرى؟",
+     "v": "a",
+     "scene": "evergreen — في مجلس صغير، مجموعة من الأصدقاء يجلسون على الأرض محاطين بأكوام من الوسائد. في وسط الغرفة،"
+    },
+    {
+     "label": "صوت ضحكاتهم والملعقة تقلب الجريش يخلق شعور العيد الحقيقي 🌿",
+     "v": "b",
+     "scene": "eid_al_fitr — في حديقة الحي بعد صلاة العيد، مجموعة من الأصدقاء يرتدون الجلابيات البيضاء، يجتمعون تحت شجر"
+    }
+   ],
+   "why": "Taste calibration — your pick teaches the system your eye (it currently judges at ~chance).",
+   "pw_rank": 0,
+   "made_by": "system:pairwise",
    "artifact_version": 1
   }
  ]

@@ -671,7 +671,29 @@
       "who": "pair",
       "est_minutes": 15,
       "depends_on": [],
+      "status": "open",
+      "done_note": "BLOCKED on schema drift (2026-06-19): intelligence_layer.json dropped sector_playbooks/occasion_rules (data moved to sector_facts/occasion_calendar), so calibrate_cd_router yields all-empty affinities. Rule #8 refuse-guard shipped so --apply now EXITS 2 instead of wiping real CD-brain affinities (test_calibrate_cd_router_refuse, 5 tests). Actual refresh blocked → see B057b."
+    },
+    {
+      "id": "B057b",
+      "layer": "L3 Machines",
+      "what": "Reconcile ALL intelligence_layer consumers with Thin-Brain-v3.0 schema",
+      "how": "Thin Brain v3.0 (commit f80d27e4) dropped 7 keys (sector_playbooks, occasion_rules, universal_rules, anti_patterns, visual_rules, caption_rules, format_rules) but 4 readers still .get() them with empty defaults: build_production_brief_engine.py (its \"PRIMARY — distilled rules\" block, live via ogz_enricher daemon), creative_pipeline.py, overnight_improver.py, calibrate_cd_router.py. Per Mohamed fork (B057c): either rewire readers to the new keys (sector_facts/occasion_calendar/logs/pattern_engagement_evidence.json) OR strip the dead reads if the removal was intentional. Then each reader gets a degeneracy/refuse guard (Rule #8) + test.",
+      "who": "pair",
+      "est_minutes": 90,
+      "depends_on": [],
       "status": "todo"
+    },
+    {
+      "id": "B057c",
+      "layer": "L3 Machines",
+      "what": "FORK: was Thin-Brain-v3.0 primary-block removal intentional?",
+      "how": "Mohamed decides: (A) restore distilled guidance by rewiring readers to new thin-brain keys, or (B) confirm the slim was deliberate and we strip the dead PRIMARY reads so the brief honestly runs on secondary analytics. Affects production brief quality. Recommendation: B (the commit said \"only proven value\") + strip + guard, unless he wants the distilled rules back.",
+      "who": "mohamed_must",
+      "est_minutes": 5,
+      "depends_on": [],
+      "status": "staged",
+      "done_note": "Fork staged to portal (card B057c_thinbrain_primary_fork, A/B) after grep-verifying the orphaned PRIMARY block. Unblocks B057b."
     },
     {
       "id": "B058",
@@ -3107,7 +3129,8 @@
       "who": "pair",
       "est_minutes": 20,
       "depends_on": [],
-      "status": "todo"
+      "status": "done",
+      "done_note": "index_freshness.py + section 7 in guard_data_quality.py (warn-only, >30d) + test_index_freshness.py (14 tests). All 4 indexes fresh now."
     },
     {
       "id": "B262",
@@ -3345,14 +3368,37 @@
         "B186"
       ],
       "status": "todo"
+    },
+    {
+      "id": "B280",
+      "layer": "L4 Bedrock",
+      "status": "done",
+      "who": "pair",
+      "est_minutes": 40,
+      "depends_on": [],
+      "what": "Fix bridge_pairs so it connects ALL stranded live picks (close the 11/12 ceiling)",
+      "how": "pick#10 (albaik) stays held-out-untestable even with every proposable bridge: bridge_pairs PASS-1 greedy pairing + n-cap + PASS-2 single-break leaves one picks two captions at degree 1. Rework the matching so every live caption reaches degree>=2 when pool partners exist (b-matching, not greedy); lock with a test asserting structural_testable==n_live whenever each brand has >=2 spare pool partners. Today the honest ceiling is 11/12 (verified this shift).",
+      "done_note": "maximum-matching (not greedy) + spare/already-covered fallback in bridge_pairs; closes the 11/12 ceiling → structural 0→12/12 on the real live set (verified). Locked by test_bridge.TestBridgeFullCoverage (structural==n_live when each brand has >=2 spares; covers matching path + spare-fallback path)."
+    },
+    {
+      "id": "B281",
+      "layer": "L4 Bedrock",
+      "status": "todo",
+      "who": "pair",
+      "est_minutes": 30,
+      "depends_on": [
+        "B280"
+      ],
+      "what": "Reconcile staged bridge cards with the improved (maximum) matcher — supersede, never stack",
+      "how": "The improved bridge_pairs proposes a set disjoint from the 13 already-open bridge cards (delivers 12/12 vs the staged 11/12). Pushing it would FLOOD his portal (Rule #10) and leave two competing bridge sets. Build a staging-aware reconcile: keep already-open bridge pids that the matcher still wants, CLOSE the superseded ones, push ONLY the delta needed to reach 12/12. Needs his-eye check that no superseded card was mid-tap before closing."
     }
   ],
   "counts": {
-    "done": 177,
+    "done": 179,
     "superseded": 3,
     "todo": 95,
-    "skipped": 4,
-    "staged": 2,
-    "open": 3
+    "open": 4,
+    "staged": 3,
+    "skipped": 4
   }
 }

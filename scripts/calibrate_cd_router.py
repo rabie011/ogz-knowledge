@@ -9,7 +9,7 @@ Usage:
   python3 scripts/calibrate_cd_router.py              # print calibrated values
   python3 scripts/calibrate_cd_router.py --apply       # update CD brain files
 """
-import json, yaml, argparse, glob
+import json, yaml, argparse, glob, sys
 from pathlib import Path
 
 BASE = Path(__file__).parent.parent
@@ -89,12 +89,42 @@ def calibrate():
     return sector_scores, occasion_scores
 
 
+def is_degenerate(sector_scores, occasion_scores):
+    """True when the source carried no real signal.
+
+    A live intelligence_layer fills every CD brain's sector_affinity with at
+    least the 0.3 default for every sector, so all-empty sector_scores means
+    the upstream keys (sector_playbooks / occasion_rules) are missing or empty
+    — e.g. after a schema drift. Writing these empty blocks over real CD-brain
+    affinities via --apply would silently destroy a calibrated organ.
+    """
+    any_sector = any(scores for scores in sector_scores.values())
+    any_occasion = any(v > 0 for scores in occasion_scores.values() for v in scores.values())
+    return not (any_sector or any_occasion)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--apply", action="store_true")
     args = parser.parse_args()
 
     sector_scores, occasion_scores = calibrate()
+
+    # Rule #8 — REFUSE, don't warn. A dry source must never reach --apply and
+    # overwrite real affinities with nothing. Exit non-zero before any write.
+    if is_degenerate(sector_scores, occasion_scores):
+        msg = (
+            "REFUSED: calibration source produced ZERO signal — "
+            "intelligence_layer.json has no usable 'sector_playbooks' / "
+            "'occasion_rules' (schema drift: data now lives under "
+            "'sector_facts' / 'occasion_calendar', which this reader does not "
+            "parse). Refusing to write empty affinities over the CD brains. "
+            "Fix the reader (see backlog) before --apply."
+        )
+        if args.apply:
+            print(f"\n⛔ {msg}", file=sys.stderr)
+            sys.exit(2)
+        print(f"\n⚠️  DRY SOURCE — {msg}\n(print-only run; --apply would refuse)")
 
     print("═" * 50)
     print("CD BRAIN CALIBRATION FROM ENGAGEMENT DATA")

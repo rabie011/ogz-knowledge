@@ -30,7 +30,9 @@ class TestTasteSim(unittest.TestCase):
         self.assertAlmostEqual(ts._agreement({"x": 2.0, "y": 1.0}, pairs, oracle), (1.0 + 1.0 + 0.5) / 3)
 
     def test_simulate_runs_and_is_honest(self):
-        res = ts.simulate(threshold=0.9, random_trials=10, seed=42)
+        # max_taps bounds the O(pairs²) replay so test cost stays flat as the oracle grows
+        # (active crosses 0.9 at ~tap 7 on the current 142-pair oracle — ample headroom under 30).
+        res = ts.simulate(threshold=0.9, random_trials=10, seed=42, max_taps=30)
         if not res.get("ok"):
             self.skipTest("no rescued-rating oracle present in this checkout")
         # structure
@@ -45,8 +47,8 @@ class TestTasteSim(unittest.TestCase):
         self.assertIn("SIMULATION", res["note"])
 
     def test_determinism(self):
-        a = ts.simulate(threshold=0.9, random_trials=5, seed=7)
-        b = ts.simulate(threshold=0.9, random_trials=5, seed=7)
+        a = ts.simulate(threshold=0.9, random_trials=5, seed=7, max_taps=30)
+        b = ts.simulate(threshold=0.9, random_trials=5, seed=7, max_taps=30)
         if not a.get("ok"):
             self.skipTest("no oracle")
         self.assertEqual(a["active_taps_to_threshold"], b["active_taps_to_threshold"])

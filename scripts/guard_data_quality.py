@@ -21,6 +21,9 @@ from collections import Counter
 BASE = Path(__file__).parent.parent
 os.chdir(BASE)
 
+sys.path.insert(0, str(Path(__file__).parent))
+from index_freshness import check_index_staleness, format_warnings, LEARN_FROM_INDEXES, STALE_DAYS
+
 quick = "--quick" in sys.argv
 issues = []
 
@@ -286,6 +289,18 @@ if not quick:
         fail("METRICS", f"{no_metrics} recent obs (after Jun 4) missing real engagement metrics")
     else:
         ok(f"Real metrics: {has_metrics} obs with likes_count > 0 ({100*has_metrics//total if total else 0}%)")
+
+# ═══════════════════════════════════════════════════════════
+# 7. LEARN-FROM INDEX FRESHNESS  (warn-only — B261)
+# ═══════════════════════════════════════════════════════════
+print("\n── 7. Learn-From Index Freshness")
+_stale = check_index_staleness()
+if _stale:
+    for line in format_warnings(_stale):
+        print(f"  {line}")
+    print(f"  (warn-only: stale learn-from indexes degrade the producing machine but do not block the commit)")
+else:
+    ok(f"All {len(LEARN_FROM_INDEXES)} learn-from indexes fresh (≤{STALE_DAYS}d)")
 
 # ── Summary
 print(f"\n{'=' * 60}")

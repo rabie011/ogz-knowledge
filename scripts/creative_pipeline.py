@@ -110,12 +110,12 @@ def fill_prompt(template, brand, product, sector, cultural_constraints=""):
 
 def generate_concept(brand, sector, occasion, product, intel):
     """Use LLM to generate a creative concept from intelligence."""
-    import openai
-    api_key = os.environ.get("OPENAI_API_KEY")
+    from scripts.lib.openai_client import make_client, load_openai_key
+    api_key = os.environ.get("OPENAI_API_KEY") or load_openai_key()
     if not api_key:
         return _fallback_concept(brand, sector, occasion, intel)
 
-    client = openai.OpenAI(api_key=api_key)
+    client = make_client(api_key)  # timeout=90 + max_retries=2 baked in (B258)
 
     must_use = "\n".join(f"- {p['pattern']} ({p['engagement']}% high)" for p in intel["must_use"][:3])
     visual = "\n".join(f"- {v['lighting']} + {v['setting']} = {v['high_pct']}%" for v in intel["visual_dna"][:2])

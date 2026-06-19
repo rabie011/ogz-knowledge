@@ -536,10 +536,72 @@ def h_pairwise_noop(b: Path, row: dict) -> str:
     return f"pairwise pick {row.get('item_id')}={row.get('answer')} → taste-calibration ledger"
 
 
+def h_truth_confirm(b: Path, row: dict) -> str:
+    """B186 — Mohamed's tap on a truth-confirm card ratifies (or kills) a mined product
+    candidate in clients/<handle>/profile/truth_pack.json. This is the reader Rule #6
+    demands for build_truth_confirm_cards.py — without it the cards would be a write with
+    no consumer and his tap would vanish.
+
+    The card id → (handle, candidate) mapping comes from data/truth_confirm_staged.json
+    (the generator is the only authority on what each card means). Answers:
+      confirm → provenance.confirmer=mohamed, confidence=confirmed (the producer may now
+                use this product as ratified truth; Rule #12 — we never confirm, his tap does)
+      reject  → confidence=rejected, confirmer=mohamed (KEPT, never deleted — nothing is lost)
+      <text>  → on a *_prices card, written verbatim into truth_pack['prices']; the named
+                candidates are confirmed in the same move.
+    Self-audit (Rule #11): the change MUST be on disk before we claim it applied."""
+    item, ans = row.get("item_id", ""), row.get("answer", "")
+    staged = b / "data" / "truth_confirm_staged.json"
+    if not staged.exists():
+        raise RuntimeError("no data/truth_confirm_staged.json — run build_truth_confirm_cards.py --write")
+    cards = {c["id"]: c for c in json.loads(staged.read_text(encoding="utf-8")).get("cards", [])}
+    card = cards.get(item)
+    if not card:
+        raise RuntimeError(f"truth-confirm card {item} not in staged file")
+    handle, cand = card["handle"], card["candidate"]
+    tpf = b / "clients" / handle / "profile" / "truth_pack.json"
+    if not tpf.exists():
+        raise RuntimeError(f"no truth_pack for {handle}")
+    tp = json.loads(tpf.read_text(encoding="utf-8"))
+    ts = row.get("ts") or datetime.now().isoformat(timespec="seconds")
+    sys.path.insert(0, str(Path(__file__).parent))
+    from organ_write import write_organ
+
+    if cand == "__prices__":
+        tp["prices"] = [{"line": ans, "confirmer": "mohamed", "ts": ts, "source": f"portal:{item}"}]
+        for c in tp.get("product_candidates", []):
+            prov = c.setdefault("provenance", {})
+            if prov.get("confirmer") in ("data_diagnosis", "pending_client"):
+                prov["confirmer"], prov["confidence"], prov["confirmed_ts"] = "mohamed", "confirmed", ts
+        write_organ(tpf, tp)
+        on_disk = json.loads(tpf.read_text(encoding="utf-8")).get("prices", [])
+        assert on_disk and on_disk[0].get("line") == ans, f"price write not on disk for {handle}"
+        return f"truth prices recorded for {handle}: «{ans[:40]}» + {handle} candidates confirmed"
+
+    found = next((c for c in tp.get("product_candidates", []) if c.get("name") == cand), None)
+    if not found:
+        raise RuntimeError(f"candidate «{cand}» not in {handle} truth_pack")
+    prov = found.setdefault("provenance", {})
+    if ans == "reject":
+        prov["confirmer"], prov["confidence"], prov["rejected_ts"] = "mohamed", "rejected", ts
+        verb = "rejected (kept, never deleted)"
+    else:  # confirm (or any positive tap)
+        prov["confirmer"], prov["confidence"], prov["confirmed_ts"] = "mohamed", "confirmed", ts
+        verb = "confirmed → ratified truth"
+    write_organ(tpf, tp)
+    disk = next((c for c in json.loads(tpf.read_text(encoding="utf-8")).get("product_candidates", [])
+                 if c.get("name") == cand), {})
+    want = "rejected" if ans == "reject" else "confirmed"
+    assert disk.get("provenance", {}).get("confidence") == want, \
+        f"truth-confirm flip not on disk for {handle}/{cand}"
+    return f"truth candidate «{cand}» ({handle}) {verb}"
+
+
 # item-prefix only (answer is arbitrary free text) — the client passport intake + pairwise picks
 ITEM_PREFIX_HANDLERS = {
     "passport_": h_passport,
     "pw_": h_pairwise_noop,
+    "truth_confirm_": h_truth_confirm,  # B186 — free-text price answers (confirm/reject hit PREFIX_HANDLERS first)
 }
 
 HANDLERS = {

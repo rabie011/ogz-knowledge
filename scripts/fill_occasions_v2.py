@@ -200,8 +200,9 @@ def main():
         conn.close()
         return
 
+    from scripts.lib.openai_client import make_client
     api_key = load_key()
-    client = openai.OpenAI(api_key=api_key)
+    client = make_client(api_key)  # timeout=90 + max_retries=2 baked in (B258)
 
     total = len(missing)
     done = 0

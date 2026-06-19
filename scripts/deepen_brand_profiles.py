@@ -199,8 +199,9 @@ def main():
         conn.close()
         return
 
+    from scripts.lib.openai_client import make_client
     api_key = load_key()
-    client = openai.OpenAI(api_key=api_key)
+    client = make_client(api_key)  # timeout=90 + max_retries=2 baked in (B258)
 
     # Backup before modifying
     backup_path = IL_PATH.parent / f"intelligence_layer_backup_{int(time.time())}.json"

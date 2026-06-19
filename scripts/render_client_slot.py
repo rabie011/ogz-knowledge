@@ -777,6 +777,12 @@ def main():
     slot = next((s for mm in ymap["months"].values() for s in mm if s["date"] == a.date), None)
     if not slot:
         sys.exit(f"no slot {a.date} in {a.handle} year map")
+    # B053b: the render path's route_decision() reads slot['sector'] to fire the sector
+    # safety-lock (e.g. healthcare_wellness forbids paradox), but slot from the year map
+    # carries no sector — only ymap['sector'] does. Inject it here so the lock that already
+    # guards the ANGLE path (make_angle) also guards the RENDER path. Same source the rest
+    # of this function already trusts (lines below pass ymap['sector'] to make_angle/chain_for).
+    slot.setdefault("sector", ymap["sector"])
     # (wired below after client load — B181 needs both slot and client)
     # B072: every render that consults red_lines counts a TOUCH (5th-touch reconfirm law)
     _rlf = BASE / "clients" / a.handle / "profile/red_lines.json"

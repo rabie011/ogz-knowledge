@@ -130,6 +130,33 @@ class TestRoutingDecision(unittest.TestCase):
         self.assertEqual(with_sector["primary"], plain["primary"])
         self.assertNotIn("sector_lock:real_estate", with_sector["overrides"])
 
+    def test_render_path_injects_sector_so_lock_fires(self):
+        """B053b: the RENDER path builds its slot from the year map, which carries NO 'sector' key —
+        only ymap['sector'] does. Before B053b, render_client_slot passed that sector-less slot to
+        route_decision, so the healthcare→paradox safety-lock (B053) silently never fired on the
+        render path (only the angle path was protected). This guards the wiring: a real pilot
+        year-map slot, once it receives ymap['sector'] the way the render path now does, must let
+        the lock swap paradox off a healthcare slot."""
+        import json
+        from pathlib import Path
+        ROOT = Path(__file__).resolve().parents[2]
+        ymap = json.loads((ROOT / "clients" / "myfitness.sa" / "year_map.json").read_text())
+        self.assertEqual(ymap.get("sector"), "healthcare_wellness")
+        # a year-map slot, as render builds it, has no sector of its own (the bug's precondition)
+        raw_slot = next((s for mm in ymap["months"].values() for s in mm), None)
+        self.assertIsNotNone(raw_slot)
+        self.assertNotIn("sector", raw_slot)
+        # pick a date that routes to paradox, attach it to a sector-less slot
+        paradox_date = next((f"2026-01-{d:02d}" for d in range(1, 28)
+                             if br.route_decision({"date": f"2026-01-{d:02d}"})["primary"] == "paradox"), None)
+        self.assertIsNotNone(paradox_date, "expected some date to route to paradox")
+        slot = {"date": paradox_date}                      # no 'sector' — like a year-map slot
+        self.assertEqual(br.route_decision(slot)["primary"], "paradox")   # bug: lock can't fire
+        slot.setdefault("sector", ymap["sector"])          # exactly what render_client_slot now does
+        locked = br.route_decision(slot)
+        self.assertNotEqual(locked["primary"], "paradox")
+        self.assertIn("sector_lock:healthcare_wellness", locked["overrides"])
+
 
 if __name__ == "__main__":
     unittest.main()

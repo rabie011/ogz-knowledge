@@ -100,8 +100,10 @@ _ENV = _load_env()
 
 
 async def _call_gpt4o(prompt, semaphore: asyncio.Semaphore) -> str:
-    import openai
-    client = openai.AsyncOpenAI(api_key=_ENV.get("OPENAI_API_KEY", ""))
+    from lib.openai_client import make_async_client
+    # max_retries=0: this function runs its own bounded retry loop below; the factory's
+    # job here is the timeout that was missing (B258) — never a hung socket again.
+    client = make_async_client(_ENV.get("OPENAI_API_KEY", ""), max_retries=0)
     async with semaphore:
         for attempt in range(MAX_RETRIES):
             try:

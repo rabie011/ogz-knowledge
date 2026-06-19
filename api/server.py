@@ -1139,6 +1139,31 @@ def _try_create_v6(req) -> dict | None:
     if brief is None:
         return None
     brief = dict(brief)
+    # B050 (June 19): DNA-eligibility gate — the feed-cloner may only run on a brand whose
+    # real feed DNA is deep enough to clone (>= MIN_DNA_EXEMPLARS). A thin/missing-DNA brand
+    # falls back to the angle-brain path (legacy) rather than cloning a voice we don't have —
+    # the gate BITES, it does not warn-and-continue (Rule #8). The fallback reason is logged
+    # so the chosen path knows WHY (Rule #6 consumer).
+    try:
+        from v5_prompt import dna_eligibility as _dna_elig
+        _elig = _dna_elig(brief.get("brand_en", "") or req.brand)
+        if not _elig["eligible"]:
+            try:
+                import time as _t
+                _fb = REPO / "logs" / "feedcloner_fallbacks.jsonl"
+                _fb.parent.mkdir(parents=True, exist_ok=True)
+                with _fb.open("a") as _f:
+                    _f.write(json.dumps({"ts": int(_t.time()), "brand": req.brand,
+                                         "brand_en": brief.get("brand_en", ""),
+                                         "occasion": req.occasion or brief.get("occasion", ""),
+                                         "exemplars": _elig["exemplars"],
+                                         "fell_back_to": "angle_brain",
+                                         "reason": _elig["reason"]}) + "\n")
+            except Exception:
+                pass
+            return None  # ineligible -> angle-brain/legacy path
+    except Exception:
+        pass  # eligibility module unavailable -> existing build_messages_v5 None-guard holds
     if req.occasion:
         brief["occasion"] = req.occasion
     if req.product:

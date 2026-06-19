@@ -434,10 +434,58 @@ def agreement():
     return pct
 
 
+def _live_caps():
+    """His live-pick caption set (excludes rescued seeds) — same source bridge_status uses."""
+    caps = set()
+    if PREFS.exists():
+        for line in PREFS.read_text().splitlines():
+            if not line.strip():
+                continue
+            p = json.loads(line)
+            if p.get("source") == "seed_from_ratings":
+                continue
+            caps.add(p.get("winner_caption", "")); caps.add(p.get("loser_caption", ""))
+    caps.discard("")
+    return caps
+
+
+def backfill_pw_rank():
+    """Repair the SERVING-RANK wire on cards that predate it (Rule #6, June 19). The serving-rank
+    fix (test_pw_serving_rank.py) stamps pw_rank at push time, but every pw_ card pushed BEFORE that
+    fix carries no rank, so portal_mini._single_open_pw falls back to created-order and serves a
+    NON-bridge card first — his scarce taps drain on pairs that DON'T unlock held-out testability,
+    the exact loss bridge_pairs was built to prevent. This re-derives the missing rank the same way
+    bridge_status detects bridges (caption reuse): a card reusing one of his judged captions → 0
+    (bridge, unlocks testability), else → 2 (random). Idempotent: cards that already carry pw_rank
+    are untouched (active=1 tiers stay intact). Returns {scanned, bridged, randomed}."""
+    if not QUEUE.exists():
+        print("no queue"); return {"scanned": 0, "bridged": 0, "randomed": 0}
+    q = json.loads(QUEUE.read_text())
+    items = q.get("items", []) if isinstance(q, dict) else q
+    live = _live_caps()
+    scanned = bridged = randomed = 0
+    for c in items:
+        if not str(c.get("id", "")).startswith("pw_") or c.get("status") != "open":
+            continue
+        if c.get("pw_rank") is not None:
+            continue
+        scanned += 1
+        opts = {o.get("v"): o.get("label") for o in (c.get("options") or [])}
+        a, b = opts.get("a", ""), opts.get("b", "")
+        if a and b and (a in live or b in live):
+            c["pw_rank"] = 0; bridged += 1
+        else:
+            c["pw_rank"] = 2; randomed += 1
+    if scanned:
+        QUEUE.write_text(json.dumps(q, ensure_ascii=False, indent=1))
+    print(f"✅ backfill pw_rank: {scanned} rankless open cards → {bridged} bridge(0) + {randomed} random(2)")
+    return {"scanned": scanned, "bridged": bridged, "randomed": randomed}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["form", "push", "consume", "agreement", "active", "active-preview",
-                                    "bridge", "bridge-preview", "bridge-status"])
+                                    "bridge", "bridge-preview", "bridge-status", "backfill-rank"])
     ap.add_argument("--n", type=int, default=4, help="pairs (per brand for form/push; total for active)")
     ap.add_argument("--handle", default=None, help="restrict bridge to one pilot (e.g. albaik)")
     a = ap.parse_args()
@@ -466,6 +514,8 @@ def main():
         push_bridge(a.n if a.n != 4 else 8, a.handle)
     elif a.cmd == "bridge-status":
         bridge_status()
+    elif a.cmd == "backfill-rank":
+        backfill_pw_rank()
 
 
 if __name__ == "__main__":

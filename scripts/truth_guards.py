@@ -60,6 +60,38 @@ strip_punct = lambda s: re.sub(r"[^\wء-ي\s]", "", s).strip()
 dedupe_words = lambda s: re.sub(r"\b(\S+)\s+\1\b", r"\1", s)
 
 
+def en_share(text: str) -> float:
+    """Fraction of a caption's ALPHABETIC chars that are ASCII (Latin) — the English-share
+    signal. A hashtag or an English brand-name alone barely moves it; an English-led body
+    pushes it past 0.5. (mcdonalds posts Arabic bodies with Latin hashtags → stays low.)"""
+    letters = [c for c in text if c.isalpha()]
+    return sum(c.isascii() for c in letters) / max(len(letters), 1)
+
+
+def is_en_led(*, fingerprint: dict | None = None, exemplars: list | None = None,
+              threshold: float = 0.5, majority: int = 3) -> bool:
+    """ONE source of truth for "does this brand LEAD in English?" (B043).
+
+    The EN-hook+AR-idea bilingual pattern is a CONFIRMED taste reward (Mohamed: "EN hook +
+    AR idea, NOT translation"), and the en_led flag is the door that turns the bilingual
+    language-bar on. Before this it was decided two different ways in two files — the exact
+    "one boundary leaking through unguarded doors" scar. This is the single boundary both
+    doors now call:
+      • CLIENT brands carry a fingerprint — l2_voice.dialect == "non_arabic" is the
+        confirmed signal (render_client_slot path).
+      • MATRIX/exemplar brands have no fingerprint — fall back to the exemplar majority:
+        >= `majority` of the first 6 exemplar captions are >`threshold` Latin
+        (creative_line path; a lone hashtag is NOT English-led).
+    Fingerprint wins when present; exemplars are the fallback; no signal → False (Saudi
+    Arabic is the safe default, never English by accident)."""
+    if fingerprint:
+        return (fingerprint.get("l2_voice") or {}).get("dialect") == "non_arabic"
+    if exemplars:
+        caps = [(e.get("caption", "") if isinstance(e, dict) else str(e)) for e in exemplars[:6]]
+        return sum(en_share(c) > threshold for c in caps) >= majority
+    return False
+
+
 def build_corpus(brand: str, base_dir=None) -> str:
     """B036 (June 13): the grounding corpus for a matrix brand — exemplars + signature
     phrases + proven openers from logs/brand_dna/{brand}_dna_v3.json, plus the brief's

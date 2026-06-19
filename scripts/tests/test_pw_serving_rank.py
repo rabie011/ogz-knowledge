@@ -86,5 +86,58 @@ class TestPortalServesByRank(unittest.TestCase):
         self.assertEqual(open_pw[0]["id"], "pw_old_a", "legacy created-order regressed")
 
 
+class TestBackfillPwRank(unittest.TestCase):
+    """Locks the legacy-repair wire (Rule #6, June 19): cards that predate pw_rank must get a
+    re-derived rank so the bridges among them are served bridge-first, not lost to created-order."""
+
+    def _setup(self, tmp):
+        import json
+        from pathlib import Path
+        pw.QUEUE = Path(tmp) / "decision_queue.json"
+        pw.PREFS = Path(tmp) / "pairwise_prefs.jsonl"
+        # his one live caption = "HIS"; bridge card reuses it, the other doesn't
+        pw.PREFS.write_text(json.dumps(
+            {"pair_id": "pw_live", "winner_caption": "HIS", "loser_caption": "X", "judge": "mohamed"}) + "\n")
+        q = {"items": [
+            {"id": "pw_bridge_old", "status": "open", "created": "1",
+             "options": [{"v": "a", "label": "HIS"}, {"v": "b", "label": "NEW1"}]},
+            {"id": "pw_random_old", "status": "open", "created": "2",
+             "options": [{"v": "a", "label": "P"}, {"v": "b", "label": "Q"}]},
+            {"id": "pw_already", "status": "open", "created": "3", "pw_rank": 1,
+             "options": [{"v": "a", "label": "M"}, {"v": "b", "label": "N"}]},
+        ]}
+        pw.QUEUE.write_text(json.dumps(q))
+
+    def test_backfill_ranks_bridge_zero_random_two_and_preserves_existing(self):
+        import tempfile, json as _j
+        with tempfile.TemporaryDirectory() as tmp:
+            self._setup(tmp)
+            res = pw.backfill_pw_rank()
+            self.assertEqual((res["scanned"], res["bridged"], res["randomed"]), (2, 1, 1))
+            items = {c["id"]: c for c in _j.loads(pw.QUEUE.read_text())["items"]}
+            self.assertEqual(items["pw_bridge_old"]["pw_rank"], 0, "bridge (reuses his caption) not ranked 0")
+            self.assertEqual(items["pw_random_old"]["pw_rank"], 2, "non-bridge not ranked 2")
+            self.assertEqual(items["pw_already"]["pw_rank"], 1, "an already-ranked card was overwritten")
+
+    def test_backfill_is_idempotent(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            self._setup(tmp)
+            pw.backfill_pw_rank()
+            res2 = pw.backfill_pw_rank()
+            self.assertEqual(res2["scanned"], 0, "second pass re-touched already-ranked cards")
+
+    def test_after_backfill_portal_serves_the_bridge(self):
+        import tempfile, json as _j
+        with tempfile.TemporaryDirectory() as tmp:
+            self._setup(tmp)
+            pw.backfill_pw_rank()
+            items = _j.loads(pw.QUEUE.read_text())["items"]
+            open_pw = [c for c in pm._single_open_pw(items)
+                       if c["id"].startswith("pw_") and c["status"] != "answered"]
+            self.assertEqual(open_pw[0]["id"], "pw_bridge_old",
+                             "after backfill the portal still serves a non-bridge first")
+
+
 if __name__ == "__main__":
     unittest.main()

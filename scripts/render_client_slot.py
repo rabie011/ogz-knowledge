@@ -194,6 +194,7 @@ def sonnet(system, messages, max_tok=900):
 
 
 def load_client(handle: str) -> dict:
+    from truth_guards import is_en_led  # B043: ONE EN-led boundary shared with creative_line
     cdir = BASE / "clients" / handle
     p = lambda n: json.loads((cdir / "profile" / f"{n}.json").read_text())
     profile_raw = sorted((cdir / "raw/instagram").iterdir())[-1]
@@ -280,7 +281,7 @@ def load_client(handle: str) -> dict:
             "state": p("state"), "exemplars": exemplars, "corpus_text": corpus_text,
             "visual_dna": (json.loads((cdir / "profile/visual_dna.json").read_text())
                            if (cdir / "profile/visual_dna.json").exists() else None),
-            "en_led": (p("fingerprint")["l2_voice"].get("dialect") == "non_arabic")}
+            "en_led": is_en_led(fingerprint=p("fingerprint"))}
 
 
 def rank_gold_exemplars(gold_entries: list, occasion: str, corpus_exemplars: list) -> list:

@@ -27,6 +27,46 @@ def load_dna(brand_en: str) -> dict | None:
     return None
 
 
+# B050 (June 19): DNA-eligibility floor for the feed-cloner (v6) path.
+# The backlog spec said ">=20 real captions", but the extractor caps exemplars at 10
+# (audited 72 v2/v3 files: every brand has 7-10, max=10) — a literal 20 floor would kill
+# the v6 path for 100% of brands (Rule #9: the spec number dies against the data). So the
+# MECHANISM is data-driven and the floor is a named, tunable constant. Default 5 cleanly
+# separates a real extraction (7-10 exemplars) from a stub/empty/missing one (0). Mohamed
+# owns the final number — staged to his portal to confirm/override (don't re-litigate here).
+MIN_DNA_EXEMPLARS = 5
+
+
+def _ruled_floor() -> int:
+    """Mohamed owns the floor (Rule #7: his tap must land somewhere). If he has ruled a
+    `dna_exemplar_floor` on the live-rulings file, the gate reads it; else the default."""
+    try:
+        r = json.loads((BASE / "data" / "mohamed_rulings_live.json").read_text())
+        v = r.get("dna_exemplar_floor")
+        v = v.get("value") if isinstance(v, dict) else v
+        return int(v) if v is not None else MIN_DNA_EXEMPLARS
+    except Exception:
+        return MIN_DNA_EXEMPLARS
+
+
+def dna_eligibility(brand_en: str, min_exemplars: int | None = None) -> dict:
+    """Single source of truth for whether a brand may use the feed-cloner (v6) path.
+    Returns {eligible, exemplars, reason}. Eligible ⇔ DNA v2/v3 exists AND carries
+    >= min_exemplars real feed captions (default = Mohamed's ruled floor, else 5). The
+    reason is logged on fallback so the angle-brain path knows WHY (Rule #6: writer→reader)."""
+    if min_exemplars is None:
+        min_exemplars = _ruled_floor()
+    dna = load_dna(brand_en)
+    if dna is None:
+        return {"eligible": False, "exemplars": 0,
+                "reason": f"no_dna_file:{brand_en}"}
+    n = len(dna.get("exemplars") or [])
+    if n < min_exemplars:
+        return {"eligible": False, "exemplars": n,
+                "reason": f"thin_dna:{n}<{min_exemplars}"}
+    return {"eligible": True, "exemplars": n, "reason": "ok"}
+
+
 def build_messages_v5(brief: dict, occasion_ar: str, max_chars: int) -> list | None:
     dna = load_dna(brief.get("brand_en", ""))
     if not dna:

@@ -31,6 +31,7 @@ Usage:
 import argparse
 import hashlib
 import json
+from datetime import date
 from pathlib import Path
 
 BASE = Path(__file__).parent.parent
@@ -186,6 +187,19 @@ def replay_client(handle: str, dry_run: bool = False) -> dict:
     crosswalk = load_crosswalk(founder_kills)
 
     new_tp, new_taste, changes = derive(events, truth_pack, taste, founder_kills, crosswalk)
+
+    # B102: project HUMAN-CONFIRMED intake answers into red_lines / goals / fingerprint.
+    # The reader (Rule #6) that actually runs the intake projector — without this, a confirmed
+    # answer dies in the ledger. Acts only on intake_answer events carrying a routing target.
+    from intake_projection import project_intake, ALLOWED_TARGETS
+    intake_organs = {}
+    for t in ALLOWED_TARGETS:
+        p = pdir / (t + ".json")
+        if p.exists():
+            intake_organs[t] = json.loads(p.read_text())
+    new_intake, intake_changes = project_intake(events, intake_organs)
+    changes = changes + intake_changes
+
     if dry_run or not changes:
         return {"handle": handle, "changes": changes, "wrote": False}
 
@@ -194,6 +208,9 @@ def replay_client(handle: str, dry_run: bool = False) -> dict:
         write_organ(tp_path, new_tp)
     if new_taste != taste:
         write_organ(taste_path, new_taste)
+    for t, new_organ in new_intake.items():
+        if new_organ != intake_organs.get(t):
+            write_organ(pdir / (t + ".json"), new_organ)
 
     # every applied change → a deduped writeback event (NOT the human ledger)
     seen = _load_writeback_keys(handle)
@@ -206,10 +223,19 @@ def replay_client(handle: str, dry_run: bool = False) -> dict:
             if key in seen:
                 continue
             seen.add(key)
+            # B084b: this is a MACHINE replay record, not a human tap. confirmer is the
+            # SYSTEM; the human who confirmed the underlying ledger verdict is preserved in
+            # source_confirmer (provenance only). If we wrote confirmer="mohamed" here, the
+            # events-integrity audit (verify_events_wired, which scans events/*.jsonl incl.
+            # this file) would read it as his decision left un-CONFIRMED-stamped — a false
+            # red AND an impersonation of his tap. Mirror writeback_moments.py.
             f.write(json.dumps({
+                "ts": ch.get("ts") or date.today().isoformat(),
                 "type": "writeback_" + ch["kind"],
                 "subject": ch["subject"],
-                "confirmer": ch.get("confirmer"),
+                "confirmer": "writeback_replay",
+                "source_confirmer": ch.get("confirmer"),
+                "stamp": "DERIVED (writeback_replay)",
                 "source": "writeback_replay",
                 "key": key,
             }, ensure_ascii=False) + "\n")

@@ -1,0 +1,10 @@
+// intake_answer routing templates (B102) — question → organ map. One line per intake question.
+// The card-builder emits a client_event_v1 intake_answer from a template + the answer
+// (scripts/intake_projection.event_from_template); writeback_replay projects it into the organ.
+// target ∈ {red_lines, goals, fingerprint}; field = dotted path within the organ (red_lines uses lines).
+{"question_id": "q_red_line", "question": "ما الخطوط الحمراء التي يجب ألا نتجاوزها أبداً في المحتوى؟", "target": "red_lines", "field": "lines", "op": "append", "who": "client", "applies_to": ["albaik", "eatjurisha", "myfitness.sa"]}
+{"question_id": "q_primary_goal", "question": "ما الهدف الأول من المحتوى هذا الموسم؟ (وعي / تفاعل / مبيعات / ولاء)", "target": "goals", "field": "primary", "op": "set", "who": "client", "applies_to": ["albaik", "eatjurisha", "myfitness.sa"]}
+{"question_id": "q_usp", "question": "ما الذي يميّزكم عن المنافسين بكلماتكم أنتم؟", "target": "fingerprint", "field": "l1_strategy.positioning", "op": "set", "who": "client", "applies_to": ["albaik", "eatjurisha", "myfitness.sa"]}
+{"question_id": "q_who_speaks", "question": "من يتحدث في صوت العلامة؟ (العلامة نفسها / المؤسس / العميل)", "target": "fingerprint", "field": "l1_strategy.who_speaks", "op": "set", "who": "client", "applies_to": ["albaik", "eatjurisha", "myfitness.sa"]}
+{"question_id": "q_contrarian", "question": "ما الاعتقاد الذي تؤمنون به ويخالف السائد في مجالكم؟", "target": "fingerprint", "field": "l1_strategy.contrarian_belief", "op": "set", "who": "client", "applies_to": ["albaik", "eatjurisha", "myfitness.sa"]}
+{"question_id": "q_capacity", "question": "كم منشوراً تقدرون على إنتاجه/مراجعته شهرياً بشكل واقعي؟", "target": "goals", "field": "capacity_ceiling", "op": "set", "who": "client", "applies_to": ["albaik", "eatjurisha", "myfitness.sa"]}

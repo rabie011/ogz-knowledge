@@ -1,0 +1,55 @@
+{
+  "_meta": {
+    "id": "B057c",
+    "what": "Resolution map for the Thin-Brain schema fork: the 7 PRIMARY_INTEL_KEYS that build_production_brief_engine.py reads were dropped by Thin-Brain v4.2 (commit f80d27e4). This table is RABIE's PROVISIONAL ruling on the rewire-vs-strip fork. CALL-PATH CORRECTED 2026-06-20 (Rule #9, grep-verified): NO reader is in an automated live path. build_production_brief_engine.py is a MANUAL-ONLY brief tool (ogz_enricher.py:162 EXCLUDES it — 'calls Claude API'; run_post_extraction_pipeline.py:106 says 'run manually'; the pilot producer produce_batch.py does NOT use it — it builds from clients/<h>/profile/strategy_brief.json). The other 3 readers (calibrate_cd_router, creative_pipeline, overnight_improver) are standalone/test-referenced only. So the fork is really: REWIRE build_production_brief_engine onto the new v4.2 keys IF the manual brief tool is still used, or STRIP it if produce_batch has superseded it; the 3 standalone readers PARK for DELETE APPROVED (strip is a deletion; never delete without Mohamed).",
+    "decided_by": "RABIE (provisional, logged data/make_sure_log.jsonl) — awaits Mohamed's one-tap confirm before the live reader is rewired in code.",
+    "source_of_truth": "11_who_to_learn_from/intelligence_layer.json (v4.2)",
+    "rule_basis": "Rule #6 (severed wire), #9 (every new-key target VERIFIED to exist by test_intel_schema_map.py before it is quoted as a rewire target), #13 (the rewire changes LIVE brief content → Mohamed's eye gates it).",
+    "shape_warning": "Mappings are NOT 1:1 in shape. A blind variable-swap would feed wrong-shaped guidance into live briefs (a new silent severance). The actual code rewire (B057b) must adapt the consumption shapes per the shape_gap notes below; until then intel_health() keeps every degraded brief honestly flagged."
+  },
+  "map": {
+    "sector_playbooks": {
+      "new_keys": ["sector_facts"],
+      "equivalence": "partial",
+      "shape_gap": "OLD: keyed by exact sector, inner {must_use, never_use, winning_formulas, visual_dna}. NEW sector_facts: keyed by sector-GROUP (f_and_b, retail_lifestyle, fashion, beauty_personal_care, healthcare_wellness, real_estate); inner shape differs. Rewire must map sector->group and re-read inner fields.",
+      "supplement_keys": ["brand_profiles"]
+    },
+    "universal_rules": {
+      "new_keys": ["cultural_guardrails", "arabic_quality_rules"],
+      "equivalence": "partial",
+      "shape_gap": "OLD: flat list of rule strings. NEW cultural_guardrails: dict of forbidden_* lists + modesty_rules; arabic_quality_rules: dialect/saudi_markers/proven_caption_patterns. Rewire must flatten the relevant sub-lists into the universal-rule slot."
+    },
+    "anti_patterns": {
+      "new_keys": ["cultural_guardrails", "caption_data_rules"],
+      "equivalence": "partial",
+      "shape_gap": "OLD: list of anti-pattern strings. NEW: cultural_guardrails.forbidden_behaviors/forbidden_props/forbidden_gestures + caption_data_rules.opener_rules/ending_rules (the 'never do' half).",
+      "supplement_keys": ["quality_gate"]
+    },
+    "occasion_rules": {
+      "new_keys": ["occasion_calendar", "occasion_required_words"],
+      "equivalence": "partial",
+      "shape_gap": "OLD: list of {occasion, verdict}; code builds {occasion: rule} and reads .verdict (use/avoid/use_selectively). NEW occasion_calendar: dict keyed by occasion, NO 'verdict' field; occasion_required_words: dict of required terms. Rewire must derive verdict from calendar semantics or drop the verdict read."
+    },
+    "visual_rules": {
+      "new_keys": ["cultural_guardrails", "visual_intelligence"],
+      "equivalence": "partial",
+      "shape_gap": "OLD: list of visual rule strings. NEW: cultural_guardrails.forbidden_visuals (the 'never show') + visual_intelligence (the positive guidance)."
+    },
+    "caption_rules": {
+      "new_keys": ["caption_data_rules", "arabic_quality_rules", "caption_intelligence"],
+      "equivalence": "partial",
+      "shape_gap": "OLD: list of caption rule strings. NEW: caption_data_rules (opener/ending/emoji/hashtag rules) + arabic_quality_rules.proven_caption_patterns + caption_intelligence (per-brand)."
+    },
+    "format_rules": {
+      "new_keys": ["caption_data_rules"],
+      "equivalence": "full",
+      "shape_gap": "OLD: format rule list (length/emoji/hashtag). NEW caption_data_rules carries length_by_sector + emoji_rules + hashtag_rules directly — closest to a clean 1:1."
+    }
+  },
+  "standalone_readers_park_for_delete_approved": [
+    "calibrate_cd_router.py",
+    "creative_pipeline.py",
+    "overnight_improver.py"
+  ],
+  "manual_only_reader_to_rewire_or_strip": "build_production_brief_engine.py (NOT auto-live: enricher excludes it, produce_batch does not use it; run manually only)"
+}

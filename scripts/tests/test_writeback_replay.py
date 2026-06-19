@@ -151,6 +151,30 @@ class TestReplayClientIO(unittest.TestCase):
         wb = (base / "clients/acme/events/writeback.jsonl").read_text().splitlines()
         self.assertEqual(len(wb), 3)                  # not 6 — deduped
 
+    def test_writeback_events_never_impersonate_human(self):
+        """B084b: the underlying ledger verdicts are confirmer=mohamed, but the DERIVED
+        writeback events must record the SYSTEM as confirmer (the human is preserved only
+        in source_confirmer) — else verify_events_wired reads them as his decision left
+        un-CONFIRMED-stamped, a false red AND an impersonation of his tap."""
+        base = writeback_replay.BASE
+        writeback_replay.replay_client("acme")
+        for ln in (base / "clients/acme/events/writeback.jsonl").read_text().splitlines():
+            e = json.loads(ln)
+            self.assertEqual(e["confirmer"], "writeback_replay")
+            self.assertNotIn(e["confirmer"], writeback_replay._HUMAN_CONFIRMERS)
+            self.assertEqual(e["source_confirmer"], "mohamed")   # provenance preserved
+            self.assertTrue(str(e["stamp"]).startswith("DERIVED"))
+            self.assertTrue(e["ts"])
+
+        # and the events-integrity audit must raise ZERO errors on the writeback ledger
+        # (the minimal synthetic ledger.jsonl deliberately carries unstamped mohamed taps —
+        # those are a separate, expected finding; B084b is only about the DERIVED file).
+        sys.path.insert(0, str(Path(__file__).parent.parent))
+        import verify_events_wired  # noqa: E402
+        findings, _ = verify_events_wired.audit(base)
+        wb_errors = [f for f in findings if f[0] == "ERROR" and f[1].endswith("writeback.jsonl")]
+        self.assertEqual(wb_errors, [], f"writeback impersonation errors: {wb_errors}")
+
 
 if __name__ == "__main__":
     unittest.main()

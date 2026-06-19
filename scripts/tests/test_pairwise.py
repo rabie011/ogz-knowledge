@@ -141,5 +141,63 @@ class TestConsumeRoundTrip(unittest.TestCase):
         self.assertEqual(len(pw.PREFS.read_text().splitlines()), 1)
 
 
+class TestLivePortalBridgeCardsLand(unittest.TestCase):
+    """Rule #7 on the LIVE surface: the cards already on his phone must have a landing handler.
+    TestConsumeRoundTrip proves consume() works on SYNTHETIC cards; this proves it works on the
+    REAL open pw_ cards in decision_queue.json RIGHT NOW — the exact thing the June-15 severance
+    broke (11 real staged taps would have vanished). It copies the real queue into a tmpdir, fires
+    a synthetic tap at every open pw_ card through the full consume() pipeline, and asserts each
+    one resolves into a correct preference. If a future form_pairs()/push ever re-severs a live
+    card's pair, this FAILS naming the orphaned card — instead of his tap landing in the void."""
+
+    def setUp(self):
+        import tempfile
+        self._real_queue = Path(pw.__file__).parent.parent / "data/decision_queue.json"
+        self._saved = {k: getattr(pw, k) for k in ("ANSWERS", "PREFS", "PAIRS", "QUEUE")}
+        self._tmp = tempfile.TemporaryDirectory()
+        d = Path(self._tmp.name)
+        pw.ANSWERS, pw.PREFS, pw.PAIRS, pw.QUEUE = d / "ans.jsonl", d / "prefs.jsonl", d / "pairs.json", d / "queue.json"
+        # copy the REAL portal queue in verbatim — the durable card is the only pair source
+        pw.QUEUE.write_text(self._real_queue.read_text() if self._real_queue.exists() else json.dumps({"items": []}))
+
+    def tearDown(self):
+        for k, v in self._saved.items():
+            setattr(pw, k, v)
+        self._tmp.cleanup()
+
+    def _open_pw_cards(self):
+        q = json.loads(pw.QUEUE.read_text())
+        items = q.get("items", []) if isinstance(q, dict) else q
+        return [c for c in items if str(c.get("id", "")).startswith("pw_") and c.get("status") == "open"]
+
+    def test_every_live_pw_card_is_resolvable(self):
+        """Precondition for landing: each open pw_ card must carry both option labels, or
+        _pairs_from_cards() can't reconstruct its pair and the tap is silently dropped."""
+        cards = self._open_pw_cards()
+        if not cards:
+            self.skipTest("no open pw_ cards on the portal right now")
+        resolvable = pw._pairs_from_cards()
+        orphans = [c.get("id") for c in cards if c.get("id") not in resolvable]
+        self.assertEqual(orphans, [], f"open pw_ cards with no landing handler (Rule #7 severed): {orphans}")
+
+    def test_a_tap_on_every_live_card_lands_as_a_preference(self):
+        """End-to-end: fire one synthetic tap at each open pw_ card and assert consume() turns
+        ALL of them into preference records — the whole batch his phone could send must land."""
+        cards = self._open_pw_cards()
+        if not cards:
+            self.skipTest("no open pw_ cards on the portal right now")
+        with pw.ANSWERS.open("w") as f:
+            for i, c in enumerate(cards):
+                f.write(json.dumps({"item_id": c["id"], "answer": "a" if i % 2 == 0 else "b",
+                                    "judge": "mohamed_sim", "ts": i}) + "\n")
+        n = pw.consume()
+        self.assertEqual(n, len(cards), f"only {n}/{len(cards)} live taps landed — the rest vanished")
+        self.assertEqual(len(pw.PREFS.read_text().splitlines()), len(cards))
+        for line in pw.PREFS.read_text().splitlines():
+            rec = json.loads(line)
+            self.assertTrue(rec.get("winner_caption"), "landed pref has empty winner_caption")
+            self.assertTrue(rec.get("loser_caption"), "landed pref has empty loser_caption")
+
+
 if __name__ == "__main__":
     unittest.main()

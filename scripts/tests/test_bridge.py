@@ -100,14 +100,76 @@ class TestBridge(unittest.TestCase):
     def test_bridge_status_is_honest_and_monotonic(self):
         """bridge_status (Step 5d) surfaces the gated-on-taps wait as a verified number so a
         one-tap-away HOLD never reads as a stall. Locks: (1) the three-key contract, (2) staging
-        bridges never REDUCES testability (after >= now), (3) the structural count is winner-
-        INDEPENDENT — swapping winner/loser on the staged edges leaves `after` unchanged."""
+        bridges never REDUCES testability (after >= now)."""
         st = pw.bridge_status()
         for k in ("staged", "n_testable_now", "n_testable_after"):
             self.assertIn(k, st)
         self.assertGreaterEqual(st["n_testable_after"], st["n_testable_now"],
                                 "staging bridges reduced testability — a bridge must never disconnect")
         self.assertGreaterEqual(st["staged"], 0)
+
+    def test_structural_testable_is_winner_independent(self):
+        """The winner-independence the docstring claims, now ASSERTED (it was promised but never
+        checked — a docstring that lied about its own coverage). Swapping winner<->loser on every
+        staged bridge edge must leave the structural `after` count unchanged: testability is a pure
+        graph-degree property, so who he ends up picking can never move the number we show him."""
+        prefs_file = Path(__file__).parent.parent.parent / "data/pairwise_prefs.jsonl"
+        if not prefs_file.exists():
+            self.skipTest("no prefs ledger")
+        prefs = [json.loads(l) for l in prefs_file.read_text().splitlines() if l.strip()]
+        ps = pw.bridge_pairs(12)
+        if not ps:
+            self.skipTest("no bridges proposed")
+        edges = [(p["a"]["caption"], p["b"]["caption"]) for p in ps]
+        swapped = [(b, a) for a, b in edges]
+        self.assertEqual(pw.structural_testable(prefs, edges),
+                         pw.structural_testable(prefs, swapped),
+                         "swapping winner/loser changed the testability count — it is NOT winner-independent")
+
+    def test_structural_is_upper_bound_on_bt_rankable(self):
+        """CONSUMER LAW (Rule #6 + Rule #9). bridge_status shows him `after taps=N` from the cheap
+        STRUCTURAL degree-count; the REAL eye-measure is taste_elo.held_out_live (Bradley-Terry).
+        degree>=2 is NECESSARY for BT to rank a pick but NOT sufficient — the two captions must also
+        land in the same connected component, untied. So over the SAME live set, BT-rankable can only
+        be <= structural. This locks that bound: structural must never UNDER-count what BT needs (a
+        logical impossibility that would mean a regression in either function). We tag the bridge
+        edges as seed so they add connectivity WITHOUT entering the live set — measuring how many of
+        his ORIGINAL picks BT can rank, against the structural bound on that same set.
+
+        NOTE (verified this shift, June 19): on the live staged set structural=9 while BT ranks 4 of
+        his EXISTING picks — the portal's `9` is honest only because his bridge TAPS are themselves
+        real measurable picks (realistic held_out_live with taps-as-live = 9). We lock the always-true
+        bound, NOT that coincidental 9==9 equality (4 existing + 5 tap-picks), which would be fragile."""
+        prefs_file = Path(__file__).parent.parent.parent / "data/pairwise_prefs.jsonl"
+        if not prefs_file.exists():
+            self.skipTest("no prefs ledger")
+        prefs = [json.loads(l) for l in prefs_file.read_text().splitlines() if l.strip()]
+        if len([p for p in prefs if p.get("source") != "seed_from_ratings"]) < 2:
+            self.skipTest("need >=2 live picks")
+        ps = pw.bridge_pairs(12)
+        if not ps:
+            self.skipTest("no bridges proposed")
+        edges = [(p["a"]["caption"], p["b"]["caption"]) for p in ps]
+
+        def to_pairs(rows):
+            caps = {}
+            def cid(c):
+                return caps.setdefault(c, len(caps))
+            return [(cid(r["winner_caption"]), cid(r["loser_caption"])) for r in rows]
+
+        # bridge edges as SEED → connectivity only, original picks stay the measured live set
+        sim = list(prefs) + [{"winner_caption": a, "loser_caption": b, "source": "seed_from_ratings"}
+                             for a, b in edges]
+        _, bt_now = te.held_out_live(to_pairs(prefs), prefs)
+        _, bt_after = te.held_out_live(to_pairs(sim), sim)
+        struct_now = pw.structural_testable(prefs)
+        struct_after = pw.structural_testable(prefs, edges)
+        self.assertLessEqual(bt_now, struct_now,
+                             "BT ranked more 'now' than degree allows — structural under-counts (regression)")
+        self.assertLessEqual(bt_after, struct_after,
+                             "BT ranked more 'after' than degree allows — structural under-counts (regression)")
+        # and the structural count must move the right way once bridges connect the graph
+        self.assertGreaterEqual(struct_after, struct_now)
 
 
 if __name__ == "__main__":

@@ -25,6 +25,13 @@ def _write_log(rows):
     return p
 
 
+def _distinct(count, **fixed):
+    """`count` DISTINCT measurement rows sharing the given fields. Each gets a unique permutation
+    index so the FLOOR-distinctness guard counts them as separate runs (without touching the
+    aggregate inputs `n`/`order_diff`, which the math reads directly)."""
+    return [{**fixed, "ship_order_idx": [i], "advisory_order_idx": [i]} for i in range(count)]
+
+
 class TestFloorRefusal(unittest.TestCase):
     """Rule #9: a mean over too-few runs is noise — refuse to quote it."""
 
@@ -35,7 +42,7 @@ class TestFloorRefusal(unittest.TestCase):
         self.assertNotIn("mean_order_diff", m)  # NO number is exposed below the floor
 
     def test_below_floor_is_insufficient(self):
-        rows = [{"n": 3, "order_diff": 1, "wire_live": False} for _ in range(tsm.FLOOR - 1)]
+        rows = _distinct(tsm.FLOOR - 1, n=3, order_diff=1, wire_live=False)
         m = tsm.compute(rows)
         self.assertEqual(m["status"], "INSUFFICIENT")
         self.assertNotIn("displacement_ratio", m)
@@ -45,7 +52,7 @@ class TestFloorRefusal(unittest.TestCase):
         self.assertEqual(m["status"], "INSUFFICIENT")
 
     def test_at_floor_quotes_a_number(self):
-        rows = [{"n": 3, "order_diff": 1, "wire_live": False} for _ in range(tsm.FLOOR)]
+        rows = _distinct(tsm.FLOOR, n=3, order_diff=1, wire_live=False)
         m = tsm.compute(rows)
         self.assertEqual(m["status"], "OK")
         self.assertIn("mean_order_diff", m)
@@ -60,7 +67,7 @@ class TestDivergenceMath(unittest.TestCase):
 
     def test_taste_agrees_gives_zero_ratio(self):
         """Every run: taste agrees with baseline (order_diff 0) → ratio 0, full gap vs random."""
-        rows = [{"n": 4, "order_diff": 0, "wire_live": False} for _ in range(tsm.FLOOR)]
+        rows = _distinct(tsm.FLOOR, n=4, order_diff=0, wire_live=False)
         m = tsm.compute(rows)
         self.assertEqual(m["mean_order_diff"], 0.0)
         self.assertEqual(m["displacement_ratio"], 0.0)
@@ -68,26 +75,26 @@ class TestDivergenceMath(unittest.TestCase):
         self.assertEqual(m["active_vs_random_gap"], 3.0)     # taste diverges far LESS than random
 
     def test_taste_scatters_like_random_gives_ratio_one(self):
-        rows = [{"n": 4, "order_diff": 3, "wire_live": False} for _ in range(tsm.FLOOR)]
+        rows = _distinct(tsm.FLOOR, n=4, order_diff=3, wire_live=False)
         m = tsm.compute(rows)
         self.assertEqual(m["displacement_ratio"], 1.0)       # order_diff == random expectation
         self.assertEqual(m["active_vs_random_gap"], 0.0)
 
     def test_gate_open_flag_tracks_wire_live(self):
-        rows = ([{"n": 4, "order_diff": 1, "wire_live": False} for _ in range(4)]
-                + [{"n": 4, "order_diff": 1, "wire_live": True} for _ in range(2)])
+        rows = (_distinct(4, n=4, order_diff=1, wire_live=False)
+                + _distinct(2, n=4, order_diff=1, wire_live=True))
         m = tsm.compute(rows)
         self.assertEqual(m["gate_open_runs"], 2)
         self.assertTrue(m["control_independent"])
 
     def test_all_closed_runs_flagged_preliminary(self):
-        rows = [{"n": 4, "order_diff": 1, "wire_live": False} for _ in range(tsm.FLOOR)]
+        rows = _distinct(tsm.FLOOR, n=4, order_diff=1, wire_live=False)
         m = tsm.compute(rows)
         self.assertFalse(m["control_independent"])
         self.assertIn("preliminary", m)                      # honest: no independent control yet
 
     def test_tolerates_torn_line(self):
-        p = _write_log([{"n": 3, "order_diff": 1, "wire_live": False} for _ in range(tsm.FLOOR)])
+        p = _write_log(_distinct(tsm.FLOOR, n=3, order_diff=1, wire_live=False))
         with open(p, "a", encoding="utf-8") as f:
             f.write('{"n": 3, "order_diff":')                # a torn final write
         m = tsm.metric(path=p)
@@ -135,6 +142,52 @@ class TestBaselineControl(unittest.TestCase):
         e = tr.shadow_entry(["x", "y"], meta)
         self.assertEqual(e["order_diff"], 0)
         self.assertIn("baseline_order_idx", e)
+
+
+class TestRunDistinctness(unittest.TestCase):
+    """Rule #9 / fresh-batch scar: FLOOR counts DISTINCT measurements, never repeated rows. A frozen
+    elo state (no new taps) makes produce_batch emit byte-identical divergence records run after run;
+    the persistent orchestra would accumulate FLOOR copies of ONE observation and trip a false
+    'measured' number. The guard collapses identical runs before the FLOOR check."""
+
+    def test_identical_rows_collapse_to_one_and_refuse(self):
+        # FLOOR byte-identical records (a frozen-gate replay) must NOT clear the floor.
+        rows = [{"n": 3, "order_diff": 1, "wire_live": False,
+                 "advisory_order_idx": [0, 1, 2], "ship_order_idx": [0, 1, 2]}
+                for _ in range(tsm.FLOOR + 3)]
+        m = tsm.compute(rows)
+        self.assertEqual(m["status"], "INSUFFICIENT")        # one real measurement, not FLOOR
+        self.assertEqual(m["n_runs"], 1)
+        self.assertEqual(m["n_rows"], tsm.FLOOR + 3)
+        self.assertEqual(m["n_duplicates"], tsm.FLOOR + 2)
+        self.assertNotIn("mean_order_diff", m)               # no number escapes (Rule #9)
+
+    def test_duplicates_dont_bias_the_aggregate(self):
+        # 5 distinct order_diff=0 runs + 20 copies of one order_diff=4 run must NOT drag the mean up.
+        rows = _distinct(tsm.FLOOR, n=5, order_diff=0, wire_live=False)
+        rows += [{"n": 5, "order_diff": 4, "wire_live": False,
+                  "advisory_order_idx": [9], "ship_order_idx": [9]} for _ in range(20)]
+        m = tsm.compute(rows)
+        self.assertEqual(m["status"], "OK")
+        self.assertEqual(m["n_runs"], tsm.FLOOR + 1)         # 5 distinct + 1 unique dup-source
+        self.assertEqual(m["n_duplicates"], 19)
+        # mean over the 6 DISTINCT runs = 4/6, not 80/25 had duplicates counted
+        self.assertEqual(m["mean_order_diff"], round(4 / (tsm.FLOOR + 1), 3))
+
+    def test_fingerprint_ignores_timestamp(self):
+        # Same measurement at different clock ticks is still ONE run — time must not reopen the hole.
+        base = {"n": 4, "order_diff": 2, "wire_live": False,
+                "advisory_order_idx": [1, 0, 2, 3], "ship_order_idx": [0, 1, 2, 3]}
+        a = {**base, "built": "2026-06-19T09:00:00"}
+        b = {**base, "built": "2026-06-19T09:30:00"}
+        self.assertEqual(tsm._run_fingerprint(a), tsm._run_fingerprint(b))
+
+    def test_genuinely_distinct_runs_all_count(self):
+        rows = _distinct(tsm.FLOOR, n=4, order_diff=1, wire_live=False)
+        m = tsm.compute(rows)
+        self.assertEqual(m["status"], "OK")
+        self.assertEqual(m["n_runs"], tsm.FLOOR)
+        self.assertEqual(m["n_duplicates"], 0)
 
 
 if __name__ == "__main__":

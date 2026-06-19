@@ -161,6 +161,33 @@ def main():
                         capture_output=True, text=True, timeout=120)
     checks["armor_tests"] = ar.returncode == 0
 
+    # 6a3. IMMUNE SUITE (B119): the routing/blackout/fences/year-map armor. It lives in
+    # scripts/ (NOT scripts/tests/), so `unittest discover -s scripts/tests` above never ran
+    # it — a red immune gate could hide under a green make_sure for a whole shift (caught
+    # June 19: a B053 router change drifted route.emotional_pair red while make_sure stayed
+    # green). B119 says a red immune suite blocks shipping, so the per-fire self-check must
+    # run it too (Rule #6: the armor's reader was severed; this re-wires it).
+    im = subprocess.run(["python3", str(BASE / "scripts/test_immune_system.py")],
+                        capture_output=True, text=True, timeout=120)
+    checks["immune_suite"] = im.returncode == 0
+
+    # 6a4. The REST of the ship-gate armor (B116/B119/B121/B143) that the per-fire alarm was
+    # ALSO blind to (June 19 sweep, same root as the immune gap): deadly-defaults cultural
+    # release block, events-wired audit (no severed terminals — the gold wire shipped severed
+    # 3×), and the visual-gate publish block. All three are shipping-blockers per the ship gate;
+    # the alarm must run them too or a red gate hides under green make_sure. (The organ-schema
+    # validate_all gate is deliberately NOT here — it's currently red as a staged mohamed_must
+    # ruling, and adding a known-red to the blocking set would flood his portal, Rule #10.)
+    for _ck, _argv in (("deadly_defaults", ["deadly_defaults_gate.py"]),
+                       ("events_wired", ["verify_events_wired.py"]),
+                       ("visual_gate_publish", ["visual_gate_publish_gate.py", "--enforce"])):
+        try:
+            _r = subprocess.run(["python3", str(BASE / "scripts" / _argv[0])] + _argv[1:],
+                                capture_output=True, text=True, timeout=120)
+            checks[_ck] = _r.returncode == 0
+        except Exception:
+            checks[_ck] = False
+
     # 6b-pre. LAW REGISTRY: every 'enforced' claim verified (symbol exists + test passes);
     # paper_only laws surfaced. A law that claims enforcement and lies = alarm.
     lr = subprocess.run(["python3", str(BASE / "scripts/law_registry_check.py")],
@@ -200,7 +227,7 @@ def main():
     except Exception as e:
         checks["_bridge_status_err"] = str(e)[:60]
 
-    ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "portal_items_ok", "commits_flowing", "judge_cards_gated", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests"))
+    ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "portal_items_ok", "commits_flowing", "judge_cards_gated", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests", "immune_suite", "deadly_defaults", "events_wired", "visual_gate_publish"))
     entry = {"ts": now, **checks, "verdict": "ALIVE" if ok else "ALARM"}
     with open(LOG, "a") as f:
         f.write(json.dumps(entry) + "\n")
@@ -225,7 +252,7 @@ def main():
     q = _j.loads(qf.read_text()) if qf.exists() else {"items": []}
     alarm = next((i for i in q["items"] if i["id"] == "alarm_live"), None)
     if not ok:
-        dead = [k for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "portal_items_ok", "commits_flowing", "judge_cards_gated", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests") if not checks.get(k, True)]
+        dead = [k for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "portal_items_ok", "commits_flowing", "judge_cards_gated", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests", "immune_suite", "deadly_defaults", "events_wired", "visual_gate_publish") if not checks.get(k, True)]
         if alarm:  # update in place, never multiply
             alarm["status"] = "open"; alarm["priority"] = "urgent"
             alarm["title"] = f"🚨 إنذار: {', '.join(dead)} واقف"

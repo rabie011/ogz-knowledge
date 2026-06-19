@@ -57,6 +57,39 @@ def _random_expected_diff(n):
     return max(0, n - 1)
 
 
+def _run_fingerprint(r):
+    """The identity of a divergence MEASUREMENT — what makes two runs the SAME observation (Rule #9).
+
+    While the gate is closed and no new taps land, the elo state is frozen, so produce_batch keeps
+    selecting the same captions in the same order: every run emits a byte-identical divergence record.
+    The persistent orchestra is DESIGNED to accumulate runs, so on its own it would drive the log to
+    FLOOR copies of one measurement and trip a false 'measured' number to Mohamed — the exact lie the
+    fresh-batch scar warns about. The fingerprint is the content that determines the outcome: the
+    permutation indices + n + gate state + order_diff. Deliberately EXCLUDES `built` (the timestamp) —
+    folding time in would let the same measurement at two clock ticks count as two runs, reopening the
+    hole. Same observation ⇒ same fingerprint ⇒ counts ONCE toward FLOOR."""
+    return json.dumps([
+        int(r.get("n", 0)),
+        bool(r.get("wire_live")),
+        r.get("advisory_order_idx"),
+        r.get("ship_order_idx"),
+        r.get("baseline_order_idx"),
+        int(r.get("order_diff", 0)),
+    ], sort_keys=True, ensure_ascii=False)
+
+
+def _distinct_runs(rows):
+    """Collapse byte-identical measurements to one. Order-preserving (keeps the first of each)."""
+    seen, out = set(), []
+    for r in rows:
+        fp = _run_fingerprint(r)
+        if fp in seen:
+            continue
+        seen.add(fp)
+        out.append(r)
+    return out
+
+
 def compute(rows):
     """Compute the divergence metric from shadow-log rows.
 
@@ -76,12 +109,22 @@ def compute(rows):
       gate_open_runs         — runs recorded after the gate flipped (independent control present).
                                While 0, the baseline == ship for every run and the number is a
                                PRELIMINARY shadow read, flagged so it is never quoted as the live one.
+
+    FLOOR counts DISTINCT measurements, never raw rows (Rule #9). Byte-identical records — what a
+    frozen elo state emits run after run — collapse to one before the FLOOR check, so an inflated log
+    (5 copies of one observation) reads INSUFFICIENT, not OK. `n_rows`/`n_duplicates` are surfaced so
+    a thin-but-padded log can't hide as a rich one.
     """
+    n_rows = len(rows)
+    rows = _distinct_runs(rows)               # collapse repeated identical measurements (Rule #9)
     n_runs = len(rows)
-    out = {"n_runs": n_runs, "floor": FLOOR, "log": str(SHADOW_LOG)}
+    out = {"n_runs": n_runs, "n_rows": n_rows, "n_duplicates": n_rows - n_runs,
+           "floor": FLOOR, "log": str(SHADOW_LOG)}
     if n_runs < FLOOR:
         out["status"] = "INSUFFICIENT"
-        out["reason"] = f"n_runs={n_runs} < FLOOR={FLOOR} — refusing to quote an aggregate (Rule #9)"
+        dup = f" ({n_rows} rows, {n_rows - n_runs} duplicate)" if n_rows != n_runs else ""
+        out["reason"] = (f"n_runs={n_runs} < FLOOR={FLOOR}{dup} — refusing to quote an aggregate "
+                         f"(Rule #9; FLOOR counts DISTINCT measurements, not repeated rows)")
         return out
 
     diffs = [int(r.get("order_diff", 0)) for r in rows]
@@ -117,9 +160,11 @@ def main():
     print(f"TASTE SHADOW METRIC — {m['log']}")
     if m["status"] == "INSUFFICIENT":
         print(f"  ⚪ INSUFFICIENT: {m['reason']}")
-        print(f"  (need >= {m['floor']} produce-batch runs logged before any number is quoted)")
+        print(f"  (need >= {m['floor']} DISTINCT produce-batch runs logged before any number is quoted)")
         return
-    print(f"  runs={m['n_runs']} (gate-open={m['gate_open_runs']}, control_independent={m['control_independent']})")
+    dup = f", {m['n_duplicates']} duplicate collapsed" if m.get("n_duplicates") else ""
+    print(f"  runs={m['n_runs']} distinct of {m['n_rows']} rows{dup} "
+          f"(gate-open={m['gate_open_runs']}, control_independent={m['control_independent']})")
     print(f"  mean_order_diff={m['mean_order_diff']}  vs  mean_random_diff={m['mean_random_diff']}")
     print(f"  displacement_ratio={m['displacement_ratio']}  active_vs_random_gap={m['active_vs_random_gap']}")
     if m.get("preliminary"):

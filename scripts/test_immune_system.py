@@ -81,8 +81,15 @@ def test_brain_routing():
     except SystemExit:
         pass
     check("route.national_heritage", m.route_brain({"occasion": "saudi_national_day"}) == "heritage")
-    check("route.emotional_pair", m.route_brain({"occasion": "ramadan"}, 0) == "firaasa"
-          and m.route_brain({"occasion": "ramadan"}, 1) == "authenticity")
+    # B053 (June 19): ramadan now routes from the provenance-backed YAML occasion_overrides
+    # (authenticity+heritage), NOT the old hardcoded firaasa+authenticity pair. Lock the YAML
+    # routing so it can never silently regress.
+    check("route.ramadan_yaml", m.route_brain({"occasion": "ramadan"}, 0) == "authenticity"
+          and m.route_brain({"occasion": "ramadan"}, 1) == "heritage")
+    # The firaasa+authenticity emotional-pair fallback now guards only the occasions the YAML
+    # does NOT cover (_EMOTIONAL_FALLBACK). Test the fallback path on one of those.
+    check("route.emotional_pair", m.route_brain({"occasion": "arab_mothers_day"}, 0) == "firaasa"
+          and m.route_brain({"occasion": "arab_mothers_day"}, 1) == "authenticity")
     check("route.competitor_paradox", m.route_brain({"type": "competitor_reference"}) == "paradox")
     check("route.alt_flips", m.route_brain({}, 0) != m.route_brain({}, 1))
     from lib.cd_brains import route

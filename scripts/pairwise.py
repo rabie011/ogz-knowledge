@@ -275,6 +275,26 @@ def push_bridge(n=8, handle=None):
     return _push(bridge_pairs(n, handle), rank=0)
 
 
+def structural_testable(prefs, extra_edges=()):
+    """A live pick (w,l) is held-out-testable iff, with it removed, BOTH its captions still appear
+    in some other pair — i.e. degree(w)>=2 AND degree(l)>=2 over all edges. Pure graph structure:
+    winner-INDEPENDENT and tie-free, so the number is honest regardless of who he ends up picking.
+
+    This is the SAME testability gate the real consumer (taste_elo.held_out_live) applies — a pick is
+    droppable there iff one of its captions is a singleton once held out. Lifted to module level + named
+    so a test can lock structural==consumer (Rule #6: the portal's `after taps=N` must equal what BT
+    delivers; a silent divergence would put a number that lies on his phone, Rule #9)."""
+    from collections import Counter
+    deg = Counter()
+    edges = [(p.get("winner_caption", ""), p.get("loser_caption", "")) for p in prefs]
+    edges += list(extra_edges)
+    for a, b in edges:
+        deg[a] += 1; deg[b] += 1
+    live = [p for p in prefs if p.get("source") != "seed_from_ratings"]
+    return sum(1 for p in live
+               if deg[p.get("winner_caption", "")] >= 2 and deg[p.get("loser_caption", "")] >= 2)
+
+
 def bridge_status():
     """HONEST gated-on-taps status (Step 5d, June 18). The held-out LIVE number sits at 0 not because
     the machine is broken but because his judged captions are singletons — and bridge cards that fix
@@ -284,19 +304,7 @@ def bridge_status():
     is winner-INDEPENDENT (it depends purely on which captions get compared, not who he picks) — and
     deliberately does NOT quote any agreement %, because that awaits his REAL taps (Rule #9).
     Returns {staged, n_testable_now, n_testable_after}."""
-    def _structural_testable(prefs, extra_edges=()):
-        """A live pick (w,l) is held-out-testable iff, with it removed, BOTH its captions still appear
-        in some other pair — i.e. degree(w)>=2 AND degree(l)>=2 over all edges. Pure graph structure:
-        winner-INDEPENDENT and tie-free, so the number is honest regardless of who he ends up picking."""
-        from collections import Counter
-        deg = Counter()
-        edges = [(p.get("winner_caption", ""), p.get("loser_caption", "")) for p in prefs]
-        edges += list(extra_edges)
-        for a, b in edges:
-            deg[a] += 1; deg[b] += 1
-        live = [p for p in prefs if p.get("source") != "seed_from_ratings"]
-        return sum(1 for p in live
-                   if deg[p.get("winner_caption", "")] >= 2 and deg[p.get("loser_caption", "")] >= 2)
+    _structural_testable = structural_testable
 
     prefs = [json.loads(l) for l in PREFS.read_text().splitlines() if l.strip()] if PREFS.exists() else []
     live_caps = set()
@@ -333,9 +341,14 @@ def bridge_status():
                               f"{int(sim['threshold']*100)}% = {sim['speedup_x']}× fewer")
         except Exception:
             sim = None
+    # `after` is the structural degree-bound counted over his EXISTING picks; it equals the realistic
+    # held_out_live only because his bridge TAPS are themselves measurable picks (his picks + the taps).
+    # Said plainly so the number cannot be misread as "9 of your existing picks are eye-measured" — only
+    # ~4 of the existing are BT-rankable; the rest come from the taps. Agreement % still awaits real taps.
     print(f"BRIDGE STATUS: {len(staged)} bridge cards staged on his portal · "
-          f"held-out-testable picks now={now} → after his taps={after} "
-          f"(testability only — agreement % awaits his real taps, Rule #9){sim_clause}")
+          f"held-out-testable picks on record now={now} → after his taps={after} "
+          f"(his picks + the bridge taps, both real choices; structural upper-bound, "
+          f"agreement % awaits his real taps, Rule #9){sim_clause}")
     return {"staged": len(staged), "n_testable_now": now, "n_testable_after": after,
             "sim_speedup_x": (sim or {}).get("speedup_x"),
             "sim_active_taps": (sim or {}).get("active_taps_to_threshold"),

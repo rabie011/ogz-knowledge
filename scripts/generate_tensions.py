@@ -107,8 +107,10 @@ def main():
             print(build_tension_prompt(b)[-300:])
         return
 
-    from openai import OpenAI
-    client = OpenAI(api_key=_load_key())
+    import sys as _sys
+    _sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from lib.openai_client import make_client  # B258: bounded timeout/retries
+    client = make_client(_load_key())
 
     updated = 0
     errors = 0

@@ -26,7 +26,14 @@ import lib.openai_client as factory  # noqa: E402
 
 # Live-path callers explicitly migrated to the factory.
 MIGRATED = ["creative_pipeline.py", "fill_occasions_v2.py",
-            "deepen_brand_profiles.py", "multi_llm_collector.py"]
+            "deepen_brand_profiles.py", "multi_llm_collector.py",
+            # B258 round 2 (June 19): the always-on enricher daemon + judge +
+            # active producers/enrichers — the live paths a hung call would stall.
+            "enrich_obs_openai.py", "cd_judge.py", "generate_tensions.py",
+            "fill_pillar_emotion.py", "semantic_search.py",
+            "generate_brand_dna_gpt.py", "extract_account_obs.py",
+            "fill_sparse_visual_fields.py", "apply_dialect.py",
+            "apply_emotion_pillar.py"]
 
 # THE RATCHET — scripts that still build a raw, timeout-less client. This list
 # is DEBT made visible (B258). It may only SHRINK: when a script is migrated to
@@ -34,14 +41,13 @@ MIGRATED = ["creative_pipeline.py", "fill_occasions_v2.py",
 # Adding a new raw timeout-less client to ANY live script (one not on this list)
 # fails test_no_new_raw_clients below.
 KNOWN_UNMIGRATED = {
-    "apply_dialect.py", "apply_emotion_pillar.py", "cd_judge.py",
-    "cd_model_compare.py", "cd_technique_scan.py", "enrich_obs_openai.py",
+    # Remaining debt (B258): heavy/rare one-offs not on the always-on path —
+    # video-frame enrichers, the overnight rebuilders, the archive processor,
+    # the CD scan/compare one-offs, vision_probe. Migrate in a later shift.
+    "cd_model_compare.py", "cd_technique_scan.py",
     "enrich_video_frames.py", "enrich_video_frames_ext.py",
-    "extract_account_obs.py", "fill_pillar_emotion.py",
-    "fill_sparse_visual_fields.py", "generate_brand_dna_gpt.py",
-    "generate_tensions.py", "overnight_full_rebuild.py",
-    "overnight_improver.py", "process_from_archive.py",
-    "run_video_transcription.py", "semantic_search.py", "vision_probe.py",
+    "overnight_full_rebuild.py", "overnight_improver.py",
+    "process_from_archive.py", "run_video_transcription.py", "vision_probe.py",
 }
 
 # Matches openai.OpenAI(, OpenAI(, AsyncOpenAI(, openai.AsyncOpenAI(, _OpenAI(...

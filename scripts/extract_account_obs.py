@@ -570,7 +570,9 @@ def classify_batch(raw_posts: list[dict]) -> dict[str, dict]:
     if not api_key:
         raise RuntimeError("OPENAI_API_KEY not set in ~/.abraham_env")
 
-    client = openai.OpenAI(api_key=api_key)
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from lib.openai_client import make_client  # B258: bounded timeout/retries
+    client = make_client(api_key)
 
     # Build JSONL batch file in memory
     lines = []

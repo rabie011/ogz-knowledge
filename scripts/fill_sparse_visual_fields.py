@@ -39,8 +39,9 @@ if not OPENAI_KEY:
     print("ERROR: OPENAI_API_KEY not found in ~/.abraham_env")
     sys.exit(1)
 
-from openai import OpenAI
-client = OpenAI(api_key=OPENAI_KEY)
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from lib.openai_client import make_client  # B258: bounded timeout/retries
+client = make_client(OPENAI_KEY)
 
 SYSTEM = """You classify Saudi Instagram posts for a production intelligence system.
 Return ONLY valid JSON. No markdown. No explanation."""

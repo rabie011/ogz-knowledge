@@ -62,8 +62,8 @@ JUDGE_PROMPT = """أنت ناقد إبداعي خبير في الإعلان ال
 
 def judge_caption(caption: str, brain_slug: str, api_key: str) -> dict:
     """Score a caption against a CD brain's methodology. Returns axis scores + verdict."""
-    import openai
-    client = openai.OpenAI(api_key=api_key)
+    from lib.openai_client import make_client  # B258: bounded timeout/retries
+    client = make_client(api_key)
 
     methodology = build_cd_prompt_block(brain_slug)
     prompt = JUDGE_PROMPT.format(methodology=methodology[:1200], caption=caption)
@@ -105,8 +105,8 @@ def generate(brand: str, product: str, occasion: str, use_cd: bool, api_key: str
         return {"caption": d["content"]["caption"], "cd_brain": d.get("creative_director", {}).get("primary")}
     else:
         # Generic prompt — the old "professional content writer"
-        import openai
-        client = openai.OpenAI(api_key=api_key)
+        from lib.openai_client import make_client  # B258: bounded timeout/retries
+        client = make_client(api_key)
         prompt = f"""أنت كاتب محتوى سعودي محترف تكتب لعلامة @{brand}. اكتب كابشن إنستغرام واحد فقط باللهجة السعودية.
 المنتج: {product} | المناسبة: {occasion}
 استخدم اللهجة السعودية، اسم المنتج في أول 5 كلمات، هاشتاق #{brand}.

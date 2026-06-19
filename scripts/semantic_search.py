@@ -137,18 +137,18 @@ def load_all_obs() -> list[dict]:
 # ---------------------------------------------------------------------------
 
 def get_openai_client():
-    """Return an openai.OpenAI client, failing loudly if key is missing."""
+    """Return an OpenAI client (B258 factory — timeout/retries baked in), failing loudly if key is missing."""
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
     try:
-        from openai import OpenAI
+        from lib.openai_client import make_client
     except ImportError:
         print("ERROR: openai package not installed. Run: pip install openai", file=sys.stderr)
         sys.exit(1)
-
-    api_key = os.environ.get("OPENAI_API_KEY")
-    if not api_key:
-        print("ERROR: OPENAI_API_KEY environment variable is not set.", file=sys.stderr)
+    try:
+        return make_client(os.environ.get("OPENAI_API_KEY"))
+    except RuntimeError as e:
+        print(f"ERROR: {e}", file=sys.stderr)
         sys.exit(1)
-    return OpenAI(api_key=api_key)
 
 
 def embed_texts(client, texts: list[str]) -> np.ndarray:

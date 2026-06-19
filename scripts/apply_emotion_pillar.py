@@ -13,8 +13,10 @@ def load_key():
             os.environ['OPENAI_API_KEY'] = line.split('=',1)[1].strip().strip('"').strip("'")
             return
 load_key()
-from openai import OpenAI
-client = OpenAI()
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from lib.openai_client import make_client  # B258: bounded timeout/retries
+client = make_client()
 
 state = json.loads((LOGS / 'emotion_pillar_state.json').read_text())
 batch_id = state['batch_id']

@@ -231,7 +231,9 @@ def main():
         return
 
     api_key = load_key()
-    client = openai.OpenAI(api_key=api_key)
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from lib.openai_client import make_client  # B258: bounded timeout/retries
+    client = make_client(api_key)
 
     total = len(missing)
     done = 0

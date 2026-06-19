@@ -27,14 +27,17 @@ BATCH_DIR  = REPO / "logs/enrichment_batches"
 BATCH_DIR.mkdir(parents=True, exist_ok=True)
 
 # ── OpenAI client ──────────────────────────────────────────────────────────────
+# B258: built via the bedrock factory — timeout + bounded retries baked in, so a
+# hung socket can never silently stall the always-on enricher daemon.
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 try:
-    from openai import OpenAI
-    client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+    from lib.openai_client import make_client
+    client = make_client()
 except ImportError:
     print("ERROR: openai not installed — pip install openai", file=sys.stderr)
     sys.exit(1)
-except KeyError:
-    print("ERROR: OPENAI_API_KEY not set", file=sys.stderr)
+except RuntimeError as e:
+    print(f"ERROR: {e}", file=sys.stderr)
     sys.exit(1)
 
 MODEL = "gpt-4o-mini"

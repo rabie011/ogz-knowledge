@@ -78,16 +78,17 @@ OUTPUT_SCHEMA_HINT = """{
 
 # ── OpenAI client (lazy import) ────────────────────────────────────────────────
 def _get_client():
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
     try:
-        from openai import OpenAI
+        from lib.openai_client import make_client  # B258: bounded timeout/retries
     except ImportError:
         print("ERROR: openai not installed — pip install openai", file=sys.stderr)
         sys.exit(1)
-    key = os.environ.get("OPENAI_API_KEY", "")
-    if not key:
-        print("ERROR: OPENAI_API_KEY not set", file=sys.stderr)
+    try:
+        return make_client(os.environ.get("OPENAI_API_KEY", ""))
+    except RuntimeError as e:
+        print(f"ERROR: {e}", file=sys.stderr)
         sys.exit(1)
-    return OpenAI(api_key=key)
 
 
 # ── State helpers ──────────────────────────────────────────────────────────────

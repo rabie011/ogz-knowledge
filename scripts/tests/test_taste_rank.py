@@ -105,5 +105,60 @@ class TestProduceBatchSeam(unittest.TestCase):
         self.assertTrue(meta["wire_live"])
 
 
+class TestShadowDivergenceLog(unittest.TestCase):
+    """B267 — the append-only divergence history (taste_shadow_log.jsonl). The seam must record,
+    every run, what taste WOULD prefer vs what shipped, so active-pick-vs-random can be MEASURED at
+    the real seam once the gate opens — not just the rescued-seed sim (Rule #9)."""
+
+    def test_order_diff_counts_displacement_gate_closed(self):
+        """Gate closed: ship order = system's pick (weak first), advisory ranks the strong caption
+        first → taste WOULD move 2 positions; order_diff records that gap as the raw signal."""
+        t = {**STRONG, "held_out_live_n_testable": 0, "held_out_live_pct": None,
+             "held_out_agreement_degenerate": True}
+        ship = ["B he rejects", "A his eye loves"]
+        _, meta = tr.select(ship, t)                       # ship order unchanged (gate closed)
+        e = tr.shadow_entry(ship, meta, ts="2026-06-19T00:00:00")
+        self.assertEqual(e["n"], 2)
+        self.assertFalse(e["wire_live"])
+        self.assertEqual(e["advisory_order_idx"], [1, 0])  # advisory wants ship-pos 1 (the strong) first
+        self.assertEqual(e["order_diff"], 2)               # both positions displaced
+
+    def test_order_diff_zero_when_taste_agrees(self):
+        """When the system already shipped in taste order, divergence is zero."""
+        t = {**STRONG, "held_out_live_n_testable": 0, "held_out_live_pct": None,
+             "held_out_agreement_degenerate": True}
+        ship = ["A his eye loves", "B he rejects"]          # already strong-first
+        _, meta = tr.select(ship, t)
+        e = tr.shadow_entry(ship, meta)
+        self.assertEqual(e["order_diff"], 0)
+        self.assertEqual(e["advisory_order_idx"], [0, 1])
+
+    def test_append_writes_exactly_one_line_per_run(self):
+        """Append-only: each produce run adds EXACTLY one JSONL line; history is never rewritten."""
+        import tempfile, json as _json
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "taste_shadow_log.jsonl"
+            t = {**STRONG, "held_out_live_n_testable": 0, "held_out_live_pct": None,
+                 "held_out_agreement_degenerate": True}
+            ship = ["B he rejects", "A his eye loves"]
+            _, meta = tr.select(ship, t)
+            for _ in range(3):                              # three runs
+                tr.append_shadow_log(tr.shadow_entry(ship, meta), path=p)
+            lines = p.read_text().splitlines()
+            self.assertEqual(len(lines), 3)                 # one per run, append-only
+            for ln in lines:                                # every line valid + carries order_diff
+                rec = _json.loads(ln)
+                self.assertIn("order_diff", rec)
+                self.assertIn("advisory_order_idx", rec)
+
+    def test_handles_duplicate_captions(self):
+        """Duplicate captions resolve to distinct ship positions (consumed left-to-right), never None."""
+        meta = {"wire_live": False, "n_testable": 0, "live_pct": None,
+                "advisory_rank": ["dup", "dup", "x"]}
+        ship = ["dup", "x", "dup"]
+        e = tr.shadow_entry(ship, meta)
+        self.assertEqual(sorted(e["advisory_order_idx"]), [0, 1, 2])  # a real permutation, no None
+
+
 if __name__ == "__main__":
     unittest.main()

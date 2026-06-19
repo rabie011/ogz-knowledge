@@ -19,10 +19,12 @@ the ranking as ADVISORY metadata only — it does not influence order. It does n
 noise (Rule #8): the influence path is closed, not whispering. When his bridge taps land and the
 held-out number proves out, the gate flips and the same code path goes live — no rewrite."""
 import json
+import time
 from pathlib import Path
 
 B = Path(__file__).parent.parent
 TASTE = B / "data/taste_elo.json"
+SHADOW_LOG = B / "data/taste_shadow_log.jsonl"
 
 # Gate thresholds: his live picks must be measurable (graph connected) AND the elo must rank his
 # held-out chosen caption above the rejected one meaningfully better than a coin (random = 50%).
@@ -87,6 +89,69 @@ def select(captions, taste=None):
     if live:
         return [r["caption"] for r in ranked], meta
     return list(captions), meta
+
+
+def _positions_in(ref_caps):
+    """Map each caption to its positions in ref_caps (duplicates queued left-to-right)."""
+    pos = {}
+    for i, c in enumerate(ref_caps):
+        pos.setdefault(c, []).append(i)
+    return pos
+
+
+def _index_against(caps, ref_pos):
+    """Resolve each caption in `caps` to a position in the reference frame, consuming duplicates
+    left-to-right. Missing captions resolve to None."""
+    ref_pos = {k: list(v) for k, v in ref_pos.items()}  # don't mutate caller's map
+    out = []
+    for c in caps:
+        slots = ref_pos.get(c)
+        out.append(slots.pop(0) if slots else None)
+    return out
+
+
+def shadow_entry(ship_caps, meta, baseline_caps=None, ts=None):
+    """Build ONE append-only divergence record for the taste->creation wire (B267/B268, Rule #6/#9).
+
+    The seam writes what taste WOULD prefer (meta['advisory_rank']) next to the CONTROL — the
+    system's pre-taste selection order (`baseline_caps`). Everything is measured in the baseline's
+    reference frame so the divergence stat keeps a stable control:
+
+      • GATE CLOSED — taste steers nothing, so ship order IS the baseline. baseline_caps defaults to
+        ship_caps and `order_diff` = how many positions taste WOULD move from what the system ships.
+      • GATE OPEN  — ship order BECOMES the taste order, so ship == advisory and ship-vs-advisory
+        would be a degenerate 0. The active-vs-random comparison would lose its control. To prevent
+        that (B268), the caller MUST pass the pre-taste selection as `baseline_caps`; `order_diff`
+        then stays meaningful = advisory-vs-baseline displacement, the real signal.
+
+    order_diff == 0 means taste agrees with the system's own (pre-taste) pick this run."""
+    baseline = list(baseline_caps) if baseline_caps is not None else list(ship_caps)
+    advisory = meta.get("advisory_rank") or list(ship_caps)
+    base_pos = _positions_in(baseline)
+    adv_idx = _index_against(advisory, base_pos)         # advisory in the baseline frame
+    ship_idx = _index_against(ship_caps, base_pos)       # what shipped, in the baseline frame
+    n = len(baseline)
+    order_diff = sum(1 for k, idx in enumerate(adv_idx) if idx != k)
+    return {
+        "built": ts or time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "n": n,
+        "wire_live": bool(meta.get("wire_live")),
+        "n_testable": meta.get("n_testable", 0),
+        "live_pct": meta.get("live_pct"),
+        "baseline_order_idx": list(range(n)),  # the control: system's pre-taste order, the reference
+        "ship_order_idx": ship_idx,            # what actually shipped (== baseline while gate closed)
+        "advisory_order_idx": adv_idx,         # what taste would prefer, in the baseline frame
+        "order_diff": order_diff,
+    }
+
+
+def append_shadow_log(entry, path=SHADOW_LOG):
+    """Append one shadow_entry as a JSONL line (append-only history — Rule #6 consumer)."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "a", encoding="utf-8") as f:
+        f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    return entry
 
 
 def main():

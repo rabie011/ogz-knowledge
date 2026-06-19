@@ -10,10 +10,12 @@ Usage: python3 scripts/build_judging_batch.py            # build + stage
 Fire-day (after Mohamed's fal one-liner):
   python3 scripts/render_image.py --batch /tmp/judging_batch_paths.txt
 """
-import collections, json, subprocess
+import collections, json, subprocess, sys
 from pathlib import Path
 
 BASE = Path(__file__).parent.parent
+sys.path.insert(0, str(Path(__file__).parent))
+from visual_gate_checklist import human_rejected   # Rule #6: read the visual-gate verdict
 CLIENTS = ["albaik", "eatjurisha"]          # myfitness throttled: EXPIRED truth
 PER_CLIENT = 10
 BATCH = 20
@@ -31,6 +33,8 @@ def candidates(handle: str) -> list[dict]:
         if (c.get("order_tail") or c.get("very_normal") or c.get("truth_violation")
                 or not c.get("captions")):
             continue
+        if human_rejected(c):
+            continue                          # Rule #13: a human-rejected visual never re-reaches Mohamed
         idea = (c.get("idea") or {}).get("scene_ar", "")
         shots = (c.get("visual") or {}).get("phone_shoot_card") or []
         if not idea or not shots:

@@ -344,8 +344,14 @@ def main():
     taste_advisory = {"wire_live": _ta["wire_live"], "n_testable": _ta["n_testable"],
                       "live_pct": _ta["live_pct"], "steered_ship_order": _ta["wire_live"],
                       "advisory_rank": _ta["advisory_rank"]}
+    # B267/B268 — append this run to the append-only divergence history so active-pick-vs-random can
+    # be MEASURED at the real seam once the gate opens (not just the rescued-seed sim — Rule #9).
+    # _chosen_caps is the system's PRE-taste selection = the control baseline; _ordered_caps is what
+    # taste would ship (== _chosen_caps while the gate is closed). Passing the baseline explicitly
+    # keeps order_diff meaningful after the gate flips (B268: the control must survive the reorder).
+    _shadow = tr.append_shadow_log(tr.shadow_entry(_ordered_caps, _ta, baseline_caps=_chosen_caps))
     emit(f"   taste→creation wire: {'🟢 LIVE — steered selection' if _ta['wire_live'] else '⚪ SHADOW — advisory only, ship order unchanged'} "
-         f"(n_testable={_ta['n_testable']}, live_pct={_ta['live_pct']})")
+         f"(n_testable={_ta['n_testable']}, live_pct={_ta['live_pct']}, order_diff={_shadow['order_diff']}/{_shadow['n']})")
 
     man = {"built": time.strftime("%Y-%m-%dT%H:%M:%S"), "n": len(chosen), "suffix": a.suffix, "staged": False,
            "taste_advisory": taste_advisory,

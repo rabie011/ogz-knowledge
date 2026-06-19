@@ -192,6 +192,16 @@ try:
 except Exception as e:
     check("Immune suite", False, str(e))
 
+# B121 (June 19): orphaned-send / events-integrity audit — a send with no terminal event is a
+# severed wire (the gold wire shipped severed 3×). The ship gate is its consumer (Rule #6).
+try:
+    r = subprocess.run([sys.executable, str(Path(__file__).parent / "verify_events_wired.py")],
+                       capture_output=True, text=True, timeout=60)
+    check("Events-wired audit (no orphaned sends / severed terminals)", r.returncode == 0,
+          (r.stdout or "").strip().splitlines()[-1][:80])
+except Exception as e:
+    check("Events-wired audit", False, str(e))
+
 # Summary
 print(f"\n{'=' * 60}")
 if failures:

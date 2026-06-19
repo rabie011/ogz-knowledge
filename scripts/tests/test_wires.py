@@ -15,6 +15,7 @@ CONNECTED = [
     ("learned_gate_rules.json",   "scripts/pre_ship_gate.py"),   # his rulings → the gate
     ("taste_elo.json",            "api/portal_mini.py"),         # Mohamed-Elo → instant tap feedback (June 16)
     ("founder_taste.json",        "scripts/render_client_slot.py"),  # his taste law → the producing pen (June 18)
+    ("verify_events_wired.py",    "scripts/verify_ship_ready.py"),   # orphaned-send audit → the ship gate (B121, June 19)
 ]
 
 

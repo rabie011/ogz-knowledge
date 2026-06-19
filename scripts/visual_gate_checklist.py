@@ -86,6 +86,16 @@ def checklist_for(handle: str, card: dict) -> dict:
                           "note": "unchecked checklist = unpublishable card"}}
 
 
+def human_rejected(card: dict) -> bool:
+    """CONSUMER of the visual-gate human verdict (B143 slice, June 19 — Rule #6).
+    The checklist WRITES verdict.all_clear but nothing read it: a card a human
+    explicitly REJECTED (all_clear == False) could still re-enter the judging batch
+    that reaches Mohamed (Rule #13 chokepoint). True iff a human looked and said NO.
+    all_clear None (unchecked) / True (cleared) / no gate attached are NOT rejections —
+    the unchecked tick gates final PUBLISH downstream, not the pre-publish judging batch."""
+    return ((card.get("visual_gate") or {}).get("verdict") or {}).get("all_clear") is False
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--handle", required=True)

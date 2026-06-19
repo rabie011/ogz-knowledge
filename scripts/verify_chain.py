@@ -78,6 +78,8 @@ def major_dates():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--n", type=int, default=20, help="judge-card slice size to validate (first-N of manifest)")
+    ap.add_argument("--daily-only", dest="daily_only", action="store_true",
+                    help="first-proof/near-term: assert all-daily (no occasion coverage required)")
     a = ap.parse_args()
 
     print("THE COMPLETE-POST CHAIN — $0 proof (no fal, no LLM)\n")
@@ -113,7 +115,16 @@ def main():
     # ── ARROW 2: OCCASION COVERAGE — every must-cover major whose window intersects the manifest
     #    date span must appear in the manifest (Rule #8 — name the missing major, REFUSE). ──
     majors = must_cover_majors()
-    if slice_n:
+    if getattr(a, "daily_only", False):
+        # DAILY-ONLY contract: the first-proof batch carries NO occasion posts (occasions enter a
+        # later batch once their caption model is funded). Assert the slice is all-daily — a major
+        # sneaking in would be a contract break, not coverage.
+        occ_posts = [f"{p.get('handle')} {p.get('date')} [{p.get('occasion')}]"
+                     for p in slice_n if (p.get("occasion") or "daily") in majors]
+        line(not occ_posts, "manifest → occasion coverage",
+             f"daily-only mode: 0 occasion posts (all {len(slice_n)} daily) — coverage N/A by design"
+             if not occ_posts else f"daily-only but {len(occ_posts)} occasion post(s) present: {occ_posts[:2]}")
+    elif slice_n:
         dates = sorted(p.get("date", "") for p in slice_n if p.get("date"))
         span_lo, span_hi = (dates[0], dates[-1]) if dates else ("", "")
         present = {p.get("occasion") for p in slice_n}

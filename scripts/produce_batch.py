@@ -141,6 +141,8 @@ def main():
     ap.add_argument("--suffix", default="__auto")
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--rank", action="store_true", help="rank candidates by REAL-engagement occasion-lift (June 18)")
+    ap.add_argument("--daily-only", dest="daily_only", action="store_true",
+                    help="first-proof/near-term mode: daily posts only, NO occasion reservation (June 19)")
     a = ap.parse_args()
     log = B / "data/produce_batch.log"; lines = []
 
@@ -165,41 +167,51 @@ def main():
             _sp.run(["python3", str(B / "scripts/client_strategy.py"), "--handle", h], capture_output=True, text=True)
             emit(f"   ◆ strategy brief refreshed for {h}")
 
-    occ = occasion_candidates()
-    # RESERVE must-cover majors BEFORE the 30% truncation (June 18 — white_friday + eid_al_adha
-    # were silently dropped when the cap sliced the occasion list; Rule #8: a major is never
-    # silently omitted). Majors lead, so even if the occasion budget is < their count the cap is
-    # RAISED to keep them (a loud line, never a silent drop). Derived from year_maps, no hand list.
     majors = must_cover_majors()
-    must_occ = [t for t in occ if t[2] in majors]            # (handle, date, slug) for each must-cover major
-    rest_occ = [t for t in occ if t[2] not in majors]
-    n_occ_budget = min(len(occ), max(1, int(a.n * 0.30)))    # the diversity target (≤30%)
-    n_occ = max(n_occ_budget, len(must_occ))                 # RAISE the cap rather than drop a major
-    if n_occ > n_occ_budget:
-        emit(f"   ⚠ occasion cap RAISED {n_occ_budget}→{n_occ}: {len(must_occ)} must-cover majors "
-             f"({[t[2] for t in must_occ]}) exceed the 30% budget — Rule #8: keep majors, never silently drop")
-    occ = (must_occ + rest_occ)[:n_occ]                      # majors first → survive the slice
-    per_client = math.ceil((a.n - n_occ) / len(CLIENTS))  # daily quota per client
-    emit(f"plan: {a.n} = {n_occ} occasion ({len(must_occ)} must-cover majors reserved) + {per_client}×{len(CLIENTS)} daily · idempotent reuse on")
-
-    # render the occasion candidates + a balanced daily pool per client (with headroom), reusing clean files
     clean_by_client = defaultdict(list)
-    clean_majors = set()                                      # which must-cover majors produced a clean card
-    for h, dt, oc in occ:
-        d = render(h, dt, a.suffix, a.force)
-        ok = is_clean(d, h)
-        emit(f"   {'✓' if ok else '✗'} OCC {h} {dt} [{oc}]")
-        if ok:
-            clean_by_client[h].append({"h": h, "dt": dt, "occ": oc, "d": d})
-            if oc in majors:
-                clean_majors.add(oc)
-    # Rule #8 — a reserved major with NO clean card is made LOUD (never a silent absence). The
-    # batch is not aborted (other posts are valid) but the missing major is named so the gap is
-    # visible to the producer log + the downstream verify_chain gate.
-    missing_majors = {t[2] for t in must_occ} - clean_majors
-    for m in sorted(missing_majors):
-        emit(f"   🛑 MUST-COVER MAJOR «{m}» has NO clean produced card — coverage GAP (fix the gate / "
-             f"the slot, never hand-fill). verify_chain will REFUSE on this until covered.")
+    if getattr(a, "daily_only", False):
+        # FIRST-PROOF / NEAR-TERM mode (June 19): daily posts ONLY, NO occasion reservation. The
+        # major-coverage guarantee is right for an ongoing calendar but wrong for the first proof
+        # batch — the big occasions are months out, undrafted, and need a funded caption model. This
+        # is a batch MODE, not a hand-pick: the system still PICKS its daily slots by rule (Rule #12
+        # intact). Occasions enter a later batch; verify_chain --daily-only matches this contract.
+        occ, must_occ, n_occ = [], [], 0
+        per_client = math.ceil(a.n / len(CLIENTS))
+        emit(f"plan: {a.n} = DAILY-ONLY (near-term first-proof, no occasion reservation) · "
+             f"{per_client}×{len(CLIENTS)} daily · idempotent reuse on")
+    else:
+        occ = occasion_candidates()
+        # RESERVE must-cover majors BEFORE the 30% truncation (June 18 — white_friday + eid_al_adha
+        # were silently dropped when the cap sliced the occasion list; Rule #8: a major is never
+        # silently omitted). Majors lead, so even if the occasion budget is < their count the cap is
+        # RAISED to keep them (a loud line, never a silent drop). Derived from year_maps, no hand list.
+        must_occ = [t for t in occ if t[2] in majors]            # (handle, date, slug) for each must-cover major
+        rest_occ = [t for t in occ if t[2] not in majors]
+        n_occ_budget = min(len(occ), max(1, int(a.n * 0.30)))    # the diversity target (≤30%)
+        n_occ = max(n_occ_budget, len(must_occ))                 # RAISE the cap rather than drop a major
+        if n_occ > n_occ_budget:
+            emit(f"   ⚠ occasion cap RAISED {n_occ_budget}→{n_occ}: {len(must_occ)} must-cover majors "
+                 f"({[t[2] for t in must_occ]}) exceed the 30% budget — Rule #8: keep majors, never silently drop")
+        occ = (must_occ + rest_occ)[:n_occ]                      # majors first → survive the slice
+        per_client = math.ceil((a.n - n_occ) / len(CLIENTS))  # daily quota per client
+        emit(f"plan: {a.n} = {n_occ} occasion ({len(must_occ)} must-cover majors reserved) + {per_client}×{len(CLIENTS)} daily · idempotent reuse on")
+        # render the occasion candidates + a balanced daily pool per client (with headroom), reusing clean files
+        clean_majors = set()                                      # which must-cover majors produced a clean card
+        for h, dt, oc in occ:
+            d = render(h, dt, a.suffix, a.force)
+            ok = is_clean(d, h)
+            emit(f"   {'✓' if ok else '✗'} OCC {h} {dt} [{oc}]")
+            if ok:
+                clean_by_client[h].append({"h": h, "dt": dt, "occ": oc, "d": d})
+                if oc in majors:
+                    clean_majors.add(oc)
+        # Rule #8 — a reserved major with NO clean card is made LOUD (never a silent absence). The
+        # batch is not aborted (other posts are valid) but the missing major is named so the gap is
+        # visible to the producer log + the downstream verify_chain gate.
+        missing_majors = {t[2] for t in must_occ} - clean_majors
+        for m in sorted(missing_majors):
+            emit(f"   🛑 MUST-COVER MAJOR «{m}» has NO clean produced card — coverage GAP (fix the gate / "
+                 f"the slot, never hand-fill). verify_chain will REFUSE on this until covered.")
     for h in CLIENTS:
         need = per_client + 4  # headroom for drops
         for (hh, dt, oc) in daily_candidates(h, need):

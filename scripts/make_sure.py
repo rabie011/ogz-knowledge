@@ -80,6 +80,47 @@ def _probe(fn, tries=2, backoff=1.5):
     raise last
 
 
+# Checks whose RED is plausibly a TRANSIENT session-start load-spike timeout (network probes +
+# the subprocess test suite), not a real outage. Everything else is in-process logic with no
+# transient failure mode (a red there is real).
+_LOAD_SENSITIVE = frozenset({"portal_mini", "portal_public", "portal_items_ok", "armor_tests"})
+
+
+def _phone_dead(checks, prev_checks):
+    """Which dead checks have EARNED an urgent card on MOHAMED'S PHONE (vs. just the honest log).
+
+    Root scar (June 20, third strike in one morning): the orchestra's session-start fire collided
+    with the enricher+hook stampede; portal_*/armor_tests timed out on HEALTHY services (every one
+    returned 200 in <0.4s, the suite was green 12 min later) and a SINGLE red fire instantly opened
+    the urgent alarm card on his phone. _probe/_safe_run retry WITHIN a fire, but a heavy stampede
+    outlasts both tries, so the false RED still reached him — an ADHD-contract / Rule #10 breach
+    (cry-wolf erodes every real alarm).
+
+    The bedrock fix is one layer ABOVE the probe: a LOAD-SENSITIVE red must PERSIST across two
+    consecutive fires before it pages him. A real outage is still red on the next fire -> alarms
+    (never masked). A load-spike transient clears -> never floods him. prev_checks is the previous
+    log entry's checks ({} on the very first run -> a load-sensitive red is treated as unconfirmed
+    and suppressed; a genuine outage simply confirms on the next fire).
+
+    HARD checks (guards_gauntlet, immune_suite, law_registry, ...) have NO transient mode -> a red
+    is real -> fires immediately, no second strike required.
+
+    Note this gates ONLY the phone card. make_sure's own exit code / printed banner stay tied to the
+    raw `ok`, so Claude and the orchestra still SEE every red this instant and verify it (as this
+    shift did) — only Mohamed's phone waits for confirmation."""
+    confirmed = []
+    for k, v in checks.items():
+        if v is not False:
+            continue
+        if k in _LOAD_SENSITIVE:
+            if prev_checks.get(k) is False:   # red on BOTH fires -> real, page him
+                confirmed.append(k)
+            # else: first strike -> suppress this cycle, let the next fire decide
+        else:
+            confirmed.append(k)               # hard-check red is never transient
+    return confirmed
+
+
 def main():
     now = time.strftime("%Y-%m-%dT%H:%M:%S")
     prev = json.loads(STATE.read_text()) if STATE.exists() else {}
@@ -341,7 +382,22 @@ def main():
         checks["_taste_wire_err"] = str(e)[:60]
 
     ok = all(checks[k] for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "portal_items_ok", "commits_flowing", "judge_cards_gated", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests", "immune_suite", "deadly_defaults", "events_wired", "visual_gate_publish"))
-    entry = {"ts": now, **checks, "verdict": "ALIVE" if ok else "ALARM"}
+    # Two-strike phone gate: a load-sensitive red only pages Mohamed if it persisted since the
+    # previous fire (the prev log entry's checks). First-strike transients are suppressed from his
+    # phone but stay honest in the log + exit code. (See _phone_dead.)
+    prev_checks = {}
+    try:
+        with open(LOG) as _lf:
+            _lines = [ln for ln in _lf if ln.strip()]
+        if _lines:
+            prev_checks = json.loads(_lines[-1])
+    except Exception:
+        prev_checks = {}
+    phone_dead = _phone_dead(checks, prev_checks)
+    suppressed = [k for k, v in checks.items()
+                  if v is False and k in _LOAD_SENSITIVE and k not in phone_dead]
+    entry = {"ts": now, **checks, "verdict": "ALIVE" if ok else "ALARM",
+             "_phone_dead": phone_dead, "_suppressed_transient": suppressed}
     with open(LOG, "a") as f:
         f.write(json.dumps(entry) + "\n")
     STATE.write_text(json.dumps({"ts": now, "cards_total": cards}))
@@ -349,6 +405,9 @@ def main():
     for k, v in checks.items():
         print(f"  {'✅' if (v if isinstance(v, bool) else True) else '🔴'} {k}: {v}")
     print(f"\n{'🟢 MAKE-SURE: ALIVE' if ok else '🔴 MAKE-SURE: ALARM'}")
+    if suppressed:
+        print(f"🟡 transient suppressed (first-strike load spike, NOT paged — confirms on next "
+              f"fire if real): {suppressed}")
     # SURFACE (not a check — never alarms): the research-request audit trail Mohamed asked for was
     # write-only (logged, read by nothing). Give the write-only organ its reader (Rule #6, June 15).
     try:
@@ -397,8 +456,8 @@ def main():
     qf = BASE / "data/decision_queue.json"
     q = _j.loads(qf.read_text()) if qf.exists() else {"items": []}
     alarm = next((i for i in q["items"] if i["id"] == "alarm_live"), None)
-    if not ok:
-        dead = [k for k in ("grinder_process", "guards_gauntlet", "portal_mini", "portal_public", "portal_items_ok", "commits_flowing", "judge_cards_gated", "orchestrator_alive", "feedback_system", "law_registry", "armor_tests", "immune_suite", "deadly_defaults", "events_wired", "visual_gate_publish") if not checks.get(k, True)]
+    if phone_dead:   # only a CONFIRMED red pages him (load-sensitive transients are gated out)
+        dead = phone_dead
         if alarm:  # update in place, never multiply
             alarm["status"] = "open"; alarm["priority"] = "urgent"
             alarm["title"] = f"🚨 إنذار: {', '.join(dead)} واقف"
@@ -411,7 +470,9 @@ def main():
                             "--tag", "نظام", "--desc", f"فحص الأدلة فشل: {dead}. كلود يعالج — هذا للعلم.",
                             "--buttons", "ack:👌 شفته"], capture_output=True)
     elif alarm and alarm.get("status") != "answered":
-        alarm["status"] = "answered"; alarm["answered"] = "auto-closed: all gates green again"
+        _msg = ("auto-closed: all gates green again" if ok
+                else f"auto-closed: no confirmed outage (transient suppressed: {suppressed})")
+        alarm["status"] = "answered"; alarm["answered"] = _msg
         alarm["answered_by"] = "system:make_sure (machine evidence)"
         qf.write_text(_j.dumps(q, ensure_ascii=False, indent=1))
 

@@ -3469,12 +3469,22 @@
    "status": "done",
    "origin": "rabie-orchestra 2026-06-20 — verified severance, detector landed",
    "done_note": "judge2_ledger_writer.py: 49 positive judge2 approvals → 49 client_approved ledger events (idempotent, src_key dedup); writeback_moments extended to consume client_approved same cycle (Rule #6); 13 rating>=4 → 12 new moments (1 evidence-dedup). Starvation detector cleared (49/49). +13 tests, suite 465 green."
+  },
+  {
+   "id": "B283",
+   "layer": "Ops & Memory",
+   "what": "De-conflict the orchestra stampede (orchestra fire vs session-start load)",
+   "how": "The :13/:43 scheduled fire collides with session-start; the enricher+orchestrator+hook spike outlasts make_sure's per-check retries and flaps the self-checks (4 false-RED shifts June 20). Phone-gate (shift-05:46) made it harmless to Mohamed; this roots it: detect session-start/high load and defer make_sure ~60s, OR stagger the daemon kickoffs so they never all spike at once. Touches ~/.claude/scheduled-tasks + LaunchAgents; needs its own deterministic test. Named by 04:58/05:14/05:46 verdicts.",
+   "who": "pair",
+   "est_minutes": 40,
+   "depends_on": [],
+   "status": "todo"
   }
  ],
  "counts": {
   "done": 189,
   "superseded": 3,
-  "todo": 90,
+  "todo": 91,
   "open": 4,
   "staged": 3,
   "skipped": 4

@@ -54,6 +54,32 @@ def _safe_run(argv, **kw):
         return _Failed(argv)
 
 
+def _probe(fn, tries=2, backoff=1.5):
+    """Liveness probe with a single retry. Returns fn() on success; raises the last
+    exception only if EVERY try fails.
+
+    Root scar (June 20, this very shift): the orchestra's :13 fire collided with session-start —
+    the enricher+orchestrator+hook stampede pinned the machine and the single-shot urllib checks
+    TIMED OUT on HEALTHY services. make_sure logged portal_mini/public/items RED while the portal
+    was in fact returning 200 in 0.03s. Two consecutive fires (05:16, 05:19) cried wolf, then a
+    third (load settled) was ALIVE.
+
+    A liveness probe must answer "is this actually unavailable to Mohamed?", not "was it slow for
+    one instant under a transient spike his phone would never hit." A genuinely-down service fails
+    BOTH tries -> still RED (real outage NOT masked). A load-spike timeout recovers on the retry ->
+    GREEN. The retry cost is paid only on the failure path. (Pairs with _safe_run: that stopped the
+    CRASH; this stops the FALSE RED — same root, next layer.)"""
+    last = None
+    for i in range(tries):
+        try:
+            return fn()
+        except Exception as e:   # noqa: BLE001 — any probe failure (timeout, conn refused, http) retries
+            last = e
+            if i < tries - 1:
+                time.sleep(backoff)
+    raise last
+
+
 def main():
     now = time.strftime("%Y-%m-%dT%H:%M:%S")
     prev = json.loads(STATE.read_text()) if STATE.exists() else {}
@@ -91,7 +117,7 @@ def main():
     # was fine, so Mohamed's phone saw nothing and no alarm fired. Check what he touches.
     import urllib.request
     try:
-        urllib.request.urlopen("http://127.0.0.1:4199/", timeout=5)
+        _probe(lambda: urllib.request.urlopen("http://127.0.0.1:4199/", timeout=5))
         checks["portal_mini"] = True
     except Exception:
         checks["portal_mini"] = False
@@ -106,7 +132,7 @@ def main():
     UA = {"User-Agent": "Mozilla/5.0 (Macintosh) OGZ-healthcheck"}   # Cloudflare 403s default urllib UA
     try:
         req = urllib.request.Request(f"https://brain.ogzstudios.com/approvals?k={key}", headers=UA)
-        checks["portal_public"] = urllib.request.urlopen(req, timeout=12).status == 200
+        checks["portal_public"] = _probe(lambda: urllib.request.urlopen(req, timeout=12)).status == 200
     except Exception:
         checks["portal_public"] = False
     # the ITEMS API (the cards), not just the page: a 200 page with a 500 items API = link
@@ -114,7 +140,7 @@ def main():
     try:
         ireq = urllib.request.Request(f"https://brain.ogzstudios.com/api/approvals/items?k={key}",
                                       headers={**UA, "Accept-Encoding": "identity"})
-        ir = urllib.request.urlopen(ireq, timeout=12)
+        ir = _probe(lambda: urllib.request.urlopen(ireq, timeout=12))
         checks["portal_items_ok"] = ir.status == 200 and isinstance(json.loads(ir.read()), list)
     except Exception:
         checks["portal_items_ok"] = False
@@ -191,10 +217,17 @@ def main():
         _safe_run(["python3", str(BASE / "scripts" / step)], capture_output=True, timeout=120)
 
     # 6a2. ARMOR SUITE (B116/B117): caption_filter + truth_guards under real killed
-    # captions — the deterministic half of the moat, tested every cycle
-    ar = _safe_run(["python3", "-m", "unittest", "discover", "-s",
-                    str(BASE / "scripts/tests"), "-q"],
-                   capture_output=True, text=True, timeout=180)
+    # captions — the deterministic half of the moat, tested every cycle.
+    # Retry ONCE on failure (June 20): the suite runs ~28s standalone but the session-start
+    # stampede pushed it past its 180s budget -> _safe_run rc=124 -> FALSE RED. A real test
+    # failure fails BOTH runs (still RED); a load-spike timeout passes on the retry once the
+    # spike clears. The second run is paid only on the failure path. (See _probe.)
+    _armor_argv = ["python3", "-m", "unittest", "discover", "-s",
+                   str(BASE / "scripts/tests"), "-q"]
+    ar = _safe_run(_armor_argv, capture_output=True, text=True, timeout=180)
+    if ar.returncode != 0:
+        time.sleep(2)
+        ar = _safe_run(_armor_argv, capture_output=True, text=True, timeout=180)
     checks["armor_tests"] = ar.returncode == 0
 
     # 6a3. IMMUNE SUITE (B119): the routing/blackout/fences/year-map armor. It lives in

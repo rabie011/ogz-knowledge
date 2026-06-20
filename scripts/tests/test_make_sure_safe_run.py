@@ -42,5 +42,57 @@ class TestSafeRun(unittest.TestCase):
         self.assertFalse(r.returncode == 0)
 
 
+class TestProbe(unittest.TestCase):
+    """Pins _probe's retry contract (June 20 false-ALARM scar): a transient session-start load
+    spike timed out HEALTHY services (portal 200 in 0.03s yet logged RED). _probe retries once so
+    a load-spike recovers while a real outage still reds. _safe_run stopped the CRASH; _probe stops
+    the FALSE RED."""
+
+    def test_success_first_try_no_retry(self):
+        """Happy path: returns immediately, fn() called exactly once (no needless retry latency)."""
+        calls = []
+
+        def fn():
+            calls.append(1)
+            return "ok"
+
+        self.assertEqual(ms._probe(fn), "ok")
+        self.assertEqual(len(calls), 1)
+
+    def test_transient_failure_recovers_on_retry(self):
+        """The core fix: fail once (the load spike), succeed on retry -> GREEN, not a false RED."""
+        calls = []
+
+        def fn():
+            calls.append(1)
+            if len(calls) == 1:
+                raise TimeoutError("transient stampede")
+            return "recovered"
+
+        self.assertEqual(ms._probe(fn, backoff=0), "recovered")
+        self.assertEqual(len(calls), 2)
+
+    def test_real_outage_fails_both_tries_and_raises(self):
+        """A genuinely-down service fails every try -> raises -> caller logs RED. Real outage
+        is NEVER masked (the whole point of retry-not-suppress)."""
+        calls = []
+
+        def fn():
+            calls.append(1)
+            raise ConnectionRefusedError("really down")
+
+        with self.assertRaises(ConnectionRefusedError):
+            ms._probe(fn, backoff=0)
+        self.assertEqual(len(calls), 2)
+
+    def test_raises_last_exception(self):
+        """The exception propagated is the LAST attempt's, so the caller sees the freshest cause."""
+        def fn():
+            raise ValueError("attempt failure")
+
+        with self.assertRaises(ValueError):
+            ms._probe(fn, backoff=0)
+
+
 if __name__ == "__main__":
     unittest.main()

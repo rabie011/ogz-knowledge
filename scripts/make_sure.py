@@ -31,6 +31,29 @@ def taste_wire_surface(tw: dict) -> dict:
     return out
 
 
+class _Failed:
+    """Stub result for a subprocess that timed out or failed to launch, so one slow sub-check
+    can never crash the whole self-check. June 20: a transient session-start load spike pushed
+    the unittest call past its 120s timeout and make_sure threw an UNCAUGHT TimeoutExpired,
+    aborting all 20 OTHER checks — the organ that must never lie died silently. Per the
+    hard-to-break mandate (June 16): a timeout/launch-error records the check RED (returncode
+    124 -> visible ALARM), never a crash."""
+
+    def __init__(self, argv):
+        self.returncode = 124
+        self.stdout = ""
+        self.stderr = "TIMEOUT/ERROR: " + " ".join(str(a) for a in argv)
+
+
+def _safe_run(argv, **kw):
+    """subprocess.run that degrades a timeout/OSError into a RED result instead of raising —
+    keeps make_sure unbreakable (one hung child must not blind the whole shift)."""
+    try:
+        return subprocess.run(argv, **kw)
+    except (subprocess.TimeoutExpired, OSError):
+        return _Failed(argv)
+
+
 def main():
     now = time.strftime("%Y-%m-%dT%H:%M:%S")
     prev = json.loads(STATE.read_text()) if STATE.exists() else {}
@@ -160,18 +183,18 @@ def main():
     checks["orchestrator_alive"] = o.returncode == 0
 
     # D7-1: the im-here package stays fresh every cycle — Mohamed can appear any minute
-    subprocess.run(["python3", str(BASE / "scripts/week_receipt.py")], capture_output=True, timeout=60)
+    _safe_run(["python3", str(BASE / "scripts/week_receipt.py")], capture_output=True, timeout=60)
 
     # 6a. FEEDBACK LOOP DRIVE (June 12): consume answers → issues/corrections, recompute
     # scorecards/bench, auto-close + inject budgeted meta-cards — every heartbeat
     for step in ("feedback_router.py", "apply_rulings.py", "learn_from_verdict.py", "research_fill_established.py", "gold_mint.py", "gold_audit.py", "stage_crystallize_digest.py", "scorecards.py", "feedback_cards.py"):
-        subprocess.run(["python3", str(BASE / "scripts" / step)], capture_output=True, timeout=120)
+        _safe_run(["python3", str(BASE / "scripts" / step)], capture_output=True, timeout=120)
 
     # 6a2. ARMOR SUITE (B116/B117): caption_filter + truth_guards under real killed
     # captions — the deterministic half of the moat, tested every cycle
-    ar = subprocess.run(["python3", "-m", "unittest", "discover", "-s",
-                         str(BASE / "scripts/tests"), "-q"],
-                        capture_output=True, text=True, timeout=120)
+    ar = _safe_run(["python3", "-m", "unittest", "discover", "-s",
+                    str(BASE / "scripts/tests"), "-q"],
+                   capture_output=True, text=True, timeout=180)
     checks["armor_tests"] = ar.returncode == 0
 
     # 6a3. IMMUNE SUITE (B119): the routing/blackout/fences/year-map armor. It lives in
@@ -180,8 +203,8 @@ def main():
     # June 19: a B053 router change drifted route.emotional_pair red while make_sure stayed
     # green). B119 says a red immune suite blocks shipping, so the per-fire self-check must
     # run it too (Rule #6: the armor's reader was severed; this re-wires it).
-    im = subprocess.run(["python3", str(BASE / "scripts/test_immune_system.py")],
-                        capture_output=True, text=True, timeout=120)
+    im = _safe_run(["python3", str(BASE / "scripts/test_immune_system.py")],
+                   capture_output=True, text=True, timeout=120)
     checks["immune_suite"] = im.returncode == 0
 
     # 6a4. The REST of the ship-gate armor (B116/B119/B121/B143) that the per-fire alarm was
@@ -203,14 +226,14 @@ def main():
 
     # 6b-pre. LAW REGISTRY: every 'enforced' claim verified (symbol exists + test passes);
     # paper_only laws surfaced. A law that claims enforcement and lies = alarm.
-    lr = subprocess.run(["python3", str(BASE / "scripts/law_registry_check.py")],
-                        capture_output=True, text=True, timeout=400)
+    lr = _safe_run(["python3", str(BASE / "scripts/law_registry_check.py")],
+                   capture_output=True, text=True, timeout=400)
     checks["law_registry"] = lr.returncode == 0
 
     # 6b. FEEDBACK SYSTEM integrity: router consumed, identity clean, gates hold,
     # founder canary — the 12 checks live in their own module (exit 1 = alarm)
-    fb = subprocess.run(["python3", str(BASE / "scripts/make_sure_feedback.py")],
-                        capture_output=True, text=True, timeout=120)
+    fb = _safe_run(["python3", str(BASE / "scripts/make_sure_feedback.py")],
+                   capture_output=True, text=True, timeout=120)
     checks["feedback_system"] = fb.returncode == 0
     if fb.returncode != 0:
         checks["feedback_failed"] = (fb.stdout or "").strip().splitlines()[-1:]

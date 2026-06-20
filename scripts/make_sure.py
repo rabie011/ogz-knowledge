@@ -254,6 +254,22 @@ def main():
     except Exception as e:
         checks["_orphaned_intel_err"] = str(e)[:60]
 
+    # 6e2. HUMAN-VERDICT STARVATION (verified June 20, Rule #6). His positive portal taps (approve /
+    # rating>=4) never become HUMAN-confirmed client-ledger events — every ledger verdict is
+    # rabie_provisional, so B082/B084 (human-hands-only) replay NOTHING. The loops read as "built" and
+    # make_sure stayed all-green while the wire was structurally severed. Surface the two counts as
+    # NON-bool diagnostics (so the generic ✅-loop can't green-wash them) + a dedicated ⚠️ line below.
+    # Visibility only, NOT a gate (the fix is the unbuilt writer); auto-closes once one human event lands.
+    try:
+        import intel_consumer_health
+        _starv = intel_consumer_health.human_verdict_starvation()
+        checks["_judge2_positive"] = _starv["judge2_positive"]
+        checks["_judge2_humanled"] = _starv["judge2_human_confirmed_ledger"]
+        checks["_human_verdict_pos"] = _starv["portal_positive"]
+        checks["_human_verdict_humanled"] = _starv["human_confirmed_ledger_verdicts"]
+    except Exception as e:
+        checks["_human_verdict_err"] = str(e)[:60]
+
     # 6f. TASTE→CREATION WIRE — measurement progress (B266-268, Rule #6/#9). The wire is built end to
     # end: produce_batch appends one divergence record per run → taste_shadow_metric reads them and
     # computes active-vs-baseline displacement, REFUSING any aggregate below FLOOR distinct runs. That
@@ -304,6 +320,19 @@ def main():
         print(f"📈 taste→creation wire: {checks.get('_taste_wire_runs')} runs · "
               f"active_vs_random_gap={checks.get('_taste_wire_gap')} "
               f"(control_independent={checks.get('_taste_wire_control_independent')})")
+
+    # SURFACE the human-verdict starvation honestly (the generic ✅-for-any-non-bool print would
+    # green-wash the two counts). One line, no card, no flood — auto-closes when the writer lands.
+    _j2p = checks.get("_judge2_positive")
+    _j2l = checks.get("_judge2_humanled")
+    _hvl = checks.get("_human_verdict_humanled")
+    if isinstance(_j2p, int) and isinstance(_j2l, int) and _j2p > 0 and _j2l == 0:
+        print(f"⚠️  judge2-approve STARVATION: {_j2p} positive judge2 batch approvals (approve/rating>=4) "
+              f"→ 0 human-confirmed ledger events (client_approved/human batch_rating). The pairwise PICK "
+              f"lane lands {_hvl} pick_selected, but the BATCH-judge approve→ledger writer is unbuilt, so "
+              f"B084 moments compounds NOTHING from his batch YESes (Rule #6 — next pick)")
+    elif isinstance(_j2l, int) and _j2l > 0:
+        print(f"✅ judge2-approve wire: {_j2l} human-confirmed batch verdict(s) feeding B084")
 
     # ONE reusable alarm card (dedupe) — a persistent red must NOT flood his phone with
     # a new card every cycle (June 13: 20 stacked alarm cards = noise, ADHD-contract breach).

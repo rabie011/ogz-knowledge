@@ -188,6 +188,111 @@ def orphaned_intel_reads(scripts_dir: Path = SCRIPTS, intel_path: Path = INTEL_F
     return sorted(uniq, key=lambda f: (f["file"], f["line"]))
 
 
+# --- Human-confirmed verdict starvation (Rule #6 — verified June 20) -------------------------------
+# THE SEVERANCE: Mohamed taps APPROVE / rating>=4 on the portal (data/mohamed_answers.jsonl), but no
+# consumer turns a POSITIVE verdict into a HUMAN-confirmed client-ledger event. Every verdict event on
+# every pilot ledger carries confirmer=rabie_provisional; B082 writeback_replay and B084
+# writeback_moments move trust on HUMAN hands only (approvers_registry.HUMANS), so they replay/promote
+# NOTHING — the loops are built but structurally STARVED while make_sure stays all-green. This detector
+# makes that starvation MACHINE-VISIBLE (it was invisible): his real YESes never reach the wells they
+# should feed. Visibility signal only (mirrors orphaned_intel_reads) — the fix is the unbuilt
+# portal-approve→human-confirmed-ledger writer (next backlog pick), not a gate here.
+_CLIENTS_DIR = BASE / "clients"
+_ANSWERS_FILE = BASE / "data" / "mohamed_answers.jsonl"
+_PILOTS = ("eatjurisha", "albaik", "myfitness.sa")
+_HUMAN_CONFIRMERS = {"mohamed", "alhareth", "client"}
+# ledger event types that carry a human VERDICT (vs intake / structural events)
+_VERDICT_TYPES = {"client_approved", "client_rejected", "version_verdict", "batch_rating",
+                  "voice_rating", "compare_verdict", "pick_selected", "occasion_gold"}
+# a positive portal verdict that SHOULD compound the human-hands wells (B082/B084)
+_POSITIVE_ANSWERS = {"approved", "approve", "yes", "gold", "love"}
+# THE SEVERED LANE specifically: judge2_* batch approvals. The pairwise PICK lane already lands
+# human-confirmed pick_selected events (3 exist) — so a binary "any human verdict exists?" GREEN-WASHES
+# the break (an unrelated lane clears it). The real gap is per-lane: his judge2 batch approvals
+# (49 positive) produce ZERO human-confirmed ledger events. A judge2 approval SHOULD land as one of
+# these human-confirmed ledger types; today none does (batch_rating events are all rabie_provisional).
+_JUDGE2_LEDGER_TYPES = {"client_approved", "batch_rating"}
+
+
+def _read_jsonl(p):
+    """Tolerant JSONL reader: missing file → [], a torn line is skipped (never crash a detector)."""
+    rows = []
+    try:
+        text = Path(p).read_text(encoding="utf-8")
+    except FileNotFoundError:
+        return rows
+    for ln in text.splitlines():
+        ln = ln.strip()
+        if not ln:
+            continue
+        try:
+            rows.append(json.loads(ln))
+        except json.JSONDecodeError:
+            continue
+    return rows
+
+
+def portal_positive_verdicts(answers_path: Path = _ANSWERS_FILE) -> int:
+    """Count Mohamed's POSITIVE portal verdicts (approve / rating>=4) — the taps that SHOULD feed the
+    human-hands wells. Only judge==mohamed (his eye is the trust mover)."""
+    n = 0
+    for r in _read_jsonl(answers_path):
+        if r.get("judge") != "mohamed":
+            continue
+        ans = str(r.get("answer", "")).strip().lower()
+        rating = r.get("rating")
+        if ans in _POSITIVE_ANSWERS or (isinstance(rating, int) and rating >= 4):
+            n += 1
+    return n
+
+
+def judge2_positive_approvals(answers_path: Path = _ANSWERS_FILE) -> int:
+    """His judge2_* BATCH approvals that are positive (approved / rating>=4) — the input to the lane
+    that SHOULD compound the moments well (B084) but is severed."""
+    n = 0
+    for r in _read_jsonl(answers_path):
+        if r.get("judge") != "mohamed":
+            continue
+        if not str(r.get("item_id", "")).startswith("judge2_"):
+            continue
+        ans = str(r.get("answer", "")).strip().lower()
+        rating = r.get("rating")
+        if ans in _POSITIVE_ANSWERS or (isinstance(rating, int) and rating >= 4):
+            n += 1
+    return n
+
+
+def human_confirmed_ledger_verdicts(clients_dir: Path = _CLIENTS_DIR, pilots=_PILOTS,
+                                    types=_VERDICT_TYPES) -> int:
+    """Count ledger verdict events that carry a HUMAN confirmer — the events B082/B084 actually replay.
+    rabie_provisional events do NOT count (they never move trust). `types` narrows to a lane."""
+    n = 0
+    for h in pilots:
+        for ev in _read_jsonl(Path(clients_dir) / h / "events" / "ledger.jsonl"):
+            if (ev.get("type") in types
+                    and (ev.get("confirmer") or "").lower() in _HUMAN_CONFIRMERS):
+                n += 1
+    return n
+
+
+def human_verdict_starvation(answers_path: Path = _ANSWERS_FILE,
+                             clients_dir: Path = _CLIENTS_DIR, pilots=_PILOTS) -> dict:
+    """The severance signal — LANE-AWARE so an unrelated fed lane can't green-wash a real break.
+
+    `starved` keys ONLY on the judge2 batch-approval lane: positive judge2 approvals exist (input) but
+    ZERO of them became a human-confirmed ledger verdict (client_approved / human batch_rating). The
+    general counts (all-lane positive taps + all-lane human-confirmed verdicts) ride along for context
+    — the pairwise PICK lane already lands pick_selected, so the all-lane human count is >0 and must
+    NOT clear the signal. Auto-closes the moment the judge2 writer lands one human-confirmed event."""
+    j2_pos = judge2_positive_approvals(answers_path)
+    j2_led = human_confirmed_ledger_verdicts(clients_dir, pilots, types=_JUDGE2_LEDGER_TYPES)
+    return {"judge2_positive": j2_pos,
+            "judge2_human_confirmed_ledger": j2_led,
+            "portal_positive": portal_positive_verdicts(answers_path),
+            "human_confirmed_ledger_verdicts": human_confirmed_ledger_verdicts(clients_dir, pilots),
+            "starved": j2_pos > 0 and j2_led == 0}
+
+
 def report():
     findings = orphaned_intel_reads()
     if not findings:

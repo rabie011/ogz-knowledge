@@ -682,7 +682,8 @@
    "who": "pair",
    "est_minutes": 90,
    "depends_on": [],
-   "status": "todo"
+   "status": "todo",
+   "progress": "2026-06-20: regression ceiling landed (test_intel_consumer_health.py TestOrphanRegressionCeiling) — 16-pair quarantine baseline frozen, new severed read fails build, fix-subset never blocked. FULL fix still gated on B057c (rewire-vs-strip). +2 tests (471 green)."
   },
   {
    "id": "B057c",
@@ -3403,14 +3404,15 @@
   {
    "id": "B281",
    "layer": "L4 Bedrock",
-   "status": "todo",
+   "status": "done",
    "who": "pair",
    "est_minutes": 30,
    "depends_on": [
     "B280"
    ],
    "what": "Reconcile staged bridge cards with the improved (maximum) matcher — supersede, never stack",
-   "how": "The improved bridge_pairs proposes a set disjoint from the 13 already-open bridge cards (delivers 12/12 vs the staged 11/12). Pushing it would FLOOD his portal (Rule #10) and leave two competing bridge sets. Build a staging-aware reconcile: keep already-open bridge pids that the matcher still wants, CLOSE the superseded ones, push ONLY the delta needed to reach 12/12. Needs his-eye check that no superseded card was mid-tap before closing."
+   "how": "The improved bridge_pairs proposes a set disjoint from the 13 already-open bridge cards (delivers 12/12 vs the staged 11/12). Pushing it would FLOOD his portal (Rule #10) and leave two competing bridge sets. Build a staging-aware reconcile: keep already-open bridge pids that the matcher still wants, CLOSE the superseded ones, push ONLY the delta needed to reach 12/12. Needs his-eye check that no superseded card was mid-tap before closing.",
+   "done_note": "reconcile_bridges + 4 tests; live 11/12→12/12, kept10/closed3/pushed3, no flood (B281, 2026-06-20)"
   },
   {
    "id": "B269",
@@ -3453,12 +3455,26 @@
    "added_ts": "2026-06-20T01:54:49",
    "portal_pushed": false,
    "evidence": "Reality-search (2026): Reels +67% engagement vs static feed global, 1.2-1.5x in Saudi; F&B = highest-engagement IG sector. Reel surface is the highest-leverage and currently 100% DARK."
+  },
+  {
+   "id": "B282",
+   "layer": "L4 Bedrock",
+   "what": "Build the judge2-approve → human-confirmed client-ledger writer (feed B084/B082)",
+   "how": "Consume positive judge2_* batch approvals (approve/rating>=4) from data/mohamed_answers.jsonl; resolve handle+date from item_id; emit a HUMAN-confirmed (confirmer=mohamed) client_approved event via ledger_write, IDEMPOTENTLY (cursor/dedup). Rule #6: ship the reader same cycle — extend writeback_moments (B084) to consume client_approved (cite the approved post caption as the moment) so his batch YESes finally compound the well. Verified June 20: 49 positive judge2 approvals → 0 human-confirmed ledger events; detector intel_consumer_health.human_verdict_starvation surfaces it in make_sure. Contract note: client_approved is TRUST_MOVING; confirmer is settled (mohamed=his tap), but the moment-evidence resolution (which caption) needs the post lookup — full THINK→PLAN→CHECK method before writing (load-bearing taste wire).",
+   "who": "pair",
+   "est_minutes": 60,
+   "depends_on": [
+    "B084"
+   ],
+   "status": "done",
+   "origin": "rabie-orchestra 2026-06-20 — verified severance, detector landed",
+   "done_note": "judge2_ledger_writer.py: 49 positive judge2 approvals → 49 client_approved ledger events (idempotent, src_key dedup); writeback_moments extended to consume client_approved same cycle (Rule #6); 13 rating>=4 → 12 new moments (1 evidence-dedup). Starvation detector cleared (49/49). +13 tests, suite 465 green."
   }
  ],
  "counts": {
-  "done": 187,
+  "done": 189,
   "superseded": 3,
-  "todo": 91,
+  "todo": 90,
   "open": 4,
   "staged": 3,
   "skipped": 4

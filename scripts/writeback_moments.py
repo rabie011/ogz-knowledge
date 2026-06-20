@@ -51,7 +51,9 @@ def _occasion_and_evidence(ev: dict):
     pick_selected.subject = 'DATE__occasion → angle', evidence = the chosen caption (note).
     occasion_gold.subject = the occasion, evidence = the gold line."""
     t = ev.get("type")
-    if t == "pick_selected":
+    if t in ("pick_selected", "client_approved"):
+        # client_approved (B282): his judge2 batch YES; the writer mirrors pick_selected's
+        # 'DATE__occasion → caption' subject with note = the approved caption, so both parse here.
         subj = ev.get("subject", "") or ""
         occ = subj.split("__", 1)[1] if "__" in subj else subj
         occ = (occ.split("→")[0].strip() or "evergreen")

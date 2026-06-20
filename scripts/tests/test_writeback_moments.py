@@ -47,6 +47,26 @@ class TestWritebackMoments(unittest.TestCase):
         self.assertEqual(m["provenance"]["confirmer"], "mohamed")
         self.assertEqual(m["provenance"]["date_added"], "2026-06-12")  # the EVENT's ts, clock-free
 
+    def test_human_client_approved_becomes_moment(self):
+        # B282: a judge2 batch YES lands as client_approved (same subject shape as pick_selected),
+        # and rating>=4 compounds the approved caption into the well.
+        events = [_ev(type="client_approved", subject="2027-06-30__evergreen → الحكايات تتجدد",
+                      rating=5, note="الحكايات تتجدد مع كل ملعقة من حارات الجريشة. 🌿",
+                      stamp="CONFIRMED BY MOHAMED (judge2 batch approve)")]
+        new_bank, changes = derive_moments(H, events, _bank())
+        self.assertEqual(len(changes), 1)
+        m = new_bank["moments"][0]
+        self.assertEqual(m["occasion"], "evergreen")
+        self.assertEqual(m["evidence"], "الحكايات تتجدد مع كل ملعقة من حارات الجريشة. 🌿")
+        self.assertEqual(m["provenance"]["confirmer"], "mohamed")
+
+    def test_client_approved_sub_threshold_moves_nothing(self):
+        # an 'approved' tap with rating 2 lands the trust event but must NOT seed a moment (B084)
+        events = [_ev(type="client_approved", subject="2027-06-30__evergreen → x",
+                      rating=2, note="caption")]
+        _, changes = derive_moments(H, events, _bank())
+        self.assertEqual(changes, [])
+
     def test_provisional_rating_moves_nothing(self):
         # occasion_gold rating 4 but confirmer is rabie_provisional → NEVER compounds (B156)
         events = [_ev(type="occasion_gold", subject="ramadan", rating=5,

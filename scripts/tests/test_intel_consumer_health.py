@@ -83,5 +83,56 @@ class TestIntelConsumerHealth(unittest.TestCase):
         self.assertTrue(all(r["key"] not in live for r in findings))
 
 
+# The frozen quarantine baseline of the known orphaned reads (Thin-Brain-v3.0 dropped 7 keys;
+# B057c is the staged Mohamed fork that decides rewire-vs-strip). Until it resolves we cannot
+# FIX these reads — but we CAN stop the rot spreading. This set was eyeballed against the live
+# repo on 2026-06-20 (16 distinct (file,key) pairs, 18 raw reads). Rule #6 (consumer law) +
+# Rule #8 (refuse-don't-warn) + Rule #10 (bounded, no flood): a NEW severed read fails the build
+# immediately; a FIX that removes reads keeps the set a subset, so the ceiling never blocks repair.
+KNOWN_ORPHANS = frozenset({
+    ("build_production_brief_engine.py", "anti_patterns"),
+    ("build_production_brief_engine.py", "caption_rules"),
+    ("build_production_brief_engine.py", "format_rules"),
+    ("build_production_brief_engine.py", "occasion_rules"),
+    ("build_production_brief_engine.py", "sector_playbooks"),
+    ("build_production_brief_engine.py", "universal_rules"),
+    ("build_production_brief_engine.py", "visual_rules"),
+    ("calibrate_cd_router.py", "occasion_rules"),
+    ("calibrate_cd_router.py", "sector_playbooks"),
+    ("creative_pipeline.py", "campaign_arcs"),
+    ("creative_pipeline.py", "emotion_rules"),
+    ("creative_pipeline.py", "occasion_rules"),
+    ("creative_pipeline.py", "sector_playbooks"),
+    ("creative_pipeline.py", "universal_rules"),
+    ("overnight_improver.py", "sector_playbooks"),
+    ("overnight_improver.py", "universal_rules"),
+})
+ORPHAN_RAW_CEILING = 18  # len(findings) incl. a key read twice in one file
+
+
+class TestOrphanRegressionCeiling(unittest.TestCase):
+    """The rot must not SPREAD while B057c waits — a new severed read bites here, at commit."""
+
+    def setUp(self):
+        self.findings = h.orphaned_intel_reads()
+        self.pairs = {(r["file"], r["key"]) for r in self.findings}
+
+    def test_no_new_orphan_outside_baseline(self):
+        # any (file,key) not in the quarantine set is a fresh regression — fail loud with names
+        fresh = self.pairs - KNOWN_ORPHANS
+        self.assertEqual(
+            fresh, set(),
+            f"NEW orphaned intel read(s) introduced — wire the reader to a live key or "
+            f"fold it into the B057c fix, do not let it rot silently: {sorted(fresh)}",
+        )
+
+    def test_raw_count_does_not_exceed_ceiling(self):
+        # the make_sure number (len of raw reads) may only go DOWN until the fix lands
+        self.assertLessEqual(
+            len(self.findings), ORPHAN_RAW_CEILING,
+            f"orphaned-read count rose to {len(self.findings)} (ceiling {ORPHAN_RAW_CEILING})",
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

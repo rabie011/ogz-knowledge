@@ -3662,7 +3662,7 @@
    "clock": "",
    "priority": "urgent",
    "created": "2026-06-13T17:01:25",
-   "status": "answered",
+   "status": "open",
    "kind": "buttons",
    "options": [
     {
@@ -7536,7 +7536,7 @@
    "judge_lane": true,
    "lane": "creative",
    "tag": "Pick",
-   "status": "open",
+   "status": "superseded",
    "priority": "normal",
    "title": "albaik · which would you post?",
    "handle": "albaik",
@@ -7556,7 +7556,8 @@
    "why": "Taste calibration — your pick teaches the system your eye (it currently judges at ~chance).",
    "made_by": "system:pairwise",
    "artifact_version": 1,
-   "pw_rank": 0
+   "pw_rank": 0,
+   "superseded_reason": "B281: replaced by the improved maximum-matcher bridge set (12/12 vs the staged 11/12 held-out-testable)"
   },
   {
    "id": "pw_2f5249649ebb",
@@ -7759,38 +7760,12 @@
    "artifact_version": 1
   },
   {
-   "id": "B057c_thinbrain_primary_fork",
-   "title": "Brief engine's PRIMARY block went empty — rewire or strip?",
-   "tag": "machine",
-   "desc": "",
-   "clock": "",
-   "priority": "normal",
-   "created": "2026-06-19T18:51:42",
-   "status": "open",
-   "why": "Thin-Brain-v3.0 slim (f80d27e4) dropped 7 keys; 4 readers (incl. live build_production_brief_engine.py) still read them as empty — silent Rule #6 rot in the producing path.",
-   "need": "Pick A or B. Affects production brief quality.",
-   "did": "Verified the orphan with grep: intelligence_layer.json has none of the 7 keys; brief engine line 183 still reads the 'PRIMARY — distilled rules' block. Staged so B057b can execute the chosen direction + add a refuse-guard + test.",
-   "kind": "buttons",
-   "options": [
-    {
-     "v": "A",
-     "label": "Rewire readers to new thin-brain keys (restore distilled guidance)"
-    },
-    {
-     "v": "B",
-     "label": "Strip dead PRIMARY reads + guard (slim was intentional — recommended)"
-    }
-   ],
-   "made_by": "claude",
-   "artifact_version": 1
-  },
-  {
    "id": "pw_17684ac3f24e",
    "kind": "caption_pick",
    "judge_lane": true,
    "lane": "creative",
    "tag": "Pick",
-   "status": "open",
+   "status": "superseded",
    "priority": "normal",
    "title": "eatjurisha · which would you post?",
    "handle": "eatjurisha",
@@ -7810,10 +7785,88 @@
    "why": "Taste calibration — your pick teaches the system your eye (it currently judges at ~chance).",
    "pw_rank": 0,
    "made_by": "system:pairwise",
-   "artifact_version": 1
+   "artifact_version": 1,
+   "superseded_reason": "B281: replaced by the improved maximum-matcher bridge set (12/12 vs the staged 11/12 held-out-testable)"
   },
   {
    "id": "pw_34cc49161f6f",
+   "kind": "caption_pick",
+   "judge_lane": true,
+   "lane": "creative",
+   "tag": "Pick",
+   "status": "superseded",
+   "priority": "normal",
+   "title": "eatjurisha · which would you post?",
+   "handle": "eatjurisha",
+   "need": "Tap the caption you'd actually post — gut only, no scores.",
+   "options": [
+    {
+     "label": "كيف يقدر الكابلي يحول كل قصة إلى ذكرى؟",
+     "v": "a",
+     "scene": "evergreen — في مجلس صغير، مجموعة من الأصدقاء يجلسون على الأرض محاطين بأكوام من الوسائد. في وسط الغرفة،"
+    },
+    {
+     "label": "صوت ضحكاتهم والملعقة تقلب الجريش يخلق شعور العيد الحقيقي 🌿",
+     "v": "b",
+     "scene": "eid_al_fitr — في حديقة الحي بعد صلاة العيد، مجموعة من الأصدقاء يرتدون الجلابيات البيضاء، يجتمعون تحت شجر"
+    }
+   ],
+   "why": "Taste calibration — your pick teaches the system your eye (it currently judges at ~chance).",
+   "pw_rank": 0,
+   "made_by": "system:pairwise",
+   "artifact_version": 1,
+   "superseded_reason": "B281: replaced by the improved maximum-matcher bridge set (12/12 vs the staged 11/12 held-out-testable)"
+  },
+  {
+   "id": "closures_2026-06-20",
+   "kind": "buttons",
+   "title": "✅ 4 إصلاحات اتقفلت — بالأدلة",
+   "tag": "تغذية راجعة",
+   "why": "كلامك صار commits — هذا الإثبات",
+   "did": "«hيه العلاقه بين حارات وجريشه» · «rejected» · «rejected»",
+   "options": [
+    {
+     "v": "seen",
+     "label": "✓ شفتها كلها",
+     "rec": true
+    },
+    {
+     "v": "reopen_one",
+     "label": "↩ وحدة لسه ما اتصلحت (اشرح بالملاحظة)"
+    }
+   ],
+   "source": "feedback_cards",
+   "made_by": "system:feedback_cards",
+   "artifact_version": 1
+  },
+  {
+   "id": "B057c_thinbrain_primary_fork",
+   "title": "Brief engine's PRIMARY block went empty — rewire or strip?",
+   "tag": "machine",
+   "desc": "",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-19T18:51:42",
+   "status": "open",
+   "why": "Thin-Brain-v3.0 slim (f80d27e4) dropped 7 keys; 4 readers still .get() them as empty — silent Rule #6 rot. CORRECTED 2026-06-20 (Rule #9): NO reader is auto-live — build_production_brief_engine is MANUAL-ONLY (enricher excludes it; pilot producer produce_batch does not use it); the other 3 are standalone.",
+   "need": "Pick A or B. Affects production brief quality.",
+   "did": "System produced + TESTED the rewire map (data/intel_schema_map_b057c.json, guard tests green): all 7 dropped keys mapped to LIVE v4.2 keys, each VERIFIED present+non-empty (Rule #9); shapes differ (sector_facts keyed by group; occasion_calendar has no verdict field) so B057b must adapt shapes. CALL-PATH CORRECTED (grep-verified): the earlier \"live via enricher\" claim was WRONG — ogz_enricher.py:162 EXCLUDES build_production_brief_engine (calls Claude API), run_post_extraction_pipeline.py:106 says run it manually, and produce_batch.py (the pilot producer) builds briefs from strategy_brief.json instead. So nothing auto-degrades; the 3 standalone readers are dead. The fork is really: is the MANUAL brief tool still used (A=rewire) or has produce_batch superseded it (B=strip+guard, recommended)?",
+   "kind": "buttons",
+   "options": [
+    {
+     "v": "A",
+     "label": "Rewire the manual brief engine to new thin-brain keys (if still used)"
+    },
+    {
+     "v": "B",
+     "label": "Strip dead PRIMARY reads + guard (produce_batch superseded it — recommended)"
+    }
+   ],
+   "made_by": "claude",
+   "artifact_version": 2
+  },
+  {
+   "id": "pw_c00f064a14e3",
    "kind": "caption_pick",
    "judge_lane": true,
    "lane": "creative",
@@ -7830,9 +7883,66 @@
      "scene": "evergreen — في مجلس صغير، مجموعة من الأصدقاء يجلسون على الأرض محاطين بأكوام من الوسائد. في وسط الغرفة،"
     },
     {
-     "label": "صوت ضحكاتهم والملعقة تقلب الجريش يخلق شعور العيد الحقيقي 🌿",
+     "label": "صوت الضحكات والحركة في كل مكان، لكن هدوء اللحظة يأتي مع عطر الجريش والرز الكابلي... أحلى مفاجأة لست الحبايب.",
      "v": "b",
-     "scene": "eid_al_fitr — في حديقة الحي بعد صلاة العيد، مجموعة من الأصدقاء يرتدون الجلابيات البيضاء، يجتمعون تحت شجر"
+     "scene": "arab_mothers_day — في زحمة يوم الأم، العائلة مجتمعة في غرفة المعيشة. الجميع مشغول بتحضير مفاجأة صغيرة للأم، ا"
+    }
+   ],
+   "why": "Taste calibration — your pick teaches the system your eye (it currently judges at ~chance).",
+   "pw_rank": 0,
+   "made_by": "system:pairwise",
+   "artifact_version": 1
+  },
+  {
+   "id": "pw_792138674a28",
+   "kind": "caption_pick",
+   "judge_lane": true,
+   "lane": "creative",
+   "tag": "Pick",
+   "status": "open",
+   "priority": "normal",
+   "title": "albaik · which would you post?",
+   "handle": "albaik",
+   "need": "Tap the caption you'd actually post — gut only, no scores.",
+   "options": [
+    {
+     "label": "أنا هنا، أسمع ضحكاتكم وأشعر بالدفء من كل منكم مع كل لقمة.",
+     "v": "a",
+     "scene": "evergreen — في غرفة المعيشة، صوت التلفاز منخفضًا بينما يجلس الأب على الأرض مرتديًا ثوبًا تقليديًا بعد "
+    },
+    {
+     "label": "الرائحة الشهية هنا تحكي قصص الحي وتجمع الأصدقاء في كل زاوية. 🏘️❤️",
+     "v": "b",
+     "scene": "evergreen — في زقاق حي شعبي حيث تتجول العائلات بين المحلات المحلية، نرى شاحنة البيك اكسبرس واقفة على ز"
+    }
+   ],
+   "why": "Taste calibration — your pick teaches the system your eye (it currently judges at ~chance).",
+   "post_occasion": "evergreen",
+   "pw_rank": 0,
+   "made_by": "system:pairwise",
+   "artifact_version": 1
+  },
+  {
+   "id": "pw_80f43047b5d6",
+   "kind": "caption_pick",
+   "judge_lane": true,
+   "lane": "creative",
+   "tag": "Pick",
+   "status": "open",
+   "priority": "normal",
+   "title": "albaik · which would you post?",
+   "handle": "albaik",
+   "need": "Tap the caption you'd actually post — gut only, no scores.",
+   "options": [
+    {
+     "label": "يا له من صوت جميل! فتح الحقيبة يكشف عن احتفالية من النكهات الذهبية في ساندوتشات التأسيس. الكاميرات جاهزة لتوثيق هذه اللحظة الفريدة! 📸",
+     "v": "a",
+     "scene": "saudi_founding_day — في أحد أحياء الدرعية، يتحرك شاب يحمل حقيبة توصيل تتزين بشعار البيك وسط الزحام والاحتفالات."
+    },
+    {
+     "label": "الجار الصغير يمر بجانبنا ويرمق العبوة بنظرة فضول... فعلاً للبيك اكسبرس طعم لا يقاوم! 🍗✨",
+     "v": "b",
+     "scene": "evergreen — في أحد شوارع الحي، مجموعة من الشباب يجلسون على الرصيف بعد يوم طويل من العمل. الشمس بدأت تغ"
     }
    ],
    "why": "Taste calibration — your pick teaches the system your eye (it currently judges at ~chance).",

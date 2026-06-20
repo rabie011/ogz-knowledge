@@ -233,7 +233,7 @@ def _max_matching(nodes, adj):
     return [(order[a], order[b]) for a, b in best(frozenset(range(len(order))))]
 
 
-def bridge_pairs(n=8, handle=None):
+def bridge_pairs(n=8, handle=None, exclude=None):
     """BRIDGE the disconnected graph (Step 5c, June 17). The honest held-out LIVE test
     (taste_elo.held_out_live) is 0-testable because every one of his judged captions is a SINGLETON:
     leave-one-out drops a pick when neither caption appears in any OTHER pair, so n_live_picks can
@@ -267,7 +267,11 @@ def bridge_pairs(n=8, handle=None):
         live_by_h.setdefault(rec[c]["handle"], []).append(c)
     if handle is not None:
         live_by_h = {h: caps for h, caps in live_by_h.items() if h == handle}
-    excluded = _judged_or_live_pids()
+    # `exclude` lets a caller (B281's reconcile) compute the matcher's CLEAN-SLATE target — i.e. what
+    # it would want if the currently-open bridge cards weren't already on the portal — so the reconcile
+    # can KEEP the open bridges it still wants instead of being forced to a disjoint set. Default None
+    # preserves the never-re-push-anything-open behaviour every other caller relies on.
+    excluded = _judged_or_live_pids() if exclude is None else set(exclude)
 
     def _new(a_rec, b_rec):
         # NEW only: neither ordering already judged/live, and not a self-pair
@@ -320,6 +324,77 @@ def bridge_pairs(n=8, handle=None):
 
 def push_bridge(n=8, handle=None):
     return _push(bridge_pairs(n, handle), rank=0)
+
+
+def _answered_pids():
+    """pids he has already TAPPED (in the answers ledger). The reconcile must never close one of these
+    mid-decision: a superseded card he already touched stays open so his choice is never lost when
+    consume() next runs (Consumer Law, Rule #6)."""
+    seen = set()
+    if ANSWERS.exists():
+        for line in ANSWERS.read_text().splitlines():
+            if not line.strip():
+                continue
+            try:
+                e = json.loads(line)
+            except Exception:
+                continue
+            pid = e.get("item_id") or e.get("id") or e.get("card_id") or e.get("pair_id")
+            if pid:
+                seen.add(pid)
+    return seen
+
+
+def reconcile_bridges(n=50, handle=None, apply=False):
+    """B281 — STAGING-AWARE bridge reconcile (SUPERSEDE, NEVER STACK — Rule #10). The improved
+    maximum-matcher (B280) proposes a bridge set that beats the already-staged one (closes the 11/12
+    ceiling → 12/12) but DISJOINT from it. Pushing it blind would FLOOD his portal with two competing
+    bridge sets and double his pw queue. This reconciles instead: compute the matcher's CLEAN-SLATE
+    target (open bridges no longer excluded, so it may re-want them), KEEP the open bridges it still
+    wants, CLOSE (status→superseded) the ones it no longer wants, and PUSH ONLY the delta. A card he
+    has already TAPPED is NEVER closed (Consumer Law) — it stays open until consume() banks the tap.
+
+    Order under --apply: PUSH the delta FIRST, then CLOSE the superseded — so the live bridge set is a
+    momentary SUPERSET of the target during the swap and never momentarily disconnects (a bridge must
+    never reduce testability mid-operation, the invariant test_bridge.py locks). End state = the target
+    set only. The +testability gain is MEASURED by re-running taste_elo/bridge_status afterward, never
+    asserted here (Rule #9). Returns {target, keep, close, push, skipped_midtap}."""
+    q = json.loads(QUEUE.read_text()) if QUEUE.exists() else {"items": []}
+    items = q.get("items", []) if isinstance(q, dict) else q
+    open_bridges = {str(c.get("id", "")): c for c in items
+                    if str(c.get("id", "")).startswith("pw_") and c.get("status") == "open"
+                    and c.get("pw_rank") == 0}
+    answered = _answered_pids()
+    # CLEAN-SLATE target: drop the currently-open bridges (and only those) from the exclusion so the
+    # matcher is free to re-want them; judged picks and already-tapped/answered pw_ cards stay excluded.
+    exclude = _judged_or_live_pids() - set(open_bridges)
+    target = bridge_pairs(n, handle, exclude=exclude)
+    tpids = {p["id"] for p in target}
+    keep = set(open_bridges) & tpids
+    superseded = set(open_bridges) - tpids
+    close = superseded - answered
+    skipped_midtap = superseded & answered
+    push_pairs = [p for p in target if p["id"] not in open_bridges]
+    result = {"target": len(target), "keep": len(keep), "close": len(close),
+              "push": len(push_pairs), "skipped_midtap": len(skipped_midtap)}
+    if apply:
+        if push_pairs:
+            _push(push_pairs, rank=0)                       # PUSH delta first (never disconnect)
+        if close:
+            q = json.loads(QUEUE.read_text())               # re-read (the push above mutated it)
+            items = q.get("items", []) if isinstance(q, dict) else q
+            for c in items:
+                if str(c.get("id", "")) in close:
+                    c["status"] = "superseded"
+                    c["superseded_reason"] = ("B281: replaced by the improved maximum-matcher bridge set "
+                                              "(12/12 vs the staged 11/12 held-out-testable)")
+            QUEUE.write_text(json.dumps(q, ensure_ascii=False, indent=1))
+        if skipped_midtap:
+            print(f"  ⚠️  kept {len(skipped_midtap)} superseded bridge card(s) OPEN — he has tapped them "
+                  f"(Consumer Law); consume() will bank the tap before they are reconciled")
+        print(f"✅ reconciled bridges: kept {len(keep)}, closed {len(close)}, pushed {len(push_pairs)} "
+              f"(target {len(target)})")
+    return result
 
 
 def structural_testable(prefs, extra_edges=()):
@@ -548,7 +623,8 @@ def backfill_pw_rank():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["form", "push", "consume", "agreement", "active", "active-preview",
-                                    "bridge", "bridge-preview", "bridge-status", "backfill-rank"])
+                                    "bridge", "bridge-preview", "bridge-status", "backfill-rank",
+                                    "reconcile", "reconcile-preview"])
     ap.add_argument("--n", type=int, default=4, help="pairs (per brand for form/push; total for active)")
     ap.add_argument("--handle", default=None, help="restrict bridge to one pilot (e.g. albaik)")
     a = ap.parse_args()
@@ -579,6 +655,13 @@ def main():
         bridge_status()
     elif a.cmd == "backfill-rank":
         backfill_pw_rank()
+    elif a.cmd == "reconcile-preview":
+        r = reconcile_bridges(a.n if a.n != 4 else 50, a.handle, apply=False)
+        print(f"bridge reconcile (preview — supersede, never stack, Rule #10): target {r['target']} · "
+              f"KEEP {r['keep']} open · CLOSE {r['close']} superseded · PUSH {r['push']} new"
+              + (f" · {r['skipped_midtap']} mid-tap kept open (Consumer Law)" if r['skipped_midtap'] else ""))
+    elif a.cmd == "reconcile":
+        reconcile_bridges(a.n if a.n != 4 else 50, a.handle, apply=True)
 
 
 if __name__ == "__main__":

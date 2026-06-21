@@ -58,7 +58,9 @@ def cards_for(base: Path, handle: str) -> list:
             "tag": "تأكيد منتج",
             "handle": handle,
             "candidate": name,
-            "title": f"✅ {handle} — تأكيد منتج",
+            # the product NAME goes in the title — without it every product card for one client
+            # renders identically in his queue and he can't tell which one he's confirming (Rule #7).
+            "title": f"✅ {handle} — تأكيد: {name}",
             "why": f"النظام لقى «{name}» مذكور ({c.get('evidence','')}) في حسابكم. "
                    f"هل هذا منتج حقيقي من المنيو؟",
             "need": "أكدوا أو احذفوا — يثبّت truth_pack ويمنع النظام يخترع منتجات.",

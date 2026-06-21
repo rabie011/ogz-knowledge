@@ -12,6 +12,71 @@ from pathlib import Path
 BASE = Path(__file__).parent.parent
 G, Y, R = "🟢", "🟡", "🔴"
 
+# B149 (June 21) — the PAYMENT row. The commercial pulse, computed ONLY from payment-
+# relevant events so it is INDEPENDENT of approval activity: a client who keeps tapping
+# انشر/approve but stopped paying must look different from a healthy one — the existing
+# approval rows (Q-RATIO, TRUST) stay green off approvals while PAYMENT independently
+# goes red. Append-only semantics (CONVENTIONS rule #6): the MOST RECENT payment-relevant
+# event is the live state — a later payment_received clears an earlier late/overdue mark.
+_PAY_TYPES = {"payment_received", "renewal", "scope_change"}
+_LATE_TOKENS = ("overdue", "past_due", "late", "lapsed", "delinquent", "unpaid")
+_PENDING_TOKENS = ("invoice_sent", "invoice_issued", "invoice", "pending", "sent", "awaiting")
+
+
+def _is_payment_event(e: dict) -> bool:
+    t = (e.get("type") or "").lower()
+    return t in _PAY_TYPES or t.startswith("invoice") or "payment" in t or t == "renewal_lapsed"
+
+
+def _late_signal(e: dict) -> bool:
+    t = (e.get("type") or "").lower()
+    if any(tok in t for tok in _LATE_TOKENS):
+        return True
+    status_field = str(e.get("status") or "").lower()
+    if any(tok in status_field for tok in _LATE_TOKENS):
+        return True
+    return bool(e.get("overdue") or e.get("late") or e.get("lapsed"))
+
+
+def _pending_signal(e: dict) -> bool:
+    t = (e.get("type") or "").lower()
+    status_field = str(e.get("status") or "").lower()
+    if t == "payment_received" or t == "renewal":
+        return False
+    return any(tok in t for tok in _PENDING_TOKENS) or any(tok in status_field for tok in _PENDING_TOKENS)
+
+
+def payment_status(events: list) -> tuple:
+    """(light, note) for the PAYMENT row. RED = invoice past due / payment late / renewal
+    lapsed. GREEN = a payment on record and the latest commercial signal is clean. YELLOW =
+    no commercial ledger yet (pre-commercial pilot) or an invoice still pending — never green,
+    never red, so an unpaid pilot is not mistaken for a paying client."""
+    pay = [e for e in events if isinstance(e, dict) and _is_payment_event(e)]
+    if not pay:
+        return (Y, "no payment ledger — pre-commercial")
+    # append-only: most recent payment-relevant event is the live commercial state
+    latest = sorted(pay, key=lambda e: str(e.get("ts") or ""))[-1]
+    if _late_signal(latest):
+        t = (latest.get("type") or "").lower()
+        why = "renewal lapsed" if "renewal" in t or "lapsed" in t else "invoice past due / payment late"
+        return (R, f"{why} (latest: {latest.get('ts','?')})")
+    if _pending_signal(latest):
+        return (Y, f"invoice pending — awaiting payment ({latest.get('ts','?')})")
+    return (G, f"paid — current ({latest.get('ts','?')})")
+
+
+def _load_events(handle: str) -> list:
+    p = BASE / "clients" / handle / "events" / "ledger.jsonl"
+    out = []
+    if p.exists():
+        for line in p.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                try:
+                    out.append(json.loads(line))
+                except json.JSONDecodeError:
+                    continue
+    return out
+
 
 def status(handle: str) -> dict:
     pdir = BASE / "clients" / handle / "profile"
@@ -52,10 +117,11 @@ def status(handle: str) -> dict:
         ok = open_q == 0 or choice >= 4 * open_q
         ratio = (G if ok else R,
                  f"{choice} choice : {open_q} open" + ("" if ok else " — BELOW 4:1, redraft"))
+    payment = payment_status(_load_events(handle))
     return {"handle": handle, "state": st["state"], "silent_days": st.get("silent_days"),
             "rows": [("VOICE", *voice), ("IDENTITY", *identity), ("TRUTH", *truth),
                       ("RED LINES", *red), ("GOALS", *goals), ("TRUST", *trust),
-                      ("Q-RATIO", *ratio)]}
+                      ("PAYMENT", *payment), ("Q-RATIO", *ratio)]}
 
 
 def main():

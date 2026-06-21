@@ -31,6 +31,24 @@ def taste_wire_surface(tw: dict) -> dict:
     return out
 
 
+def standing_janitor(base: Path) -> dict:
+    """B186c — run bridge_drain as a STANDING janitor every shift (it was a one-shot before, so his
+    portal silently re-cluttered with superseded cards and freshly-staged confirm cards never reached
+    him between hand-runs). make_sure already fires deterministically every cadence and already mutates
+    the queue (the taste_stale card), so this is the natural standing host. Best-effort: the drainer is
+    fully self-gated (Rule #10 low-water + max-batch, Rule #7/#8 consumer-or-HELD, archives never
+    deletes, idempotent), and a janitor failure must NEVER blind the health check — any error is
+    captured into the surface, not raised. Returns `_bridge_*` keys (one line, no card — Rule #10)."""
+    try:
+        import bridge_drain
+        rep = bridge_drain.drain(base=base)
+        return {"_bridge_retired": len(rep.get("retired_dead") or []),
+                "_bridge_drained": list(rep.get("drained") or []),
+                "_bridge_held": len(rep.get("held_no_consumer") or [])}
+    except Exception as e:  # janitor is non-fatal to the self-check
+        return {"_bridge_error": f"{type(e).__name__}: {e}"}
+
+
 class _Failed:
     """Stub result for a subprocess that timed out or failed to launch, so one slow sub-check
     can never crash the whole self-check. June 20: a transient session-start load spike pushed
@@ -111,6 +129,14 @@ def _phone_dead(checks, prev_checks):
     confirmed = []
     for k, v in checks.items():
         if v is not False:
+            continue
+        # `_`-prefixed keys are DIAGNOSTICS / sub-metrics, never phone-paging gates — and some use
+        # INVERTED semantics where the key names a problem so False == HEALTHY (e.g.
+        # _taste_bridge_starved=False means NOT starved). The real gates (the `ok` allow-list) and
+        # _LOAD_SENSITIVE carry zero underscore keys, so excluding them here can never mask a true
+        # outage. Scar (June 21): a healthy _taste_bridge_starved=False leaked into phone_dead and
+        # pinned a permanent false 🚨 on his phone — the exact cry-wolf / Rule #10 breach this gate exists to prevent.
+        if k.startswith("_"):
             continue
         if k in _LOAD_SENSITIVE:
             if prev_checks.get(k) is False:   # red on BOTH fires -> real, page him
@@ -334,6 +360,12 @@ def main():
         checks["_bridge_cards_staged"] = _bs["staged"]
         checks["_bridge_testable_now"] = _bs["n_testable_now"]
         checks["_bridge_testable_after_taps"] = _bs["n_testable_after"]
+        # B186e: separate an honest HOLD (no bridge formable) from a SEVERED LANE (bridge pairs
+        # formable but 0 staged — the drainer feeds confirm/visual cards but never the taste pairs,
+        # so the TOP metric stays UNDEFINED invisibly under a green board). Informational, NOT a
+        # gate (Rule #10/#11) — auto-closes when a bridge pair reaches his portal or none can form.
+        checks["_taste_bridge_starved"] = _bs.get("starved")
+        checks["_bridge_formable"] = _bs.get("formable")
     except Exception as e:
         checks["_bridge_status_err"] = str(e)[:60]
 
@@ -427,6 +459,18 @@ def main():
         print(research_open.summary_line())
     except Exception:
         pass
+    # B186c — STANDING JANITOR: run the stage→portal drainer every cadence (retire dead superseded
+    # cards off his portal + low-queue top-up of staged confirm cards). One line, no card (Rule #10).
+    checks.update(standing_janitor(BASE))
+    _bdr, _bdd, _bderr = checks.get("_bridge_retired"), checks.get("_bridge_drained"), checks.get("_bridge_error")
+    if _bderr:
+        print(f"⚠️  bridge janitor skipped this cadence ({_bderr}) — drainer has its own tests; not an alarm")
+    elif _bdr or _bdd:
+        print(f"🧹 bridge janitor: retired {_bdr or 0} dead card(s), drained {len(_bdd or [])} confirm "
+              f"card(s) onto his portal{(' ' + str(_bdd)) if _bdd else ''}")
+    else:
+        print(f"✅ bridge janitor: queue clean, {checks.get('_bridge_held', 0)} card(s) HELD (no consumer)")
+
     # SURFACE the intel-consumer rot honestly (the generic check-print shows ✅ for any non-bool, which
     # would mislabel a >0 orphan count as green). One line, no card, no flood — gated on B057c.
     _oc = checks.get("_orphaned_intel_reads")
@@ -447,6 +491,18 @@ def main():
         print(f"📈 taste→creation wire: {checks.get('_taste_wire_runs')} runs · "
               f"active_vs_random_gap={checks.get('_taste_wire_gap')} "
               f"(control_independent={checks.get('_taste_wire_control_independent')})")
+
+    # B186e: a SEVERED TOP LANE reads green otherwise. starved = bridge pairs formable yet 0 staged —
+    # the drainer feeds confirm/visual cards but never the taste pairs, so held-out agreement stays
+    # UNDEFINED invisibly. One line, no card (Rule #10/#11); auto-closes when a bridge pair is staged.
+    if checks.get("_taste_bridge_starved"):
+        print(f"⚠️  taste-bridge STARVED: {checks.get('_bridge_formable')} bridge pair(s) formable but 0 staged "
+              f"on his portal — held-out agreement (the TOP metric) can't connect. The reserved taste lane is "
+              f"BUILT (bridge_drain.drain(reserve_taste_lane=True), B186f) but stays OFF: the standing janitor "
+              f"(make_sure.standing_janitor → drain(base=base)) calls it WITHOUT the flag, so the lane never "
+              f"fires even when a slot frees. UNBLOCK (2 gates, both Mohamed's): (1) his visible queue drops below "
+              f"LOW_WATER (≤7 of 8) so a slot opens, AND (2) his go to flip reserve_taste_lane=True (a live-queue change "
+              f"he must see — Rule #10). Not a code-gap; do NOT flip it autonomously.")
 
     # SURFACE the human-verdict starvation honestly (the generic ✅-for-any-non-bool print would
     # green-wash the two counts). One line, no card, no flood — auto-closes when the writer lands.

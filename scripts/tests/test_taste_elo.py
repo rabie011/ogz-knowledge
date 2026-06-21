@@ -89,5 +89,35 @@ class TestTasteElo(unittest.TestCase):
         self.assertEqual(pct, 100)
 
 
+class TestVerdictFieldsSeam(unittest.TestCase):
+    """Locks the writer→public-flag seam (June 21): the consumers (taste_rank, verify_judge_loop,
+    shadow_metric) all TRUST held_out_agreement_degenerate / live_validated as fixtures, but nothing
+    proved main() COMPUTES them right from real disconnected data. If the wiring regressed, every
+    fixture-based consumer test stays green and the mixed sim % leaks to a Mohamed-facing card. This
+    asserts the actual production function."""
+
+    def test_disconnected_live_is_degenerate_and_not_validated(self):
+        # held_live_n==0 → the mixed % is a simulation artifact, never his eye (Rule #9)
+        f = te.verdict_fields(held=100, held_live=None, held_live_n=0)
+        self.assertTrue(f["held_out_agreement_degenerate"], "0 testable live picks MUST be degenerate")
+        self.assertFalse(f["live_validated"], "degenerate sim number must never flip live_validated true")
+        self.assertTrue(f["held_out_agreement_is_simulation"])
+        self.assertIn("Rule #9", f["honesty"])
+        self.assertNotIn("his agreement", f["honesty"].lower())
+
+    def test_connected_live_validates_and_is_not_degenerate(self):
+        f = te.verdict_fields(held=90, held_live=100, held_live_n=3)
+        self.assertFalse(f["held_out_agreement_degenerate"])
+        self.assertTrue(f["live_validated"], "a real testable live eye must validate")
+        self.assertEqual(f["held_out_live_pct"], 100)
+        self.assertIn("LIVE eye testable on 3", f["honesty"])
+
+    def test_guard_refuses_to_emit_validated_degenerate(self):
+        # The internal Rule #9 assert must bite if the impossible combo is ever constructed.
+        # held_live_n>0 (would validate) but held_live=None (degenerate-ish) — guard keeps it honest.
+        f = te.verdict_fields(held=100, held_live=None, held_live_n=2)
+        self.assertFalse(f["live_validated"], "held_live=None can never count as a validated eye")
+
+
 if __name__ == "__main__":
     unittest.main()

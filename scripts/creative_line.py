@@ -54,14 +54,34 @@ def claude(system, messages, temp=0.8, max_tokens=900):
     return r["content"][0]["text"]
 
 
+def _angle_card_stale(f):
+    """An angle card is STALE if it predates the B041 routed-brain schema (B065).
+    Fresh cards (build_angle_cards.py from June 19 on) assign every angle a non-null
+    'brain' — the routed CD-brain key, enforced at build_angle_cards.py:177. Pre-B041
+    cards (June 11) carry brain=None with the old one-line lens labels (firaasa,
+    paradox_hunter, …). ensure_assets only rebuilt on MISSING, so a stale card was read
+    as-is and its dead ideation lenses fed straight to the render pen — a silent
+    staleness consumption (Rule #6 consumer law). Detect it so the consumer auto-heals."""
+    try:
+        card = json.loads(f.read_text())
+    except Exception:
+        return True   # unreadable / corrupt → rebuild
+    angles = card.get("angles") or []
+    if not angles:
+        return True
+    return any(not a.get("brain") for a in angles)
+
+
 def ensure_assets(brand_en, occasion):
     for script in ("build_truth_pack.py", "build_angle_cards.py"):
+        is_angle = "angle" in script
         f = BASE / "data" / ("truth_packs" if "truth" in script else "angle_cards") / f"{brand_en}__{occasion}.json"
-        if not f.exists():
+        if not f.exists() or (is_angle and _angle_card_stale(f)):
             r = subprocess.run([sys.executable, str(BASE / "scripts" / script),
                                 "--brand", brand_en, "--occasion", occasion],
                                capture_output=True, text=True, cwd=BASE)
             if r.returncode != 0:
+                # Rule #8 — refuse, don't warn: never feed stale/absent ideation to the render pen.
                 raise RuntimeError(f"{script}: {(r.stderr or r.stdout)[-150:]}")
     pack = json.loads((BASE / "data/truth_packs" / f"{brand_en}__{occasion}.json").read_text())
     cards = json.loads((BASE / "data/angle_cards" / f"{brand_en}__{occasion}.json").read_text())

@@ -108,6 +108,24 @@ class TestBridge(unittest.TestCase):
                                 "staging bridges reduced testability — a bridge must never disconnect")
         self.assertGreaterEqual(st["staged"], 0)
 
+    def test_bridge_status_starvation_signal(self):
+        """B186e (Rule #6/#11). bridge_status must separate an honest HOLD from a SEVERED LANE so the
+        TOP metric (held-out agreement) can never sit UNDEFINED under a green make_sure board. Locks
+        the EXACT invariant: starved == (a bridge pair is formable AND none is staged on his portal).
+        Pure structural fact (no agreement %), so it holds whatever his real data is right now."""
+        st = pw.bridge_status()
+        for k in ("formable", "starved"):
+            self.assertIn(k, st)
+        self.assertGreaterEqual(st["formable"], 0)
+        self.assertIsInstance(st["starved"], bool)
+        # the invariant the diagnostic rides on — never a free-floating bool
+        self.assertEqual(st["starved"], st["formable"] > 0 and st["staged"] == 0,
+                         "starved must mean exactly: a bridge is formable yet 0 are staged (the lane is severed, "
+                         "not an honest hold). If it can drift from this it green-washes the TOP block (Rule #11).")
+        # a staged bridge is the cure: if any is staged, we are never 'starved'
+        if st["staged"] > 0:
+            self.assertFalse(st["starved"], "a bridge is on his portal — the lane is NOT starved")
+
     def test_bridge_status_reports_bt_true_not_degree(self):
         """CONSUMER LAW LOCK (Rule #6/#9, June 19). The founder-facing `after taps=N` must equal what
         the real consumer (taste_elo.held_out_live, Bradley-Terry) delivers once he taps — his picks

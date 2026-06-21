@@ -25,12 +25,17 @@ def _truth_card(i, handle="testbrand", cand="testprod"):
 
 
 def _v37_card(i, handle="testbrand"):
-    # kind text, organ visual_dna — NO handler exists for v37_* free-text (Rule #7 must catch this)
-    return {"id": f"v37_{handle}_palette{i}", "kind": "text", "lane": "strategy",
+    # kind text, organ visual_dna — h_v37_visual is its consumer (B186d), so it DRAINS.
+    return {"id": f"v37_{handle}_palette{i}", "kind": "text", "lane": "strategy", "group": "colour",
             "organ": "visual_dna", "handle": handle, "title": "🎨 colour", "why": "brand colour?"}
 
 
-def _sandbox(d, *, open_nonpw=0, open_pw=0, truth=2, v37=1, dead=0, answered=0):
+def _orphan_card(i):
+    # an id matching NO handler prefix — the refuse-no-consumer path must still HOLD it (Rule #7/#8)
+    return {"id": f"noconsumer_{i}", "kind": "text", "lane": "strategy", "title": "orphan", "why": "?"}
+
+
+def _sandbox(d, *, open_nonpw=0, open_pw=0, truth=2, v37=1, orphan=0, dead=0, answered=0):
     base = Path(d)
     (base / "data").mkdir(parents=True, exist_ok=True)
     items = []
@@ -49,7 +54,8 @@ def _sandbox(d, *, open_nonpw=0, open_pw=0, truth=2, v37=1, dead=0, answered=0):
         json.dumps({"cards": [_truth_card(i) for i in range(truth)]}, ensure_ascii=False),
         encoding="utf-8")
     (base / "data" / "v37_confirm_staged.json").write_text(
-        json.dumps({"cards": [_v37_card(i) for i in range(v37)]}, ensure_ascii=False),
+        json.dumps({"cards": [_v37_card(i) for i in range(v37)] +
+                             [_orphan_card(i) for i in range(orphan)]}, ensure_ascii=False),
         encoding="utf-8")
     return base
 
@@ -70,18 +76,20 @@ class TestBridgeDrain(unittest.TestCase):
         self.assertEqual(out["kind"], "buttons")
 
     def test_drains_when_low_and_refuses_no_consumer(self):
-        """Low load -> truth cards drain (consumer h_truth_confirm), v37 card HELD (no handler)."""
+        """Low load -> truth + v37 cards drain (both have consumers; v37 via h_v37_visual, B186d),
+        while a genuinely consumer-less card is HELD, never drained (Rule #7/#8)."""
         with tempfile.TemporaryDirectory() as d:
-            base = _sandbox(d, open_nonpw=0, open_pw=1, truth=2, v37=1)
+            base = _sandbox(d, open_nonpw=0, open_pw=1, truth=1, v37=1, orphan=1)
             rep = bd.drain(base=base)
-            self.assertEqual(set(rep["drained"]),
-                             {"truth_confirm_testbrand_0", "truth_confirm_testbrand_1"})
+            # both wired card types drain; the orphan is refused
+            self.assertIn("truth_confirm_testbrand_0", rep["drained"])
+            self.assertIn("v37_testbrand_palette0", rep["drained"])
             held = [h["id"] for h in rep["held_no_consumer"]]
-            self.assertEqual(held, ["v37_testbrand_palette0"])
-            # the v37 card is NOT on the queue — its tap had nowhere to land (Rule #7/#8)
+            self.assertEqual(held, ["noconsumer_0"])
+            # the orphan is NOT on the queue — its tap had nowhere to land (Rule #7/#8)
             ids = {c["id"] for c in _queue(base)}
-            self.assertNotIn("v37_testbrand_palette0", ids)
-            self.assertIn("truth_confirm_testbrand_0", ids)
+            self.assertNotIn("noconsumer_0", ids)
+            self.assertIn("v37_testbrand_palette0", ids)
 
     def test_pw_stack_counts_as_one_not_eighteen(self):
         """Rule #10 sizing: 18 open pw_ collapse to 1 visible (portal shows one at a time),
@@ -176,6 +184,171 @@ class TestBridgeDrain(unittest.TestCase):
             on_disk = json.loads((tp / "truth_pack.json").read_text())["product_candidates"][0]
             self.assertEqual(on_disk["provenance"]["confidence"], "confirmed")
             self.assertEqual(on_disk["provenance"]["confirmer"], "mohamed")
+
+
+def _fake_taste_card(base):
+    """A stand-in bridge taste pair (id 'pw_*' so apply_rulings routes it via h_pairwise_noop →
+    consumer_ok passes). Keeps the reservation test sandbox-pure: no real PREFS/produced needed."""
+    return {"id": "pw_faketestbridge01", "kind": "caption_pick", "lane": "creative",
+            "handle": "testbrand", "pw_rank": 0, "status": "open",
+            "options": [{"label": "A", "v": "a"}, {"label": "B", "v": "b"}]}
+
+
+def _no_taste_card(base):
+    return None   # nothing formable
+
+
+class TestB186fTasteLaneReservation(unittest.TestCase):
+    """Locks B186f — reserve the first free slot for ONE pairwise bridge taste pair so the held-out
+    LIVE agreement (the TOP metric) can connect. Default OFF; bounded by Rule #10; consumer-asserted."""
+
+    def test_default_off_changes_nothing(self):
+        # reserve_taste_lane defaults False → no taste card, even with a free slot + formable bridge.
+        with tempfile.TemporaryDirectory() as d:
+            base = _sandbox(d, open_nonpw=0, open_pw=0, truth=2, v37=0)
+            rep = bd.drain(base=base, taste_card=_fake_taste_card)
+            self.assertIsNone(rep["taste_reserved"])
+            self.assertFalse(any(c["id"].startswith("pw_faketest") for c in _queue(base)))
+
+    def test_reserves_one_taste_card_before_confirm_cards(self):
+        # ON + slot free + no pw open + formable → exactly ONE taste card, and it EATS one slot
+        # (confirm cards fill only the rest). low_water=8, visible=0 → slots=4 (max_batch); the taste
+        # reservation spends 1 → at most 3 confirm cards drain.
+        with tempfile.TemporaryDirectory() as d:
+            base = _sandbox(d, open_nonpw=0, open_pw=0, truth=10, v37=0)
+            rep = bd.drain(base=base, reserve_taste_lane=True, taste_card=_fake_taste_card)
+            self.assertEqual(rep["taste_reserved"], "pw_faketestbridge01")
+            q = _queue(base)
+            self.assertEqual(sum(c["id"].startswith("pw_faketest") for c in q), 1)
+            self.assertEqual(len(rep["drained"]), bd.MAX_BATCH - 1)   # one slot reserved for taste
+
+    def test_never_stacks_when_a_pw_card_is_open(self):
+        # a pw card already occupies his single collapsed pw slot → do NOT add another (Rule #10).
+        with tempfile.TemporaryDirectory() as d:
+            base = _sandbox(d, open_nonpw=0, open_pw=1, truth=4, v37=0)
+            rep = bd.drain(base=base, reserve_taste_lane=True, taste_card=_fake_taste_card)
+            self.assertIsNone(rep["taste_reserved"])
+
+    def test_no_reservation_when_his_queue_is_full(self):
+        # his load already at low-water → 0 slots → no taste card forced on (Rule #10 don't-flood).
+        with tempfile.TemporaryDirectory() as d:
+            base = _sandbox(d, open_nonpw=bd.LOW_WATER, open_pw=0, truth=4, v37=0)
+            rep = bd.drain(base=base, reserve_taste_lane=True, taste_card=_fake_taste_card)
+            self.assertEqual(rep["slots"], 0)
+            self.assertIsNone(rep["taste_reserved"])
+
+    def test_honest_noop_when_no_bridge_formable(self):
+        # ON but nothing formable → no taste card, confirm cards drain normally (no crash, no lie).
+        with tempfile.TemporaryDirectory() as d:
+            base = _sandbox(d, open_nonpw=0, open_pw=0, truth=4, v37=0)
+            rep = bd.drain(base=base, reserve_taste_lane=True, taste_card=_no_taste_card)
+            self.assertIsNone(rep["taste_reserved"])
+            self.assertEqual(len(rep["drained"]), bd.MAX_BATCH)   # full batch, lane took nothing
+
+    def test_dry_run_reserves_in_report_but_writes_nothing(self):
+        with tempfile.TemporaryDirectory() as d:
+            base = _sandbox(d, open_nonpw=0, open_pw=0, truth=2, v37=0)
+            before = json.dumps(_queue(base))
+            rep = bd.drain(base=base, reserve_taste_lane=True, taste_card=_fake_taste_card,
+                           dry_run=True)
+            self.assertEqual(rep["taste_reserved"], "pw_faketestbridge01")
+            self.assertEqual(json.dumps(_queue(base)), before)   # disk untouched
+
+    def test_reserved_taste_card_has_a_real_consumer(self):
+        # Rule #7: the reserved card's tap must LAND. apply_rulings routes 'pw_' → a handler.
+        self.assertIsNotNone(apply_rulings._resolve(("pw_faketestbridge01", "")))
+
+    def test_taste_card_persists_when_no_confirm_cards_drain(self):
+        # Rule #6 severed-wire regression: the taste lane fires when his queue is LOW — exactly the
+        # moment the confirm staging can be empty (truth=0, v37=0). The reservation must reach DISK,
+        # not just the report. Bug (found 2026-06-21): the write was gated on `drained` being
+        # non-empty, so the lone taste card was reported staged but never persisted — his one bridge
+        # pair (the TOP metric's only connector) silently vanished.
+        with tempfile.TemporaryDirectory() as d:
+            base = _sandbox(d, open_nonpw=0, open_pw=0, truth=0, v37=0)
+            rep = bd.drain(base=base, reserve_taste_lane=True, taste_card=_fake_taste_card)
+            self.assertEqual(rep["taste_reserved"], "pw_faketestbridge01")
+            self.assertEqual(rep["drained"], [])                 # nothing else drained
+            on_disk = {c["id"] for c in _queue(base)}
+            self.assertIn("pw_faketestbridge01", on_disk)        # the report's claim is TRUE on disk
+
+    def test_REAL_default_taste_card_reserves_and_persists_under_truth0(self):
+        # The end-to-end claim RABIE demanded (18:20 shift whats_missing[1]): every test above injects
+        # a FAKE taste_card, so the verdict-4 persistence fix was only ever proven against the stub.
+        # This exercises the REAL _default_taste_card -> pairwise.bridge_pairs -> live PREFS/produced
+        # path under the exact gate condition (truth=0, queue empty), where the lane actually fires.
+        # If the real source ever stops forming a card, or its real pw_ id stops persisting, this bites
+        # — not the fake. (Rule #6 consumer law on the TOP metric's only connector; Rule #9 real path.)
+        import pairwise as pw
+        capA = "كابتشن ألف — لقطة دافئة في المطبخ"
+        capB = "كابتشن باء — عرض واضح بالسعر"
+        capC = "كابتشن جيم — مشهد العائلة بعد يوم طويل"
+        pool = [{"handle": "testbrand", "caption": c, "occasion": "يومي",
+                 "scene": "مشهد", "date": f"2026-01-0{i}", "brain": "cd_01"}
+                for i, c in enumerate([capA, capB, capC], 1)]
+        with tempfile.TemporaryDirectory() as d:
+            base = _sandbox(d, open_nonpw=0, open_pw=0, truth=0, v37=0)
+            prefs = base / "data" / "prefs_fixture.jsonl"
+            prefs.write_text(json.dumps(
+                {"source": "live", "winner_caption": capA, "loser_caption": capB,
+                 "pair_id": "pw_alreadyjudged01"}, ensure_ascii=False) + "\n", encoding="utf-8")
+            # monkeypatch the live globals the REAL bridge path reads (produced pool + PREFS + QUEUE)
+            orig = (pw._produced, pw.PREFS, pw.QUEUE)
+            try:
+                pw._produced = lambda: pool
+                pw.PREFS = prefs
+                pw.QUEUE = base / "data" / "decision_queue.json"
+                expected = pw.bridge_pairs(n=1)
+                self.assertEqual(len(expected), 1)               # the fixture forms exactly one bridge
+                expected_id = expected[0]["id"]
+                # default taste_card == the REAL _default_taste_card (no injection)
+                rep = bd.drain(base=base, reserve_taste_lane=True)
+            finally:
+                pw._produced, pw.PREFS, pw.QUEUE = orig
+            self.assertEqual(rep["taste_reserved"], expected_id)  # real source's id, not a stub's
+            self.assertTrue(expected_id.startswith("pw_"))
+            on_disk = {c["id"] for c in _queue(base)}
+            self.assertIn(expected_id, on_disk)                   # real card reached DISK, not just report
+            self.assertIsNotNone(apply_rulings._resolve((expected_id, "")))  # Rule #7: real tap lands
+
+
+class TestPerOrganCap(unittest.TestCase):
+    """Rule #10 STANDING cap — one organ's confirm cards can't monopolize his queue ACROSS drains.
+    MAX_BATCH bounds a single drain; this bounds the cumulative standing load so the taste-bridge
+    lane (and every other lane) always keeps headroom — gate 1 of the TOP metric (his queue must
+    drop below LOW_WATER for a bridge pair to win a slot)."""
+
+    def test_one_organ_never_exceeds_cap_across_drains(self):
+        # 10 truth_pack cards, empty queue: successive drains must plateau at PER_ORGAN_CAP, not 8.
+        with tempfile.TemporaryDirectory() as d:
+            base = _sandbox(d, open_nonpw=0, open_pw=0, truth=10, v37=0)
+            bd.drain(base=base)                                   # tops up to MAX_BATCH truth cards
+            rep2 = bd.drain(base=base)                            # organ already at cap → blocked
+            truth_open = sum(c.get("organ") == "truth_pack" for c in _queue(base))
+            self.assertEqual(truth_open, bd.PER_ORGAN_CAP)        # capped — not the full 8 slots
+            self.assertEqual(rep2["drained"], [])                 # nothing more of that organ drained
+            self.assertTrue(rep2["held_organ_cap"])               # Rule #8 — held + reported, not silent
+
+    def test_cap_leaves_headroom_no_organ_monopolizes(self):
+        # 10 truth + 4 v37 staged, cap=2: each organ plateaus at its cap, so the queue settles well
+        # BELOW LOW_WATER (2+2=4 of 8) — 4 slots stay free for the taste lane. Before the cap, the
+        # 10 truth cards would have eaten every slot over successive drains and starved the bridge.
+        with tempfile.TemporaryDirectory() as d:
+            base = _sandbox(d, open_nonpw=0, open_pw=0, truth=10, v37=4)
+            bd.drain(base=base, per_organ_cap=2)
+            rep2 = bd.drain(base=base, per_organ_cap=2)
+            q = _queue(base)
+            self.assertEqual(sum(c.get("organ") == "truth_pack" for c in q), 2)   # not 8 — capped
+            self.assertEqual(sum(c.get("organ") == "visual_dna" for c in q), 2)   # got its fair share
+            self.assertLess(bd.visible_open(q), bd.LOW_WATER)                     # headroom for taste
+            self.assertTrue(rep2["held_organ_cap"])                              # surplus held, reported
+
+    def test_cap_does_not_change_a_single_cold_drain(self):
+        # Regression guard: from an empty queue one drain still fills MAX_BATCH (cap >= MAX_BATCH).
+        with tempfile.TemporaryDirectory() as d:
+            base = _sandbox(d, open_nonpw=0, open_pw=0, truth=20, v37=0)
+            rep = bd.drain(base=base)
+            self.assertEqual(len(rep["drained"]), bd.MAX_BATCH)
 
 
 if __name__ == "__main__":

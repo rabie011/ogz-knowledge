@@ -35,7 +35,7 @@ _PASSPORT_DIRECTIVE = re.compile(
     r"very established brand", re.I)
 
 sys.path.insert(0, str(Path(__file__).parent))
-from feedback_lib import base
+from feedback_lib import base, crystallize_cards, pending_crystallize
 
 ANSWERS = "data/mohamed_answers.jsonl"
 LEDGER = "data/applied_rulings.jsonl"
@@ -338,8 +338,7 @@ def h_law_draft(b: Path, row: dict) -> str:
     (RABIE catch: the 'Make it law' button was wired to nothing)."""
     cq = b / "data/crystallize_queue.json"
     d = json.loads(cq.read_text())
-    items = d.get("cards") or d.get("candidates") or []
-    drafts = [c for c in items if "DRAFT" in str(c.get("status", ""))]
+    drafts = pending_crystallize(crystallize_cards(d))
     try:
         idx = int(row["item_id"].split("_")[2])
     except (IndexError, ValueError):
@@ -432,8 +431,7 @@ def h_crystallize_review(b: Path, row: dict) -> str:
     """digest review_now: the top 3 drafts arrive as individual yes/no law cards."""
     import queue_decision as qd
     d = json.loads((b / "data/crystallize_queue.json").read_text())
-    items = d.get("cards") or d.get("candidates") or []
-    drafts = [c for c in items if "DRAFT" in str(c.get("status", ""))][:3]
+    drafts = pending_crystallize(crystallize_cards(d))[:3]
     q = json.loads((b / "data/decision_queue.json").read_text())["items"]
     existing = {it["id"] for it in q}
     pushed = []

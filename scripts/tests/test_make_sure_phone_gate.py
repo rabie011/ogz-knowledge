@@ -59,6 +59,20 @@ class TestPhoneDead(unittest.TestCase):
         checks = {"cards_total": 0, "_taste_gap_days": 4, "portal_mini": True}
         self.assertEqual(ms._phone_dead(checks, {}), [])
 
+    def test_underscore_diagnostic_false_never_pages(self):
+        """Scar (June 21): `_`-prefixed diagnostics use INVERTED semantics — the key names a problem
+        so False == HEALTHY (e.g. _taste_bridge_starved=False means NOT starved). _phone_dead must
+        never page on them, or a healthy state pins a permanent false 🚨 on his phone (Rule #10)."""
+        checks = {"_taste_bridge_starved": False,   # healthy (not starved) -> must NOT page
+                  "_some_future_flag": False,        # any future inverted diagnostic -> must NOT page
+                  "guards_gauntlet": True}
+        self.assertEqual(ms._phone_dead(checks, {}), [])
+
+    def test_underscore_diagnostic_does_not_mask_real_hard_red(self):
+        """Excluding `_` diagnostics never masks a genuine gate red firing in the same cycle."""
+        checks = {"_taste_bridge_starved": False, "immune_suite": False, "guards_gauntlet": True}
+        self.assertEqual(ms._phone_dead(checks, {}), ["immune_suite"])
+
 
 if __name__ == "__main__":
     unittest.main()

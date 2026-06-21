@@ -117,6 +117,70 @@ def classify_receipt(entry: dict) -> dict:
     }
 
 
+# --- crystallize queue: the ONE predicate for "this card still needs Mohamed's tap" -------
+# Rule #6 (consumer law) + the one-module law (the crystallize card #6 itself): the digest
+# renderer AND apply_rulings' re-push must read the SAME pending set. They each grepped
+# `"DRAFT" in status`, which silently missed every card drafted as `awaiting_mohamed` — six
+# LAW candidates sat stranded with no reader from 2026-06-12 until surfaced 2026-06-21 (B229).
+# A card is terminal once it carries a verdict (accepted / ratified / dropped / superseded /
+# answered / revision-requested); anything else awaits his yes/no, whatever the exact wording.
+_CRYSTALLIZE_TERMINAL = ("accepted", "ratified", "superseded", "dropped",
+                         "answered", "→ law", "revised-requested")
+_OCC_RE = re.compile(r"\((\d+)x")
+_PATTERN_RE = re.compile(r"recurring '([^']+)'")
+
+
+def crystallize_cards(d: dict) -> list:
+    """The cards list out of a loaded crystallize_queue dict (tolerant of legacy key names).
+    Never falls through to the unrelated `items` key."""
+    return d.get("cards") or d.get("candidates") or []
+
+
+def is_pending_crystallize(card: dict) -> bool:
+    """True iff this card still awaits Mohamed's yes/no (carries no terminal verdict)."""
+    st = str(card.get("status", "")).lower()
+    return not any(t in st for t in _CRYSTALLIZE_TERMINAL)
+
+
+def pending_crystallize(cards: list) -> list:
+    """The drafts awaiting his tap — DRAFT and awaiting_mohamed alike. The one true filter
+    every consumer shares, so no card drafted under a new status can sit unread again."""
+    return [c for c in cards if is_pending_crystallize(c)]
+
+
+def _occ(card: dict) -> int:
+    m = _OCC_RE.search(str(card.get("draft", "")))
+    return int(m.group(1)) if m else 0
+
+
+def _dedup_key(card: dict):
+    m = _PATTERN_RE.search(str(card.get("draft", "")))
+    return m.group(1) if m else None
+
+
+def dedupe_crystallize(cards: list) -> int:
+    """Mark the weaker duplicate of a recurring-pattern card superseded by the stronger one
+    (factual_error 3x superseded by factual_error 4x), so the same scar never reaches his
+    thumb twice. Operates only on still-pending cards; mutates in place; returns the count
+    newly superseded (caller persists). No live dupes → no-op."""
+    strongest: dict = {}
+    for c in cards:
+        k = _dedup_key(c)
+        if k is None or not is_pending_crystallize(c):
+            continue
+        if k not in strongest or _occ(c) > _occ(strongest[k]):
+            strongest[k] = c
+    n = 0
+    for c in cards:
+        k = _dedup_key(c)
+        if k is None or not is_pending_crystallize(c):
+            continue
+        if c is not strongest[k]:
+            c["status"] = f"superseded by stronger evidence ({_occ(strongest[k])}x) {now_iso()}"
+            n += 1
+    return n
+
+
 def read_jsonl(path: Path) -> list:
     if not path.exists():
         return []

@@ -107,6 +107,36 @@ def feedback_for(prefs):
     return f"Pick #{n} ✓ — {tail}. The model's learning your eye."
 
 
+def verdict_fields(held, held_live, held_live_n):
+    """The HONEST live-vs-sim verdict block (F2/June-21 scar), extracted PURE so the
+    writer→public-flag seam is testable. main() merges the result verbatim. Three numbers,
+    never conflated (see main()'s comment): the MIXED sim `held`, his LIVE-eye `held_live`,
+    and how many live picks are actually testable `held_live_n`.
+
+    The contract this guards (Rule #9): while his live eye is untested (held_live_n==0), the
+    mixed `held` % rides on rescued seed pairs — degenerate==True flags exactly that and
+    live_validated MUST stay False, so no reader can mistake a simulation number for his eye.
+    """
+    fields = {
+        "held_out_agreement_pct": held,            # MIXED/SIM — never "his agreement" (Rule #9)
+        "held_out_agreement_is_simulation": True,  # this number is ALWAYS sim, by construction
+        "held_out_agreement_degenerate": held_live_n == 0,
+        "held_out_live_pct": held_live,            # his LIVE eye (None until graph connects)
+        "held_out_live_n_testable": held_live_n,
+        # ONE honest, machine-readable verdict so no reader can mistake sim for live:
+        "live_validated": bool(held_live_n) and held_live is not None,
+        "honesty": ("LIVE eye UNTESTED — held_out_live_n_testable=0; the mixed "
+                    f"{held}% is simulation on rescued seeds, NOT his eye (Rule #9)"
+                    if not held_live_n else
+                    f"LIVE eye testable on {held_live_n} pick(s): {held_live}% (random=50%)"),
+    }
+    # GUARD (Rule #9): if his live eye is untested, live_validated MUST be False — a degenerate/sim
+    # number can never flip the validated flag true. This is the assertion the shadow→live gate trusts.
+    assert not (fields["live_validated"] and fields["held_out_agreement_degenerate"]), \
+        "taste_elo: live_validated true while held-out LIVE is degenerate — a sim number leaked as live"
+    return fields
+
+
 def main():
     prefs = _prefs()
     if not prefs:
@@ -165,26 +195,12 @@ def main():
     #     actually held-out-testable. testable==0 with live_n>0 is the SINGLETON truth, said plainly.
     out = {"n_pairs": len(prefs), "n_live_picks": len(live), "n_rescued": len(prefs) - len(live),
            "live_n": len(live),                       # explicit alias the verifier/readers key on
-           "held_out_agreement_pct": held,            # MIXED/SIM — never "his agreement" (Rule #9)
-           "held_out_agreement_is_simulation": True,  # this number is ALWAYS sim, by construction
-           "held_out_agreement_degenerate": held_live_n == 0,
-           "held_out_live_pct": held_live,            # his LIVE eye (None until graph connects)
-           "held_out_live_n_testable": held_live_n,
-           # ONE honest, machine-readable verdict so no reader can mistake sim for live:
-           "live_validated": bool(held_live_n) and held_live is not None,
-           "honesty": ("LIVE eye UNTESTED — held_out_live_n_testable=0; the mixed "
-                       f"{held}% is simulation on rescued seeds, NOT his eye (Rule #9)"
-                       if not held_live_n else
-                       f"LIVE eye testable on {held_live_n} pick(s): {held_live}% (random=50%)"),
+           **verdict_fields(held, held_live, held_live_n),  # the honest live-vs-sim verdict (guarded)
            "last_pick_feedback": feedback_for(prefs),
            "top5_he_likes": [c[:70] for c, _ in ranked[:5]],
            "bottom5_he_rejects": [c[:70] for c, _ in ranked[-5:]],
            "strengths": strengths,
            "n_comparisons": {c: deg[c] for c in strengths}}
-    # GUARD (Rule #9): if his live eye is untested, live_validated MUST be False — a degenerate/sim
-    # number can never flip the validated flag true. This is the assertion the shadow→live gate trusts.
-    assert not (out["live_validated"] and out["held_out_agreement_degenerate"]), \
-        "taste_elo: live_validated true while held-out LIVE is degenerate — a sim number leaked as live"
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=1))
     print(f"TASTE-ELO: {len(prefs)} pairs ({len(live)} live picks + {out['n_rescued']} rescued)")
     if held_live_n:

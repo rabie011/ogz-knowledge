@@ -39,6 +39,13 @@ from feedback_lib import base as _default_base
 STAGED_FILES = ("truth_confirm_staged.json", "v37_confirm_staged.json")
 LOW_WATER = 8     # his phone comfortably shows <= this many open cards
 MAX_BATCH = 4     # never add more than this in one drain (conservative top-up)
+# Rule #10 — STANDING cap: confirm cards of ONE organ may never monopolize his queue. MAX_BATCH
+# bounds a SINGLE drain, but cards accumulate across drains (top-up toward LOW_WATER each cycle),
+# so without a standing cap one organ's confirm cards (e.g. truth_pack — one per unconfirmed
+# product) fill all 8 slots over successive fires and STARVE the taste-bridge lane (gate 1 of the
+# TOP metric: his queue must drop ≤ LOW_WATER-1 for a bridge pair to get a slot). This caps how
+# many of one organ may STAND open at once, guaranteeing headroom for the taste lane + other lanes.
+PER_ORGAN_CAP = 4
 
 
 def _load(p: Path, default):
@@ -133,8 +140,26 @@ def _staged_candidates(base: Path):
         i += 1
 
 
+def _default_taste_card(base: Path):
+    """B186f bridge source: build ONE pairwise BRIDGE taste card (rank 0) that reuses a judged
+    caption to connect the held-out graph. Returns a queue-ready card, or None if no bridge pair is
+    formable. The real source reads the live PREFS/produced pool (pairwise globals); tests inject a
+    fake via drain(taste_card=...) so the reservation stays sandbox-pure (drain(base=) injection)."""
+    import pairwise as pw
+    pairs = pw.bridge_pairs(n=1)
+    if not pairs:
+        return None
+    card = pw._card_for({**pairs[0], "pw_rank": 0})
+    card["status"] = "open"
+    card.setdefault("created", datetime.datetime.now().isoformat(timespec="seconds"))
+    card["drained_by"] = "bridge_drain B186f taste-lane"
+    return card
+
+
 def drain(base: Path = None, dry_run: bool = False,
-          low_water: int = LOW_WATER, max_batch: int = MAX_BATCH) -> dict:
+          low_water: int = LOW_WATER, max_batch: int = MAX_BATCH,
+          per_organ_cap: int = PER_ORGAN_CAP,
+          reserve_taste_lane: bool = False, taste_card=_default_taste_card) -> dict:
     base = base or _default_base()
     resolve = _resolver()
     retired = retire_dead(base, dry_run=dry_run)["retired"]   # clear dead corpses FIRST
@@ -146,7 +171,35 @@ def drain(base: Path = None, dry_run: bool = False,
     visible = visible_open(items)
     slots = max(0, min(low_water - visible, max_batch))
 
-    drained, held_no_consumer, already = [], [], []
+    # B186f — RESERVE the first free slot for ONE pairwise bridge taste pair, BEFORE confirm cards
+    # fill the rest. The held-out LIVE agreement (taste_elo.held_out_live — the TOP metric) is
+    # 0-testable while his judged captions stay singletons; this lane is the only thing that connects
+    # the graph. Default OFF (zero live-queue change until Mohamed's go). Bounded by Rule #10: fires
+    # ONLY when a slot is already free (his load low) AND no pw card is currently open (never stacks
+    # the single collapsed pw slot), reserves at most ONE, and asserts its consumer (Rule #7).
+    taste_reserved = None
+    if reserve_taste_lane and slots > 0 and not any(
+            c.get("status") != "answered" and not is_dead(c)
+            and str(c.get("id", "")).startswith("pw_") for c in items):
+        tc = taste_card(base)
+        if tc and str(tc.get("id", "")) not in on_queue and consumer_ok(tc, resolve):
+            if not dry_run:
+                items.append(tc)
+            on_queue.add(str(tc["id"]))
+            taste_reserved = str(tc["id"])
+            slots -= 1   # the reserved slot is spent; confirm cards fill only what remains
+
+    # STANDING per-organ load already on his phone (open, non-dead). A drain may add an organ's
+    # cards only up to per_organ_cap TOTAL (existing + this batch) — Rule #10 (one organ can't
+    # crowd out the taste lane). Counted once here; incremented as we drain.
+    organ_open = {}
+    for c in items:
+        if c.get("status") != "answered" and not is_dead(c):
+            og = c.get("organ")
+            if og:
+                organ_open[og] = organ_open.get(og, 0) + 1
+
+    drained, held_no_consumer, already, held_organ_cap = [], [], [], []
     for fn, card in _staged_candidates(base):
         cid = card["id"]
         if cid in on_queue:
@@ -155,18 +208,31 @@ def drain(base: Path = None, dry_run: bool = False,
         if not consumer_ok(card, resolve):
             held_no_consumer.append({"id": cid, "file": fn})   # Rule #8 — held + reported
             continue
+        og = card.get("organ")
+        if og and organ_open.get(og, 0) >= per_organ_cap:
+            held_organ_cap.append({"id": cid, "organ": og})    # Rule #10 — no silent cap: held + reported
+            continue
         if len(drained) >= slots:
             continue                                            # eligible but no room (Rule #10)
         if not dry_run:
             items.append(card)
             on_queue.add(cid)
         drained.append(cid)
+        if og:
+            organ_open[og] = organ_open.get(og, 0) + 1
 
-    if drained and not dry_run:
+    # Persist when ANYTHING was added — confirm cards OR a reserved taste card. The taste card is
+    # appended above (B186f) but was lost when `drained` was empty: the low-queue moment that lets the
+    # lane fire is exactly when the confirm staging can be empty/all-held, so his ONE bridge pair (the
+    # only thing connecting the TOP metric) silently vanished while the report claimed it staged — a
+    # Rule #6 severed wire (writer with no persisted read). taste_reserved is set only on a real append.
+    if (drained or taste_reserved) and not dry_run:
         qf.write_text(json.dumps(q, ensure_ascii=False, indent=1), encoding="utf-8")
 
     return {"retired_dead": retired, "visible_before": visible, "slots": slots,
             "drained": drained, "held_no_consumer": held_no_consumer,
+            "held_organ_cap": held_organ_cap,
+            "taste_reserved": taste_reserved,
             "already_on_queue": len(already), "dry_run": dry_run}
 
 
@@ -175,18 +241,30 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--low-water", type=int, default=LOW_WATER)
     ap.add_argument("--max-batch", type=int, default=MAX_BATCH)
+    ap.add_argument("--reserve-taste-lane", action="store_true",
+                    help="B186f: reserve one slot for a pairwise bridge taste pair (unblocks the "
+                         "held-out agreement — the TOP metric). Default OFF (wants Mohamed's go).")
     a = ap.parse_args()
-    rep = drain(dry_run=a.dry_run, low_water=a.low_water, max_batch=a.max_batch)
+    rep = drain(dry_run=a.dry_run, low_water=a.low_water, max_batch=a.max_batch,
+                reserve_taste_lane=a.reserve_taste_lane)
     tag = "DRY-RUN" if rep["dry_run"] else "DRAINED"
     if rep["retired_dead"]:
         print(f"BRIDGE-DRAIN [{tag}]: retired {len(rep['retired_dead'])} DEAD card(s) off his "
               f"portal (superseded, no reader) -> archive")
+    if rep.get("taste_reserved"):
+        print(f"BRIDGE-DRAIN [{tag}]: RESERVED taste lane -> {rep['taste_reserved']} "
+              f"(connects the held-out graph — the TOP metric)")
     print(f"BRIDGE-DRAIN [{tag}]: visible_load={rep['visible_before']} slots={rep['slots']} "
           f"-> {len(rep['drained'])} card(s) onto his portal: {rep['drained']}")
     if rep["held_no_consumer"]:
         ids = [h["id"] for h in rep["held_no_consumer"]]
         print(f"  HELD (Rule #7/#8 — no consumer, NOT drained): {len(ids)} -> {ids[:6]}"
               f"  [next step: build their handler before they can reach him]")
+    if rep.get("held_organ_cap"):
+        from collections import Counter
+        by_org = Counter(h["organ"] for h in rep["held_organ_cap"])
+        print(f"  HELD (Rule #10 — organ at PER_ORGAN_CAP={PER_ORGAN_CAP}, room kept for the taste "
+              f"lane): {dict(by_org)}  [they drain as he taps the open ones]")
     return 0
 
 

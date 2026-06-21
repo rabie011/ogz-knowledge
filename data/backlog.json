@@ -810,7 +810,9 @@
    "depends_on": [
     "B064"
    ],
-   "status": "todo"
+   "status": "done",
+   "blocker": "BLOCKED on pilot grounding data, not B064. Root-hunt 2026-06-21: build_angle_cards needs truth_pack; truth_pack REFUSES (Rule#8) for myfitness.sa = \"no products AND no DNA voice\" (organs empty); eatjurisha absent from data/brief_matrix entirely. albaik works (organs filled→2 cards). 2/3 pilots not production-ready = DATA gap (the 27 open research requests), needs research stage / his input — NOT a machine bug. Do not re-pick until pilot organs filled.",
+   "done_note": "BEDROCK fix (supersedes manual re-run): creative_line.ensure_assets() now detects STALE angle cards (pre-B041 brain=None) via _angle_card_stale() and auto-rebuilds them, not just missing ones. Stale cards no longer feed dead ideation lenses to the render pen (Rule #6 consumer law; Rule #8 refuse-dont-warn on rebuild fail). +8 zero-LLM tests (test_ensure_assets_stale.py). Albaik Jun-11 cards auto-heal lazily on next real render — no speculative GPT spend (money discipline)."
   },
   {
    "id": "B066",
@@ -1196,7 +1198,8 @@
    "who": "pair",
    "est_minutes": 30,
    "depends_on": [],
-   "status": "todo"
+   "status": "done",
+   "done_note": "sector_prior_aggregator.py + 9 synthetic tests (586 total, green). Pure core aggregate()/draft_prs(); n>=3 distinct-brand gate (Rule #8), no-inflation by distinct brand (Rule #9), confirmed-only, anonymized drafts, staged to data/sector_prior_drafts.json (Rule #6 consumer = read-back test). scan_clients() real source yields 0 on prose-only pilots (correct). Fires when 3rd brand in a sector lands a structured confirmation."
   },
   {
    "id": "B097",
@@ -1833,7 +1836,8 @@
    "depends_on": [
     "B078"
    ],
-   "status": "todo"
+   "status": "done",
+   "done_note": "PAYMENT row added to fingerprint_status (payment_status() pure fn, append-only most-recent-wins). RED on late/overdue/renewal-lapsed, GREEN on clean payment, YELLOW pre-commercial. INDEPENDENT of approvals (approving-non-paying != green). 9 RED/distinction tests in test_fingerprint_payment.py; suite 559 green."
   },
   {
    "id": "B150",
@@ -2010,7 +2014,8 @@
    "depends_on": [
     "B163"
    ],
-   "status": "todo"
+   "status": "done",
+   "done_note": "B164 done: reputation_alert.py reads reviews_digest cold_food → reputation_alert block in gap_report.json + soft reputation_warm_kitchen_warn in post_audit. REAL DATA: albaik triggered cold_door (11/514=2.1%, avg 3.92★, 209 1-star); eatjurisha clean. 13 tests; full suite 510→523 green. Consumers built same cycle (Rule #6)."
   },
   {
    "id": "B165",
@@ -2068,7 +2073,8 @@
    "who": "pair",
    "est_minutes": 10,
    "depends_on": [],
-   "status": "todo"
+   "status": "done",
+   "done_note": "ALREADY SATISFIED (audit-before-build, RABIE): the rivals ask is live in scripts/seed_passport_cards.py CANON — (\"competitors\",\"competitor_set\",r\"منافسين\",\"مين ٢-٣ منافسين تتابعونهم؟\"). gap→competitor_set organ, client-given fills (client-given is law). No build needed."
   },
   {
    "id": "B170",
@@ -2769,7 +2775,8 @@
    "depends_on": [
     "B227"
    ],
-   "status": "todo"
+   "status": "done",
+   "done_note": "Rule #6 half-wire fixed: the digest renderer + apply_rulings re-push grepped \"DRAFT\" in status and silently missed 6 awaiting_mohamed LAW cards (stranded since 2026-06-12). ONE shared predicate feedback_lib.pending_crystallize() (DRAFT+awaiting, terminal-aware) now read by all 3 sites — honors card #6 one-module law. +dedupe_crystallize marks weaker recurring-pattern dupes superseded. real data: 5→11 pending surfaced. 6 new tests (test_crystallize_pending), 577 green."
   },
   {
    "id": "B230",
@@ -3485,7 +3492,7 @@
   },
   {
    "id": "B186c",
-   "status": "todo",
+   "status": "done",
    "layer": "Spine",
    "who": "pair",
    "est_minutes": 20,
@@ -3493,11 +3500,12 @@
    "how": "bridge_drain.py runs one-shot today. Call it each shift (or from make_sure) so retire-dead + low-queue top-up run standing — else his queue silently re-clutters with superseded cards.",
    "depends_on": [
     "B186b"
-   ]
+   ],
+   "done_note": "make_sure.standing_janitor(BASE) now runs bridge_drain every cadence — retire-dead + low-queue top-up are STANDING (were one-shot). Best-effort + error-captured (janitor blowup surfaces _bridge_error, never blinds the self-check). Live proof: drained 6 real truth_confirm_eatjurisha cards onto his portal that were staged-but-invisible (his picks flowing again), converged to queue-clean in 3 cadences (4+2+0, Rule #10 no-flood), 10 v37 cards correctly HELD (no consumer -> B186d). 3 new tests, suite 526 green."
   },
   {
    "id": "B186d",
-   "status": "todo",
+   "status": "done",
    "layer": "Spine",
    "who": "pair",
    "est_minutes": 30,
@@ -3505,15 +3513,57 @@
    "how": "10 v37_<handle>_* free-text cards (palette/products_phys/identity_ref) have NO handler — bridge_drain HOLDS them. Add h_v37_visual in apply_rulings writing the answer into the visual_dna organ, then they can drain to his portal.",
    "depends_on": [
     "B186b"
-   ]
+   ],
+   "done_note": "h_v37_visual consumer + _sf reader wired; 10 v37 cards 0 HELD; 11 tests + full suite 537 OK"
+  },
+  {
+   "id": "B186f",
+   "layer": "Spine",
+   "what": "Reserve a drain lane for the pairwise TASTE bridge pair (unblock the held-out agreement — the TOP metric)",
+   "how": "bridge_drain feeds his portal truth_confirm + v37 visual cards but NEVER the pairwise bridge pairs, so confirm cards perpetually occupy his 8 slots and his judged captions stay singletons → held_out_live agreement is UNDEFINED forever (make_sure _taste_bridge_starved=True, formable>0 staged=0). Fix: when a slot frees AND no pw card is open AND bridge pairs are formable, RESERVE the first slot for one push_bridge(n=1) pair BEFORE confirm cards fill the rest. Must stay sandbox-pure (drain(base=) injection) and honor Rule #10 (bounded by low-water+max_batch, never flood). Live-queue change → wants Mohamed eyes.",
+   "who": "pair",
+   "est_minutes": 35,
+   "depends_on": [
+    "B186d"
+   ],
+   "status": "staged",
+   "top": "creation system captures his taste — his pilot picks must become held-out testable",
+   "why_now": "B186e (this shift) made the severed lane VISIBLE; the fix is the next layer down. Gated on his queue dropping below low-water + a live-queue change he should see.",
+   "done_note": "B186f BUILT + flag-gated OFF (zero live-queue change until his go): bridge_drain.drain(reserve_taste_lane=, taste_card=) reserves the first free slot for ONE pairwise bridge taste pair BEFORE confirm cards, only when a slot is free (load<low_water) AND no pw card open (never stacks the single pw slot) — bounded by Rule #10, consumer-asserted (apply_rulings pw_ route, Rule #7). 7 new tests in test_bridge_drain (default-off, reserve-one, never-stack, queue-full no-op, no-bridge no-op, dry-run, consumer-exists); full suite 545 green. Real-data dry-run: slots=0 today (his queue at low-water=8) so it correctly does nothing until a slot frees. GO-LIVE = run with --reserve-taste-lane (staged to MOHAMED_APPROVALS, one word)."
+  },
+  {
+   "id": "B186g",
+   "layer": "L3 Machines",
+   "what": "Per-organ standing cap on the bridge drainer + distinguishable confirm-card titles (de-crowd his slots)",
+   "how": "Root from June 21 zoom-out: bridge_drain.drain had no standing per-organ cap — truth_pack confirm cards (18 staged) monopolized all 8 slots across drains, starving the taste-bridge lane (gate 1 of the TOP). Added PER_ORGAN_CAP=4 (held+reported, Rule #8/#10) so no organ exceeds 4 standing → headroom always kept for the taste lane + other lanes. build_truth_confirm_cards title now carries the candidate name (تأكيد: جريش) so each product card is distinguishable on his phone (Rule #7).",
+   "who": "pair",
+   "est_minutes": 25,
+   "depends_on": [
+    "B186b"
+   ],
+   "status": "done",
+   "done_note": "2026-06-21: PER_ORGAN_CAP=4 in bridge_drain.drain() (+held_organ_cap report, no silent truncation); titles carry candidate name (24/24 distinct, staged file regenerated). +3 tests TestPerOrganCap (548 green). Live dry-run: cap holds 18 truth_pack, reports room-kept-for-taste. make_sure 🟢. RABIE 3/5 — bedrock+tested; missing: the 6 already-on-queue cards keep old titles (future-drains-only, no hand-edit of his queue), and gate 2 (reserve_taste_lane ON) still awaits his go."
+  },
+  {
+   "id": "B270",
+   "layer": "L3 Machines",
+   "what": "Truth-pack staleness detector in ensure_assets",
+   "how": "Mirror B065s _angle_card_stale for truth_packs: ensure_assets still rebuilds packs on MISSING only. Define a pack schema-version signature and auto-rebuild stale packs so the render pen never reads a pre-schema-change truth pack. Zero-LLM detector + tests; regen lazy.",
+   "who": "pair",
+   "est_minutes": 20,
+   "depends_on": [
+    "B065"
+   ],
+   "status": "todo",
+   "done_note": ""
   }
  ],
  "counts": {
-  "done": 192,
+  "done": 201,
   "superseded": 3,
-  "todo": 90,
+  "todo": 83,
   "open": 4,
-  "staged": 3,
+  "staged": 4,
   "skipped": 4
  }
 }

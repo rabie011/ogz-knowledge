@@ -13,7 +13,7 @@ from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from feedback_lib import base
+from feedback_lib import base, crystallize_cards, pending_crystallize
 
 DIGEST_ID = "crystallize_digest"
 
@@ -24,8 +24,7 @@ def main():
     if not cq.exists():
         return print("no crystallize queue")
     d = json.loads(cq.read_text())
-    items = d.get("cards") or d.get("candidates") or []
-    drafts = [c for c in items if "DRAFT" in str(c.get("status", ""))]
+    drafts = pending_crystallize(crystallize_cards(d))
     q = json.loads((b / "data/decision_queue.json").read_text())
     open_cards = [i for i in q["items"] if i.get("status") != "answered"]
     if any(i["id"] == DIGEST_ID for i in q["items"]):

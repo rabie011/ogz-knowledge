@@ -305,3 +305,8 @@ PREPARED (verified + built this shift): the WIRE is live and tested — `data/re
 TO-PREP (honest): the one-TAP handler that flips a row proposed→confirmed on your answer is NOT built yet — next we-can-do step. Until then you confirm by a word here and the pair flips the rows (then every matching verdict auto-kills, retroactively).
 YOUR TAP: «confirm the 4» / pick which / «hold».
 (backlog B083b · L3 Machines / writeback · ~10 min · wire DONE, handler next)
+
+### A-48 Turn on the reserved TASTE lane (UNBLOCKS the held-out agreement — the TOP metric)
+PREPARED (verified + built this shift): `bridge_drain.drain(reserve_taste_lane=)` reserves the FIRST free slot on your phone for ONE pairwise "which would you post?" bridge pair, BEFORE confirm cards fill the rest. Root: your 12 taste picks are SINGLETONS — each caption judged once — so the honest "does the system match your eye?" number (`held_out_live`) is **0-testable forever**, no matter how many you tap. A bridge pair reuses one caption you already judged, connecting the graph; ~6 bridge taps make all 12 picks testable. Bounded by Rule #10 (fires only when your load is low + no taste card already open, reserves at most ONE), consumer-asserted (Rule #7). Built FLAG-OFF: zero change to your live queue until your word. 7 new tests, full suite **545 green**. Real-data check today: your queue is at low-water (8 confirm/digest cards) so even ON it waits until a slot frees — correctly bounded.
+YOUR TAP: one word — **GO** (orchestra runs bridge_drain with `--reserve-taste-lane`; the lane self-fills as your confirm cards clear) / **HOLD**.
+(backlog B186f · Spine / TOP metric · ~1 min · code DONE + tested, go-live = your word)

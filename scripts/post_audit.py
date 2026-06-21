@@ -138,6 +138,17 @@ def audit_post(d, handle):
                 issues.append(("truth", f"named-person invented in VISUAL brief «{m.group(0)}»"))
             elif strip_punct(m.group(0)).lower() not in corpus:
                 issues.append(("truth", f"ungrounded named-person in VISUAL brief «{m.group(0)}»"))
+    # FILLER ON THE VISUAL DOOR (B196 root, 2026-06-22): the bilingual filler ban guarded the
+    # CAPTION door only. The myfitness 2026-09-10 post leaked «بل رحلة» (journey=رحلة, G4 twin)
+    # inside its idea.scene_ar — the shoot-card the system renders from — which the caption-only
+    # FILLER scan above structurally cannot see, so the post stamped "CLEAN" while directing a
+    # filler scene. Same shared rule, all doors (one-enforced-boundary scar): scan the visual
+    # brief (scene_ar + shoot-card) through the SAME canonical FILLER. Tagged 'filler_visual'
+    # → REFUSES (Rule #8), so a re-render carrying filler in the scene can never ship.
+    vis_door_text = " ".join([(d.get("idea") or {}).get("scene_ar", ""), vis])
+    fvm = FILLER.search(vis_door_text)
+    if fvm:
+        issues.append(("filler_visual", f"visual brief carries filler «{fvm.group(0)}»"))
     # CAPTION↔SCENE COHERENCE (June 21, Mohamed's chain brief — the coherence flag): a post is
     # one idea; a caption whose emotional core CONTRADICTS its own scene's core (a gym/energy line
     # on a family-dinner scene, the same incoherence the broken chain made visible) is a broken post.

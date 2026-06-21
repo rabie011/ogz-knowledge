@@ -2108,7 +2108,8 @@
    "who": "pair",
    "est_minutes": 30,
    "depends_on": [],
-   "status": "todo"
+   "status": "done",
+   "note": "B172: advisory weekday preference derived from corpus weekday_distribution → etiquette.json organ; blackout_gate consumes it (soft warn on low-activity weekdays); 5 tests. Per-client/year_map send_window deferred (account_cadence keyed by reference IDs not pilots — Rule #9)."
   },
   {
    "id": "B173",
@@ -2389,7 +2390,19 @@
    "who": "pair",
    "est_minutes": 30,
    "depends_on": [],
-   "status": "todo"
+   "status": "todo",
+   "done_note": " | 2026-06-22: ROOT found+fixed (B196r) — the leak was an unguarded VISUAL door in post_audit, not a render fluke; the stale 2026-09-10 file is caption-less (already blocked as empty). Re-render of the 2 missing voices remains (SYSTEM produces, Rule #12 — LLM step)."
+  },
+  {
+   "id": "B196r",
+   "layer": "Spine",
+   "who": "pair",
+   "est_minutes": 25,
+   "depends_on": [],
+   "status": "done",
+   "what": "ROOT of B196 — close the bilingual-filler VISUAL door in post_audit",
+   "how": "post_audit scanned FILLER on captions only; idea.scene_ar (the brief the system renders from) was unguarded — the myfitness 2026-09-10 scene leaked «بل رحلة». Added filler_visual scan over scene_ar+shoot-card via the SAME canonical FILLER (one-enforced-boundary scar); tag refuses (Rule #8).",
+   "done_note": "filler_visual added (post_audit.py); 3 tests (test_post_audit_filler_visual) + full suite 635 green; eyes-proof on the REAL verbatim scene_ar string — caption-only scan misses [], visual door REFUSES «رحلة». 2026-06-22."
   },
   {
    "id": "B197",
@@ -3554,14 +3567,27 @@
    "depends_on": [
     "B065"
    ],
-   "status": "todo",
-   "done_note": ""
+   "status": "done",
+   "done_note": "BEDROCK mirror of B065: creative_line._truth_pack_stale() + ensure_assets now rebuilds truth packs on MISSING OR stale schema signature, not just missing. build_truth_pack.SCHEMA_VERSION (\"tp-v1\") stamped into every pack as _schema; reader imports the constant (Rule #6 single source). All 20 pre-B270 packs (no _schema) auto-heal lazily on next real render — no speculative spend (money discipline). +11 zero-LLM tests (test_truth_pack_stale.py) + fixed B065 fixture; full suite 621 green."
+  },
+  {
+   "id": "B270b",
+   "layer": "L3 Machines",
+   "what": "Self-invalidating truth-pack schema signature (derive from key-shape)",
+   "how": "Replace the manual SCHEMA_VERSION bump (tp-v1, B270) with a signature DERIVED from the sorted top-level + voice key-shape of build()'s output, so the pack auto-invalidates when build() changes shape and no human has to remember to bump. Keep it stable against value changes; zero-LLM + tests. RABIE-flagged in B270 verdict.",
+   "who": "pair",
+   "est_minutes": 25,
+   "depends_on": [
+    "B270"
+   ],
+   "status": "done",
+   "done_note": "Self-invalidating truth-pack signature: SCHEMA_VERSION now DERIVED from build() key-shape (sorted top-level + voice sub-keys, sha1[:10]), not a manual tp-v1 bump. build() stamps schema_signature(pack) from its own output; creative_line reads the same constant (Rule #6 one source). Stable vs value changes, auto-moves on key add/remove/rename. +6 tests (627 green). The bedrock fix for B057-class silent schema drift."
   }
  ],
  "counts": {
-  "done": 201,
+  "done": 205,
   "superseded": 3,
-  "todo": 83,
+  "todo": 81,
   "open": 4,
   "staged": 4,
   "skipped": 4

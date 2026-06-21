@@ -62,7 +62,8 @@ class TestEnsureAssetsRebuildTrigger(unittest.TestCase):
         (base / "data" / "angle_cards").mkdir(parents=True)
         (base / "scripts").mkdir(parents=True)
         # truth pack always present + fresh so only the angle card drives behaviour
-        (base / "data" / "truth_packs" / "acme__national_day.json").write_text('{"truth": 1}')
+        (base / "data" / "truth_packs" / "acme__national_day.json").write_text(
+            json.dumps({"truth": 1, "_schema": cl.TRUTH_PACK_SCHEMA_VERSION}))
         if angle_card is not None:
             (base / "data" / "angle_cards" / "acme__national_day.json").write_text(
                 json.dumps(angle_card, ensure_ascii=False))

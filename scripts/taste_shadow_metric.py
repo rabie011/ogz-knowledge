@@ -32,6 +32,14 @@ SHADOW_LOG = B / "data/taste_shadow_log.jsonl"
 # data", never a number.
 FLOOR = 5
 
+# A batch needs >= this many items to have any orderable divergence. A 1-item batch CANNOT be
+# reordered, so its order_diff is trivially 0 — it carries no measurement. Such rows must not count
+# toward FLOOR (they would inflate the gate with noise) nor enter the aggregate (a spurious 0 biases
+# active_vs_random_gap toward "taste diverges less than random"). Dropped before counting/averaging
+# (Rule #9 — only meaningful measurements reach Mohamed). Found June 22: the live log held an n=1
+# row counted as 1 of 2 "distinct runs" toward FLOOR.
+MIN_ORDERABLE_N = 2
+
 
 def load_log(path=SHADOW_LOG):
     """Read the append-only shadow log into a list of records. Missing/empty file → []."""
@@ -116,15 +124,24 @@ def compute(rows):
     a thin-but-padded log can't hide as a rich one.
     """
     n_rows = len(rows)
-    rows = _distinct_runs(rows)               # collapse repeated identical measurements (Rule #9)
+    # Drop non-orderable batches (n < 2) BEFORE counting/averaging — they carry no divergence signal
+    # and would inflate FLOOR + bias the aggregate (Rule #9; see MIN_ORDERABLE_N).
+    orderable = [r for r in rows if int(r.get("n", 0)) >= MIN_ORDERABLE_N]
+    n_degenerate = n_rows - len(orderable)
+    rows = _distinct_runs(orderable)          # collapse repeated identical measurements (Rule #9)
     n_runs = len(rows)
-    out = {"n_runs": n_runs, "n_rows": n_rows, "n_duplicates": n_rows - n_runs,
-           "floor": FLOOR, "log": str(SHADOW_LOG)}
+    out = {"n_runs": n_runs, "n_rows": n_rows, "n_degenerate": n_degenerate,
+           "n_duplicates": len(orderable) - n_runs, "floor": FLOOR, "log": str(SHADOW_LOG)}
     if n_runs < FLOOR:
         out["status"] = "INSUFFICIENT"
-        dup = f" ({n_rows} rows, {n_rows - n_runs} duplicate)" if n_rows != n_runs else ""
-        out["reason"] = (f"n_runs={n_runs} < FLOOR={FLOOR}{dup} — refusing to quote an aggregate "
-                         f"(Rule #9; FLOOR counts DISTINCT measurements, not repeated rows)")
+        parts = []
+        if out["n_duplicates"]:
+            parts.append(f"{out['n_duplicates']} duplicate")
+        if n_degenerate:
+            parts.append(f"{n_degenerate} degenerate n<{MIN_ORDERABLE_N}")
+        extra = f" ({n_rows} rows: {', '.join(parts)})" if parts else ""
+        out["reason"] = (f"n_runs={n_runs} < FLOOR={FLOOR}{extra} — refusing to quote an aggregate "
+                         f"(Rule #9; FLOOR counts DISTINCT ORDERABLE measurements, not raw rows)")
         return out
 
     diffs = [int(r.get("order_diff", 0)) for r in rows]

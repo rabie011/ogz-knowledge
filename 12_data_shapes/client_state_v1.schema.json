@@ -56,6 +56,13 @@
     "human_checkpoint": {
       "type": "string"
     },
+    "ogz_account_owner": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "OGZ team member who owns this account; null until Mohamed names names (B160). Consumed by the red-client human-touch alert (B093)."
+    },
     "provenance": {
       "type": "object",
       "required": [

@@ -19,6 +19,7 @@ from caption_filter import filter_options, check
 from scorer_v2 import score_v2
 from v5_prompt import load_dna
 from humain_collector import OCCASION_AR
+from build_truth_pack import SCHEMA_VERSION as TRUTH_PACK_SCHEMA_VERSION
 
 BASE = Path(__file__).parent.parent
 TASTE = json.loads((BASE / "data/founder_taste.json").read_text())
@@ -72,11 +73,27 @@ def _angle_card_stale(f):
     return any(not a.get("brain") for a in angles)
 
 
+def _truth_pack_stale(f):
+    """A truth pack is STALE if its schema signature predates the current pack shape (B270).
+    Fresh packs (build_truth_pack.py) stamp '_schema' = SCHEMA_VERSION; the constant is bumped
+    whenever build() changes the pack shape. ensure_assets only rebuilt on MISSING, so a pack
+    written before a shape change was read as-is and its pre-schema-change brief fed straight to
+    the render pen — a silent staleness consumption (Rule #6 consumer law; the truth-pack mirror
+    of _angle_card_stale / B065). All 20 pre-B270 packs carry no '_schema' and auto-heal lazily
+    on their next real render — no speculative spend (money discipline)."""
+    try:
+        pack = json.loads(f.read_text())
+    except Exception:
+        return True   # unreadable / corrupt → rebuild
+    return pack.get("_schema") != TRUTH_PACK_SCHEMA_VERSION
+
+
 def ensure_assets(brand_en, occasion):
     for script in ("build_truth_pack.py", "build_angle_cards.py"):
         is_angle = "angle" in script
         f = BASE / "data" / ("truth_packs" if "truth" in script else "angle_cards") / f"{brand_en}__{occasion}.json"
-        if not f.exists() or (is_angle and _angle_card_stale(f)):
+        stale = _angle_card_stale(f) if is_angle else _truth_pack_stale(f)
+        if not f.exists() or stale:
             r = subprocess.run([sys.executable, str(BASE / "scripts" / script),
                                 "--brand", brand_en, "--occasion", occasion],
                                capture_output=True, text=True, cwd=BASE)

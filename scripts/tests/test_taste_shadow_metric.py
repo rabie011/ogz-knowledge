@@ -58,6 +58,36 @@ class TestFloorRefusal(unittest.TestCase):
         self.assertIn("mean_order_diff", m)
 
 
+class TestDegenerateRowsExcluded(unittest.TestCase):
+    """Rule #9 (June 22 scar): a batch of <2 items cannot be reordered, so its order_diff is a
+    trivial 0 carrying NO measurement. Such rows must not count toward FLOOR nor enter the aggregate
+    — the live log held an n=1 row falsely counted as 1 of 2 'distinct runs'."""
+
+    def test_n1_row_does_not_count_toward_floor(self):
+        # one real orderable measurement + a degenerate n=1 row → only the real one counts
+        rows = _distinct(1, n=20, order_diff=19, wire_live=False) + _distinct(1, n=1, order_diff=0, wire_live=False)
+        m = tsm.compute(rows)
+        self.assertEqual(m["n_runs"], 1)            # NOT 2 — the n=1 row is dropped
+        self.assertEqual(m["n_degenerate"], 1)
+        self.assertEqual(m["status"], "INSUFFICIENT")
+
+    def test_degenerate_rows_never_reach_floor_or_aggregate(self):
+        # FLOOR orderable rows reach OK; padding with n=1 rows changes neither count nor the mean
+        real = _distinct(tsm.FLOOR, n=4, order_diff=2, wire_live=False)
+        m_clean = tsm.compute(real)
+        m_padded = tsm.compute(real + _distinct(3, n=1, order_diff=0, wire_live=False))
+        self.assertEqual(m_padded["status"], "OK")
+        self.assertEqual(m_padded["n_runs"], tsm.FLOOR)              # padding ignored
+        self.assertEqual(m_padded["n_degenerate"], 3)
+        self.assertEqual(m_padded["mean_order_diff"], m_clean["mean_order_diff"])  # aggregate unbiased
+
+    def test_only_degenerate_rows_is_zero_runs(self):
+        m = tsm.compute(_distinct(4, n=1, order_diff=0, wire_live=False))
+        self.assertEqual(m["n_runs"], 0)
+        self.assertEqual(m["n_degenerate"], 4)
+        self.assertEqual(m["status"], "INSUFFICIENT")
+
+
 class TestDivergenceMath(unittest.TestCase):
     def test_random_expected_is_n_minus_one(self):
         # expected fixed points of a uniform permutation = 1, so displaced = n-1

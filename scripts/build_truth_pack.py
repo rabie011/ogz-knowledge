@@ -10,7 +10,7 @@ pack assembles ONLY what's real, by CONNECTING existing assets:
 A truth pack with a placeholder product is INVALID (validator below).
 Output: data/truth_packs/{brand_en}__{occasion}.json
 """
-import argparse, glob, json, re, sys
+import argparse, glob, hashlib, json, re, sys
 from collections import Counter
 from pathlib import Path
 import yaml
@@ -18,6 +18,31 @@ import yaml
 BASE = Path(__file__).parent.parent
 OUT = BASE / "data" / "truth_packs"
 PLACEHOLDERS = {"وجبة جديدة", "مشروب الموسم", "المنتج", "منتج جديد"}
+
+# Truth-pack schema signature — SELF-INVALIDATING (B270b, supersedes the manual "tp-v1" bump
+# of B270). The signature is DERIVED from the key-shape of build()'s own output (sorted
+# top-level keys + the 'voice' sub-keys), so adding / removing / renaming a pack key auto-
+# changes the signature and every stale on-disk pack rebuilds lazily — no human has to
+# remember to bump a constant (the omission that birthed B057's silent schema drift: a thin-
+# brain reshape that no reader noticed). Stable against VALUE changes: only the shape of the
+# keys counts, never their contents — a daily DNA refresh never invalidates a pack. The render
+# pen still reads packs lazily; creative_line imports SCHEMA_VERSION and compares it to each
+# pack's stamped '_schema' (Rule #6: writer and reader share one source — this module).
+_FALLBACK_SHAPE = "tp-fallback"  # only if the import-time shape probe ever raises
+
+
+def _pack_key_shape(pack: dict) -> str:
+    """Canonical key-shape of a truth pack: sorted top-level keys (excluding '_schema' itself,
+    which is this function's output and cannot depend on itself) plus the sorted 'voice' sub-
+    keys. Values are ignored, so the signature moves only when build() changes its SHAPE."""
+    top = ",".join(sorted(k for k in pack if k != "_schema"))
+    voice = ",".join(sorted((pack.get("voice") or {}).keys()))
+    return f"top:{top}|voice:{voice}"
+
+
+def schema_signature(pack: dict) -> str:
+    """Short, stable signature derived from a pack's key-shape (B270b)."""
+    return "tp-" + hashlib.sha1(_pack_key_shape(pack).encode("utf-8")).hexdigest()[:10]
 
 
 def real_products(brand_en: str, top=8) -> list[str]:
@@ -65,7 +90,7 @@ def build(brand_en: str, brand_ar: str, sector: str, occasion: str) -> dict:
     facts = json.loads((BASE / "data/occasion_facts.json").read_text()).get(occasion, {})
     dna_f = BASE / "logs/brand_dna" / f"{brand_en}_dna_v3.json"
     dna = json.loads(dna_f.read_text()) if dna_f.exists() else {}
-    return {
+    pack = {
         "brand_en": brand_en, "brand_ar": brand_ar, "sector": sector, "occasion": occasion,
         "real_products": real_products(brand_en),
         "voice": {"openers": dna.get("proven_openers_ar", [])[:6],
@@ -78,6 +103,23 @@ def build(brand_en: str, brand_ar: str, sector: str, occasion: str) -> dict:
         "precedents": precedents(sector, occasion),
         "_built": __import__("datetime").date.today().isoformat(), "_source": "DNA v3 + real hashtags + occasion_facts + strategy_frameworks + campaign_archive",
     }
+    pack["_schema"] = schema_signature(pack)  # B270b: stamped from the pack's own key-shape
+    return pack
+
+
+def _current_schema_version() -> str:
+    """The signature build() currently emits, probed once from a sentinel-input pack so the
+    reader (creative_line) can compare without a real render. Sentinel brand/sector/occasion
+    hit only the missing-file guard paths (real_products / sector_tensions / precedents all
+    return [] for unknown inputs), so the probe is side-effect-free and yields the full key-
+    shape. Falls back only if the probe ever raises (keeps writer+reader from disagreeing)."""
+    try:
+        return build("__shape__", "__shape__", "__shape__", "__shape__")["_schema"]
+    except Exception:
+        return _FALLBACK_SHAPE
+
+
+SCHEMA_VERSION = _current_schema_version()
 
 
 def validate(pack: dict) -> list[str]:

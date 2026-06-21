@@ -23,6 +23,15 @@ def _dt(ts):
         return datetime(1970, 1, 1)
 
 
+def _parseable_dt(ts) -> bool:
+    """True iff ts is a real ISO datetime — used to keep created-less cards OUT of the
+    staleness median (a missing timestamp is not evidence that a card is 56 years old)."""
+    try:
+        datetime.fromisoformat(str(ts)); return True
+    except Exception:
+        return False
+
+
 def run_checks() -> dict:
     B = base()
     now = datetime.now()
@@ -54,7 +63,11 @@ def run_checks() -> dict:
     c["days_since_mohamed"] = round((now - _dt(last_moh)).total_seconds() / 86400, 1) if last_moh else 999
     q = json.loads((B / "data/decision_queue.json").read_text()) if (B / "data/decision_queue.json").exists() else {"items": []}
     open_cards = [i for i in q["items"] if i.get("status") != "answered"]
-    ages = [(now - _dt(i.get("created", ""))).days for i in open_cards]
+    # A card with no parseable `created` carries NO staleness signal — counting it as epoch-1970
+    # (20k+ days) is a data artifact, not founder-neglect, and falsely trips the canary. Honest
+    # median = over cards we can actually date. (Surfaced June 20 when retiring 52 dated corpses
+    # exposed 21 created-less cards the corpses had been masking in the median.)
+    ages = [(now - _dt(cr)).days for i in open_cards if _parseable_dt(cr := i.get("created", ""))]
     c["median_card_age_d"] = statistics.median(ages) if ages else 0
     c["founder_canary"] = c["days_since_mohamed"] <= 3 and c["median_card_age_d"] <= 5
 

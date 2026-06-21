@@ -351,6 +351,18 @@ def main():
     except Exception as e:
         checks["_orphaned_intel_err"] = str(e)[:60]
 
+    # 6e1b. VISUAL-CHECKLIST FRESHNESS (B142, Rule #6 — the consumer built same cycle as the writer).
+    # The per-client human-eyes visual gate is GENERATED from each client's cultural_overrides + the
+    # deadly-defaults table. If a client's red_lines change and nobody re-runs the generator, the human
+    # would review against a STALE checklist — the exact silent-drift class. This makes the 24h loop the
+    # standing consumer: True = on-disk file matches the organs; False = stale, re-run the generator.
+    try:
+        import build_visual_review_checklist as _vrc
+        _cur = _vrc.OUT.read_text(encoding="utf-8") if _vrc.OUT.exists() else ""
+        checks["visual_checklist_fresh"] = (_cur == _vrc.build_checklist())
+    except Exception as e:
+        checks["_visual_checklist_err"] = str(e)[:60]
+
     # 6e2. HUMAN-VERDICT STARVATION (verified June 20, Rule #6). His positive portal taps (approve /
     # rating>=4) never become HUMAN-confirmed client-ledger events — every ledger verdict is
     # rabie_provisional, so B082/B084 (human-hands-only) replay NOTHING. The loops read as "built" and

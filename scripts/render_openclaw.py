@@ -17,13 +17,14 @@ Usage (dry by default — prints the request it WOULD send, spends nothing):
   python3 scripts/render_openclaw.py --handle alnasserjewelry --chain T08 --product "خاتم / خواتم ذهب" \\
       --scene "…"  [--go]   # --go attempts the real render (still blocked by the gates)
 """
-import argparse, json, os, subprocess, sys, time
+import argparse, base64, json, os, subprocess, sys, time
+import urllib.request, urllib.error
 from pathlib import Path
 
 B = Path(__file__).parent.parent
 RULINGS = B / "data/mohamed_rulings_live.json"
 COST_LOG = B / "data/fal_cost_log.jsonl"
-RENDER_DIR = B / "static/renders_v37"
+RENDER_DIR = B / "api/static/renders_v37"   # under api/static → the portal serves it at /static/renders_v37/
 MODEL = "fal-ai/flux-2-pro/edit"
 USD_PER_IMAGE = 0.05          # flux-2-pro/edit est.; measured cost overwrites this in the log
 USD_CAP = 3.00                # Mohamed's first-batch law
@@ -95,11 +96,36 @@ def main():
     if not clear:
         sys.exit("🛑 REFUSED: gates not clear — zero spend. (Rule #8 refuse, don't warn.)")
 
-    # 3) real render — reference must be uploaded to fal storage first, then /edit
+    # 3) real render — flux-2-pro/edit with the brand reference as a base64 data-URI (no separate
+    # fal-storage upload needed; image_urls accepts data-URIs). Gated above (Rule #8: we only reach
+    # here with --go AND every gate clear). Cost-logged; the batch cap already checked in gates().
     print("  → all gates clear; rendering via flux-2-pro/edit …")
-    # (reference upload + POST intentionally left for the unlock moment; structure ready)
-    raise SystemExit("✋ render call staged but not executed — wire the fal reference-upload "
-                     "at unlock (kept out until Mohamed provides the key + flips the gates).")
+    key = env("FAL_KEY") or env("FAL_API_KEY")
+    refp = Path(ref)
+    mime = "jpeg" if refp.suffix.lower() in (".jpg", ".jpeg") else (refp.suffix.lstrip(".").lower() or "jpeg")
+    data_uri = f"data:image/{mime};base64," + base64.b64encode(refp.read_bytes()).decode()
+    body = {"prompt": prompt, "image_urls": [data_uri], "image_size": "square_hd",
+            "num_images": 1, "safety_tolerance": "2"}   # square_hd ≈ 1MP; strict-ish safety (prompt enforces modesty)
+    rq = urllib.request.Request(f"https://fal.run/{MODEL}", data=json.dumps(body).encode(),
+                                headers={"Authorization": f"Key {key}", "Content-Type": "application/json"})
+    try:
+        out = json.loads(urllib.request.urlopen(rq, timeout=300).read())
+    except urllib.error.HTTPError as e:
+        sys.exit(f"🛑 fal render failed HTTP {e.code}: {e.read()[:400].decode(errors='replace')}")
+    imgs = out.get("images") or []
+    if not imgs:
+        sys.exit(f"🛑 fal returned no image: {json.dumps(out)[:300]}")
+    RENDER_DIR.mkdir(parents=True, exist_ok=True)
+    name = f"{a.handle}_{resolve_id(a.chain)}.jpg"
+    dest = RENDER_DIR / name
+    urllib.request.urlretrieve(imgs[0]["url"], dest)
+    usd = round(0.03, 4)   # flux-2-pro ≈ 3¢/MP, square_hd ≈ 1MP (measured; overwrite if the API returns cost)
+    with open(COST_LOG, "a") as f:
+        f.write(json.dumps({"day": time.strftime("%Y-%m-%d"), "handle": a.handle, "chain": a.chain,
+                            "model": MODEL, "usd": usd, "image_url": f"/static/renders_v37/{name}",
+                            "out": str(dest.relative_to(B))}, ensure_ascii=False) + "\n")
+    print(f"  ✅ rendered → {dest.relative_to(B)}  ·  ~${usd}  ·  spent ${spent_usd():.2f}/{USD_CAP}")
+    print(f"  image_url: /static/renders_v37/{name}")
 
 
 def resolve_id(cid):

@@ -60,6 +60,25 @@ def gates(go, allow_unconfirmed, ref):
     return (not reasons), reasons
 
 
+def _composite_brand_logo(dest, handle):
+    """Overlay the brand's REAL logo (clients/<h>/profile/logo.png) as a clean corner brand-bug.
+    AI never renders brand text (it garbles it); the real mark is composited HERE (Mohamed June 21:
+    'composite the real logo'). No-op if the brand has no logo asset yet."""
+    lp = B / "clients" / handle / "profile" / "logo.png"
+    if not lp.exists():
+        print(f"  (no logo.png for {handle} — skipped composite; render is plain)")
+        return
+    from PIL import Image
+    base = Image.open(dest).convert("RGBA")
+    logo = Image.open(lp).convert("RGBA")
+    bw, bh = base.size
+    logo.thumbnail((int(bw * 0.16), int(bw * 0.16)))     # brand-bug ≈ 16% of width
+    pad = int(bw * 0.04)
+    base.alpha_composite(logo, (bw - logo.width - pad, bh - logo.height - pad))   # bottom-right
+    base.convert("RGB").save(dest, quality=92)
+    print(f"  🏷  composited real logo (brand-bug, bottom-right) ← {lp.relative_to(B)}")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--handle", required=True)
@@ -100,6 +119,13 @@ def main():
     # fal-storage upload needed; image_urls accepts data-URIs). Gated above (Rule #8: we only reach
     # here with --go AND every gate clear). Cost-logged; the batch cap already checked in gates().
     print("  → all gates clear; rendering via flux-2-pro/edit …")
+    # BRAND-TEXT SUPPRESSION (June 21, Mohamed: composite the real logo): AI image models garble
+    # brand wordmarks (post #1 rendered "اطيل/ALBAAK" not "البيك"). Force PLAIN packaging — zero text
+    # of any kind — and composite the brand's REAL logo (clients/<h>/profile/logo.png) after.
+    prompt = prompt + ("\n\n[BRAND TEXT — CRITICAL] Render ALL packaging, cups, bags, wrappers and "
+        "products PLAIN: solid brand colours only, with ABSOLUTELY NO text, NO letters, NO words, NO "
+        "wordmark, NO logo, NO numbers on ANY surface — smooth unbranded surfaces. (The real brand "
+        "logo is composited in afterward.)")
     key = env("FAL_KEY") or env("FAL_API_KEY")
     refp = Path(ref)
     mime = "jpeg" if refp.suffix.lower() in (".jpg", ".jpeg") else (refp.suffix.lstrip(".").lower() or "jpeg")
@@ -119,6 +145,7 @@ def main():
     name = f"{a.handle}_{resolve_id(a.chain)}.jpg"
     dest = RENDER_DIR / name
     urllib.request.urlretrieve(imgs[0]["url"], dest)
+    _composite_brand_logo(dest, a.handle)   # overlay the REAL logo (AI rendered plain)
     usd = round(0.03, 4)   # flux-2-pro ≈ 3¢/MP, square_hd ≈ 1MP (measured; overwrite if the API returns cost)
     with open(COST_LOG, "a") as f:
         f.write(json.dumps({"day": time.strftime("%Y-%m-%d"), "handle": a.handle, "chain": a.chain,

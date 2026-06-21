@@ -98,6 +98,183 @@ def diversity_prefer(options: list, recent_cores: list) -> list:
     return sorted(options, key=lambda o: bool(scene_core(o) & worn_cores))
 
 
+# ── CONTENT-AWARE CHAIN SELECTION (June 21 — the broken-chain root-fix) ──────────────
+# THE BUG (Mohamed's brief): chain_for() returned cands[0] — the FIRST chain in the
+# formula's families by INDEX order — so a FAMILY-DINNER scene drew tf02_01 «Splash Ring
+# Around Product» and a GYM scene drew tf10_01 «Magazine Cover With Typography». The chain
+# never looked at the SCENE. This is the computed fix (Rule #12: chosen by RULE, never a
+# hand-authored per-post list): score every candidate chain by how well its PURPOSE fits
+# the scene's emotional core + post_type + sector, and take the best (deterministic
+# tie-break by chain id). The PURPOSE of a chain is read from its own name keywords +
+# family — no curated chain→scene table.
+#
+# SCENE-NEED → the visual SHAPE the scene wants, derived from the same scene_core() the
+# caption diversity gate already trusts + the angle's post_type. Each need lists the
+# keyword signals (matched against a chain's name_en/name_ar/family) that SERVE it and
+# the ones that BETRAY it (a product-splash for a human-meal scene).
+_CHAIN_PURPOSE_SIGNALS = {
+    # human-life scenes: people in a real moment (the lifestyle families, esp. TF23)
+    "human_life": {
+        "want": ["lifestyle", "moment", "gathering", "family", "friends", "café", "cafe",
+                 "coffee moment", "office", "workplace", "outdoor", "mother", "woman",
+                 "man ", "saudi", "أصحاب", "شلة", "عائلة", "لحظة", "كافيه", "مكتب",
+                 "سعودي", "سعودية", "أم وبنت", "لايف ستايل", "ضيافة", "iftar", "إفطار",
+                 "suhoor", "سحور", "ghabga", "غبقة", "hospitality"],
+        "avoid": ["splash", "levitation", "floating", "silhouette", "magazine cover",
+                  "billboard", "swatch", "dropper", "pedestal", "macro", "رذاذ", "طافي",
+                  "ظلية", "غلاف مجلة", "بيلبورد", "ماكرو", "منصة"],
+    },
+    # product-hero scenes: the product is the subject (shoutout, launch reveal)
+    "product_hero": {
+        "want": ["product", "hero", "showcase", "reveal", "levitation", "silhouette",
+                 "pedestal", "studio", "spotlight", "lineup", "display", "unboxing",
+                 "منتج", "بطل", "عرض", "كشف", "منصة", "استوديو", "سبوت", "تشكيلة"],
+        "avoid": ["lifestyle", "family", "gathering", "before / after service",
+                  "menu price", "booking cta", "magazine cover", "عائلة", "لحظة قهوة"],
+    },
+    # craving/texture scenes: the food/material up close (the appetite shot)
+    "craving_texture": {
+        "want": ["splash", "macro", "texture", "pour", "drip", "asmr", "showcase",
+                 "spread", "crown", "sauce", "رذاذ", "ماكرو", "تكستشر", "صب", "قطرة",
+                 "سفرة", "صوص", "تاج"],
+        "avoid": ["magazine cover", "billboard", "booking cta", "menu price",
+                  "before / after", "غلاف مجلة", "بيلبورد", "بطاقة منيو"],
+    },
+    # offer/announcement scenes: a sell with a card/CTA/price
+    "offer_announce": {
+        "want": ["menu price", "price tag", "promotional", "offer", "booking cta",
+                 "limited time", "new arrival", "launch", "drop", "countdown",
+                 "magazine cover", "billboard", "announcement", "card", "عرض", "سعر",
+                 "منيو", "حجز", "إطلاق", "تنازلي", "إعلان", "بطاقة"],
+        "avoid": ["lifestyle moment", "gathering", "macro", "swatch", "لحظة", "ماكرو"],
+    },
+    # occasion scenes: the holiday spread/greeting
+    "occasion": {
+        "want": ["ramadan", "eid", "iftar", "suhoor", "ghabga", "national day",
+                 "founding day", "hajj", "occasion", "greeting", "heritage", "cultural",
+                 "رمضان", "عيد", "إفطار", "سحور", "غبقة", "وطني", "تأسيس", "حج",
+                 "مناسبة", "تهنئة", "تراث", "ثقافي"],
+        "avoid": ["booking cta", "menu price", "swatch", "حجز", "منيو"],
+    },
+}
+
+# scene_core() class → the chain-need it implies (computed bridge, one hop)
+_CORE_TO_NEED = {
+    "family": "human_life", "friends": "human_life", "solo_calm": "human_life",
+    "kids_hero": "human_life", "energy_sport": "human_life", "weather": "human_life",
+    "nostalgia": "human_life", "craving": "craving_texture",
+    "occasion": "occasion", "product_shoutout": "product_hero",
+    "channel_cta": "offer_announce", "offer": "offer_announce", "greeting": "occasion",
+}
+# the angle's declared post_type → need (a weak prior under the scene-core signal)
+_POSTTYPE_TO_NEED = {"announcement": "offer_announce", "offer": "offer_announce",
+                     "greeting": "occasion", "moment": "human_life"}
+
+
+def _scene_needs(scene_text: str, post_type: str, occasion: str) -> list:
+    """The ordered chain-needs this scene implies (strongest first). Built ONLY from the
+    computed scene_core() + the angle's post_type + whether an occasion is live — never a
+    per-post hand list. Returns e.g. ['human_life'] for a family dinner, ['offer_announce']
+    for a price card, defaulting to product_hero when nothing classifies."""
+    needs = []
+    for core in scene_core(scene_text):
+        nd = _CORE_TO_NEED.get(core)
+        if nd and nd not in needs:
+            needs.append(nd)
+    if occasion and occasion not in ("evergreen", "daily") and "occasion" not in needs:
+        needs.insert(0, "occasion")
+    pt_need = _POSTTYPE_TO_NEED.get((post_type or "").lower())
+    if pt_need and pt_need not in needs:
+        needs.append(pt_need)
+    if not needs:
+        needs.append("product_hero")  # the safe default: the product is the subject
+    return needs
+
+
+def _chain_purpose_score(chain: dict, needs: list) -> int:
+    """How well a chain's PURPOSE fits the scene-needs. Read from the chain's own
+    name_en/name_ar/family text (no curated table). +2 per want-keyword hit on the TOP
+    need, +1 for lower-ranked needs; -3 per avoid-keyword hit on the top need (a betrayer,
+    e.g. a splash chain for a human-meal scene). Deterministic — the same chain+needs
+    always scores the same."""
+    blob = " ".join(str(chain.get(k, "")) for k in ("name_en", "name_ar", "family")).lower()
+    score = 0
+    for rank, need in enumerate(needs):
+        sig = _CHAIN_PURPOSE_SIGNALS.get(need, {})
+        weight = 2 if rank == 0 else 1
+        for kw in sig.get("want", []):
+            if kw.lower() in blob:
+                score += weight
+        if rank == 0:  # only the dominant need vetoes a betrayer
+            for kw in sig.get("avoid", []):
+                if kw.lower() in blob:
+                    score -= 3
+    return score
+
+
+def pick_pro_chain(formula_id: str, sector: str, occasion: str,
+                   scene_text: str = "", post_type: str = "") -> dict | None:
+    """CONTENT-AWARE replacement for the bare chain_for(...)[0] pick. Resolves the same
+    candidate pool chain_for() would (formula families ∩ sector/occasion allow-lists), then
+    ranks by _chain_purpose_score against the scene's computed needs and returns the best
+    fit — so a family-dinner scene gets a lifestyle chain, not a product splash, and a gym
+    scene never gets a magazine-cover. Falls back to chain_for() if nothing scores (keeps
+    the legacy behaviour as the floor). Rule #12: the chain is chosen by a COMPUTED rule
+    over the chain's own purpose, never a hand-authored per-post mapping."""
+    import yaml  # local (this module has no top-level yaml dep) — same loader post_unit uses
+    from post_unit import chain_for  # the candidate-pool resolver (formula→families ∩ allow)
+    forms = yaml.safe_load((BASE / "21_strategy_frameworks/creative_formulas.yaml").read_text())
+    fams = []
+    for v in forms.get("formulas", {}).values():
+        if v.get("id") == formula_id:
+            fams = v.get("chain_families", [])
+    idx = json.load(open(BASE / "02_what_to_build/INDEX.json"))
+    chains = idx if isinstance(idx, list) else idx.get("chains", [])
+
+    def _sector_occ_ok(c):
+        sa = c.get("sectors_allowed") or []
+        oa = c.get("occasions_allowed") or []
+        s_ok = not sa or sector in sa or "all" in sa
+        o_ok = not oa or occasion in oa or "all" in oa or "evergreen" in oa or "*" in oa
+        return s_ok and o_ok
+
+    def _allowed(c):  # in-pool: formula family AND sector/occasion
+        return c.get("family") in fams and _sector_occ_ok(c)
+    cands = [c for c in chains if _allowed(c)] or [c for c in chains if c.get("family") in fams]
+    if not cands:
+        return chain_for(formula_id, sector, occasion)  # legacy floor
+    needs = _scene_needs(scene_text, post_type, occasion)
+
+    def _best(pool):
+        return max(pool, key=lambda c: (_chain_purpose_score(c, needs),
+                                        -_chain_index(c, chains)))
+    best = _best(cands)
+    # POOL-ESCAPE (the family-dinner-as-splash-ring case): the formula's families may not
+    # contain ANY chain that serves the scene's dominant need (CF_02's [TF02,TF11,TF17] holds
+    # zero human-life chains, so a family dinner was stuck on a product splash). When the best
+    # in-pool chain still NEGATIVELY fits — i.e. it betrays the scene more than it serves it —
+    # reach beyond the formula pool to every sector/occasion-allowed chain whose OWN purpose
+    # serves the dominant need, and take the best of THOSE. Still a computed rule over the
+    # chain's purpose (Rule #12) — the scene, not a hand list, opens the wider pool.
+    if _chain_purpose_score(best, needs) <= 0:
+        # wide pool = sector/occasion-allowed (NOT family-restricted) chains whose purpose
+        # serves the scene; the formula's family list is what trapped the family dinner.
+        wide = [c for c in chains if _sector_occ_ok(c) and _chain_purpose_score(c, needs) > 0]
+        if wide:
+            best = _best(wide)
+    return best
+
+
+def _chain_index(chain: dict, chains: list) -> int:
+    """Stable index of a chain in INDEX order — the deterministic tie-break (lower wins),
+    so when two chains tie on purpose the original chain_for() order is preserved."""
+    cid = chain.get("chain_id_short")
+    for i, c in enumerate(chains):
+        if c.get("chain_id_short") == cid:
+            return i
+    return len(chains)
+
+
 def batch_diversity_check(slots: list, ceiling: float = 0.30) -> dict:
     """B_div_gate (June 13 — RABIE's #1 unbuilt; the hard answer to his 06-13 scar
     «still family / make them different»). diversity_prefer only soft-reorders within
@@ -811,7 +988,15 @@ def main():
         brain = a.brain
     angle = make_angle(c, slot, ymap["sector"], brain=brain)
     captions = render_captions(c, slot, angle)
-    chain = chain_for(slot.get("formula", "CF_01"), ymap["sector"], slot.get("occasion", "evergreen"))
+    # CONTENT-AWARE chain pick (June 21 fix): the chain now fits the SCENE (the angle's
+    # scene + post_type + occasion), not just the formula's family order — so a family
+    # dinner draws a lifestyle chain, a gym never draws a magazine cover. Falls back to the
+    # legacy chain_for() floor inside pick_pro_chain if nothing scores. Rule #12: computed.
+    chain = pick_pro_chain(slot.get("formula", "CF_01"), ymap["sector"],
+                           slot.get("occasion", "evergreen"),
+                           scene_text=" ".join([angle.get("scene_ar", ""),
+                                                slot.get("angle_theme", "")]),
+                           post_type=angle.get("post_type", ""))
     shots = shot_card(c, angle, ground=a.ground)
     card = {"handle": a.handle, "date": a.date, "slot": slot, "brain": brain,
             "idea": angle, "captions": captions,

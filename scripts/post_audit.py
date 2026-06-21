@@ -16,6 +16,10 @@ Issue classes (per post):
   taste_kill       — caption matches an ACTIVE founder kill_pattern
   hard_kill        — pre_ship_gate blocks it (cultural/royal/learned)
   truth            — ungrounded person/promo/Latin name, or the brand name transliterated
+                     (NEW June 21: also fires on a named person INVENTED in the visual shoot-card —
+                     not just the caption — the «الكابتن عادل» the shoot-card directs but no caption says)
+  scene_incoherent — the caption's emotional core contradicts its OWN scene's core (e.g. a
+                     gym/energy caption on a family-dinner scene). Caption↔scene coherence (Rule #8).
   filler           — bilingual filler / worn cross-brand skeleton
 Batch: over_concentration — one scene-core or recipe > 30% of the batch.
 """
@@ -25,7 +29,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 import pre_ship_gate as psg
-from render_client_slot import TASTE_GUARD_LEXICON, batch_diversity_check
+from render_client_slot import TASTE_GUARD_LEXICON, batch_diversity_check, scene_core
 from truth_guards import FILLER, EVENT_CLAIM, PERSON_AR, PERSON_EN, PROMO_AR, LATIN_NAME, strip_punct
 # ONE source for occasion logic (Rule #6) — boundary-safe, shared with render + gate
 from occasion_align import occ_hits, caption_misaligned, is_daily, slot_occ_key, SLUG2KEY, ALL_KEYS
@@ -123,6 +127,33 @@ def audit_post(d, handle):
         vmis = caption_misaligned(slot, vis)
         if vmis:
             issues.append(("occasion_visual", f"visual brief invents occasion — {vmis}"))
+        # NO-INVENTED-NAMED-PERSON in the VISUAL door (June 21 — the named-person leak the
+        # caption scan misses): the shoot-card can DIRECT «الكابتن عادل» / «Prince X» even when
+        # no caption names them (the myfitness shoot-cards literally do). Same kill as a caption
+        # naming an ungrounded person — a person invented into the frame. Grounded EXACTLY like
+        # the caption truth scan (corpus + documented-moment), so a real person in the brand's
+        # own captions on a documented slot is not false-flagged. Tagged 'truth' → REFUSES (Rule #8).
+        for m in list(PERSON_AR.finditer(vis)) + list(PERSON_EN.finditer(vis)):
+            if not slot_documented:
+                issues.append(("truth", f"named-person invented in VISUAL brief «{m.group(0)}»"))
+            elif strip_punct(m.group(0)).lower() not in corpus:
+                issues.append(("truth", f"ungrounded named-person in VISUAL brief «{m.group(0)}»"))
+    # CAPTION↔SCENE COHERENCE (June 21, Mohamed's chain brief — the coherence flag): a post is
+    # one idea; a caption whose emotional core CONTRADICTS its own scene's core (a gym/energy line
+    # on a family-dinner scene, the same incoherence the broken chain made visible) is a broken post.
+    # CONSERVATIVE so variety is never punished: fires ONLY when the caption AND the scene each
+    # classify to a DEFINITE core (non-empty) and the two sets are DISJOINT (zero overlap) — an
+    # abstract/unclassified caption (the common, healthy case) never flags. Tagged so it REFUSES
+    # (Rule #8): a caption talking about a different world than its picture is not ship-ready.
+    scene_blob = " ".join([(d.get("idea") or {}).get("scene_ar", ""), theme])
+    scene_cores = scene_core(scene_blob)
+    if scene_cores:
+        for c in caps:
+            cap_cores = scene_core(c)
+            if cap_cores and not (cap_cores & scene_cores):
+                issues.append(("scene_incoherent",
+                               f"caption core {sorted(cap_cores)} ≠ scene core "
+                               f"{sorted(scene_cores)}: {c[:40]}"))
     # CLIENT-RULES: the client's confirmed organs (real-person/face/family/voice, cloud-kitchen
     # format, cross-brand, brand-register) — RABIE's 24-issue gap (June 14). Block-severity → issue.
     try:
@@ -132,6 +163,16 @@ def audit_post(d, handle):
                 issues.append((f"organ_{kind}", detail))
             else:
                 issues.append((f"organ_{kind}_warn", detail))
+    except Exception:
+        pass
+    # B164 — FEED-vs-DOOR divergence (soft WARN): the street (Maps reviews) says the food
+    # arrives cold, but the caption over-promises warm-kitchen/served-hot imagery. Signal,
+    # not law → _warn-suffixed (Rule #8). Reader for reviews_digest's cold_food (Rule #6).
+    try:
+        import reputation_alert as _ra
+        rw = _ra.warm_kitchen_for_post(handle, caps)
+        if rw:
+            issues.append(("reputation_warm_kitchen_warn", rw))
     except Exception:
         pass
     return issues

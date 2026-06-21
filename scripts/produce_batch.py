@@ -26,6 +26,15 @@ import render_reel as rr
 import taste_rank as tr
 from render_client_slot import scene_core, batch_diversity_check
 
+# IMAGE RENDER PATH (June 21 — WIRE THE MASTER): the v3.7 MASTER is the correct image path —
+# scripts/render_via_master.py(handle, date) loads a chosen post card, resolves its content-aware
+# chain, runs openclaw_convert (→ the full 15-block v3.7 prompt + the REAL brand reference), then
+# render_openclaw (flux-2-pro/edit, GATED, dry by default). render_image.py (schnell + an improvised
+# string) is the WRONG shortcut and is NOT used here. When the still-render step is wired into this
+# batch (behind the same money-gate the reel step already respects), it must call render_via_master —
+# never render_image.py. Today the gates hold, so the master path runs DRY (prompt + fill-report only,
+# zero spend); produce_batch stays at manifest-of-cards until Mohamed flips no_fal_photos + the key.
+
 # REEL WIRING (June 18, Rule #6 — render_reel is a writer; here it finally gets its reader). A
 # slot whose COMPUTED format=='reel' (set in year_map.py off real_winning_formula.json) is
 # reel-ified — but ONLY by assembling an ALREADY-ON-DISK still into a 9:16 mp4 ($0 ffmpeg+Pillow,
@@ -299,7 +308,11 @@ def main():
                  "formula": (x["d"].get("slot") or {}).get("formula")} for x in chosen]
     dchk = batch_diversity_check(slotlike, 0.30)
     assert all(is_clean(x["d"], x["h"]) for x in chosen), "a chosen post is not clean — refuse"
-    assert not dchk["violations"], f"over-concentrated: {dchk['violations']}"
+    # over-concentration is DEGENERATE for a tiny batch (1 post is trivially 100% of its own recipe/
+    # core) — only assert diversity once the batch is large enough for the % to mean something. The
+    # per-post cleanliness assert above still bites at any n. (June 21: n=1 post-#1-first proof.)
+    if len(chosen) >= 4:
+        assert not dchk["violations"], f"over-concentrated: {dchk['violations']}"
 
     def fn_of(x):
         return x.get("fn") or Path(glob.glob(str(B / f"clients/{x['h']}/posts/{x['dt']}__*{a.suffix}.json"))[0]).name

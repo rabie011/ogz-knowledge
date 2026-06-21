@@ -17,6 +17,7 @@ Usage:
   python3 scripts/pre_ship_gate.py --all --json out.json        # gate 3 pilots → candidate pool
 """
 import argparse, glob, json, os, re, sys
+from dataclasses import dataclass, field, asdict
 from pathlib import Path
 
 B = Path(__file__).parent.parent
@@ -111,6 +112,21 @@ def gate(post, handle):
     except Exception:
         pass
 
+    # CULTURAL RED-LINES in the caption (immodest / alcohol / pork / dua+brand) — HARD kill. The
+    # detector caption_filter.cultural_check ALREADY existed; the ship gate now CONSUMES it (June 21
+    # audit hole: an immodest/haram caption slipped the ship gate GREEN because nothing read the
+    # detector — Rule #6 Consumer-Law + Rule #8 refuse-don't-warn). cultural_check is occasion-aware.
+    try:
+        import caption_filter as _cf
+        _cult = set()
+        for _cap in (caps or []):
+            _clean, _hits = _cf.cultural_check(_cap or "", occ)
+            _cult.update(_hits)
+        for _h in sorted(_cult):
+            hard.append(f"cultural red-line: {_h}")
+    except Exception:
+        pass
+
     # WORN phrases (soft — caption weakness)
     worn_hit = [w for w in WORN if w in text]
     if worn_hit:
@@ -144,6 +160,71 @@ def gate(post, handle):
     }
 
 
+# ── F3: TYPED VERDICT CONTRACT at the gate seam (2026-06-21) ──────────────────────────
+# A malformed gate result must REFUSE, never silently pass. Born from the adversarial audit:
+# pre_ship_gate had ZERO sys.exit/raise — a verdict dict could be dropped, mistyped, or read
+# with a typo'd key and the post would sail through "green". The seam is now a typed object
+# whose ONLY safe value is verdict=="PASS"; anything else (KILL/BLOCK, or a malformed/partial
+# dict) makes assert_shippable() RAISE. Callers (producer/stager/audit) consume THIS, not a
+# loose dict (Rule #6: the verdict has a hard reader; Rule #8: refuse, don't warn).
+_VALID_VERDICTS = {"PASS", "REVIEW", "KILL", "BLOCK"}
+
+
+@dataclass
+class GateVerdict:
+    handle: str
+    occasion: str
+    verdict: str                       # one of _VALID_VERDICTS
+    block: bool                        # True = must NOT ship to the judge lane
+    hard_kills: list = field(default_factory=list)
+    learned_hits: list = field(default_factory=list)
+    soft_flags: list = field(default_factory=list)
+    occ_fit: bool = True
+    n_captions: int = 0
+    needs_llm_judge: bool = False
+
+    def __post_init__(self):
+        # a malformed verdict is itself a refuse condition — never trust a partial seam.
+        if self.verdict not in _VALID_VERDICTS:
+            raise ValueError(f"malformed gate verdict «{self.verdict}» — not in {_VALID_VERDICTS} (REFUSE)")
+        # block MUST agree with the verdict: a KILL/BLOCK that says block=False is a severed wire.
+        should_block = self.verdict in ("KILL", "BLOCK")
+        if should_block and not self.block:
+            raise ValueError(f"verdict={self.verdict} but block=False — severed gate wire (REFUSE)")
+
+    def shippable(self) -> bool:
+        """Clean only — a post may reach Mohamed's judge lane ONLY on PASS/REVIEW, never on a kill."""
+        return not self.block and self.verdict in ("PASS", "REVIEW")
+
+
+def verdict_of(post, handle) -> "GateVerdict":
+    """Typed wrapper over gate() — the seam every consumer should read. A malformed underlying
+    dict (missing/extra keys, bad verdict) RAISES here rather than returning a passable result."""
+    g = gate(post, handle)
+    try:
+        return GateVerdict(
+            handle=g["handle"], occasion=g["occasion"], verdict=g["verdict"], block=g["block"],
+            hard_kills=g.get("hard_kills", []), learned_hits=g.get("learned_hits", []),
+            soft_flags=g.get("soft_flags", []), occ_fit=g.get("occ_fit", True),
+            n_captions=g.get("n_captions", 0), needs_llm_judge=g.get("needs_llm_judge", False))
+    except (KeyError, TypeError) as e:
+        raise ValueError(f"gate() returned a malformed verdict for {handle}: {e} (REFUSE)")
+
+
+def assert_shippable(post, handle):
+    """HARD CONSUMER (Rule #6 + #8) — the producer/stager calls this and it RAISES (SystemExit,
+    non-zero) the instant a post carries a cultural HARD KILL or a learned-rejection BLOCK. There
+    is NO warn-and-continue path: a modesty / royal / red-line violation cannot pass through green.
+    Returns the typed verdict on success so the caller can branch on REVIEW vs clean PASS."""
+    v = verdict_of(post, handle)
+    if not v.shippable():
+        why = v.hard_kills + v.learned_hits or [v.verdict]
+        raise SystemExit(
+            f"🛑 PRE-SHIP REFUSED — {handle}/{v.occasion}: {why} "
+            f"(Rule #8: a gate that finds a violation BLOCKS, never warns).")
+    return v
+
+
 def run(handle):
     files = sorted(glob.glob(str(B / f"clients/{handle}/posts/*.json")))
     out, kills, review, pas = [], 0, 0, 0
@@ -173,6 +254,9 @@ def main():
     ap.add_argument("--handle")
     ap.add_argument("--all", action="store_true")
     ap.add_argument("--json")
+    ap.add_argument("--no-enforce", dest="enforce", action="store_false",
+                    help="audit only (exit 0); default BITES — exit 1 if any post is a hard KILL/BLOCK")
+    ap.set_defaults(enforce=True)
     a = ap.parse_args()
     handles = [a.handle] if a.handle else (["eatjurisha", "albaik", "alnasserjewelry"] if a.all else ["eatjurisha"])
     allout = {}
@@ -182,6 +266,18 @@ def main():
         Path(a.json).write_text(json.dumps(allout, ensure_ascii=False, indent=1))
         clean = sum(1 for h in allout for g in allout[h] if g["verdict"] == "PASS")
         print(f"  → {a.json} · {clean} clean posts → LLM-judge pool for the top 20")
+    # Rule #8 — the gate BITES: a hard cultural kill or a learned-rejection block fails the run.
+    # (Previously this gate had ZERO sys.exit — the adversarial audit's hole. It now refuses.)
+    blocked = [(h, g.get("file", "?"), g["verdict"], g["hard_kills"] + g["learned_hits"])
+               for h in allout for g in allout[h] if g.get("block")]
+    if a.enforce and blocked:
+        print(f"\n🛑 PRE-SHIP GATE BLOCKED: {len(blocked)} post(s) carry a hard cultural kill / learned block:")
+        for h, fn, vd, why in blocked[:12]:
+            print(f"   ⛔ {h} {fn} [{vd}]: {why}")
+        sys.exit(1)
+    print(f"\n🟢 PRE-SHIP CLEAR: 0 hard-blocked posts"
+          + ("" if not a.enforce else " (gate enforced — would have exited non-zero on any kill)"))
+    sys.exit(0)
 
 
 if __name__ == "__main__":

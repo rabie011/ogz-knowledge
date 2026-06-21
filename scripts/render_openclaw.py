@@ -22,6 +22,7 @@ import urllib.request, urllib.error
 from pathlib import Path
 
 B = Path(__file__).parent.parent
+sys.path.insert(0, str(B / "scripts"))   # so the post-render hooks (image_modesty_gate) import cleanly
 RULINGS = B / "data/mohamed_rulings_live.json"
 COST_LOG = B / "data/fal_cost_log.jsonl"
 RENDER_DIR = B / "api/static/renders_v37"   # under api/static → the portal serves it at /static/renders_v37/
@@ -87,6 +88,8 @@ def main():
     ap.add_argument("--scene", default="")
     ap.add_argument("--go", action="store_true", help="attempt the real render (still gated)")
     ap.add_argument("--allow-unconfirmed", action="store_true")
+    ap.add_argument("--skip-image-gate", action="store_true",
+                    help="$0 — skip the post-render gpt-4o pixel modesty gate (NOT clearance)")
     a = ap.parse_args()
 
     # 1) build the v3.7 prompt via the converter (no spend)
@@ -146,6 +149,18 @@ def main():
     dest = RENDER_DIR / name
     urllib.request.urlretrieve(imgs[0]["url"], dest)
     _composite_brand_logo(dest, a.handle)   # overlay the REAL logo (AI rendered plain)
+    # ── PIXEL MODESTY GATE (2026-06-21, the audit's missing tooth) — the prompt gates can't see
+    # the rendered pixels; this one can. AFTER the image is saved, BEFORE it can become a judge
+    # card, a gpt-4o vision pass refuses a loosened-hijab / mixed-gender / exposed-skin / real-
+    # person render against the client's CONFIRMED organs (Rule #6 reader; Rule #8 refuse). It
+    # RAISES (SystemExit non-zero) on a violation — a bad pixel never reaches Mohamed's eye. The
+    # spend just happened on the render; the ~$0.001 vision check is the cheap insurance on it.
+    # --skip-image-gate keeps a $0 path (e.g. a deliberate no-vision test) but is NOT clearance.
+    import image_modesty_gate as img_gate
+    iv = img_gate.assert_image_clear(str(dest), a.handle, skip_vision=a.skip_image_gate)
+    print(f"  🧕 image modesty gate: {iv.verdict.upper()} "
+          f"(modest={iv.modest} mixed_gender={iv.mixed_gender} skin={iv.exposed_skin} "
+          f"real_person={iv.identifiable_real_person_or_royal})")
     usd = round(0.03, 4)   # flux-2-pro ≈ 3¢/MP, square_hd ≈ 1MP (measured; overwrite if the API returns cost)
     with open(COST_LOG, "a") as f:
         f.write(json.dumps({"day": time.strftime("%Y-%m-%d"), "handle": a.handle, "chain": a.chain,

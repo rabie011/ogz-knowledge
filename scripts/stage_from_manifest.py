@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 import seed_judge_cards as sj
 import queue_decision as qd
 import post_audit as pa
+import pre_ship_gate as psg
 
 B = Path(__file__).parent.parent
 
@@ -39,6 +40,11 @@ def main():
         if not fs:
             sys.exit(f"🛑 missing render for {p['handle']} {p['date']} — refuse")
         d = json.loads(Path(fs[0]).read_text())
+        # HARD CULTURAL STOP (Rule #6 + #8) — the typed pre-ship verdict is consumed as a hard
+        # block at the one door to the feedback system. A royal / modesty / red-line / learned-
+        # rejection kill RAISES here; there is no warn-and-stage path. assert_shippable also
+        # REFUSES on a malformed verdict (F3), so a broken gate result can't slip a post through.
+        psg.assert_shippable(d, p["handle"])
         hard = [i for i in pa.audit_post(d, p["handle"]) if i[0] != "occasion_missing"]
         if hard:
             sys.exit(f"🛑 {p['handle']} {p['date']} has issues {hard} — refuse to stage")

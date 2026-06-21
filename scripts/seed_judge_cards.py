@@ -16,6 +16,7 @@ import argparse
 import ast
 import glob
 import json
+import os
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -23,6 +24,49 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from feedback_lib import base
 import queue_decision as qd
+
+B = Path(__file__).parent.parent
+# THE PIXEL GATE AT THE JUDGE-CARD SEAM (2026-06-21 — the adversarial audit's missing tooth).
+# A rendered image may not reach Mohamed's judge card until the pixel modesty gate has cleared
+# it (a loosened-hijab/mixed-gender/exposed-skin/real-person render the PROMPT gates can't see).
+# $0 DISCIPLINE: by default the vision call is SKIPPED here (env IMAGE_GATE_SKIP_VISION respected
+# too) so seeding a batch spends nothing — but the seam EXISTS (Rule #6), and flipping
+# JUDGE_CARD_PIXEL_VISION=1 makes build_card REFUSE (Rule #8) any image that doesn't pass the
+# pixel gate before it can become a card. The render-path hook (render_openclaw) already gates at
+# render time; this is the belt-and-suspenders reader right at the judge boundary.
+_PIXEL_VISION = os.environ.get("JUDGE_CARD_PIXEL_VISION") == "1"
+
+
+def _local_image_path(image_url):
+    """Resolve a card's image_url (e.g. /static/renders_v37/x.jpg) to an on-disk path under
+    api/static, or None if it's not a local static render we can inspect."""
+    if not image_url or not isinstance(image_url, str):
+        return None
+    if image_url.startswith("/static/"):
+        p = B / "api" / image_url.lstrip("/")
+        return p if p.exists() else None
+    return None
+
+
+def _gate_card_image(image_url, handle):
+    """Pixel-gate a card's image before it ships to the judge lane. Returns the image_url on a
+    clear pass. RAISES (SystemExit) when vision is ENABLED and the image is not pixel-clear — a
+    violating render never becomes a judge card (Rule #8). When vision is OFF ($0 default) the
+    seam still RUNS the gate in skip-mode (so the wire is exercised, Rule #6) but does NOT block,
+    because spending on every seed is the wrong default — render_openclaw already gated at render
+    time. Flip JUDGE_CARD_PIXEL_VISION=1 to enforce the pixel check right at this boundary too."""
+    lp = _local_image_path(image_url)
+    if lp is None:
+        return image_url   # phone-shoot-plan card (no AI photo) — nothing to pixel-gate
+    import image_modesty_gate as img_gate
+    if _PIXEL_VISION:
+        # ENFORCED: a real gpt-4o pass is required; assert_image_clear RAISES on any violation.
+        img_gate.assert_image_clear(str(lp), handle, skip_vision=False)
+    else:
+        # $0 seam: exercise the gate in skip-mode (no spend, no block) so the wire is live and
+        # ready; the verdict is 'skipped' (NOT clearance) — the render-time hook is the enforcer.
+        img_gate.check(str(lp), handle, skip_vision=True)
+    return image_url
 
 
 def _parse(maybe_dict):
@@ -132,6 +176,9 @@ def build_card(handle: str, d: dict, fname: str) -> dict:
     # d.get("image_url") TOP-LEVEL — a key that is never set, so the dry-keys line printed even
     # after a real render. Read it from the parsed visual, the one place it actually lives.
     img = visual.get("image_url")
+    # PIXEL GATE (Rule #6 reader at the judge boundary): a rendered image must clear the modesty
+    # pixel gate before it can ride on a judge card. $0 by default; enforced under JUDGE_CARD_PIXEL_VISION=1.
+    img = _gate_card_image(img, handle)
     angle = slot.get("angle_theme", "")
     cid = f"judge2_{handle}_{slot.get('date', d.get('date',''))}"
     return {

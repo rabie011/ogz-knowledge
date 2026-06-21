@@ -33,6 +33,10 @@ SCORECARDS_F = DATA_ROOT / "data" / "scorecards.json"
 
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 app.add_middleware(GZipMiddleware, minimum_size=600)   # 40KB JSON → ~8KB over the tunnel
+# serve api/static/ (render images at /static/renders_v37/<f> + the html) so a COMPLETE-POST judge
+# card can show the actual photo — the portal had no static mount, so image_url paths 404'd (June 21).
+from fastapi.staticfiles import StaticFiles
+app.mount("/static", StaticFiles(directory=str(STATIC)), name="static")
 
 
 def _team() -> dict:

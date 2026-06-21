@@ -158,8 +158,16 @@ def _sf(field_obj, fallback_val, fallback_src="derived"):
     when the organ has no usable value (so the converter still produces a full prompt)."""
     if isinstance(field_obj, dict):
         val, st = field_obj.get("value"), field_obj.get("status")
+        # B186d: Mohamed's confirmed free-text answer (h_v37_visual) is authoritative client
+        # truth — append it to the candidate value (or use it alone where we had none) and mark
+        # the source 'organ'. Dormant until his tap lands client_confirmed.
+        cc = field_obj.get("client_confirmed") or {}
+        ca = (cc.get("answer") or "").strip() if isinstance(cc, dict) else ""
         if val not in (None, "", []):
-            return Field(val, _STATUS_SRC.get(st, "derived"))
+            return Field(f"{val} — client-confirmed: {ca}" if ca else val,
+                         "organ" if ca else _STATUS_SRC.get(st, "derived"))
+        if ca:
+            return Field(ca, "organ")
         if st == "RED":
             return Field(fallback_val, "client_needed")
     return Field(fallback_val, fallback_src)
@@ -325,9 +333,29 @@ def resolve_chain(cid):
 
 
 def pick_reference(handle):
+    """The flux-edit REFERENCE must be a clean PRODUCT/PACKAGING shot — NEVER a person/royal portrait
+    (the edit model anchors identity on it; a royal-portrait ref rendered a man for a woman scene and
+    is a red line). Use the vision classification (scripts/classify_media.py) when present; else fall
+    back to the first media but flag it (Rule #8: a wrong reference is a visible defect, not silent)."""
     md = B / "clients" / handle / "media"
+    cf = B / "clients" / handle / "profile" / "media_class.json"
+    if cf.exists():
+        try:
+            cls = json.loads(cf.read_text())
+            clean = sorted(k for k, v in cls.items()
+                           if isinstance(v, dict) and v.get("usable_as_product_reference")
+                           and not v.get("has_person") and not v.get("is_royal_or_public_figure")
+                           and (B / k).exists())
+            if clean:
+                return clean[0]
+        except Exception:
+            pass
     imgs = sorted(md.glob("*.jpg")) + sorted(md.glob("*.png")) if md.exists() else []
-    return str(imgs[0].relative_to(B)) if imgs else None
+    if imgs:
+        print("  ⚠ no media_class.json clean-product reference — run classify_media.py "
+              f"(falling back to {imgs[0].name}; may be a person/royal — unsafe)", flush=True)
+        return str(imgs[0].relative_to(B))
+    return None
 
 
 def main():

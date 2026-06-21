@@ -41,16 +41,50 @@ def load_taste(path=TASTE):
 
 
 def wire_live(taste=None):
-    """Is the taste signal trustworthy enough to STEER what ships? True only when his live picks
-    are testable (graph connected) and the held-out LIVE agreement clears MIN_LIVE_PCT. While the
-    bridge taps are still staged this returns False — by design (Rule #9: no unverified number steers
-    production)."""
+    """Is the taste signal trustworthy enough to STEER what ships? THE ONE computed gate (F3): it
+    fires shadow→live ONLY when his live picks are held-out-testable (graph connected) AND the
+    held-out LIVE agreement clears MIN_LIVE_PCT (a real margin over the 50% coin). While the bridge
+    taps are still staged this returns False — by design (Rule #9: no unverified number steers
+    production). The moment held_out_live proves out, this same predicate flips true and the producer
+    reorders with no code change.
+
+    It also honors taste_elo's single honest verdict (F2): if `live_validated` is present it must be
+    True — a degenerate/simulation number can never open the gate even if the raw fields look close.
+    Refuses any non-numeric live_pct rather than truthy-coercing it (Rule #8/#9)."""
     t = load_taste() if taste is None else taste
-    n_testable = t.get("held_out_live_n_testable", 0) or 0
-    live_pct = t.get("held_out_live_pct")  # None while degenerate
     if t.get("held_out_agreement_degenerate"):
+        return False                                       # sim-only number — never steers (Rule #9)
+    if "live_validated" in t and not t.get("live_validated"):
+        return False                                       # taste_elo itself says: not his eye yet
+    n_testable = t.get("held_out_live_n_testable", 0) or 0
+    live_pct = t.get("held_out_live_pct")                  # None while degenerate
+    if not isinstance(live_pct, (int, float)):
         return False
-    return n_testable >= MIN_TESTABLE and live_pct is not None and live_pct >= MIN_LIVE_PCT
+    return n_testable >= MIN_TESTABLE and live_pct >= MIN_LIVE_PCT
+
+
+def gate_status(taste=None):
+    """HONEST one-call report of the shadow→live gate (F3) — the ONE place the promotion condition is
+    named, so the verifier and make_sure read the same truth. Returns a typed dict: whether the wire
+    is live now, the exact thresholds, the current measured values, and the human-readable reason it
+    is (or is not) firing. Never fabricates a number — live_pct stays None until his eye is testable."""
+    t = load_taste() if taste is None else taste
+    live = wire_live(t)
+    n_testable = t.get("held_out_live_n_testable", 0) or 0
+    live_pct = t.get("held_out_live_pct")
+    if live:
+        reason = f"LIVE — n_testable={n_testable}>={MIN_TESTABLE} and live_pct={live_pct}>={MIN_LIVE_PCT}"
+    elif t.get("held_out_agreement_degenerate") or ("live_validated" in t and not t.get("live_validated")):
+        reason = ("SHADOW — his live eye is UNTESTED (held_out_live_n_testable=0; the model is not "
+                  "validated). The bridge taps that connect his graph are still pending (Rule #9).")
+    elif n_testable < MIN_TESTABLE:
+        reason = f"SHADOW — only {n_testable}/{MIN_TESTABLE} live picks held-out-testable"
+    else:
+        reason = f"SHADOW — live_pct={live_pct} below the {MIN_LIVE_PCT}% margin over the coin"
+    return {"wire_live": live, "min_testable": MIN_TESTABLE, "min_live_pct": MIN_LIVE_PCT,
+            "n_testable": n_testable, "live_pct": live_pct,
+            "degenerate": bool(t.get("held_out_agreement_degenerate")),
+            "live_validated": t.get("live_validated"), "reason": reason}
 
 
 def rank_candidates(captions, taste=None):
@@ -156,11 +190,12 @@ def append_shadow_log(entry, path=SHADOW_LOG):
 
 def main():
     t = load_taste()
-    live = wire_live(t)
-    print(f"TASTE→CREATION wire: {'🟢 LIVE — steering selection' if live else '⚪ SHADOW — advisory only'}")
-    print(f"  gate: n_testable={t.get('held_out_live_n_testable', 0)} (need >={MIN_TESTABLE}) · "
-          f"live_pct={t.get('held_out_live_pct')} (need >={MIN_LIVE_PCT}) · "
-          f"degenerate={t.get('held_out_agreement_degenerate')}")
+    g = gate_status(t)
+    print(f"TASTE→CREATION wire: {'🟢 LIVE — steering selection' if g['wire_live'] else '⚪ SHADOW — advisory only'}")
+    print(f"  gate: n_testable={g['n_testable']} (need >={MIN_TESTABLE}) · "
+          f"live_pct={g['live_pct']} (need >={MIN_LIVE_PCT}) · "
+          f"degenerate={g['degenerate']} · live_validated={g['live_validated']}")
+    print(f"  reason: {g['reason']}")
     n = len(t.get("strengths", {}))
     print(f"  reading {n} caption-strengths from taste_elo.json"
           f"{' (write-only no more — Rule #6 reader online)' if n else ' (no picks yet)'}")

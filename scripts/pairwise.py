@@ -29,6 +29,60 @@ OUT_ELO = B / "data/taste_elo.json"   # the Mohamed-Elo signal the active select
 CLIENTS = ["eatjurisha", "albaik", "myfitness.sa"]
 
 
+class ConsumeError(RuntimeError):
+    """A wire fault in consume() — a malformed/unreadable answer line that we REFUSE to skip.
+
+    Rule #8 (refuse-don't-warn): a tap-ledger line that is non-blank yet unparseable is NOT silently
+    dropped (that would lose one of his taps and look like progress). consume() raises this; main()
+    converts it to a non-zero exit. A *blank* line is fine to skip (writers append a trailing \\n);
+    only a non-blank line that fails json.loads is a fault."""
+
+
+# ── typed record contract ──────────────────────────────────────────────────────
+# The single load-bearing shape of a preference record. consume() builds exactly these keys; the
+# verifier (verify_judge_loop.py) and any reader (taste_elo, bridge_pairs) rely on them. Keeping the
+# contract in ONE place means the writer and every reader can never silently drift (Rule #6).
+PREF_REQUIRED = ("pair_id", "handle", "winner", "winner_caption", "loser_caption")
+PREF_KEYS = PREF_REQUIRED + ("winner_brain", "judge", "ts", "source")
+
+
+def valid_pref(rec) -> bool:
+    """A preference record is well-formed iff it is a dict carrying every required field, the winner
+    is 'a'/'b', and the two captions are non-empty and distinct. Used by consume() (assert before
+    write) and by the verifier to prove the prefs ledger is typed, not just present."""
+    if not isinstance(rec, dict):
+        return False
+    if any(k not in rec for k in PREF_REQUIRED):
+        return False
+    if rec["winner"] not in ("a", "b"):
+        return False
+    w, l = rec.get("winner_caption"), rec.get("loser_caption")
+    return bool(w) and bool(l) and w != l
+
+
+def _read_answers_strict():
+    """Read the tap-ledger, REFUSING on any non-blank unparseable line (Rule #8). Returns the list of
+    parsed answer dicts. A missing file is not a fault here (consume handles 'no answers yet'); an
+    unreadable file (permissions/encoding) and a corrupt line ARE faults — they would silently drop
+    his taps, the exact Consumer-Law failure this loop keeps scarring on."""
+    try:
+        text = ANSWERS.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        return None
+    except Exception as e:                                   # unreadable → REFUSE, never proceed blind
+        raise ConsumeError(f"tap-ledger unreadable ({ANSWERS.name}): {type(e).__name__}: {e}")
+    rows = []
+    for ln_no, line in enumerate(text.splitlines(), 1):
+        if not line.strip():
+            continue                                         # blank line: legitimate, skip
+        try:
+            rows.append(json.loads(line))
+        except json.JSONDecodeError as e:                    # non-blank + unparseable → REFUSE
+            raise ConsumeError(f"tap-ledger line {ln_no} malformed in {ANSWERS.name} "
+                               f"(refuse, don't skip — Rule #8): {e}")
+    return rows
+
+
 def _produced():
     """All produced pilot captions (newest render per slot), as candidates with scene CONTEXT so
     cards are born judgeable-in-context (June 16): (handle, date, caption, brain, occasion, scene)."""
@@ -483,11 +537,25 @@ def bridge_status():
     # held_out_live only because his bridge TAPS are themselves measurable picks (his picks + the taps).
     # Said plainly so the number cannot be misread as "9 of your existing picks are eye-measured" — only
     # ~4 of the existing are BT-rankable; the rest come from the taps. Agreement % still awaits real taps.
+    # STARVATION SIGNAL (B186e, Rule #6/#11 — make the silent block VISIBLE). The held-out LIVE
+    # number (the actual TOP metric) can be UNDEFINED two very different ways: (a) honest HOLD — no
+    # bridge pair is even formable, so it truly awaits more produced captions / his taps; or (b)
+    # SEVERED LANE — bridge pairs ARE formable (they would connect his graph this instant) yet 0 are
+    # staged on his phone, because bridge_drain feeds the portal truth_confirm + visual cards but
+    # never the pairwise bridge pairs, so confirm cards perpetually occupy his slots and the TOP
+    # wire never gets a lane. Case (b) is a wire fault that make_sure otherwise reports as 🟢 ALIVE
+    # (the exact self-audit gap Rule #11 names). `formable` + `starved` separate the two: starved =
+    # the lane is missing though it could exist. Informational ONLY (no gate, no card — Rule #10);
+    # it auto-closes the moment a bridge pair reaches his portal (staged>0) or none can form.
+    formable = len(bridge_pairs(1))
+    starved = formable > 0 and len(staged) == 0
     print(f"BRIDGE STATUS: {len(staged)} bridge cards staged on his portal · "
           f"held-out-testable picks on record now={now} → after his taps={after} "
           f"(his picks + the bridge taps, both real choices; BT-true held_out_live count, "
-          f"agreement % awaits his real taps, Rule #9){sim_clause}")
+          f"agreement % awaits his real taps, Rule #9){sim_clause}"
+          f"{' · ⚠️ STARVED: bridge pairs formable but 0 staged (TOP lane severed)' if starved else ''}")
     return {"staged": len(staged), "n_testable_now": now, "n_testable_after": after,
+            "formable": formable, "starved": starved,
             "sim_speedup_x": (sim or {}).get("speedup_x"),
             "sim_active_taps": (sim or {}).get("active_taps_to_threshold"),
             "sim_random_taps": (sim or {}).get("random_taps_to_threshold_mean")}
@@ -518,8 +586,15 @@ def _pairs_from_cards():
 def consume():
     """Handler (Rule #6/#7): read his A/B picks from the answers ledger → the preference ledger.
     Resolves each pick from the DURABLE card (queue) first, enriched by the pairs side-file where
-    present — so no tap is ever lost to a pairs-file overwrite (Consumer-Law backstop)."""
-    if not ANSWERS.exists():
+    present — so no tap is ever lost to a pairs-file overwrite (Consumer-Law backstop).
+
+    ROBUST (F1, June 21): the read REFUSES on a malformed/unreadable answer line (ConsumeError →
+    non-zero exit) instead of silently skipping it (Rule #8); each pref record is asserted against
+    the typed contract (valid_pref) BEFORE it is written — a writer can never lay down a half-record.
+    Idempotent on pair_id (a re-run banks nothing twice). A pw_ row whose answer is neither a-ish nor
+    b-ish is a NON-fault skip (it isn't a pick at all — e.g. a free-text comment on a pair)."""
+    rows = _read_answers_strict()
+    if rows is None:
         print("no answers yet"); return 0
     file_pairs = {p["id"]: p for p in (json.loads(PAIRS.read_text()) if PAIRS.exists() else [])}
     pairs = {**_pairs_from_cards(), **file_pairs}  # card = durable backstop; file enriches (brain)
@@ -527,26 +602,59 @@ def consume():
     if PREFS.exists():
         seen = {json.loads(l)["pair_id"] for l in PREFS.read_text().splitlines() if l.strip()}
     n = 0
-    for line in ANSWERS.read_text().splitlines():
-        try:
-            e = json.loads(line)
-        except Exception:
-            continue
+    for e in rows:
         pid = e.get("item_id")
+        if not (isinstance(pid, str) and pid.startswith("pw_")):
+            continue                                  # not a pairwise tap — judge2 verdicts go elsewhere
         if pid not in pairs or pid in seen:
             continue
         ans = (e.get("answer") or "").strip().lower()
         winner = "a" if ans.startswith("a") else ("b" if ans.startswith("b") else None)
         if not winner:
-            continue
+            continue                                  # a pw_ row that isn't an a/b pick (comment) — skip
         p = pairs[pid]
         rec = {"pair_id": pid, "handle": p["handle"], "winner": winner,
                "winner_caption": p[winner]["caption"], "loser_caption": p["b" if winner == "a" else "a"]["caption"],
                "winner_brain": p[winner]["brain"], "judge": e.get("judge"), "ts": e.get("ts")}
+        if not valid_pref(rec):                       # REFUSE to bank a malformed pref (Rule #8)
+            raise ConsumeError(f"pairwise pick {pid} resolved to a malformed pref record "
+                               f"(refuse — never half-write the moat): {rec}")
         PREFS.open("a").write(json.dumps(rec, ensure_ascii=False) + "\n")
         seen.add(pid); n += 1
     print(f"✅ consumed {n} new pairwise picks → {PREFS.name}")
     return n
+
+
+def consume_verdicts(dry_run=False):
+    """UNIFIED verdict consumer (F1, June 21) — routes BOTH wire kinds from the ONE tap-ledger to the
+    right consumer, so a single call drains every taste tap end-to-end (Rule #6 — every writer reads):
+
+      • pw_<id>      A/B pairwise pick   →  consume()                →  data/pairwise_prefs.jsonl
+      • judge2_<...> complete-post verdict→  gold_mint.mint() (gold)  +  judge2_ledger_writer.run()
+                                            (client_approved → moments well)
+
+    Same refuse-don't-warn contract: the strict read raises ConsumeError on a corrupt tap-ledger line
+    so a malformed verdict can never be silently dropped (Rule #8). Returns a per-wire count dict. The
+    pw_/judge2_ sub-consumers are each idempotent (pair_id seen-set; gold byte-cursor; judge2 src_key),
+    so consume_verdicts is safe to call every heartbeat."""
+    _read_answers_strict()                            # fail FAST + LOUD on a corrupt ledger (Rule #8)
+    out = {"pairwise": 0, "gold_minted": 0, "judge2_approved": 0, "dry_run": dry_run}
+    if not dry_run:
+        out["pairwise"] = consume()
+    try:
+        import gold_mint as _gm
+        out["gold_minted"] = 0 if dry_run else len(_gm.mint())
+    except Exception as e:                            # gold mint is a real wire — surface, don't hide
+        raise ConsumeError(f"gold_mint consumer failed: {type(e).__name__}: {e}")
+    try:
+        import judge2_ledger_writer as _j2
+        r = _j2.run(dry_run=dry_run)
+        out["judge2_approved"] = r.get("written", 0)
+    except Exception as e:
+        raise ConsumeError(f"judge2 verdict consumer failed: {type(e).__name__}: {e}")
+    print(f"✅ verdicts consumed → pairwise={out['pairwise']} gold={out['gold_minted']} "
+          f"judge2_approved={out['judge2_approved']}{' (dry-run)' if dry_run else ''}")
+    return out
 
 
 def agreement():
@@ -622,9 +730,9 @@ def backfill_pw_rank():
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["form", "push", "consume", "agreement", "active", "active-preview",
-                                    "bridge", "bridge-preview", "bridge-status", "backfill-rank",
-                                    "reconcile", "reconcile-preview"])
+    ap.add_argument("cmd", choices=["form", "push", "consume", "consume-verdicts", "agreement",
+                                    "active", "active-preview", "bridge", "bridge-preview",
+                                    "bridge-status", "backfill-rank", "reconcile", "reconcile-preview"])
     ap.add_argument("--n", type=int, default=4, help="pairs (per brand for form/push; total for active)")
     ap.add_argument("--handle", default=None, help="restrict bridge to one pilot (e.g. albaik)")
     a = ap.parse_args()
@@ -634,6 +742,8 @@ def main():
         push_cards(a.n)
     elif a.cmd == "consume":
         consume()
+    elif a.cmd == "consume-verdicts":
+        consume_verdicts()
     elif a.cmd == "agreement":
         agreement()
     elif a.cmd == "active-preview":
@@ -665,4 +775,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except ConsumeError as e:                          # Rule #8: a severed/corrupt wire EXITS non-zero
+        print(f"REFUSE (Rule #8): {e}", file=sys.stderr)
+        sys.exit(1)

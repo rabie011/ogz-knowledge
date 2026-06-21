@@ -479,6 +479,85 @@ def h_v37_direction(b: Path, row: dict) -> str:
     return f"v3.7 direction recorded: {ans} → {meaning}"
 
 
+# v3.7 visual_dna free-text card → the organ field(s) the converter reads. One card per
+# (handle, group); his free-text answer is the CLIENT truth for that group. The targets are
+# exactly the paths openclaw_convert._sf() reads, so his answer reaches the render (Rule #6 —
+# build the consumer in the same cycle). brand_paths land on visual_dna['brand']; product_keys
+# are stamped on EVERY product (one card covers all of a brand's products).
+V37_GROUP_TARGETS = {
+    "colour":           {"brand_paths": [("palette", "primary"), ("palette", "background_tone"),
+                                         ("color_field_palette",)]},
+    "product_physical": {"product_keys": ["material_finish", "material_texture",
+                                          "silhouette_description", "dimensions"]},
+    "identity_lock":    {"product_keys": ["identity_dna", "label_text_arabic", "label_text_latin"]},
+}
+
+
+def _v37_stamp_field(node: dict, key, ans: str, ts: str, item: str) -> bool:
+    """Flip one statusField {value,status,provenance} to client-confirmed truth (idempotent).
+    Stores his verbatim answer in client_confirmed (the converter appends it as authoritative
+    client truth) + flips status GREEN + provenance.confirmer=mohamed. Returns True if stamped."""
+    fld = node.get(key)
+    if not isinstance(fld, dict):
+        fld = {"value": None, "status": "RED"}
+        node[key] = fld
+    fld["client_confirmed"] = {"answer": ans, "confirmer": "mohamed", "ts": ts, "source": f"portal:{item}"}
+    fld["status"] = "GREEN"
+    prov = fld.setdefault("provenance", {})
+    prov["confirmer"], prov["confidence"], prov["confirmed_ts"] = "mohamed", "confirmed", ts
+    return True
+
+
+def h_v37_visual(b: Path, row: dict) -> str:
+    """B186d — Mohamed's free-text answer on a v3.7 visual card (palette / products_phys /
+    identity_ref) is the CLIENT truth the v3.7 organ was waiting on. Until this handler the 10
+    cards had NO consumer, so bridge_drain HELD them off his portal (Rule #7 — a tap with
+    nowhere to land never ships). This is that consumer: it writes his verbatim answer into
+    clients/<handle>/profile/visual_dna.json at the exact fields openclaw_convert reads, flips
+    their status GREEN + confirmer=mohamed, so his confirmed truth reaches the render (Rule #6).
+    We never author the value — his words are stored verbatim (Rule #12). Self-audit: the write
+    MUST be on disk before we claim it applied (Rule #11)."""
+    item, ans = row.get("item_id", ""), (row.get("answer") or "").strip()
+    if not ans:
+        raise RuntimeError(f"v37 card {item} returned an empty answer — nothing to confirm")
+    staged = b / "data" / "v37_confirm_staged.json"
+    if not staged.exists():
+        raise RuntimeError("no data/v37_confirm_staged.json — run the v37 card generator")
+    cards = {c["id"]: c for c in json.loads(staged.read_text(encoding="utf-8")).get("cards", [])}
+    card = cards.get(item)
+    if not card:
+        raise RuntimeError(f"v37 card {item} not in staged file")
+    handle, group = card["handle"], card.get("group", "")
+    targets = V37_GROUP_TARGETS.get(group)
+    if not targets:
+        raise RuntimeError(f"v37 card {item}: unknown group «{group}»")
+    vdf = b / "clients" / handle / "profile" / "visual_dna.json"
+    if not vdf.exists():
+        raise RuntimeError(f"no visual_dna.json for {handle}")
+    vd = json.loads(vdf.read_text(encoding="utf-8"))
+    ts = row.get("ts") or datetime.now().isoformat(timespec="seconds")
+    n = 0
+    brand = vd.setdefault("brand", {})
+    for path in targets.get("brand_paths", []):
+        node = brand
+        for seg in path[:-1]:
+            node = node.setdefault(seg, {})
+        n += _v37_stamp_field(node, path[-1], ans, ts, item)
+    for prod in vd.get("products", []):
+        for key in targets.get("product_keys", []):
+            n += _v37_stamp_field(prod, key, ans, ts, item)
+    # also keep a per-group audit record at organ top-level (findable, never re-authored)
+    vd.setdefault("client_confirmed", {})[group] = {
+        "answer": ans, "confirmer": "mohamed", "ts": ts, "card": item, "fields_stamped": n}
+    sys.path.insert(0, str(Path(__file__).parent))
+    from organ_write import write_organ
+    write_organ(vdf, vd)
+    # self-audit (Rule #11): the confirmation MUST be on disk before we claim it applied
+    disk = json.loads(vdf.read_text(encoding="utf-8")).get("client_confirmed", {}).get(group, {})
+    assert disk.get("answer") == ans, f"v37 confirm not on disk for {handle}/{group}"
+    return f"v3.7 {group} confirmed for {handle}: «{ans[:40]}» → {n} field(s) GREEN (client truth reaches render)"
+
+
 def h_crosswalk_confirm(b: Path, row: dict) -> str:
     """B083c — Mohamed's tap on the reason_code crosswalk card (A-47) is the gate that
     UNSEVERS the writeback kill-wire (B083/B083b). His confirm flips proposed→confirmed in
@@ -602,6 +681,7 @@ ITEM_PREFIX_HANDLERS = {
     "passport_": h_passport,
     "pw_": h_pairwise_noop,
     "truth_confirm_": h_truth_confirm,  # B186 — free-text price answers (confirm/reject hit PREFIX_HANDLERS first)
+    "v37_": h_v37_visual,  # B186d — v3.7 visual_dna free-text cards (v37_alignment_summary stays an exact handler, resolved first)
 }
 
 HANDLERS = {
@@ -707,12 +787,15 @@ def main():
     b = base()
     # PAIRWISE consumer (Rule #6/#7 — the A-vs-B tap needs a handler that RUNS): every portal answer
     # cycle, fold his new pairwise picks into the taste-preference ledger so they never sit unconsumed.
+    # A corrupt tap-ledger must NOT be swallowed here (the old `except Exception: pass` hid exactly the
+    # Consumer-Law fault this loop keeps scarring on): pairwise.ConsumeError re-raises so the heartbeat
+    # EXITS loud (Rule #8). Only a soft/optional failure (e.g. taste_elo recompute) degrades quietly.
+    import sys as _s
+    _s.path.insert(0, str(b / "scripts"))
+    import pairwise as _pw
+    _pw.consume()                                    # raises ConsumeError on a severed/corrupt wire
     try:
-        import sys as _s
-        _s.path.insert(0, str(b / "scripts"))
-        import pairwise as _pw
-        _n = _pw.consume()
-        import taste_elo as _te; _te.main()  # recompute Mohamed-Elo from his accumulating picks (Rule #6)
+        import taste_elo as _te; _te.main()          # recompute Mohamed-Elo (soft — never blocks rulings)
     except Exception:
         pass
     applied = {(r["item_id"], r["answer"]) for r in _read_jsonl(b / LEDGER)}

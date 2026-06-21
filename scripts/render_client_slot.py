@@ -170,6 +170,41 @@ _CORE_TO_NEED = {
 _POSTTYPE_TO_NEED = {"announcement": "offer_announce", "offer": "offer_announce",
                      "greeting": "occasion", "moment": "human_life"}
 
+# ── HUMAN-PRESENCE DETECTION (June 21 — the chain≠scene root-fix, BUG-1) ──────────────
+# THE BUG (albaik 2026-12-15 dry-run): a scene FULL of people (الأخ الأكبر، طالب جامعي،
+# الأم تدخل المطبخ) drew tf02_03 «Sauce Splash · No humans» because scene_core() saw only
+# {craving} (جوع/رائحة الفلافل) — the human signal was INVISIBLE: the family regex wants
+# عائل|أمي|والدتي, but a scene that NAMES people by role (الأخ، طالب، الأم) carries no such
+# token, so the food signal won and a no-humans product splash shipped for a human moment.
+# FIX: a SEPARATE human-presence detector over person/role + human-action tokens. When a
+# person is present, the dominant need becomes human_life and the no-humans product families
+# are HARD-EXCLUDED from the candidate pool (Rule #8: a human scene NEVER gets a no-humans
+# chain). Computed — token sets only, no hand-authored per-post map (Rule #12).
+_PERSON_TOKENS = re.compile(
+    r"أب\b|الأب|أم\b|الأم|أمي|والد|والدة|أخ\b|الأخ|أخت|الأخت|إخوة|أطفال|طفل|الطفل|"
+    r"طالب|الطالب|طالبة|أصدقاء|الأصدقاء|صديق|عائلة|العائلة|عيلة|أسرة|الأسرة|"
+    r"رجل|الرجل|امرأة|المرأة|شاب|الشاب|شابة|فتاة|الفتاة|فتى|زوج|الزوج|زوجة|الزوجة|"
+    r"جد\b|الجد|جدة|الجدة|جدي|جدتي|عامل|العامل|موظف|الموظف|ضيوف|الضيوف|ضيف|الضيف|"
+    r"بنت\b|البنت|ابن\b|الابن|أولاد|الأولاد|شخص|الشخص|الناس|عميل|العميل|زبون|الزبون")
+# human ACTIONS — a verb of a person doing something in the scene (a second signal so a bare
+# role mention isn't required; «يذاكر/تدخل/يتناول» are unmistakably people in a moment)
+_HUMAN_ACTION_TOKENS = re.compile(
+    r"يجلس|تجلس|يجلسون|يدخل|تدخل|يدخلون|يتناول|تتناول|يأكل|تأكل|يلعب|تلعب|يذاكر|تذاكر|"
+    r"يدرس|تدرس|يجتمع|تجتمع|يجتمعون|يبتسم|تبتسم|يضحك|تضحك|يمد يده|تمد يدها|يشرب|تشرب|"
+    r"يقف|تقف|يمشي|تمشي|يحمل|تحمل|يراقب|تراقب|يستمتع|تستمتع|يحتفل|تحتفل")
+# the families whose PURPOSE is a no-humans single-product shot (splash/levitation/spotlight/
+# cosmetic-macro/pedestal). Named by family so the veto survives even though INDEX records
+# carry no per-chain «no_humans» flag. A scene with people must NEVER resolve into one.
+_NO_HUMANS_FAMILIES = {"TF01", "TF02", "TF03", "TF11", "TF12", "TF14"}
+
+
+def _scene_has_human(scene_text: str) -> bool:
+    """True when the scene depicts a PERSON in a real moment — a person/role noun OR a
+    human-action verb. Used to force human_life as the dominant need and HARD-EXCLUDE the
+    no-humans product families (BUG-1). Computed over token sets, never a per-post list."""
+    t = scene_text or ""
+    return bool(_PERSON_TOKENS.search(t) or _HUMAN_ACTION_TOKENS.search(t))
+
 
 def _scene_needs(scene_text: str, post_type: str, occasion: str) -> list:
     """The ordered chain-needs this scene implies (strongest first). Built ONLY from the
@@ -177,6 +212,11 @@ def _scene_needs(scene_text: str, post_type: str, occasion: str) -> list:
     per-post hand list. Returns e.g. ['human_life'] for a family dinner, ['offer_announce']
     for a price card, defaulting to product_hero when nothing classifies."""
     needs = []
+    # HUMAN PRESENCE DOMINATES (BUG-1): a scene with people leads with human_life, ahead of
+    # any craving/food signal — so a family-kitchen moment can never resolve to a no-humans
+    # product splash. The food/craving signal still rides BEHIND it (a human eating food).
+    if _scene_has_human(scene_text):
+        needs.append("human_life")
     for core in scene_core(scene_text):
         nd = _CORE_TO_NEED.get(core)
         if nd and nd not in needs:
@@ -245,23 +285,41 @@ def pick_pro_chain(formula_id: str, sector: str, occasion: str,
         return chain_for(formula_id, sector, occasion)  # legacy floor
     needs = _scene_needs(scene_text, post_type, occasion)
 
+    # BUG-1 HARD VETO: when the scene depicts PEOPLE, the no-humans product families
+    # (TF01 levitation / TF02 splash / TF03 spotlight / TF11-TF12 cosmetic-macro / TF14
+    # pedestal) are EXCLUDED from BOTH pools — a human moment never resolves to a single-
+    # product studio shot, no matter how strong the food/craving signal scores. Computed
+    # over the family classification (Rule #12), not a per-post list.
+    human_scene = _scene_has_human(scene_text)
+
+    def _human_ok(c):
+        return (not human_scene) or (c.get("family") not in _NO_HUMANS_FAMILIES)
+    cands = [c for c in cands if _human_ok(c)]
+
     def _best(pool):
         return max(pool, key=lambda c: (_chain_purpose_score(c, needs),
                                         -_chain_index(c, chains)))
-    best = _best(cands)
     # POOL-ESCAPE (the family-dinner-as-splash-ring case): the formula's families may not
-    # contain ANY chain that serves the scene's dominant need (CF_02's [TF02,TF11,TF17] holds
-    # zero human-life chains, so a family dinner was stuck on a product splash). When the best
-    # in-pool chain still NEGATIVELY fits — i.e. it betrays the scene more than it serves it —
-    # reach beyond the formula pool to every sector/occasion-allowed chain whose OWN purpose
-    # serves the dominant need, and take the best of THOSE. Still a computed rule over the
-    # chain's purpose (Rule #12) — the scene, not a hand list, opens the wider pool.
-    if _chain_purpose_score(best, needs) <= 0:
-        # wide pool = sector/occasion-allowed (NOT family-restricted) chains whose purpose
-        # serves the scene; the formula's family list is what trapped the family dinner.
-        wide = [c for c in chains if _sector_occ_ok(c) and _chain_purpose_score(c, needs) > 0]
+    # contain ANY chain that serves the scene's dominant need (CF_07's [TF18,TF02,TF11,TF17]
+    # holds zero human-life chains, so a family dinner was stuck on a product splash). Two
+    # triggers now open the wider pool: (a) the in-pool was emptied by the human veto, or
+    # (b) the best in-pool chain still NEGATIVELY fits (betrays the scene more than serves).
+    # The wider pool is every sector/occasion-allowed chain whose OWN purpose serves the
+    # dominant need AND clears the same human veto. Still a computed rule (Rule #12).
+    best = _best(cands) if cands else None
+    if best is None or _chain_purpose_score(best, needs) <= 0:
+        wide = [c for c in chains
+                if _sector_occ_ok(c) and _human_ok(c) and _chain_purpose_score(c, needs) > 0]
         if wide:
             best = _best(wide)
+    # Rule #8 — REFUSE, don't ship a wrong chain: a human scene with NO eligible human-capable
+    # chain (every candidate was a no-humans family and none scored positive in the wide pool)
+    # HOLDS (returns None) rather than handing back a no-humans product chain. render_via_master
+    # / the card then carries no pro_chain, and the image step refuses (it never guesses a chain).
+    if best is None:
+        return None
+    if human_scene and best.get("family") in _NO_HUMANS_FAMILIES:
+        return None
     return best
 
 

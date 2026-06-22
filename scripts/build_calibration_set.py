@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from __future__ import annotations  # MUST be first statement (before the --legacy guard below)
 # ⚠️ DEPRECATED-JUDGE 2026-06-11: this rewards the V3 technique taste the founder
 # rejected (audit: old judge buried clean options 240/240). Superseded by: founder ratings (logs/cross_preferences.json) + scorer_v2.
 import sys as _s
@@ -22,7 +23,6 @@ Usage:
     python3 scripts/build_calibration_set.py            # 30 captions
     python3 scripts/build_calibration_set.py --n 20
 """
-from __future__ import annotations
 import argparse, json, os, sys, urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path

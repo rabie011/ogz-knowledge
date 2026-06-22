@@ -153,8 +153,11 @@ def pick_posts(n: int) -> list:
                 import pre_ship_gate as _g
                 if _g.gate(d, handle).get("block"):   # KILL (cultural) OR a learned-rejection pattern
                     continue
-            except Exception:
-                pass
+            except Exception as e:
+                # FAIL CLOSED (Rule #13, Rule #8): if the pre-ship gate raises we CANNOT prove the
+                # post is safe for his judge lane — skip it, never fall through to picked.append.
+                print(f"  🛑 manifest post {Path(f).name}: pre-ship gate raised — skip ({e})")
+                continue
             slot = _parse(d.get("slot"))
             date = slot.get("date", d.get("date", ""))
             if f"judge2_{handle}_{date}" in existing:

@@ -4,7 +4,8 @@
 The consultative moat: we read the client's street (Maps reviews) and bring them an
 insight their feed can't see — «your pain is SERVICE, not food». This generates the
 ping as an INTERNAL presentation draft per client (presentations/service_ping.md)
-+ data/service_pings.json (read by the morning brief). NO card is staged and NOTHING
++ data/service_pings.json (an internal audit artifact — NO code reader exists yet; a
+morning-brief consumer is needs_mohamed/unbuilt). NO card is staged and NOTHING
 goes near a client: B201 (albaik outreach ruling — dry-run vs real contact) is an
 OPEN mohamed_must; until he rules, drafts stay internal. (Docstring corrected June 13
 — the earlier «stages a card» claim was false: self-audit law.)

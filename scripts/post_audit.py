@@ -174,8 +174,10 @@ def audit_post(d, handle):
                 issues.append((f"organ_{kind}", detail))
             else:
                 issues.append((f"organ_{kind}_warn", detail))
-    except Exception:
-        pass
+    except Exception as e:
+        # FAIL CLOSED (Rule #8, Rule #13): a crashed cultural/organ check is NOT a clean post —
+        # surface it as a HARD issue so the batch is marked not-ship-ready, never silently dropped.
+        issues.append(("organ_check_error", f"client_rules raised: {type(e).__name__}: {e}"))
     # B164 — FEED-vs-DOOR divergence (soft WARN): the street (Maps reviews) says the food
     # arrives cold, but the caption over-promises warm-kitchen/served-hot imagery. Signal,
     # not law → _warn-suffixed (Rule #8). Reader for reviews_digest's cold_food (Rule #6).
@@ -238,8 +240,10 @@ def main():
         trope = _cr.batch_trope_overconcentration([d for h, dt, d in posts], 0.30)
         for t in trope:
             dchk.setdefault("violations", []).append({"kind": "device", "key": t["device"], "count": t["count"], "n": len(posts), "pct": t["pct"]})
-    except Exception:
-        pass
+    except Exception as e:
+        # FAIL CLOSED (Rule #8): a crashed trope check can't certify diversity — mark the batch
+        # not-ship-ready instead of reporting OK while the over-concentration net is down.
+        dchk.setdefault("violations", []).append({"kind": "device", "key": f"trope_check_error: {type(e).__name__}", "count": 0, "n": len(posts), "pct": 0})
     print(f"\nBATCH: {len(posts)} posts · {clean} clean · {total_issues} hard issues · "
           f"diversity {'OVER-CONCENTRATED' if dchk['violations'] else 'OK'}")
     # CONCENTRATION = a real >30% violation. Low COVERAGE (abstract captions the core-taxonomy

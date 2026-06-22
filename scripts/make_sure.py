@@ -12,6 +12,7 @@ from pathlib import Path
 BASE = Path(__file__).parent.parent
 STATE = BASE / "data/make_sure_state.json"
 LOG = BASE / "data/make_sure_log.jsonl"
+QUEUE = BASE / "data/decision_queue.json"  # the judge/feedback card queue the 4b re-gate re-checks
 
 
 def count_cards() -> int:
@@ -322,8 +323,13 @@ def main():
                     blocked_live.append(it["id"])
         checks["judge_cards_gated"] = not blocked_live
         checks["_blocked_live"] = blocked_live or None
-    except Exception:
-        checks["judge_cards_gated"] = True
+    except Exception as e:
+        # FAIL CLOSED (Rule #8, MAKE-SURE law): a torn/unreadable queue or a crashed gate means
+        # we CANNOT prove no gate-BLOCKED post is live in his judge lane — so alarm, never
+        # green-by-default. The realistic causes are local-disk (json.JSONDecodeError, OSError,
+        # KeyError on the queue); any other gate crash is surfaced here too rather than masked.
+        checks["judge_cards_gated"] = False
+        checks["_blocked_live"] = [f"re-gate raised: {type(e).__name__}: {e}"]
 
     # 5. cron heartbeat marker (the orchestra updates this state file each run — its own pulse)
     # RABIE-ratified June 12: the queue's consumer died silently for 88 days once — never again

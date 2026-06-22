@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from __future__ import annotations  # MUST be first statement (before the --legacy guard below)
 # ⚠️ DEPRECATED-JUDGE 2026-06-11: this rewards the V3 technique taste the founder
 # rejected (audit: old judge buried clean options 240/240). Superseded by: scorer_v2.py.
 import sys as _s
@@ -24,7 +25,6 @@ Usage:
     python3 scripts/cd_judge.py                    # head-to-head: generic vs CD brain (proof)
     python3 scripts/cd_judge.py --judge "caption" --brain cd_04_heritage_decoder
 """
-from __future__ import annotations
 import argparse, json, os, sys, re
 from pathlib import Path
 

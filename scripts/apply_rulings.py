@@ -713,10 +713,57 @@ HANDLERS = {
 }
 
 
+def h_fork_decision(b: Path, row: dict) -> str:
+    """Generic landing for ANY portal `*_fork` decision card (Rule #7 — his A/B tap must
+    LAND, not trip a red alarm + vanish; born June 22, RABIE's pick, when
+    B057c_thinbrain_primary_fork and B095t_publish_trigger_fork sat live on his phone with
+    no handler — the exact dead-end scar h_idea_gate was built to close).
+
+    Reads the card from data/decision_queue.json — the only authority on the fork's valid
+    option values + their meaning — validates his answer against the declared options
+    (Rule #8: refuse an undeclared answer, never guess), then records the confirmed choice
+    into data/mohamed_rulings_live.json under fork_decisions[<card_id>]. That live-rulings
+    file is already CONSUMED across the system (producer + make_sure + next-shift backlog),
+    so the write has a reader (Rule #6) — the same landing pattern as h_idea_gate. Asserts
+    on disk (Rule #11). Does NOT execute the fork's follow-on work (e.g. B057b rewire/strip):
+    that is the dependent backlog step, done by the pair next shift per his recorded
+    direction — we land the decision, we don't pre-judge or pre-build it (Rule #11/#12)."""
+    item = row.get("item_id", "")
+    ans = (row.get("answer") or "").strip()
+    dq_p = b / "data/decision_queue.json"
+    if not dq_p.exists():
+        raise RuntimeError("no data/decision_queue.json — cannot validate fork options")
+    dq = json.loads(dq_p.read_text(encoding="utf-8"))
+    items = dq.get("items", []) if isinstance(dq, dict) else dq
+    card = next((c for c in items if c.get("id") == item), None)
+    if not card:
+        raise RuntimeError(f"fork card {item} not in decision_queue.json")
+    valid = {str(o.get("v")): (o.get("label") or "")
+             for o in (card.get("options") or []) if isinstance(o, dict)}
+    if ans not in valid:
+        raise RuntimeError(f"fork {item}: answer «{ans}» not a declared option {sorted(valid)}")
+    p = b / "data/mohamed_rulings_live.json"
+    r = json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
+    fd = r.setdefault("fork_decisions", {})
+    fd[item] = {
+        "answer": ans,
+        "choice": valid[ans],
+        "title": card.get("title", ""),
+        "ruled_at": row.get("client_ts") or row.get("ts"),
+        "confirmer": "mohamed",
+        "source": f"portal:{item}",
+    }
+    p.write_text(json.dumps(r, ensure_ascii=False, indent=1))
+    on_disk = json.loads(p.read_text(encoding="utf-8")).get("fork_decisions", {}).get(item, {})
+    assert on_disk.get("answer") == ans, f"fork decision {item} not on disk"
+    return f"fork {item} → «{ans}: {valid[ans][:50]}» landed in mohamed_rulings_live.json"
+
+
 def _resolve(key):
     """exact HANDLERS first, then PREFIX_HANDLERS (item-prefix + answer),
     then ITEM_PREFIX_HANDLERS (item-prefix only — for free-text intake where the
-    answer is arbitrary, e.g. passport questions)."""
+    answer is arbitrary, e.g. passport questions), then the `*_fork` suffix dispatch
+    (every decision-fork card lands generically — Rule #7, no per-fork wiring needed)."""
     if key in HANDLERS:
         return HANDLERS[key]
     for (pref, ans), fn in PREFIX_HANDLERS.items():
@@ -725,6 +772,8 @@ def _resolve(key):
     for pref, fn in ITEM_PREFIX_HANDLERS.items():
         if key[0].startswith(pref):
             return fn
+    if key[0].endswith("_fork"):
+        return h_fork_decision
     return None
 
 

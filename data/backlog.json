@@ -3616,10 +3616,21 @@
    "est_minutes": 10,
    "what": "FORK: where does the go-live event that calls outcome_ledger.record_published originate?",
    "how": "Writer organ is built+tested (B095w). Open question root-hunted 2026-06-22: does publish happen OUR side (a portal \"published\" tap fires the writer) or on Heshams platform (a webhook/export feeds it)? (A) our-side tap → wire a one-button publish-confirm card to record_published. (B) platform → integration hop: agree the export/webhook shape with Hesham. Recommendation: A for the pilot (Mohamed taps published when a piece goes live), B later at scale. Until answered, both outcome readers run honest-empty (no live events). [orchestra 2026-06-22 root-hunt: NO producer emits subject_generation_ulid/brand_ulid yet — grep-verified across produce_batch/render_client_slot/build_judging_batch/batch20. So even option A needs an upstream gen-ulid mint at produce time first. The publish ledger has TWO missing upstream layers: the identity (gen-ulid) AND the trigger.]"
+  },
+  {
+   "id": "B057e",
+   "layer": "Spine",
+   "who": "pair",
+   "est_minutes": 40,
+   "depends_on": [],
+   "status": "done",
+   "what": "Pre-wire EVERY portal *_fork decision card so his tap lands (Rule #7)",
+   "how": "Generic apply_rulings.h_fork_decision + _resolve suffix-dispatch on item_id endswith \"_fork\": validates his answer vs the card’s declared options (Rule #8 refuse), records choice in mohamed_rulings_live.json[fork_decisions] (consumed file, h_idea_gate pattern, Rule #6), asserts on disk (Rule #11). Does NOT execute follow-on work (Rule #11/#12).",
+   "done_note": "2026-06-22: built + 7 tests (test_fork_decision), full suite 737 green. B057c_thinbrain_primary_fork + B095t_publish_trigger_fork now resolve to the handler (were dead-end cards live on his phone). pending_unhandled pre-empted. NEXT: his B057c A/B tap unblocks B057b (rewire vs strip the 18 orphaned intel reads); B095t answer drives the publish-trigger seam."
   }
  ],
  "counts": {
-  "done": 217,
+  "done": 218,
   "superseded": 3,
   "todo": 69,
   "open": 4,

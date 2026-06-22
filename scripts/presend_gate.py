@@ -91,8 +91,13 @@ def check_question(b: Path, handle: str, question: str) -> dict:
         if re.search(pat, question, re.IGNORECASE):
             try:
                 ev = ev_fn(b, handle)
-            except Exception:
+            except Exception as _e:
+                # Don't SILENTLY swallow (was a blind 'ev=None'): surface the broken evidence
+                # lookup so it gets fixed. Keep the question flowing — fail-closed HERE would
+                # suppress a needed question, which is worse than re-asking (Rule #8: no silent).
                 ev = None
+                print(f"  ⚠ presend_gate: evidence fn for '{topic}' errored "
+                      f"({type(_e).__name__}: {_e}) — question NOT suppressed")
             if ev:
                 hits.append({"topic": topic, "evidence": ev})
     return {"question": question, "blocked": bool(hits), "hits": hits}

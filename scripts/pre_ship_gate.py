@@ -97,8 +97,9 @@ def gate(post, handle):
             if _mis:
                 hard.append(f"occasion misalignment — {_mis}")
                 break
-    except Exception:
-        pass
+    except Exception as _e:
+        # FAIL CLOSED (Rule #8): a crashed detector can't clear the post — refuse, never swallow.
+        hard.append(f"occasion-align detector errored — refusing (can't verify): {type(_e).__name__}")
     # CLIENT-RULES (RABIE NO-GO 2026-06-14): enforce the client's CONFIRMED organs —
     # real-person/face/family/voice (cultural_overrides), cloud-kitchen format, cross-brand bleed,
     # brand-name register. Any block-severity organ violation is a HARD kill (caption + visual).
@@ -109,8 +110,9 @@ def gate(post, handle):
                 hard.append(f"client-rule: {detail}")
             else:
                 soft.append(f"client-rule: {detail}")
-    except Exception:
-        pass
+    except Exception as _e:
+        # FAIL CLOSED (Rule #8): the client's confirmed organs couldn't be checked — refuse.
+        hard.append(f"client-rules detector errored — refusing (can't verify): {type(_e).__name__}")
 
     # CULTURAL RED-LINES in the caption (immodest / alcohol / pork / dua+brand) — HARD kill. The
     # detector caption_filter.cultural_check ALREADY existed; the ship gate now CONSUMES it (June 21
@@ -124,8 +126,10 @@ def gate(post, handle):
             _cult.update(_hits)
         for _h in sorted(_cult):
             hard.append(f"cultural red-line: {_h}")
-    except Exception:
-        pass
+    except Exception as _e:
+        # FAIL CLOSED (Rule #8): the cultural red-line check couldn't run — refuse, never ship an
+        # unverified caption. (This very block was a fail-OPEN I introduced June 21 — now closed.)
+        hard.append(f"cultural detector errored — refusing (can't verify): {type(_e).__name__}")
 
     # WORN phrases (soft — caption weakness)
     worn_hit = [w for w in WORN if w in text]

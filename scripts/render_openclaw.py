@@ -123,6 +123,8 @@ def main():
     ap.add_argument("--chain", required=True)
     ap.add_argument("--product", default="")
     ap.add_argument("--scene", default="")
+    ap.add_argument("--ref", default="", help="force a specific reference image path, overriding "
+                    "pick_reference — for product↔reference matching tests")
     ap.add_argument("--go", action="store_true", help="attempt the real render (still gated)")
     ap.add_argument("--allow-unconfirmed", action="store_true")
     ap.add_argument("--skip-image-gate", action="store_true",
@@ -140,6 +142,9 @@ def main():
         sys.exit(f"converter failed:\n{conv.stderr}")
     sample = json.loads((B / "data/openclaw_v37/samples" / f"{a.handle}_{resolve_id(a.chain)}.json").read_text())
     prompt, ref = sample["prompt"], sample.get("reference_image")
+    if a.ref:
+        ref = a.ref   # forced reference (product↔reference match test)
+        print(f"  ⚙ reference FORCED → {ref}")
 
     # 2) GATES
     clear, reasons = gates(a.go, a.allow_unconfirmed, ref)

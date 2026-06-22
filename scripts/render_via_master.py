@@ -72,6 +72,27 @@ def _is_clean_prose(s: str) -> bool:
     return bool(re.search(r"[\wء-ي]{2,}", s))
 
 
+def _strip_inline_tags(s: str) -> str:
+    """Remove hashtags / URLs / @handles from prose WITHOUT the label-prefix or standalone-«و»
+    strip that _clean_scene_fragment does — those are only safe on a short trailing theme
+    fragment; the «و» removal would corrupt a full composed scene mid-sentence. Used to lightly
+    clean the Art-Director's composed_scene (it can embed a stray hashtag from the scene_ar)."""
+    s = _URL.sub(" ", s or "")
+    s = _HASHTAG.sub(" ", s)
+    s = _HANDLE_AT.sub(" ", s)
+    return re.sub(r"\s+", " ", s).strip(" ·،,-—\n")
+
+
+def _load_script_module(name: str):
+    """Load a sibling scripts/<name>.py module by path (the same pattern resolve_card_chain
+    already used for openclaw_convert) — keeps render_via_master path-independent."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(name, B / "scripts" / f"{name}.py")
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
 def load_card(handle: str, date: str, suffix: str = "") -> dict:
     """Find the post card for handle+date (optionally a specific suffix), newest first.
     REFUSES (exit non-zero) if no card exists — render_via_master never invents one."""
@@ -84,32 +105,63 @@ def load_card(handle: str, date: str, suffix: str = "") -> dict:
 
 
 def resolve_card_chain(card: dict) -> str:
-    """The chain the SYSTEM chose for this scene → its v3.7 id. The card stores the tfNN_NN
-    SHORT id in visual.pro_chain.id (the chain pick_pro_chain chose for the scene); we map it
-    to the v3.7 id HERE (via openclaw_convert.resolve_chain → chain_bridge.json) and pass the
-    RESOLVED id to render_openclaw. Why here and not let render_openclaw map it: openclaw_convert
-    --save writes the sample as «{handle}_{--chain}.json» from the RAW arg, but render_openclaw
-    reads it back as «{handle}_{resolve_id(--chain)}.json» — so a short id in == a v3.7 id out =
-    filename mismatch. Resolving up-front makes both sides agree on the v3.7 id. REFUSES if the
-    card has no chain (a card with no pro_chain can't be rendered to an image)."""
-    import importlib.util
-    pc = (card.get("visual") or {}).get("pro_chain") or {}
+    """The chain the SYSTEM chose for this scene → its v3.7 id, passed to render_openclaw.
+
+    ART-DIRECTOR FIRST (June 22, Rule #6): when the card carries visual.art_brief (the AD's
+    structured photo brief) and it is NOT refused, the AD's DELIBERATELY chosen chain —
+    resolved to a v3.7 id by art_director.to_converter_args — REPLACES the mechanical
+    visual.pro_chain pick. The photograph was DESIGNED, so we render the chain the AD chose
+    (read its choice, don't recompute). A refused/held AD brief carries pro_chain=None (the
+    producer set it so), so a red-line visual HOLDS here (Rule #8) instead of falling through
+    to a mechanical chain on a wrong scene.
+
+    FALLBACK: the card's SHORT id in visual.pro_chain.id → v3.7 id (via
+    openclaw_convert.resolve_chain → chain_bridge.json). Resolving up-front (rather than
+    letting render_openclaw map it) keeps openclaw_convert --save's «{handle}_{--chain}.json»
+    and render_openclaw's read-back «{handle}_{resolve_id(--chain)}.json» on the SAME v3.7 id.
+    REFUSES if there is no chain at all — a card with no chain can't render an image."""
+    vis = card.get("visual") or {}
+    oc = _load_script_module("openclaw_convert")
+    ab = vis.get("art_brief")
+    if ab:
+        # to_converter_args returns the AD's v3.7-resolved chain for a CLEAN brief, and None for a
+        # refused/held or chain-less brief (Rule #8) — in which case we fall to pro_chain below
+        # (a held brief set pro_chain=None, so the refuse-no-chain guard fires; never a wrong render).
+        ad = _load_script_module("art_director")
+        args = ad.to_converter_args(ab)
+        if args and args.get("chain"):
+            return args["chain"]                 # the AD's deliberate, v3.7-resolved chain
+    pc = vis.get("pro_chain") or {}
     cid = pc.get("id")
     if not cid:
-        sys.exit("🛑 card has no visual.pro_chain.id — nothing to render. Re-render the slot so "
-                 "pick_pro_chain assigns a content-aware chain (Rule #8: refuse, don't guess a chain).")
-    spec = importlib.util.spec_from_file_location("oc", B / "scripts/openclaw_convert.py")
-    oc = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(oc)
+        sys.exit("🛑 card has no chain to render — the Art-Director brief was refused/held "
+                 "(Rule #8: a red-line visual never renders), or pick_pro_chain found none. "
+                 "Re-render the slot; render_via_master never guesses a chain.")
     return oc.resolve_chain(cid)  # tfNN_NN → v3.7 id (U01/T41/…) via chain_bridge
 
 
 def card_scene(card: dict) -> str:
-    """The CLEAN visual scene for the converter (BUG-2 fix). Start from the angle's
-    scene_ar (the real visual moment the CD brain authored). The slot's angle_theme is
-    appended ONLY if it is clean prose; campaign/hashtag soup («family: أهلنا في #الرياض
-    #بيككم_منكم_ومعكم …») is dropped, never bled into the [SCENE] block. If scene_ar itself
-    is the clean visual and angle_theme is the polluter, scene_ar alone is returned."""
+    """The CLEAN visual scene for the converter.
+
+    ART-DIRECTOR FIRST (June 22, Rule #6): when the card carries a clean visual.art_brief, its
+    composed_scene — the DESIGNED photograph (idea + setting + subjects + props + composition +
+    light + mood, built from the organs) — REPLACES the bare scene_ar for photo posts. We render
+    the scene the AD designed, not just the line the CD brain wrote. Lightly stripped of any stray
+    hashtag/URL/@handle (NOT the label/«و» strip — that is only safe on a short theme fragment).
+
+    FALLBACK (no clean AD brief): start from the angle's scene_ar (the real visual moment the CD
+    brain authored). The slot's angle_theme is appended ONLY if it is clean prose; campaign/hashtag
+    soup («family: أهلنا في #الرياض #بيككم_منكم_ومعكم …») is dropped, never bled into the [SCENE]
+    block. If scene_ar itself is the clean visual and angle_theme is the polluter, scene_ar alone
+    is returned."""
+    ab = (card.get("visual") or {}).get("art_brief")
+    if ab and ab.get("kind") == "photo_brief" and not (ab.get("gate") or {}).get("refused"):
+        composed = (ab.get("composed_scene") or "").strip()
+        if composed:
+            if _HASHTAG.search(composed) or _URL.search(composed) or _HANDLE_AT.search(composed):
+                composed = _strip_inline_tags(composed)
+            if composed:
+                return composed
     idea = card.get("idea") or {}
     scene = (idea.get("scene_ar") or "").strip()
     theme = ((card.get("slot") or {}).get("angle_theme") or "").strip()
@@ -184,6 +236,14 @@ def main():
     a = ap.parse_args()
 
     card = load_card(a.handle, a.date, a.suffix)
+    _ab = (card.get("visual") or {}).get("art_brief")
+    if _ab:
+        _g = _ab.get("gate") or {}
+        if _g.get("refused"):
+            print(f"  🛑 ART-DIRECTOR brief REFUSED — {_g.get('reason')}; render HOLDS (Rule #8)")
+        else:
+            _ac = _ab.get("chain") or {}
+            print(f"  🎨 ART-DIRECTOR brief: chain «{_ac.get('name_en') or _ac.get('id')}» — {(_ac.get('reason') or '')[:80]}")
     chain = resolve_card_chain(card)
     scene = card_scene(card)
     occ = card_occasion(card)

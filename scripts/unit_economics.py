@@ -59,6 +59,17 @@ def main():
     total = (report["images_usd_REAL"] + sum(c["est_llm_usd"] for c in clients.values())
              + report["api_generations_EST"]["usd"] + report["orchestra_EST"]["usd"])
     report["week_total_usd_lower_bound"] = round(total, 2)
+
+    # B097 trend lines — Rule #6 consumer: fold the recorded learning-curve direction into
+    # this report so week_receipt.py (an existing reader) surfaces it. Defensive: a trend
+    # hiccup must never break the money report.
+    try:
+        import unit_economics_trends as uet
+        uet.record_if_changed()          # grow the series (self-deduping); then read it
+        report["trends_B097"] = uet.trend_health()
+    except Exception as e:
+        report["trends_B097"] = {"err": str(e)[:80]}
+
     out = BASE / "data/unit_economics.json"
     out.write_text(json.dumps(report, ensure_ascii=False, indent=1))
     print(f"  images REAL: ${report['images_usd_REAL']}")

@@ -25,15 +25,29 @@ if INTEL_PATH.exists():
     INTELLIGENCE = json.loads(INTEL_PATH.read_text())
 
 # ── PRIMARY distilled-rules keys this engine reads from the intelligence layer ──
-# Thin-Brain-v3.0 (commit f80d27e4) dropped these; until B057c is resolved (strip vs
-# rewire) the engine silently read them as empty. Rule #6 + #8: every brief now CARRIES
-# an honest health flag so downstream produce/judge can SEE it ran on degraded primary
-# intel — no silent empties masquerading as guidance. This declares the state; it does
-# NOT decide the fork (no strip, no rewire).
+# B057c fork RESOLVED 2026-06-21: Mohamed ruled REWIRE (answered "A", not the strip
+# recommendation). Thin-Brain v4.2 (commit f80d27e4) dropped the 7 pre-v4.2 keys
+# (sector_playbooks/universal_rules/anti_patterns/occasion_rules/visual_rules/
+# caption_rules/format_rules) — but the distilled content did NOT vanish, it moved into
+# the keys below. generate_brief() now reads where the content actually lives, per the
+# RABIE rewire map (data/intel_schema_map_b057c.json), each target verified non-empty by
+# test_brief_engine_v42_rewire.py (Rule #9). The Rule #6/#8 health flag now audits the
+# LIVE v4.2 dependencies — a real severed wire alarms again.
 PRIMARY_INTEL_KEYS = [
-    "sector_playbooks", "universal_rules", "anti_patterns", "occasion_rules",
-    "visual_rules", "caption_rules", "format_rules",
+    "sector_facts", "cultural_guardrails", "caption_data_rules",
+    "arabic_quality_rules", "occasion_calendar", "visual_intelligence",
 ]
+
+# Input-sector → sector_facts group (v4.2 sector_facts is keyed by sector GROUP, not the
+# exact analytics key). Falls back to SECTOR_KEY_MAP then the raw sector.
+SECTOR_FACTS_GROUP = {
+    "food_and_beverage": "f_and_b",
+    "beauty_personal_care": "beauty_personal_care",
+    "retail_lifestyle": "retail_lifestyle",
+    "fashion": "fashion",
+    "healthcare_wellness": "healthcare_wellness",
+    "real_estate": "real_estate",
+}
 
 
 def intel_health(intel: dict | None = None) -> dict:
@@ -227,19 +241,32 @@ def _top_n(eng_dict, n=3, min_count=2):
 def generate_brief(sector, occasion, goal, account=None):
     sk = SECTOR_KEY_MAP.get(sector, sector)
 
-    # ── Load intelligence layer (PRIMARY — distilled rules) ──
-    intel_playbook = INTELLIGENCE.get("sector_playbooks", {}).get(sector, {})
-    intel_must_use = intel_playbook.get("must_use", [])
-    intel_never_use = intel_playbook.get("never_use", [])
-    intel_formulas = intel_playbook.get("winning_formulas", [])
-    intel_visual_dna = intel_playbook.get("visual_dna", [])
-    intel_universal = INTELLIGENCE.get("universal_rules", [])
-    intel_anti = INTELLIGENCE.get("anti_patterns", [])
-    intel_occasion = {r["occasion"]: r for r in INTELLIGENCE.get("occasion_rules", [])}
-    intel_visual = INTELLIGENCE.get("visual_rules", [])
-    intel_caption = INTELLIGENCE.get("caption_rules", [])
-    intel_format = INTELLIGENCE.get("format_rules", [])
-    intel_occ_verdict = intel_occasion.get(occasion, {}).get("verdict", "use_selectively")
+    # ── Load intelligence layer (PRIMARY — distilled rules, Thin-Brain v4.2 keys) ──
+    # B057c rewire (Mohamed answered "A"). Each read targets where the content actually
+    # lives in v4.2; verified non-empty by test_brief_engine_v42_rewire.py (Rule #9).
+    _cg      = INTELLIGENCE.get("cultural_guardrails", {})
+    _cdr     = INTELLIGENCE.get("caption_data_rules", {})
+    _aq      = INTELLIGENCE.get("arabic_quality_rules", {})
+    _occ_cal = INTELLIGENCE.get("occasion_calendar", {})
+    _vi      = INTELLIGENCE.get("visual_intelligence", {})
+    sf_group = SECTOR_FACTS_GROUP.get(sector, SECTOR_KEY_MAP.get(sector, sector))
+    intel_sector_facts = INTELLIGENCE.get("sector_facts", {}).get(sf_group, {})
+    _openers = _cdr.get("opener_rules", {})
+    # must/never ← high-/low-engagement opener patterns + the phrases to avoid
+    intel_must_use  = list(_openers.get("high_eng", []))
+    intel_never_use = list(_openers.get("low_eng", [])) + list(_aq.get("overused_phrases_to_avoid", []))
+    # universal rules ← Mohamed's human-reviewed red lines (the true universal rules)
+    intel_universal = list((_cg.get("mohamed_red_lines") or {}).get("rules", []))
+    # winning formulas ← proven_caption_patterns (named pattern + why_works + avg_likes)
+    intel_proven    = _aq.get("proven_caption_patterns", {}) or {}
+    # visual DNA ← the corpus visual insight (positive guidance); sector-keyed combos now
+    # come from the SECONDARY visual analytics below, so we don't fabricate them here.
+    intel_visual_insight = _vi.get("visual_insight", "")
+    # occasion ← occasion_calendar (no per-occasion use/avoid verdict in v4.2; surface the
+    # content_approach and default conservatively when the occasion isn't a known major)
+    _occ_entry = _occ_cal.get(occasion, {}) or {}
+    intel_occ_approach = _occ_entry.get("content_approach", "")
+    intel_occ_verdict  = "use" if _occ_entry else "use_selectively"
 
     # ── Load all analytics logs (SECONDARY — raw detail) ──
     opp      = _load("occasion_playbook.json")
@@ -585,22 +612,26 @@ def generate_brief(sector, occasion, goal, account=None):
         "data_sources": {
             "occasion_obs":    (pb_entry or {}).get("obs_count",0),
             "sector_occ_obs":  (vdt_node or {}).get("obs_count",0),
-            "total_corpus":    intel_playbook.get("obs_count", 648),
+            "total_corpus":    intel_sector_facts.get("obs_count", 648),
         },
         "intelligence_layer": {
-            "must_use_patterns": [p["pattern"] for p in intel_must_use[:5]],
-            "never_use_patterns": [p["pattern"] for p in intel_never_use[:5]],
+            # v4.2 rewire (B057c-A): must/never are opener-pattern strings; winning_formulas
+            # are the proven caption patterns; universal_rules are Mohamed's red lines.
+            "must_use_patterns": intel_must_use[:5],
+            "never_use_patterns": intel_never_use[:5],
             "winning_formulas": [{
-                "formula": f"{f['content_type']} + {f['pattern']} + {f['occasion']}",
-                "engagement": f.get("high_pct", 0),
-            } for f in intel_formulas[:3]],
-            "visual_dna": [{
-                "combo": f"{v['lighting']} + {v['setting']}",
-                "engagement": v.get("high_pct", 0),
-            } for v in intel_visual_dna[:3]],
+                "formula": v.get("pattern", k),
+                "engagement": v.get("avg_likes"),
+                "why_works": v.get("why_works", ""),
+            } for k, v in list(intel_proven.items())[:3]],
+            "visual_dna": ([{"combo": intel_visual_insight, "engagement": None}]
+                           if intel_visual_insight else []),
             "occasion_verdict": intel_occ_verdict,
-            "universal_rules": [r["pattern"] for r in intel_universal[:3]],
-            "format_ranking": [f"{f['content_type']} ({f['engagement']}%)" for f in intel_format],
+            "occasion_approach": intel_occ_approach,
+            "universal_rules": intel_universal[:3],
+            # format ranking is sourced from the FORMAT section (secondary analytics) — v4.2
+            # carries no sector-keyed format-engagement table, so we don't fabricate one here.
+            "format_ranking": [f"{recommended_format} (recommended)"] if recommended_format else [],
         },
     }
 

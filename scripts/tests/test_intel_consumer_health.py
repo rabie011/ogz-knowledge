@@ -74,11 +74,14 @@ class TestIntelConsumerHealth(unittest.TestCase):
         self.assertEqual([r["key"] for r in f], ["gone"])
 
     def test_live_repo_known_orphan_detected(self):
-        # against the real repo: the live brief engine's dropped-key reads must surface,
-        # and NO key that exists in the live intelligence_layer.json may ever be flagged
+        # against the real repo: NO key that exists in the live intelligence_layer.json may
+        # ever be flagged. Post-B057c-A the manual brief engine is REWIRED onto v4.2 keys,
+        # so it must no longer appear among the orphaned readers (its rot is fixed); the
+        # remaining findings are the standalone readers parked for DELETE APPROVED.
         findings = h.orphaned_intel_reads()
         files = {r["file"] for r in findings}
-        self.assertIn("build_production_brief_engine.py", files)
+        self.assertNotIn("build_production_brief_engine.py", files,
+                         "rewired engine still reads dropped keys — B057c-A regressed")
         live = h.live_intel_keys()
         self.assertTrue(all(r["key"] not in live for r in findings))
 

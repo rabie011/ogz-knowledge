@@ -21,6 +21,10 @@ from post_unit import chain_for
 # on the SAME logic without importing this heavy render module. Re-exported below for
 # backward-compat (R.route_brain / rcs.brain_method / m.route_brain consumers).
 from brain_router import BRAIN_FILES, route_brain, brain_method, route_decision, log_routing_decision
+# MODEL REGISTRY — single source of truth for WHICH caption pens the moat sits on. The two API
+# helpers below (gpt/sonnet) MUST read the model id from here, not hardcode a literal — else a
+# registry swap would make the caption fingerprint (line ~1065) LIE about what produced the batch.
+import model_registry as mr
 
 # Standing cross-brand worn bans (law: no_template_bleed) — ALSO the gold quarantine:
 # a gold entry carrying a banned formula must never reach few-shot, even before
@@ -333,6 +337,43 @@ def _chain_index(chain: dict, chains: list) -> int:
     return len(chains)
 
 
+def _chain_card(chain: dict | None) -> dict | None:
+    """The card's visual.pro_chain shape from an INDEX chain dict (the mechanical pick)."""
+    if not chain:
+        return None
+    return {"id": chain.get("chain_id_short"), "name_ar": chain.get("name_ar"),
+            "family": chain.get("family")}
+
+
+def resolve_visual(brief: dict | None, mechanical: dict | None) -> tuple:
+    """ART-DIRECTOR wiring (June 22, Rule #8/#12) — decide the card's (pro_chain, art_brief,
+    hold_reason) from the Art-Director brief. `brief` = art_director.art_direct(...) output, or
+    None when the AD wasn't run (a reel, or it errored). `mechanical` = pick_pro_chain(...)'s
+    INDEX chain dict — the legacy floor kept as the FALLBACK.
+
+      • no photo brief (reel / AD skipped / AD errored) → the mechanical chain, NO art_brief —
+        the existing path is left exactly as it was.
+      • photo brief with a cultural BLOCK (gate.blocking) → HOLD (Rule #8): pro_chain=None,
+        hold_reason set. The refused brief is still stored so the gate is VISIBLE and
+        render_via_master refuses on the missing chain — we NEVER fall back to the mechanical
+        chain on a red-line scene (that would render the wrong shot).
+      • photo brief, clean WITH a chosen chain → the AD's DELIBERATE chain becomes pro_chain.
+      • photo brief, clean but NO chain → the mechanical fallback (the scene is culturally fine;
+        the AD simply didn't deliberately pick a chain — the legacy floor stands).
+
+    Pure (no LLM, no I/O) so the wiring is unit-testable at $0."""
+    if not brief or brief.get("kind") != "photo_brief":
+        return _chain_card(mechanical), None, None
+    gate = brief.get("gate") or {}
+    if gate.get("blocking"):
+        return None, brief, (gate.get("reason") or "cultural red-line in the photo brief")
+    ad_chain = brief.get("chain") or {}
+    if ad_chain.get("id"):
+        return ({"id": ad_chain.get("id"), "name_ar": ad_chain.get("name_ar"),
+                 "family": ad_chain.get("family")}, brief, None)
+    return _chain_card(mechanical), brief, None
+
+
 def batch_diversity_check(slots: list, ceiling: float = 0.30) -> dict:
     """B_div_gate (June 13 — RABIE's #1 unbuilt; the hard answer to his 06-13 scar
     «still family / make them different»). diversity_prefer only soft-reorders within
@@ -411,7 +452,7 @@ def env(k):
 
 
 def gpt(messages, temp=0.7, max_tok=900, fmt_json=True):
-    body = {"model": "gpt-4o", "temperature": temp, "max_tokens": max_tok, "messages": messages}
+    body = {"model": mr.CAPTION_MODEL_PRIMARY, "temperature": temp, "max_tokens": max_tok, "messages": messages}
     if fmt_json:
         body["response_format"] = {"type": "json_object"}
     rq = urllib.request.Request("https://api.openai.com/v1/chat/completions", data=json.dumps(body).encode(),
@@ -420,7 +461,7 @@ def gpt(messages, temp=0.7, max_tok=900, fmt_json=True):
 
 
 def sonnet(system, messages, max_tok=900):
-    body = {"model": "claude-sonnet-4-6", "max_tokens": max_tok, "system": system, "messages": messages}
+    body = {"model": mr.CAPTION_MODEL_FALLBACK, "max_tokens": max_tok, "system": system, "messages": messages}
     rq = urllib.request.Request("https://api.anthropic.com/v1/messages", data=json.dumps(body).encode(),
                                 headers={"x-api-key": env("ANTHROPIC_API_KEY"), "anthropic-version": "2023-06-01",
                                          "Content-Type": "application/json"})
@@ -1050,22 +1091,45 @@ def main():
     # scene + post_type + occasion), not just the formula's family order — so a family
     # dinner draws a lifestyle chain, a gym never draws a magazine cover. Falls back to the
     # legacy chain_for() floor inside pick_pro_chain if nothing scores. Rule #12: computed.
-    chain = pick_pro_chain(slot.get("formula", "CF_01"), ymap["sector"],
-                           slot.get("occasion", "evergreen"),
-                           scene_text=" ".join([angle.get("scene_ar", ""),
-                                                slot.get("angle_theme", "")]),
-                           post_type=angle.get("post_type", ""))
+    # This is now the AD's FALLBACK floor (the mechanical pick); the Art-Director below makes
+    # the DELIBERATE chain choice for photo slots.
+    mechanical = pick_pro_chain(slot.get("formula", "CF_01"), ymap["sector"],
+                                slot.get("occasion", "evergreen"),
+                                scene_text=" ".join([angle.get("scene_ar", ""),
+                                                     slot.get("angle_theme", "")]),
+                                post_type=angle.get("post_type", ""))
+    # ART-DIRECTOR (June 22 — the missing VISUAL mind, Rule #12): for a PHOTO slot the AD
+    # DESIGNS the photograph FROM THE ORGANS (chosen chain + WHY + staging + modesty), and its
+    # deliberate chain + composed scene REPLACE the bare scene_ar + mechanical pick downstream
+    # (render_via_master reads visual.art_brief). The mechanical pick above stays as the FALLBACK
+    # when the AD returns no chain on a culturally-clean scene. A culturally-REFUSED brief HOLDS
+    # the slot — pro_chain=None so the image render REFUSES (Rule #8: never fall through to a
+    # wrong render). Reels are untouched (is_photo False → no AD; the mechanical chain stands).
+    # $0: the AD runs organ-derived (no LLM pen) here; the gpt-4o pen is a later gated step.
+    import art_director as ad
+    fmt = slot.get("format", "image")
+    brief = None
+    if ad.is_photo(fmt):
+        try:
+            brief = ad.art_direct(angle.get("scene_ar", ""), a.handle, fmt,
+                                  occasion=slot.get("occasion", ""),
+                                  formula_id=slot.get("formula", "CF_01"))
+        except Exception as _e:
+            print(f"  ⚠ art-director failed ({str(_e)[:60]}) — mechanical chain fallback", file=sys.stderr)
+            brief = None
+    chain_card, art_brief, hold_reason = resolve_visual(brief, mechanical)
     shots = shot_card(c, angle, ground=a.ground)
     # CAPTION-MODEL FINGERPRINT (I2): stamp which caption model produced this batch so a silent
     # caption-model swap is detectable (the taste-Elo is calibrated on captions; check_model_drift
     # watches this). The fallback pen (sonnet) is dark on credits, so the live pen is the primary.
     import model_registry as _mr
+    visual = {"phone_shoot_card": shots, "pro_chain": chain_card}
+    if art_brief is not None:                       # the AD's designed photo brief (Rule #6: render_via_master reads it)
+        visual["art_brief"] = art_brief
     card = {"handle": a.handle, "date": a.date, "slot": slot, "brain": brain,
             "idea": angle, "captions": captions,
             "caption_model_fingerprint": _mr.fingerprint_caption()["model_fingerprint"],
-            "visual": {"phone_shoot_card": shots,
-                        "pro_chain": {"id": chain.get("chain_id_short"), "name_ar": chain.get("name_ar"),
-                                       "family": chain.get("family")} if chain else None},
+            "visual": visual,
             "provenance": {"source": "client_profile_path", "rendered": __import__("datetime").date.today().isoformat(),
                             "confirmer": "pending", "stamp": "PROVISIONAL — pending Mohamed",
                             # freshness law (RABIE-ruled): deep-dormant truth is expired —
@@ -1077,6 +1141,15 @@ def main():
     fn = out / f"{a.date}__{slot.get('occasion') or 'evergreen'}{a.suffix}.json"
     fn.write_text(json.dumps(card, ensure_ascii=False, indent=2))
     print(f"✓ {a.handle} {a.date} [{slot.get('occasion') or slot.get('angle_theme','')[:40]}]")
+    if hold_reason:
+        # Rule #8 — the Art-Director refused this VISUAL (a red-line scene). The card keeps its
+        # caption + the refused brief (gate visible), but pro_chain is None so the image step
+        # REFUSES (render_via_master never guesses a chain) — never a wrong render. Loud, not silent.
+        print(f"  🛑 ART-DIRECTOR HOLD (Rule #8): photo brief refused — {hold_reason}. "
+              f"pro_chain=None; the image render will REFUSE.", file=sys.stderr)
+    elif art_brief is not None:
+        _ac = art_brief.get("chain") or {}
+        print(f"  🎨 art-director: «{_ac.get('name_en') or _ac.get('id')}» — {(_ac.get('reason') or '')[:90]}")
     # B048: surface the moonsighting recheck at render time too (the visual gate is the
     # enforcing consumer; this is the loud heads-up so it's not discovered only at publish).
     if slot.get("moonsighting_check"):

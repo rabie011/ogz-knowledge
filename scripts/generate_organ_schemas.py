@@ -28,7 +28,11 @@ SCHEMAS = {
                                             "active_messy", "active_strong"]},
                         "posts_count": N(), "followers": N(), "last_post": SN(), "silent_days": N(),
                         "method": {"const": "countables_only"},
-                        "human_checkpoint": S(), "provenance": PROV}},
+                        "human_checkpoint": S(),
+                        "ogz_account_owner": {"type": ["string", "null"], "description":
+                            "OGZ team member who owns this account; null until Mohamed names names (B160). "
+                            "Consumed by the red-client human-touch alert (B093)."},
+                        "provenance": PROV}},
     "client_truth_pack_v1": {
         "required": ["confirmed", "product_candidates", "recurring_caption_terms", "channels", "real_hashtags", "prices", "note"],
         "properties": {"confirmed": ARR({"type": "object"}),

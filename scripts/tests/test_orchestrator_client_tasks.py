@@ -15,6 +15,8 @@ from unittest import mock
 import sys
 AGENTS = Path.home() / "agents"
 sys.path.insert(0, str(AGENTS))
+# B254: render_slot_gate lives in ogz-knowledge/scripts — on path for the dispatch tests
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import orchestrator_daemon as od  # noqa: E402
 
@@ -100,6 +102,58 @@ class TestClientTaskTypes(unittest.TestCase):
             side)
         self.assertTrue(ok)
         self.assertTrue(any("client_year_map" in m and "slots" in m for m in self.mira_msgs))
+
+    def test_render_slot_blackout_requeues_no_render(self):
+        # B254: hard blackout → the handler requeues the slot (writes a new PENDING
+        # file with the reason) and NEVER calls render_client_slot.py.
+        import tempfile
+        import render_slot_gate as rsg
+        calls = []
+
+        def side(cmd, *a, **k):
+            calls.append(cmd)
+            return _FakeProc(0, "should not be called")
+
+        with tempfile.TemporaryDirectory() as td:
+            with mock.patch.object(od, "PENDING", Path(td)), \
+                 mock.patch.object(rsg, "decide",
+                                   return_value={"action": "requeue", "reason": "حداد وطني",
+                                                 "blackout": True, "warnings": []}):
+                ok, _ = self._run(
+                    {"client": "albaik", "request": "slot", "task_type": "render_slot",
+                     "handle": "albaik", "date": "2026-09-23"},
+                    side)
+                requeued = list(Path(td).glob("*.json"))
+            self.assertTrue(ok)
+            # render was NOT invoked, and a requeue file landed with the reason + count
+            self.assertFalse(any("render_client_slot.py" in " ".join(c) for c in calls))
+            self.assertEqual(len(requeued), 1)
+            rq = json.loads(requeued[0].read_text())
+            self.assertEqual(rq["requeue_reason"], "حداد وطني")
+            self.assertEqual(rq["requeue_count"], 1)
+            self.assertTrue(any("BLACKOUT: render_slot" in m for m in self.mira_msgs))
+
+    def test_render_slot_clear_renders(self):
+        # B254: no blackout → render_client_slot.py runs with handle + date.
+        import render_slot_gate as rsg
+        calls = []
+
+        def side(cmd, *a, **k):
+            calls.append(cmd)
+            return _FakeProc(0, "✓ rendered 3 captions")
+
+        with mock.patch.object(rsg, "decide",
+                               return_value={"action": "render", "reason": None,
+                                             "blackout": False, "warnings": []}):
+            ok, _ = self._run(
+                {"client": "albaik", "request": "slot", "task_type": "render_slot",
+                 "handle": "albaik", "date": "2026-09-23"},
+                side)
+        self.assertTrue(ok)
+        joined = [" ".join(c) for c in calls]
+        self.assertTrue(any("render_client_slot.py" in j and "albaik" in j and "2026-09-23" in j
+                            for j in joined))
+        self.assertTrue(any("DONE: render_slot albaik" in m for m in self.mira_msgs))
 
     def test_unknown_task_type_still_rejected(self):
         # guard: our additions didn't swallow the unknown-type fall-through

@@ -31,9 +31,23 @@ class TestIntelSchemaMap(unittest.TestCase):
         cls.map = cls.doc["map"]
         cls.live = json.loads(INTEL_PATH.read_text())
 
-    def test_map_covers_every_primary_key(self):
-        # every dropped key the engine reads must have a fork ruling — no key left undecided
-        self.assertEqual(set(self.map.keys()), set(bpe.PRIMARY_INTEL_KEYS))
+    # the 7 pre-v4.2 keys the map documents the migration FROM (B057c source set)
+    DROPPED_PRE_V42 = {
+        "sector_playbooks", "universal_rules", "anti_patterns", "occasion_rules",
+        "visual_rules", "caption_rules", "format_rules",
+    }
+
+    def test_map_covers_every_dropped_key(self):
+        # the rewire map must rule on every dropped key the engine used to read — no key
+        # left undecided. (Post-B057c-A the map keys are the migration SOURCE set, not the
+        # engine's current PRIMARY_INTEL_KEYS, which are the rewired v4.2 TARGETS.)
+        self.assertEqual(set(self.map.keys()), self.DROPPED_PRE_V42)
+
+    def test_rewire_complete_primary_keys_disjoint_from_dropped(self):
+        # B057c-A landed: the engine's live PRIMARY keys must contain NONE of the dropped
+        # keys — if one reappears, the rewire regressed back onto a severed wire.
+        relapsed = self.DROPPED_PRE_V42.intersection(bpe.PRIMARY_INTEL_KEYS)
+        self.assertEqual(relapsed, set(), f"PRIMARY_INTEL_KEYS relapsed to dropped keys: {relapsed}")
 
     def test_every_mapped_new_key_exists_in_live_file(self):
         # Rule #9: a rewire target is not real until eyeballed against the live file.

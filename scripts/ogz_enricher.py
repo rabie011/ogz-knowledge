@@ -628,6 +628,20 @@ def commit_and_sync(report: dict, cycle_num: int = 0) -> bool:
 
     commit_msg = "auto: enricher — " + (", ".join(msg_parts) if msg_parts else "cycle")
 
+    # B285 GUARD (June 22): NEVER bank an in-flight produce batch. produce_batch renders candidate
+    # posts into the tracked tree over minutes; a `git add -A` mid-run commits a PARTIAL batch into
+    # the pilot pool (the 2026-06-22 scar, reverted abafc540 — 12 partial orch_shadow candidates).
+    # Refuse this cycle and let the next one bank the clean, completed batch. Stale locks are swept
+    # by produce_lock (TTL + PID liveness) so a crashed producer can't wedge us. Rule #6/#8/#12.
+    try:
+        sys.path.insert(0, str(REPO / "scripts"))
+        import produce_lock
+        if produce_lock.is_active():
+            log.info("  ⏳ produce_batch in flight — deferring commit to next cycle (B285 guard)")
+            return False
+    except Exception as e:
+        log.warning(f"  produce_lock check failed (proceeding): {e}")
+
     # Stage all changes
     rc_add, _, _ = _run(["git", "add", "-A"])
     if rc_add != 0:

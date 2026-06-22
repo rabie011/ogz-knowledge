@@ -6,9 +6,17 @@ Thin-Brain-v3.0 (commit f80d27e4) dropped 7 keys from intelligence_layer.json
 (sector_playbooks, occasion_rules, universal_rules, anti_patterns, visual_rules,
 caption_rules, format_rules) — but multiple readers kept calling `intel.get("<dropped>")`
 and silently received {} / []. The brief engine's "PRIMARY — distilled rules" block ran
-EMPTY through the live enricher daemon for many commits WITH NO ALARM. Three RABIE
+EMPTY through the then-live enricher daemon for many commits WITH NO ALARM. Three RABIE
 zoom-outs in a row named the same structural hole: "we add organs faster than we verify
 their consumers (Rule #6)" and "no alarm".
+
+CURRENT STATUS (verified 2026-06-22, root-hunt): none of the 18 orphaned reads is on a live
+auto-degrading path right now. build_production_brief_engine.py is EXCLUDED from the enricher
+daemon (ogz_enricher.py:162 — "calls Claude API", dormant while Anthropic is dry) → manual-only;
+the other 3 readers (creative_pipeline / overnight_improver / calibrate_cd_router) are standalone,
+and calibrate already REFUSES on the drift (raises, not silent). So this is real debt, not an
+active fire — its fix is correctly gated on Mohamed's B057c fork (rewire vs strip), staged to his
+portal. This detector keeps the debt VISIBLE and the regression ratchet (tests) blocks NEW orphans.
 
 This is the DETECTOR for that hole, made GENERAL (not hardcoded to those 7 keys): it finds
 every script that loads intelligence_layer.json, resolves the variable that holds the loaded

@@ -15,15 +15,27 @@ all results from the system; we only fix the machine"). ONE command, ZERO hand-w
 
 Usage: python3 scripts/produce_batch.py [--n 20] [--suffix __auto] [--force]
 """
-import argparse, glob, json, math, subprocess, sys, time
+import argparse, glob, json, math, os, subprocess, sys, time
 from collections import defaultdict, Counter
 from pathlib import Path
 
 B = Path(__file__).parent.parent
+
+# HEADLESS RESILIENCE (B284, June 22 — the 2026-06-22 orchestra stall): the per-slot render
+# child (render_client_slot.py) makes external LLM calls and could block at ~0 CPU indefinitely
+# (a hung socket, a future blocking call). With no ceiling, ONE stuck slot froze the whole
+# unattended batch — which starved the taste→creation wire. A producer that cannot run headless
+# is broken. So every slot render is bounded: on timeout the child is killed, the slot fails
+# LOUDLY (Rule #8 — refuse, don't hang), render() returns None, and the round-robin moves on
+# (the design already represents every client even if one stops early). The child's own LLM
+# calls cap at 120s each (max two on the gpt→sonnet fallback path), so 300s covers a slow-but-
+# legit slot while still killing a true hang. Override via PRODUCE_SLOT_TIMEOUT (0 = no cap).
+SLOT_TIMEOUT = int(os.environ.get("PRODUCE_SLOT_TIMEOUT", "300"))
 sys.path.insert(0, str(B / "scripts"))
 import post_audit as pa
 import render_reel as rr
 import taste_rank as tr
+import gen_identity
 from render_client_slot import scene_core, batch_diversity_check
 
 # IMAGE RENDER PATH (June 21 — WIRE THE MASTER): the v3.7 MASTER is the correct image path —
@@ -118,8 +130,17 @@ def render(handle, date, suffix, force=False):
             return json.loads(Path(fs[0]).read_text())
         except Exception:
             pass
-    subprocess.run(["python3", str(B / "scripts/render_client_slot.py"), "--handle", handle,
-                    "--date", date, "--brain", "auto", "--suffix", suffix], capture_output=True, text=True)
+    try:
+        subprocess.run(["python3", str(B / "scripts/render_client_slot.py"), "--handle", handle,
+                        "--date", date, "--brain", "auto", "--suffix", suffix],
+                       capture_output=True, text=True,
+                       timeout=(SLOT_TIMEOUT if SLOT_TIMEOUT > 0 else None))
+    except subprocess.TimeoutExpired:
+        # the child hung past the ceiling — it was killed. Fail this slot LOUDLY and return None
+        # so is_clean()→False and the round-robin continues; never freeze the headless batch.
+        print(f"   🛑 SLOT TIMEOUT {handle} {date} — render child exceeded {SLOT_TIMEOUT}s, killed; "
+              f"slot dropped (Rule #8, B284). Batch continues.", flush=True)
+        return None
     fs = glob.glob(str(B / f"clients/{handle}/posts/{date}__*{suffix}.json"))
     return json.loads(Path(fs[0]).read_text()) if fs else None
 
@@ -355,7 +376,14 @@ def main():
         # hand list (Rule #12). A 'reel' slot is assembled from an already-on-disk still ($0); if no
         # still yet, it's marked reel_pending and NO fal is triggered (Rule #8: loud, never silent).
         fmt = (x["d"].get("slot") or {}).get("format", "image")
-        e = {"handle": x["h"], "date": x["dt"], "occasion": x["occ"], "file": fn_of(x),
+        _file = fn_of(x)
+        # B095v step 1 — stamp the BEDROCK identity layer at produce time (Rule #6: one source for
+        # generation ids; Rule #12: identity only, no output content touched). These are the join
+        # keys the publish-confirm card (step 2, staged) and both outcome readers consume; minted
+        # deterministically so re-runs keep the same id for the same piece.
+        e = {"handle": x["h"], "date": x["dt"], "occasion": x["occ"], "file": _file,
+             "subject_generation_ulid": gen_identity.subject_generation_ulid(x["h"], x["dt"], _file),
+             "brand_ulid": gen_identity.brand_ulid(x["h"]),
              "card_path": cardpath_of(x),
              "brain": x["d"].get("brain"), "captions": x["d"].get("captions"), "media": fmt}
         if fmt == "reel":
@@ -404,4 +432,13 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # B285 (June 22): hold the in-flight lock for the WHOLE run so the ogz_enricher `git add -A`
+    # cycle never banks a partial/aborted batch (the 2026-06-22 scar, reverted abafc540). The lock
+    # is the ONE source the enricher reads to defer its commit. try/finally releases it on every
+    # path Python can unwind; a SIGKILL leaves it, but the enricher sweeps stale locks (TTL + PID).
+    import produce_lock
+    produce_lock.acquire()
+    try:
+        main()
+    finally:
+        produce_lock.release()

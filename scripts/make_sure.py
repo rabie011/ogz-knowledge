@@ -520,6 +520,15 @@ def main():
         print(research_open.summary_line())
     except Exception:
         pass
+    # SURFACE (not a check — never alarms): inbox/lovable-commits.md is WRITTEN by the lovable_watch
+    # sensor (B239) but was READ by nothing — a write-only harvest queue (Rule #6, the #1 scar).
+    # Give it its reader on the standing cadence; the queue AUTO-CLOSES (Rule #10) when the
+    # design-harvest advances the cursor (lovable_inbox_reader --harvested). B239b, June 22.
+    try:
+        import lovable_inbox_reader
+        print(lovable_inbox_reader.summary_line())
+    except Exception:
+        pass
     # SURFACE + ROUTE (not a check — never alarms): h_fork_decision LANDS his A/B fork tap in
     # mohamed_rulings_live.json[fork_decisions] but nothing READ it — a severed wire (Rule #6).
     # Give the write its reader: route every decided fork onto its dependent backlog step within

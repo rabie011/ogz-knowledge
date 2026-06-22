@@ -27,18 +27,18 @@ class TestIntelBriefHealth(unittest.TestCase):
         self.assertEqual(set(h["present_keys"]), set(bpe.PRIMARY_INTEL_KEYS))
 
     def test_missing_keys_flagged(self):
-        partial = dict(FULL)
-        del partial["anti_patterns"]
-        del partial["format_rules"]
+        drop = bpe.PRIMARY_INTEL_KEYS[:2]          # drop two live v4.2 PRIMARY keys
+        partial = {k: v for k, v in FULL.items() if k not in drop}
         h = bpe.intel_health(partial)
         self.assertTrue(h["degraded"])
-        self.assertEqual(set(h["missing_keys"]), {"anti_patterns", "format_rules"})
+        self.assertEqual(set(h["missing_keys"]), set(drop))
 
     def test_empty_values_count_as_missing(self):
         # an empty {} / [] / None is a severed wire dressed as data — must flag
+        probe = bpe.PRIMARY_INTEL_KEYS[0]
         for empty in ({}, [], None, ""):
-            h = bpe.intel_health({**FULL, "universal_rules": empty})
-            self.assertIn("universal_rules", h["missing_keys"], f"empty={empty!r}")
+            h = bpe.intel_health({**FULL, probe: empty})
+            self.assertIn(probe, h["missing_keys"], f"empty={empty!r}")
 
     def test_checked_is_exactly_primary_keys(self):
         self.assertEqual(bpe.intel_health(FULL)["checked"], bpe.PRIMARY_INTEL_KEYS)
@@ -49,13 +49,15 @@ class TestIntelBriefHealth(unittest.TestCase):
         # and returns the health dict when complete
         self.assertFalse(bpe.assert_intel_complete(FULL)["degraded"])
 
-    def test_live_intel_currently_degraded_known_seven(self):
-        # Pins the real current state: Thin-Brain-v3.0 dropped all 7 PRIMARY keys, so the
-        # live engine runs degraded TODAY. This is the tripwire — when B057c lands and the
-        # keys are restored (rewire) or removed from PRIMARY_INTEL_KEYS (strip), update this.
+    def test_live_intel_healthy_after_b057c_rewire(self):
+        # TRIPWIRE FLIPPED: B057c-A (rewire) landed 2026-06-22. The engine now reads the live
+        # v4.2 keys, so intel_health() against the real layer must be NOT degraded — every
+        # PRIMARY key resolves non-empty. If this fails, a v4.2 key went empty/absent (a real
+        # severed wire) or the rewire regressed onto the dropped keys.
         h = bpe.intel_health(bpe.INTELLIGENCE)
-        self.assertTrue(h["degraded"])
-        self.assertEqual(set(h["missing_keys"]), set(bpe.PRIMARY_INTEL_KEYS))
+        self.assertFalse(h["degraded"],
+                         f"v4.2 PRIMARY intel degraded — empty/absent keys: {h['missing_keys']}")
+        self.assertEqual(h["missing_keys"], [])
 
 
 if __name__ == "__main__":

@@ -55,16 +55,9 @@ def bradley_terry(pairs, iters=200, tol=1e-9):
     return ids, pi
 
 
-def held_out_live(pairs, prefs):
-    """HONEST live-pick generalization (June 17). The public held_out_agreement_pct mixes the 30
-    rescued seed pairs (rating-5 vs rating-0 — TRIVIALLY separable) with his real pilot picks; the
-    md5 split lets the rescued pairs carry the number to ~100% while every live pick is silently
-    DROPPED (each live caption is seen once → no strength when held out → excluded). That 100% is a
-    number that lies (Rule #9). This measures ONLY what we care about: hold out ONE of his live
-    pairwise picks, does BT trained on everything else rank his chosen caption above the rejected
-    one? Leave-one-out (tiny N). Returns (pct, n_testable). n_testable==0 while the pilot pairs are
-    DISCONNECTED is the TRUTH — not a 100%. It rises only when the sampler reuses captions so the
-    comparison graph connects."""
+def _held_out_live_counts(pairs, prefs):
+    """The raw (agree, total) leave-one-out counts behind held_out_live. Factored out so the
+    Wilson CI in main() can read the success COUNT (not the lossy rounded %). See held_out_live."""
     live_idx = [i for i, p in enumerate(prefs) if p.get("source") != "seed_from_ratings"]
     agree = total = 0
     for held in live_idx:
@@ -75,7 +68,37 @@ def held_out_live(pairs, prefs):
         if w in strength and l in strength and strength[w] != strength[l]:
             total += 1
             agree += strength[w] > strength[l]
+    return agree, total
+
+
+def held_out_live(pairs, prefs):
+    """HONEST live-pick generalization (June 17). The public held_out_agreement_pct mixes the 30
+    rescued seed pairs (rating-5 vs rating-0 — TRIVIALLY separable) with his real pilot picks; the
+    md5 split lets the rescued pairs carry the number to ~100% while every live pick is silently
+    DROPPED (each live caption is seen once → no strength when held out → excluded). That 100% is a
+    number that lies (Rule #9). This measures ONLY what we care about: hold out ONE of his live
+    pairwise picks, does BT trained on everything else rank his chosen caption above the rejected
+    one? Leave-one-out (tiny N). Returns (pct, n_testable). n_testable==0 while the pilot pairs are
+    DISCONNECTED is the TRUTH — not a 100%. It rises only when the sampler reuses captions so the
+    comparison graph connects. NOTE: the bare pct is NOT a signal until its Wilson CI excludes 50%
+    (main() attaches that band — a sub-50 pct on tiny N is noise, not 'below his eye'; Rule #9)."""
+    agree, total = _held_out_live_counts(pairs, prefs)
     return (round(agree / total * 100) if total else None), total
+
+
+def _wilson(k, n, z=1.96):
+    """Closed-form Wilson 95% score interval for k successes in n Bernoulli trials — pure
+    arithmetic, no scipy. Returns (lo, hi) as fractions 0..1. This is how a tiny-N held-out %
+    carries its uncertainty so no reader mistakes noise for his eye (Rule #9). At n=15, k=5 the
+    band is ~[0.15, 0.58] — it brackets 0.5, so 33% is INDISTINGUISHABLE from a coin, not below it."""
+    if n <= 0:
+        return (0.0, 1.0)
+    p = k / n
+    z2 = z * z
+    denom = 1.0 + z2 / n
+    center = (p + z2 / (2 * n)) / denom
+    half = (z / denom) * ((p * (1 - p) / n + z2 / (4 * n * n)) ** 0.5)
+    return (max(0.0, center - half), min(1.0, center + half))
 
 
 def _emoji(s):
@@ -107,7 +130,7 @@ def feedback_for(prefs):
     return f"Pick #{n} ✓ — {tail}. The model's learning your eye."
 
 
-def verdict_fields(held, held_live, held_live_n):
+def verdict_fields(held, held_live, held_live_n, held_live_k=None):
     """The HONEST live-vs-sim verdict block (F2/June-21 scar), extracted PURE so the
     writer→public-flag seam is testable. main() merges the result verbatim. Three numbers,
     never conflated (see main()'s comment): the MIXED sim `held`, his LIVE-eye `held_live`,
@@ -116,24 +139,52 @@ def verdict_fields(held, held_live, held_live_n):
     The contract this guards (Rule #9): while his live eye is untested (held_live_n==0), the
     mixed `held` % rides on rescued seed pairs — degenerate==True flags exactly that and
     live_validated MUST stay False, so no reader can mistake a simulation number for his eye.
+
+    UNCERTAINTY BAND (June 23): a live % on tiny N is noise until its Wilson 95% CI excludes
+    50%. `held_live_k` (success count) drives the band; the live % NEVER travels without
+    `held_out_live_distinguishable_from_chance` so no reader reads a sub-50 noise % as 'below
+    his eye' (the build-state memory had to hand-annotate '33% is noise' — that hole, closed).
     """
+    # Wilson band on his LIVE eye — only meaningful when something is testable.
+    ci = None
+    distinguishable = None
+    if held_live_n and held_live_k is not None:
+        lo, hi = _wilson(held_live_k, held_live_n)
+        ci = [round(lo * 100), round(hi * 100)]
+        distinguishable = not (lo <= 0.5 <= hi)   # CI excludes the coin → a real signal
+    if held_live_n and ci is not None:
+        band = (f"{held_live}% (random=50%, 95% CI {ci[0]}–{ci[1]}%; "
+                + ("DISTINGUISHABLE from chance — a real signal)"
+                   if distinguishable else
+                   "NOT distinguishable from chance — noise on sparse N, needs more connected picks)"))
+        honesty = f"LIVE eye testable on {held_live_n} pick(s): {band}"
+    elif held_live_n:
+        # n>0 but no success count passed → band undefined; the Rule #9 assert below bites if a
+        # real % was set. (Honesty stays band-free rather than crashing on a None CI.)
+        honesty = f"LIVE eye testable on {held_live_n} pick(s) — uncertainty band pending"
+    else:
+        honesty = ("LIVE eye UNTESTED — held_out_live_n_testable=0; the mixed "
+                   f"{held}% is simulation on rescued seeds, NOT his eye (Rule #9)")
     fields = {
         "held_out_agreement_pct": held,            # MIXED/SIM — never "his agreement" (Rule #9)
         "held_out_agreement_is_simulation": True,  # this number is ALWAYS sim, by construction
         "held_out_agreement_degenerate": held_live_n == 0,
         "held_out_live_pct": held_live,            # his LIVE eye (None until graph connects)
         "held_out_live_n_testable": held_live_n,
+        "held_out_live_ci_pct": ci,                # Wilson 95% band on his live eye (None until testable)
+        "held_out_live_distinguishable_from_chance": distinguishable,  # None until testable; False=noise
         # ONE honest, machine-readable verdict so no reader can mistake sim for live:
         "live_validated": bool(held_live_n) and held_live is not None,
-        "honesty": ("LIVE eye UNTESTED — held_out_live_n_testable=0; the mixed "
-                    f"{held}% is simulation on rescued seeds, NOT his eye (Rule #9)"
-                    if not held_live_n else
-                    f"LIVE eye testable on {held_live_n} pick(s): {held_live}% (random=50%)"),
+        "honesty": honesty,
     }
     # GUARD (Rule #9): if his live eye is untested, live_validated MUST be False — a degenerate/sim
     # number can never flip the validated flag true. This is the assertion the shadow→live gate trusts.
     assert not (fields["live_validated"] and fields["held_out_agreement_degenerate"]), \
         "taste_elo: live_validated true while held-out LIVE is degenerate — a sim number leaked as live"
+    # GUARD (Rule #9): a live % may NEVER travel without its uncertainty band — a bare sub-50 noise
+    # number reads as 'below his eye'. If there's a live %, the band and the flag must be present.
+    assert held_live is None or (ci is not None and distinguishable is not None), \
+        "taste_elo: held_out_live_pct present but its Wilson CI / distinguishability flag is missing"
     return fields
 
 
@@ -170,7 +221,8 @@ def main():
     # HONEST live-only number (June 17): the mixed `held` above rides on the rescued seed pairs and
     # drops every live pick — see held_out_live's docstring. This is the only one we may quote as
     # "his agreement", and it is undefined (0 testable) until the pilot comparison graph connects.
-    held_live, held_live_n = held_out_live(pairs, prefs)
+    held_live_k, held_live_n = _held_out_live_counts(pairs, prefs)
+    held_live = round(held_live_k / held_live_n * 100) if held_live_n else None
 
     # full ranking
     ids, pi = bradley_terry(pairs)
@@ -200,7 +252,7 @@ def main():
     out = {"n_pairs": len(prefs), "n_live_picks": len(live), "n_rescued": len(prefs) - len(live),
            "live_n": len(live),                       # explicit alias the verifier/readers key on
            "caption_model_fingerprint": _mr.caption_fingerprint(),  # I2 — the model behind the taste bar
-           **verdict_fields(held, held_live, held_live_n),  # the honest live-vs-sim verdict (guarded)
+           **verdict_fields(held, held_live, held_live_n, held_live_k),  # honest live-vs-sim verdict + CI (guarded)
            "last_pick_feedback": feedback_for(prefs),
            "top5_he_likes": [c[:70] for c, _ in ranked[:5]],
            "bottom5_he_rejects": [c[:70] for c, _ in ranked[-5:]],
@@ -209,7 +261,10 @@ def main():
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=1))
     print(f"TASTE-ELO: {len(prefs)} pairs ({len(live)} live picks + {out['n_rescued']} rescued)")
     if held_live_n:
-        print(f"  held-out LIVE agreement: {held_live}%  ({held_live_n} of his picks testable · random=50%)")
+        _lo, _hi = _wilson(held_live_k, held_live_n)
+        _sig = "DISTINGUISHABLE" if not (_lo <= 0.5 <= _hi) else "NOT distinguishable (noise on sparse N)"
+        print(f"  held-out LIVE agreement: {held_live}%  ({held_live_n} testable · random=50% · "
+              f"95% CI {round(_lo*100)}–{round(_hi*100)}% · {_sig})")
     else:
         print(f"  held-out LIVE agreement: UNDEFINED — 0 of {len(live)} live picks testable "
               f"(pilot pairs are disconnected; the {held}% mixed number rides on rescued seeds, not his eye)")

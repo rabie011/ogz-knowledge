@@ -72,6 +72,17 @@ def main():
 
     out = BASE / "data/unit_economics.json"
     out.write_text(json.dumps(report, ensure_ascii=False, indent=1))
+
+    # B091 revenue side — Rule #6 consumer: fold the revenue truth-views into the money report so the
+    # cost-only picture gains its other half. Written AFTER unit_economics.json so cost_per_yes can read
+    # the just-written total; re-dump once enriched. Defensive: a revenue hiccup must never break costs.
+    try:
+        import revenue_economics as rev
+        report["revenue_B091"] = rev.build_report()
+        out.write_text(json.dumps(report, ensure_ascii=False, indent=1))
+    except Exception as e:
+        report["revenue_B091"] = {"err": str(e)[:80]}
+
     print(f"  images REAL: ${report['images_usd_REAL']}")
     for h, c in clients.items():
         print(f"  {h}: {c['cards']} cards · ~${c['est_llm_usd']} (${c['usd_per_card']}/card)")

@@ -106,7 +106,7 @@ class TestVerdictFieldsSeam(unittest.TestCase):
         self.assertNotIn("his agreement", f["honesty"].lower())
 
     def test_connected_live_validates_and_is_not_degenerate(self):
-        f = te.verdict_fields(held=90, held_live=100, held_live_n=3)
+        f = te.verdict_fields(held=90, held_live=100, held_live_n=3, held_live_k=3)
         self.assertFalse(f["held_out_agreement_degenerate"])
         self.assertTrue(f["live_validated"], "a real testable live eye must validate")
         self.assertEqual(f["held_out_live_pct"], 100)
@@ -117,6 +117,40 @@ class TestVerdictFieldsSeam(unittest.TestCase):
         # held_live_n>0 (would validate) but held_live=None (degenerate-ish) — guard keeps it honest.
         f = te.verdict_fields(held=100, held_live=None, held_live_n=2)
         self.assertFalse(f["live_validated"], "held_live=None can never count as a validated eye")
+
+
+class TestHeldOutUncertaintyBand(unittest.TestCase):
+    """June 23: a tiny-N live held-out % is noise until its Wilson CI excludes 50%. The build-state
+    memory had to HAND-annotate '33% is noise on a sparse graph' — proof the number traveled naked.
+    This locks the band onto every live %, so no reader reads sub-50 noise as 'below his eye' (Rule #9)."""
+
+    def test_wilson_tiny_N_below_coin_is_not_distinguishable(self):
+        # the real live picture: 5 of 15 → 33%, but the 95% CI brackets 50% → NOT a signal
+        lo, hi = te._wilson(5, 15)
+        self.assertLessEqual(lo, 0.5)
+        self.assertGreaterEqual(hi, 0.5)
+        f = te.verdict_fields(held=90, held_live=33, held_live_n=15, held_live_k=5)
+        self.assertFalse(f["held_out_live_distinguishable_from_chance"],
+                         "33% on 15 picks must read as noise, never 'below his eye'")
+        self.assertIsNotNone(f["held_out_live_ci_pct"])
+        self.assertIn("NOT distinguishable", f["honesty"])
+
+    def test_wilson_clear_signal_is_distinguishable(self):
+        # a clean sweep (every held-out pick ranked right) DOES exclude the coin
+        lo, hi = te._wilson(15, 15)
+        self.assertGreater(lo, 0.5)
+        f = te.verdict_fields(held=90, held_live=100, held_live_n=15, held_live_k=15)
+        self.assertTrue(f["held_out_live_distinguishable_from_chance"])
+        self.assertIn("DISTINGUISHABLE", f["honesty"])
+
+    def test_live_pct_never_travels_without_its_band(self):
+        # the Rule #9 contract: a live % with no CI / flag must be REFUSED (the guard bites)
+        with self.assertRaises(AssertionError):
+            te.verdict_fields(held=90, held_live=33, held_live_n=15)  # held_live_k omitted → no band
+        # and when nothing is testable, the band is correctly absent (not fabricated)
+        f = te.verdict_fields(held=100, held_live=None, held_live_n=0)
+        self.assertIsNone(f["held_out_live_ci_pct"])
+        self.assertIsNone(f["held_out_live_distinguishable_from_chance"])
 
 
 if __name__ == "__main__":

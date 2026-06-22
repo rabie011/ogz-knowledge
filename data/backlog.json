@@ -1150,7 +1150,8 @@
     "B090",
     "B146"
    ],
-   "status": "todo"
+   "status": "done",
+   "done_note": "revenue_economics.py — revenue-per-client beside cost-per-YES, honesty-tiered (REAL pinned tiers 700/2650/9000 from mohamed pricing_pin; per-client revenue UNKNOWN until tier confirmed, never guessed). ROOT-HUNT: B146's commercial_terms organ was never on disk (only comm_contract=COMMUNICATION shipped) — wrote the missing stub organ for all 3 pilots + canonical data/commercial_tiers.json. Views: all 3 pilots = approving_but_not_paying (cost, no contracted revenue). Wired into unit_economics.py (Rule #6). 8 tests, suite 964 green. cost/YES EST $0.598 over 77 verified taps."
   },
   {
    "id": "B092",
@@ -1250,7 +1251,8 @@
    "depends_on": [
     "B096"
    ],
-   "status": "todo"
+   "status": "done",
+   "done_note": "quarterly_prior_cards.py + consume_answers reader + 8 synthetic tests (Rules 6/7/9/10/11/12). Live run HOLDs honestly (0 promoted drafts). Promotion stays human-PR only."
   },
   {
    "id": "B100",
@@ -2265,7 +2267,8 @@
    "who": "pair",
    "est_minutes": 20,
    "depends_on": [],
-   "status": "todo"
+   "status": "done",
+   "done_note": "build_question_script.py + 11 tests; deterministic gap_report->choice-card renderer; suite 956 green"
   },
   {
    "id": "B185",
@@ -3134,7 +3137,8 @@
    "depends_on": [
     "B254"
    ],
-   "status": "todo"
+   "status": "done",
+   "done_note": "client_full_pipeline.py — 5-stage chain (intake→profile→year_map→render→visual_gate), FAIL-STOP (Rule#8), per-stage Mira report, injectable runner; 7 tests lock spine order + fail-stop downstream-never-runs + dry-run. Suite 927→934 green."
   },
   {
    "id": "B256",
@@ -3645,7 +3649,7 @@
    "depends_on": [
     "B095w"
    ],
-   "status": "todo",
+   "status": "done",
    "gated_on_fork": "B095t_publish_trigger_fork",
    "fork_resolved": {
     "fork": "B095t_publish_trigger_fork",
@@ -3654,7 +3658,8 @@
     "ruled_at": "2026-06-22T14:17:58"
    },
    "progress": "fork B095t_publish_trigger_fork resolved → «A: 🖐️ Our side — I tap 'published' when a piece goes » (consumed 2026-06-22T14:17:58); now actionable for the pair. | STEP 2 DONE (2026-06-22): consumer wire live — apply_rulings.h_publish_confirm (PREFIX_HANDLERS publish_confirm_+published) records ONE published event to data/published.jsonl (idempotent, Rule#8 refusals, Rule#11 assert-on-disk); producer build_publish_confirm_cards.py stages cards from batch_manifest + asserts the handler (Rule#7); +11 tests test_publish_confirm_wire, 927 green. REMAINS: portal-push of live cards is the Mohamed-gated never-flood step (Rule#10) — staged on a produced batch, not pushed by the orchestra.",
-   "done_note": "STEP 1 DONE (2026-06-22): scripts/gen_identity.py mints the canonical brand_ulid + subject_generation_ulid (deterministic, same algo as readers) — wired into produce_batch._post_entry; +10 tests (test_gen_identity), 887 green. STEP 2 REMAINS: publish-confirm card → record_published(gen_ulid,brand_ulid) (the go-live tap, Mohamed-gated B095t=A). Identity layer is the bedrock that was missing under both."
+   "done_note": "DONE — pair scope complete + tested end-to-end (orchestra 2026-06-22). STEP 1: gen_identity.py mints canonical brand_ulid + subject_generation_ulid (deterministic, reader-matched algo), wired into produce_batch._post_entry (lines 382-386). STEP 2: build_publish_confirm_cards.py stages cards from batch_manifest (asserts handler, Rule#7) → apply_rulings.h_publish_confirm (PREFIX_HANDLERS publish_confirm_+published) records ONE event to data/published.jsonl (idempotent, Rule#8 refusals, Rule#11 assert-on-disk) → BOTH outcome readers see it. 21 wire+identity tests green (test_gen_identity 10 + test_publish_confirm_wire 11), full suite 927 OK. RESIDUAL (NOT B095v scope): live loop is INERT — verified 2026-06-22 that batch_manifest.json holds 0 posts because produce_batch refuses an incomplete batch (16/20 clean; 3 must-cover majors ramadan/national_day/white_friday lack a clean __auto card — white_friday's assigned client albaik renders unclean: visible faces + named real person, both correct kills). So no card stages and no event flows until occasion-card quality is fixed (B204/B205 gold-seeding, funded armored pipeline + Mohamed go) AND the portal-push happens (never-flood, Mohamed-gated — orchestra won't push).",
+   "done_ts": "2026-06-22T23:20:00"
   },
   {
    "id": "B057e",
@@ -3733,9 +3738,9 @@
   }
  ],
  "counts": {
-  "done": 230,
+  "done": 235,
   "superseded": 3,
-  "todo": 63,
+  "todo": 58,
   "open": 4,
   "staged": 6,
   "skipped": 4

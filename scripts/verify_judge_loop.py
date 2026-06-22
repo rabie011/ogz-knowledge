@@ -180,8 +180,21 @@ def w6_honest_elo(t):
         _red("W6", "DISHONEST: held_out_live_n_testable==0 but held_out_live_pct is a number — "
                    "a live % was fabricated with no testable pick (Rule #9)")
         return
+    # A live % must NEVER travel without its uncertainty band (June 23). A bare sub-50 number reads
+    # as 'his eye is below random'; only the Wilson CR + distinguishable flag tell noise from signal.
+    if t.get("held_out_live_pct") is not None and (
+            t.get("held_out_live_ci_pct") is None
+            or t.get("held_out_live_distinguishable_from_chance") is None):
+        _red("W6", "DISHONEST: held_out_live_pct present but its Wilson CI / distinguishability flag "
+                   "is missing — a tiny-N % could be read as 'below his eye' when it is noise (Rule #9)")
+        return
+    _dist = t.get("held_out_live_distinguishable_from_chance")
+    _ci = t.get("held_out_live_ci_pct")
+    _band = (f", live={t.get('held_out_live_pct')}% CI {_ci[0]}–{_ci[1]}% "
+             f"({'real signal' if _dist else 'noise — indistinguishable from chance'})"
+             if t.get("held_out_live_pct") is not None else "")
     _green("W6", f"Elo honest (live_validated={t.get('live_validated')}, "
-                 f"testable={t.get('held_out_live_n_testable')})")
+                 f"testable={t.get('held_out_live_n_testable')}{_band})")
 
 
 # ── W7: taste_elo.strengths has a READER (taste_rank) — no write-only organ ──────

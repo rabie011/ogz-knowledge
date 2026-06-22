@@ -104,6 +104,56 @@ def _probe(fn, tries=2, backoff=1.5):
 _LOAD_SENSITIVE = frozenset({"portal_mini", "portal_public", "portal_items_ok", "armor_tests"})
 
 
+# B283 — PRE-FLIGHT LOAD SETTLE (de-conflict the orchestra stampede). The two-strike phone gate
+# (_phone_dead) stopped the false RED from reaching Mohamed's PHONE, but the load-sensitive probes
+# still FLAP RED in the log + exit code on the spiking fire (4 false-RED shifts, June 20). Root: the
+# :13/:43 scheduled fire collides with session-start; the enricher+orchestrator+hook spike makes
+# HEALTHY network probes/the suite time out. This roots it one layer EARLIER than the phone gate:
+# before running the load-sensitive probes, if the box is saturated, WAIT (bounded) for the spike to
+# settle. A transient session-start spike clears in seconds → the probes then run clean → no RED ever
+# logged (and no waiting a whole second fire to clear his phone). A genuine sustained outage outlasts
+# the wait → the probes still run and RED honestly — never masked: we always run the probes, we just
+# refuse to run them MID-SPIKE.
+SATURATE_PER_CORE = 0.7   # load1/ncpu at/above this = saturated. Baseline here ~0.14/core; a fire +
+                          # session-start collision drives it far higher. 0.7 sits well above noise.
+SETTLE_MAX_WAIT = 60      # hard ceiling on the defer (the spec's "~60s"); never block a fire longer.
+SETTLE_STEP = 10          # re-probe load every this-many seconds.
+
+
+def _loadavg1():
+    """1-minute load average, or 0.0 where unavailable (never crash the self-check)."""
+    try:
+        return os.getloadavg()[0]
+    except (OSError, AttributeError):
+        return 0.0
+
+
+def load_saturated(load1, ncpu, per_core=SATURATE_PER_CORE):
+    """PURE: is the box saturated enough that healthy network probes plausibly time out? Per-core so
+    the bar travels across machines (10-core mini vs a 4-core clone). ncpu<=0 coerces to 1."""
+    return load1 >= max(1, ncpu) * per_core
+
+
+def settle_load_spike(read_load=_loadavg1, sleeper=time.sleep, ncpu=None,
+                      max_wait=SETTLE_MAX_WAIT, step=SETTLE_STEP):
+    """Bounded pre-flight: while the box is saturated, sleep `step`s and re-read, up to `max_wait`.
+    Returns a diagnostic dict (never raises): `deferred_s` = how long we waited; `final_load` = the
+    last reading; `settled` = whether load dropped below the bar before the ceiling. read_load/sleeper
+    are injectable for deterministic tests. max_wait<=0 is a no-op probe (returns the current reading
+    without sleeping). The CALLER always runs the probes afterward regardless of `settled` — this only
+    chooses WHEN, never WHETHER (an unsettled spike still gets an honest probe, never a masked green)."""
+    if ncpu is None:
+        ncpu = os.cpu_count() or 1
+    waited = 0
+    load1 = read_load()
+    while load_saturated(load1, ncpu) and waited < max_wait:
+        sleeper(step)
+        waited += step
+        load1 = read_load()
+    return {"deferred_s": waited, "final_load": round(load1, 2),
+            "ncpu": ncpu, "settled": not load_saturated(load1, ncpu)}
+
+
 def _phone_dead(checks, prev_checks):
     """Which dead checks have EARNED an urgent card on MOHAMED'S PHONE (vs. just the honest log).
 
@@ -179,6 +229,11 @@ def main():
     # 2. guards hold (the gauntlet is the truth)
     g = subprocess.run(["python3", str(BASE / "scripts/truth_guards.py")], capture_output=True, text=True)
     checks["guards_gauntlet"] = g.returncode == 0
+
+    # B283 — let any session-start/fire load spike settle BEFORE the load-sensitive probes so they
+    # never flap a false RED in the log (the phone is already gated; this stops the logged red too).
+    # Bounded ≤60s; on a real sustained outage it gives up and the probes run + RED honestly below.
+    checks["_load_settle"] = settle_load_spike()
 
     # 3. portal up — LOCAL and PUBLIC. The tunnel died once (June 12) while local
     # was fine, so Mohamed's phone saw nothing and no alarm fired. Check what he touches.

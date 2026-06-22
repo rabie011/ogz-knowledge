@@ -84,6 +84,56 @@ class TestIntakeProjection(unittest.TestCase):
         for t in ip.load_templates():
             self.assertIn(t["target"], ip.ALLOWED_TARGETS, f"{t['question_id']} routes off allow-list")
 
+    # ---- B190: voice-pick → fingerprint l2_voice -------------------------------------------
+
+    def test_voice_scalar_pick_sets_l2_voice(self):
+        organs = {"fingerprint": {"l2_voice": {"dialect": None}}}
+        out, ch = ip.project_intake(
+            [_ev("fingerprint", "سعودي نجدي", field="l2_voice.dialect")], organs)
+        self.assertEqual(out["fingerprint"]["l2_voice"]["dialect"], "سعودي نجدي")
+        self.assertEqual(ch[0]["kind"], "field_set")
+
+    def test_voice_love_line_appends(self):
+        organs = {"fingerprint": {"l2_voice": {"love_lines": []}}}
+        ev = _ev("fingerprint", "من قلب البيت", field="l2_voice.love_lines", op="append")
+        out, ch = ip.project_intake([ev], organs)
+        self.assertEqual(out["fingerprint"]["l2_voice"]["love_lines"], ["من قلب البيت"])
+        self.assertEqual(ch[0]["kind"], "list_appended")
+
+    def test_voice_append_idempotent(self):
+        ev = _ev("fingerprint", "نكهة الأصالة", field="l2_voice.love_lines", op="append")
+        out1, _ = ip.project_intake([ev], {"fingerprint": {}})
+        out2, ch2 = ip.project_intake([ev], out1)  # replay over already-projected organ
+        self.assertEqual(out2["fingerprint"]["l2_voice"]["love_lines"], ["نكهة الأصالة"])
+        self.assertEqual(ch2, [])  # second pass = no change
+
+    def test_voice_append_creates_list_on_missing_path(self):
+        ev = _ev("fingerprint", "ما نحب", field="l2_voice.hate_lines", op="append")
+        out, ch = ip.project_intake([ev], {"fingerprint": {}})
+        self.assertEqual(out["fingerprint"]["l2_voice"]["hate_lines"], ["ما نحب"])
+
+    def test_voice_pick_provisional_ignored(self):
+        prov = _ev("fingerprint", "x", field="l2_voice.love_lines", op="append",
+                   confirmer="rabie_provisional")
+        prov["stamp"] = "PROVISIONAL — pending Mohamed"
+        out, ch = ip.project_intake([prov], {"fingerprint": {}})
+        self.assertEqual(ch, [])
+
+    def test_voice_templates_present_and_route_to_l2_voice(self):
+        templates = {t["question_id"]: t for t in ip.load_templates()}
+        for qid in ("q_voice_dialect", "q_voice_register", "q_voice_tone",
+                    "q_voice_love", "q_voice_hate"):
+            self.assertIn(qid, templates, f"{qid} missing from routing table")
+            self.assertEqual(templates[qid]["target"], "fingerprint")
+            self.assertTrue(templates[qid]["field"].startswith("l2_voice."))
+
+    def test_voice_template_append_roundtrip(self):
+        tmpl = next(t for t in ip.load_templates() if t["question_id"] == "q_voice_love")
+        ev = ip.event_from_template(tmpl, "دفء الجريش", "client", "2026-06-22", "CONFIRMED BY client")
+        self.assertEqual(ev["op"], "append")
+        out, ch = ip.project_intake([ev], {"fingerprint": {}})
+        self.assertEqual(out["fingerprint"]["l2_voice"]["love_lines"], ["دفء الجريش"])
+
 
 if __name__ == "__main__":
     unittest.main()

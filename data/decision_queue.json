@@ -611,13 +611,13 @@
   },
   {
    "id": "alarm_live",
-   "title": "🚨 إنذار: _taste_bridge_starved واقف",
+   "title": "🚨 إنذار: commits_flowing واقف",
    "tag": "نظام",
-   "desc": "فحص الأدلة فشل: ['_taste_bridge_starved']. كلود يعالج — هذا للعلم.",
+   "desc": "فحص الأدلة فشل: ['commits_flowing']. كلود يعالج — هذا للعلم.",
    "clock": "",
    "priority": "urgent",
    "created": "2026-06-21T19:44:52",
-   "status": "answered",
+   "status": "open",
    "kind": "buttons",
    "options": [
     {
@@ -655,6 +655,54 @@
    ],
    "made_by": "claude",
    "artifact_version": 3
+  },
+  {
+   "id": "closures_2026-06-22",
+   "kind": "buttons",
+   "title": "✅ 4 إصلاحات اتقفلت — بالأدلة",
+   "tag": "تغذية راجعة",
+   "why": "كلامك صار commits — هذا الإثبات",
+   "did": "«hيه العلاقه بين حارات وجريشه» · «rejected» · «rejected»",
+   "options": [
+    {
+     "v": "seen",
+     "label": "✓ شفتها كلها",
+     "rec": true
+    },
+    {
+     "v": "reopen_one",
+     "label": "↩ وحدة لسه ما اتصلحت (اشرح بالملاحظة)"
+    }
+   ],
+   "source": "feedback_cards",
+   "made_by": "system:feedback_cards",
+   "artifact_version": 1
+  },
+  {
+   "id": "B095t_publish_trigger_fork",
+   "title": "Where does 'a piece went live' get confirmed — our side or Hesham's platform?",
+   "tag": "machine",
+   "desc": "",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-22T04:52:59",
+   "status": "open",
+   "why": "Both outcome readers (receipt + the monthly 'هل حسّيتي بفرق؟' question) were starved — no writer fed them. The writer is now built+tested; it only needs to know WHO fires it on a real go-live.",
+   "need": "Pick A or B — decides what triggers the ledger writer on a real publish.",
+   "did": "Built scripts/outcome_ledger.py (the missing publish-ledger writer) + 9 tests proving both readers consume it end-to-end (Rule #6); refusal guards + idempotent (Rule #8). Ledger is honest-empty until the trigger lands.",
+   "kind": "buttons",
+   "options": [
+    {
+     "v": "A",
+     "label": "🖐️ Our side — I tap 'published' when a piece goes live (recommended for pilot)"
+    },
+    {
+     "v": "B",
+     "label": "🔗 Hesham's platform feeds it (webhook/export — integration hop)"
+    }
+   ],
+   "made_by": "claude",
+   "artifact_version": 1
   }
  ]
 }

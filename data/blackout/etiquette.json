@@ -15,5 +15,30 @@
       "17:00-19:30 (pre-maghrib fatigue + iftar itself)"
     ],
     "note": "normal quiet_hours suspended in ramadan — nights ARE the day"
+  },
+  "weekday_preference": {
+    "ranked": [
+      "Thursday",
+      "Tuesday",
+      "Monday",
+      "Wednesday",
+      "Friday",
+      "Sunday",
+      "Saturday"
+    ],
+    "best": [
+      "Thursday",
+      "Tuesday"
+    ],
+    "avoid": [
+      "Sunday",
+      "Saturday"
+    ],
+    "avoid_weekday_idx": [
+      5,
+      6
+    ],
+    "source": "logs/post_cadence_analysis.json#weekday_distribution",
+    "note": "advisory: revealed cadence of the benchmark corpus (NOT per-client, NOT engagement-optimized) — low-activity days flagged soft, never blocked"
   }
 }

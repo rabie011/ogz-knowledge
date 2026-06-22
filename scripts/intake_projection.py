@@ -70,6 +70,28 @@ def _set_path(d: dict, dotted: str, value) -> bool:
     return True
 
 
+def _append_path(d: dict, dotted: str, value) -> bool:
+    """Append value (deduped) to the list at a dotted path, creating it as a list if needed.
+    Returns True if it changed. Idempotent: re-appending an existing value is a no-op (B190)."""
+    keys = dotted.split(".")
+    cur = d
+    for k in keys[:-1]:
+        nxt = cur.get(k)
+        if not isinstance(nxt, dict):
+            nxt = {}
+            cur[k] = nxt
+        cur = nxt
+    last = keys[-1]
+    lst = cur.get(last)
+    if not isinstance(lst, list):
+        lst = []
+        cur[last] = lst
+    if value in lst:
+        return False
+    lst.append(value)
+    return True
+
+
 def project_intake(events, organs: dict):
     """PURE core. organs = {"red_lines":..,"goals":..,"fingerprint":..} (any subset; missing
     targets are created as needed only when actually written). Returns (new_organs, changes).
@@ -109,11 +131,17 @@ def project_intake(events, organs: dict):
             })
             changes.append({"kind": "red_line_added", "target": target,
                             "subject": text, "confirmer": ev.get("confirmer")})
-        else:  # goals / fingerprint — set at dotted field path
+        else:  # goals / fingerprint — set or append at dotted field path
             field = _norm(ev.get("field"))
             if not field:
                 raise ValueError(f"intake_answer for {target!r} carries no field path")
-            if _set_path(organ, field, value):
+            if _norm(ev.get("op")) == "append":
+                # B190: a voice PICK appends into a list field (e.g. l2_voice.love_lines) —
+                # deduped + idempotent, like red_lines but at an arbitrary dotted path.
+                if _append_path(organ, field, _norm(value)):
+                    changes.append({"kind": "list_appended", "target": target,
+                                    "subject": f"{field}+={value}", "confirmer": ev.get("confirmer")})
+            elif _set_path(organ, field, value):
                 changes.append({"kind": "field_set", "target": target,
                                 "subject": f"{field}={value}", "confirmer": ev.get("confirmer")})
 
@@ -151,4 +179,6 @@ def event_from_template(template: dict, value: str, confirmer: str, ts: str, sta
     }
     if template.get("field"):
         ev["field"] = template["field"]
+    if template.get("op") == "append":
+        ev["op"] = "append"  # B190: a list-valued voice pick (love/hate lines) appends, not sets
     return ev

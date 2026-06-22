@@ -656,7 +656,7 @@
    "clock": "",
    "priority": "urgent",
    "created": "2026-06-21T19:44:52",
-   "status": "open",
+   "status": "answered",
    "kind": "buttons",
    "options": [
     {
@@ -912,6 +912,32 @@
    ],
    "source": "feedback_cards",
    "made_by": "system:feedback_cards",
+   "artifact_version": 1
+  },
+  {
+   "id": "B157_veto_authority_rule",
+   "title": "Post-publish veto: any approver, or only the named primary?",
+   "tag": "flanks",
+   "desc": "",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-23T02:25:20",
+   "status": "open",
+   "why": "A public mistake costs more than an unnecessary takedown",
+   "need": "Pick the authority rule. Also pending & related: takedown SLA target (B159) + the OGZ account owner per pilot (B161).",
+   "did": "Built the takedown play: any logged veto → freeze → page the OGZ account owner → capture-before-delete → remove → confirm → route the conflict back so the next batch needs the primary approver first. No SLA number assumed (yours to set).",
+   "kind": "buttons",
+   "options": [
+    {
+     "v": "any_veto",
+     "label": "Any logged veto takes it down (recommended)"
+    },
+    {
+     "v": "primary_only",
+     "label": "Only the named primary approver can take it down"
+    }
+   ],
+   "made_by": "claude",
    "artifact_version": 1
   }
  ]

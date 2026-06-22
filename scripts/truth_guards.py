@@ -53,8 +53,13 @@ SERVICE_CLAIM = re.compile(
     r"جلسة\s*مجانية|هدية\s*مع\s*كل|ضمان\s*(?:استرجاع|استرداد)|عرض\s*تجريبي)", re.I)
 # MOHAMED RULING 2026-06-12 (portal): family-voice lines BLOCKED for all brands
 FAMILY_VOICE = re.compile(r"(أمي|امي|أبوي|ابوي|والدتي|والدي|أمك|جدتي قالت لي)\s+(جاب|جابت|قال|قالت|طلب|طلبت)")
+# «رحلة» (journey) is the G4 fitness-filler twin. Bounded (B196 follow-up, 2026-06-22):
+#  - (?<!م) so it does NOT fire inside «مرحلة/المرحلة» (phase/stage — legit, was a false kill)
+#  - ت-suffix branch so it DOES catch «رحلتك/رحلتنا/رحلتي…» (journey+possessive — was leaking)
+#  - the existing «رحلة لسوق» exception (a real trip-to-market) is preserved on the ة branch
 FILLER = re.compile(r"(journey|unleash|conquer|roar|new heights|stronger than ever|"
-                     r"رحلة(?!\s+لسوق)|أطلق(?:وا)? العنان|نقهر|القمم الجديدة|أقوى من أي وقت|لحظات لا تُنسى)", re.I)
+                     r"(?<!م)رحل(?:ة(?!\s+لسوق)|ت(?:ك|نا|ي|ه|ها|كم|كن))|"
+                     r"أطلق(?:وا)? العنان|نقهر|القمم الجديدة|أقوى من أي وقت|لحظات لا تُنسى)", re.I)
 CTA = re.compile(r"[^.!؟\n]*\b(اطلب(?:وا|ها|وه)?|حمّ?ل التطبيق|اطلبيها?)\b[^.!؟\n]*[.!؟]?")
 strip_punct = lambda s: re.sub(r"[^\wء-ي\s]", "", s).strip()
 dedupe_words = lambda s: re.sub(r"\b(\S+)\s+\1\b", r"\1", s)

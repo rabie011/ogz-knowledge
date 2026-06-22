@@ -168,6 +168,11 @@ YOUR TAP (when staged): 30 minutes playing the difficult client.
 
 ### RULES & RULINGS (each tap becomes law)
 
+### A-46 Ratify the approvals-file maintenance rule
+DRAFT (B232, ready): one standing rule for THIS file — *"Every Mohamed gate is filed in MOHAMED_APPROVALS.md the moment it is discovered (never held in chat or memory). When a gate is tapped/resolved, its outcome moves to `~/claude_operator_state/04_DECISIONS.md` and the item is struck here, so this file always shows only OPEN gates. The file is snapshotted at every session-end (B231, shipped) so no pending gate is ever lost across sessions."*
+YOUR TAP: yes (make it law) / amend / no. On yes it becomes a permanent rule; I do NOT edit CLAUDE.md until you tap.
+(backlog B232 · Ops & Memory · ~5 min · pairs with B231 shipped)
+
 ### A-09 Yes/no the crystallize queue cards
 PREPARED (verified, fixed): `data/crystallize_queue.json` holds **3 raw cards** (the old claim of «deduped, 2 rendered» was false — no render exists; card 2 supersedes card 1 by evidence count). Inlined here so it's tappable now:
 1. truth-gate tightening — recurring factual_error 3x/3 clients (superseded by card 2)

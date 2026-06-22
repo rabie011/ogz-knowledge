@@ -6,7 +6,7 @@ trust replay already filters reads; now the door itself checks)."""
 # humans — the only confirmers that move trust
 HUMANS = {"mohamed", "alhareth", "client"}
 # system writers — legitimate for proposals/reports, NEVER for trust-moving events
-SYSTEM = {"staleness_report", "drift_watch", "process_rejection", "trust_ladder",
+SYSTEM = {"staleness_report", "drift_watch", "menu_sync", "process_rejection", "trust_ladder",
            "pending", "pending_client", "test"}
 TRUST_MOVING_TYPES = {"client_approved", "pick_selected", "client_rejected"}
 

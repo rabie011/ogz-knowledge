@@ -1,0 +1,34 @@
+{
+  "version": "comm_contract_v1",
+  "handle": "myfitness.sa",
+  "status": "inferred_unconfirmed",
+  "channel": {
+    "primary": "instagram_dm",
+    "fallback": "snapchat"
+  },
+  "language": "bilingual",
+  "time_windows": {
+    "timezone": "Asia/Riyadh",
+    "preferred": [
+      [
+        "09:00",
+        "21:00"
+      ]
+    ],
+    "blackout_days": []
+  },
+  "ping_budget_per_week": {
+    "us_to_client": 2,
+    "client_to_us": null
+  },
+  "response_sla_hours": {
+    "us_to_client": 24,
+    "client_to_us": 48
+  },
+  "provenance": {
+    "source": "inferred:manifest(myfitness.sa)",
+    "confirmer": "inferred",
+    "date": "2026-06-22",
+    "note": "B158 stub — defaults from manifest; awaits Mohamed confirmation (gated card, later step)"
+  }
+}

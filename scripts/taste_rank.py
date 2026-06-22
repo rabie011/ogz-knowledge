@@ -180,12 +180,28 @@ def shadow_entry(ship_caps, meta, baseline_caps=None, ts=None):
 
 
 def append_shadow_log(entry, path=SHADOW_LOG):
-    """Append one shadow_entry as a JSONL line (append-only history — Rule #6 consumer)."""
+    """Append one shadow_entry as a JSONL line (append-only history — Rule #6 consumer).
+
+    REFUSES (Rule #8) to persist an UNORDERABLE measurement (n < MIN_ORDERABLE_N): a batch too
+    small to be reordered carries no divergence signal (order_diff is trivially 0) and would inflate
+    the wire's distinct-run count with noise — exactly the n=1 row found polluting the live log
+    (June 22). The reader (taste_shadow_metric) already drops these defensively; this closes the
+    WRITER half so the organ never accumulates meaningless rows in the first place (writer/consumer
+    symmetry). MIN_ORDERABLE_N is imported from the reader — ONE source of truth, no duplicate floor.
+    The entry is still RETURNED (flagged `logged`) so callers can inspect/print order_diff and n."""
+    try:
+        from taste_shadow_metric import MIN_ORDERABLE_N
+    except ImportError:                                   # ensure scripts/ is importable, then retry
+        import sys as _sys
+        _sys.path.insert(0, str(Path(__file__).parent))
+        from taste_shadow_metric import MIN_ORDERABLE_N
+    if int(entry.get("n", 0)) < MIN_ORDERABLE_N:          # refuse at the source, not just at read
+        return {**entry, "logged": False}
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "a", encoding="utf-8") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
-    return entry
+    return {**entry, "logged": True}
 
 
 def main():

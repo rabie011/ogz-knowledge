@@ -151,6 +151,34 @@ class TestShadowDivergenceLog(unittest.TestCase):
                 self.assertIn("order_diff", rec)
                 self.assertIn("advisory_order_idx", rec)
 
+    def test_refuses_to_persist_unorderable_row(self):
+        """Writer/consumer symmetry (Rule #6/#8): an n<MIN_ORDERABLE_N batch carries no divergence
+        signal and must NOT enter the append-only log — the n=1 row that polluted the live log
+        (June 22) is refused at the SOURCE, not just dropped at read. Entry still returned, flagged."""
+        import tempfile
+        from taste_shadow_metric import MIN_ORDERABLE_N
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "taste_shadow_log.jsonl"
+            tiny = {"n": MIN_ORDERABLE_N - 1, "order_diff": 0, "wire_live": False}
+            ret = tr.append_shadow_log(tiny, path=p)
+            self.assertFalse(p.exists())                    # nothing written
+            self.assertFalse(ret["logged"])                 # caller is told it was refused
+            self.assertEqual(ret["n"], MIN_ORDERABLE_N - 1)  # entry still inspectable (order_diff/n)
+
+    def test_persists_orderable_row(self):
+        """The complement: an n>=MIN_ORDERABLE_N measurement IS written and flagged logged=True;
+        the return-only `logged` flag never pollutes the persisted JSONL line."""
+        import tempfile, json as _json
+        from taste_shadow_metric import MIN_ORDERABLE_N
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "taste_shadow_log.jsonl"
+            ok = {"n": MIN_ORDERABLE_N, "order_diff": 1, "wire_live": False}
+            ret = tr.append_shadow_log(ok, path=p)
+            self.assertTrue(ret["logged"])
+            lines = p.read_text().splitlines()
+            self.assertEqual(len(lines), 1)
+            self.assertNotIn("logged", _json.loads(lines[0]))
+
     def test_handles_duplicate_captions(self):
         """Duplicate captions resolve to distinct ship positions (consumed left-to-right), never None."""
         meta = {"wire_live": False, "n_testable": 0, "live_pct": None,

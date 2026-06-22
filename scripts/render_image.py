@@ -12,11 +12,14 @@ import argparse, json, os, re, sys, time, urllib.request
 from pathlib import Path
 
 BASE = Path(__file__).parent.parent
+sys.path.insert(0, str(BASE / "scripts"))
+import model_registry as mr   # single source of truth for the DRAFT render model + its fingerprint
+
 RENDER_DIR = BASE / "api/static/renders"
 COST_LOG = BASE / "data/image_cost_log.jsonl"
 COST_PER_IMAGE = 0.003          # flux/schnell on fal
 BATCH_CAP = 25                  # Mohamed's law: ~20/batch, hard stop at 25
-MODEL = "fal-ai/flux/schnell"
+MODEL = mr.RENDER_MODEL_DRAFT   # was hardcoded "fal-ai/flux/schnell"; the registry is the one place to swap it
 
 
 def env(k):
@@ -167,9 +170,15 @@ def render(card_path: str) -> str | None:
         urllib.request.urlretrieve(url, RENDER_DIR / name)
         card["visual"]["image_url"] = f"/static/renders/{name}"
         card["visual"]["ai_generated"] = True
+        # FINGERPRINT (mirror render_openclaw's I2 stamp): stamp the DRAFT render with the model
+        # id+version+date so check_model_drift.py can detect a silent schnell swap behind the live
+        # draft renders. image_url is logged too so the drift reader counts this as a live render.
+        log_line = {"day": time.strftime("%Y-%m-%d"), "card": Path(card_path).name,
+                    "model": MODEL, "usd": COST_PER_IMAGE,
+                    "image_url": f"/static/renders/{name}"}
+        log_line.update(mr.fingerprint_render_draft(MODEL))   # adds {"model_fingerprint": {...}}
         with open(COST_LOG, "a") as f:
-            f.write(json.dumps({"day": time.strftime("%Y-%m-%d"), "card": Path(card_path).name,
-                                  "model": MODEL, "usd": COST_PER_IMAGE}) + "\n")
+            f.write(json.dumps(log_line, ensure_ascii=False) + "\n")
     Path(card_path).write_text(json.dumps(card, ensure_ascii=False, indent=2))
     return card["visual"].get("image_url")
 

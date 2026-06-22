@@ -1056,8 +1056,13 @@ def main():
                                                 slot.get("angle_theme", "")]),
                            post_type=angle.get("post_type", ""))
     shots = shot_card(c, angle, ground=a.ground)
+    # CAPTION-MODEL FINGERPRINT (I2): stamp which caption model produced this batch so a silent
+    # caption-model swap is detectable (the taste-Elo is calibrated on captions; check_model_drift
+    # watches this). The fallback pen (sonnet) is dark on credits, so the live pen is the primary.
+    import model_registry as _mr
     card = {"handle": a.handle, "date": a.date, "slot": slot, "brain": brain,
             "idea": angle, "captions": captions,
+            "caption_model_fingerprint": _mr.fingerprint_caption()["model_fingerprint"],
             "visual": {"phone_shoot_card": shots,
                         "pro_chain": {"id": chain.get("chain_id_short"), "name_ar": chain.get("name_ar"),
                                        "family": chain.get("family")} if chain else None},

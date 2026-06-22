@@ -193,8 +193,13 @@ def main():
     #     pilot picks. None / 0-testable until the comparison graph connects (the bridge taps).
     #   • live_n / held_out_live_n_testable — how many of his live picks exist vs how many are
     #     actually held-out-testable. testable==0 with live_n>0 is the SINGLETON truth, said plainly.
+    # CAPTION-MODEL FINGERPRINT (I2): the taste-Elo is calibrated on CAPTIONS, so a caption-model
+    # change moves the bar UNDER it. Stamp which caption model this ranking was calibrated on so
+    # check_model_drift.py can flag 're-validate the taste' when the live caption model differs.
+    import model_registry as _mr
     out = {"n_pairs": len(prefs), "n_live_picks": len(live), "n_rescued": len(prefs) - len(live),
            "live_n": len(live),                       # explicit alias the verifier/readers key on
+           "caption_model_fingerprint": _mr.caption_fingerprint(),  # I2 — the model behind the taste bar
            **verdict_fields(held, held_live, held_live_n),  # the honest live-vs-sim verdict (guarded)
            "last_pick_feedback": feedback_for(prefs),
            "top5_he_likes": [c[:70] for c, _ in ranked[:5]],

@@ -29,11 +29,11 @@ B = Path(__file__).parent.parent
 # THE PIXEL GATE AT THE JUDGE-CARD SEAM (2026-06-21 — the adversarial audit's missing tooth).
 # A rendered image may not reach Mohamed's judge card until the pixel modesty gate has cleared
 # it (a loosened-hijab/mixed-gender/exposed-skin/real-person render the PROMPT gates can't see).
-# $0 DISCIPLINE: by default the vision call is SKIPPED here (env IMAGE_GATE_SKIP_VISION respected
-# too) so seeding a batch spends nothing — but the seam EXISTS (Rule #6), and flipping
-# JUDGE_CARD_PIXEL_VISION=1 makes build_card REFUSE (Rule #8) any image that doesn't pass the
-# pixel gate before it can become a card. The render-path hook (render_openclaw) already gates at
-# render time; this is the belt-and-suspenders reader right at the judge boundary.
+# COVERAGE (June 22): an UNGATED image (the DRAFT /static/renders/ schnell path, which has no
+# render-time gate) is ALWAYS enforced here — this seam is its only pixel check (Rule #13). A
+# render-time-gated MASTER image (/static/renders_v37/, render_openclaw already asserted it) is
+# exercised in $0 skip-mode to avoid a double-spend, unless JUDGE_CARD_PIXEL_VISION=1 forces a
+# re-check. Either way a violating pixel never becomes a judge card (Rule #8). See _gate_card_image.
 _PIXEL_VISION = os.environ.get("JUDGE_CARD_PIXEL_VISION") == "1"
 
 
@@ -50,21 +50,30 @@ def _local_image_path(image_url):
 
 def _gate_card_image(image_url, handle):
     """Pixel-gate a card's image before it ships to the judge lane. Returns the image_url on a
-    clear pass. RAISES (SystemExit) when vision is ENABLED and the image is not pixel-clear — a
-    violating render never becomes a judge card (Rule #8). When vision is OFF ($0 default) the
-    seam still RUNS the gate in skip-mode (so the wire is exercised, Rule #6) but does NOT block,
-    because spending on every seed is the wrong default — render_openclaw already gated at render
-    time. Flip JUDGE_CARD_PIXEL_VISION=1 to enforce the pixel check right at this boundary too."""
+    clear pass; RAISES (SystemExit) on any violation — a violating render never becomes a judge
+    card (Rule #8 + Rule #13: nothing reaches Mohamed's eye unchecked).
+
+    GATED-AT-RENDER vs UNGATED (June 22 audit hole). The MASTER path (/static/renders_v37/,
+    render_openclaw) already RAN assert_image_clear at render time, so re-spending here is waste —
+    we exercise the wire in $0 skip-mode (unless JUDGE_CARD_PIXEL_VISION=1 forces a re-check). But
+    the DRAFT path (/static/renders/, render_image/schnell) has NO render-time gate, so THIS seam is
+    the ONLY pixel check standing between a loosened-hijab/mixed-gender/exposed-skin/real-person
+    schnell render and Mohamed's judge surface → it MUST enforce, regardless of the $0 default."""
     lp = _local_image_path(image_url)
     if lp is None:
         return image_url   # phone-shoot-plan card (no AI photo) — nothing to pixel-gate
     import image_modesty_gate as img_gate
-    if _PIXEL_VISION:
+    # an image is render-time-gated ONLY if it came from the master path (renders_v37); every
+    # other local render (the DRAFT renders/ path, or anything new) is UNGATED → must be enforced.
+    render_time_gated = isinstance(image_url, str) and image_url.startswith("/static/renders_v37/")
+    if _PIXEL_VISION or not render_time_gated:
         # ENFORCED: a real gpt-4o pass is required; assert_image_clear RAISES on any violation.
+        # Forced for UNGATED draft images even at the $0 default — they have no other gate, and a
+        # bad pixel reaching his eye is a cultural kill (worth the ~$0.001 vision call).
         img_gate.assert_image_clear(str(lp), handle, skip_vision=False)
     else:
-        # $0 seam: exercise the gate in skip-mode (no spend, no block) so the wire is live and
-        # ready; the verdict is 'skipped' (NOT clearance) — the render-time hook is the enforcer.
+        # $0 seam for an ALREADY render-time-gated (renders_v37) image: exercise the wire in
+        # skip-mode (no spend, no block) — the render-time hook was the enforcer.
         img_gate.check(str(lp), handle, skip_vision=True)
     return image_url
 

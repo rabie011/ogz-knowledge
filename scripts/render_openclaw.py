@@ -23,10 +23,11 @@ from pathlib import Path
 
 B = Path(__file__).parent.parent
 sys.path.insert(0, str(B / "scripts"))   # so the post-render hooks (image_modesty_gate) import cleanly
+import model_registry as mr   # single source of truth for the render model + its fingerprint
 RULINGS = B / "data/mohamed_rulings_live.json"
 COST_LOG = B / "data/fal_cost_log.jsonl"
 RENDER_DIR = B / "api/static/renders_v37"   # under api/static → the portal serves it at /static/renders_v37/
-MODEL = "fal-ai/flux-2-pro/edit"
+MODEL = mr.RENDER_MODEL        # was hardcoded "fal-ai/flux-2-pro/edit"; now the registry is the one place to swap it
 USD_PER_IMAGE = 0.05          # flux-2-pro/edit est.; measured cost overwrites this in the log
 USD_CAP = 3.00                # Mohamed's first-batch law
 
@@ -78,6 +79,42 @@ def _composite_brand_logo(dest, handle):
     base.alpha_composite(logo, (bw - logo.width - pad, bh - logo.height - pad))   # bottom-right
     base.convert("RGB").save(dest, quality=92)
     print(f"  🏷  composited real logo (brand-bug, bottom-right) ← {lp.relative_to(B)}")
+
+
+# ─── THE RENDERER SEAM (the documented swap point) ───────────────────────────────────────────
+# This is the ONE function the rest of the pipeline talks to. The moat is "the prompt doesn't
+# change" — so when fal deprecates/re-prices flux-2-pro, or we move to a different backend, the
+# swap is THIS function body, NOT a rewrite: keep the signature, return a hosted image URL.
+#
+#   TO SWAP THE RENDER BACKEND: change model_registry.RENDER_MODEL (+ bump RENDER_REGISTERED),
+#   then re-point the urlopen below at the new backend's endpoint/auth. Nothing else moves.
+#   (Deliberately NOT a plugin/factory — three clients, one pilot. One function, one docstring.)
+#
+# Contract: render_backend(prompt, image_urls, size) -> hosted image URL (str). Raises SystemExit
+# on a backend error (Rule #8: refuse, don't return a broken URL). The caller fingerprints the
+# result with mr.fingerprint_render(MODEL) so a later model change is detectable.
+def render_backend(prompt: str, image_urls: list, size: str = "square_hd",
+                   *, key: str, model: str = MODEL, timeout: int = 300) -> str:
+    """Call the active render backend (currently fal flux-2-pro/edit) and return a hosted image URL.
+
+    prompt     : the v3.7 prompt (already brand-text-suppressed by the caller)
+    image_urls : reference image(s) as data-URIs or URLs (the identity lock)
+    size       : fal image_size token (square_hd ≈ 1MP)
+    key        : the backend API key (caller resolves it from ~/.abraham_env)
+    model      : the backend model id (defaults to the registry's RENDER_MODEL)
+    """
+    body = {"prompt": prompt, "image_urls": image_urls, "image_size": size,
+            "num_images": 1, "safety_tolerance": "2"}   # strict-ish safety (prompt enforces modesty)
+    rq = urllib.request.Request(f"https://fal.run/{model}", data=json.dumps(body).encode(),
+                                headers={"Authorization": f"Key {key}", "Content-Type": "application/json"})
+    try:
+        out = json.loads(urllib.request.urlopen(rq, timeout=timeout).read())
+    except urllib.error.HTTPError as e:
+        sys.exit(f"🛑 render backend failed HTTP {e.code}: {e.read()[:400].decode(errors='replace')}")
+    imgs = out.get("images") or []
+    if not imgs:
+        sys.exit(f"🛑 render backend returned no image: {json.dumps(out)[:300]}")
+    return imgs[0]["url"]
 
 
 def main():
@@ -133,21 +170,13 @@ def main():
     refp = Path(ref)
     mime = "jpeg" if refp.suffix.lower() in (".jpg", ".jpeg") else (refp.suffix.lstrip(".").lower() or "jpeg")
     data_uri = f"data:image/{mime};base64," + base64.b64encode(refp.read_bytes()).decode()
-    body = {"prompt": prompt, "image_urls": [data_uri], "image_size": "square_hd",
-            "num_images": 1, "safety_tolerance": "2"}   # square_hd ≈ 1MP; strict-ish safety (prompt enforces modesty)
-    rq = urllib.request.Request(f"https://fal.run/{MODEL}", data=json.dumps(body).encode(),
-                                headers={"Authorization": f"Key {key}", "Content-Type": "application/json"})
-    try:
-        out = json.loads(urllib.request.urlopen(rq, timeout=300).read())
-    except urllib.error.HTTPError as e:
-        sys.exit(f"🛑 fal render failed HTTP {e.code}: {e.read()[:400].decode(errors='replace')}")
-    imgs = out.get("images") or []
-    if not imgs:
-        sys.exit(f"🛑 fal returned no image: {json.dumps(out)[:300]}")
+    # THE SEAM: one function call to the render backend (see render_backend's docstring for the swap
+    # point). The model id flows from model_registry.RENDER_MODEL — the single place to bump it.
+    img_url = render_backend(prompt, [data_uri], "square_hd", key=key, model=MODEL)
     RENDER_DIR.mkdir(parents=True, exist_ok=True)
     name = f"{a.handle}_{resolve_id(a.chain)}.jpg"
     dest = RENDER_DIR / name
-    urllib.request.urlretrieve(imgs[0]["url"], dest)
+    urllib.request.urlretrieve(img_url, dest)
     _composite_brand_logo(dest, a.handle)   # overlay the REAL logo (AI rendered plain)
     # ── PIXEL MODESTY GATE (2026-06-21, the audit's missing tooth) — the prompt gates can't see
     # the rendered pixels; this one can. AFTER the image is saved, BEFORE it can become a judge
@@ -162,10 +191,14 @@ def main():
           f"(modest={iv.modest} mixed_gender={iv.mixed_gender} skin={iv.exposed_skin} "
           f"real_person={iv.identifiable_real_person_or_royal})")
     usd = round(0.03, 4)   # flux-2-pro ≈ 3¢/MP, square_hd ≈ 1MP (measured; overwrite if the API returns cost)
+    # FINGERPRINT (I2): stamp the render with the model id+version+date so check_model_drift.py can
+    # detect a silent model swap behind the live renders (consult's time-bomb made detectable).
+    log_line = {"day": time.strftime("%Y-%m-%d"), "handle": a.handle, "chain": a.chain,
+                "model": MODEL, "usd": usd, "image_url": f"/static/renders_v37/{name}",
+                "out": str(dest.relative_to(B))}
+    log_line.update(mr.fingerprint_render(MODEL))   # adds {"model_fingerprint": {...}}
     with open(COST_LOG, "a") as f:
-        f.write(json.dumps({"day": time.strftime("%Y-%m-%d"), "handle": a.handle, "chain": a.chain,
-                            "model": MODEL, "usd": usd, "image_url": f"/static/renders_v37/{name}",
-                            "out": str(dest.relative_to(B))}, ensure_ascii=False) + "\n")
+        f.write(json.dumps(log_line, ensure_ascii=False) + "\n")
     print(f"  ✅ rendered → {dest.relative_to(B)}  ·  ~${usd}  ·  spent ${spent_usd():.2f}/{USD_CAP}")
     print(f"  image_url: /static/renders_v37/{name}")
 

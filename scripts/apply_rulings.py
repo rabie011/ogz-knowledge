@@ -599,12 +599,48 @@ def h_crosswalk_confirm(b: Path, row: dict) -> str:
     return f"crosswalk confirmed {len(flipped)} mappings: {flipped} → kill-wire now propagates"
 
 
+def h_publish_confirm(b: Path, row: dict) -> str:
+    """B095v STEP 2 — Mohamed's go-live tap (his side; fork B095t ruled =A) records ONE
+    `published` event into the outcome ledger via outcome_ledger.record_published. This is
+    the reader Rule #6/#7 demand for build_publish_confirm_cards.py: without it his
+    'published' tap vanishes and BOTH outcome readers (outcome_receipt + outcome_question)
+    stay honest-empty forever — the learning loop never closes.
+
+    The card id → (subject_generation_ulid, brand_ulid) mapping comes from
+    data/publish_confirm_staged.json (the generator is the only authority on what each card
+    means — same contract as truth_confirm). Rule #8: refuse (RuntimeError) if the staged
+    file, the card, or its join-keys are missing — never half-record. Rule #11: the event
+    MUST be on disk before we claim it applied. Rule #12: the SYSTEM minted the ulids at
+    produce time; his tap only confirms the piece went live — we never author the identity."""
+    item = row.get("item_id", "")
+    staged = b / "data" / "publish_confirm_staged.json"
+    if not staged.exists():
+        raise RuntimeError("no data/publish_confirm_staged.json — run build_publish_confirm_cards.py --write")
+    cards = {c["id"]: c for c in json.loads(staged.read_text(encoding="utf-8")).get("cards", [])}
+    card = cards.get(item)
+    if not card:
+        raise RuntimeError(f"publish-confirm card {item} not in staged file")
+    gen = (card.get("subject_generation_ulid") or "").strip()
+    brand = (card.get("brand_ulid") or "").strip()
+    if not gen or not brand:
+        raise RuntimeError(f"publish-confirm card {item} missing subject_generation_ulid/brand_ulid")
+    sys.path.insert(0, str(Path(__file__).parent))
+    import outcome_ledger as ol
+    ledger = b / "data" / "published.jsonl"
+    ev = ol.record_published(gen, brand, timestamp=row.get("client_ts") or row.get("ts"), path=ledger)
+    on_disk = {e.get("subject_generation_ulid") for e in ol._read_jsonl(ledger)}  # Rule #11 — assert before claiming
+    assert gen in on_disk, f"publish event for {gen} not on disk"
+    return (f"published recorded: {card.get('handle','?')} {card.get('date','')} "
+            f"gen={gen[:10]}… → outcome ledger ({ev['timestamp'][:10]})")
+
+
 PREFIX_HANDLERS = {
     ("ratify2_", "ratify"): h_recipe_verdict,
     ("ratify2_", "kill"): h_recipe_verdict,
     ("ratify2_", "edit"): h_recipe_verdict,
     ("law_draft_", "yes_law"): h_law_draft,   # crystallize 'Make it law' (was wired to nothing)
     ("law_draft_", "no"): h_law_draft,
+    ("publish_confirm_", "published"): h_publish_confirm,  # B095v STEP 2 — the go-live tap → outcome ledger
 }
 
 def h_pairwise_noop(b: Path, row: dict) -> str:

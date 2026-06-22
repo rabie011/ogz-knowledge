@@ -297,7 +297,34 @@ def main():
                 break
             take(x)
 
+    # SHADOW ADVISORY helper — the TASTE→CREATION wire's end consumer at the real seam (B266, Rule #6).
+    # taste_rank reads Mohamed's learned taste-strengths (taste_elo's write-only organ). We call it over
+    # the system's CHOSEN captions and record what it WOULD prefer — but while its gate is closed (his
+    # bridge taps not yet landed → held-out LIVE undefined) it steers NOTHING: select() returns the
+    # captions in original order, so ship order is byte-identical (Rule #8: the influence path is closed,
+    # not whispering; Rule #9: no unverified signal touches what ships). When his taps land, wire_live()
+    # flips and this same call reorders — no rewrite, the consumer already exists.
+    # The measurement is recorded over WHATEVER clean set the system produced — INDEPENDENT of the
+    # ship-balance gate below, so the divergence FLOOR fills even on a short batch (a valid n>=2
+    # measurement was being discarded when the batch couldn't balance — Rule #6). append_shadow_log
+    # self-refuses n<MIN_ORDERABLE_N at the source (Rule #8). Returns the taste_advisory for the manifest.
+    def _record_shadow(chosen_list):
+        caps = [(x["d"].get("captions") or [""])[0] for x in chosen_list]
+        ordered, ta = tr.select(caps)
+        assert ta["wire_live"] or ordered == caps, \
+            "taste wire gate closed but ship order changed — refuse (Rule #8)"
+        sh = tr.append_shadow_log(tr.shadow_entry(ordered, ta, baseline_caps=caps))
+        emit(f"   taste→creation wire: {'🟢 LIVE — steered selection' if ta['wire_live'] else '⚪ SHADOW — advisory only, ship order unchanged'} "
+             f"(n_testable={ta['n_testable']}, live_pct={ta['live_pct']}, order_diff={sh['order_diff']}/{sh['n']})")
+        return {"wire_live": ta["wire_live"], "n_testable": ta["n_testable"],
+                "live_pct": ta["live_pct"], "steered_ship_order": ta["wire_live"],
+                "advisory_rank": ta["advisory_rank"]}
+
     if len(chosen) < a.n:
+        # capture the divergence over the clean set BEFORE refusing to ship short — the measurement is
+        # independent of the ship-balance gate (Rule #6: a writer with no reader is a lie; here the
+        # measurement was being dropped on every short batch, starving the FLOOR).
+        _record_shadow(chosen)
         emit(f"🛑 system produced only {len(chosen)}/{a.n} balanced-clean — fix a gate / widen pick, never hand-fill")
         sys.exit(1)
     chosen = chosen[:a.n]
@@ -354,29 +381,11 @@ def main():
                 emit(f"   ⏳ reel slot {x['h']} {x['dt']}: no still yet (awaits the $3 no_fal+key tap) — manifest marks reel_pending, NO fal triggered")
         return e
 
-    # SHADOW ADVISORY — the TASTE→CREATION wire's end consumer at the real seam (B266, Rule #6).
-    # taste_rank reads Mohamed's learned taste-strengths (taste_elo's write-only organ). We call it
-    # over the system's CHOSEN captions and record what it WOULD prefer — but while its gate is
-    # closed (his bridge taps not yet landed → held-out LIVE undefined) it steers NOTHING: select()
-    # returns the captions in their original order, so ship order is byte-identical (Rule #8: the
-    # influence path is closed, not whispering; Rule #9: no unverified signal touches what ships).
-    # When his taps land and the held-out number proves out, wire_live() flips and this same call
-    # reorders — no rewrite, the consumer already exists.
-    _chosen_caps = [(x["d"].get("captions") or [""])[0] for x in chosen]
-    _ordered_caps, _ta = tr.select(_chosen_caps)
-    assert _ta["wire_live"] or _ordered_caps == _chosen_caps, \
-        "taste wire gate closed but ship order changed — refuse (Rule #8)"
-    taste_advisory = {"wire_live": _ta["wire_live"], "n_testable": _ta["n_testable"],
-                      "live_pct": _ta["live_pct"], "steered_ship_order": _ta["wire_live"],
-                      "advisory_rank": _ta["advisory_rank"]}
-    # B267/B268 — append this run to the append-only divergence history so active-pick-vs-random can
-    # be MEASURED at the real seam once the gate opens (not just the rescued-seed sim — Rule #9).
-    # _chosen_caps is the system's PRE-taste selection = the control baseline; _ordered_caps is what
-    # taste would ship (== _chosen_caps while the gate is closed). Passing the baseline explicitly
-    # keeps order_diff meaningful after the gate flips (B268: the control must survive the reorder).
-    _shadow = tr.append_shadow_log(tr.shadow_entry(_ordered_caps, _ta, baseline_caps=_chosen_caps))
-    emit(f"   taste→creation wire: {'🟢 LIVE — steered selection' if _ta['wire_live'] else '⚪ SHADOW — advisory only, ship order unchanged'} "
-         f"(n_testable={_ta['n_testable']}, live_pct={_ta['live_pct']}, order_diff={_shadow['order_diff']}/{_shadow['n']})")
+    # B267/B268 — record this full-batch run to the append-only divergence history so active-pick-vs-
+    # random can be MEASURED at the real seam once the gate opens (not just the rescued-seed sim —
+    # Rule #9). Same helper as the short-batch path above: the system's PRE-taste selection is the
+    # control baseline, taste's order is what it WOULD ship (== baseline while the gate is closed).
+    taste_advisory = _record_shadow(chosen)
 
     man = {"built": time.strftime("%Y-%m-%dT%H:%M:%S"), "n": len(chosen), "suffix": a.suffix, "staged": False,
            "taste_advisory": taste_advisory,

@@ -514,6 +514,20 @@ def main():
         print(research_open.summary_line())
     except Exception:
         pass
+    # SURFACE + ROUTE (not a check — never alarms): h_fork_decision LANDS his A/B fork tap in
+    # mohamed_rulings_live.json[fork_decisions] but nothing READ it — a severed wire (Rule #6).
+    # Give the write its reader: route every decided fork onto its dependent backlog step within
+    # one cadence, and surface a landed-but-lost fork (no dependent step). Routes only — never
+    # executes the follow-on rewire/strip (Rule #11/#12). June 22, RABIE's pick.
+    try:
+        import fork_decision_consumer as _fdc
+        _fres = _fdc.consume(BASE)
+        for _r in _fres.get("routed", []):
+            print(f"🔀 fork routed: {_r['fork']} → «{_r['answer']}» → {_r['step']} (now actionable)")
+        for _u in _fres.get("unconsumed", []):
+            print(f"⚠️  fork {_u['fork']} decided («{_u['answer']}») but NO dependent step — landed-but-lost (Rule #6)")
+    except Exception as _fe:
+        print(f"⚠️  fork-decision consumer skipped this cadence ({_fe}) — has its own tests; not an alarm")
     # B186c — STANDING JANITOR: run the stage→portal drainer every cadence (retire dead superseded
     # cards off his portal + low-queue top-up of staged confirm cards). One line, no card (Rule #10).
     checks.update(standing_janitor(BASE))

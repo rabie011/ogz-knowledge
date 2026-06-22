@@ -683,7 +683,8 @@
    "est_minutes": 90,
    "depends_on": [],
    "status": "todo",
-   "progress": "2026-06-20: regression ceiling landed (test_intel_consumer_health.py TestOrphanRegressionCeiling) — 16-pair quarantine baseline frozen, new severed read fails build, fix-subset never blocked. FULL fix still gated on B057c (rewire-vs-strip). +2 tests (471 green)."
+   "progress": "2026-06-20: regression ceiling landed (test_intel_consumer_health.py TestOrphanRegressionCeiling) — 16-pair quarantine baseline frozen, new severed read fails build, fix-subset never blocked. FULL fix still gated on B057c (rewire-vs-strip). +2 tests (471 green). | 2026-06-22: ACTUATOR built — scripts/fork_decision_consumer.py reads fork_decisions and ROUTES each decided fork onto the step that declares gated_on_fork, stamping fork_resolved (actionable signal) + progress note; idempotent; re-tap re-routes. Wired into make_sure cycle (auto-routes within one cadence). +7 tests (783 green). Closes the h_fork_decision severed wire (Rule #6): his B057c tap now lands AND routes onto B057b. B057b still NOT executed (Rule #11/#12) — awaits his actual A/B tap.",
+   "gated_on_fork": "B057c_thinbrain_primary_fork"
   },
   {
    "id": "B057c",
@@ -694,7 +695,7 @@
    "est_minutes": 5,
    "depends_on": [],
    "status": "staged",
-   "done_note": "Fork staged to portal (card B057c_thinbrain_primary_fork, A/B) after grep-verifying the orphaned PRIMARY block. Unblocks B057b."
+   "done_note": "Fork staged to portal (card B057c_thinbrain_primary_fork, A/B) after grep-verifying the orphaned PRIMARY block. Unblocks B057b. | 2026-06-22: actuator now reads this fork (fork_decision_consumer + make_sure wire) — his tap routes onto B057b, no longer lands-and-dies."
   },
   {
    "id": "B057d",
@@ -1168,7 +1169,8 @@
     "B092",
     "B160"
    ],
-   "status": "todo"
+   "status": "done",
+   "done_note": "2026-06-22 (RABIE shift): churn_alert.py — the CONSUMER of churn_risk.json (Rule #6). RED→human-touch outreach task into ~/agents/queue/pending naming ogz_account_owner (UNASSIGNED until B160 named) + fired event; YELLOW→events/alerts.jsonl watch event only (no dispatch, Rule #8); GREEN→auto-close (Rule #10, one card/level, dedupe). Self-recomputes the dashboard so it never acts stale. 8 tests; 771 suite green. Live run: YELLOW logged, NO queue task (correct). Per-client fan-out awaits a client-side cadence stream (honest scope, churn_risk SCOPE NOTE)."
   },
   {
    "id": "B094",
@@ -3093,7 +3095,10 @@
    "who": "pair",
    "est_minutes": 45,
    "depends_on": [],
-   "status": "todo"
+   "status": "done",
+   "pair_notes": [
+    "B253 (June 22 orchestra): 3 additive elif branches in orchestrator_daemon.execute_task — client_intake (manifest warnings->Mira), client_profile (build + fingerprint RED/YELLOW/GREEN), client_year_map (slots/anchors/cadence). Reuse existing tested machines via subprocess, mirror client_refresh. test_orchestrator_client_tasks.py green, full suite 776 OK, py_compile clean. Daemon NOT restarted (safe) — branches go live on next natural restart; not yet run end-to-end on a real handle (RABIE 3/5, 4 on a live flow). Unblocks B254/B255."
+   ]
   },
   {
    "id": "B254",
@@ -3632,9 +3637,9 @@
   }
  ],
  "counts": {
-  "done": 220,
+  "done": 222,
   "superseded": 3,
-  "todo": 67,
+  "todo": 65,
   "open": 4,
   "staged": 6,
   "skipped": 4

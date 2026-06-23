@@ -171,6 +171,38 @@ def main():
         "products PLAIN: solid brand colours only, with ABSOLUTELY NO text, NO letters, NO words, NO "
         "wordmark, NO logo, NO numbers on ANY surface — smooth unbranded surfaces. (The real brand "
         "logo is composited in afterward.)")
+    # PRODUCT-TRUTH ASSEMBLY + NEGATIVE PROMPT (June 23). The consult panel (GPT+Gemini) + RABIE:
+    # the positive identity_dna fixed the SAUCE but flux still rendered a DECONSTRUCTED platter (loose
+    # tenders + an empty/open bun) instead of the ASSEMBLED product. This last-mile, forceful block
+    # locks the geometry per the product's real format and FORBIDS the generic-QSR tells RABIE named.
+    try:
+        _pt = json.loads((B / "clients" / a.handle / "profile" / "product_truth.json").read_text()).get(a.product, {})
+        _fmt = (_pt.get("format") or "").lower()
+        _neg = []
+        if _fmt in ("burger", "sandwich"):
+            _neg.append("This is ONE single fully-ASSEMBLED hero sandwich: the crispy broasted chicken "
+                "fillet(s) are STACKED INSIDE the CLOSED pale seedless bun, white garlic ثومية sauce "
+                "visible at the edge — exactly the assembled form in the reference photo. ABSOLUTELY "
+                "FORBIDDEN: loose chicken tenders/strips/fingers scattered on a board; an EMPTY, OPEN or "
+                "deconstructed bun; a sesame burger bun; crinkle-cut fries; any generic Texas-Chicken/"
+                "Hardee's/QSR platter.")
+        elif _fmt in ("wrap", "roll"):
+            _neg.append("This is ONE rolled flatbread WRAP (صاج/tortilla), broasted chicken + white garlic "
+                "ثومية visible in the cut cross-section, held in hand or cut on a board — there is NO BUN. "
+                "ABSOLUTELY FORBIDDEN: any burger/sesame bun, loose tenders, a deconstructed platter.")
+        elif _fmt in ("strips", "tenders", "box", "combo"):
+            _neg.append("Broasted crispy chicken pieces/strips with white garlic ثومية + cocktail sauce "
+                "cups" + (" PLUS the assembled fillet sandwich, golden straight-cut fries and a drink for the combo" if _fmt == "combo" else " on a warm wooden board, NO bun") + ". "
+                "FORBIDDEN: an empty/open bun, crinkle-cut fries, a generic QSR platter.")
+        if _pt.get("signature_sauce"):
+            _neg.append(f"The ONLY prominent sauce is {_pt['signature_sauce']} (cream-WHITE garlic ثومية) "
+                "— ABSOLUTELY NO orange, red or pink cocktail sauce visible anywhere; white garlic sauce ONLY "
+                "(it is Albaik's #1 recognition signature).")
+        if _neg:
+            prompt = prompt + "\n\n[PRODUCT TRUTH — CRITICAL, match the reference's assembled form exactly]\n" + " ".join(_neg)
+            print(f"  🍔 product-truth assembly+negative block applied (format={_fmt or '?'})")
+    except Exception as _e:
+        print(f"  (no product_truth block: {type(_e).__name__})")
     key = env("FAL_KEY") or env("FAL_API_KEY")
     refp = Path(ref)
     mime = "jpeg" if refp.suffix.lower() in (".jpg", ".jpeg") else (refp.suffix.lstrip(".").lower() or "jpeg")

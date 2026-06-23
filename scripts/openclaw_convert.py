@@ -142,6 +142,7 @@ def load_brand(handle):
         "l3_visual": fp.get("l3_visual", {}) or {},
         "red_lines": j("red_lines.json").get("lines", []),
         "visual_dna": j("visual_dna.json"),   # v3.7 organ — may not exist yet
+        "product_truth": j("product_truth.json"),   # confirmed-truth organ: real product identity per hero (root-fix for RED identity_dna)
         "cultural_overrides": j("cultural_overrides.json"),   # face_visibility, modesty register, etc.
     }
 
@@ -193,6 +194,31 @@ def derive_visual_dna(brand, chain, product_name=None):
     products = brand.get("products") or []
     hero = prod.get("name") or (products[0] if products else brand["name"])
 
+    # ── PRODUCT-TRUTH ORGAN (root-fix for the cycle-1 2/5s) ────────────────────────────
+    # The visual_dna products carry identity_dna=RED («CLIENT: …») so flux invented generic
+    # QSR food. clients/<handle>/profile/product_truth.json holds the REAL, confirmed identity
+    # of each hero (vision+websearch grounded). When the requested product matches a key, FILL
+    # identity_dna + material_texture from it (and weave the signature_sauce) tagged 'organ' —
+    # it is now confirmed truth, not RED/client_needed. Falls through to _sf when no entry. (Rule #6)
+    pt_all = brand.get("product_truth") or {}
+    pt = pt_all.get(product_name) if product_name else None
+    pt_id_field = pt_id_tex = None
+    if isinstance(pt, dict):
+        idd = (pt.get("identity_dna") or "").strip()
+        sauce = (pt.get("signature_sauce") or "").strip()
+        if idd:
+            # weave the signature sauce as an explicit signature cue if it isn't already named
+            if sauce and sauce not in idd:
+                idd = f"{idd} SIGNATURE CUE — the product must read by its {sauce}."
+            pt_id_field = Field(idd, "organ")
+        tex = (pt.get("texture") or "").strip()
+        if tex:
+            # texture is a substrate keyword (e.g. 'broasted/crispy') → map to the canon's
+            # material-texture language so the field stays a full description, not a bare tag
+            mt = MATERIAL.get(pk, MATERIAL["default"])
+            pt_id_tex = Field(f"{mt}; product-truth texture: {tex}"
+                              + (f"; signature {sauce}" if sauce else ""), "organ")
+
     return {
         "brand.name": Field(brand["name"], "organ"),
         "brand.sector": Field(sector, "organ" if brand.get("sector") else "derived"),
@@ -206,10 +232,10 @@ def derive_visual_dna(brand, chain, product_name=None):
         "brand.quality_tier": _sf(vb.get("quality_tier"), chain.get("quality_tier") or "universal"),
         "brand.price_position": _sf(vb.get("price_position"), "mid-market"),
         "product.name": Field(hero, "organ" if (prod or products) else "client_needed"),
-        "product.identity_dna": _sf(prod.get("identity_dna"), f"«CLIENT: the locked identity of {hero} — the reference image carries it; confirm wordmark, signature colour, form»"),
+        "product.identity_dna": pt_id_field or _sf(prod.get("identity_dna"), f"«CLIENT: the locked identity of {hero} — the reference image carries it; confirm wordmark, signature colour, form»"),
         "product.silhouette_description": _sf(prod.get("silhouette_description"), f"the recognizable form of {hero}"),
         "product.material_finish": _sf(prod.get("material_finish"), MATERIAL.get(pk, MATERIAL["default"]).split(";")[0]),
-        "product.material_texture": _sf(prod.get("material_texture"), MATERIAL.get(pk, MATERIAL["default"])),
+        "product.material_texture": pt_id_tex or _sf(prod.get("material_texture"), MATERIAL.get(pk, MATERIAL["default"])),
         "product.dimensions": _sf(prod.get("dimensions"), DIMENSIONS.get(pk, DIMENSIONS["default"])),
         "product.companion_elements": _sf(prod.get("companion_elements"), COMPANION.get(pk, COMPANION["default"])),
         "product.label_text_arabic": _sf(prod.get("label_text_arabic"), f"«CLIENT: exact Arabic wordmark of {brand['name']}»"),

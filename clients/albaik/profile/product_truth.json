@@ -1,0 +1,71 @@
+{
+  "_meta": {
+    "client": "albaik",
+    "organ": "product_truth",
+    "purpose": "Real visual identity of each Albaik (البيك) hero product, grounded in vision on the clean product_food reference photos (media_class.json) + a web search of Albaik's real menu. A Saudi who eats Albaik must recognize the product from identity_dna alone.",
+    "grounding": {
+      "vision_refs": {
+        "دبل بيك": "clients/albaik/media/C7jthkloMRo.jpg",
+        "سوبر رول": "clients/albaik/media/C5gf09UIwjq.jpg, clients/albaik/media/C3qUDfCI5Hx.jpg",
+        "كومبو بيك": "clients/albaik/media/CppJmMkogAY.jpg",
+        "بيكيز": "clients/albaik/media/C0mM-Z2Il0S.jpg",
+        "كرسبي بيك": "clients/albaik/media/C7jthkloMRo.jpg (single-fillet read of the broasted-fillet form), C0mM-Z2Il0S.jpg (broasted texture)"
+      },
+      "web_sources": [
+        "https://menualbaik.com/",
+        "https://www.albaik.com/menu",
+        "https://hungerstation.com/sa-ar/restaurant/",
+        "https://foodgcc.com/ساندوتش-البيك-الجديد/"
+      ],
+      "confidence": "experimental",
+      "date_added": "2026-06-23",
+      "confirmer": "vision+websearch (Claude), pending Mohamed taste-gate"
+    },
+    "signature_law": "Albaik's single most recognizable visual cue is the WHITE GARLIC SAUCE (ثومية) — a thick, glossy, off-white fresh-garlic mayonnaise. Every Albaik product reads as Albaik because of the broasted golden-crispy chicken + that white garlic sauce. Never render a generic sesame burger bun, generic mayo, or grilled-only chicken as Albaik."
+  },
+
+  "دبل بيك": {
+    "identity_dna": "Two thick BROASTED golden-crispy chicken breast fillets stacked one above the other, each with a craggy deep-fried crumb crust, separated and crowned by melted cheese that drapes over the edges, bright-green sliced dill pickles peeking between the layers, and Albaik's twin sauces — the white garlic ثومية and the pinkish-orange cocktail (مسحب) sauce — oozing down the sides. The bun is Albaik's own pale, soft, SEEDLESS round bun (a plain glossy top crown, NOT a sesame burger bun), generously domed, against the brand's red backdrop.",
+    "components": ["two broasted crispy chicken breast fillets", "two slices melted cheese", "sliced dill pickles", "coleslaw base", "white garlic sauce (ثومية)", "cocktail/مسحب sauce"],
+    "bread": "Albaik's pale soft seedless round bun, plain glossy crown (NOT a sesame burger bun)",
+    "signature_sauce": "white garlic sauce (ثومية)",
+    "texture": "broasted/crispy",
+    "format": "burger"
+  },
+
+  "سوبر رول": {
+    "identity_dna": "A long, fat hand-held wrap rolled in a thin pale flatbread — either the griddled صاج flatbread with dark golden grill stripes or a soft flour tortilla — gripped in the fist and cut to reveal the stuffing: broasted golden-crispy chicken strips (chicken variant) or breaded crispy shrimp (the 8-جمبري variant), tumbling out with shredded white coleslaw, bright-green sliced pickles, crisp golden fries, and Albaik's white garlic ثومية plus a streak of orange cocktail sauce. Reads instantly as the oversized, overstuffed Albaik super wrap.",
+    "components": ["broasted crispy chicken strips OR 8 crispy shrimp", "shredded coleslaw", "sliced dill pickles", "golden fries", "white garlic sauce (ثومية)", "cocktail sauce", "optional two slices cheese"],
+    "bread": "thin pale griddled صاج flatbread with grill stripes (or soft flour tortilla)",
+    "signature_sauce": "white garlic sauce (ثومية)",
+    "texture": "broasted/crispy",
+    "format": "wrap"
+  },
+
+  "كومبو بيك": {
+    "identity_dna": "A full meal plated on a warm wooden board: a pile of 5 BROASTED golden-crispy boneless chicken-breast strips (بيكيز) with their craggy fried crust, a soft pale Albaik bun alongside, a wooden bowl heaped with golden curly-cut Albaik fries, two small dip cups — one white garlic ثومية, one red ketchup/cocktail — and an iced Pepsi can (with the البيك co-branded can in some shots). The hero is the broasted chicken-breast strips and the white garlic sauce; everything sits on the warm-wood-and-brand-color stage.",
+    "components": ["5 broasted crispy chicken-breast strips (بيكيز)", "soft Albaik bun", "golden Albaik fries", "white garlic sauce dip (ثومية)", "ketchup/cocktail dip", "Pepsi can"],
+    "bread": "soft pale Albaik bun served alongside (combo plating, not assembled in a sandwich)",
+    "signature_sauce": "white garlic sauce (ثومية)",
+    "texture": "broasted/crispy",
+    "format": "combo"
+  },
+
+  "بيكيز": {
+    "identity_dna": "A loose pile of BROASTED golden-crispy boneless, skinless chicken-breast strips — irregular, knobbly, deeply golden tenders with a thick craggy fried crumb crust, served bare on a warm wooden board (no bun). 5 pieces per portion. Available regular or spicy (حرّاق, with the red chili-flame badge). Always plated to show the crunch and steam, with Albaik's white garlic ثومية and orange cocktail (مسحب) sauce as the dip alongside.",
+    "components": ["5 broasted crispy boneless skinless chicken-breast strips", "white garlic sauce (ثومية)", "cocktail/مسحب sauce", "optional spicy حرّاق coating"],
+    "bread": "none (served as strips on a board, dips alongside)",
+    "signature_sauce": "white garlic sauce (ثومية)",
+    "texture": "broasted/crispy",
+    "format": "strips"
+  },
+
+  "كرسبي بيك": {
+    "identity_dna": "Albaik's single-fillet crispy chicken sandwich: ONE thick BROASTED golden-crispy chicken-breast fillet with its craggy deep-fried crumb crust, topped with a slice of melted cheese, bright-green sliced pickles, shredded coleslaw, and a glossy layer of Albaik's white garlic ثومية with a streak of orange cocktail sauce, all in Albaik's pale soft SEEDLESS round bun (plain glossy crown, NOT a sesame burger bun). The simpler, single-fillet sibling of the Double Beek — same broasted crunch, same signature white garlic sauce.",
+    "components": ["one broasted crispy chicken breast fillet", "slice of melted cheese", "sliced dill pickles", "shredded coleslaw", "white garlic sauce (ثومية)", "cocktail sauce"],
+    "bread": "Albaik's pale soft seedless round bun, plain glossy crown (NOT a sesame burger bun)",
+    "signature_sauce": "white garlic sauce (ثومية)",
+    "texture": "broasted/crispy",
+    "format": "burger"
+  }
+}

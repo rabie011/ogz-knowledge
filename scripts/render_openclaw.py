@@ -223,7 +223,10 @@ def main():
     # point). The model id flows from model_registry.RENDER_MODEL — the single place to bump it.
     img_url = render_backend(prompt, [data_uri], "square_hd", key=key, model=MODEL)
     RENDER_DIR.mkdir(parents=True, exist_ok=True)
-    name = f"{a.handle}_{resolve_id(a.chain)}.jpg"
+    # distinct file per PRODUCT (June 23): the 20-run renders many products on the same chain — a
+    # bare handle_chain name made each overwrite the last. Slug the product into the name.
+    _pslug = ((a.product or "x").strip().replace(" ", "_").replace("/", "-"))[:24] or "x"
+    name = f"{a.handle}_{_pslug}_{resolve_id(a.chain)}.jpg"
     dest = RENDER_DIR / name
     urllib.request.urlretrieve(img_url, dest)
     _composite_brand_logo(dest, a.handle)   # overlay the REAL logo (AI rendered plain)

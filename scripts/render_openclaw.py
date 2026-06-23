@@ -191,9 +191,15 @@ def main():
                 "ثومية visible in the cut cross-section, held in hand or cut on a board — there is NO BUN. "
                 "ABSOLUTELY FORBIDDEN: any burger/sesame bun, loose tenders, a deconstructed platter.")
         elif _fmt in ("strips", "tenders", "box", "combo"):
-            _neg.append("Broasted crispy chicken pieces/strips with white garlic ثومية + cocktail sauce "
-                "cups" + (" PLUS the assembled fillet sandwich, golden straight-cut fries and a drink for the combo" if _fmt == "combo" else " on a warm wooden board, NO bun") + ". "
-                "FORBIDDEN: an empty/open bun, crinkle-cut fries, a generic QSR platter.")
+            if _fmt == "combo":
+                _neg.append("Broasted crispy chicken strips/pieces, cream-WHITE garlic ثومية sauce cups, "
+                    "PLUS one assembled chicken-fillet sandwich on a PALE SEEDLESS bun (NEVER a sesame-seed "
+                    "bun), golden STRAIGHT-CUT fries (NEVER crinkle-cut, NEVER potato chips/crisps), and a "
+                    "drink can. ABSOLUTELY FORBIDDEN: a sesame-seed bun, crinkle-cut fries, potato chips "
+                    "instead of fries, an empty/open bun, a generic QSR platter.")
+            else:
+                _neg.append("A pile of broasted crispy chicken strips on a warm wooden board with cream-WHITE "
+                    "garlic ثومية sauce cups — NO bun. FORBIDDEN: a burger/sandwich, any bun, a generic platter.")
         if _pt.get("signature_sauce"):
             _neg.append(f"The ONLY prominent sauce is {_pt['signature_sauce']} (cream-WHITE garlic ثومية) "
                 "— ABSOLUTELY NO orange, red or pink cocktail sauce visible anywhere; white garlic sauce ONLY "

@@ -585,7 +585,18 @@ def life_context(handle: str, date: str) -> str:
     return LIFE_CONTEXTS[int(hashlib.md5(f"{handle}{date}ctx".encode()).hexdigest(), 16) % len(LIFE_CONTEXTS)]
 
 
-def make_angle(c: dict, slot: dict, sector: str, brain: str | None = None) -> dict:
+def angle_prompt(c: dict, slot: dict, sector: str, brain: str | None = None) -> tuple[str, str, str | None]:
+    """Build the (system, user, brain) prompt for ONE concrete-scene angle (pure, no LLM call).
+
+    Extracted from make_angle (June 23) so BOTH the single-pen make_angle AND the multi-model
+    CD-brain PANEL (cd_panel.py — W1/W3) build the SAME prompt from the same organs: the methodology
+    BODY injection, the CEO strategy frame, the occasion-truth rule, the client-rules armor, the
+    sector/food guards, the real-moments seed. The panel then fans the SAME prompt across GPT/Gemini/
+    Groq (the minds on DIFFERENT models) — one source of truth for what a CD brain is asked.
+
+    Returns (sys_p, user, brain) — brain is returned because the heritage→firaasa Arabic-root guard
+    may swap it; callers must use the returned brain for provenance.
+    """
     import occasion_align as _oa
     import client_rules as _cr
     _ov = _cr._overrides(c["handle"])
@@ -652,15 +663,41 @@ def make_angle(c: dict, slot: dict, sector: str, brain: str | None = None) -> di
             + ("NOTE: this brand speaks English-first — the scene may be EN-hook + AR-idea bilingual.\n" if c["en_led"] else "")
             + f"سياق الحياة لهذا اليوم — المشهد يعيش داخله (مو شرط عائلة!): {life_context(c['handle'], slot['date'])}\n"
             + f"التاريخ الفعلي للنشر: {slot['date']}")
+    return sys_p, user, brain
+
+
+def make_angle(c: dict, slot: dict, sector: str, brain: str | None = None,
+               panel: bool = False) -> dict:
+    """ONE angle (idea) for a slot, born from a CD-brain methodology.
+
+    Default (panel=False): the single-pen path — GPT-4o, Sonnet fallback (back-compat).
+    panel=True (W3, June 23 — "the full system must work, all agents and minds"): the angle is
+    born from the 5-CD-BRAIN PANEL (cd_panel.run_panel) — the routed brains each run on a DIFFERENT
+    model (GPT/Gemini/Groq via consult.py) and the lead brain's angle is returned, with the rival
+    angles attached as `panel_alts` so the caption pen is SEEDED by the minds (not invented
+    mechanically). A dead model/key falls back inside the panel — never blocks the pipeline.
+    """
+    if panel:
+        try:
+            import cd_panel
+            picked = cd_panel.run_panel(c, slot, sector, lead_brain=brain)
+            if picked:
+                return picked
+        except Exception as _pe:
+            print(f"  panel failed ({type(_pe).__name__}: {str(_pe)[:60]}) — single-pen fallback", file=sys.stderr)
+    sys_p, user, brain = angle_prompt(c, slot, sector, brain=brain)
     # quota-resilience (June 12, the day OpenAI ran dry mid-regen): the angle falls
     # back to the Anthropic pen — degraded single-pen mode beats a dead pipeline
     try:
-        return json.loads(gpt([{"role": "system", "content": sys_p}, {"role": "user", "content": user}], temp=0.8, max_tok=400))
+        out = json.loads(gpt([{"role": "system", "content": sys_p}, {"role": "user", "content": user}], temp=0.8, max_tok=400))
     except Exception as _e:
         print(f"  gpt angle failed ({str(_e)[:40]}) — sonnet fallback", file=sys.stderr)
         raw = sonnet(sys_p, [{"role": "user", "content": user + "\n\nأجب بكائن JSON فقط، بدون أي نص خارجه."}], max_tok=500)
         i, j = raw.find("{"), raw.rfind("}")
-        return json.loads(raw[i:j + 1])
+        out = json.loads(raw[i:j + 1])
+    out.setdefault("brain", brain)
+    out.setdefault("by_model", "gpt")
+    return out
 
 
 CTA_PUSH_TYPES = {"weekly_offer", "white_friday", "11_11_shopping", "singles_day_11_11"}
@@ -1041,6 +1078,9 @@ def main():
                     help="route the angle through a full CD-brain methodology (auto = slot-type routing)")
     ap.add_argument("--suffix", default="", help="output filename suffix (e.g. __v2_brain)")
     ap.add_argument("--ground", action="store_true", help="ground the shoot-card in the brand's real visual_dna (June 18)")
+    ap.add_argument("--panel", action="store_true",
+                    help="run the 5-CD-brain PANEL on DIFFERENT models (GPT/Gemini/Groq via consult.py); "
+                         "the lead brain's angle leads + rivals seed the caption pen (W1/W3, June 23)")
     a = ap.parse_args()
     gate = blackout_check()
     if not gate["publish_allowed"]:
@@ -1085,7 +1125,7 @@ def main():
             pass
     else:
         brain = a.brain
-    angle = make_angle(c, slot, ymap["sector"], brain=brain)
+    angle = make_angle(c, slot, ymap["sector"], brain=brain, panel=a.panel)
     captions = render_captions(c, slot, angle)
     # CONTENT-AWARE chain pick (June 21 fix): the chain now fits the SCENE (the angle's
     # scene + post_type + occasion), not just the formula's family order — so a family

@@ -31,6 +31,10 @@ B = Path(__file__).parent.parent
 # calls cap at 120s each (max two on the gpt→sonnet fallback path), so 300s covers a slow-but-
 # legit slot while still killing a true hang. Override via PRODUCE_SLOT_TIMEOUT (0 = no cap).
 SLOT_TIMEOUT = int(os.environ.get("PRODUCE_SLOT_TIMEOUT", "300"))
+# PANEL (W1/W3, June 23): when on, each slot's angle is born from the 5-CD-brain PANEL across
+# DIFFERENT models (GPT/Gemini/Groq via consult.py). Set by --panel or PRODUCE_PANEL=1. Off by
+# default so the cheap single-pen path stays the baseline (money discipline) until flipped on.
+PANEL = os.environ.get("PRODUCE_PANEL", "") == "1"
 sys.path.insert(0, str(B / "scripts"))
 import post_audit as pa
 import render_reel as rr
@@ -131,9 +135,11 @@ def render(handle, date, suffix, force=False):
         except Exception:
             pass
     try:
-        subprocess.run(["python3", str(B / "scripts/render_client_slot.py"), "--handle", handle,
-                        "--date", date, "--brain", "auto", "--suffix", suffix],
-                       capture_output=True, text=True,
+        cmd = ["python3", str(B / "scripts/render_client_slot.py"), "--handle", handle,
+               "--date", date, "--brain", "auto", "--suffix", suffix]
+        if PANEL:
+            cmd.append("--panel")
+        subprocess.run(cmd, capture_output=True, text=True,
                        timeout=(SLOT_TIMEOUT if SLOT_TIMEOUT > 0 else None))
     except subprocess.TimeoutExpired:
         # the child hung past the ceiling — it was killed. Fail this slot LOUDLY and return None
@@ -173,7 +179,13 @@ def main():
     ap.add_argument("--rank", action="store_true", help="rank candidates by REAL-engagement occasion-lift (June 18)")
     ap.add_argument("--daily-only", dest="daily_only", action="store_true",
                     help="first-proof/near-term mode: daily posts only, NO occasion reservation (June 19)")
+    ap.add_argument("--panel", action="store_true",
+                    help="born-from-the-minds mode: each angle from the 5-CD-brain PANEL on DIFFERENT "
+                         "models (GPT/Gemini/Groq); the lead leads, rivals seed the caption (W1/W3, June 23)")
     a = ap.parse_args()
+    global PANEL
+    if a.panel:
+        PANEL = True
     log = B / "data/produce_batch.log"; lines = []
 
     def emit(s):

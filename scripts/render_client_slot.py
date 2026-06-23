@@ -865,6 +865,17 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     # Deterministic: suspect tokens = Latin names with digits/dots/caps, or Arabic promo-name
     # constructions; killed unless the client's real captions/bio/truth pack contain them.
     corpus = (c.get("corpus_text") or "").lower()
+    # PRODUCT NAMES are grounded truth (June 23 — the producer↔render product-name wire): the brand's
+    # real products (the product_truth organ + visual_dna products) are CONFIRMED, so a caption naming
+    # دبل بيك / سوبر رول / جريش must NOT be killed as an "ungrounded" promo name. The render already
+    # grounds them (product_truth); now the caption gate does too, so a product post can name its hero.
+    try:
+        _ptf = Path(__file__).parent.parent / "clients" / c.get("handle", "") / "profile" / "product_truth.json"
+        if _ptf.exists():
+            corpus = corpus + " " + " ".join(json.loads(_ptf.read_text()).keys()).lower()
+    except Exception:
+        pass
+    corpus = corpus + " " + " ".join(str(p) for p in (c.get("products") or [])).lower()
     from truth_guards import PROMO_AR, LATIN_NAME
     # truth guard 5 (June 11 — the hallucinated prince): NAMED PEOPLE die unless the
     # client's corpus contains them. Inventing a person's presence is the worst truth

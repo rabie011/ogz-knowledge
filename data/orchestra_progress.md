@@ -25,4 +25,7 @@ fal spent: ~$0.60 / $15
 150 media tagged, 0 clean product refs (141 are people — gym feed). No person-free product photo to anchor a render.
 NEEDS: real myfitness product photos from the client, OR a non-product post format. Flagged for Mohamed.
 
-## SCORE: 4 perfect photos (albaik ×3, jurisha ×1) · 2/3 clients live · fal ~$0.60/$15
+## ✅ COMPLETE POSTS (photo+caption, RABIE-judged)
+1. albaik دبل بيك — 5/5 — «صوت القرمشة يقول كل شيء! جرب دبل بيك...» (full system end-to-end)
+
+## SCORE: 1 COMPLETE post + 4 perfect photos (albaik ×3, jurisha ×1) · 2/3 clients live · fal ~$0.60/$15

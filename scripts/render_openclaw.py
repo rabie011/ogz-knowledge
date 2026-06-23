@@ -29,7 +29,7 @@ COST_LOG = B / "data/fal_cost_log.jsonl"
 RENDER_DIR = B / "api/static/renders_v37"   # under api/static → the portal serves it at /static/renders_v37/
 MODEL = mr.RENDER_MODEL        # was hardcoded "fal-ai/flux-2-pro/edit"; now the registry is the one place to swap it
 USD_PER_IMAGE = 0.05          # flux-2-pro/edit est.; measured cost overwrites this in the log
-USD_CAP = 3.00                # Mohamed's first-batch law
+USD_CAP = 15.00               # Mohamed June 23: "dont spend more that 15 dollars" — the 20-perfect-posts budget
 
 
 def env(k):

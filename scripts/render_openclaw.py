@@ -200,6 +200,12 @@ def main():
             else:
                 _neg.append("A pile of broasted crispy chicken strips on a warm wooden board with cream-WHITE "
                     "garlic ثومية sauce cups — NO bun. FORBIDDEN: a burger/sandwich, any bun, a generic platter.")
+        elif _fmt in ("bowl", "dish", "porridge", "rice", "tray", "flatbread"):
+            _neg.append("This is a REAL cooked Saudi/Najdi dish (e.g. جريش cracked-wheat porridge, kabli rice, "
+                "or قرصان flatbread-in-broth) in its TRUE serving vessel (kraft cup / round foil tray / bowl), with "
+                "its real condiment pots where shown. Honest thick moist matte cooked-grain surface. ABSOLUTELY "
+                "FORBIDDEN: any fried/crispy/breaded crust, fried chicken, a burger/sandwich/bun, plastic-uniform "
+                "CGI food — this dish is NEVER fried.")
         if _pt.get("signature_sauce"):
             _neg.append(f"The ONLY prominent sauce is {_pt['signature_sauce']} (cream-WHITE garlic ثومية) "
                 "— ABSOLUTELY NO orange, red or pink cocktail sauce visible anywhere; white garlic sauce ONLY "

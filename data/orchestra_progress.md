@@ -15,4 +15,14 @@ assembly-lock + format-aware NEGATIVE prompt · white-ثومية signature lock 
 - attach the system CAPTION + assemble each into a COMPLETE post; RABIE judges the complete post.
 - more setups per product (angles / occasions / lifestyle-faceless) for variety.
 
-fal spent: ~$0.57 / $15
+fal spent: ~$0.60 / $15
+
+## jurisha (eatjurisha) — different cuisine (Najdi), same machine
+4. جريش (cracked-wheat porridge) — ✅ 5/5  (cooked-dish lock → real porridge, NOT fried; red box + chili + ghee)
+   ready: رز كابلي · سليق · قرصان · باشميل (product_truth built, 6 clean refs). NOTE: jurisha has no logo.png yet.
+
+## myfitness.sa — ⛔ BLOCKED (data gap)
+150 media tagged, 0 clean product refs (141 are people — gym feed). No person-free product photo to anchor a render.
+NEEDS: real myfitness product photos from the client, OR a non-product post format. Flagged for Mohamed.
+
+## SCORE: 4 perfect photos (albaik ×3, jurisha ×1) · 2/3 clients live · fal ~$0.60/$15

@@ -24,6 +24,19 @@ The 5 seed CD-brain methodologies + the router narrative.
 
 Full logic: `cd_router.md` (narrative) + `10_agent_brains/cd_brain_router_rules.yaml` (machine).
 
+## How a brain RUNS (June 23 — "all agents and minds")
+
+Routing picks WHICH brain(s); two runners EXECUTE the chosen methodology against an LLM:
+
+- **Single pen** — `scripts/render_client_slot.py::make_angle` applies ONE routed brain's full
+  methodology body (`brain_router.brain_method`) on GPT-4o (Sonnet fallback). The default path.
+- **The PANEL** — `scripts/cd_panel.py::run_panel` (run with `--panel` on `render_client_slot.py`
+  or `produce_batch.py`, or `PRODUCE_PANEL=1`) runs the slot's CD-brain spread as a panel of
+  distinct minds, **each brain on a DIFFERENT model** (GPT / Gemini / Groq via `scripts/consult.py`).
+  It returns the lead brain's angle with the rival brains' angles attached as `panel_alts` so the
+  caption is *born from the minds*, not invented mechanically. A dead model falls back to a live one;
+  all-dead falls back to the single pen — the pipeline never stalls on the minds.
+
 ## Rules
 
 - **Each brain's front-matter** validates against `12_data_shapes/cd_brain_v1.schema.json`.

@@ -3736,12 +3736,38 @@
       "status": "todo",
       "what": "Schedule the lovable_watch fetch (sensor freshness trigger)",
       "how": "Give lovable_watch.py a periodic trigger so the inbox stays fresh — fold into the B262 archive-freshness LaunchAgent (com.ogz pattern, weekly) or the orchestra fire sequence. Reader (B239b) already surfaces whatever lands; this keeps what lands current. Needs Mohamed-aware install (no autonomous launchd, session-leak risk)."
+    },
+    {
+      "id": "B286",
+      "layer": "Infrastructure floor",
+      "what": "Orchestra fire self-terminate wrapper — each scheduled-task claude session exits at end of shift (root fix for the session leak)",
+      "how": "add a hard wall-clock kill/timeout to ~/.claude/scheduled-tasks/rabie-orchestra launch so a fire cannot linger; verify with pgrep over 2 fires. DO ON A CALM BOX (load<2) — never test under saturation.",
+      "who": "pair",
+      "est_minutes": 45,
+      "depends_on": [],
+      "status": "todo",
+      "done_note": "",
+      "source": "B284 verdict + 2026-06-23 04:23 shift: 161 leaked claude sessions -> load 74"
+    },
+    {
+      "id": "B287",
+      "layer": "Infrastructure floor",
+      "what": "make_sure load_saturated short-circuit — when load stays saturated after settle, SKIP the heavy subprocess probes (exit 0 HOLD) instead of running them (false reds + 20-min hang that ADDS load)",
+      "how": "in main(): if _load_settle.settled is False, emit verdict=HOLD_SATURATED (not ALARM), skip armor_tests/test-suite probes, keep in-process logic checks. +unit test. DO ON A CALM BOX.",
+      "who": "pair",
+      "est_minutes": 40,
+      "depends_on": [
+        "B286"
+      ],
+      "status": "todo",
+      "done_note": "",
+      "source": "2026-06-23 shifts: repeated load-induced false ALARM (armor_tests timeout at load 73)"
     }
   ],
   "counts": {
     "done": 235,
     "superseded": 3,
-    "todo": 58,
+    "todo": 60,
     "open": 4,
     "staged": 6,
     "skipped": 4

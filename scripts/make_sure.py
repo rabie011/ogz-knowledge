@@ -13,6 +13,7 @@ BASE = Path(__file__).parent.parent
 STATE = BASE / "data/make_sure_state.json"
 LOG = BASE / "data/make_sure_log.jsonl"
 QUEUE = BASE / "data/decision_queue.json"  # the judge/feedback card queue the 4b re-gate re-checks
+LOCK = BASE / "data/make_sure.lock"        # B284 — singleton: only ONE make_sure runs at a time
 
 
 def count_cards() -> int:
@@ -129,6 +130,54 @@ def _loadavg1():
         return 0.0
 
 
+def _pid_alive(pid):
+    """True if a process with this pid currently exists (signal-0 probe). Never raises."""
+    try:
+        os.kill(pid, 0)
+        return True
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True   # exists, just not ours to signal
+    except (OSError, TypeError, ValueError):
+        return False
+
+
+def acquire_singleton(lock_path, my_pid, pid_alive=_pid_alive):
+    """B284 — SINGLETON guard: only ONE make_sure runs at a time. Returns (acquired, holder_pid).
+
+    A live holder -> (False, holder): the caller must exit WITHOUT running the ~8 sequential
+    subprocess checks. A stale/garbage/missing lock -> taken over: writes my_pid, returns (True, None).
+    Pure-ish (pid_alive injectable for deterministic tests; the only side effect is writing my_pid
+    into lock_path on acquire). A lock-write failure never blocks the self-check — we proceed.
+
+    Root scar (June 23): under sustained box load the heavy checks each time out and one make_sure
+    runs 20+ min; the next :13/:43 fire (plus orchestrator re-spawns) start CONCURRENT instances,
+    each fanning out ~8 python subprocesses -> the security daemons (trustd/tccd/syspolicyd) thrash
+    on the spawn storm and load climbs to 60+ (a compounding loop). settle_load_spike only defers a
+    bounded 60s then runs anyway — it cannot stop the PILE-UP. This caps concurrency at one."""
+    try:
+        holder = int(Path(lock_path).read_text().strip())
+        if holder != my_pid and pid_alive(holder):
+            return (False, holder)
+    except (FileNotFoundError, ValueError, OSError):
+        pass  # no lock / garbage / unreadable -> take it over
+    try:
+        Path(lock_path).write_text(str(my_pid))
+    except OSError:
+        pass  # cannot write the lock -> never block the self-check on it
+    return (True, None)
+
+
+def release_singleton(lock_path, my_pid):
+    """Remove our lock iff WE still hold it (never delete another live holder's lock). Best-effort."""
+    try:
+        if int(Path(lock_path).read_text().strip()) == my_pid:
+            Path(lock_path).unlink()
+    except (FileNotFoundError, ValueError, OSError):
+        pass
+
+
 def load_saturated(load1, ncpu, per_core=SATURATE_PER_CORE):
     """PURE: is the box saturated enough that healthy network probes plausibly time out? Per-core so
     the bar travels across machines (10-core mini vs a 4-core clone). ncpu<=0 coerces to 1."""
@@ -199,6 +248,19 @@ def _phone_dead(checks, prev_checks):
 
 
 def main():
+    # B284 — SINGLETON gate FIRST: refuse to run a SECOND concurrent make_sure. Under sustained load
+    # one run lasts 20+ min (every heavy check times out); concurrent fires/respawns would each fan out
+    # ~8 subprocesses and compound the box to load 60+. A live holder -> skip cleanly (exit 0, NOT an
+    # alarm — a deferred self-check is healthy, not a dead one). A stale lock is taken over. atexit
+    # releases our lock on any normal/SystemExit shutdown; a hard-kill leaves a stale lock the next
+    # run reclaims via the pid-liveness probe.
+    import atexit
+    acquired, holder = acquire_singleton(LOCK, os.getpid())
+    if not acquired:
+        print(f"⏭️  make_sure skipped: another instance (pid {holder}) is already running — deferring to it.")
+        raise SystemExit(0)
+    atexit.register(release_singleton, LOCK, os.getpid())
+
     now = time.strftime("%Y-%m-%dT%H:%M:%S")
     prev = json.loads(STATE.read_text()) if STATE.exists() else {}
     checks = {}

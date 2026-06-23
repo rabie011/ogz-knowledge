@@ -28,10 +28,17 @@ PROMPT = (
     "Return STRICT JSON only: "
     '{"kind":"product_food|packaging|storefront|person_portrait|graphic|other",'
     '"has_person":true|false,"is_royal_or_public_figure":true|false,'
-    '"usable_as_product_reference":true|false}. '
+    '"usable_as_product_reference":true|false,'
+    '"product_en":"<2-4 word ENGLISH name of the SPECIFIC product/dish shown, e.g. '
+    "'double chicken fillet burger' / 'crispy chicken strips' / 'chicken nuggets box' / "
+    "'chicken wrap' / 'storefront' — empty if none>\","
+    '"product_keywords":"<comma-separated match keywords, INCLUDING any Arabic product name '
+    "visible in the image, e.g. 'دبل بيك,burger,double,fillet' or 'بيكيز,strips,tenders'>\"}. "
     "usable_as_product_reference is TRUE only if the image cleanly shows the brand's FOOD / PRODUCT / "
     "PACKAGING with NO prominent person. Any portrait or photo featuring a person — ESPECIALLY a "
-    "royal or public figure — is FALSE (it would hijack the generated subject)."
+    "royal or public figure — is FALSE (it would hijack the generated subject). "
+    "Be SPECIFIC about the food in product_en/product_keywords (burger vs strips vs nuggets vs wrap "
+    "vs box) so it can be matched to a named menu item."
 )
 
 
@@ -65,7 +72,10 @@ def main():
     done = 0
     for p in imgs:
         rel = str(p.relative_to(B))
-        if rel in cache and "kind" in cache[rel]:
+        c = cache.get(rel, {})
+        # re-tag a clean product ref that predates the product_en field (so pick_reference can match
+        # the brief's product to the right photo); skip everything already complete or non-usable.
+        if "kind" in c and ("product_en" in c or not c.get("usable_as_product_reference")):
             continue
         try:
             cache[rel] = classify(p, key)

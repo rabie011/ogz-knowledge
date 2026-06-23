@@ -332,22 +332,40 @@ def resolve_chain(cid):
     raise SystemExit(f"unknown chain '{cid}' — not a v3.7 id and no bridge match")
 
 
-def pick_reference(handle):
-    """The flux-edit REFERENCE must be a clean PRODUCT/PACKAGING shot — NEVER a person/royal portrait
-    (the edit model anchors identity on it; a royal-portrait ref rendered a man for a woman scene and
-    is a red line). Use the vision classification (scripts/classify_media.py) when present; else fall
-    back to the first media but flag it (Rule #8: a wrong reference is a visible defect, not silent)."""
+def pick_reference(handle, product="", scene=""):
+    """Pick the flux-edit REFERENCE — a clean PRODUCT shot whose PRODUCT MATCHES the post's product.
+    NEVER a person/royal portrait (the edit model anchors identity on it — a royal ref rendered a man
+    for a woman scene; a red line). June 23 root-fix: the old code returned clean[0] (first alphabetic)
+    REGARDLESS of the post's product, so a Crispy-Beek brief rendered on a chicken-strips reference →
+    wrong product entirely. Now matched via the vision product tags (classify_media.py product_en /
+    product_keywords). If NOTHING matches the brief's product, that's a real GAP (the brand has no
+    clean reference for that item) — FLAG it (Rule #8), don't paper over it with the wrong product."""
     md = B / "clients" / handle / "media"
     cf = B / "clients" / handle / "profile" / "media_class.json"
+    q = f"{product} {scene}".lower()
     if cf.exists():
         try:
             cls = json.loads(cf.read_text())
-            clean = sorted(k for k, v in cls.items()
-                           if isinstance(v, dict) and v.get("usable_as_product_reference")
-                           and not v.get("has_person") and not v.get("is_royal_or_public_figure")
-                           and (B / k).exists())
+            clean = [(k, v) for k, v in cls.items()
+                     if isinstance(v, dict) and v.get("usable_as_product_reference")
+                     and not v.get("has_person") and not v.get("is_royal_or_public_figure")
+                     and (B / k).exists()]
             if clean:
-                return clean[0]
+                def score(v):
+                    kws = [t.strip().lower() for t in
+                           (v.get("product_keywords", "") + "," + v.get("product_en", "")).split(",")]
+                    return sum(1 for kw in kws if len(kw) >= 3 and kw in q)
+                best, best_v = sorted(clean, key=lambda kv: -score(kv[1]))[0]
+                if product and score(best_v) > 0:
+                    print(f"  🎯 reference matched product '{product}' → {Path(best).name} "
+                          f"({best_v.get('product_en','')})", flush=True)
+                    return best
+                food = [k for k, v in clean if v.get("kind") == "product_food"]
+                pick = sorted(food)[0] if food else sorted(k for k, _ in clean)[0]
+                print(f"  ⚠ GAP: no clean reference matches product '{product}' — the brand has no "
+                      f"photo of it. Using {Path(pick).name} as a stand-in (NOT faithful). "
+                      f"Fix = add a real '{product}' product photo.", flush=True)
+                return pick
         except Exception:
             pass
     imgs = sorted(md.glob("*.jpg")) + sorted(md.glob("*.png")) if md.exists() else []
@@ -380,7 +398,7 @@ def main():
 
     text, dropped, miss = fill(chain, ph, a.scene, bool(a.text))
     rep = lint(text, chain, miss)
-    ref = pick_reference(a.handle)
+    ref = pick_reference(a.handle, a.product, a.scene)
 
     # fill-report: how each used placeholder was sourced
     used = sorted(set(chain["_stats"]["placeholders"]))

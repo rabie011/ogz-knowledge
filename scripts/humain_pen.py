@@ -127,18 +127,49 @@ async def _ask(prompt: str, timeout_s: int):
     if not sent:
         await _page.keyboard.press("Enter")
 
-    reply = await hc.wait_for_response(_page, timeout_s=timeout_s)
-    # ANTI-ECHO (June 24): the scraper sometimes grabs the prompt (or a stale prior prompt)
-    # instead of ALLaM's reply. Reject any reply that is the prompt we just sent, or a known
-    # pen-prompt echo — a judge must never read a prompt-echo as an answer.
-    if reply:
-        r = reply.strip()
-        p = (prompt or "").strip()
-        if p and (r == p or r in p or p in r):
-            return None
-        if "You write Instagram captions" in r or "<RED_LINES>" in r or "<TECHNIQUES>" in r:
-            return None
-    return reply
+    return await _capture_reply(prompt, timeout_s)
+
+
+async def _capture_reply(prompt, timeout_s):
+    """Capture ALLaM's actual reply (June 24 DOM-verified fix). The current turn lives in the LAST
+    [class*='message'] element as "{prompt}\\n\\n{reply}" — so we target THAT (NOT div.group/article,
+    which match the 'Recent Chats' SIDEBAR = stale prompts, the echo bug), wait for it to stabilise,
+    and STRIP the prompt prefix to return only the model's answer."""
+    p = (prompt or "").strip()
+    deadline = asyncio.get_event_loop().time() + timeout_s
+    prev, stable = "", 0
+    sels = ["[class*='message']", ".prose", "[class*='markdown']", "[data-message-author-role='assistant']"]
+    while asyncio.get_event_loop().time() < deadline:
+        await asyncio.sleep(3)
+        full = ""
+        for s in sels:
+            try:
+                loc = _page.locator(s)
+                n = await loc.count()
+                if n:
+                    t = (await loc.nth(n - 1).inner_text()).strip()
+                    if t:
+                        full = t
+                        break
+            except Exception:
+                pass
+        if not full:
+            continue
+        # strip the prompt prefix → ALLaM's answer only
+        reply = full
+        if p and p in full:
+            reply = full.split(p)[-1].strip()
+        # ignore sidebar/pen-prompt echoes that slipped in
+        if not reply or "<RED_LINES>" in reply or "You write Instagram captions" in reply:
+            reply = ""
+        if reply and reply == prev:
+            stable += 1
+            if stable >= 2:   # text settled → ALLaM finished
+                return reply
+        else:
+            stable = 0
+            prev = reply
+    return prev or None
 
 
 async def _new_chat():
@@ -157,9 +188,78 @@ async def _new_chat():
             pass
 
 
+async def _debug_dump(prompt, wait_s=25):
+    """DOM inspector — send a distinctive prompt, wait, then report what each candidate selector
+    actually matches so we can find the REAL assistant-reply element (fixing the prompt-echo bug)."""
+    if _page is None:
+        return {"error": "no page"}
+    # send the prompt
+    chat_input, sel = await hc.find_chat_input(_page)
+    if chat_input is None:
+        return {"error": "no chat input"}
+    await _page.evaluate(f"navigator.clipboard.writeText({json.dumps(prompt)})")
+    await chat_input.click()
+    await _page.keyboard.press("Meta+a")
+    await asyncio.sleep(0.2)
+    await _page.keyboard.press("Meta+v")
+    await asyncio.sleep(0.6)
+    sent = False
+    for btn_sel in hc.SEND_BTN_SELECTORS:
+        try:
+            btn = _page.locator(btn_sel).last
+            if await btn.is_enabled(timeout=1000):
+                await btn.click()
+                sent = True
+                break
+        except Exception:
+            pass
+    if not sent:
+        await _page.keyboard.press("Enter")
+    await asyncio.sleep(wait_s)  # let ALLaM answer
+    # dump candidate selectors
+    out = {"input_selector": sel, "sent_via": "button" if sent else "enter", "selectors": {}}
+    cands = ["[data-role='assistant']", "[data-message-author-role='assistant']", ".assistant-message",
+             "article", ".message", "div.group", ".prose", "[class*='markdown']", "[class*='assistant']",
+             "[class*='message']", "main div", "p"]
+    for s in cands:
+        try:
+            loc = _page.locator(s)
+            n = await loc.count()
+            texts = []
+            for i in range(max(0, n - 3), n):  # last 3
+                try:
+                    t = (await loc.nth(i).inner_text()).strip()
+                    if t:
+                        texts.append(t[:200])
+                except Exception:
+                    pass
+            if n:
+                out["selectors"][s] = {"count": n, "last_texts": texts}
+        except Exception as e:
+            out["selectors"][s] = {"error": str(e)[:60]}
+    try:
+        body = await _page.inner_text("body")
+        out["body_tail"] = body[-1500:]
+    except Exception:
+        out["body_tail"] = ""
+    return out
+
+
 # ── public sync API ───────────────────────────────────────────────────────────────────────
 def humain_available() -> bool:
     return ENABLED
+
+
+def debug_dump(prompt="قل كلمة: تجربة_فحص_دوم_١٢٣", timeout=90):
+    if not ENABLED:
+        return {"error": "disabled"}
+    with _lock:
+        try:
+            if _page is None and not _submit(_open_browser(login_wait_minutes=0), timeout=120):
+                return {"error": "not logged in"}
+            return _submit(_debug_dump(prompt), timeout=timeout)
+        except Exception as e:
+            return {"error": f"{type(e).__name__}: {str(e)[:100]}"}
 
 
 def probe_login(timeout=90) -> bool:

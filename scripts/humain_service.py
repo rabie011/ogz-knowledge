@@ -41,6 +41,8 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/health":
             self._json(200, {"logged_in": bool(hp._logged_in), "enabled": hp.humain_available()})
+        elif self.path == "/debug":
+            self._json(200, hp.debug_dump())
         else:
             self._json(404, {"error": "not found"})
 

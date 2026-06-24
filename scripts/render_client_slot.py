@@ -469,6 +469,34 @@ def sonnet(system, messages, max_tok=900):
     return out["content"][0]["text"]
 
 
+HUMAIN_SVC = "http://127.0.0.1:4111"
+
+
+def humain(system, user, timeout_s=180):
+    """The DIVERSITY pen — ALLaM 34B (Saudi-native) via the local HUMAIN service. Replaces the
+    dark Sonnet pen (Anthropic credits dry). POSTs to humain_service; returns the raw model text.
+    Raises on any failure so the caller's try/except falls back to GPT-only (Rule: never stuck)."""
+    prompt = (system + "\n\n" + user +
+              '\n\nأرجع فقط كائن JSON بالشكل: {"options": ["...", "...", "..."]} بدون أي شرح.')
+    body = json.dumps({"prompt": prompt, "timeout_s": timeout_s}).encode()
+    rq = urllib.request.Request(f"{HUMAIN_SVC}/caption", data=body,
+                                headers={"Content-Type": "application/json"})
+    out = json.loads(urllib.request.urlopen(rq, timeout=timeout_s + 30).read())
+    reply = out.get("reply")
+    if not reply:
+        raise RuntimeError("humain returned no reply (not logged in / timeout)")
+    return reply
+
+
+def humain_up() -> bool:
+    """True if the HUMAIN service is running AND logged in (cheap /health check)."""
+    try:
+        out = json.loads(urllib.request.urlopen(f"{HUMAIN_SVC}/health", timeout=3).read())
+        return bool(out.get("logged_in"))
+    except Exception:
+        return False
+
+
 def load_client(handle: str) -> dict:
     from truth_guards import is_en_led  # B043: ONE EN-led boundary shared with creative_line
     cdir = BASE / "clients" / handle
@@ -837,14 +865,29 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
                                   + [{"role": "user", "content": user}], temp=0.95)).get("options", [])
         except Exception as e:
             print(f"  gpt pen failed: {str(e)[:60]}", file=sys.stderr)
-        try:  # 2nd pen — only if Anthropic has credits; silent + harmless when dark
-            txt = sonnet(sys_p + f"\nYOUR PEN'S TEMPERAMENT: enter through {DOORS[(base + 3) % len(DOORS)]}."
+        # 2nd pen — HUMAIN (ALLaM 34B, Saudi-native) via the local service: the model-diversity
+        # pen (Mohamed June 24: "for the captions try humain"). Replaces the dark Sonnet pen.
+        try:
+            h_sys = (sys_p + f"\nYOUR PEN'S TEMPERAMENT: enter through {DOORS[(base + 3) % len(DOORS)]}." + extra)
+            txt = humain(h_sys, user)
+            m = re.search(r"\{.*\}", txt, re.S)
+            if m:
+                got += json.loads(m.group(0)).get("options", [])
+            else:
+                # ALLaM may answer in plain Arabic lines — harvest non-empty lines as options
+                got += [ln.strip(" -•—\t") for ln in txt.splitlines()
+                        if ln.strip() and len(ln.strip()) > 12][:3]
+        except Exception as e:
+            print(f"  humain pen unavailable ({str(e)[:50]}) — gpt-only this slot", file=sys.stderr)
+        # 3rd pen — Sonnet, only if Anthropic has credits (silent + harmless when dark)
+        try:
+            txt = sonnet(sys_p + f"\nYOUR PEN'S TEMPERAMENT: enter through {DOORS[(base + 4) % len(DOORS)]}."
                          + extra + "\nReturn ONLY the JSON object.", few + [{"role": "user", "content": user}])
             m = re.search(r"\{.*\}", txt, re.S)
             if m:
                 got += json.loads(m.group(0)).get("options", [])
         except Exception as e:
-            print(f"  sonnet pen dark ({str(e)[:40]}) — gpt-only this slot", file=sys.stderr)
+            print(f"  sonnet pen dark ({str(e)[:40]}) — skipped", file=sys.stderr)
         return got
 
     opts = _gen()

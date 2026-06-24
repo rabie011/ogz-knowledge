@@ -85,11 +85,34 @@ def dialect_check(caption: str) -> tuple[bool, list[str]]:
     return (not hits), hits
 
 
-def filter_options(options: dict) -> tuple[dict, dict]:
-    """Split options into (survivors, dropped{key: reasons})."""
+def kill_ban_check(caption: str, handle: str = "") -> tuple[bool, list[str]]:
+    """Phase-0 taste flywheel (drift-free): reject a caption that contains any term Mohamed/RABIE
+    banned for this client or globally (kill_registry, per-combo+global scoped — supersedes the
+    GLOBAL learned_gate_rules so a food rule can't kill a fitness caption). DROP, don't instruct:
+    the dropped option is regenerated fresh; the banned word is NEVER fed back to the LLM (that
+    caused the semantic drift DeepSeek flagged). A missing registry is a no-op (never blocks)."""
+    if not handle:
+        return True, []
+    try:
+        import kill_registry as kr
+        bans = kr.get_lexical_bans(handle)
+    except Exception:
+        return True, []
+    hits = [b for b in bans if b and b in caption]
+    return (len(hits) == 0), ([f"kill_ban:{h}" for h in hits])
+
+
+def filter_options(options: dict, handle: str = "") -> tuple[dict, dict]:
+    """Split options into (survivors, dropped{key: reasons}). When `handle` is given, also applies
+    the per-client + global kill-bans (Phase-0 flywheel) so past Mohamed/RABIE kills feed forward
+    into caption generation — the caption-side learning wire that was missing (verified June 24)."""
     ok, dropped = {}, {}
     for k, v in options.items():
         passes, reasons = check(v)
+        if passes and handle:
+            kb_ok, kb_reasons = kill_ban_check(v, handle)
+            if not kb_ok:
+                passes, reasons = False, kb_reasons
         if passes:
             ok[k] = v
         else:

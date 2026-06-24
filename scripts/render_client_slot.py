@@ -1035,7 +1035,7 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
         for o, hit in taste_killed:
             print(f"  ✂️ taste-kill [{hit}] (regen {tries}): {o[:50]}…", file=sys.stderr)
     cleaned = kept
-    surv, dropped_reasons = filter_options({f"opt_{i}": o for i, o in enumerate(cleaned)})
+    surv, dropped_reasons = filter_options({f"opt_{i}": o for i, o in enumerate(cleaned)}, handle=c["handle"])
     if surv:
         final = list(surv.values())[:3]
     else:

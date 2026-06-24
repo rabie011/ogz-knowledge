@@ -38,9 +38,32 @@ def main():
     ap.add_argument("--setup", default="hero_studio", choices=list(SETUPS),
                     help="system scene archetype → forces a real v3.7 chain (the SYSTEM's variety vocabulary, Rule #12)")
     ap.add_argument("--idea", default="", help="(discouraged) manual scene seed; prefer --setup so the SYSTEM composes")
+    ap.add_argument("--override-kill", action="store_true",
+                    help="bypass the pre-flight kill gate (use ONLY after fixing the machine; prefer kill_registry --resolve)")
     a = ap.parse_args()
     import art_director as ad
     import render_client_slot as rcs
+
+    # ── PHASE-0 PRE-FLIGHT KILL GATE (Rule #8 refuse-don't-warn + the taste flywheel) ──
+    # If RABIE/Mohamed killed this exact (handle, product, setup) for a reason not yet fixed,
+    # REFUSE before spending a cent on FAL — the system must not repeat a caught mistake.
+    # Resolve the kill (kill_registry --resolve) once the machine is fixed, then re-run.
+    try:
+        import kill_registry as kr
+        _pending = kr.get_pending_combo(a.handle, a.product, a.setup)
+        if _pending and not a.override_kill:
+            sys.stderr.write(
+                f"🛑 PRE-FLIGHT KILL GATE: {a.handle}|{a.product}|{a.setup} was killed and not yet resolved.\n"
+                f"   reason: {_pending.get('kill_reason','')}\n"
+                f"   → fix the machine, then: python3 scripts/kill_registry.py --resolve \"{_pending.get('_key')}\"\n"
+                f"   (or --override-kill to bypass once). Refusing — zero FAL spend.\n")
+            sys.exit(1)
+        if _pending and a.override_kill:
+            sys.stderr.write(f"  ⚠ overriding pending kill on {_pending.get('_key')} (--override-kill)\n")
+    except SystemExit:
+        raise
+    except Exception as _ke:
+        sys.stderr.write(f"  (pre-flight kill gate skipped: {type(_ke).__name__}: {str(_ke)[:60]})\n")
 
     setup_chain, setup_scene = SETUPS[a.setup]
     # the scene comes from the SYSTEM's setup vocabulary (not hand-written) unless --idea forces it

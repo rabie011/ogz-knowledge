@@ -14,25 +14,48 @@ B = Path(__file__).parent.parent
 sys.path.insert(0, str(B / "scripts"))
 
 
+# SCENE-SETUP VOCABULARY (Rule #12 — the SYSTEM produces variety, not Claude's hand). Each setup
+# maps to a REAL v3.7-canon chain (the system's own templates) + a product-forward scene line —
+# NOT a per-render hand-seed (the June 24 scar). This is how 20 posts become 20 DIFFERENT setups
+# by the machine. Each forces a faceless, product-hero chain (flux-2-pro/edit is weak at human
+# story scenes); product-truth + LEARNED blocks still apply. The chain is FORCED so the picker
+# can't swap in an ad-splash chain (June 24: a free pick gave دبل بيك a two-burger fries splash).
+SETUPS = {
+    # setup name      (forced chain, scene line)   — G-series = "Product in Saudi Environment", faceless
+    "hero_studio":   ("U01", "لقطة استوديو داكنة درامية للمنتج الحقيقي — المنتج هو البطل، إضاءة موجّهة، خلفية داكنة نظيفة"),
+    "majlis_tray":   ("G03", "المنتج الحقيقي معروض على صينية مجلس سعودي أصيلة، أجواء دافئة، بدون أشخاص"),
+    "heritage":      ("G06", "المنتج الحقيقي على سطح تراثي سعودي (خشب/نحاس/سدو)، إضاءة دافئة، بدون أشخاص"),
+    "retail_shelf":  ("G05", "المنتج الحقيقي على رف عرض، البطل يبرز عن محيطه، بدون أشخاص"),
+}
+SETUP_ORDER = ["hero_studio", "majlis_tray", "heritage", "retail_shelf"]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--handle", required=True)
     ap.add_argument("--product", required=True)
     ap.add_argument("--occasion", default="evergreen")
-    ap.add_argument("--idea", default="", help="optional scene seed; default = product-hero")
+    ap.add_argument("--setup", default="hero_studio", choices=list(SETUPS),
+                    help="system scene archetype → forces a real v3.7 chain (the SYSTEM's variety vocabulary, Rule #12)")
+    ap.add_argument("--idea", default="", help="(discouraged) manual scene seed; prefer --setup so the SYSTEM composes")
     a = ap.parse_args()
     import art_director as ad
     import render_client_slot as rcs
 
-    idea = a.idea or f"منتج البطل: {a.product} — لقطة استوديو شهية للمنتج الحقيقي"
+    setup_chain, setup_scene = SETUPS[a.setup]
+    # the scene comes from the SYSTEM's setup vocabulary (not hand-written) unless --idea forces it
+    idea = a.idea or f"{setup_scene} — {a.product}"
 
     # 1) PHOTO — Art-Director brief → master render (product_truth + assembly-lock; gated)
     brief = ad.art_direct(idea, a.handle, "image", occasion=a.occasion, llm=ad._real_gpt, product=a.product)
     args = ad.to_converter_args(brief)
     img = ""
     if args:
+        # FORCE the setup's chain (Rule #12 variety vocabulary) — the picker can't swap in an
+        # ad-splash chain. --idea callers keep the AD's free pick.
+        chain = args["chain"] if a.idea else setup_chain
         cmd = [sys.executable, str(B / "scripts/render_openclaw.py"), "--handle", a.handle,
-               "--chain", args["chain"], "--scene", args["scene"], "--product", a.product, "--go"]
+               "--chain", chain, "--scene", args["scene"], "--product", a.product, "--go"]
         r = subprocess.run(cmd, capture_output=True, text=True)
         for line in r.stdout.splitlines():
             if "image_url:" in line:

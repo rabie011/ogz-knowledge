@@ -150,7 +150,7 @@ def _chain_reason(chain: dict, needs: list, human: bool) -> str:
 
 
 # ── the deterministic ORGAN SPINE (built WITHOUT the LLM — Rule #12) ──────────────
-def _organ_spine(handle: str, idea: str, occasion: str) -> dict:
+def _organ_spine(handle: str, idea: str, occasion: str, product: str = "") -> dict:
     """Read the brand's visual_dna organ (v37) + the reference pack, with ZERO spend.
     Returns the model-agnostic persona/reference block (A4) + the brand visual fields the
     brief stages against. Uses openclaw_convert's own derivation so the AD and the converter
@@ -158,7 +158,7 @@ def _organ_spine(handle: str, idea: str, occasion: str) -> dict:
     brand = oc.load_brand(handle)
     chain_hint = {"family": "", "name_en": "", "quality_tier": ""}  # derive is chain-light here
     fields = oc.derive_visual_dna(brand, chain_hint)
-    reference = oc.pick_reference(handle)  # the CONFIRMED clean-product ref (never a person/royal)
+    reference = oc.pick_reference(handle, product=product)  # matched to the post's product
 
     def v(key, default=""):
         f = fields.get(key) or {}
@@ -331,7 +331,7 @@ def reel_brief(handle: str, idea: str, occasion: str, fmt: str) -> dict:
 
 # ── THE STAGE ─────────────────────────────────────────────────────────────────────
 def art_direct(post_idea: str, handle: str, fmt: str = "image",
-               occasion: str = "", formula_id: str = "", llm=None) -> dict:
+               occasion: str = "", formula_id: str = "", llm=None, product: str = "") -> dict:
     """A1 — THE ART-DIRECTOR STAGE. (post_idea, handle, fmt) → a structured PHOTO BRIEF.
 
     FORMAT-AWARE (directive 1): a reel routes to reel_brief() (the photo path is skipped);
@@ -361,7 +361,7 @@ def art_direct(post_idea: str, handle: str, fmt: str = "image",
         needs, human = ["product_hero"], False
     reason = _chain_reason(chain, needs, human)
 
-    spine = _organ_spine(handle, post_idea, occasion)
+    spine = _organ_spine(handle, post_idea, occasion, product=product)
     design = _ad_pen(post_idea, occasion, spine, chain, reason, llm=llm)
     modesty = _modesty_line(spine)
 

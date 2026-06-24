@@ -27,7 +27,7 @@ def main():
     idea = a.idea or f"منتج البطل: {a.product} — لقطة استوديو شهية للمنتج الحقيقي"
 
     # 1) PHOTO — Art-Director brief → master render (product_truth + assembly-lock; gated)
-    brief = ad.art_direct(idea, a.handle, "image", occasion=a.occasion, llm=ad._real_gpt)
+    brief = ad.art_direct(idea, a.handle, "image", occasion=a.occasion, llm=ad._real_gpt, product=a.product)
     args = ad.to_converter_args(brief)
     img = ""
     if args:

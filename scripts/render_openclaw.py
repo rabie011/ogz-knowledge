@@ -176,7 +176,8 @@ def main():
     # tenders + an empty/open bun) instead of the ASSEMBLED product. This last-mile, forceful block
     # locks the geometry per the product's real format and FORBIDS the generic-QSR tells RABIE named.
     try:
-        _pt = json.loads((B / "clients" / a.handle / "profile" / "product_truth.json").read_text()).get(a.product, {})
+        _d = json.loads((B / "clients" / a.handle / "profile" / "product_truth.json").read_text())
+        _pt = _d.get("products", _d).get(a.product, {})  # handle both flat (albaik) and nested (jurisha)
         _fmt = (_pt.get("format") or "").lower()
         _neg = []
         if _fmt in ("burger", "sandwich"):
@@ -200,6 +201,12 @@ def main():
             else:
                 _neg.append("A pile of broasted crispy chicken strips on a warm wooden board with cream-WHITE "
                     "garlic ثومية sauce cups — NO bun. FORBIDDEN: a burger/sandwich, any bun, a generic platter.")
+        elif _fmt == "bake":
+            sig = _pt.get("signature", "")
+            _neg.append(f"This is an OVEN-BAKED dish served in the brand's vessel — a bubbly golden-baked top "
+                f"over creamy layered pasta, béchamel, and/or meat. {sig} The surface is GOLDEN and SET, "
+                "NOT raw, NOT soupy, NOT fried, NOT a burger. ABSOLUTELY FORBIDDEN: any fried chicken, crispy "
+                "crust, burger bun, or generic QSR food — this is a baked home-style dish.")
         elif _fmt in ("bowl", "dish", "porridge", "rice", "tray", "flatbread"):
             _neg.append("This is a REAL cooked Saudi/Najdi dish (e.g. جريش cracked-wheat porridge, kabli rice, "
                 "or قرصان flatbread-in-broth) in its TRUE serving vessel (kraft cup / round foil tray / bowl), with "
@@ -207,9 +214,15 @@ def main():
                 "FORBIDDEN: any fried/crispy/breaded crust, fried chicken, a burger/sandwich/bun, plastic-uniform "
                 "CGI food — this dish is NEVER fried.")
         if _pt.get("signature_sauce"):
-            _neg.append(f"The ONLY prominent sauce is {_pt['signature_sauce']} (cream-WHITE garlic ثومية) "
-                "— ABSOLUTELY NO orange, red or pink cocktail sauce visible anywhere; white garlic sauce ONLY "
-                "(it is Albaik's #1 recognition signature).")
+            comps = " ".join(_pt.get("components", []))
+            has_cocktail = "cocktail" in comps.lower()
+            if has_cocktail:
+                _neg.append(f"Primary sauce is {_pt['signature_sauce']} (cream-WHITE garlic ثومية) with a "
+                    "SMALL visible streak of orange cocktail sauce — both must appear.")
+            else:
+                _neg.append(f"The ONLY prominent sauce is {_pt['signature_sauce']} (cream-WHITE garlic ثومية) "
+                    "— ABSOLUTELY NO orange, red or pink cocktail sauce visible anywhere; white garlic sauce ONLY "
+                    "(it is Albaik's #1 recognition signature).")
         if _neg:
             prompt = prompt + "\n\n[PRODUCT TRUTH — CRITICAL, match the reference's assembled form exactly]\n" + " ".join(_neg)
             print(f"  🍔 product-truth assembly+negative block applied (format={_fmt or '?'})")

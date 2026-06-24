@@ -104,7 +104,8 @@ def render_backend(prompt: str, image_urls: list, size: str = "square_hd",
     model      : the backend model id (defaults to the registry's RENDER_MODEL)
     """
     body = {"prompt": prompt, "image_urls": image_urls, "image_size": size,
-            "num_images": 1, "safety_tolerance": "2"}   # strict-ish safety (prompt enforces modesty)
+            "num_images": 1, "safety_tolerance": "2",
+            "image_prompt_strength": 0.92}  # high reference-adherence: keeps reference bun/texture vs training bias
     rq = urllib.request.Request(f"https://fal.run/{model}", data=json.dumps(body).encode(),
                                 headers={"Authorization": f"Key {key}", "Content-Type": "application/json"})
     try:
@@ -182,11 +183,12 @@ def main():
         _neg = []
         if _fmt in ("burger", "sandwich"):
             _neg.append("This is ONE single fully-ASSEMBLED hero sandwich: the crispy broasted chicken "
-                "fillet(s) are STACKED INSIDE the CLOSED pale seedless bun, white garlic ثومية sauce "
-                "visible at the edge — exactly the assembled form in the reference photo. ABSOLUTELY "
-                "FORBIDDEN: loose chicken tenders/strips/fingers scattered on a board; an EMPTY, OPEN or "
-                "deconstructed bun; a sesame burger bun; crinkle-cut fries; any generic Texas-Chicken/"
-                "Hardee's/QSR platter.")
+                "fillet(s) are STACKED INSIDE the CLOSED pale bun — BUN IS PERFECTLY SMOOTH with "
+                "ZERO seeds, ZERO sesame, ZERO toppings on the bun surface — exactly as in the "
+                "reference photo. White garlic ثومية sauce visible at the edge. ABSOLUTELY FORBIDDEN: "
+                "loose chicken tenders/strips/fingers scattered on a board; an EMPTY, OPEN or "
+                "deconstructed bun; ANY seeds or sesame on the bun; a sesame burger bun; crinkle-cut "
+                "fries; any generic Texas-Chicken/Hardee's/KFC/McDonald's/QSR platter.")
         elif _fmt in ("wrap", "roll"):
             _neg.append("This is ONE rolled flatbread WRAP (صاج/tortilla), broasted chicken + white garlic "
                 "ثومية visible in the cut cross-section, held in hand or cut on a board — there is NO BUN. "

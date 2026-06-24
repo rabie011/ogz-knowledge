@@ -81,6 +81,48 @@ def _build_prompt(caption, brand_ar, product, occasion, scene):
 ابدأ ردك مباشرة بقوس الكائن وانتهِ به."""
 
 
+def _extract_json(reply):
+    """Robustly pull ALLaM's JSON object out of a reply: find the first '{', balance braces to its
+    real close (ignoring trailing prose), then json.loads. ALLaM's format varies (trailing text,
+    multiline) so a greedy regex isn't enough."""
+    if not reply:
+        return None
+    start = reply.find("{")
+    if start < 0:
+        return None
+    depth = 0
+    in_str = False
+    esc = False
+    for i in range(start, len(reply)):
+        c = reply[i]
+        if esc:
+            esc = False
+            continue
+        if c == "\\":
+            esc = True
+            continue
+        if c == '"':
+            in_str = not in_str
+            continue
+        if in_str:
+            continue
+        if c == "{":
+            depth += 1
+        elif c == "}":
+            depth -= 1
+            if depth == 0:
+                blob = reply[start:i + 1]
+                try:
+                    return json.loads(blob)
+                except json.JSONDecodeError:
+                    # tolerate trailing commas
+                    try:
+                        return json.loads(re.sub(r",\s*([}\]])", r"\1", blob))
+                    except json.JSONDecodeError:
+                        return None
+    return None
+
+
 def judge_caption(caption, handle="", product="", occasion="evergreen", scene="", timeout_s=180):
     if not caption or not caption.strip():
         return {"verdict": "kill", "score": 1, "native_saudi": False,
@@ -95,15 +137,10 @@ def judge_caption(caption, handle="", product="", occasion="evergreen", scene=""
     if not reply:
         return {"verdict": "unjudged", "score": None, "native_saudi": None,
                 "issues": ["HUMAIN returned no reply (HOLD, not a bank)"], "meaning": "", "raw": ""}
-    m = re.search(r"\{.*\}", reply, re.S)
-    if not m:
+    d = _extract_json(reply)
+    if d is None:
         return {"verdict": "unjudged", "score": None, "native_saudi": None,
-                "issues": [f"HUMAIN reply not JSON (HOLD): {reply[:120]}"], "meaning": "", "raw": reply}
-    try:
-        d = json.loads(m.group(0))
-    except json.JSONDecodeError:
-        return {"verdict": "unjudged", "score": None, "native_saudi": None,
-                "issues": [f"HUMAIN JSON parse failed (HOLD): {m.group(0)[:120]}"], "meaning": "", "raw": reply}
+                "issues": [f"HUMAIN reply not parseable (HOLD): {reply[:120]}"], "meaning": "", "raw": reply}
     d.setdefault("issues", [])
     d.setdefault("meaning", "")
     d.setdefault("native_saudi", None)

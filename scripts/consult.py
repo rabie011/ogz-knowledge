@@ -49,7 +49,7 @@ def ask_gemini(prompt):
     key = env("GEMINI_API_KEY") or env("GOOGLE_AI_STUDIO_KEY")
     if not key:
         return "(no GEMINI/GOOGLE key)"
-    for model in ("gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"):
+    for model in ("gemini-2.5-flash", "gemini-2.0-flash"):  # 1.5-flash deprecated (404 on v1beta)
         try:
             out = _post(f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}",
                         {"contents": [{"parts": [{"text": prompt}]}]},

@@ -201,7 +201,9 @@ def derive_visual_dna(brand, chain, product_name=None):
     # identity_dna + material_texture from it (and weave the signature_sauce) tagged 'organ' —
     # it is now confirmed truth, not RED/client_needed. Falls through to _sf when no entry. (Rule #6)
     pt_all = brand.get("product_truth") or {}
-    pt = pt_all.get(product_name) if product_name else None
+    # handle both flat (albaik) and nested {"products":{}} (jurisha) — mirrors render_openclaw's
+    # canonical read so the converter's fill-report doesn't misflag nested identity_dna as RED.
+    pt = pt_all.get("products", pt_all).get(product_name) if product_name else None
     pt_id_field = pt_id_tex = None
     if isinstance(pt, dict):
         idd = (pt.get("identity_dna") or "").strip()

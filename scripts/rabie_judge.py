@@ -175,12 +175,63 @@ def judge(image_path, handle, product, caption=""):
     return d
 
 
+VERDICT_LOG = B / "data/rabie_verdicts.jsonl"
+
+
+def log_verdict(handle, product, image, verdict):
+    """PERSIST every RABIE verdict (the learning ledger — Rule #6 writer). Append-only.
+    The reader is lessons_for() below + render_openclaw's pre-prompt LEARNED block."""
+    import time
+    rec = {
+        "ts": int(time.time()),
+        "handle": handle, "product": product, "image": image,
+        "verdict": verdict.get("verdict"), "overall": verdict.get("overall"),
+        "scores": {k: verdict.get(k) for k in (
+            "product_truth_score", "composition_score", "cultural_fit_score",
+            "brand_system_score", "caption_alignment_score")},
+        "what_is_wrong": verdict.get("what_is_wrong", []),
+        "machine_fix": verdict.get("machine_fix", []),
+        "rabie_note": verdict.get("rabie_note", ""),
+    }
+    VERDICT_LOG.parent.mkdir(parents=True, exist_ok=True)
+    with open(VERDICT_LOG, "a") as f:
+        f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    return rec
+
+
+def lessons_for(handle, product):
+    """READER (Rule #6) — the accumulated past corrections for this (handle, product): every
+    'what_is_wrong' RABIE has ever flagged on a non-bank verdict. render_openclaw injects these
+    so the system does NOT repeat a mistake the eye already caught. Returns a deduped list."""
+    if not VERDICT_LOG.exists():
+        return []
+    seen, lessons = set(), []
+    for ln in VERDICT_LOG.read_text().splitlines():
+        if not ln.strip():
+            continue
+        try:
+            r = json.loads(ln)
+        except Exception:
+            continue
+        if r.get("handle") != handle or r.get("product") != product:
+            continue
+        # learn from what was WRONG (kills + fixes), not from banks
+        if r.get("verdict") in ("fix", "kill"):
+            for w in (r.get("what_is_wrong") or []):
+                key = w.strip()[:60]
+                if key and key not in seen:
+                    seen.add(key)
+                    lessons.append(w.strip())
+    return lessons
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--image", required=True)
     ap.add_argument("--handle", required=True)
     ap.add_argument("--product", required=True)
     ap.add_argument("--caption", default="")
+    ap.add_argument("--no-log", action="store_true", help="do not persist this verdict (default: persist)")
     a = ap.parse_args()
 
     verdict = judge(a.image, a.handle, a.product, a.caption)
@@ -208,6 +259,9 @@ def main():
         for f in verdict["machine_fix"]:
             print(f"    → {f}")
     print(f"{'='*60}\n")
+    if not a.no_log:
+        log_verdict(a.handle, a.product, a.image, verdict)
+        print(f"  📝 verdict logged → {VERDICT_LOG.relative_to(B)} (the system now remembers this)")
     print(json.dumps(verdict, ensure_ascii=False))
 
 

@@ -322,6 +322,18 @@ def main():
             print(f"  🍔 product-truth assembly+negative block applied (format={_fmt or '?'})")
     except Exception as _e:
         print(f"  (no product_truth block: {type(_e).__name__})")
+    # THE LEARNING READER (Rule #6 consumer of rabie_judge's verdict ledger): inject every past
+    # correction RABIE flagged on THIS product so the system does NOT repeat a mistake the eye
+    # already caught. This is what makes the loop LEARN — kills feed forward into the next prompt.
+    try:
+        import rabie_judge as rj
+        _lessons = rj.lessons_for(a.handle, a.product)
+        if _lessons:
+            prompt = prompt + ("\n\n[LEARNED — past RABIE corrections on this product; DO NOT repeat these]\n"
+                               + " ".join(f"- {l}" for l in _lessons[:8]))
+            print(f"  🧠 injected {len(_lessons[:8])} learned correction(s) from RABIE's verdict ledger")
+    except Exception as _e:
+        print(f"  (no learned-corrections block: {type(_e).__name__})")
     key = env("FAL_KEY") or env("FAL_API_KEY")
     refp = Path(ref)
     mime = "jpeg" if refp.suffix.lower() in (".jpg", ".jpeg") else (refp.suffix.lstrip(".").lower() or "jpeg")

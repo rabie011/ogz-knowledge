@@ -81,6 +81,63 @@ def _composite_brand_logo(dest, handle):
     print(f"  🏷  composited real logo (brand-bug, bottom-right) ← {lp.relative_to(B)}")
 
 
+def _composite_pepsi_can_label(dest, handle):
+    """Overlay the real Pepsi wordmark on the plain-red rendered can (كومبو بيك combo shots).
+    AI brand-text suppression forces all can surfaces plain; this composites the real label.
+    Detection: scans the right 60% of the image for the largest red-dominant region (the can).
+    No-op if clients/<handle>/profile/pepsi_label.png doesn't exist."""
+    lp = B / "clients" / handle / "profile" / "pepsi_label.png"
+    if not lp.exists():
+        print(f"  (no pepsi_label.png for {handle} — Pepsi composite skipped; "
+              f"add clients/{handle}/profile/pepsi_label.png to unlock brand_system 5/5)")
+        return
+    from PIL import Image, ImageChops
+
+    base = Image.open(dest).convert("RGB")
+    bw, bh = base.size
+
+    # Detect the can in the right 60% (combo layout places it there)
+    SCALE = 8
+    right_x = bw * 2 // 5
+    crop = base.crop((right_x, 0, bw, bh)).resize(
+        ((bw - right_x) // SCALE, bh // SCALE), Image.BOX)
+    r_ch, g_ch, b_ch = crop.split()
+    # Red-dominant: R>140, G<90, B<90 — matches a plain-red can body
+    red_mask = r_ch.point(lambda x: 255 if x > 140 else 0)
+    not_green = g_ch.point(lambda x: 255 if x < 90 else 0)
+    not_blue = b_ch.point(lambda x: 255 if x < 90 else 0)
+    can_mask = ImageChops.multiply(ImageChops.multiply(red_mask, not_green), not_blue)
+
+    bbox = can_mask.getbbox()
+    if not bbox:
+        print(f"  (no red can region found in right portion — Pepsi composite skipped)")
+        return
+
+    # Scale bbox back to full-res coords (add the crop offset)
+    cx1 = bbox[0] * SCALE + right_x
+    cy1 = bbox[1] * SCALE
+    cx2 = bbox[2] * SCALE + right_x
+    cy2 = bbox[3] * SCALE
+    can_w, can_h = cx2 - cx1, cy2 - cy1
+
+    # Sanity: a soda can is taller than wide; reject noise / background blobs
+    if can_w < 20 or can_h < 30 or can_h > bh * 0.65 or can_w / max(1, can_h) > 2.0:
+        print(f"  (red region {can_w}×{can_h} geometry doesn't match a can — Pepsi composite skipped)")
+        return
+
+    label = Image.open(lp).convert("RGBA")
+    target_w = max(10, int(can_w * 0.88))
+    target_h = int(label.height * target_w / label.width)
+    label = label.resize((target_w, target_h), Image.LANCZOS)
+
+    px = cx1 + (can_w - target_w) // 2
+    py = cy1 + (can_h - target_h) // 2
+    rgba = base.convert("RGBA")
+    rgba.alpha_composite(label, (max(0, px), max(0, py)))
+    rgba.convert("RGB").save(dest, quality=92)
+    print(f"  🥤 Pepsi label composited on can ({can_w}×{can_h} at {cx1},{cy1}) ← {lp.relative_to(B)}")
+
+
 # ─── THE RENDERER SEAM (the documented swap point) ───────────────────────────────────────────
 # This is the ONE function the rest of the pipeline talks to. The moat is "the prompt doesn't
 # change" — so when fal deprecates/re-prices flux-2-pro, or we move to a different backend, the
@@ -176,6 +233,7 @@ def main():
     # the positive identity_dna fixed the SAUCE but flux still rendered a DECONSTRUCTED platter (loose
     # tenders + an empty/open bun) instead of the ASSEMBLED product. This last-mile, forceful block
     # locks the geometry per the product's real format and FORBIDS the generic-QSR tells RABIE named.
+    _fmt = ""  # pre-init so the post-render Pepsi composite can check it after the try/except
     try:
         _d = json.loads((B / "clients" / a.handle / "profile" / "product_truth.json").read_text())
         _pt = _d.get("products", _d).get(a.product, {})  # handle both flat (albaik) and nested (jurisha)
@@ -195,11 +253,14 @@ def main():
                 "ABSOLUTELY FORBIDDEN: any burger/sesame bun, loose tenders, a deconstructed platter.")
         elif _fmt in ("strips", "tenders", "box", "combo"):
             if _fmt == "combo":
-                _neg.append("Broasted crispy chicken strips/pieces, cream-WHITE garlic ثومية sauce cups, "
-                    "PLUS one assembled chicken-fillet sandwich on a PALE SEEDLESS bun (NEVER a sesame-seed "
-                    "bun), golden STRAIGHT-CUT fries (NEVER crinkle-cut, NEVER potato chips/crisps), and a "
-                    "drink can. ABSOLUTELY FORBIDDEN: a sesame-seed bun, crinkle-cut fries, potato chips "
-                    "instead of fries, an empty/open bun, a generic QSR platter.")
+                _neg.append("A warm wooden board with: 5 BROASTED crispy golden chicken-breast strips, "
+                    "a SOFT PALE bun served ALONGSIDE (NOT assembled as a sandwich — the bun sits next to "
+                    "the strips, they are NOT combined into a sandwich), golden CURLY-CUT curly fries in a "
+                    "wooden bowl (CURLY fries — spiral-shaped, NOT straight-cut, NOT crinkle-cut), "
+                    "a small dip cup of CREAM-WHITE garlic sauce (ثومية) clearly visible, "
+                    "and a red Pepsi can. The white garlic sauce (ثومية) must be visible. "
+                    "ABSOLUTELY FORBIDDEN: an assembled burger/sandwich, straight-cut or crinkle-cut fries, "
+                    "potato chips instead of fries, sesame seeds on the bun, missing sauce dip.")
             else:
                 _neg.append("A pile of broasted crispy chicken strips on a warm wooden board with cream-WHITE "
                     "garlic ثومية sauce cups — NO bun. FORBIDDEN: a burger/sandwich, any bun, a generic platter.")
@@ -210,11 +271,33 @@ def main():
                 "NOT raw, NOT soupy, NOT fried, NOT a burger. ABSOLUTELY FORBIDDEN: any fried chicken, crispy "
                 "crust, burger bun, or generic QSR food — this is a baked home-style dish.")
         elif _fmt in ("bowl", "dish", "porridge", "rice", "tray", "flatbread"):
-            _neg.append("This is a REAL cooked Saudi/Najdi dish (e.g. جريش cracked-wheat porridge, kabli rice, "
-                "or قرصان flatbread-in-broth) in its TRUE serving vessel (kraft cup / round foil tray / bowl), with "
-                "its real condiment pots where shown. Honest thick moist matte cooked-grain surface. ABSOLUTELY "
-                "FORBIDDEN: any fried/crispy/breaded crust, fried chicken, a burger/sandwich/bun, plastic-uniform "
-                "CGI food — this dish is NEVER fried.")
+            identity = _pt.get("identity_dna", "")
+            sig = _pt.get("signature", "")
+            tex = _pt.get("texture", "")
+            comps = _pt.get("components", [])
+            comp_line = "; ".join(comps) if comps else ""
+            blob = (identity + " " + sig + " " + comp_line).lower()
+            # forbid the generic-jureisha tells that bleed in from OTHER menu items, UNLESS this
+            # product's own identity/components actually call for them (root-fix: سليق kept
+            # rendering with red-pepper salsa it doesn't have — the jareesh look bleeding across).
+            bleed = []
+            if not any(w in blob for w in ("red pepper", "salsa", "roasted-pepper", "كشنة", "محمّر", "محمر")):
+                bleed.append("red roasted-pepper salsa, diced red peppers, red كشنة")
+            if not any(w in blob for w in ("chili", "chilli", "شطة", "شطه", "حار")):
+                bleed.append("red chili paste, whole red chilies, شطة")
+            if not any(w in blob for w in ("crisp", "fried", "broast", "مقلي", "مقرمش")):
+                bleed.append("any fried/crispy/breaded crust or fried chicken")
+            bleed_clause = (" THIS specific dish has NONE of the following (they belong to OTHER "
+                            "menu items, do NOT add them): " + "; ".join(bleed) + "."
+                            ) if bleed else ""
+            _neg.append(
+                f"This is a REAL cooked Saudi/Najdi dish. Render EXACTLY this dish and ONLY its own "
+                f"listed components — add NOTHING from other menu items. EXACT PRODUCT IDENTITY: {identity} "
+                f"SIGNATURE: {sig} TEXTURE: {tex} COMPONENTS (the ONLY things on/in this dish): {comp_line}."
+                + bleed_clause +
+                " Honest thick moist matte cooked-grain surface. ABSOLUTELY FORBIDDEN: a burger/sandwich/bun, "
+                "plastic-uniform CGI food."
+            )
         if _pt.get("signature_sauce"):
             comps = " ".join(_pt.get("components", []))
             has_cocktail = "cocktail" in comps.lower()
@@ -245,6 +328,8 @@ def main():
     dest = RENDER_DIR / name
     urllib.request.urlretrieve(img_url, dest)
     _composite_brand_logo(dest, a.handle)   # overlay the REAL logo (AI rendered plain)
+    if _fmt == "combo":
+        _composite_pepsi_can_label(dest, a.handle)  # fix plain red can → real Pepsi label
     # ── PIXEL MODESTY GATE (2026-06-21, the audit's missing tooth) — the prompt gates can't see
     # the rendered pixels; this one can. AFTER the image is saved, BEFORE it can become a judge
     # card, a gpt-4o vision pass refuses a loosened-hijab / mixed-gender / exposed-skin / real-

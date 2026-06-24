@@ -867,7 +867,11 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
             print(f"  gpt pen failed: {str(e)[:60]}", file=sys.stderr)
         # 2nd pen — HUMAIN (ALLaM 34B, Saudi-native) via the local service: the model-diversity
         # pen (Mohamed June 24: "for the captions try humain"). Replaces the dark Sonnet pen.
+        # FAST GUARD: only call if the service is up AND logged in (3s health check), else a
+        # not-logged-in HUMAIN would block 180s on every caption — skip instantly instead.
         try:
+            if not humain_up():
+                raise RuntimeError("service down / not logged in")
             h_sys = (sys_p + f"\nYOUR PEN'S TEMPERAMENT: enter through {DOORS[(base + 3) % len(DOORS)]}." + extra)
             txt = humain(h_sys, user)
             m = re.search(r"\{.*\}", txt, re.S)

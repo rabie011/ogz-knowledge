@@ -290,11 +290,20 @@ def main():
             bleed_clause = (" THIS specific dish has NONE of the following (they belong to OTHER "
                             "menu items, do NOT add them): " + "; ".join(bleed) + "."
                             ) if bleed else ""
+            # قرصان / tharid geometry: flux's prior renders a WHOLE intact flatbread on top; the
+            # real dish is bread TORN into ragged pieces and SOAKED/submerged in broth UNDER the
+            # stew. Force it when the identity is a soaked-bread dish.
+            bread_clause = ""
+            if any(w in blob for w in ("قرصان", "tharid", "ثريد", "soaked", "broth-soaked", "flatbread-in-broth")):
+                bread_clause = (" CRITICAL GEOMETRY: the thin flatbread is TORN into ragged irregular "
+                    "pieces and SUBMERGED, fully soaked and softened in the broth UNDERNEATH the stewed "
+                    "meat and vegetables — soggy, glistening, broth-logged. ABSOLUTELY NOT a whole intact "
+                    "round flatbread sitting dry on top; NOT a folded tortilla; the bread is wet, torn, layered, half-hidden in the stew.")
             _neg.append(
                 f"This is a REAL cooked Saudi/Najdi dish. Render EXACTLY this dish and ONLY its own "
                 f"listed components — add NOTHING from other menu items. EXACT PRODUCT IDENTITY: {identity} "
                 f"SIGNATURE: {sig} TEXTURE: {tex} COMPONENTS (the ONLY things on/in this dish): {comp_line}."
-                + bleed_clause +
+                + bleed_clause + bread_clause +
                 " Honest thick moist matte cooked-grain surface. ABSOLUTELY FORBIDDEN: a burger/sandwich/bun, "
                 "plastic-uniform CGI food."
             )

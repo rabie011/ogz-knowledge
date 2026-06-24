@@ -334,6 +334,18 @@ def main():
             print(f"  🧠 injected {len(_lessons[:8])} learned correction(s) from RABIE's verdict ledger")
     except Exception as _e:
         print(f"  (no learned-corrections block: {type(_e).__name__})")
+    # BACKGROUND QUALITY (June 24, Mohamed: "the backgrounds are bad, make the art director better").
+    # The weak renders were flat seamless studio sweeps + cheap sunburst-ray ad backdrops + busy CGI
+    # splash. The strong ones were intentional, textured, on-brand SURFACES/ENVIRONMENTS. Force that
+    # for every render so good backgrounds are a SYSTEM property, not a hand-pick.
+    prompt = prompt + ("\n\n[BACKGROUND — CRITICAL] The background is an intentional, premium, "
+        "TEXTURED surface or real environment that flatters the product and fits the brand: warm "
+        "natural wood, woven Najdi/Persian textile, aged stone, brushed metal, linen, or a single "
+        "rich brand-color seamless with real soft-box falloff and shadow depth. Shallow depth of "
+        "field, the product in crisp focus, the background softly blurred. ABSOLUTELY FORBIDDEN: "
+        "cheap radial SUNBURST/starburst rays, flat plastic gradient, a hard seamless studio sweep "
+        "with no texture, busy CGI ad-splash, floating liquid-splash graphics, scattered confetti, "
+        "clip-art props, or any cluttered distracting background. Editorial food-photography quality.")
     key = env("FAL_KEY") or env("FAL_API_KEY")
     refp = Path(ref)
     mime = "jpeg" if refp.suffix.lower() in (".jpg", ".jpeg") else (refp.suffix.lstrip(".").lower() or "jpeg")

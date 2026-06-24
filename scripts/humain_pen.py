@@ -127,7 +127,18 @@ async def _ask(prompt: str, timeout_s: int):
     if not sent:
         await _page.keyboard.press("Enter")
 
-    return await hc.wait_for_response(_page, timeout_s=timeout_s)
+    reply = await hc.wait_for_response(_page, timeout_s=timeout_s)
+    # ANTI-ECHO (June 24): the scraper sometimes grabs the prompt (or a stale prior prompt)
+    # instead of ALLaM's reply. Reject any reply that is the prompt we just sent, or a known
+    # pen-prompt echo — a judge must never read a prompt-echo as an answer.
+    if reply:
+        r = reply.strip()
+        p = (prompt or "").strip()
+        if p and (r == p or r in p or p in r):
+            return None
+        if "You write Instagram captions" in r or "<RED_LINES>" in r or "<TECHNIQUES>" in r:
+            return None
+    return reply
 
 
 async def _new_chat():

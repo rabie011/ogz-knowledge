@@ -61,7 +61,7 @@ def identity_check(profile: dict, handle: str) -> dict:
                     "written confirmation (GAP-07; the lnasser scar)"}
 
 
-def run_intake(handle: str):
+def run_intake(handle: str, harvest_only: bool = False):
     client = ApifyClient(env("APIFY_TOKEN"))
     root = BASE / "clients" / handle
     raw = root / "raw" / "instagram" / TODAY
@@ -186,7 +186,13 @@ def run_intake(handle: str):
     if usable <= 10:
         gaps["from_this_extraction"].append(
             f"تعليقات قليلة ({usable} نص مفيد) — نسأل: وش أكثر سؤال يجيكم من الزبائن واتساب؟")
-    jdump(root / "gap_report.json", gaps)
+    # PHASE-1 self-service flow (--harvest-only): the form provides the answers, so we SKIP the
+    # gap-report (intake questions) and just leave the harvested raw corpus + manifest for the
+    # research step. Default flow still emits gap_report (the assisted/no-answer path).
+    if not harvest_only:
+        jdump(root / "gap_report.json", gaps)
+    else:
+        manifest["harvest_only"] = True
     jdump(root / "manifest.json", manifest)
 
     # ── REPORT ────────────────────────────────────────────────────────────────
@@ -202,5 +208,7 @@ def run_intake(handle: str):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--handle", required=True)
+    ap.add_argument("--harvest-only", action="store_true",
+                    help="Phase-1 self-service: harvest raw corpus only, skip the gap-report questions")
     a = ap.parse_args()
-    run_intake(a.handle)
+    run_intake(a.handle, harvest_only=a.harvest_only)

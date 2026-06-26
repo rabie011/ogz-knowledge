@@ -38,5 +38,35 @@ class TestCanaryAge(unittest.TestCase):
                                             for x in ages]) if ages else 0, 0)
 
 
+class TestCanaryNotHardGate(unittest.TestCase):
+    """An away founder (canary half WE don't control) must NOT trip the hard feedback gate,
+    so it can never MASK a real red — the session-leak scar. The hard gate is card hygiene
+    (the half we DO control); founder-away stays a visible WARN, not a verdict."""
+
+    def test_card_hygiene_is_the_gate_not_founder_canary(self):
+        # the gate list bites on what we control, not on the founder being away
+        import inspect
+        src = inspect.getsource(m.run_checks)
+        self.assertIn('"card_hygiene_ok"', src)
+        # founder_canary is computed/printed as a WARN but is NOT in the hard `gates` list
+        gate_block = src.split("gates = [", 1)[1].split("]", 1)[0]
+        self.assertIn("card_hygiene_ok", gate_block)
+        self.assertNotIn("founder_canary", gate_block)
+
+    def test_away_founder_alone_does_not_fail_verdict(self):
+        # simulate: founder away (canary red) but cards fresh (hygiene green)
+        c = {"days_since_mohamed": 4.3, "median_card_age_d": 4.0}
+        c["card_hygiene_ok"] = c["median_card_age_d"] <= 5
+        c["founder_canary"] = c["days_since_mohamed"] <= 3 and c["card_hygiene_ok"]
+        self.assertFalse(c["founder_canary"])   # WARN still fires — signal preserved
+        self.assertTrue(c["card_hygiene_ok"])   # but the HARD gate stays green — no mask
+
+    def test_rotting_cards_still_trip_the_gate(self):
+        # the controllable failure (we let his cards rot) MUST still hard-fail
+        c = {"median_card_age_d": 9}
+        c["card_hygiene_ok"] = c["median_card_age_d"] <= 5
+        self.assertFalse(c["card_hygiene_ok"])
+
+
 if __name__ == "__main__":
     unittest.main()

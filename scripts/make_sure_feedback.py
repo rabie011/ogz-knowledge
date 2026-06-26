@@ -69,7 +69,18 @@ def run_checks() -> dict:
     # exposed 21 created-less cards the corpses had been masking in the median.)
     ages = [(now - _dt(cr)).days for i in open_cards if _parseable_dt(cr := i.get("created", ""))]
     c["median_card_age_d"] = statistics.median(ages) if ages else 0
-    c["founder_canary"] = c["days_since_mohamed"] <= 3 and c["median_card_age_d"] <= 5
+    # The canary has two halves split by WHO CONTROLS them:
+    #   • card_hygiene_ok (median open-card age ≤5d) — what WE control: are we letting his
+    #     cards rot? THIS is the hard gate (below) — a real machine defect if it trips.
+    #   • founder_canary (away ≤3d AND cards fresh) — the moat-drain SIGNAL. Still computed
+    #     and printed LOUD (🔴) every cycle, but NOT hard-gated: a founder simply being away
+    #     >3d is not a machine defect and no code change clears it (Rule #12). Hard-gating on
+    #     it turned the WHOLE feedback suite red during every normal quiet stretch and MASKED
+    #     real reds behind it — the session-leak scar: a perma-red check hides every other
+    #     failure. Founder-away is watched via this WARN + the taste_elo gap + the cards
+    #     already staged on the portal for his return.
+    c["card_hygiene_ok"] = c["median_card_age_d"] <= 5
+    c["founder_canary"] = c["days_since_mohamed"] <= 3 and c["card_hygiene_ok"]
 
     # 4. UNATTRIBUTED AT ZERO (without Goodhart: backfill needs per-line evidence)
     sc_f = B / "data/scorecards.json"
@@ -306,7 +317,7 @@ def run_checks() -> dict:
     c["oldest_open_days"] = ist.get("oldest_open_days", 0)
     c["issue_pulse_ok"] = c["oldest_open_days"] <= 14
 
-    gates = ["identity_no_mohamed_default", "router_cursor_fresh", "founder_canary",
+    gates = ["identity_no_mohamed_default", "router_cursor_fresh", "card_hygiene_ok",
              "unattributed_zero", "no_bulk_backfill", "producer_map_clean", "cards_attributed",
              "evidence_gates", "receipt_alive", "scorecards_fresh", "hand_recount",
              "no_quarantine_graveyard", "append_only", "card_budget_ok", "issue_pulse_ok",

@@ -133,7 +133,7 @@ Refs: `s11:N`/`s12:N` = `~/agents/rabie/sessions/2026-06-{11,12}.jsonl` line N �
 - [☐] albaik × Herfy «سويلي زي ذا» live test — angle-class borrowed, zero copying — s11:28 · ab#1/#13
 - [☐] Floward deception guards: trusted internal figure at the reveal + kids' messages at the core — s11:35
 - [☐] Floward one-page pitch card NOW; round 2 staged not spent — s11:37-38
-- [☐] Floward mirror confirmed → 6-chapter self-designed PDF build (internal only) — s11:39
+- [☐] Floward mirror confirmed → 6-chapter self-designed PDF build (internal only) — s11:39 · ✅ LOCATED (B238, 2026-06-27): `/Users/abarihm/Desktop/FLOWARD_6_CONCEPTS.pdf` (Jun 11, 2.8MB, 6 numbered concepts 01–06 verified in CONTENTS — cover «SIX CONCEPTS / ٦ مفاهيم»)
 
 ---
 

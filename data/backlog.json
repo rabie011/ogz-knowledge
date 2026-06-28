@@ -3958,6 +3958,34 @@
    "status": "done",
    "gate": "",
    "done_note": "openapi.yaml: 5 paths (/health,/extract,/produce,/job,/performance), 6 schemas, typed 400s from C210, bearer auth; mirrors brain_api+brain_contract; validates. The interface boundary devs build against. [beat 10]"
+  },
+  {
+   "id": "C212",
+   "what": "scripts/test_job_lifecycle.py — unit test for brain_api job tracking",
+   "status": "done",
+   "gate": "",
+   "done_note": "built by the parallel fleet (4 agents at once), self-tested green [full-power cycle 1]"
+  },
+  {
+   "id": "C213",
+   "what": "scripts/rate_limit.py — per-client token-bucket limiter (ready to wire)",
+   "status": "done",
+   "gate": "",
+   "done_note": "built by the parallel fleet (4 agents at once), self-tested green [full-power cycle 1]"
+  },
+  {
+   "id": "C214",
+   "what": "scripts/contract_drift_check.py — openapi.yaml ↔ brain_api drift guard",
+   "status": "done",
+   "gate": "",
+   "done_note": "built by the parallel fleet (4 agents at once), self-tested green [full-power cycle 1]"
+  },
+  {
+   "id": "C215",
+   "what": "scripts/dev_quickstart.sh — dev curl quickstart for the 3 endpoints",
+   "status": "done",
+   "gate": "",
+   "done_note": "built by the parallel fleet (4 agents at once), self-tested green [full-power cycle 1]"
   }
  ],
  "counts": {

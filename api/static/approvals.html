@@ -347,9 +347,13 @@ async function refresh(){
   if(wantId!==curId) renderCard();
 }
 function laneOf(it){ return it.judge_lane ? 'judge' : 'decide'; }
+const BORD={alarm:0,decision:1,info:2};   // feedback re-look (June 29): bucket priority in the gate
 function openItems(lane){
-  let o=ITEMS.filter(i=>i.status!=='answered' && laneOf(i)===(lane||LANE_VIEW));
-  o.sort((a,b)=>(SKIPPED.has(a.id)-SKIPPED.has(b.id)) || ((a.priority!=='urgent')-(b.priority!=='urgent')));
+  // !i.collapsed → no-action INFO cards never enter the 60-sec gate (they live behind "view all")
+  let o=ITEMS.filter(i=>i.status!=='answered' && !i.collapsed && laneOf(i)===(lane||LANE_VIEW));
+  o.sort((a,b)=>(SKIPPED.has(a.id)-SKIPPED.has(b.id))
+      || ((BORD[a.bucket]??1)-(BORD[b.bucket]??1))       // 🚨 alarms → ✅ decisions → 📋 info
+      || ((a.priority!=='urgent')-(b.priority!=='urgent')));
   return o;
 }
 function patchAmbient(){

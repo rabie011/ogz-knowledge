@@ -156,6 +156,16 @@ def _single_open_pw(out):
     return kept
 
 
+def _bucket(it: dict) -> str:
+    """FEEDBACK RE-LOOK (June 29, orchestra): 3 buckets for the 60-sec ADHD gate —
+    'alarm' (urgent flags), 'decision' (Mohamed can ACT — has buttons/input), 'info' (no action: client-needs)."""
+    txt = f"{it.get('title','')} {it.get('tag','')} {it.get('id','')}"
+    if any(e in txt for e in ("🚨", "🔴", "alarm", "إنذار", "taste_stale", "إنذار")):
+        return "alarm"
+    actionable = bool(it.get("buttons") or it.get("options") or it.get("text") or it.get("composer"))
+    return "decision" if actionable else "info"
+
+
 @app.get("/api/approvals/items")
 def items(request: Request, k: str = ""):
     if not _ok(k):
@@ -175,11 +185,20 @@ def items(request: Request, k: str = ""):
         if it.get("status") == "answered":
             out.append({kk: it.get(kk) for kk in SLIM_KEYS})   # answered = slim (payload diet)
         else:
-            out.append(dict(it, lane=_card_lane(it, lm)))
+            out.append(dict(it, lane=_card_lane(it, lm), bucket=_bucket(it)))
     # coerce None → "" : a card with created:null (or a slim answered dict missing it) crashed
     # the sort (None < str) → the WHOLE items API 500'd → the live link showed no cards (2026-06-14)
+    # FEEDBACK RE-LOOK (June 29, orchestra): bucket order first — 🚨 alarms, ✅ decisions, 📋 info —
+    # so the actionable cards surface and the no-action client-needs sink (the flood fix).
+    _BORDER = {"alarm": 0, "decision": 1, "info": 2}
     out.sort(key=lambda x: (x.get("status") == "answered",
+                            _BORDER.get(x.get("bucket"), 1),
                             0 if x.get("priority") == "urgent" else 1, x.get("created") or ""))
+    # collapse ALL no-action INFO cards behind "view all" (Rule #10 — the flood is the no-action
+    # client-needs; alarms + decisions stay open because they need Mohamed's tap).
+    for x in out:
+        if x.get("status") != "answered" and x.get("bucket") == "info":
+            x["collapsed"] = True
     out = _single_open_pw(out)   # one open pairwise card at a time (60-sec gate, not a 15-card wall)
     # private,no-cache makes the browser attach If-None-Match automatically → free 304 polling
     return JSONResponse(out, headers={"ETag": etag, "Cache-Control": "private, no-cache"})

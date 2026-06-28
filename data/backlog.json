@@ -3951,6 +3951,13 @@
    "status": "done",
    "gate": "",
    "done_note": "brain_contract.py validators wired into all 3 endpoints; proven live (reach=str/0/blank chain → 400+field; good → 200). The dev-facing accept/reject contract. [beat 9]"
+  },
+  {
+   "id": "C211",
+   "what": "OpenAPI 3.0.3 spec (scripts/openapi.yaml) — the dev-facing contract doc for the 3 endpoints",
+   "status": "done",
+   "gate": "",
+   "done_note": "openapi.yaml: 5 paths (/health,/extract,/produce,/job,/performance), 6 schemas, typed 400s from C210, bearer auth; mirrors brain_api+brain_contract; validates. The interface boundary devs build against. [beat 10]"
   }
  ],
  "counts": {

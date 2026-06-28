@@ -9,7 +9,7 @@
   "content": {
     "image_url": "api/static/renders_v37/eatjurisha_جريش_G03.jpg",
     "caption": {
-      "arabic": "صوت خفق الجريش على الموقد يجذبك من الغرفة الأخرى، تذكير بأن اللذة تصنع بصبر. 🔥",
+      "arabic": "صوت الملعقة يدغدغ الطبق الفارغ... جريشة | Jurisha كفيلة بملئه من جديد.",
       "english": null,
       "hashtags": [],
       "cta": null,
@@ -42,16 +42,26 @@
     },
     "caption": {
       "status": "judged",
-      "signals": 1,
+      "signals": 2,
       "judges": {
+        "humain": {
+          "score": 0.6,
+          "verdict": "fix",
+          "native_saudi": true,
+          "issues": [
+            "استخدام كلمة 'يدغدغ' قد يكون غير مناسب في هذا السياق، حيث أن الكلمة تحمل معنى مرحًا أو خفيفًا لا يتناسب مع جدية تقديم الطعام.",
+            "عبارة 'كفيل بملئه من جديد' قد تكون غير دقيقة لغويًا، حيث أن 'كفيل' تعني 'ضامن' أو 'مسؤول'، وليس 'قادر'.",
+            "النص قد يبدو مبالغًا فيه بعض الشيء، حيث أن وصف صوت الملعقة بأنه 'يدغدغ' الطبق قد لا يكون دقيقًا أو مناسبًا في سياق إعلان عن طعام."
+          ]
+        },
         "gpt": {
           "score": 1.0,
           "issues": []
         }
       },
-      "score": 1.0,
+      "score": 0.6,
       "passed": false,
-      "source": "GPT-4o only — needs HUMAIN/2nd signal to auto-approve"
+      "source": "HUMAIN (ALLaM, authoritative) + GPT-4o cross-check"
     }
   },
   "review": {
@@ -60,5 +70,5 @@
     "auto_approved": false,
     "human_review_url": null
   },
-  "created_at": 1782662452
+  "created_at": 1782664686
 }

@@ -125,5 +125,43 @@ class TestDispatch(unittest.TestCase):
         self.assertIsNone(apply_rulings._resolve(("some_random_card", "A")))
 
 
+# A *system* rescope decision (card_hygiene + issue_pulse → machine-defects only) is also a
+# fork. The June 28 shift staged it as `gate_rescope_founder_away` (NO _fork suffix) → it
+# resolved to None → his A/B rescope ruling would have vanished (Rule #7 dead-end, the exact
+# scar this handler exists to close). Renamed to `..._fork` so it auto-lands. This guards the
+# rename + proves the rescope DECISION is recorded WITHOUT pre-executing the gate redefinition
+# (that is B289's dependent step, his ruling first — Rule #11/#12).
+GATE_RESCOPE = "gate_rescope_founder_away_fork"
+RESCOPE_QUEUE = {
+    "items": [
+        {"id": GATE_RESCOPE, "kind": "buttons", "status": "open",
+         "title": "Health-gate rescope — 2 reds are founder-away, not defects",
+         "options": [
+             {"v": "A", "label": "✅ A — rescope (recommended)"},
+             {"v": "B", "label": "⏸️ B — keep biting as honest debt"},
+         ]},
+    ]
+}
+
+
+class TestGateRescopeFork(unittest.TestCase):
+    def test_rescope_card_resolves_to_handler(self):
+        for ans in ("A", "B"):
+            self.assertIs(apply_rulings._resolve((GATE_RESCOPE, ans)),
+                          apply_rulings.h_fork_decision)
+
+    def test_rescope_A_lands_without_executing(self):
+        with tempfile.TemporaryDirectory() as d:
+            tmp = _sandbox(d, queue=RESCOPE_QUEUE)
+            apply_rulings.h_fork_decision(
+                tmp, {"item_id": GATE_RESCOPE, "answer": "A", "ts": "2026-06-28T21:45"})
+            fd = _rulings(tmp)["fork_decisions"][GATE_RESCOPE]
+            self.assertEqual(fd["answer"], "A")
+            self.assertIn("rescope", fd["choice"])
+            self.assertEqual(fd["confirmer"], "mohamed")
+            # the DECISION is recorded; the gate redefinition itself is NOT executed here
+            self.assertEqual(set(_rulings(tmp)), {"fork_decisions"})
+
+
 if __name__ == "__main__":
     unittest.main()

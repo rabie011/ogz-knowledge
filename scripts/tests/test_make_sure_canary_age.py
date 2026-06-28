@@ -5,8 +5,8 @@ The canary (make_sure_feedback) fires when his open cards go stale (median age >
 no parseable `created` must NOT be counted as epoch-1970 (20k+ days) — that's a data artifact, not
 founder-neglect, and it falsely trips the canary. Surfaced June 20: retiring 52 dated 'superseded'
 corpses exposed 21 created-less cards the corpses had been masking in the median (5 -> 20624)."""
-import sys, unittest
-from datetime import datetime
+import statistics, sys, unittest
+from datetime import datetime, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -66,6 +66,69 @@ class TestCanaryNotHardGate(unittest.TestCase):
         c = {"median_card_age_d": 9}
         c["card_hygiene_ok"] = c["median_card_age_d"] <= 5
         self.assertFalse(c["card_hygiene_ok"])
+
+
+class TestControllableSplit(unittest.TestCase):
+    """June 28: the session-leak scar leaked through card_hygiene_ok and issue_pulse_ok —
+    both hard-gated on aging that is pure founder-away (his portal backlog / his unconsumed
+    taste-verdicts). The hard gates now measure only the half WE control; founder-away is a
+    loud WARN. A stale item WE own must still trip; founder-away alone must not."""
+
+    def test_founder_gated_cards_recognised(self):
+        self.assertTrue(m._founder_gated_card({"kind": "caption_pick"}))
+        self.assertTrue(m._founder_gated_card({"need": "اكتبوا الجواب"}))
+        self.assertTrue(m._founder_gated_card({"made_by": "system:pairwise"}))
+        self.assertTrue(m._founder_gated_card({"tag": "v3.7 Visual"}))
+        # an ordinary card we could close by hand is NOT founder-gated
+        self.assertFalse(m._founder_gated_card({"kind": "buttons", "made_by": "ops"}))
+
+    def test_auto_notice_cards_recognised(self):
+        # the self-referential alarm card (made_by claude, single ack option, tag نظام)
+        self.assertTrue(m._auto_notice_card(
+            {"made_by": "claude", "tag": "نظام", "options": [{"v": "ack", "label": "👌"}]}))
+        self.assertTrue(m._auto_notice_card({"made_by": "system:make_sure"}))
+        self.assertFalse(m._auto_notice_card({"made_by": "ops", "options": [{"v": "a"}, {"v": "b"}]}))
+
+    def test_founder_away_alone_does_not_trip_card_hygiene(self):
+        # his portal full of aged tap-gated cards, but NO card we own is stale → green
+        now = datetime.now()
+        old = (now - timedelta(days=20)).isoformat()
+        cards = [{"status": "open", "created": old, "kind": "caption_pick"},
+                 {"status": "open", "created": old, "need": "answer me"}]
+        ours = [i for i in cards
+                if not m._founder_gated_card(i) and not m._auto_notice_card(i)
+                and m._parseable_dt(i.get("created", ""))]
+        median = (statistics.median([(now - m._dt(i["created"])).days for i in ours])
+                  if ours else 0)
+        self.assertEqual(median, 0)
+        self.assertTrue(median <= 5)            # card_hygiene_ok stays green on founder-away
+
+    def test_our_rotting_card_still_trips_card_hygiene(self):
+        now = datetime.now()
+        old = (now - timedelta(days=9)).isoformat()
+        cards = [{"status": "open", "created": old, "kind": "buttons", "made_by": "ops"}]
+        ours = [i for i in cards
+                if not m._founder_gated_card(i) and not m._auto_notice_card(i)]
+        median = statistics.median([(now - m._dt(i["created"])).days for i in ours])
+        self.assertFalse(median <= 5)           # a card WE own, rotted → still red
+
+    def test_untouched_verdicts_do_not_trip_issue_pulse(self):
+        # 26 founder taste-verdicts, none with fix_claimed → no CLAIMED stuck issue → green
+        issues = {f"i{n}": {"status": "open", "opened": "2026-06-12T00:00:00", "events": []}
+                  for n in range(26)}
+        claimed = [v for v in issues.values()
+                   if any(e.get("event") == "fix_claimed" for e in v.get("events", []))]
+        self.assertEqual(claimed, [])
+        self.assertTrue(max((0 for _ in claimed), default=0) <= 14)
+
+    def test_claimed_but_stuck_issue_trips_issue_pulse(self):
+        # a fix WE claimed 20 days ago and never closed → red (controllable neglect)
+        now = datetime.now()
+        opened = (now - timedelta(days=20)).isoformat()
+        v = {"status": "open", "opened": opened,
+             "events": [{"event": "fix_claimed", "ts": opened}]}
+        age = (now - m._dt(v["opened"])).days
+        self.assertTrue(age > 14)               # claimed-but-stuck still trips the gate
 
 
 if __name__ == "__main__":

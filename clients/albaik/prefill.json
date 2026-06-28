@@ -3,6 +3,14 @@
   "schema_version": "ogz-prefill-1.0",
   "brand_id": "ogz:albaik",
   "onboarding_status": "extraction_complete",
+  "ready": true,
+  "readiness": {
+    "ready": true,
+    "coverage_pct": 79,
+    "banked_renders": 11,
+    "min_coverage": 60,
+    "blocking_reasons": []
+  },
   "sources_present": {
     "instagram": true,
     "website": false,
@@ -235,7 +243,7 @@
       "has_holding_page": "derived",
       "differentiator_seed": "fingerprint.l1_strategy.usp",
       "differentiator_source": "ogz",
-      "dialect_hint": "cultural_overrides.dialect_register",
+      "dialect_hint": "cultural_overrides.dialect_register|fingerprint.l2_voice.dialect",
       "region_primary_hint": "visual_dna.brand.region",
       "city_hint": "passport",
       "formality_level": "derived(tone_register)",

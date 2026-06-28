@@ -54,7 +54,8 @@ SECTOR_LABEL = {"f_and_b": "Food & Beverage", "fashion": "Fashion & Retail",
                 "beauty": "Beauty & Personal Care", "health": "Health & Wellness",
                 "real_estate": "Real Estate", "corporate": "Corporate & Services"}
 # only SPECIFIC registers map directly; generic "neutral_saudi" defers to the brand's region
-DIALECT_LABEL = {"hijazi": "Hejazi", "najdi": "Najdi", "gulf": "Gulf"}
+DIALECT_LABEL = {"hijazi": "Hejazi", "najdi": "Najdi", "gulf": "Gulf",
+                 "non_arabic": "Non-Arabic", "msa": "MSA"}
 PRICE_LABEL = {"mid-market": "Mid-market", "budget": "Budget", "premium": "Premium",
                "luxury": "Luxury", "value": "Budget"}
 
@@ -148,7 +149,9 @@ def build_prefill(o: Organs):
 
     # ── VOICE & TONE ──────────────────────────────────────────────────────
     put("dialect_hint", DIALECT_LABEL.get(co.get("dialect_register"))
-        or _region_dialect(_val(vbrand.get("region"))), "cultural_overrides.dialect_register")
+        or _region_dialect(_val(vbrand.get("region")))
+        or DIALECT_LABEL.get((fp.get("l2_voice") or {}).get("dialect")),
+        "cultural_overrides.dialect_register|fingerprint.l2_voice.dialect")
     put("region_primary_hint", _region(_val(vbrand.get("region"))), "visual_dna.brand.region")
     put("city_hint", _passport_city(o), "passport")
     put("formality_level", _formality(_val(vbrand.get("tone_register"))), "derived(tone_register)")

@@ -88,8 +88,20 @@ def check_append_only() -> bool:
     return hashlib.sha256(last_line).hexdigest() == c["last_line_sha"]
 
 
+# an explicit positive gate verdict ("approved"/"accepted") is NEVER a reject — even when the row
+# carries a low rating. judge2 second-vote APPROVAL cards submit a spurious rating=2 UI artifact
+# alongside answer="approved"; reading rating<=2 as a kill opened a DEFECT-ISSUE against the very
+# mind whose work Mohamed APPROVED (iss_20260614_3f3092bb9bb8 / _8961663403e6, June 14), poisoning
+# the Rule #14 learning loop (the mind learns to avoid its approved output) AND inflating issue_pulse.
+# The explicit verdict wins over the rating field. (Previous shift's named pick, June 28.)
+_POSITIVE_VERDICTS = {"approved", "approve", "accepted", "accept"}
+
+
 def _is_reject(row: dict) -> bool:
-    if str(row.get("answer", "")).strip().lower() in ("rejected", "flagged"):
+    ans = str(row.get("answer", "")).strip().lower()
+    if ans in _POSITIVE_VERDICTS:
+        return False
+    if ans in ("rejected", "flagged"):
         return True
     r = row.get("rating")
     return isinstance(r, int) and r <= 2

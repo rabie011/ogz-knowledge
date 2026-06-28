@@ -1062,6 +1062,40 @@
    ],
    "made_by": "system:orchestra",
    "artifact_version": 1
+  },
+  {
+   "id": "devs_integration_spec",
+   "title": "How will the dev platform CALL the brain? (REST / package / queue)",
+   "tag": "connection",
+   "desc": "",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-28T23:30:32",
+   "status": "open",
+   "why": "The contract SHAPE decides all the wiring — we can't finish the connection without it.",
+   "need": "Ask the devs: do they call ogz-knowledge as (A) an HTTP REST service we host, (B) a Python package they import, or (C) a job queue they drop tasks into? One answer unblocks /extract, /produce, /performance wiring.",
+   "did": "Built the 3 contracts + brain_api HTTP bridge + 3-client connection test (all green). The endpoints exist; we just need to know which calling convention the devs want.",
+   "kind": "buttons",
+   "options": [
+    {
+     "v": "rest",
+     "label": "REST service (we host)"
+    },
+    {
+     "v": "package",
+     "label": "Python package (they import)"
+    },
+    {
+     "v": "queue",
+     "label": "Job queue (they drop tasks)"
+    },
+    {
+     "v": "other",
+     "label": "Other — I'll explain"
+    }
+   ],
+   "made_by": "system:orchestra",
+   "artifact_version": 1
   }
  ]
 }

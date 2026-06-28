@@ -152,7 +152,11 @@ def main():
                 e = json.loads(l)
             except Exception:
                 continue
-            if e.get("ts", "") >= since:
+            # a reader of an append-only ledger must tolerate EVERY row ever written —
+            # one legacy rabie_shift row carried an epoch-int ts and crashed this writer
+            # silently for 9 days (make_sure calls it with capture_output), killing the
+            # im_here receipt → receipt_alive red (June 28).
+            if str(e.get("ts", "")) >= since:
                 # zoom entries carry zoom_out:true (the 'type' key was never written — fixed June 12)
                 zooms += bool(e.get("zoom_out")) or e.get("type") == "zoom_out"
                 alarms += bool(e.get("alarm")) or e.get("verdict") == "ALARM"

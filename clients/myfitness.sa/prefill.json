@@ -3,6 +3,17 @@
   "schema_version": "ogz-prefill-1.0",
   "brand_id": "ogz:myfitness.sa",
   "onboarding_status": "extraction_complete",
+  "ready": false,
+  "readiness": {
+    "ready": false,
+    "coverage_pct": 54,
+    "banked_renders": 0,
+    "min_coverage": 60,
+    "blocking_reasons": [
+      "profile coverage 54% < 60%",
+      "no banked renders"
+    ]
+  },
   "sources_present": {
     "instagram": true,
     "website": false,
@@ -23,7 +34,7 @@
     "brand_name_ar": null,
     "business_category": null,
     "sector_hint": "healthcare_wellness",
-    "dialect_hint": null,
+    "dialect_hint": "Non-Arabic",
     "color_palette": "orange #FF8C00 · neutral",
     "style_descriptor": "clean_studio",
     "lighting": null,
@@ -137,19 +148,18 @@
     "rating": null,
     "user_ratings_total": null,
     "formatted_address": null,
-    "confidence": 0.53,
+    "confidence": 0.54,
     "brand_understanding": null
   },
-  "confidence": 0.53,
+  "confidence": 0.54,
   "brand_understanding": null,
   "_coverage": {
-    "filled": 43,
+    "filled": 44,
     "total": 81,
-    "pct": 53,
+    "pct": 54,
     "null_fields": [
       "brand_name_ar",
       "business_category",
-      "dialect_hint",
       "lighting",
       "filter_style",
       "style_register",
@@ -210,7 +220,7 @@
       "has_holding_page": "derived",
       "differentiator_seed": null,
       "differentiator_source": "ogz",
-      "dialect_hint": null,
+      "dialect_hint": "cultural_overrides.dialect_register|fingerprint.l2_voice.dialect",
       "region_primary_hint": "visual_dna.brand.region",
       "city_hint": null,
       "formality_level": "derived(tone_register)",

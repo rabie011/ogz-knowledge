@@ -138,3 +138,11 @@ The brain learns from real outcomes. After a post is published, send its engagem
 - **PROVEN end-to-end** (this contract, live): 6 baseline events + a bomb → `{z_score: -30.16,
   action: "kill"}` → the bombed setup was blocked in the kill-registry. The brain learns the moment you
   feed it; `post_id` format is `{handle}__{product}__{chain}`.
+
+---
+
+## Request contract (what the brain accepts / rejects)
+Every endpoint validates fields and returns `400 {ok:false, error, field}` on violation (see `scripts/brain_contract.py`):
+- **GET /extract** — `handle`: 2-40 chars `[A-Za-z0-9._-]`.
+- **POST /produce** — `handle` (as above), `product` (non-empty str), `chain` (2-16 chars `[A-Za-z0-9_-]`, e.g. G03); optional `occasion` (str, def "everyday"), `produce`/`regenerate` (bool).
+- **POST /performance** — `post_id` (non-empty str); `likes/saves/comments/shares` (non-negative ints, def 0); **`reach` (positive int, required** — the engagement_rate denominator). Wrong type → `400` naming the field; no more silent failures or opaque 500s.

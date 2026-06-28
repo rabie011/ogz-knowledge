@@ -3944,6 +3944,13 @@
    "status": "done",
    "_added": "2026-06-28",
    "done_note": "2026-06-28 DONE: live evidence 29.8h leak survived launchd reaper at load 4.5 (gated max-load 6). Decoupled age-reap from load (panel-endorsed). Suite 1039 green. Load 4.93->3.67 after reap."
+  },
+  {
+   "id": "C210",
+   "what": "Formal request contract: field validation + typed 400 errors for /extract /produce /performance (brain_contract.py)",
+   "status": "done",
+   "gate": "",
+   "done_note": "brain_contract.py validators wired into all 3 endpoints; proven live (reach=str/0/blank chain → 400+field; good → 200). The dev-facing accept/reject contract. [beat 9]"
   }
  ],
  "counts": {

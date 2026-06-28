@@ -134,8 +134,12 @@ class Handler(BaseHTTPRequestHandler):
             return self._send(401, {"ok": False, "error": "unauthorized"})
         if u.path == "/extract":
             handle = (parse_qs(u.query).get("handle") or [""])[0]
-            if not handle:
-                return self._send(400, {"ok": False, "error": "missing ?handle="})
+            try:                                          # beat 9: formal field contract (brain_contract)
+                import brain_contract as bc
+                handle = bc.validate_extract({"handle": handle})["handle"]
+            except ValueError as ce:
+                return self._send(400, {"ok": False, "error": getattr(ce, "message", str(ce)),
+                                        "field": getattr(ce, "field", "handle")})
             if not (B / "clients" / handle).exists():   # unknown brand → 404, not an empty 200 (DeepSeek)
                 return self._send(404, {"ok": False, "error": f"no client '{handle}' onboarded"})
             try:
@@ -158,9 +162,12 @@ class Handler(BaseHTTPRequestHandler):
             return self._send(400, {"ok": False, "error": "bad JSON body"})
 
         if u.path == "/produce":
-            for k in ("handle", "product", "chain"):
-                if not data.get(k):
-                    return self._send(400, {"ok": False, "error": f"missing {k}"})
+            try:                                          # beat 9: formal field contract (brain_contract)
+                import brain_contract as bc
+                data = bc.validate_produce(data)          # normalized: stripped + occasion/produce defaults
+            except ValueError as ce:
+                return self._send(400, {"ok": False, "error": getattr(ce, "message", str(ce)),
+                                        "field": getattr(ce, "field", None)})
             job_id = uuid.uuid4().hex[:12]
             # C203 (orchestra shift 1, RABIE+DeepSeek pick): tell the dev queue depth + when to retry, so
             # the first handshake is RETRYABLE — never a blind 429→retry→429 black box.
@@ -176,13 +183,16 @@ class Handler(BaseHTTPRequestHandler):
                                     "queue_position": pos, "estimated_seconds": pos * PER_JOB_SECONDS})
 
         if u.path == "/performance":
-            if not data.get("post_id"):
-                return self._send(400, {"ok": False, "error": "missing post_id"})
-            eng = {k: int(data.get(k, 0) or 0) for k in ("likes", "saves", "comments", "shares", "reach")}
+            try:                                          # beat 9: formal field contract (brain_contract)
+                import brain_contract as bc
+                clean = bc.validate_performance(data)
+            except ValueError as ce:
+                return self._send(400, {"ok": False, "error": getattr(ce, "message", str(ce)),
+                                        "field": getattr(ce, "field", None)})
             try:
                 import perf_ingestor as pi
                 with WRITE_LOCK:
-                    rec = pi.ingest(data["post_id"], eng)
+                    rec = pi.ingest(clean["post_id"], clean["engagement"])
                 return self._send(200, {"ok": True, "z_score": rec["z_score"],
                                         "action": rec["action"], "detail": rec["action_detail"]})
             except Exception as e:

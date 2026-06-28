@@ -923,6 +923,22 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     except Exception:
         pass
     corpus = corpus + " " + " ".join(str(p) for p in (c.get("products") or [])).lower()
+    # BRAND VOCABULARY is grounded truth too (June 28 — the «التوأم» over-kill, DeepSeek consult): a
+    # brand's product NICKNAMES + signature terms (l1_strategy positioning/usp, truth_pack recurring
+    # terms + hashtags) are real brand language, not invented promo names. «التوأم» (albaik's twin
+    # sandwich) lives in the positioning, not the product_truth keys — so ground the caption gate on the
+    # brand's FULL vocab, per-brand (safe: a name is only allowlisted within its own brand's content).
+    try:
+        _cd = Path(__file__).parent.parent / "clients" / c.get("handle", "") / "profile"
+        if (_cd / "fingerprint.json").exists():
+            _l1 = json.loads((_cd / "fingerprint.json").read_text()).get("l1_strategy", {})
+            corpus += " " + (str(_l1.get("positioning", "")) + " " + str(_l1.get("usp", ""))).lower()
+        if (_cd / "truth_pack.json").exists():
+            _t = json.loads((_cd / "truth_pack.json").read_text())
+            _rc = _t.get("recurring_caption_terms", [])
+            corpus += " " + " ".join(_t.get("real_hashtags", []) + (_rc if isinstance(_rc, list) else [])).lower()
+    except Exception:
+        pass
     from truth_guards import PROMO_AR, LATIN_NAME
     # truth guard 5 (June 11 — the hallucinated prince): NAMED PEOPLE die unless the
     # client's corpus contains them. Inventing a person's presence is the worst truth

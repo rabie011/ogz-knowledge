@@ -220,8 +220,11 @@ def build(handle, product, chain, occasion="everyday", produce=False, regenerate
 
     image = find_image(handle, product, chain)
     if not image:
-        return {"ok": False, "post_id": post_id, "error": f"no banked image "
-                f"{handle}_{_slug(product)}_{chain}.jpg in renders_v37"}
+        # clean STRUCTURED refusal (DeepSeek): a sparse/not-produce-ready brand must refuse clearly,
+        # never crash or fake a post. The devs key off status="refused" + reason.
+        return {"ok": False, "status": "refused", "post_id": post_id,
+                "reason": f"no banked render for {handle} · {product} · {chain} — brand not produce-ready",
+                "suggestion": "complete the brand's product_truth organ + run the render pipeline, then retry /produce"}
     image_rel = image.relative_to(B).as_posix()
     vision = vision_judgment(image_rel)
 

@@ -32,6 +32,42 @@ def _parseable_dt(ts) -> bool:
         return False
 
 
+# ── THE FOUNDER-AWAY / CONTROLLABLE SPLIT (June 28) ────────────────────────────
+# The session-leak scar (documented below): a check that goes red purely because
+# Mohamed is AWAY masks every real red behind it. founder_canary was de-gated for
+# this reason — but two siblings (card_hygiene_ok, issue_pulse_ok) still hard-gated
+# on aging that is ALSO pure founder-away: the decision_queue IS his portal, so card
+# age = how long he's been away from it; the open "issues" are his own taste verdicts
+# awaiting his return / learning-loop consumption. So the hole leaked through them.
+# FIX: the hard gates now measure only the CONTROLLABLE half — work WE can resolve
+# without his tap. The founder-away half stays a LOUD WARN (never masks). (Rule #9,
+# the make-sure law; DeepSeek-consulted: a stale item WE own must still trip.)
+def _founder_gated_card(i) -> bool:
+    """A decision-portal card only MOHAMED can resolve — its age is founder-away, not
+    our neglect: his pairwise pick, an organ-fill question awaiting his written answer,
+    or a feedback/product-confirm/visual card staged for his tap."""
+    if i.get("kind") == "caption_pick":
+        return True
+    if i.get("need"):
+        return True
+    mb = str(i.get("made_by") or "")
+    if mb.startswith("system:pairwise") or mb.startswith("system:feedback_cards"):
+        return True
+    return i.get("tag") in {"v3.7 Visual", "تأكيد منتج", "تغذية راجعة", "Pick"}
+
+
+def _auto_notice_card(i) -> bool:
+    """A system self-notice (e.g. an alarm) that auto-closes when its CONDITION clears —
+    its age tracks the condition's duration, not card-rot, so it is not our manual neglect.
+    (A genuinely-severed auto-close is caught by card_budget_ok / the bridge janitor.)"""
+    mb = str(i.get("made_by") or "")
+    if mb.startswith("system:"):
+        return True
+    opts = i.get("options") or []
+    ack_only = len(opts) == 1 and (opts[0] or {}).get("v") == "ack"
+    return (mb == "claude" and ack_only) or i.get("tag") in {"نظام", "نظام / system", "infra", "flanks"}
+
+
 def run_checks() -> dict:
     B = base()
     now = datetime.now()
@@ -69,6 +105,18 @@ def run_checks() -> dict:
     # exposed 21 created-less cards the corpses had been masking in the median.)
     ages = [(now - _dt(cr)).days for i in open_cards if _parseable_dt(cr := i.get("created", ""))]
     c["median_card_age_d"] = statistics.median(ages) if ages else 0
+    # CONTROLLABLE subset: cards we can close BY HAND, without his tap and not condition-driven.
+    # (founder-decision cards + auto-notices are founder-away / condition-driven — see the split.)
+    ours = [i for i in open_cards
+            if not _founder_gated_card(i) and not _auto_notice_card(i)
+            and _parseable_dt(i.get("created", ""))]
+    our_ages = [(now - _dt(i["created"])).days for i in ours]
+    c["median_our_card_age_d"] = statistics.median(our_ages) if our_ages else 0
+    # founder-away WARN (loud, never masks): how long his portal cards have waited.
+    fg_ages = [(now - _dt(cr)).days for i in open_cards
+               if _founder_gated_card(i) and _parseable_dt(cr := i.get("created", ""))]
+    if fg_ages:
+        c["founder_cards_waiting"] = f"{len(fg_ages)} portal card(s) await Mohamed, median {statistics.median(fg_ages):.0f}d (founder-away WARN, not gated)"
     # The canary has two halves split by WHO CONTROLS them:
     #   • card_hygiene_ok (median open-card age ≤5d) — what WE control: are we letting his
     #     cards rot? THIS is the hard gate (below) — a real machine defect if it trips.
@@ -79,8 +127,11 @@ def run_checks() -> dict:
     #     real reds behind it — the session-leak scar: a perma-red check hides every other
     #     failure. Founder-away is watched via this WARN + the taste_elo gap + the cards
     #     already staged on the portal for his return.
-    c["card_hygiene_ok"] = c["median_card_age_d"] <= 5
-    c["founder_canary"] = c["days_since_mohamed"] <= 3 and c["card_hygiene_ok"]
+    # HARD gate: only the controllable half (cards WE can close by hand). A card WE own
+    # that rots still trips this; his portal backlog aging while he's away does not.
+    c["card_hygiene_ok"] = c["median_our_card_age_d"] <= 5
+    # founder_canary keeps its ALL-cards median (his engagement signal) — WARN, never gated.
+    c["founder_canary"] = c["days_since_mohamed"] <= 3 and c["median_card_age_d"] <= 5
 
     # 4. UNATTRIBUTED AT ZERO (without Goodhart: backfill needs per-line evidence)
     sc_f = B / "data/scorecards.json"
@@ -311,11 +362,26 @@ def run_checks() -> dict:
     if counter_lies:
         c["counter_lies"] = counter_lies
 
-    # 12. OPEN-ISSUE PULSE
+    # 12. OPEN-ISSUE PULSE — controllable half only (DeepSeek-consulted, June 28).
+    # The blanket oldest_open_days reddens on UNTOUCHED founder taste-verdicts (no
+    # fix_claimed) that close via his return / learning-loop consumption — founder-away,
+    # not our neglect. The HARD gate now measures only issues WE took on (fix_claimed,
+    # not yet closed): "are we sitting on fixes we started?". Untouched verdicts aging is
+    # surfaced as a LOUD WARN — the severed-consumer signal DeepSeek flagged (verdicts that
+    # should get consumed/closed but never do) is UN-MASKED, not hidden.
     ist = json.loads((B / "data/issues_state.json").read_text()) \
-        if (B / "data/issues_state.json").exists() else {"oldest_open_days": 0}
+        if (B / "data/issues_state.json").exists() else {"oldest_open_days": 0, "issues": {}}
     c["oldest_open_days"] = ist.get("oldest_open_days", 0)
-    c["issue_pulse_ok"] = c["oldest_open_days"] <= 14
+    issues = (ist.get("issues") or {}).values()
+    def _age_d(v):
+        return (now - _dt(v.get("opened", ""))).days if _parseable_dt(v.get("opened", "")) else 0
+    open_iss = [v for v in issues if v.get("status") != "closed"]
+    claimed = [v for v in open_iss if any(e.get("event") == "fix_claimed" for e in v.get("events", []))]
+    c["oldest_claimed_open_days"] = max((_age_d(v) for v in claimed), default=0)
+    c["issue_pulse_ok"] = c["oldest_claimed_open_days"] <= 14
+    untouched = [v for v in open_iss if v not in claimed]
+    if untouched:
+        c["verdicts_unconsumed"] = f"{len(untouched)} founder verdict(s) open/unconsumed, oldest {max((_age_d(v) for v in untouched), default=0)}d (severed-consumer WARN — close on his return / learning-loop)"
 
     gates = ["identity_no_mohamed_default", "router_cursor_fresh", "card_hygiene_ok",
              "unattributed_zero", "no_bulk_backfill", "producer_map_clean", "cards_attributed",
@@ -330,10 +396,15 @@ def run_checks() -> dict:
 
 if __name__ == "__main__":
     c = run_checks()
+    failed = set(c.get("_failed", []))    # ONLY these GATE the suite (cause exit 1)
     for k, v in c.items():
         if k.startswith("_"):
             continue
-        mark = "✅" if (v if isinstance(v, bool) else True) else "🔴"
+        ok = v if isinstance(v, bool) else True
+        # C207 (beat 7): 🔴 means a REAL gating failure; ⚠️ means a non-gating signal (e.g. founder_canary
+        # red purely because Mohamed is away — de-gated after the session-leak scar). A plain 🔴 on a
+        # de-gated check reads as a failure and literally fooled DeepSeek into flagging a non-issue.
+        mark = "✅" if ok else ("🔴" if k in failed else "⚠️ ")
         print(f"  {mark} {k}: {v}")
     print(f"\n{'🟢 FEEDBACK MAKE-SURE: CLEAN' if c['_verdict'] else '🔴 FEEDBACK MAKE-SURE: ' + ','.join(c['_failed'])}")
     raise SystemExit(0 if c["_verdict"] else 1)

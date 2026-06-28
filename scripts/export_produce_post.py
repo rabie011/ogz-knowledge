@@ -190,25 +190,60 @@ def caption_block(caption):
             "status": "pending_caption_review"}
 
 
-def _ledger_get(post_id):
-    if not LEDGER.exists():
+# ── IDEMPOTENCY INDEX (C204) ─────────────────────────────────────────────────────────────────────
+# The ledger is append-only and the brain_api is a long-lived process: re-scanning the whole file on
+# every _ledger_get was O(n) per produce → O(n²) over a brand's lifetime. Build a post_id→record index
+# ONCE (on first touch / process startup) and keep it warm. Appends update it in place; an external
+# writer is caught by an mtime guard that rebuilds. Semantics preserved exactly: last record wins.
+_LEDGER_INDEX = {}                       # post_id → record (latest)
+_LEDGER_SIG = None                       # (st_mtime_ns, st_size) of the file the index reflects
+
+
+def _ledger_sig():
+    try:
+        st = LEDGER.stat()
+        return (st.st_mtime_ns, st.st_size)
+    except FileNotFoundError:
         return None
-    found = None
-    for ln in LEDGER.read_text().splitlines():
-        if ln.strip():
-            try:
-                r = json.loads(ln)
-            except json.JSONDecodeError:
-                continue
-            if r.get("post_id") == post_id:
-                found = r
-    return found
+
+
+def _ledger_build_index():
+    """Full scan → index. Called once on startup, and again only if an external write is detected."""
+    global _LEDGER_INDEX, _LEDGER_SIG
+    idx = {}
+    if LEDGER.exists():
+        for ln in LEDGER.read_text().splitlines():
+            if ln.strip():
+                try:
+                    r = json.loads(ln)
+                except json.JSONDecodeError:
+                    continue           # tolerate a torn/partial line, same as the old scan
+                pid = r.get("post_id")
+                if pid is not None:
+                    idx[pid] = r       # last wins — matches the old scan's `found = r`
+    _LEDGER_INDEX = idx
+    _LEDGER_SIG = _ledger_sig()
+
+
+def _ledger_get(post_id):
+    # mtime/size guard: our own appends keep _LEDGER_SIG in lock-step, so this only rebuilds when
+    # another process wrote to the ledger — the index never goes stale, and the hot path is a dict get.
+    if _LEDGER_SIG is None or _ledger_sig() != _LEDGER_SIG:
+        _ledger_build_index()
+    return _LEDGER_INDEX.get(post_id)
 
 
 def _ledger_put(record):
+    global _LEDGER_SIG
     LEDGER.parent.mkdir(parents=True, exist_ok=True)
+    if _LEDGER_SIG is None:                # ensure the index exists before we mutate it
+        _ledger_build_index()
     with open(LEDGER, "a") as f:
         f.write(json.dumps(record, ensure_ascii=False) + "\n")
+    pid = record.get("post_id")
+    if pid is not None:
+        _LEDGER_INDEX[pid] = record       # keep the index hot without a re-scan
+    _LEDGER_SIG = _ledger_sig()           # adopt the new file signature so _ledger_get won't rebuild
 
 
 def build(handle, product, chain, occasion="everyday", produce=False, regenerate=False):

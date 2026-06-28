@@ -37,6 +37,8 @@ sys.path.insert(0, str(B / "scripts"))
 
 PORT = int(os.environ.get("BRAIN_API_PORT", "4140"))
 QUEUE_MAX = 4                       # pending produce jobs before 429 (backpressure)
+PER_JOB_SECONDS = 10                # conservative per-job drain estimate for Retry-After / ETA (C203);
+# banked serves are ~0s, a cache-miss queues instantly — 10s is a safe upper bound for the dev's retry.
 WRITE_LOCK = threading.Lock()       # serialize ALL ledger mutations (produce + ingest)
 _JOBS = {}                          # job_id → {status, result, error, ts}  (ephemeral, fine for a bridge)
 _JOBS_LOCK = threading.Lock()
@@ -92,11 +94,13 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self, *a):
         pass  # quiet
 
-    def _send(self, code, obj):
+    def _send(self, code, obj, headers=None):
         body = json.dumps(obj, ensure_ascii=False).encode()
         self.send_response(code)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
+        for k, v in (headers or {}).items():
+            self.send_header(k, str(v))
         self.end_headers()
         self.wfile.write(body)
 
@@ -158,13 +162,18 @@ class Handler(BaseHTTPRequestHandler):
                 if not data.get(k):
                     return self._send(400, {"ok": False, "error": f"missing {k}"})
             job_id = uuid.uuid4().hex[:12]
+            # C203 (orchestra shift 1, RABIE+DeepSeek pick): tell the dev queue depth + when to retry, so
+            # the first handshake is RETRYABLE — never a blind 429→retry→429 black box.
             try:
                 _Q.put_nowait((job_id, data))
             except queue.Full:
                 return self._send(429, {"ok": False, "error": "produce queue full — retry shortly",
-                                        "queue_depth": _Q.qsize()})
+                                        "queue_depth": _Q.qsize(), "retry_after_seconds": PER_JOB_SECONDS},
+                                  headers={"Retry-After": PER_JOB_SECONDS})
             _set_job(job_id, status="pending")
-            return self._send(202, {"ok": True, "job_id": job_id, "poll": f"/job/{job_id}"})
+            pos = _Q.qsize()
+            return self._send(202, {"ok": True, "job_id": job_id, "poll": f"/job/{job_id}",
+                                    "queue_position": pos, "estimated_seconds": pos * PER_JOB_SECONDS})
 
         if u.path == "/performance":
             if not data.get("post_id"):

@@ -212,16 +212,10 @@ def main():
     print(f"  model: {MODEL} · ref: {ref or '⚠ none'} · prompt {len(prompt)} chars · "
           f"spent ${spent_usd():.2f}/{USD_CAP}")
 
-    if not a.go:
-        print("  (dry run — no spend. add --go once gates clear.)")
-        return
-    if not clear:
-        sys.exit("🛑 REFUSED: gates not clear — zero spend. (Rule #8 refuse, don't warn.)")
-
-    # 3) real render — flux-2-pro/edit with the brand reference as a base64 data-URI (no separate
-    # fal-storage upload needed; image_urls accepts data-URIs). Gated above (Rule #8: we only reach
-    # here with --go AND every gate clear). Cost-logged; the batch cap already checked in gates().
-    print("  → all gates clear; rendering via flux-2-pro/edit …")
+    # 3) PROMPT AUGMENTATION — built BEFORE the dry-run return so the FULL final prompt (incl. the
+    # LEARNED feed-forward block) is visible + verifiable at $0 (Rule #4: test with eyes, cheaply —
+    # the learning loop must be provable without spending; the dry run now prints what --go sends).
+    # String-building + notices only; zero spend.
     # BRAND-TEXT SUPPRESSION (June 21, Mohamed: composite the real logo): AI image models garble
     # brand wordmarks (post #1 rendered "اطيل/ALBAAK" not "البيك"). Force PLAIN packaging — zero text
     # of any kind — and composite the brand's REAL logo (clients/<h>/profile/logo.png) after.
@@ -346,6 +340,19 @@ def main():
         "cheap radial SUNBURST/starburst rays, flat plastic gradient, a hard seamless studio sweep "
         "with no texture, busy CGI ad-splash, floating liquid-splash graphics, scattered confetti, "
         "clip-art props, or any cluttered distracting background. Editorial food-photography quality.")
+
+    # 4) DRY-RUN GATE — now AFTER augmentation, so the dry run reflects the true final prompt and the
+    # LEARNED injection notice is visible at $0. Dry-return stays BEFORE the gate-clear exit (a dry
+    # run never spends and never needs gates clear), preserving the prior behavior.
+    print(f"  final prompt {len(prompt)} chars (augmented)")
+    if not a.go:
+        print("  (dry run — no spend. add --go once gates clear.)")
+        return
+    if not clear:
+        sys.exit("🛑 REFUSED: gates not clear — zero spend. (Rule #8 refuse, don't warn.)")
+    # real render — flux-2-pro/edit with the brand reference as a base64 data-URI (gated above; we
+    # only reach here with --go AND every gate clear). Cost-logged; batch cap already checked in gates().
+    print("  → all gates clear; rendering via flux-2-pro/edit …")
     key = env("FAL_KEY") or env("FAL_API_KEY")
     refp = Path(ref)
     mime = "jpeg" if refp.suffix.lower() in (".jpg", ".jpeg") else (refp.suffix.lstrip(".").lower() or "jpeg")

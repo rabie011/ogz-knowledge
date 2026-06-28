@@ -124,3 +124,17 @@ GET  /health                                → {ok, humain, queue_depth, auth_r
   before calling `/produce`. (albaik/jurisha ready; myfitness.sa not — 53%, 0 renders.)
 - **Auth is now MANDATORY** — the bridge is never open. If `BRAIN_API_TOKEN` is unset, it generates a
   token and prints it at startup; pass `Authorization: Bearer <token>` on every call except `/health`.
+
+---
+
+## The learning loop — `POST /performance` (cold-start, proven)
+The brain learns from real outcomes. After a post is published, send its engagement:
+`POST /performance {post_id, likes, saves, comments, shares, reach}`. The loop (subtractive, safe):
+- engagement_rate = (likes + 2·saves + 3·comments + 4·shares) / reach, z-scored vs the brand's last 20.
+- **z ≤ −2 (reach ≥ 500) → the (brand·product·setup) is killed** → the producer's pre-flight gate avoids it.
+- z ≥ +2.5 (≥5 posts) → a confidence counter (human-facing; never auto-edits the profile).
+- **COLD-START:** baselines need ~5+ of the brand's posts before z-scores are meaningful, ~20 for full
+  signal. Until then `action: null` is normal — the loop is accumulating, not broken.
+- **PROVEN end-to-end** (this contract, live): 6 baseline events + a bomb → `{z_score: -30.16,
+  action: "kill"}` → the bombed setup was blocked in the kill-registry. The brain learns the moment you
+  feed it; `post_id` format is `{handle}__{product}__{chain}`.

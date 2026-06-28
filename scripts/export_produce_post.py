@@ -231,9 +231,24 @@ def build(handle, product, chain, occasion="everyday", produce=False, regenerate
     caption_text, cap_judge = None, {"status": "pending",
                                      "reason": "caption not generated (run with --produce)"}
     if produce:
-        caption_text = gen_caption(handle, product, occasion)
-        if caption_text:
-            cap_judge = rejudge(image, handle, product, caption_text, occasion)  # caption ↔ judgment match
+        # SERVE FROM THE CAPTION BANK first — no live HUMAIN in the request path (DeepSeek SPOF fix).
+        banked = None
+        try:
+            import bank_captions as bc
+            banked = bc.bank_lookup(handle, product, chain)
+        except Exception:
+            pass
+        if banked and banked.get("fresh") and banked.get("caption"):
+            caption_text = banked["caption"]
+            cap_judge = dict(banked.get("judge") or {})
+            cap_judge["served_from"] = "caption_bank"           # fast path: pre-judged offline
+        else:
+            # no fresh bank → generate live (offline batch hasn't banked this post, or it drifted stale)
+            caption_text = gen_caption(handle, product, occasion)
+            if caption_text:
+                cap_judge = rejudge(image, handle, product, caption_text, occasion)  # caption ↔ judgment match
+                if banked and not banked.get("fresh"):
+                    cap_judge["note"] = "bank was STALE (brand drifted) — regenerated live; re-bank recommended"
 
     cap = caption_block(caption_text)
     # status: rejected if image killed; else human-gated review. Auto-approve needs the image high AND

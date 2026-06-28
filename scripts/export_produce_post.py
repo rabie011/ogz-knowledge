@@ -243,9 +243,40 @@ def _ledger_get(post_id):
     return _LEDGER_INDEX.get(post_id)
 
 
+# C209 (RABIE's beat-6 pick): GROWTH CEILING. produced_posts.jsonl is append-only and would grow
+# unbounded. When it crosses MAX_PRODUCED_LINES, archive the FULL history to data/archive/ and keep
+# only the most recent KEEP_RECENT lines active. Keeping the recent tail (not a naive truncate-all,
+# which DeepSeek's first spec proposed) preserves RECENT idempotency — old archived posts could
+# otherwise re-produce. The index rebuilds from the trimmed active file.
+MAX_PRODUCED_LINES = 50_000               # active-ledger line ceiling
+KEEP_RECENT        = 10_000               # recent lines retained on rotation (idempotency window)
+ARCHIVE_DIR        = B / "data" / "archive"
+
+
+def _rotate_if_needed():
+    """Cap produced_posts.jsonl growth: archive full history, retain the most recent KEEP_RECENT lines."""
+    global _LEDGER_SIG
+    if not LEDGER.exists():
+        return
+    try:
+        lines = [l for l in LEDGER.read_text().splitlines() if l.strip()]
+    except OSError:
+        return                            # read fault → skip rotation (never block a produce on it)
+    if len(lines) < MAX_PRODUCED_LINES:
+        return
+    ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
+    archive = ARCHIVE_DIR / f"produced_posts_{time.strftime('%Y%m%d_%H%M%S')}.jsonl"
+    archive.write_text("\n".join(lines) + "\n")          # full history preserved before trimming
+    keep = lines[-KEEP_RECENT:]
+    LEDGER.write_text("\n".join(keep) + "\n")            # active ledger = recent tail
+    _LEDGER_SIG = None                                   # force index rebuild from the trimmed file
+    sys.stderr.write(f"ledger rotated: {len(lines)}→{len(keep)} lines, archived {archive.name}\n")
+
+
 def _ledger_put(record):
     global _LEDGER_SIG
     LEDGER.parent.mkdir(parents=True, exist_ok=True)
+    _rotate_if_needed()                   # C209: cap growth BEFORE appending
     if _LEDGER_SIG is None:                # ensure the index exists before we mutate it
         _ledger_build_index()
     with open(LEDGER, "a") as f:

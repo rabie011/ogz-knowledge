@@ -64,3 +64,34 @@ profiling).
 - Higher-fidelity visual fields (lighting/dimensions) come from our generation layer, not profiling.
 - The same brain then **produces the content** (photo + caption) once the profile is set — that's the
   second half of the connection (your post-onboarding pipeline).
+
+---
+
+## Second half — content production (`produce_post`)
+Once a brand's profile is set, the brain produces posts (photo + caption). `scripts/export_produce_post.py`
+emits the **`produce_post`** contract — same drop-in idea as pre_fill, for content. Designed with DeepSeek.
+
+```bash
+python3 scripts/export_produce_post.py --handle eatjurisha --product جريش --chain G03            # wrap a banked post (fast, no render)
+python3 scripts/export_produce_post.py --handle eatjurisha --product جريش --chain G03 --produce   # + generate the caption live + re-judge
+python3 scripts/export_produce_post.py --handle albaik --list                                     # banked posts available
+```
+Returns: `{ post_id, status, content{image_url, caption{arabic,english,hashtags,cta,status}},
+provenance, judgments{vision, caption}, review{required, threshold, auto_approved} }`. Example committed:
+`clients/eatjurisha/post_جريش_G03.json`.
+
+**Design rules baked in (DeepSeek consult):**
+- **No fal spend to serve** — wraps BANKED renders; new renders are a separate async job, never on the dev call.
+- **Never blocks on HUMAIN** — the Arabic caption judge is browser-gated; when down, caption falls back to
+  GPT and `judgments.caption` tolerates `pending`. The contract is `pending`-safe throughout.
+- **Caption ↔ judgment never drift** — the `caption` string is re-judged together, so `caption_alignment`
+  always refers to the exact caption shown.
+- **No single-model auto-approve** — a lone GPT-4o score can't ship Saudi creative (`signals:1` → always
+  human review); auto-approve needs ≥2 agreeing judges (HUMAIN, or a 2nd signal like CLIP/another LLM).
+- **Idempotent** — a durable ledger (`data/produced_posts.jsonl`) keyed by `post_id=(brand,product,slot)`;
+  same key returns the existing post, never duplicates.
+
+**Notes for you (the devs):**
+- `caption.english` is `null` = Arabic-only (we don't translate yet). Treat `null` as "no EN string".
+- `review.human_review_url` is `null` from our side — **you** fill it with your review-UI link.
+- `status`: `pending_review` (needs a human) · `approved` (≥2 judges high) · `rejected` (image killed).

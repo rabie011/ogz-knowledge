@@ -648,13 +648,14 @@
    "why": "Taste calibration — your pick teaches the system your eye (it currently judges at ~chance).",
    "pw_rank": 0,
    "made_by": "system:pairwise",
-   "artifact_version": 2
+   "artifact_version": 2,
+   "action_type": "decision"
   },
   {
    "id": "alarm_live",
-   "title": "🚨 إنذار: feedback_system, founder_taste_fresh واقف",
+   "title": "🚨 إنذار: armor_tests, founder_taste_fresh واقف",
    "tag": "نظام",
-   "desc": "فحص الأدلة فشل: ['feedback_system', 'founder_taste_fresh']. كلود يعالج — هذا للعلم.",
+   "desc": "فحص الأدلة فشل: ['armor_tests', 'founder_taste_fresh']. كلود يعالج — هذا للعلم.",
    "clock": "",
    "priority": "urgent",
    "created": "2026-06-21T19:44:52",
@@ -669,7 +670,8 @@
    "made_by": "claude",
    "artifact_version": 2,
    "answered": "auto-closed: all gates green again",
-   "answered_by": "system:make_sure (machine evidence)"
+   "answered_by": "system:make_sure (machine evidence)",
+   "action_type": "alarm"
   },
   {
    "id": "B057c_thinbrain_primary_fork",
@@ -1064,7 +1066,8 @@
     }
    ],
    "made_by": "claude",
-   "artifact_version": 1
+   "artifact_version": 1,
+   "action_type": "decision"
   },
   {
    "id": "myfitness_thin_reharvest_fork",
@@ -1090,7 +1093,8 @@
     }
    ],
    "made_by": "system:orchestra",
-   "artifact_version": 1
+   "artifact_version": 1,
+   "action_type": "decision"
   },
   {
    "id": "devs_integration_spec_fork",
@@ -1124,7 +1128,8 @@
     }
    ],
    "made_by": "system:orchestra",
-   "artifact_version": 1
+   "artifact_version": 1,
+   "action_type": "decision"
   },
   {
    "id": "mission_myfitness_renders",
@@ -1138,7 +1143,8 @@
    ],
    "recommendation": "hold — ship the 6 free posts (albaik+jurisha) first, then decide myfitness",
    "created": "2026-06-29 02:18",
-   "source": "orchestra mission (Rule #17 park)"
+   "source": "orchestra mission (Rule #17 park)",
+   "action_type": "decision"
   },
   {
    "id": "closures_2026-06-29",
@@ -1160,7 +1166,8 @@
    ],
    "source": "feedback_cards",
    "made_by": "system:feedback_cards",
-   "artifact_version": 1
+   "artifact_version": 1,
+   "action_type": "decision"
   },
   {
    "id": "taste_stale",
@@ -1179,7 +1186,8 @@
     }
    ],
    "made_by": "claude",
-   "artifact_version": 1
+   "artifact_version": 1,
+   "action_type": "alarm"
   }
  ]
 }

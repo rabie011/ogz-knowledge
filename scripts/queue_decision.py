@@ -34,8 +34,20 @@ def parse_buttons(args: list) -> list:
     return out
 
 
+def _action_type(item: dict) -> str:
+    """Stamp the portal bucket at PUSH time → deterministic (DeepSeek-verify fix, June 29): the portal
+    reads action_type directly instead of re-inferring from fragile field-presence. alarm|decision|info."""
+    if item.get("action_type") in ("alarm", "decision", "info"):
+        return item["action_type"]
+    txt = f"{item.get('id','')} {item.get('tag','')} {item.get('title','')}"
+    if any(e in txt for e in ("🚨", "🔴", "alarm", "إنذار", "taste_stale")):
+        return "alarm"
+    return "decision" if (item.get("buttons") or item.get("options") or item.get("text") or item.get("composer")) else "info"
+
+
 def push(item: dict):
     QUEUE = _queue_path()
+    item["action_type"] = _action_type(item)   # deterministic bucket for the portal gate (re-look fix)
     q = json.loads(QUEUE.read_text()) if QUEUE.exists() else {"items": []}
     q["items"] = [i for i in q["items"] if i["id"] != item["id"]] + [item]
     QUEUE.write_text(json.dumps(q, ensure_ascii=False, indent=1))

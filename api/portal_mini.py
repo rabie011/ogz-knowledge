@@ -158,12 +158,16 @@ def _single_open_pw(out):
 
 def _bucket(it: dict) -> str:
     """FEEDBACK RE-LOOK (June 29, orchestra): 3 buckets for the 60-sec ADHD gate —
-    'alarm' (urgent flags), 'decision' (Mohamed can ACT — has buttons/input), 'info' (no action: client-needs)."""
+    'alarm' (urgent flags), 'decision' (Mohamed can ACT), 'info' (no action: client-needs).
+    DeepSeek-verify fix: prefer the EXPLICIT action_type the pusher stamps (deterministic) — the
+    field-presence inference below is only a legacy fallback (a label-only `text` would misfire)."""
+    bt = it.get("action_type")
+    if bt in ("alarm", "decision", "info"):
+        return bt
     txt = f"{it.get('title','')} {it.get('tag','')} {it.get('id','')}"
-    if any(e in txt for e in ("🚨", "🔴", "alarm", "إنذار", "taste_stale", "إنذار")):
+    if any(e in txt for e in ("🚨", "🔴", "alarm", "إنذار", "taste_stale")):
         return "alarm"
-    actionable = bool(it.get("buttons") or it.get("options") or it.get("text") or it.get("composer"))
-    return "decision" if actionable else "info"
+    return "decision" if (it.get("buttons") or it.get("options") or it.get("text") or it.get("composer")) else "info"
 
 
 @app.get("/api/approvals/items")

@@ -373,6 +373,7 @@ def _palette_str(palette):
 
 
 MIN_REVIEWS = 10  # below this a computed average is noise (DeepSeek consult, June 28)
+READY_MIN_COVERAGE = 60  # a brand needs ≥ this pre_fill % (+ ≥1 banked render) to be produce-ready (A3)
 
 
 def _places_rating(maps):
@@ -452,11 +453,24 @@ def export(handle, base=None):
     _r, _t = _places_rating(maps)
     has_places = bool(_r or maps.get("formatted_address"))
     has_site = bool(prof.get("externalUrl"))
+    # A3 READINESS GATE (DeepSeek audit): tell the devs which clients are SAFE to /produce. A brand is
+    # produce-ready only with enough profile AND ≥1 banked render — else /produce would 404/garbage.
+    cov_pct = round(100 * len(filled) / len(PREFILL_KEYS))
+    n_renders = len(list((base or B).glob(f"api/static/renders_v37/{handle}_*.jpg"))) if (base or B) else 0
+    rdy_reasons = []
+    if cov_pct < READY_MIN_COVERAGE:
+        rdy_reasons.append(f"profile coverage {cov_pct}% < {READY_MIN_COVERAGE}%")
+    if n_renders < 1:
+        rdy_reasons.append("no banked renders")
+    ready = not rdy_reasons
     wrapper = {
         "ok": True,
         "schema_version": "ogz-prefill-1.0",
         "brand_id": f"ogz:{handle}",
         "onboarding_status": "extraction_complete",
+        "ready": ready,
+        "readiness": {"ready": ready, "coverage_pct": cov_pct, "banked_renders": n_renders,
+                      "min_coverage": READY_MIN_COVERAGE, "blocking_reasons": rdy_reasons},
         "sources_present": {"instagram": bool(prof), "website": has_site, "places": has_places},
         "source_status": {"instagram": "done" if prof else "unavailable",
                           "website": "done" if has_site else "unavailable",

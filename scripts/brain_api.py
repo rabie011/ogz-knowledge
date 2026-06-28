@@ -52,7 +52,9 @@ def _env(k):
     return os.environ.get(k)
 
 
-TOKEN = _env("BRAIN_API_TOKEN")     # if set → required; if None → open dev mode
+_ENV_TOKEN = _env("BRAIN_API_TOKEN")
+TOKEN = _ENV_TOKEN or uuid.uuid4().hex   # A7 (DeepSeek audit): NEVER open — generate a token if unset
+# (/produce costs money + the ledger is writable; an open bridge is a DoS/exfil hole). Printed at startup.
 
 
 # ── the produce worker: ONE thread, drains the queue, owns the HUMAIN browser serialization ──────
@@ -99,8 +101,7 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def _authed(self):
-        if not TOKEN:
-            return True  # open dev mode
+        # A7: auth is ALWAYS required now (TOKEN is never empty). /health stays open (liveness only).
         got = self.headers.get("Authorization", "")
         return got == f"Bearer {TOKEN}"
 
@@ -184,8 +185,11 @@ class Handler(BaseHTTPRequestHandler):
 def main():
     threading.Thread(target=_produce_worker, daemon=True).start()
     srv = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
-    auth = "TOKEN required" if TOKEN else "⚠ OPEN (no BRAIN_API_TOKEN — dev mode)"
-    print(f"🧠 brain_api on http://127.0.0.1:{PORT}  [{auth}]")
+    print(f"🧠 brain_api on http://127.0.0.1:{PORT}  [🔒 auth required]")
+    if _ENV_TOKEN:
+        print("   token: from BRAIN_API_TOKEN (env)")
+    else:
+        print(f"   token (generated — devs use this, or set BRAIN_API_TOKEN to persist): {TOKEN}")
     print("   GET /extract?handle=  · POST /produce · GET /job/<id> · POST /performance · GET /health")
     try:
         srv.serve_forever()

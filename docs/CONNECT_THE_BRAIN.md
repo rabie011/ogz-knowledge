@@ -115,3 +115,12 @@ GET  /health                                → {ok, humain, queue_depth, auth_r
 - **Idempotent** — repeat `/produce` for the same (handle,product,chain) returns the existing post.
 - **Auth** — set `BRAIN_API_TOKEN` in ~/.abraham_env to require `Authorization: Bearer <token>`; unset = open dev mode.
 - This is a **reference bridge** — the devs can call it directly, or reimplement the same 4 routes in their runtime.
+
+---
+
+## Hardening (DeepSeek audit — A3 + A7)
+- **`/extract` now returns `ready: bool`** + a `readiness` block (`coverage_pct`, `banked_renders`,
+  `blocking_reasons`). A brand is produce-ready only at ≥60% coverage AND ≥1 banked render. Check `ready`
+  before calling `/produce`. (albaik/jurisha ready; myfitness.sa not — 53%, 0 renders.)
+- **Auth is now MANDATORY** — the bridge is never open. If `BRAIN_API_TOKEN` is unset, it generates a
+  token and prints it at startup; pass `Authorization: Bearer <token>` on every call except `/health`.

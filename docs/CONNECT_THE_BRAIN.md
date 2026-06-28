@@ -95,3 +95,23 @@ provenance, judgments{vision, caption}, review{required, threshold, auto_approve
 - `caption.english` is `null` = Arabic-only (we don't translate yet). Treat `null` as "no EN string".
 - `review.human_review_url` is `null` from our side — **you** fill it with your review-UI link.
 - `status`: `pending_review` (needs a human) · `approved` (≥2 judges high) · `rejected` (image killed).
+
+---
+
+## The live bridge — `brain_api.py` (call all 3 over HTTP)
+`scripts/brain_api.py` exposes the three contracts as a thin HTTP service (stdlib only) — designed with
+the DeepSeek reasoner. Run it on the Mac Mini; the platform calls it:
+
+```
+GET  /extract?handle=albaik                 → the 81-field pre_fill profile          (sync, ~1s)
+POST /produce {handle,product,chain,produce} → 202 {job_id}  → GET /job/<job_id>      (async)
+GET  /job/<job_id>                          → {status: pending|running|done|failed, result}
+POST /performance {post_id,likes,saves,comments,shares,reach} → ingest engagement      (sync)
+GET  /health                                → {ok, humain, queue_depth, auth_required}
+```
+- **/produce is async** — caption gen + HUMAIN + GPT judges take 30–180s and are **serialized by the
+  single HUMAIN browser**: ONE worker thread drains a queue (depth 4 → `429` backpressure). Devs poll `/job`.
+- **/extract + /performance are fast sync.** All ledger mutations are guarded by one write-lock.
+- **Idempotent** — repeat `/produce` for the same (handle,product,chain) returns the existing post.
+- **Auth** — set `BRAIN_API_TOKEN` in ~/.abraham_env to require `Authorization: Bearer <token>`; unset = open dev mode.
+- This is a **reference bridge** — the devs can call it directly, or reimplement the same 4 routes in their runtime.

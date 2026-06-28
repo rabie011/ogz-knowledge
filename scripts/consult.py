@@ -78,21 +78,28 @@ def ask_groq(prompt, system="You are a sharp, independent advisor. Be concise an
 
 
 def ask_deepseek(prompt, system="You are a sharp, independent technical advisor. Challenge the plan, "
-                 "find the gaps and risks, be concrete. If something is wrong, say so plainly."):
+                 "find the gaps and risks, be concrete. If something is wrong, say so plainly.",
+                 model="deepseek-chat", max_tokens=1100, timeout=120):
     """DeepSeek — the STANDING consult (Mohamed June 28: 'always consult him, make it a role').
-    API key DEEPSEEK_API_KEY in ~/.abraham_env; OpenAI-compatible. model deepseek-chat."""
+    API key DEEPSEEK_API_KEY in ~/.abraham_env; OpenAI-compatible.
+    model: 'deepseek-chat' (fast) or 'deepseek-reasoner' (deeper architecture/logic — slower)."""
     key = env("DEEPSEEK_API_KEY")
     if not key:
         return "(no DEEPSEEK_API_KEY)"
     try:
         out = _post("https://api.deepseek.com/chat/completions",
-                    {"model": "deepseek-chat", "temperature": 0.3, "max_tokens": 1100,
+                    {"model": model, "temperature": 0.3, "max_tokens": max_tokens,
                      "messages": [{"role": "system", "content": system},
                                   {"role": "user", "content": prompt}]},
-                    {"Authorization": f"Bearer {key}", "Content-Type": "application/json"})
+                    {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}, timeout=timeout)
         return out["choices"][0]["message"]["content"].strip()
     except Exception as e:
         return f"(deepseek error: {type(e).__name__}: {str(e)[:120]})"
+
+
+def ask_deepseek_reasoner(prompt, **kw):
+    """The reasoner model — for the hardest design/architecture calls (Mohamed: 'use his key a different way')."""
+    return ask_deepseek(prompt, model="deepseek-reasoner", max_tokens=2000, timeout=240, **kw)
 
 
 _PANEL = {"deepseek": ask_deepseek, "gpt": ask_gpt, "gemini": ask_gemini, "groq": ask_groq}

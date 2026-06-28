@@ -96,7 +96,7 @@ def gen_caption(handle, product, occasion):
     except Exception:
         oc = None
     c = rcs.load_client(handle)
-    slot = {"occasion": occasion, "date": "2026-07-01", "type": "offer", "format": "image",
+    slot = {"occasion": occasion, "date": time.strftime("%Y-%m-%d"), "type": "offer", "format": "image",
             "formula": "CF_01", "beat": occasion, "angle_theme": product, "product_name": product}
     sector = ""
     try:

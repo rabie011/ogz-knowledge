@@ -91,8 +91,9 @@ def kill_ban_check(caption: str, handle: str = "") -> tuple[bool, list[str]]:
     GLOBAL learned_gate_rules so a food rule can't kill a fitness caption). DROP, don't instruct:
     the dropped option is regenerated fresh; the banned word is NEVER fed back to the LLM (that
     caused the semantic drift DeepSeek flagged). A missing registry is a no-op (never blocks)."""
-    if not handle:
-        return True, []
+    # FIX (DeepSeek audit, June 28): do NOT skip on empty handle — get_lexical_bans() ALWAYS returns the
+    # GLOBAL bans (alcohol/gambling — Saudi hard red-lines), adding the client's own only if handle is set.
+    # The old `if not handle: return True,[]` let those globals slip through the handle-less API path.
     try:
         import kill_registry as kr
         bans = kr.get_lexical_bans(handle)

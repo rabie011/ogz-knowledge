@@ -7,7 +7,7 @@ The reusable unit of the 20-perfect-posts orchestra (Rule #12 — the system pro
 
 Usage: python3 scripts/produce_complete_post.py --handle albaik --product "دبل بيك" [--occasion evergreen]
 """
-import argparse, json, subprocess, sys
+import argparse, datetime, json, subprocess, sys
 from pathlib import Path
 
 B = Path(__file__).parent.parent
@@ -43,6 +43,8 @@ def main():
     a = ap.parse_args()
     import art_director as ad
     import render_client_slot as rcs
+    import openclaw_convert as oc   # FIX (DeepSeek audit, June 28): `oc` was used at line ~98 but never
+    # imported → NameError → except → sector='' on EVERY produce (the CD panel was sector-blind).
 
     # ── PHASE-0 PRE-FLIGHT KILL GATE (Rule #8 refuse-don't-warn + the taste flywheel) ──
     # If RABIE/Mohamed killed this exact (handle, product, setup) for a reason not yet fixed,
@@ -88,7 +90,7 @@ def main():
 
     # 2) CAPTION — the CD-brain pen; product name MUST appear (Rule #12 — the system grounds it)
     c = rcs.load_client(a.handle)
-    slot = {"occasion": a.occasion, "date": "2026-07-01", "type": "offer", "format": "image",
+    slot = {"occasion": a.occasion, "date": datetime.date.today().isoformat(), "type": "offer", "format": "image",
             "formula": "CF_01", "beat": a.occasion, "angle_theme": a.product, "product_name": a.product}
     # ANGLE FROM THE 5-CD-BRAIN PANEL (minds on DIFFERENT models — GPT/Gemini/Groq), not a
     # hardcoded brain (Mohamed June 24: "are all the minds working?"). panel=True fans the same

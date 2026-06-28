@@ -77,18 +77,37 @@ def ask_groq(prompt, system="You are a sharp, independent advisor. Be concise an
     return last
 
 
-_PANEL = {"gpt": ask_gpt, "gemini": ask_gemini, "groq": ask_groq}
+def ask_deepseek(prompt, system="You are a sharp, independent technical advisor. Challenge the plan, "
+                 "find the gaps and risks, be concrete. If something is wrong, say so plainly."):
+    """DeepSeek — the STANDING consult (Mohamed June 28: 'always consult him, make it a role').
+    API key DEEPSEEK_API_KEY in ~/.abraham_env; OpenAI-compatible. model deepseek-chat."""
+    key = env("DEEPSEEK_API_KEY")
+    if not key:
+        return "(no DEEPSEEK_API_KEY)"
+    try:
+        out = _post("https://api.deepseek.com/chat/completions",
+                    {"model": "deepseek-chat", "temperature": 0.3, "max_tokens": 1100,
+                     "messages": [{"role": "system", "content": system},
+                                  {"role": "user", "content": prompt}]},
+                    {"Authorization": f"Bearer {key}", "Content-Type": "application/json"})
+        return out["choices"][0]["message"]["content"].strip()
+    except Exception as e:
+        return f"(deepseek error: {type(e).__name__}: {str(e)[:120]})"
 
 
-def consult(question, models=("gpt", "gemini", "groq")):
-    """Ask the panel. Returns {model: answer}. A dead model returns an error string, never raises."""
+_PANEL = {"deepseek": ask_deepseek, "gpt": ask_gpt, "gemini": ask_gemini, "groq": ask_groq}
+
+
+def consult(question, models=("deepseek", "gpt", "gemini")):
+    """Ask the panel. Returns {model: answer}. A dead model returns an error string, never raises.
+    DeepSeek is the STANDING consult (always first) — Mohamed's rule. gpt/gemini are the cross-check."""
     return {m: _PANEL[m](question) for m in models if m in _PANEL}
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("question")
-    ap.add_argument("--models", default="gpt,gemini,groq")
+    ap.add_argument("--models", default="deepseek,gpt,gemini")
     a = ap.parse_args()
     res = consult(a.question, tuple(m.strip() for m in a.models.split(",") if m.strip()))
     for m, ans in res.items():

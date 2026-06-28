@@ -123,3 +123,37 @@ HOW do they want the brain to fill `pre_fill`? Three shapes:
     organs/knowledge it reads, not the extractor itself.
 The live evidence (their own `/api/onboarding/extraction-status` + `pre_fill` schema) points
 to (a) or (b): they own the API + schema, the extraction worker is the missing/broken piece.
+
+## SECOND HALF — content production contract (target; DeepSeek consult June 28)
+Once `pre_fill` is set, the brain must PRODUCE posts feeding the platform's post-onboarding pipeline
+(their "first post in 5 min", which currently times out). Target `produce_post` return shape:
+```jsonc
+{ "post_id": "...", "status": "pending_review|approved|rejected|regenerating",
+  "content": { "image_url": "...", "caption": { "arabic": "...", "english": "...",
+               "hashtags": [...], "cta": "..." } },
+  "provenance": { "prompt": "<15-block v3.7>", "model": "flux-2-pro", "generation_attempts": 1 },
+  "judgments": { "vision": {"passed": true, "score": 0.87, "flags": [...]},
+                 "caption": {"passed": true, "score": 0.92, "dialect_check": "Hejazi", "issues": []} },
+  "review": { "required": true, "threshold": 0.85, "auto_approved": false, "human_review_url": "..." } }
+```
+- **Sync:** `POST /produce` returns `post_id` + `pending_review` immediately (validate only).
+- **Async:** render (8-15s) + caption (parallel) + both judges → webhook/poll on completion.
+- **Review gate:** auto-approve if both judges ≥0.85; auto-reject <0.4 → regenerate; 0.4–0.85 → human.
+  Regeneration carries `{previous_post_id, feedback}`; **escalate to human after 2 fails — never loop a 3rd.**
+- **Top failure modes:** (1) caption dialect mismatch — we mitigate (HUMAIN Arabic judge + cultural_overrides
+  dialect); (2) image↔caption semantic drift — we partly mitigate (rabie_judge caption_alignment_score;
+  strengthen w/ embedding coherence); (3) regen loop w/o improvement — kill_registry + escalate-after-2.
+
+## 🔑 THE BIGGEST MISS (DeepSeek Q6) — no performance→profile feedback loop
+The connection today is one-way: profile → content → post → (nothing). The brain never learns from what
+actually gets engagement. **Add a `post_performance_ingestor`:** after ~24h, ingest the produced post's
+real engagement (likes/saves/shares/comments/CTR) → update field confidence, bias visual_style/tone,
+re-rank inferred fields (e.g. IG-category). We already have `12_data_shapes/outcome_event_v1` + the
+RABIE verdict→learning loop (Rule #14) — this extends learning from OUR judge to REAL audience signal.
+Requires the devs to send post engagement back (or us to harvest the posted content). The 2-way wire.
+
+## CONSULT VERDICT (DeepSeek, June 28) — kept vs disputed
+KEPT: schema_version on wrapper · rating null below 10 reviews · low_confidence_fields flag (derived
+fills) · field_sources per field (already shipped). DISPUTED: "logo→hex breaks on white/black logos" —
+already handled (we skip desaturated pixels → null if logo has no saturated color). NEXT: the
+performance feedback loop (Q6) is the real architectural gap.

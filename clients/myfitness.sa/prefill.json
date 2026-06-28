@@ -1,5 +1,6 @@
 {
   "ok": true,
+  "schema_version": "ogz-prefill-1.0",
   "brand_id": "ogz:myfitness.sa",
   "onboarding_status": "extraction_complete",
   "sources_present": {
@@ -184,6 +185,18 @@
       "user_ratings_total",
       "formatted_address",
       "brand_understanding"
+    ],
+    "low_confidence_fields": [
+      "style_descriptor",
+      "online_native",
+      "has_holding_page",
+      "formality_level",
+      "posting_cadence_hint",
+      "region_primary_hint",
+      "posting_rhythm_hint",
+      "account_age_months",
+      "post_frequency_30d",
+      "confidence"
     ],
     "field_sources": {
       "brand_name_en": "product_truth._meta/visual_dna",

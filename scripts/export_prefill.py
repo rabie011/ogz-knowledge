@@ -372,14 +372,21 @@ def _palette_str(palette):
     return None
 
 
+MIN_REVIEWS = 10  # below this a computed average is noise (DeepSeek consult, June 28)
+
+
 def _places_rating(maps):
-    """Derive (avg_rating, total_reviews) from the maps_signals star histogram."""
+    """Derive (avg_rating, total_reviews) from the maps_signals star histogram.
+    Rating is suppressed (null) below MIN_REVIEWS — too few to be meaningful — but the count
+    still returns so coverage stays honest about how thin the signal is."""
     stars = maps.get("stars") or {}
     if not stars:
         return maps.get("rating"), maps.get("user_ratings_total")
     total = sum(int(c) for c in stars.values())
     if not total:
         return None, None
+    if total < MIN_REVIEWS:
+        return None, total
     avg = sum(int(s) * int(c) for s, c in stars.items()) / total
     return round(avg, 2), total
 
@@ -434,6 +441,12 @@ def export(handle, base=None):
     pre_fill, src = build_prefill(o)
     filled = [k for k in PREFILL_KEYS if pre_fill.get(k) not in (None, [], "")]
     null = [k for k in PREFILL_KEYS if pre_fill.get(k) in (None, [], "")]
+    # DeepSeek consult (June 28): flag DERIVED/INFERRED fills so downstream can weight them — a value
+    # from a confirmed organ or raw IG is solid; one inferred from logo-color/IG-category/our analysis
+    # /heuristic is a hint, not ground truth. Honest signal beats a false-precise number.
+    LOWCONF = ("logo", "businessCategory", "capture_character", "timestamps", "region",
+               "derived", "computed coverage", "heuristic")
+    low_conf = [k for k in filled if src.get(k) and any(t in src[k] for t in LOWCONF)]
     prof = o.raw_profile()
     maps = o.organ("audience_mirror").get("maps_signals") or {}
     _r, _t = _places_rating(maps)
@@ -441,6 +454,7 @@ def export(handle, base=None):
     has_site = bool(prof.get("externalUrl"))
     wrapper = {
         "ok": True,
+        "schema_version": "ogz-prefill-1.0",
         "brand_id": f"ogz:{handle}",
         "onboarding_status": "extraction_complete",
         "sources_present": {"instagram": bool(prof), "website": has_site, "places": has_places},
@@ -454,7 +468,8 @@ def export(handle, base=None):
         "brand_understanding": pre_fill["brand_understanding"],
         "_coverage": {"filled": len(filled), "total": len(PREFILL_KEYS),
                       "pct": round(100 * len(filled) / len(PREFILL_KEYS)),
-                      "null_fields": null, "field_sources": src},
+                      "null_fields": null, "low_confidence_fields": low_conf,
+                      "field_sources": src},
     }
     return wrapper
 

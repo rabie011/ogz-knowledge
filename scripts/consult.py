@@ -79,13 +79,23 @@ def ask_groq(prompt, system="You are a sharp, independent advisor. Be concise an
 
 def ask_deepseek(prompt, system="You are a sharp, independent technical advisor. Challenge the plan, "
                  "find the gaps and risks, be concrete. If something is wrong, say so plainly.",
-                 model="deepseek-chat", max_tokens=1100, timeout=120):
+                 model="deepseek-chat", max_tokens=1100, timeout=120, tools=False):
     """DeepSeek — the STANDING consult (Mohamed June 28: 'always consult him, make it a role').
     API key DEEPSEEK_API_KEY in ~/.abraham_env; OpenAI-compatible.
-    model: 'deepseek-chat' (fast) or 'deepseek-reasoner' (deeper architecture/logic — slower)."""
+    model: 'deepseek-chat' (fast) or 'deepseek-reasoner' (deeper architecture/logic — slower).
+    tools=True → DeepSeek gets READ-ONLY file eyes (grep/read/find) to VERIFY claims itself (orchestra B2,
+    'deepseek sees only facts') — it greps the real repo instead of trusting Claude's prose."""
     key = env("DEEPSEEK_API_KEY")
     if not key:
         return "(no DEEPSEEK_API_KEY)"
+    if tools:
+        try:
+            import orchestra_tools as ot
+            return ot.run_with_tools([{"role": "user", "content": prompt}], model, key,
+                                     "https://api.deepseek.com/chat/completions", system=system,
+                                     max_tokens=max_tokens)
+        except Exception as e:
+            return f"(deepseek tools error: {type(e).__name__}: {str(e)[:120]})"
     try:
         out = _post("https://api.deepseek.com/chat/completions",
                     {"model": model, "temperature": 0.3, "max_tokens": max_tokens,

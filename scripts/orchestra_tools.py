@@ -48,10 +48,19 @@ def _safe(path_str: str) -> Path:
     return p
 
 
+# default grep scope = CODE + DOCS + data (shift 4 fix: scripts-only blinded DeepSeek to docs/ → it
+# falsely declared CONNECT_THE_BRAIN.md "missing". The eyes must see the whole repo, not just scripts/.)
+DEFAULT_GLOBS = ["scripts/**/*.py", "docs/**/*.md", "docs/**/*.txt", "*.md", "data/*.json", "*.json"]
+
+
 # ── the tools (read-only) ────────────────────────────────────────────────────
-def grep(pattern: str, path_glob: str = "scripts/**/*.py", max_lines: int = 40) -> str:
-    base = _safe(path_glob.split("*")[0] or ".")  # scope-check the root of the glob
-    files = [f for f in REPO.glob(path_glob) if f.is_file() and not DENY_PATH.search(str(f))]
+def grep(pattern: str, path_glob: str = "", max_lines: int = 40) -> str:
+    globs = [path_glob] if path_glob else DEFAULT_GLOBS
+    files = []
+    for g in globs:
+        _safe(g.split("*")[0] or ".")  # scope-check the root of each glob
+        files += [f for f in REPO.glob(g) if f.is_file() and not DENY_PATH.search(str(f))]
+    files = sorted(set(files))
     out = []
     rx = re.compile(pattern)
     for f in files:
@@ -91,9 +100,9 @@ def find_file(pattern: str, root: str = "scripts/") -> str:
 _DISPATCH = {"grep": grep, "read_file": read_file, "list_dir": list_dir, "find_file": find_file}
 
 TOOL_SCHEMAS = [
-    {"type": "function", "function": {"name": "grep", "description": "Search the ogz-knowledge repo for a regex; returns file:line matches.",
+    {"type": "function", "function": {"name": "grep", "description": "Search the ogz-knowledge repo for a regex; returns file:line matches. Default scope covers CODE + DOCS (scripts/*.py, docs/*.md, root *.md, data/*.json) — so you CAN find a doc like CONNECT_THE_BRAIN.md without a path_glob.",
      "parameters": {"type": "object", "properties": {"pattern": {"type": "string"},
-        "path_glob": {"type": "string", "description": "default scripts/**/*.py"}}, "required": ["pattern"]}}},
+        "path_glob": {"type": "string", "description": "optional; e.g. 'docs/**/*.md' or '**/*' to widen. Empty = code+docs default."}}, "required": ["pattern"]}}},
     {"type": "function", "function": {"name": "read_file", "description": "Read a line slice of a repo file (read-only).",
      "parameters": {"type": "object", "properties": {"path": {"type": "string"},
         "start": {"type": "integer"}, "end": {"type": "integer"}}, "required": ["path"]}}},

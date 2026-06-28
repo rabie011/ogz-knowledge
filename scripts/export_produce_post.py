@@ -243,12 +243,13 @@ def build(handle, product, chain, occasion="everyday", produce=False, regenerate
             cap_judge = dict(banked.get("judge") or {})
             cap_judge["served_from"] = "caption_bank"           # fast path: pre-judged offline
         else:
-            # no fresh bank → generate live (offline batch hasn't banked this post, or it drifted stale)
-            caption_text = gen_caption(handle, product, occasion)
-            if caption_text:
-                cap_judge = rejudge(image, handle, product, caption_text, occasion)  # caption ↔ judgment match
-                if banked and not banked.get("fresh"):
-                    cap_judge["note"] = "bank was STALE (brand drifted) — regenerated live; re-bank recommended"
+            # NOT freshly banked → NEVER block on live HUMAIN in the serve path (DeepSeek: bank-exhaustion
+            # → live-HUMAIN timeout is the new first-fail). Return queued; the OFFLINE bank fills it.
+            caption_text = None
+            cap_judge = {"status": "banking_queued",
+                         "reason": ("bank was STALE (brand drifted) — re-bank needed" if banked
+                                    else "not in caption bank yet — run bank_captions for this post (offline)"),
+                         "stale": bool(banked and not banked.get("fresh"))}
 
     cap = caption_block(caption_text)
     # status: rejected if image killed; else human-gated review. Auto-approve needs the image high AND
@@ -257,6 +258,8 @@ def build(handle, product, chain, occasion="everyday", produce=False, regenerate
                 and cap_judge.get("status") == "judged" and cap_judge.get("passed"))
     if vision and vision.get("verdict") == "kill":
         status = "rejected"
+    elif cap_judge.get("status") == "banking_queued":
+        status = "banking_queued"          # image ready; caption being banked offline — retry shortly
     elif auto:
         status = "approved"
     else:

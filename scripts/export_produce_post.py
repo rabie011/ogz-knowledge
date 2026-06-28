@@ -134,24 +134,50 @@ def gen_caption(handle, product, occasion):
     return cap or None
 
 
-def rejudge(image_path, handle, product, caption):
-    """Re-judge image+caption TOGETHER so the contract's caption_alignment refers to THIS caption
-    (DeepSeek bite #4). GPT-4o vision (cheap, no fal). Returns the caption-judgment block or pending."""
+def rejudge(image_path, handle, product, caption, occasion="everyday"):
+    """Judge the caption with TWO signals on the EXACT caption shown (DeepSeek bite #4):
+    HUMAIN (ALLaM, Saudi-native — OWNS the Arabic verdict) + GPT-4o (image↔caption cross-check).
+    Auto-approve needs ≥2 signals that AGREE (a single model can't ship Saudi creative — Rule #13).
+    HUMAIN down → only GPT scores → signals=1 → always human review. Cheap (no fal)."""
+    judges = {}
+    # 1. HUMAIN — the Arabic authority (chat.humain.ai via local service)
+    try:
+        import humain_judge as hj
+        if hj._humain_up():
+            h = hj.judge_caption(caption, handle=handle, product=product, occasion=occasion)
+            hs = h.get("score")
+            if isinstance(hs, (int, float)):
+                judges["humain"] = {"score": round(hs / 5, 2), "verdict": h.get("verdict"),
+                                    "native_saudi": h.get("native_saudi"), "issues": h.get("issues", [])}
+    except Exception as e:
+        sys.stderr.write(f"humain judge error: {type(e).__name__}: {str(e)[:70]}\n")
+    # 2. GPT-4o — image+caption alignment cross-check
     try:
         import rabie_judge as rj
         v = rj.judge(str(image_path), handle, product, caption)
         ca = v.get("caption_alignment_score")
-        # ONE model is a single point of failure on Saudi creative (DeepSeek June 28 + Rule #13 +
-        # "AI judge can't judge Saudi creative"). signals=1 → can never auto-approve; HUMAIN (when up)
-        # or a 2nd judge is signal #2. Until then the post always routes to a human.
-        return {"status": "judged", "passed": isinstance(ca, (int, float)) and ca >= 4,
-                "score": round(ca / 5, 2) if isinstance(ca, (int, float)) else None,
-                "signals": 1, "judges": ["gpt-4o"],
-                "note": "single-model score — needs HUMAIN or a 2nd signal (CLIP/2nd LLM) to auto-approve",
-                "source": "rabie_judge GPT-4o (image+caption)", "issues": v.get("what_is_wrong", [])}
+        if isinstance(ca, (int, float)):
+            judges["gpt"] = {"score": round(ca / 5, 2), "issues": v.get("what_is_wrong", [])}
     except Exception as e:
-        return {"status": "pending", "reason": f"caption re-judge unavailable ({type(e).__name__}); "
-                "HUMAIN Arabic judge is browser-gated — devs treat pending as awaiting review."}
+        sys.stderr.write(f"gpt caption judge error: {type(e).__name__}: {str(e)[:70]}\n")
+
+    if not judges:
+        return {"status": "pending", "reason": "both caption judges unavailable (HUMAIN down + GPT error)"}
+
+    def _good(name, j):
+        if name == "humain":
+            return j.get("verdict") == "bank" or (j.get("score") or 0) >= 0.8
+        return (j.get("score") or 0) >= 0.8
+    scores = [j["score"] for j in judges.values() if j.get("score") is not None]
+    signals = len(judges)
+    all_good = all(_good(n, j) for n, j in judges.items())
+    src = ("HUMAIN (ALLaM, authoritative) + GPT-4o cross-check" if signals >= 2
+           else ("HUMAIN (ALLaM) — needs GPT cross-check to auto-approve" if "humain" in judges
+                 else "GPT-4o only — needs HUMAIN/2nd signal to auto-approve"))
+    return {"status": "judged", "signals": signals, "judges": judges,
+            "score": round(min(scores), 2) if scores else None,        # conservative (weakest signal)
+            "passed": signals >= 2 and all_good,                       # agreement of ≥2 judges
+            "source": src}
 
 
 def caption_block(caption):
@@ -204,14 +230,13 @@ def build(handle, product, chain, occasion="everyday", produce=False, regenerate
     if produce:
         caption_text = gen_caption(handle, product, occasion)
         if caption_text:
-            cap_judge = rejudge(image, handle, product, caption_text)  # caption ↔ judgment match
+            cap_judge = rejudge(image, handle, product, caption_text, occasion)  # caption ↔ judgment match
 
     cap = caption_block(caption_text)
-    # status: rejected if image killed; else human-gated review. Auto-approve needs BOTH judges high
-    # AND the caption judged by ≥2 agreeing signals (a single model can't ship Saudi creative).
-    auto = bool(vision and vision.get("score", 0) and vision["score"] >= THRESHOLD
-                and cap_judge.get("status") == "judged" and (cap_judge.get("score") or 0) >= THRESHOLD
-                and cap_judge.get("signals", 0) >= 2)
+    # status: rejected if image killed; else human-gated review. Auto-approve needs the image high AND
+    # the caption passed by ≥2 AGREEING judges (HUMAIN + GPT) — never a single model on Saudi creative.
+    auto = bool(vision and (vision.get("score") or 0) >= THRESHOLD
+                and cap_judge.get("status") == "judged" and cap_judge.get("passed"))
     if vision and vision.get("verdict") == "kill":
         status = "rejected"
     elif auto:

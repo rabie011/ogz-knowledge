@@ -238,10 +238,22 @@ def build(handle, product, chain, occasion="everyday", produce=False, regenerate
             banked = bc.bank_lookup(handle, product, chain)
         except Exception:
             pass
+        _ban_ok, _ban_hits = (True, [])
         if banked and banked.get("fresh") and banked.get("caption"):
+            try:
+                import caption_filter as cf
+                _ban_ok, _ban_hits = cf.kill_ban_check(banked["caption"], handle)  # bans evolve AFTER banking
+            except Exception:
+                pass
+        if banked and banked.get("fresh") and banked.get("caption") and _ban_ok:
             caption_text = banked["caption"]
             cap_judge = dict(banked.get("judge") or {})
             cap_judge["served_from"] = "caption_bank"           # fast path: pre-judged offline
+        elif banked and banked.get("caption") and not _ban_ok:
+            # a ban was added AFTER this caption was banked → never serve it; force a re-bank (DeepSeek A1)
+            caption_text = None
+            cap_judge = {"status": "banking_queued", "stale": True,
+                         "reason": f"banked caption now hits a ban {_ban_hits} — re-bank required"}
         else:
             # NOT freshly banked → NEVER block on live HUMAIN in the serve path (DeepSeek: bank-exhaustion
             # → live-HUMAIN timeout is the new first-fail). Return queued; the OFFLINE bank fills it.

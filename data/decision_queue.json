@@ -915,7 +915,7 @@
    "artifact_version": 1
   },
   {
-   "id": "B157_veto_authority_rule",
+   "id": "B157_veto_authority_fork",
    "title": "Post-publish veto: any approver, or only the named primary?",
    "tag": "flanks",
    "desc": "",
@@ -948,7 +948,7 @@
    "clock": "",
    "priority": "urgent",
    "created": "2026-06-23T06:08:41",
-   "status": "open",
+   "status": "answered",
    "why": "Multi-day process leak: 170 stale claude-code sessions (oldest 41h), ~2 added per 30-min orchestra fire since Jun 21. Load now 84 (1-min) > 76 (5-min) > 73 (15-min) on 10 cores = CLIMBING this moment, not plateaued; mem 32% free. Real & compounding — the orchestra is now NET-NEGATIVE (each fire adds ~2 leaked procs while producing only HOLDs, 7 shifts running). Left unfixed it re-grows every fire and eventually crashes the orchestra + portal.",
    "need": "Run ONE command at the Mac (it's dry-run safe — shows you the list first, kills nothing until you add --go): `cd ~/Desktop/ogz-knowledge && python3 scripts/reap_leaked_shifts.py`  → review the ~160+ listed (all 1-40h old, none are your live chat), then re-run with `--go` to SIGTERM them. It can NEVER touch your live session or the app (hard-asserted + 10 tests). SECOND, decide: pause the 30-min orchestra schedule until the self-terminate fix lands, else it re-grows.",
    "did": "Built + tested scripts/reap_leaked_shifts.py (10/10 unit tests, full suite still green). Dry-ran it on the live box: cleanly identified 173 leaked sessions (ppid=Claude.app 651, no tty, 1-40h old, 30-min cadence) and correctly EXCLUDED my own live chain + the app root. Converted the 4-shift 'harness-level, cannot fix' into a one-tap proven-safe reaper. Held the actual kill — reaping is your call (standing rule), and this is an unsupervised shift.",
@@ -965,7 +965,9 @@
    ],
    "made_by": "system:make_sure",
    "artifact_version": 2,
-   "updated": "2026-06-23T07:18:00"
+   "updated": "2026-06-23T07:18:00",
+   "answered": "machine-resolved (Rule#10): leak now machine-handled — com.abraham.reaper auto-runs every 300s + orchestra_self_terminate.py landed; leak 170→30 procs, load 3.10; nothing re-raises this card. Stale Jun-23 alarm, never tapped.",
+   "answered_by": "system:machine_evidence"
   },
   {
    "id": "closures_2026-06-24",
@@ -1038,7 +1040,7 @@
    "artifact_version": 1
   },
   {
-   "id": "myfitness_thin_reharvest",
+   "id": "myfitness_thin_reharvest_fork",
    "title": "myfitness.sa عند 53% — البيانات رقيقة فعلاً، نعمّق الحصاد؟",
    "tag": "connection",
    "desc": "",
@@ -1064,7 +1066,7 @@
    "artifact_version": 1
   },
   {
-   "id": "devs_integration_spec",
+   "id": "devs_integration_spec_fork",
    "title": "How will the dev platform CALL the brain? (REST / package / queue)",
    "tag": "connection",
    "desc": "",

@@ -163,5 +163,64 @@ class TestGateRescopeFork(unittest.TestCase):
             self.assertEqual(set(_rulings(tmp)), {"fork_decisions"})
 
 
+# B291 — the Rule#7 dead-end SWEEP. The prior shift fixed gate_rescope (above) but left two
+# siblings (B157_veto_authority_rule + infra_session_leak_reap), and two MORE A/B-direction
+# cards were staged dead-end by system:orchestra later the same night (devs_integration_spec —
+# THE connection-contract TOP — + myfitness_thin_reharvest). Every one was a card on his phone
+# whose tap had nowhere to land. The three forward-DIRECTION cards were renamed to `_fork`
+# (auto-land via h_fork_decision; the pair executes his recorded direction — Rule #11/#12);
+# the stale infra alarm self-closed on machine evidence (Rule #10). These guard the renames.
+B291_FORKS = (
+    ("B157_veto_authority_fork", "any_veto"),
+    ("devs_integration_spec_fork", "rest"),
+    ("myfitness_thin_reharvest_fork", "reharvest"),
+)
+
+
+class TestB291DeadEndSweep(unittest.TestCase):
+    def test_renamed_forks_resolve_to_handler(self):
+        for cid, ans in B291_FORKS:
+            self.assertIs(apply_rulings._resolve((cid, ans)),
+                          apply_rulings.h_fork_decision, f"{cid} must auto-land")
+
+    def test_devs_contract_fork_lands_the_choice(self):
+        # the most important card: how the dev platform calls the brain (THE TOP)
+        queue = {"items": [{"id": "devs_integration_spec_fork", "kind": "buttons", "status": "open",
+                            "title": "How will the dev platform CALL the brain?",
+                            "options": [{"v": "rest", "label": "REST service (we host)"},
+                                        {"v": "package", "label": "Python package (they import)"},
+                                        {"v": "queue", "label": "Job queue (they drop tasks)"},
+                                        {"v": "other", "label": "Other — I'll explain"}]}]}
+        with tempfile.TemporaryDirectory() as d:
+            tmp = _sandbox(d, queue=queue)
+            apply_rulings.h_fork_decision(
+                tmp, {"item_id": "devs_integration_spec_fork", "answer": "rest", "ts": "2026-06-28T23:45"})
+            fd = _rulings(tmp)["fork_decisions"]["devs_integration_spec_fork"]
+            self.assertEqual(fd["answer"], "rest")
+            self.assertEqual(fd["confirmer"], "mohamed")
+            # decision recorded only — no follow-on executed (Rule #11/#12)
+            self.assertEqual(set(_rulings(tmp)), {"fork_decisions"})
+
+    def test_live_queue_has_no_open_AB_dead_ends(self):
+        # the SWEEP invariant: no live open buttons card (outside the judge lanes + the
+        # closures/reopen_one note-path, which B292 owns) may have an unresolvable option.
+        b = Path(__file__).parent.parent.parent
+        q = json.loads((b / "data" / "decision_queue.json").read_text())["items"]
+        dead = []
+        for it in q:
+            if it.get("status") == "answered" or it.get("kind") != "buttons":
+                continue
+            iid = it["id"]
+            if iid.startswith(("judge_", "judge2_", "ratify_", "closures_")):
+                continue
+            for o in it.get("options", []):
+                v = o.get("v", "")
+                if v in apply_rulings.ACK_ANSWERS:
+                    continue
+                if apply_rulings._resolve((iid, v)) is None:
+                    dead.append((iid, v))
+        self.assertEqual(dead, [], f"live A/B dead-end cards remain: {dead}")
+
+
 if __name__ == "__main__":
     unittest.main()

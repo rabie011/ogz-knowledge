@@ -3809,7 +3809,19 @@
    "who": "claude",
    "est_minutes": 40,
    "depends_on": [],
-   "status": "todo"
+   "status": "done",
+   "done_note": "2026-06-28: Rule#7 dead-end SWEEP. Verified via apply_rulings._resolve that 4 live OPEN buttons cards had NO handler (tap->vanish). Renamed 3 forward-direction cards to _fork (auto-land via h_fork_decision, attribute+retire append-only): B157_veto_authority_rule, devs_integration_spec (THE connection-contract TOP), myfitness_thin_reharvest — last two staged dead-end by system:orchestra THE SAME NIGHT 23:21/23:30 = live recurrence. Self-closed stale infra_session_leak_reap on machine evidence (reaper auto-runs+self_terminate landed; leak 170->30; Rule#10). 3 regression tests. closures_*/reopen_one left to B292 (note-path, diff architecture). DeepSeek vetoed the door-check this shift -> B292."
+  },
+  {
+   "id": "B292",
+   "layer": "L2 Armor/Hygiene + Rule#7/#8 (recurrence killer)",
+   "what": "queue_decision door-check: REFUSE staging any buttons card whose option values do not resolve",
+   "how": "Add a resolve-gate to queue_decision.push() (single choke point): for kind==buttons, every option value must apply_rulings._resolve() to a handler, SKIPPING the full pending_unhandled skip-set (ACK_ANSWERS + rating-is-not-None + _general_note/_repudiation + judge_/judge2_/ratify_ prefixes + _fork suffix). Unresolved -> raise SystemExit (Rule#8 refuse-dont-warn). DeepSeek flags: push() is a dumb queue (lazy-import apply_rulings to avoid circular + topology coupling), and my first skip-set was INCOMPLETE (missed rating/control-events). ALSO: wire closures_*/reopen_one (the note-path option currently resolves to None — seen=ACK ok, reopen_one needs a real reader or an ack-with-note classification). Needs its own design doc + test sweep across the 12 push-using tests. JUSTIFIED URGENT: 2 new dead-ends appeared via system:orchestra on 2026-06-28 alone (B291 evidence) — the recurrence is active.",
+   "who": "pair",
+   "est_minutes": 50,
+   "depends_on": [],
+   "status": "todo",
+   "_added": "2026-06-28 (B291 sweep — DeepSeek split-off + RABIE concur)"
   },
   {
    "id": "C201",
@@ -3935,7 +3947,7 @@
   }
  ],
  "counts": {
-  "total": 326,
-  "todo": 60
+  "total": 327,
+  "todo": 59
  }
 }

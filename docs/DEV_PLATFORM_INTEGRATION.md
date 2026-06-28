@@ -157,3 +157,19 @@ KEPT: schema_version on wrapper · rating null below 10 reviews · low_confidenc
 fills) · field_sources per field (already shipped). DISPUTED: "logo→hex breaks on white/black logos" —
 already handled (we skip desaturated pixels → null if logo has no saturated color). NEXT: the
 performance feedback loop (Q6) is the real architectural gap.
+
+## ✅ THE 2-WAY WIRE — performance→profile feedback loop BUILT (June 28, with DeepSeek)
+`scripts/perf_ingestor.py` closes the loop DeepSeek flagged as the biggest miss. The devs send a
+published post's engagement (likes/saves/comments/shares/reach) → we learn SUBTRACTIVELY (the
+kill-registry way, NOT an overfit ranker — the 33%-sparse-data scar). Rules (DeepSeek-designed):
+- metric = (likes+2·saves+3·comments+4·shares)/reach; z-score per brand over last 20 (self-normalizing).
+- paid-boost (reach>3× organic median) → excluded from baseline.
+- **z ≤ −2 AND reach ≥ 500 → KILL** the (brand,product,setup) in kill_registry → the producer's
+  pre-flight gate already avoids it (Rule #6 consumer wired + proven). Reach-starvation guard: a
+  low-reach bomb is WARNED, never killed (no false exile).
+- z ≥ +2.5 AND ≥5 brand posts → +1 confidence COUNTER (human-facing hint; **never edits pre_fill**).
+- −2 < z < +2.5 (~87%) → nothing. Stale kills decay via TTL.
+- NEVER auto-adjusts pre_fill values / producer weights / caption style — only flags.
+Writer: data/outcome_events.jsonl (append-only, aligns with outcome_event_v1). Readers:
+kill_registry.get_pending_combo (producer) + perf_ingestor.get_perf_signals(brand) (human).
+Endpoint for devs: `POST /performance {post_id, likes, saves, comments, shares, reach}`.

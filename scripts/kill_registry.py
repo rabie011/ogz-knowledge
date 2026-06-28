@@ -150,6 +150,30 @@ def resolve_kill(kill_key: str) -> bool:
     return True
 
 
+def add_perf_kill(handle: str, product: str, setup: str, reason: str, z_score=None) -> str:
+    """PERFORMANCE kill — a (handle,product,setup) that BOMBED in the real feed (z ≤ -2 vs the brand's
+    OWN baseline) → a pending combo fingerprint the producer's pre-flight gate already reads (Rule #6:
+    the consumer is wired). Subtractive only — we remove a proven-bad setup, never promote (the
+    33%-ranker scar). Never clobbers a human resolution. Idempotent on the key; TTL auto-resolves it."""
+    fp = load_kill_fingerprints()
+    key = _combo_key(handle, product, setup or WILDCARD)
+    if fp.get(key, {}).get("status") in ("resolved", "overridden"):
+        return key  # respect the human fix
+    fp[key] = {
+        "status": "pending",
+        "kill_reason": (reason or "underperformed in feed") + (
+            f" (z={z_score})" if z_score is not None else ""),
+        "verdict_id": f"perf:{_now()}",
+        "overall": None,
+        "z_score": z_score,
+        "created_at": _now(),
+        "resolved_at": None,
+        "fingerprint_type": "perf_kill",
+    }
+    save_kill_fingerprints(fp)
+    return key
+
+
 # ── lexical bans (the caption-side, per-client + global) ───────────────────────────────────────
 def add_lexical_ban(scope: str, terms, reason: str = "") -> None:
     """scope = a client handle OR 'global'. terms = list[str] or comma string. Active immediately."""

@@ -656,7 +656,7 @@
    "clock": "",
    "priority": "urgent",
    "created": "2026-06-21T19:44:52",
-   "status": "open",
+   "status": "answered",
    "kind": "buttons",
    "options": [
     {
@@ -1009,6 +1009,58 @@
    ],
    "source": "feedback_cards",
    "made_by": "system:feedback_cards",
+   "artifact_version": 1
+  },
+  {
+   "id": "gate_rescope_founder_away_fork",
+   "title": "Health-gate rescope — 2 reds are founder-away, not defects",
+   "tag": "نظام / system",
+   "desc": "",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-28T21:33:57",
+   "status": "open",
+   "why": "card_hygiene + issue_pulse stay red ONLY because you've been away ~6d + old taste-feedback — verified: no machine defect is hiding behind them.",
+   "need": "Rescope these 2 gates to count MACHINE-defects only (exclude your-tap cards from card-age; issue_pulse = engineering bugs, not portal taste-verdicts)? It redefines what 2 gates MEAN — your call, not mine while away.",
+   "did": "Fixed the real bug this shift: an APPROVED verdict (rating=2 UI artifact) was opening false defect-issues against the minds — poisoning their learning. Now blocked, 1016 tests green.",
+   "kind": "buttons",
+   "options": [
+    {
+     "v": "A",
+     "label": "✅ A — rescope (recommended)"
+    },
+    {
+     "v": "B",
+     "label": "⏸️ B — keep biting as honest debt"
+    }
+   ],
+   "made_by": "claude",
+   "artifact_version": 1
+  },
+  {
+   "id": "myfitness_thin_reharvest",
+   "title": "myfitness.sa عند 53% — البيانات رقيقة فعلاً، نعمّق الحصاد؟",
+   "tag": "connection",
+   "desc": "",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-28T23:21:15",
+   "status": "open",
+   "why": "myfitness is the only pilot client failing the A3 produce-gate; its harvested raw is genuinely thin — not a bug to force green",
+   "need": "نعمّق حصاد myfitness (إنستقرام أعمق + Google Places) عشان يعدّي 60% بصدق، أو نشيله من تجربة الـ3 عملاء؟",
+   "did": "تحققنا: albaik ready (79%, 11 renders) + eatjurisha ready (70%, 12). myfitness = 53% + 0 renders. الـraw ما فيه تصنيف نشاط ولا موقع ولا تقييمات Google — فيه بس الاسم (مركز لياقتي - تبوك). رفضنا نعبّيها بالإيد عشان ما نغش بوابة الجاهزية (Rule #12).",
+   "kind": "buttons",
+   "options": [
+    {
+     "v": "reharvest",
+     "label": "عمّق الحصاد (instagram أعمق + places)"
+    },
+    {
+     "v": "hold",
+     "label": "شيله من البايلوت حالياً"
+    }
+   ],
+   "made_by": "system:orchestra",
    "artifact_version": 1
   }
  ]

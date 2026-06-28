@@ -212,7 +212,17 @@ def _ledger_build_index():
     global _LEDGER_INDEX, _LEDGER_SIG
     idx = {}
     if LEDGER.exists():
-        for ln in LEDGER.read_text().splitlines():
+        # ERROR BOUNDARY (C209, DeepSeek gap #4): JSONDecodeError is tolerated per-line below, but an
+        # OSError on the whole-file read (perms, disk full, file vanished between .exists() and
+        # .read_text()) would otherwise crash the /produce hot path. Degrade gracefully — empty index +
+        # stderr warn — so a read fault costs idempotency memory for this run (re-produce), never a crash.
+        try:
+            lines = LEDGER.read_text().splitlines()
+        except OSError as e:
+            sys.stderr.write(f"ledger read failed ({type(e).__name__}: {str(e)[:80]}) — "
+                             f"degrading to empty index; idempotency offline this run\n")
+            lines = []
+        for ln in lines:
             if ln.strip():
                 try:
                     r = json.loads(ln)

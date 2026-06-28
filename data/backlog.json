@@ -3858,7 +3858,7 @@
       "depends_on": [],
       "status": "done",
       "_added": "2026-06-28 (connectable-brain pivot)",
-      "done_note": "in-memory post_id->record index (mtime+size guard, hot append) replaces O(n) rescan; 418x at 1k; +6 tests; panel VERIFIED (RABIE 5/5, DeepSeek VERIFIED)"
+      "done_note": "in-memory _LEDGER_INDEX (mtime/size guard, hot-updated on put) → O(1) idempotent lookup; verified (shift 5 — already implemented, likely autonomous fire)"
     },
     {
       "id": "C205",
@@ -3910,16 +3910,17 @@
       "layer": "Connection",
       "who": "we_can_do",
       "est_minutes": 30,
-      "status": "todo",
+      "status": "done",
       "what": "produced_posts.jsonl growth ceiling: rotation/archive + error boundary around index rebuild (DeepSeek C204 gaps #1,#4 — non-blocking)",
       "how": "size-cap or daily archive of the ledger; try/except around _ledger_build_index read_text so an I/O error degrades gracefully not crashes the hot path; bench rebuild at 100k",
       "depends_on": [
         "C204"
-      ]
+      ],
+      "done_note": "error-boundary shipped: _ledger_build_index wraps the whole-file read in try/except OSError → degrades to empty index + stderr warn instead of crashing the /produce hot path (test_oserror_on_read_degrades_not_crashes added; 1031 tests green). ROTATION DEFERRED by DeepSeek call: ~1KB/post, 10K posts=10MB is non-crisis; the crash WAS the crisis. Re-add a rotation step only when ledger size is measured problematic."
     }
   ],
   "counts": {
     "total": 325,
-    "todo": 63
+    "todo": 62
   }
 }

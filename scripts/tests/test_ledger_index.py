@@ -88,6 +88,24 @@ class TestLedgerIndex(unittest.TestCase):
         for pid in ["h__p0", "h__p7", "h__p49", "absent"]:
             self.assertEqual(epp._ledger_get(pid), naive(pid), pid)
 
+    def test_oserror_on_read_degrades_not_crashes(self):
+        """C209 (DeepSeek gap #4): a whole-file read OSError (disk full, perms, file vanished after
+        .exists()) must NOT crash the /produce hot path — it degrades to an empty index, idempotency
+        offline for the run, and a later get still answers."""
+        class _BoomLedger:
+            """A Path-like that says it exists but throws OSError on read — the race we guard against."""
+            def __init__(self, real): self._real = real
+            def exists(self): return True
+            def read_text(self, *a, **k): raise OSError("simulated disk fault")
+            def __getattr__(self, n): return getattr(self._real, n)   # stat/open/parent fall through
+
+        epp.LEDGER = _BoomLedger(self._tmp)
+        epp._LEDGER_SIG = None
+        epp._LEDGER_INDEX = {}
+        epp._ledger_build_index()                          # must survive the OSError
+        self.assertEqual(epp._LEDGER_INDEX, {})            # degraded to empty, not crashed
+        self.assertIsNone(epp._ledger_get("anything"))     # hot path still answers
+
 
 if __name__ == "__main__":
     unittest.main()

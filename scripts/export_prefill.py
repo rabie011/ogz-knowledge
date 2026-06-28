@@ -268,10 +268,16 @@ def _passport_ar(o):
 
 
 def _passport_year(o):
+    ans = o.organ("passport").get("answers", {})          # C206: generalized beyond the albaik stub —
+    if isinstance(ans, dict) and ans.get("founded_year"):  # read the passport organ when present
+        return ans["founded_year"]
     return 1974 if o.handle == "albaik" else None
 
 
 def _passport_city(o):
+    ans = o.organ("passport").get("answers", {})
+    if isinstance(ans, dict) and ans.get("city"):
+        return ans["city"]
     return "Jeddah" if o.handle == "albaik" else None
 
 

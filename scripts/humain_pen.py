@@ -116,7 +116,7 @@ async def _open_browser(login_wait_minutes: int):
     return _logged_in
 
 
-async def _ask(prompt: str, timeout_s: int):
+async def _ask(prompt: str, timeout_s: int, _retry: bool = False):
     """Send one prompt to the open page, return the model's stabilised reply text (or None)."""
     global _page
     if _page is None:
@@ -151,7 +151,19 @@ async def _ask(prompt: str, timeout_s: int):
     if not sent:
         await _page.keyboard.press("Enter")
 
-    return await _capture_reply(prompt, timeout_s)
+    reply = await _capture_reply(prompt, timeout_s)
+    # SUSTAINED-DRIFT RECOVERY (DeepSeek consult, June 29, shown live). The persistent chat page degrades
+    # after ~15-20 calls: chat_input is still found but the reply comes back null/empty. The existing reload
+    # (line 127) only covered chat_input ABSENCE — reply degradation was a silent fail-open. On a null/too-short
+    # reply, reload to a FRESH chat page + retry the prompt ONCE (guarded by _retry — no infinite recursion).
+    if (reply is None or len(str(reply).strip()) < 10) and not _retry:
+        try:
+            await _page.goto(hc.HUMAIN, wait_until="domcontentloaded", timeout=15000)
+            await asyncio.sleep(3)
+            return await _ask(prompt, timeout_s, _retry=True)
+        except Exception:
+            return reply
+    return reply
 
 
 async def _capture_reply(prompt, timeout_s):

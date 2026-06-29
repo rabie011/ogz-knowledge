@@ -4175,6 +4175,13 @@
    "owner": "claude",
    "title": "🎯 MISSION 9/9 HUMAIN-taste-grade — all 3 clients × 3 posts",
    "done_note": "9/9 ALL HUMAIN-approved (native_saudi, real verdicts not floor). eatjurisha 3/3 + albaik 3/3 (caption-iterate fix) + myfitness 3/3 (autonomous WELLNESS, no invented products, DeepSeek-cleared, Najdi). The session arc: 0/9→floor 6/9→HUMAIN killed 4 (Rule #13 vindicated)→serialized HUMAIN lock (C232) + lean caption-iterate (C233) → 9/9 real. Orchestra (RABIE+DeepSeek armed w/ mistake-list) corrected Claude live throughout (fail-open, SPOF, false-claim, rule-bloat)."
+  },
+  {
+   "id": "C235",
+   "status": "done",
+   "owner": "claude",
+   "title": "HUMAIN sustained-drift fix: reload chat page on null reply (DeepSeek live)",
+   "done_note": "HUMAIN persistent chat page degrades after ~15-20 calls (chat_input found but reply→null) — silent fail-open; the existing reload (humain_pen:127) only covered chat_input ABSENCE. DeepSeek (live) prescribed reload-on-null-reply. FIX: _ask now, on null/too-short reply, reloads to a FRESH chat page + retries the prompt ONCE (_retry guard, no recursion loop). Restarted service to load it. The durable fix for the moat drift that blocked polish."
   }
  ],
  "counts": {

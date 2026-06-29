@@ -4231,6 +4231,13 @@
    "owner": "claude",
    "title": "Per-brand craft SIGNATURE (the distinctive repeatable look) — wired into the render",
    "done_note": "Mohamed: photo is competent but not distinctive → push a craft signature. 3-chairs first converged on fixed CHIAROSCURO; proved on سوبر رول → GPT+DeepSeek vision: signature LANDS + distinctive but NOISE for bright ALBAIK (noir filter on a daylight brand). Mohamed chose PER-BRAND. DeepSeek: do not keyword-match archetypes (fragile) — derive the signature from each brand OWN visual_dna.capture_character (grounded Rule#16) + a fixed distinctive HERO MOVE (hero razor-focus + brand-colour graphic field + anti-generic). Built _craft_signature(capture,color_field) in art_director; brief carries it; render wire (C240) reads it as the SIGNATURE LOOK block (replaces generic LIGHT/CAPTURE, no bloat). PROVEN: ALBAIK now bright-glossy distinctive (its own tone), eatjurisha warm. GPT-vision: DISTINCTIVE+FITS-ALBAIK yes, no weak points. DeepSeek: right+shippable, validate per-brand. 3 renders of سوبر رول total ~$0.09, spent $2.43/$15."
+  },
+  {
+   "id": "C243",
+   "status": "done",
+   "owner": "claude",
+   "title": "FAST feedback-consume daemon — Mohamed taps land in the brain in 30s not 3min",
+   "done_note": "Mohamed: I judge from the feedback system, make the full scale work so you receive feedback FAST. MAPPED loop (grepped): portal=LOCAL api.portal_mini:4199 → writes data/mohamed_answers.jsonl INSTANTLY; apply_rulings consumes → bank human_verdict + kill_registry; feed-forward IS wired (produce_complete_post pre-flight kill gate, Rule #14). GAP: NO daemon ran apply_rulings — only my ~3min orchestra watch = up to 3min consume latency. 3-chairs: DeepSeek rejected portal-sync (fail-open coupling) + WatchPaths (mtime-poll, same latency); picked a frequent timer. Built LaunchAgent com.ogz.rulings-consume.plist (StartInterval=30s, RunAtLoad) → apply_rulings every 30s = max 30s latency, decoupled, fail-safe. Verified: 0 unconsumed POST taps (his real judgments all land; 139 unconsumed = noise lanes judge2/ratify/closures, DeepSeek: dont audit). Plist versioned in deploy/launchagents/."
   }
  ],
  "counts": {

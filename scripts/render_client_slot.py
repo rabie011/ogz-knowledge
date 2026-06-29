@@ -900,9 +900,11 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
         directive = ("\n\nThe 3 options MUST be structurally different from each other — "
                      f"option 1 enters the scene through {doors3[0]}; option 2 through {doors3[1]}; "
                      f"option 3 through {doors3[2]}. None may read like a delivery-app push or a "
-                     "generic family-gathering line, NOR first-person food/object POV — the box/plate/"
-                     "tray/product speaking (e.g. «أنا الصندوق», «الصينية تهمس», «قال الصندوق») — HUMAIN "
-                     "kills that as flat/gimmicky (June 29 learning, Rule #14)." + extra)
+                     "generic family-gathering line." + extra)
+        # NOTE (C230 reverted June 29, DeepSeek consult): food-POV ban was added HERE then removed —
+        # the production prompt stays GENERIC; the HUMAIN judge enforces specificity (it kills food-POV by
+        # taste organically). Per-kill rules belong in the judge/learned layer (with TTL retirement), NOT
+        # piled into the live caption prompt — that's rule-bloat with no retirement (the structural risk).
         got = []
         try:
             got += json.loads(gpt([{"role": "system", "content": sys_p + directive}] + few

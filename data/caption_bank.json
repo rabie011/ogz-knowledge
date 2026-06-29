@@ -251,32 +251,27 @@
   "_note": "served by /produce with NO live HUMAIN; re-bank if source_hash drifts (stale)"
  },
  "eatjurisha__باشميل__U01": {
-  "caption": "علبة الباشميل تفتح الطريق لأجمل وجبة اليوم. مستعد للمفاجآت؟",
+  "caption": "أنا ما أحتاج مناسبة لأكون البطل. باشميل من «جريّشة | Jurisha» يتألق في كل وجبة. 🍽️",
+  "pass_tier": "humain",
+  "score": 0.8,
   "judge": {
    "status": "judged",
    "signals": 2,
+   "passed": true,
    "judges": {
-    "gpt": {
-     "score": 1.0,
-     "issues": []
+    "humain": {
+     "score": 0.8,
+     "verdict": "fix",
+     "native_saudi": true
     },
-    "saudi_floor": {
-     "score": 1.0,
-     "issues": [],
-     "modality": "rule_based"
+    "gpt": {
+     "score": 1.0
     }
    },
-   "score": 1.0,
-   "passed": true,
-   "source": "gpt+saudi_floor (2 independent signals) · HUMAIN down → floor-passed (rule-based Saudi floor + GPT alignment); HUMAIN/Mohamed = taste consultant"
+   "source": "HUMAIN authoritative (clean judge: 4/5 native_saudi, fix)"
   },
-  "score": 1.0,
-  "candidates": 2,
-  "source_hash": "444c6fd970a2cdcd",
-  "banked_at": 1782696491,
-  "_note": "served by /produce with NO live HUMAIN; re-bank if source_hash drifts (stale)",
-  "passed_floor": true,
-  "pass_tier": "floor"
+  "banked_at": 1782740000,
+  "_note": "re-produced food-POV-free; HUMAIN 4/5 native_saudi (was 0.4 kill). Minor fix: باشاميل spelling."
  },
  "eatjurisha__تمن_(رز_أبيض)__U01": {
   "caption": "المعكرونة راحت ورا، التمن يتصدر المشهد اليوم. اطلب من «جريّشة | Jurisha» وخلّ لغداك نكهة مميزة 🍚",

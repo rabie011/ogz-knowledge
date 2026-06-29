@@ -4056,6 +4056,13 @@
    "owner": "claude",
    "title": "Portal post-approval cards + consumer (Mohamed: where is the approval button?)",
    "done_note": "June29 Mohamed portal instruction. Root: produced posts sat in caption_bank (passed=false, HUMAIN down) but were never pushed to decision_queue as approvable cards → no Approve button. FIX (consulted DeepSeek per his ask; REJECTED its gate-weakening = Rule #13 violation): push_posts_for_review.py pushes top-4/client (Rule #10) as caption_judge cards (id post_<bankkey>) + apply_rulings.h_post_review consumer — his APPROVE = authoritative human pass (machine gate untouched) + seeds gold (Rule #14); REJECT → kill_registry. Tested writer↔reader e2e on a synthetic post. Pushed 8 cards live."
+  },
+  {
+   "id": "C219p2",
+   "status": "done",
+   "owner": "claude",
+   "title": "FIX: post-approval cards were INVISIBLE (info bucket collapsed) — now visible",
+   "done_note": "June29: the 8 approval cards I shipped (C219p) bucketed as info (no buttons/options field — the Approve comes from judge_lane render) → COLLAPSED behind view-all (Rule #10 flood-guard) → Mohamed never saw them → ~11 holds with no movement. FIX: stamp action_type=decision in build_card + re-bucketed the 8 live cards. Verified all 8 now bucket decision (visible). This is why path-1 (his approval) appeared stuck — the cards were hidden. Self-verify-what-you-ship lesson."
   }
  ],
  "counts": {

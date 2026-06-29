@@ -66,6 +66,10 @@ def build_card(bankkey, entry):
     return {
         "id": f"post_{bankkey}",
         "title": f"{handle} · {product} · {chain}",
+        # action_type=decision is REQUIRED: without it _bucket() infers 'info' (no buttons/options field —
+        # the Approve✓/Reject✗ come from judge_lane rendering) → the card COLLAPSES behind 'view all' and
+        # Mohamed never sees it (June 29 bug: 8 cards shipped invisible). It IS an actionable decision.
+        "action_type": "decision",
         "tag": "Judge", "kind": "caption_judge", "judge_lane": "True", "lane": "creative",
         "priority": "normal", "handle": handle, "product": product,
         "caption": entry.get("caption"), "occasion": "evergreen", "image_url": img,

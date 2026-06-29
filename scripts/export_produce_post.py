@@ -355,8 +355,14 @@ def build(handle, product, chain, occasion="everyday", produce=False, regenerate
                                  "hard_kills": _pv.hard_kills, "learned_hits": _pv.learned_hits,
                                  "reason": "HARD cultural/royal/family/cloud-kitchen kill — never served; re-bank required"}
             except Exception as _pe:
-                sys.stderr.write(f"pre_ship_gate wire error: {type(_pe).__name__}: {str(_pe)[:80]}\n")
-                cap_judge["cultural_gate"] = f"UNVERIFIED ({type(_pe).__name__}) — flagged, not auto-shipped"
+                # FAIL-CLOSED (DeepSeek consult-before-build, June 29 + Rule #8): a gate that ERRORS must
+                # REFUSE, never ship-with-a-note. verdict_of() RAISES on a malformed verdict BY DESIGN —
+                # swallowing that exception while leaving caption_text set = a SEVERED gate (fail-open).
+                # On ANY gate error, withhold the caption + force a re-bank. Never green on an unverified gate.
+                sys.stderr.write(f"pre_ship_gate ERROR → FAIL-CLOSED (refusing): {type(_pe).__name__}: {str(_pe)[:80]}\n")
+                caption_text = None
+                cap_judge = {"status": "blocked_cultural", "verdict": "GATE_ERROR",
+                             "reason": f"cultural gate errored ({type(_pe).__name__}: {str(_pe)[:60]}) — refusing, fail-closed (Rule #8)"}
         elif banked and banked.get("caption") and not _ban_ok:
             # a ban was added AFTER this caption was banked → never serve it; force a re-bank (DeepSeek A1)
             caption_text = None

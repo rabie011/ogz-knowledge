@@ -341,6 +341,22 @@ def build(handle, product, chain, occasion="everyday", produce=False, regenerate
             caption_text = banked["caption"]
             cap_judge = dict(banked.get("judge") or {})
             cap_judge["served_from"] = "caption_bank"           # fast path: pre-judged offline
+            # FINAL CULTURAL GATE (June 29 wiring-audit fix — Rule #6 consumer + Rule #8 refuse). build()
+            # is the DEV-FACING /produce serve path; it previously ran ONLY kill_ban_check (soft drift-flag)
+            # and NEVER the HARD cultural/royal/family/cloud-kitchen gate → /produce could serve a culturally
+            # unsafe caption. Wire pre_ship_gate here (graceful verdict_of — NOT assert_shippable, which
+            # SystemExits the whole server). A hard kill → refuse to serve, force a re-bank (never green).
+            try:
+                import pre_ship_gate as psg
+                _pv = psg.verdict_of({"caption": caption_text, "occasion": occasion}, handle)
+                if not _pv.shippable():
+                    caption_text = None
+                    cap_judge = {"status": "blocked_cultural", "verdict": _pv.verdict,
+                                 "hard_kills": _pv.hard_kills, "learned_hits": _pv.learned_hits,
+                                 "reason": "HARD cultural/royal/family/cloud-kitchen kill — never served; re-bank required"}
+            except Exception as _pe:
+                sys.stderr.write(f"pre_ship_gate wire error: {type(_pe).__name__}: {str(_pe)[:80]}\n")
+                cap_judge["cultural_gate"] = f"UNVERIFIED ({type(_pe).__name__}) — flagged, not auto-shipped"
         elif banked and banked.get("caption") and not _ban_ok:
             # a ban was added AFTER this caption was banked → never serve it; force a re-bank (DeepSeek A1)
             caption_text = None

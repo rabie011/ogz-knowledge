@@ -4070,6 +4070,13 @@
    "owner": "claude",
    "title": "HUMAIN-optional pass gate (Mohamed ruling: HUMAIN=Arabic consultant only)",
    "done_note": "June29 Mohamed: pass the captions; if HUMAIN down use it as Arabic consultant only. Consulted RABIE+DeepSeek; REJECTED my GPT+DeepSeek idea (DeepSeek: 2 LLMs=same axis=cheat). Built DeepSeek-recommended design: signal A=GPT alignment (LLM), signal B=caption_filter rule-based Saudi floor (MODALITY-different) → 2 independent kinds, honors Rule #13 intent without HUMAIN. TRANSPARENT: floor pass != HUMAIN-taste (signal B is a floor, passes all filter-clean — labeled pass_tier=floor). Re-judged 5: 4 floor-pass (eatjurisha x3 + albaik سوبر_رول), albaik كرسبي fails (GPT 0.6). Mission 0/9→4/9 floor-passed. HUMAIN-when-up + Mohamed portal = authoritative upgrade."
+  },
+  {
+   "id": "C221w",
+   "status": "done",
+   "owner": "claude",
+   "title": "Wire pre_ship_gate into the dev-facing /produce path (cultural gate was severed)",
+   "done_note": "June29 wiring-audit (7-agent workflow) found export_produce_post.build() — the /produce serve path the devs call — ran ONLY kill_ban_check (soft); it NEVER ran the HARD cultural/royal/family/cloud-kitchen gate (pre_ship_gate). So /produce could serve culturally-unsafe captions. FIX: wired pre_ship_gate.verdict_of into build() (graceful refuse, not assert_shippable which SystemExits). Tested: royal→KILL block, dine-in/cloud-kitchen→KILL block, clean→ships. Rule #6 (consumer) + Rule #8 (refuse). The most dangerous severed wire the audit found."
   }
  ],
  "counts": {

@@ -1,5 +1,7 @@
 import os
+import subprocess
 import sys
+import time
 import unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -79,6 +81,72 @@ class TestSelectSelfSession(unittest.TestCase):
         ]
         my_chain = r.ancestry_chain(900, procs)
         self.assertIsNone(st.select_self_session(procs, my_chain, 651))
+
+
+class TestSpawnWatchdog(unittest.TestCase):
+    """The hang-proof watchdog actually terminates its target after the wall-clock."""
+
+    def test_watchdog_kills_target_after_timeout(self):
+        # a real child that would otherwise live 30s
+        proc = subprocess.Popen(["sleep", "30"])
+        try:
+            st.spawn_watchdog(proc.pid, timeout=1, grace=1)
+            # poll up to ~5s for the watchdog (sleep 1; SIGTERM; sleep 1; SIGKILL) to act
+            deadline = time.time() + 5
+            while time.time() < deadline and proc.poll() is None:
+                time.sleep(0.1)
+            self.assertIsNotNone(proc.poll(), "watchdog did not terminate its target")
+        finally:
+            if proc.poll() is None:
+                proc.kill()
+            proc.wait()
+
+    def test_watchdog_noop_when_target_already_dead(self):
+        proc = subprocess.Popen(["sleep", "30"])
+        proc.kill()
+        proc.wait()
+        dead_pid = proc.pid
+        # arming against an already-dead pid must not raise (kills are swallowed)
+        st.spawn_watchdog(dead_pid, timeout=1, grace=1)
+        time.sleep(2.5)  # let the watchdog run its course harmlessly
+
+
+class TestArmGuards(unittest.TestCase):
+    """arm() reuses the tested selection and adds the interactive-TTY refusal."""
+
+    def setUp(self):
+        self.app, self.cc, self.disc = _app_tree()
+        # my live fire: 651 app -> 800 disclaimer -> 801 session -> 810 zsh -> 811 caller
+        self.procs = [
+            {"pid": 651, "ppid": 1, "etime_s": 600000, "tty": "??", "command": self.app},
+            {"pid": 800, "ppid": 651, "etime_s": 120, "tty": "??", "command": self.disc},
+            {"pid": 801, "ppid": 800, "etime_s": 119, "tty": "??", "command": self.cc},
+            {"pid": 810, "ppid": 801, "etime_s": 5, "tty": "??", "command": "/bin/zsh -c x"},
+            {"pid": 811, "ppid": 810, "etime_s": 4, "tty": "??", "command": "python3 self_terminate.py"},
+        ]
+
+    def test_arm_dry_resolves_own_detached_session(self):
+        res = st.arm(dry=True, procs=self.procs, my_pid=811)
+        self.assertFalse(res["armed"])         # dry-run never actually arms
+        self.assertEqual(res["reason"], "dry-run")
+        self.assertEqual(res["target"], 801)   # my own session, via select_self_session
+
+    def test_arm_refuses_interactive_tty_session(self):
+        for p in self.procs:
+            if p["pid"] == 801:
+                p["tty"] = "s001"              # a real controlling terminal
+        res = st.arm(dry=False, procs=self.procs, my_pid=811)
+        self.assertFalse(res["armed"])
+        self.assertIn("TTY", res["reason"])
+
+    def test_arm_refuses_when_no_own_session(self):
+        procs = [
+            {"pid": 651, "ppid": 1, "etime_s": 600000, "tty": "??", "command": self.app},
+            {"pid": 900, "ppid": 651, "etime_s": 10, "tty": "??", "command": "python3 foo.py"},
+        ]
+        res = st.arm(dry=False, procs=procs, my_pid=900)
+        self.assertFalse(res["armed"])
+        self.assertIsNone(res["target"])
 
 
 if __name__ == "__main__":

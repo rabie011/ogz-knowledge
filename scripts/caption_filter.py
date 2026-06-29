@@ -31,7 +31,15 @@ _AD_METAPHOR = [
 
 
 def check(caption: str) -> tuple[bool, list[str]]:
-    """Returns (passes, reasons). Empty/short captions fail silently."""
+    """Returns (passes, reasons). Empty/short captions fail silently.
+
+    NOTE (subset, not the full gate — DeepSeek audit June 29): this is a fast/cheap
+    pre-filter on the RENDER path (catches high-frequency text poison: dash-flip, cliché,
+    cultural alcohol/dua+brand, non-Saudi dialect). It is INTENTIONALLY a SUBSET. The full
+    kill taxonomy — real_person · family_voice · dine-in/cloud-kitchen · cross-brand ·
+    occasion-misalign — lives in client_rules.violations() and is enforced (fail-closed) by
+    pre_ship_gate, the FINAL authority before anything reaches Mohamed's judge lane. A pass
+    here is NOT a ship clearance. Do not assume filter-clean == shippable."""
     cap = (caption or "").strip()
     if len(cap) < 6:
         return False, ["empty"]

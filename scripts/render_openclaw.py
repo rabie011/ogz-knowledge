@@ -208,6 +208,9 @@ def main():
     ap.add_argument("--allow-unconfirmed", action="store_true")
     ap.add_argument("--skip-image-gate", action="store_true",
                     help="$0 — skip the post-render gpt-4o pixel modesty gate (NOT clearance)")
+    ap.add_argument("--brief", default="", help="path to the art-director brief JSON (3-chairs wire B, June29): "
+                    "its DELIBERATE design (light/composition/palette/anti-generic) is appended as a forceful "
+                    "[ART DIRECTION] block so the shot is CRAFTED not stock. Fail-closed if passed-but-unreadable.")
     a = ap.parse_args()
 
     # 1) build the v3.7 prompt via the converter (no spend)
@@ -244,6 +247,27 @@ def main():
         "products PLAIN: solid brand colours only, with ABSOLUTELY NO text, NO letters, NO words, NO "
         "wordmark, NO logo, NO numbers on ANY surface — smooth unbranded surfaces. (The real brand "
         "logo is composited in afterward.)")
+    # ART DIRECTION (June 29, 3-chairs wire B — Mohamed judged the photos 'generic/stock'; the art-director's
+    # DELIBERATE design existed but never reached the fal prompt = severed wire, Rule #6). Append its craft as a
+    # forceful block — the same final-prompt stage that already forces brand-text + product-truth. FAIL-CLOSED
+    # (Rule #8): --brief passed but unreadable → exit non-zero, never a silent generic fallback.
+    if a.brief:
+        try:
+            _ad = json.loads(Path(a.brief).read_text())
+        except Exception as _e:
+            sys.exit(f"--brief passed but unreadable ({type(_e).__name__}: {_e}) — fail-closed (Rule #8)")
+        _dz, _bv = (_ad.get("design") or {}), (_ad.get("brand_visual") or {})
+        _bits = []
+        for _lbl, _val in (("PALETTE", _bv.get("palette_primary") or _bv.get("color_field")),
+                           ("LIGHT", _dz.get("light")), ("COMPOSITION", _dz.get("composition")),
+                           ("MOOD", _dz.get("mood")), ("CAPTURE", _bv.get("capture_character")),
+                           ("NEVER (anti-generic)", _bv.get("anti_attributes"))):
+            if _val:
+                _bits.append(f"• {_lbl}: {str(_val)[:200]}")
+        if _bits:
+            prompt = prompt + ("\n\n[ART DIRECTION — a DELIBERATELY DESIGNED photograph, not a stock shot]\n"
+                               + "\n".join(_bits))
+            print(f"  🎨 art-direction block appended ({len(_bits)} deliberate choices from the brief)")
     # PRODUCT-TRUTH ASSEMBLY + NEGATIVE PROMPT (June 23). The consult panel (GPT+Gemini) + RABIE:
     # the positive identity_dna fixed the SAUCE but flux still rendered a DECONSTRUCTED platter (loose
     # tenders + an empty/open bun) instead of the ASSEMBLED product. This last-mile, forceful block

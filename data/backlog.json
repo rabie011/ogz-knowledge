@@ -4217,6 +4217,13 @@
    "owner": "claude",
    "title": "A/B-PROVE C238 voice+pains injection is effective (not just present)",
    "done_note": "DeepSeek (3-chairs) caught FALSE-CLAIM: verified-in-prompt != verified-effective. A/B: angle WITH vs WITHOUT the injection differs meaningfully — WITH counters the cold-food customer pain, WITHOUT is generic. Judge B_BETTER=yes. Rule #6 (writer→reader) satisfied with evidence."
+  },
+  {
+   "id": "C240",
+   "status": "done",
+   "owner": "claude",
+   "title": "Wire art-director design into the fal render prompt (3-chairs wire B) — fix generic photos",
+   "done_note": "Mohamed judged posts: killed 5, reason=GENERIC/STOCK photos. ROOT (3-chairs traced, Rule#16): art_director.art_direct produces a deliberate brief (light/composition/palette/anti-generic) but to_converter_args drops it to chain+scene → openclaw_convert builds the prompt chain-mechanically, AD-blind = severed wire (Rule#6). FIX (wire B, DeepSeek+RABIE agreed): produce_complete_post persists the brief to data/.ad_brief_*.json + passes --brief; render_openclaw READS it + appends a forceful [ART DIRECTION] block (palette/light/composition/mood/capture/anti-generic) at the same final-prompt stage that already forces brand-text+product-truth. FAIL-CLOSED (Rule#8): --brief unreadable→exit1 (proven, exit code 1). PROVEN /bin/zsh: 6 deliberate choices reach the 9533-char prompt; product-truth now anchors format=wrap (fixes burgers-for-a-roll). No fal spend. Step3 (re-render the 5 killed posts) awaits Mohamed money-go."
   }
  ],
  "counts": {

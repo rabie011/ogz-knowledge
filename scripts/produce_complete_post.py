@@ -96,8 +96,15 @@ def main():
         # FORCE the setup's chain (Rule #12 variety vocabulary) — the picker can't swap in an
         # ad-splash chain. --idea callers keep the AD's free pick.
         chain = args["chain"] if a.idea else setup_chain
+        # 3-chairs wire B (June29): persist the FULL art-director brief so render_openclaw appends its deliberate
+        # [ART DIRECTION] block (light/composition/palette/anti-generic). to_converter_args drops the brief to
+        # chain+scene, so without this the AD's craft never reaches the fal prompt — the severed wire behind
+        # Mohamed's 'generic/stock' kills. render_openclaw READS it (Rule #6) + FAILS CLOSED if unreadable (Rule #8).
+        _pslug = "".join(ch if ch.isalnum() else "_" for ch in a.product)[:40]
+        _bp = B / "data" / f".ad_brief_{a.handle}_{_pslug}.json"
+        _bp.write_text(json.dumps(brief, ensure_ascii=False))
         cmd = [sys.executable, str(B / "scripts/render_openclaw.py"), "--handle", a.handle,
-               "--chain", chain, "--scene", args["scene"], "--product", a.product, "--go"]
+               "--chain", chain, "--scene", args["scene"], "--product", a.product, "--brief", str(_bp), "--go"]
         r = subprocess.run(cmd, capture_output=True, text=True)
         for line in r.stdout.splitlines():
             if "image_url:" in line:

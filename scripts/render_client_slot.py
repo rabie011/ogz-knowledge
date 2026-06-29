@@ -533,8 +533,11 @@ def load_client(handle: str) -> dict:
     profile_raw = sorted((cdir / "raw/instagram").iterdir())[-1]
     posts = [json.loads(l) for l in (profile_raw / "posts.jsonl").read_text().strip().split("\n") if l.strip()]
     prof = json.loads((profile_raw / "profile.json").read_text())
-    # voice exemplars: client's own top-liked real captions (style only)
-    real = sorted([x for x in posts if x.get("caption")], key=lambda x: -(x.get("likesCount") or 0))[:5]
+    # voice exemplars: client's own top-ENGAGING real captions (style only). C213v (June 29): rank by
+    # engagement (likes + 3·comments) not raw likes — the few-shot voice should be the brand's captions
+    # that actually MOVED people (comments > likes as a quality signal), consistent with perf_ingestor._er.
+    real = sorted([x for x in posts if x.get("caption")],
+                  key=lambda x: -((x.get("likesCount") or 0) + 3 * (x.get("commentsCount") or 0)))[:5]
     exemplars = [x["caption"][:300] for x in real]
     # jurisha special: provisional voice A from the birth week (RABIE 5/5, stamped provisional)
     vb = cdir / "voice_birth_week.json"

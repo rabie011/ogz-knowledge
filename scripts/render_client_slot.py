@@ -488,13 +488,29 @@ def humain(system, user, timeout_s=180):
     return reply
 
 
+_HUMAIN_PROBE = {"ts": 0.0, "up": False}
+
+
 def humain_up() -> bool:
-    """True if the HUMAIN service is running AND logged in (cheap /health check)."""
+    """True ONLY if HUMAIN actually REPLIES to a real probe — not just /health logged_in.
+    AUDIT FIX (June 29): /health said logged_in:true while POST /caption returned reply:null, so 13/19
+    captions silently shipped GPT-MSA labelled 'Saudi-native' — the moat severed by a false-green gate.
+    Now probes the REAL /caption path; cached ~90s so the slow pen isn't hammered every call."""
+    import time
+    now = time.time()
+    if now - _HUMAIN_PROBE["ts"] < 90:
+        return _HUMAIN_PROBE["up"]
+    up = False
     try:
-        out = json.loads(urllib.request.urlopen(f"{HUMAIN_SVC}/health", timeout=3).read())
-        return bool(out.get("logged_in"))
+        body = json.dumps({"prompt": "رد بكلمة واحدة فقط: تمام", "timeout_s": 35}).encode()
+        rq = urllib.request.Request(f"{HUMAIN_SVC}/caption", data=body,
+                                    headers={"Content-Type": "application/json"})
+        out = json.loads(urllib.request.urlopen(rq, timeout=45).read())
+        up = bool(out.get("reply"))                    # real reply, not just logged_in
     except Exception:
-        return False
+        up = False
+    _HUMAIN_PROBE.update(ts=now, up=up)
+    return up
 
 
 def load_client(handle: str) -> dict:

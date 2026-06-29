@@ -401,12 +401,14 @@ def pick_reference(handle, product="", scene=""):
                     print(f"  🎯 reference matched product '{product}' → {Path(best).name} "
                           f"({best_v.get('product_en','')})", flush=True)
                     return best
-                food = [k for k, v in clean if v.get("kind") == "product_food"]
-                pick = sorted(food)[0] if food else sorted(k for k, _ in clean)[0]
-                print(f"  ⚠ GAP: no clean reference matches product '{product}' — the brand has no "
-                      f"photo of it. Using {Path(pick).name} as a stand-in (NOT faithful). "
-                      f"Fix = add a real '{product}' product photo.", flush=True)
-                return pick
+                # AUDIT FIX (June 29, Rule #8 — REFUSE don't warn): the old code returned a wrong-product
+                # stand-in (a different dish) and only PRINTED a warning → render money bought a
+                # guaranteed-wrong image (ice-cream rendered off a chicken-burger base). An honest gap =
+                # NO render. The caller treats None as a clean refuse (status="refused"), never a spend.
+                print(f"  🛑 GAP REFUSE: no clean reference matches product '{product}' — the brand has no "
+                      f"photo of it. REFUSING (no wrong-product render). Fix = add a real '{product}' photo.",
+                      flush=True)
+                return None
         except Exception:
             pass
     imgs = sorted(md.glob("*.jpg")) + sorted(md.glob("*.png")) if md.exists() else []

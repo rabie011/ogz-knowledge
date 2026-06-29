@@ -35,7 +35,7 @@ sys.path.insert(0, str(BASE / "scripts"))
 # The model ring the brains are spread across (Mohamed: "the minds on DIFFERENT models").
 # consult.py owns the per-model HTTP + dead-key handling; we only choose WHICH model each
 # brain talks to and round-robin so two adjacent brains rarely share a model.
-MODEL_RING = ("gpt", "gemini", "groq")
+MODEL_RING = ("gpt", "deepseek", "gemini", "groq")   # audit fix (June 29): gemini 429-dead + groq 403-dead
 
 
 def _strip_json(text: str) -> dict:

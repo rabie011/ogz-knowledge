@@ -4017,8 +4017,9 @@
   {
    "id": "C216k",
    "what": "Verify kill_registry learning consumer feeds forward (Rule #14) — kills → next-run avoidance",
-   "status": "todo",
-   "gate": ""
+   "status": "done",
+   "gate": "",
+   "done_note": "VERIFIED wired (Rule #14): perf_ingestor.add_perf_kill (z<=-2) → kill_registry → produce_complete_post:54-60 get_pending_combo gate blocks the bombed setup next run. Full writer→reader→consumer circle."
   },
   {
    "id": "C212h2",

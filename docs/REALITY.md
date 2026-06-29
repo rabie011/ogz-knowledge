@@ -15,8 +15,11 @@ its scale/metrics/infra are pre-pivot fiction. This doc is what is TRUE.
 
 ## What's REAL (audited June 29, verified)
 - 3 pilot clients (albaik, eatjurisha, myfitness). **5/9 first posts orchestra-approved** (eatjurisha 3, albaik 2).
-- Gates BITE (`pre_ship_gate` killed 343/624 on the live corpus). 94-chain prompts build from real organs
-  (no stubs). The 5 CD brains fire (metaphor/paradox/firaasa/authenticity). Photo grounding correct.
+- Gates BITE (`pre_ship_gate` — **343/624 retrospective kill rate on historical captions**, exits
+  non-zero). 94-chain prompts build from real organs (no stubs). The 5 CD brains fire
+  (metaphor/paradox/firaasa/authenticity). Photo grounding correct.
+- **Kills are a LEARNING signal, not just a filter** — they feed `kill_registry.py` (+ `competitor_request.py`
+  rival-token kills), so each rejection teaches the brain what to avoid on the next run (Rule #14).
 - The 3 contracts + `brain_api` + `openapi.yaml` + caption banking + e2e tests done (C201–C215).
 
 ## What's BROKEN (the honest gaps — don't paper over them)

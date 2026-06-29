@@ -45,10 +45,20 @@ def spent_usd():
     return sum(json.loads(l).get("usd", 0) for l in COST_LOG.read_text().splitlines() if l.strip())
 
 
-def gates(go, allow_unconfirmed, ref):
+def gates(go, allow_unconfirmed, ref, handle=None, product=None):
     """Return (clear, reasons[]). Clear only if EVERY gate passes."""
     r = json.loads(RULINGS.read_text()) if RULINGS.exists() else {}
     reasons = []
+    # GATE0 (Rule #12 anti-hallucination, June 29 'تشكن بيك' scar) — NON-BYPASSABLE. A product the brand
+    # never sold must NEVER render, even with --allow-unconfirmed (which only overrides the PHOTO lock).
+    if handle and product:
+        try:
+            from truth_guards import product_is_real
+            _ok, _ev = product_is_real(handle, product)
+            if not _ok:
+                reasons.append(f"GATE0 product '{product}' not in {handle}'s real data ({_ev}) — hallucinated; refusing FAL spend")
+        except Exception:
+            pass  # a guard failure must not block a legit render; the other gates still apply
     if r.get("no_fal_photos"):
         reasons.append("GATE1 no_fal_photos=true — Mohamed's ruling; flip it in rulings_live on his tap")
     if not (env("FAL_KEY") or env("FAL_API_KEY")):
@@ -205,7 +215,7 @@ def main():
         print(f"  ⚙ reference FORCED → {ref}")
 
     # 2) GATES
-    clear, reasons = gates(a.go, a.allow_unconfirmed, ref)
+    clear, reasons = gates(a.go, a.allow_unconfirmed, ref, a.handle, a.product)
     print(f"\n  RENDER GATES for {a.handle}/{a.chain}: {'✅ ALL CLEAR' if clear else '🛑 BLOCKED'}")
     for r in reasons:
         print(f"    🛑 {r}")

@@ -4028,6 +4028,20 @@
    "what": "HUMAIN batch reliability: it survives a SINGLE call post-restart but DRIFTS under sequential batch calls (the 5-post re-caption fell to gpt-only). FIX in render_client_slot.humain(): on null reply, restart humain_service inline (humain_watchdog._restart) + retry ONCE, so each caption self-heals mid-batch. The 30-min watchdog only covers sustained availability, not mid-batch drift.",
    "learn": "HUMAIN works single-call (fresh page) but drifts under load — verified twice (probe OK, batch null).",
    "done_note": "humain() self-heals: on null reply → restart service (fresh page) + retry once → only then GPT fallback. Fixes mid-batch drift."
+  },
+  {
+   "id": "C217p",
+   "status": "done",
+   "owner": "claude",
+   "title": "Perf learning loop proven end-to-end (/performance contract)",
+   "done_note": "perf_ingestor --simulate: BOMB→z=-29.57→add_perf_kill→kill_registry; producer get_pending_combo returns the kill→avoids it next run; HERO→counter (pre_fill untouched). Rule #6+#14 confirmed live. Synthetic simbrand pollution cleaned; 866 real events + albaik n=20 baseline intact."
+  },
+  {
+   "id": "C218h",
+   "status": "done",
+   "owner": "claude",
+   "title": "Anti-hallucination PRODUCT-TRUTH gate (one boundary, all render doors)",
+   "done_note": "June29 تشكن بيك scar: the LLM product-picker invented an albaik product (0 in real IG, not in product_truth.json); the cron rendered it via --allow-unconfirmed ($0.06 waste). FIX: truth_guards.product_is_real (shared single source) + render_openclaw GATE0 (NON-bypassable, guards cron door) + produce_complete_post delegates. Tested: تشكن بيك refused even w/ --allow-unconfirmed; فيليه/سوبر رول/كرسبي/دجاج pass. Money leak plugged."
   }
  ],
  "counts": {

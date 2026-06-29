@@ -123,6 +123,43 @@ def build_corpus(brand: str, base_dir=None) -> str:
     return " ".join(p for p in parts if p).lower()
 
 
+def product_is_real(handle: str, product: str, base_dir=None):
+    """Rule #12 anti-hallucination — SHARED guard, one source for all render doors. A product must exist
+    in the brand's REAL data before any FAL spend. Born June 29: the LLM product-picker invented 'تشكن بيك'
+    for albaik (0 hits in their real IG / not in product_truth.json) and the cron rendered it via
+    --allow-unconfirmed → $0.06 on a product that doesn't exist. Returns (is_real, evidence). Conservative:
+    allows when it cannot disprove (no corpus on disk). Refuse-don't-warn (Rule #8)."""
+    import glob
+    import json as _j
+    import re as _re
+    from pathlib import Path as _P
+    b = _P(base_dir) if base_dir else _P(__file__).parent.parent
+    p = (product or "").strip()
+    if not p:
+        return False, "empty product"
+    # 1) client-confirmed profile truth (locked product identities)
+    for f in glob.glob(str(b / f"clients/{handle}/profile/*.json")):
+        try:
+            if p in _P(f).read_text():
+                return True, f"in confirmed profile ({_P(f).name})"
+        except Exception:
+            pass
+    # 2) the brand's REAL instagram captions (what they actually posted about)
+    raws = sorted(glob.glob(str(b / f"clients/{handle}/raw/instagram/*/posts.jsonl")))
+    if not raws:
+        return True, "no IG corpus — allow (cannot disprove)"
+    corpus = " ".join(_j.loads(l).get("caption", "") for l in open(raws[-1]) if l.strip())
+    if p in corpus:
+        return True, "exact product phrase in real captions"
+    toks = [t for t in _re.split(r"\s+", p) if len(t) >= 4]   # ≥4 skips brand short-forms (e.g. بيك)
+    real = [t for t in toks if t in corpus]
+    if real:
+        return True, f"real product tokens in captions: {real}"
+    if not toks:
+        return True, "only short/brand tokens — allow"
+    return False, f"NONE of {toks} appear in {handle}'s real captions — looks hallucinated"
+
+
 def ungrounded(text: str, corpus: str, documented: bool) -> str | None:
     for m in list(PERSON_AR.finditer(text)) + list(PERSON_EN.finditer(text)):
         if not documented:

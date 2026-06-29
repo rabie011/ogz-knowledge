@@ -30,6 +30,13 @@ SETUPS = {
 SETUP_ORDER = ["hero_studio", "majlis_tray", "heritage", "retail_shelf"]
 
 
+def _product_is_real(handle, product):
+    """Delegates to the SHARED anti-hallucination guard (truth_guards.product_is_real) — one source for
+    every render door (this producer + render_openclaw GATE0). Rule #12, June 29 'تشكن بيك' scar."""
+    from truth_guards import product_is_real
+    return product_is_real(handle, product, base_dir=B)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--handle", required=True)
@@ -66,6 +73,16 @@ def main():
         raise
     except Exception as _ke:
         sys.stderr.write(f"  (pre-flight kill gate skipped: {type(_ke).__name__}: {str(_ke)[:60]})\n")
+
+    # ── PHASE-0b PRODUCT-TRUTH GATE (Rule #12 anti-hallucination, June 29 'تشكن بيك' scar) ──
+    # The LLM product-picker can invent a plausible product the brand never sold. Refuse before FAL spend.
+    _real, _eviz = _product_is_real(a.handle, a.product)
+    if not _real and not a.override_kill:
+        sys.stderr.write(
+            f"🛑 PRODUCT-TRUTH GATE: '{a.product}' not in {a.handle}'s real data — {_eviz}.\n"
+            f"   The product-picker likely hallucinated it. Refusing — zero FAL spend (Rule #8/#12).\n"
+            f"   → pick a real product (grep the brand's IG) or pass --override-kill to bypass once.\n")
+        sys.exit(1)
 
     setup_chain, setup_scene = SETUPS[a.setup]
     # the scene comes from the SYSTEM's setup vocabulary (not hand-written) unless --idea forces it

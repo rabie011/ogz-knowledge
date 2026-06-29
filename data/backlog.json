@@ -4189,6 +4189,13 @@
    "owner": "claude",
    "title": "Dev-handoff wire VERIFIED (DeepSeek severed-wire check passed)",
    "done_note": "DeepSeek (live, armed) flagged severed-wire/false-claim risk: is brain_api /produce actually wired or stubbed? GREPPED (Rule #16): brain_api.py:64 import export_produce_post, :70 rec=epp.build(handle,product,chain) in _produce_worker → REAL wire (not severed). check_contract_drift: openapi↔brain_api in sync (5 routes) — no drift, docs honest to devs. Brain is dev-handoff-ready: 9/9 proves production, API serves the 3 contracts faithfully, HUMAIN drift fixed (C235). The skeptic-check confirmed solid."
+  },
+  {
+   "id": "C237",
+   "status": "done",
+   "owner": "claude",
+   "title": "ALL 3 dev contracts verified wired — brain is dev-handoff-ready",
+   "done_note": "Grepped (Rule #16): /extract→export_prefill.export (brain_api:147), /produce→epp.build (:70), /performance→perf_ingestor.ingest (:195). All real calls (not stubbed), all validate_* gated, openapi↔brain_api drift-clean. The brain is dev-handoff-ready end-to-end: 9/9 posts prove production, the 3 HTTP contracts serve faithfully, HUMAIN reliable (C235). DeepSeek skeptic checks ALL PASSED — no severed wires. NEXT = Mohamed: P2 batches (he judges) / P3 dev connect / myfitness products. Autonomous hardening genuinely complete."
   }
  ],
  "counts": {

@@ -330,6 +330,28 @@ def reel_brief(handle: str, idea: str, occasion: str, fmt: str) -> dict:
 
 
 # ── THE STAGE ─────────────────────────────────────────────────────────────────────
+# OGZ CRAFT SIGNATURE (June 29, 3-chairs — Mohamed chose 'push the craft signature', then 'PER-BRAND' after a
+# fixed chiaroscuro proved wrong-tone for bright ALBAIK; GPT+DeepSeek vision: 'a noir filter on a brand that lives
+# in daylight'). DeepSeek's call: DON'T keyword-match archetypes (fragile) — derive the signature from each brand's
+# OWN visual_dna.capture_character (grounded, Rule #16), ELEVATED with a fixed distinctive+repeatable HERO MOVE
+# (hero-ingredient razor focus + brand-colour graphic field + anti-generic). The LIGHTING/tone stays the brand's own
+# (glossy-bright for ALBAIK, warm-tungsten for eatjurisha) = on-brand; the MOVE is the consistent OGZ signature =
+# distinctive. System-applied per brand (Rule #12), read by the render wire (C240).
+def _craft_signature(capture_character, color_field) -> dict:
+    def _s(x):
+        return str(x.get("value") if isinstance(x, dict) else (x or "")).strip()
+    cap = _s(capture_character) or "single warm directional key light, appetite-first"
+    fld = _s(color_field) or "the brand's signature colour"
+    return {
+        "type": "branded_hero",
+        "key_light": cap[:240],                                    # the brand's OWN grounded capture/lighting
+        "falloff": "carry the brand's own tonal depth — saturated and dimensional, never flat or evenly-lit",
+        "focus": "the HERO ingredient (the crispy tender / the topping / the pour) in razor-sharp focus; supporting elements soften",
+        "ground": fld[:120] + " as a deep saturated graphic field — never white-seamless or flat",
+        "anti": "no flat-lay, no overhead, no generic stock evenness, no plastic CGI uniformity, no borrowed palette",
+    }
+
+
 def art_direct(post_idea: str, handle: str, fmt: str = "image",
                occasion: str = "", formula_id: str = "", llm=None, product: str = "") -> dict:
     """A1 — THE ART-DIRECTOR STAGE. (post_idea, handle, fmt) → a structured PHOTO BRIEF.
@@ -396,6 +418,8 @@ def art_direct(post_idea: str, handle: str, fmt: str = "image",
         "brand_visual": spine["brand_visual"],
         "product": spine["product"],
         "design": design,
+        "craft_signature": _craft_signature(spine["brand_visual"].get("capture_character"),  # PER-BRAND (June29):
+                                            spine["brand_visual"].get("color_field")),       # brand's own tone + hero move
         "modesty": modesty,
         "composed_scene": composed_scene,     # A2 — the reader is openclaw_convert
         "needs": needs,

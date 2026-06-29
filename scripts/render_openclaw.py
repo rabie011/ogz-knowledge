@@ -257,10 +257,18 @@ def main():
         except Exception as _e:
             sys.exit(f"--brief passed but unreadable ({type(_e).__name__}: {_e}) — fail-closed (Rule #8)")
         _dz, _bv = (_ad.get("design") or {}), (_ad.get("brand_visual") or {})
+        _cs = _ad.get("craft_signature") or {}
         _bits = []
+        # OGZ CRAFT SIGNATURE leads (June29, 3-chairs — the repeatable distinctive look). It REPLACES the generic
+        # 'LIGHT'+'CAPTURE' lines (DeepSeek's no-bloat rule): the signature IS the lighting+focus directive now.
+        if _cs:
+            _sig = "; ".join(str(_cs[_k]) for _k in ("key_light", "falloff", "focus", "ground") if _cs.get(_k))
+            if _sig:
+                _bits.append(f"• SIGNATURE LOOK — OGZ {_cs.get('type','chiaroscuro')}, render EVERY shot this way: {_sig[:320]}")
+            if _cs.get("anti"):
+                _bits.append(f"• SIGNATURE NEVER: {str(_cs['anti'])[:160]}")
         for _lbl, _val in (("PALETTE", _bv.get("palette_primary") or _bv.get("color_field")),
-                           ("LIGHT", _dz.get("light")), ("COMPOSITION", _dz.get("composition")),
-                           ("MOOD", _dz.get("mood")), ("CAPTURE", _bv.get("capture_character")),
+                           ("COMPOSITION", _dz.get("composition")), ("MOOD", _dz.get("mood")),
                            ("NEVER (anti-generic)", _bv.get("anti_attributes"))):
             if _val:
                 _bits.append(f"• {_lbl}: {str(_val)[:200]}")

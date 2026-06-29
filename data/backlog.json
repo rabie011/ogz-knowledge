@@ -4224,6 +4224,13 @@
    "owner": "claude",
    "title": "Wire art-director design into the fal render prompt (3-chairs wire B) — fix generic photos",
    "done_note": "Mohamed judged posts: killed 5, reason=GENERIC/STOCK photos. ROOT (3-chairs traced, Rule#16): art_director.art_direct produces a deliberate brief (light/composition/palette/anti-generic) but to_converter_args drops it to chain+scene → openclaw_convert builds the prompt chain-mechanically, AD-blind = severed wire (Rule#6). FIX (wire B, DeepSeek+RABIE agreed): produce_complete_post persists the brief to data/.ad_brief_*.json + passes --brief; render_openclaw READS it + appends a forceful [ART DIRECTION] block (palette/light/composition/mood/capture/anti-generic) at the same final-prompt stage that already forces brand-text+product-truth. FAIL-CLOSED (Rule#8): --brief unreadable→exit1 (proven, exit code 1). PROVEN /bin/zsh: 6 deliberate choices reach the 9533-char prompt; product-truth now anchors format=wrap (fixes burgers-for-a-roll). No fal spend. Step3 (re-render the 5 killed posts) awaits Mohamed money-go."
+  },
+  {
+   "id": "C241",
+   "status": "done",
+   "owner": "claude",
+   "title": "Per-brand craft SIGNATURE (the distinctive repeatable look) — wired into the render",
+   "done_note": "Mohamed: photo is competent but not distinctive → push a craft signature. 3-chairs first converged on fixed CHIAROSCURO; proved on سوبر رول → GPT+DeepSeek vision: signature LANDS + distinctive but NOISE for bright ALBAIK (noir filter on a daylight brand). Mohamed chose PER-BRAND. DeepSeek: do not keyword-match archetypes (fragile) — derive the signature from each brand OWN visual_dna.capture_character (grounded Rule#16) + a fixed distinctive HERO MOVE (hero razor-focus + brand-colour graphic field + anti-generic). Built _craft_signature(capture,color_field) in art_director; brief carries it; render wire (C240) reads it as the SIGNATURE LOOK block (replaces generic LIGHT/CAPTURE, no bloat). PROVEN: ALBAIK now bright-glossy distinctive (its own tone), eatjurisha warm. GPT-vision: DISTINCTIVE+FITS-ALBAIK yes, no weak points. DeepSeek: right+shippable, validate per-brand. 3 renders of سوبر رول total ~$0.09, spent $2.43/$15."
   }
  ],
  "counts": {

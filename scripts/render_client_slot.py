@@ -678,6 +678,16 @@ def angle_prompt(c: dict, slot: dict, sector: str, brain: str | None = None) -> 
     _voice = [str(v) for v in (c.get("exemplars") or []) if v][:3]
     voice_rule = ("\nBRAND VOICE (the angle must be speakable in THIS voice — match its tone/register; do NOT "
                   "propose an idea the brand can't say): " + json.dumps([v[:160] for v in _voice], ensure_ascii=False)[:520]) if _voice else ""
+    # CUSTOMER PAINS (June 29, 3-chairs — DeepSeek pick: an angle must hit a REAL pain so the customer says
+    # "that's me". Inject the brand's aggregated customer pains so the mind RESONATES by COUNTERING them
+    # positively in the idea — never voice the complaint, solve/answer it in the scene). Source: audience_mirror.
+    _am = BASE / "clients" / c["handle"] / "profile" / "audience_mirror.json"
+    pains_rule = ""
+    if _am.exists():
+        _pains = [str(p) for p in (json.loads(_am.read_text()).get("pains_aggregate") or []) if p][:4]
+        if _pains:
+            pains_rule = ("\nCUSTOMER PAINS (resonate by COUNTERING these positively in the idea — NEVER voice "
+                          "the complaint): " + json.dumps([p[:120] for p in _pains], ensure_ascii=False)[:480])
     facts = json.loads((BASE / "data/occasion_facts.json").read_text())
     occ = slot.get("occasion", "")
     key = {"saudi_national_day": "saudi_national_day"}.get(occ, occ)
@@ -707,7 +717,7 @@ def angle_prompt(c: dict, slot: dict, sector: str, brain: str | None = None) -> 
              "An angle is a CONCRETE SCENE: WHO (specific person/role) + WHEN (specific beat) + WHAT (specific gesture) "
              "+ where the product sits naturally inside that exact moment. BANNED: brand-as-bridge/symbol/soul metaphors, "
              "abstract culture/heritage sentences, anything a TV voiceover could say. "
-             + occ_rule + organ_rule + strat_rule + voice_rule + method +
+             + occ_rule + organ_rule + strat_rule + voice_rule + pains_rule + method +
              'Return JSON: {"scene_ar": "...", "why_it_lands": "...", "post_type": "moment|announcement|offer|greeting"}')
     user = (f"البراند: {c['brand_ar']} (bio: {c['bio'][:150]})\n"
             f"المنتجات الحقيقية: {products[:8]}\nالقنوات: {channels or 'غير معروفة — لا تخترع قناة'}\n"

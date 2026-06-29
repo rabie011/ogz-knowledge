@@ -4154,6 +4154,13 @@
    "owner": "claude",
    "title": "Fix HUMAIN writer-pen restart-loop SPOF (DeepSeek caught it live)",
    "done_note": "سوبر رول re-produce hung 15.5min: humain() writer-pen returns null → C212h2 inline self-heal restarts humain_service → disrupts the SAME service used to JUDGE (verified: both POST localhost:4111, one browser session) → restart-loop. DeepSeek (armed w/ mistake-list, shown live) caught it: demanded the shared-session FACT (verified true), flagged skip-the-pen as WRONG (kills ALLaM diversity Mohamed wants). FIX: removed inline restart from humain() → fail-fast to GPT for the slot (HUMAIN JUDGE still the hard gate); background watchdog handles real restarts. No more loop/judge-disruption."
+  },
+  {
+   "id": "C232",
+   "status": "done",
+   "owner": "claude",
+   "title": "humain_lock — serialize HUMAIN access (fixed drift), DeepSeek fix shown live",
+   "done_note": "DeepSeek (armed w/ mistake-list, grepped: no lock, ThreadingHTTPServer races one browser tab → null drift) prescribed: serialize at orchestrator (mutex per call, 3x retry, fail-CLOSED after — NOT server lock=SPOF). Built humain_lock.call (file-lock across processes + 3x retry + raise HumainDown). Wired writer-pen (render_client_slot.humain → GPT on HumainDown, judge gates) + judge (_ask_humain → None=unjudged/HOLD on HumainDown = fail-closed, no GPT-floor pass). VERIFIED: سوبر رول judge was drifting to null → now returns real verdict (kill 2/5, too-literary GPT caption). Drift solved."
   }
  ],
  "counts": {

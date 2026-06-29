@@ -46,11 +46,17 @@ def _humain_up():
 
 
 def _ask_humain(prompt, timeout_s=180):
-    body = json.dumps({"prompt": prompt, "timeout_s": timeout_s}).encode()
-    rq = urllib.request.Request(f"{HUMAIN_SVC}/caption", data=body,
-                                headers={"Content-Type": "application/json"})
-    out = json.loads(urllib.request.urlopen(rq, timeout=timeout_s + 30).read())
-    return out.get("reply")
+    # SERIALIZED + RETRIED via humain_lock (June 29, DeepSeek consult shown live) — shares ONE file-lock with
+    # the writer-pen so only one HUMAIN request hits the single browser session at a time (no race/drift),
+    # retries 3x on null. On HumainDown returns None → judge_caption treats it as 'unjudged/HOLD' = FAIL-CLOSED
+    # (a post can NEVER pass without a real HUMAIN verdict; GPT-floor is not a substitute — Rule #13).
+    import sys as _sys
+    _sys.path.insert(0, str(Path(__file__).parent))
+    import humain_lock
+    try:
+        return humain_lock.call(prompt, timeout_s=min(timeout_s, 60))
+    except humain_lock.HumainDown:
+        return None
 
 
 def _build_prompt(caption, brand_ar, product, occasion, scene):

@@ -479,22 +479,13 @@ def humain(system, user, timeout_s=180):
     prompt = (system + "\n\n" + user +
               '\n\nأرجع فقط كائن JSON بالشكل: {"options": ["...", "...", "..."]} بدون أي شرح.')
 
-    def _call():
-        body = json.dumps({"prompt": prompt, "timeout_s": timeout_s}).encode()
-        rq = urllib.request.Request(f"{HUMAIN_SVC}/caption", data=body,
-                                    headers={"Content-Type": "application/json"})
-        return json.loads(urllib.request.urlopen(rq, timeout=timeout_s + 30).read()).get("reply")
-
-    reply = _call()
-    if not reply:
-        # FAIL-FAST (June 29, DeepSeek consult shown live — C212h2 inline restart REMOVED). The writer-pen
-        # and the HUMAIN JUDGE share ONE service (localhost:4111, one browser session). An inline self-heal
-        # restart here disrupts the judge's session AND loops (verified: 15-min hang on سوبر رول). On null,
-        # fail FAST → the caller falls to GPT for THIS slot (best-effort ALLaM diversity; the HUMAIN JUDGE is
-        # still the hard quality gate, so quality holds). The background watchdog (every 30min) handles real
-        # service death — NOT the inline produce path (no restart-loop, no judge disruption).
-        raise RuntimeError("humain writer-pen null → GPT this slot (fail-fast; watchdog handles restarts)")
-    return reply
+    # SERIALIZED + RETRIED via humain_lock (June 29, DeepSeek consult shown live). The writer-pen and the
+    # HUMAIN JUDGE share ONE browser session (localhost:4111); concurrent/rapid calls race → null drift.
+    # humain_lock.call takes a file-lock (one HUMAIN request at a time ACROSS processes) + retries 3x on null,
+    # then raises HumainDown. On HumainDown the caller's except falls to GPT for THIS slot — acceptable, the
+    # HUMAIN JUDGE is still the hard quality gate. NO inline restart (that looped + disrupted the judge, C231).
+    import humain_lock
+    return humain_lock.call(prompt, timeout_s=min(timeout_s, 60))
 
 
 _HUMAIN_PROBE = {"ts": 0.0, "up": False}

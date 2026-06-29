@@ -4091,6 +4091,13 @@
    "owner": "claude",
    "title": "FAIL-CLOSED fix on the cultural-gate wire (DeepSeek consult-before-build caught it)",
    "done_note": "June29: Mohamed ruled consult-with-facts BEFORE building. First consult caught a bug in C221w: the pre_ship_gate try/except SWALLOWED errors + left caption_text set → shipped with a note = FAIL-OPEN (verdict_of RAISES on malformed by design, Rule #8 — swallowing it = severed gate). FIX: except now sets caption_text=None + verdict=GATE_ERROR → withholds the caption (fail-CLOSED). Tested: forced gate error → caption withheld. The consult-first method paying off immediately."
+  },
+  {
+   "id": "C223",
+   "status": "done",
+   "owner": "claude",
+   "title": "albaik كرسبي re-rendered (image-mismatch fix) → 5/9",
+   "done_note": "Orchestra (consult-first) diagnosed albaik كرسبي U01 GPT-align 0.6 = image↔caption MISMATCH, not caption. Re-rendered G03 with the real كرسبي photo (C0mM-Z2Il0S.jpg) → GPT 0.8 + saudi_floor 1.0 → PASS. Mission 4/9→5/9. Orchestra diagnosis confirmed correct."
   }
  ],
  "counts": {

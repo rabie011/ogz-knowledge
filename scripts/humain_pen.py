@@ -70,8 +70,32 @@ async def _open_browser(login_wait_minutes: int):
     if _page is not None:
         return True
     from playwright.async_api import async_playwright
+    import os as _os
     global _pw
     _pw = await async_playwright().start()
+    # CONNECT to Mohamed's ALREADY-OPEN, already-logged-in browser via CDP (June 29 — "humain is working on
+    # the browser, you open it in a new one and it's already opened"). Our own Chrome-for-Testing context has
+    # a separate cookie jar and CANNOT see his real-browser HUMAIN session. Attaching to a debug-port browser
+    # he keeps open reuses HIS login forever (DeepSeek consult: more robust than launch_persistent_context,
+    # which profile-locks against his running Chrome). Try CDP first; fall back to our own window only if no
+    # debug browser is up on the port. Launcher: scripts/open_humain_browser.sh.
+    _cdp = _os.environ.get("HUMAIN_CDP", "http://127.0.0.1:9222")
+    try:
+        _browser = await _pw.chromium.connect_over_cdp(_cdp, timeout=4000)
+        _ctx = _browser.contexts[0] if _browser.contexts else await _browser.new_context()
+        _page = next((p for c in _browser.contexts for p in c.pages if "humain" in (p.url or "").lower()), None)
+        if _page is None:
+            _page = _ctx.pages[0] if _ctx.pages else await _ctx.new_page()
+            await _page.goto(hc.HUMAIN, wait_until="domcontentloaded", timeout=30000)
+        await asyncio.sleep(3)
+        _ci, _ = await hc.find_chat_input(_page)
+        _logged_in = _ci is not None
+        if _logged_in:
+            print(f"   ✅ connected to your EXISTING browser via CDP {_cdp} — no new window", flush=True)
+            return True
+        print(f"   (CDP browser on {_cdp} reachable but HUMAIN not logged in there — falling back)", flush=True)
+    except Exception:
+        pass  # no debug browser on the port → our own persistent-context window below
     hc.SESSION_DIR.mkdir(parents=True, exist_ok=True)
     _ctx = await _pw.chromium.launch_persistent_context(
         str(hc.SESSION_DIR),

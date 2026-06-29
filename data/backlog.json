@@ -4119,6 +4119,13 @@
    "owner": "claude",
    "title": "Confirmed: rejudge-in-serve-path is NOT a gap (correct bank-serve design)",
    "done_note": "Consult-first (Rule #19, lean DeepSeek): the audit flagged rejudge() dead in /produce serve path. DeepSeek VERDICT: design is correct as-is — build() serves PRE-JUDGED-from-bank (DeepSeek own SPOF fix: no live HUMAIN/GPT in request path). Wiring rejudge live would REINTRODUCE the SPOF. The fast deterministic cultural gate (C221w/w2) live + 3-judge offline-at-bank = right fail-closed architecture. NO build needed. Consult-first saved a wrong build. AUTONOMOUS BUILD WORK COMPLETE: both real severed wires fixed (C221w cultural, C222m minds), rejudge-gap = not-a-gap."
+  },
+  {
+   "id": "C227",
+   "status": "done",
+   "owner": "claude",
+   "title": "HUMAIN: connect to Mohamed existing browser (CDP) instead of spawning new window",
+   "done_note": "Mohamed June29: humain is working on his browser, stop opening new windows. FACT: humain_pen only launch_persistent_context (own Chrome-for-Testing, separate cookies, 20min timeout) → cannot see his real-browser login. FIX (DeepSeek consult, Option A): _open_browser now chromium.connect_over_cdp(:9222) FIRST → reuses his already-logged-in browser; falls back to own window only if no debug browser up (tested: fails fast 0.0s, graceful). Launcher scripts/open_humain_browser.sh opens a debug-port browser (dedicated profile, stays open) — he logs into HUMAIN ONCE, service connects forever. Memory saved: humain-lives-in-mohameds-browser.md. RULE: do NOT auto-spawn service windows."
   }
  ],
  "counts": {

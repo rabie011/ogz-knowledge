@@ -634,6 +634,58 @@ def h_publish_confirm(b: Path, row: dict) -> str:
             f"gen={gen[:10]}… → outcome ledger ({ev['timestamp'][:10]})")
 
 
+def h_post_review(b: Path, row: dict) -> str:
+    """June 29 — the READER for push_posts_for_review.py cards (Rule #6/#7: his tap needs a handler).
+    Mohamed's approve/reject on a `post_<bankkey>` card is the AUTHORITATIVE HUMAN signal (he is the
+    ground truth — AI can't judge Saudi creative). APPROVE passes the post by human verdict WITHOUT
+    weakening the machine 2-signal gate (Rule #13 stays intact) + seeds gold (Rule #14). REJECT kills
+    the setup so the producer avoids it (kill_registry, Rule #14)."""
+    bankkey = row["item_id"][len("post_"):]
+    ans = row["answer"]
+    ts = (row.get("client_ts") or row.get("ts", ""))[:16]
+    note = (row.get("note") or "").strip()
+    handle, product, chain = (bankkey.split("__") + ["", "", ""])[:3]
+    bankf = b / "data/caption_bank.json"
+    bank = json.loads(bankf.read_text())
+    entry = bank.get(bankkey)
+    if not entry:
+        raise RuntimeError(f"post {bankkey} not in caption_bank")
+    entry["human_verdict"] = {"verdict": ans, "by": "mohamed", "ts": ts, "note": note[:160]}
+    if ans == "approved":
+        entry["passed_by_human"] = True   # authoritative human signal; machine 'passed' gate untouched
+        bankf.write_text(json.dumps(bank, ensure_ascii=False, indent=1))
+        # mission count = REAL human-passed posts (honest; replaces the inflated produced-count)
+        mf = b / "data/mission_9posts.json"
+        m = json.loads(mf.read_text())
+        cl = m.setdefault("clients", {}).setdefault(handle, {"target": 3})
+        hp = cl.setdefault("human_passed", [])
+        if bankkey not in hp:
+            hp.append(bankkey)
+        m["_VERIFIED_true_passed"] = sum(len(c.get("human_passed", [])) for c in m["clients"].values())
+        mf.write_text(json.dumps(m, ensure_ascii=False, indent=1))
+        # seed gold (Rule #14 — his YES teaches the renderer)
+        try:
+            gf = b / f"clients/{handle}/profile/gold.json"
+            g = json.loads(gf.read_text()) if gf.exists() else {"gold": [], "dropped": []}
+            if not any(e.get("key") == bankkey for e in g.get("gold", [])):
+                g.setdefault("gold", []).append({"key": bankkey, "caption": entry.get("caption"),
+                                                 "source": f"mohamed_approve {ts}", "product": product})
+                gf.parent.mkdir(parents=True, exist_ok=True)
+                gf.write_text(json.dumps(g, ensure_ascii=False, indent=1))
+        except Exception as _ge:
+            sys.stderr.write(f"  (gold seed skipped: {type(_ge).__name__})\n")
+        return f"post {bankkey} → APPROVED by Mohamed (human-passed; true_passed={m['_VERIFIED_true_passed']}/9) + gold seeded"
+    elif ans == "rejected":
+        bankf.write_text(json.dumps(bank, ensure_ascii=False, indent=1))
+        try:
+            import kill_registry as kr
+            kr.add_perf_kill(handle, product, chain, f"Mohamed rejected the post {ts}: {note[:80]}")
+        except Exception as _ke:
+            sys.stderr.write(f"  (kill_registry skipped: {type(_ke).__name__})\n")
+        return f"post {bankkey} → REJECTED by Mohamed → kill_registry (producer will avoid it)"
+    return f"post {bankkey} → {ans} (noted)"
+
+
 PREFIX_HANDLERS = {
     ("ratify2_", "ratify"): h_recipe_verdict,
     ("ratify2_", "kill"): h_recipe_verdict,
@@ -641,6 +693,8 @@ PREFIX_HANDLERS = {
     ("law_draft_", "yes_law"): h_law_draft,   # crystallize 'Make it law' (was wired to nothing)
     ("law_draft_", "no"): h_law_draft,
     ("publish_confirm_", "published"): h_publish_confirm,  # B095v STEP 2 — the go-live tap → outcome ledger
+    ("post_", "approved"): h_post_review,     # June 29 — his post approve = authoritative human pass + gold
+    ("post_", "rejected"): h_post_review,     # his post reject = kill the setup (Rule #14)
 }
 
 def h_pairwise_noop(b: Path, row: dict) -> str:

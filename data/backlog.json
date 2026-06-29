@@ -4126,6 +4126,13 @@
    "owner": "claude",
    "title": "HUMAIN: connect to Mohamed existing browser (CDP) instead of spawning new window",
    "done_note": "Mohamed June29: humain is working on his browser, stop opening new windows. FACT: humain_pen only launch_persistent_context (own Chrome-for-Testing, separate cookies, 20min timeout) → cannot see his real-browser login. FIX (DeepSeek consult, Option A): _open_browser now chromium.connect_over_cdp(:9222) FIRST → reuses his already-logged-in browser; falls back to own window only if no debug browser up (tested: fails fast 0.0s, graceful). Launcher scripts/open_humain_browser.sh opens a debug-port browser (dedicated profile, stays open) — he logs into HUMAIN ONCE, service connects forever. Memory saved: humain-lives-in-mohameds-browser.md. RULE: do NOT auto-spawn service windows."
+  },
+  {
+   "id": "C228",
+   "status": "done",
+   "owner": "claude",
+   "title": "TOKEN DISCIPLINE — lean orchestra consults (Mohamed: dont waste tokens)",
+   "done_note": "Mohamed June29: keep working with rabie+deepseek, make sure they dont waste tokens. ROOT: rabie.py history(limit=20) re-sent 40 FULL past messages (~6.6k tok) on EVERY consult ×119/day. Durable state already comes from orchestra_memory.context() → history is redundant. FIX: history(limit=6) + trim each msg to 600 chars → ~1.1k tok/consult. SAVING ~5.5k tok/consult ≈ 658k tok/day. STANDING DISCIPLINE: default consults lean — tools=False (file-eyes only when fact-verify truly needed, not the 2-min default), single-seat ask_deepseek for quick Qs, full RABIE+DeepSeek panel only for real build/taste decisions, short prompts + capped max_tokens."
   }
  ],
  "counts": {

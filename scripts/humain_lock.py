@@ -22,7 +22,8 @@ LOCK = Path.home() / ".humain.lock"
 # null). humain_watchdog restarts it for a fresh page — but only ~every 30min (launchd), so an active judging BURST
 # sits in a null-window up to 30min (the posts-5/6/8 drift). FIX: recycle the page PROACTIVELY at 12 calls (before
 # the 15-20 drift), in the BACKGROUND, OUTSIDE the lock hold. This is NOT the C231 in-lock restart SPOF — that was
-# an UNBOUNDED restart-on-failure hang; this is a bounded (≤~60s) proactive recycle that counts only SUCCESSES.
+# an UNBOUNDED restart-on-failure hang; this is a WALL-CLOCK-bounded (~75s) proactive recycle that counts only
+# SUCCESSES. (A full-down service needing Playwright login-restore may exceed 75s — it heals on the next call.)
 COUNT = Path.home() / ".humain.callcount"
 RECYCLE_AT = 12
 _PY = "/opt/homebrew/bin/python3"
@@ -42,12 +43,13 @@ def _count():
 
 
 def _probe():
-    """The REAL readiness test — /health logged_in LIES under drift (true even when the scrape is null), so
-    probe the actual /caption path like humain_watchdog does."""
+    """Cheap responsiveness probe — does the service ANSWER? (/health logged_in LIES under drift, so hit /caption,
+    but with a SHORT timeout: we're checking the page replies at all, not waiting for a full generation. A slow-but-
+    healthy page that misses the short window just keeps the loop going one more cycle.)"""
     try:
-        body = json.dumps({"prompt": "رد بكلمة واحدة: تمام", "timeout_s": 30}).encode()
+        body = json.dumps({"prompt": "رد بكلمة واحدة: تمام", "timeout_s": 8}).encode()
         rq = urllib.request.Request(f"{SVC}/caption", data=body, headers={"Content-Type": "application/json"})
-        return bool(json.loads(urllib.request.urlopen(rq, timeout=40).read()).get("reply"))
+        return bool(json.loads(urllib.request.urlopen(rq, timeout=12).read()).get("reply"))
     except Exception:
         return False
 
@@ -55,8 +57,13 @@ def _probe():
 def _maybe_recycle():
     """≥RECYCLE_AT successful calls since the last recycle → restart the service for a FRESH page BEFORE the page
     drifts. Runs OUTSIDE the file-lock (DeepSeek: never restart inside a lock hold). Reset-counter-FIRST so two
-    callers can't double-restart. The readiness wait is BOUNDED (≤~60s) → structurally cannot become the C231
-    unbounded restart-loop SPOF. Cost: ~one cold-start (≤60s) per 12 calls — invisible between posts (RABIE)."""
+    callers can't double-restart. The readiness wait is WALL-CLOCK bounded to ~75s (June 29, 3-chairs follow-up —
+    DeepSeek caught that the old 'for _ in range(12)' stacked _probe's 40s timeout into a multi-MINUTE block, and
+    that the '≤60s' comment was a lie that would mislead a future caller-timeout). The caller never blocks longer:
+    if the page isn't ready in 75s the caller's own 3 retries + the NEXT call's recycle absorb it. NOT the C231
+    SPOF (bounded, outside the lock). NOTE: a FULL-DOWN service (browser session also needs Playwright login-restore)
+    may legitimately exceed 75s — that's fine, it heals on the following call; this wait is a best-effort head-start,
+    not a guarantee. Cost: ~one cold-start per 12 calls — invisible between posts (RABIE)."""
     if _count() < RECYCLE_AT:
         return
     try:
@@ -64,10 +71,11 @@ def _maybe_recycle():
         subprocess.run(["pkill", "-f", "humain_service.py"])
         time.sleep(2)
         subprocess.Popen([_PY, _SERVICE], stdout=open(_LOG, "a"), stderr=subprocess.STDOUT)
-        for _ in range(12):                                     # bounded ≤60s — never an unbounded loop
-            time.sleep(5)
+        deadline = time.time() + 75                             # WALL-CLOCK bound (honest) — not stacked probe timeouts
+        while time.time() < deadline:
             if _probe():
                 break
+            time.sleep(4)
     except Exception:
         pass
 

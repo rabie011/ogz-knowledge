@@ -641,6 +641,9 @@ def h_post_review(b: Path, row: dict) -> str:
     weakening the machine 2-signal gate (Rule #13 stays intact) + seeds gold (Rule #14). REJECT kills
     the setup so the producer avoids it (kill_registry, Rule #14)."""
     bankkey = row["item_id"][len("post_"):]
+    bankkey = re.sub(r"__(refix|v\d+)$", "", bankkey)   # June29 Rule #7: a re-review card (post_<key>__refix /
+    # __v2 — re-surfaced after a fix) maps its tap to the BASE post in the bank, so Mohamed's verdict lands instead
+    # of crashing the handler (a versioned id has no bank entry of its own).
     ans = row["answer"]
     ts = (row.get("client_ts") or row.get("ts", ""))[:16]
     note = (row.get("note") or "").strip()

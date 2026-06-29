@@ -718,7 +718,7 @@ def angle_prompt(c: dict, slot: dict, sector: str, brain: str | None = None) -> 
     user = (f"البراند: {c['brand_ar']} (bio: {c['bio'][:150]})\n"
             f"المنتجات الحقيقية: {products[:8]}\nالقنوات: {channels or 'غير معروفة — لا تخترع قناة'}\n"
             f"السياق: {slot.get('occasion') or slot.get('angle_theme','')} · beat: {slot.get('beat','evergreen')}\n"
-            + (f"عدسة القطاع×المناسبة: {json.dumps(lens, ensure_ascii=False)[:600]}\n" if lens else "")
+            + (f"عدسة القطاع×المناسبة (إرشاد عام للقطاع فقط — إذا تعارض مع الخطوط الحمراء أو الضوابط الثقافية للبراند أعلاه فالبراند هو الأصح ويُقدَّم): {json.dumps(lens, ensure_ascii=False)[:600]}\n" if lens else "")
             + (f"لحظات حقيقية من منشوراتهم: {json.dumps(ex, ensure_ascii=False)}\n" if ex else "")
             + ("NOTE: this brand speaks English-first — the scene may be EN-hook + AR-idea bilingual.\n" if c["en_led"] else "")
             + f"سياق الحياة لهذا اليوم — المشهد يعيش داخله (مو شرط عائلة!): {life_context(c['handle'], slot['date'])}\n"

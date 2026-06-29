@@ -487,17 +487,13 @@ def humain(system, user, timeout_s=180):
 
     reply = _call()
     if not reply:
-        # C212h2: the pen DRIFTS under batch load (survives 1 call, returns null on the next). Self-heal
-        # INLINE — restart the service for a fresh chat page + retry ONCE — instead of silently falling to
-        # GPT-MSA mid-batch (the 30-min watchdog only covers sustained death, not mid-batch drift).
-        try:
-            import humain_watchdog as hw
-            hw._restart()
-            reply = _call()
-        except Exception:
-            pass
-    if not reply:
-        raise RuntimeError("humain returned no reply (restarted + retried)")
+        # FAIL-FAST (June 29, DeepSeek consult shown live — C212h2 inline restart REMOVED). The writer-pen
+        # and the HUMAIN JUDGE share ONE service (localhost:4111, one browser session). An inline self-heal
+        # restart here disrupts the judge's session AND loops (verified: 15-min hang on سوبر رول). On null,
+        # fail FAST → the caller falls to GPT for THIS slot (best-effort ALLaM diversity; the HUMAIN JUDGE is
+        # still the hard quality gate, so quality holds). The background watchdog (every 30min) handles real
+        # service death — NOT the inline produce path (no restart-loop, no judge disruption).
+        raise RuntimeError("humain writer-pen null → GPT this slot (fail-fast; watchdog handles restarts)")
     return reply
 
 

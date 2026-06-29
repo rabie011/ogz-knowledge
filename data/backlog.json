@@ -4238,6 +4238,13 @@
    "owner": "claude",
    "title": "FAST feedback-consume daemon — Mohamed taps land in the brain in 30s not 3min",
    "done_note": "Mohamed: I judge from the feedback system, make the full scale work so you receive feedback FAST. MAPPED loop (grepped): portal=LOCAL api.portal_mini:4199 → writes data/mohamed_answers.jsonl INSTANTLY; apply_rulings consumes → bank human_verdict + kill_registry; feed-forward IS wired (produce_complete_post pre-flight kill gate, Rule #14). GAP: NO daemon ran apply_rulings — only my ~3min orchestra watch = up to 3min consume latency. 3-chairs: DeepSeek rejected portal-sync (fail-open coupling) + WatchPaths (mtime-poll, same latency); picked a frequent timer. Built LaunchAgent com.ogz.rulings-consume.plist (StartInterval=30s, RunAtLoad) → apply_rulings every 30s = max 30s latency, decoupled, fail-safe. Verified: 0 unconsumed POST taps (his real judgments all land; 139 unconsumed = noise lanes judge2/ratify/closures, DeepSeek: dont audit). Plist versioned in deploy/launchagents/."
+  },
+  {
+   "id": "C244",
+   "status": "done",
+   "owner": "claude",
+   "title": "Fix fail-OPEN in product_is_real (no-corpus case) — DeepSeek consult caught it",
+   "done_note": "Building scenario clients (Mohamed: 10 posts/3 new industries), DeepSeek consult-first REFUSED to build until GATE0 verified. CONFIRMED FAIL-OPEN: product_is_real did *if not raws: return True (allow cannot disprove)* → a client with no product_truth + no IG corpus passed ANY product = hallucinated FAL spend. FIXED fail-CLOSED (Rule #8/#12, DeepSeek-approved): no corpus + not in confirmed profile → refuse. Verified 3 real clients still pass (products in product_truth). KNOWN-REMAINING (flagged, separate patch): step1 substring-in-any-profile-json + step2 any-≥4char-token-in-corpus are LOOSE — a fake product sharing a common token (منتج) with the corpus still passes. Safe path for scenario clients = real product_truth (producer picks listed real products → step1 confirms). The loose matcher needs a careful redesign (could break the 3 clients) — do NOT rush it."
   }
  ],
  "counts": {

@@ -147,7 +147,12 @@ def product_is_real(handle: str, product: str, base_dir=None):
     # 2) the brand's REAL instagram captions (what they actually posted about)
     raws = sorted(glob.glob(str(b / f"clients/{handle}/raw/instagram/*/posts.jsonl")))
     if not raws:
-        return True, "no IG corpus — allow (cannot disprove)"
+        # June 29 (DeepSeek consult, 3-chairs): FAIL-CLOSED, not fail-open. The old "allow — cannot disprove"
+        # let a client with NO product_truth + NO IG corpus (a scenario/half-onboarded brand) pass ANY product =
+        # hallucinated FAL spend (the very thing GATE0 guards, Rule #12). Anti-hallucination requires POSITIVE
+        # confirmation: a product is real only if it's in the brand's confirmed profile OR real captions. No
+        # evidence → refuse (Rule #8). The 3 real clients confirm via product_truth, so they're unaffected.
+        return False, "no IG corpus + product not in confirmed profile — cannot confirm it's real, refusing (Rule #12)"
     corpus = " ".join(_j.loads(l).get("caption", "") for l in open(raws[-1]) if l.strip())
     if p in corpus:
         return True, "exact product phrase in real captions"

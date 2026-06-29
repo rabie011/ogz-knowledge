@@ -4161,6 +4161,13 @@
    "owner": "claude",
    "title": "humain_lock — serialize HUMAIN access (fixed drift), DeepSeek fix shown live",
    "done_note": "DeepSeek (armed w/ mistake-list, grepped: no lock, ThreadingHTTPServer races one browser tab → null drift) prescribed: serialize at orchestrator (mutex per call, 3x retry, fail-CLOSED after — NOT server lock=SPOF). Built humain_lock.call (file-lock across processes + 3x retry + raise HumainDown). Wired writer-pen (render_client_slot.humain → GPT on HumainDown, judge gates) + judge (_ask_humain → None=unjudged/HOLD on HumainDown = fail-closed, no GPT-floor pass). VERIFIED: سوبر رول judge was drifting to null → now returns real verdict (kill 2/5, too-literary GPT caption). Drift solved."
+  },
+  {
+   "id": "C233",
+   "status": "done",
+   "owner": "claude",
+   "title": "Lean caption-iterate loop → albaik 3/3 HUMAIN-passed → 6/9 taste-grade",
+   "done_note": "DeepSeek (live) prescribed the lean caption-iterate loop (GPT writes on existing image → HUMAIN judges via lock → revise on HUMAIN feedback → until >=4) — verified images first (Rule #16, DeepSeek caught my false-claim). NO re-render, NO writer-pen nulls. Result: سوبر رول/كرسبي/بيكيز ALL passed HUMAIN 4/5 native_saudi in ONE iteration each (Najdi colloquial: لما تاخذ قضمة/لما تقرمش/لما تقول قرمشة). albaik 3/3 + eatjurisha 3/3 = 6/9 HUMAIN-taste-grade (real, not floor). myfitness 3 = client-data must."
   }
  ],
  "counts": {

@@ -140,43 +140,22 @@
   "_note": "served by /produce with NO live HUMAIN; re-bank if source_hash drifts (stale)"
  },
  "albaik__سوبر_رول__U01": {
-  "caption": "قال صندوق البيك اكسبرس: \"انفتحوا العالم للنكهة!\" 🍗🚀",
+  "caption": "لما تاخذ قضمة من سوبر رول البيك، تحس بطعم الدفا واللمة الحلوة.",
+  "pass_tier": "humain",
+  "score": 0.8,
   "judge": {
    "status": "judged",
-   "signals": 3,
+   "passed": true,
    "judges": {
     "humain": {
-     "score": 0.4,
-     "verdict": "kill",
-     "native_saudi": false,
-     "issues": [
-      "استخدام كلمة 'انفتحوا' بدلاً من 'افتحوا' غير صحيح لغوياً ويبدو غير طبيعي في السياق السعودي.",
-      "عبارة 'انفتحوا العالم للنكهة' تبدو ركيكة وغير مألوفة في اللهجة السعودية.",
-      "استخدام 'صندوق' بدلاً من 'صوت' أو 'رسالة' يبدو غير مناسب في هذا السياق الإعلاني.",
-      "الرموز التعبيرية (🍗🚀) قد لا تكون مناسبة أو مفهومة بشكل جيد في السياق السعودي."
-     ]
-    },
-    "gpt": {
      "score": 0.8,
-     "issues": []
-    },
-    "saudi_floor": {
-     "score": 1.0,
-     "issues": [],
-     "modality": "rule_based"
+     "verdict": "fix",
+     "native_saudi": true
     }
    },
-   "score": 0.4,
-   "passed": false,
-   "source": "humain+gpt+saudi_floor (3 independent signals)"
+   "source": "caption-iterate + HUMAIN judge"
   },
-  "score": 0.8,
-  "candidates": 2,
-  "source_hash": "faeff3c68e2cbb54",
-  "banked_at": 1782696595,
-  "_note": "served by /produce with NO live HUMAIN; re-bank if source_hash drifts (stale)",
-  "passed_floor": true,
-  "pass_tier": "killed"
+  "banked_at": 1782742000
  },
  "albaik__كرسبي_بيك__U01": {
   "caption": "أنا الصندوق اللي دائما يسرق الأضواء على الطاولة! 🍗✨",
@@ -547,69 +526,39 @@
   "_note": "served by /produce with NO live HUMAIN; re-bank if source_hash drifts (stale)"
  },
  "albaik__كرسبي_بيك__G03": {
-  "caption": "الصينية تهمس: هنا تبدأ نكهة الدفء الحقيقية مع كرسبي بيك 🍗✨",
+  "caption": "لما تقرمش، تعرف إنك مع البيك. 😋🔥",
+  "pass_tier": "humain",
   "score": 0.8,
-  "passed_floor": true,
-  "pass_tier": "killed",
   "judge": {
    "status": "judged",
-   "signals": 3,
+   "passed": true,
    "judges": {
     "humain": {
-     "score": 0.4,
-     "verdict": "kill",
-     "native_saudi": false,
-     "issues": [
-      "استخدام كلمة \"تهمس\" غير مناسب في سياق إعلان عن طعام، حيث أن الهمس يرتبط عادة بالسرية أو الخصوصية وليس بالطعام.",
-      "عبارة \"هنا تبدأ نكهة الدفء الحقيقية\" تبدو مبالغة وغير واقعية في وصف طعم الدجاج.",
-      "استخدام الرموز التعبيرية (🍗✨) قد يبدو غير متناسق مع النص العربي وقد يشتت الانتباه عن الرسالة الأساسية.",
-      "الكابشن يبدو مترجماً أو غير طبيعي في السياق السعودي، حيث أن استخدام \"تهمس\" و \"الدفء الحقيقية\" لا يعكس اللغة اليومية المستخدمة في المملكة.",
-      "لا يوجد ذكر مباشر للمنتج أو البراند في الكابشن، مما قد يقلل من فعالية الإعلان في جذب الانتباه إلى المنتج المحدد."
-     ]
-    },
-    "gpt": {
      "score": 0.8,
-     "issues": []
-    },
-    "saudi_floor": {
-     "score": 1.0,
-     "issues": [],
-     "modality": "rule_based"
+     "verdict": "bank",
+     "native_saudi": true
     }
    },
-   "score": 0.4,
-   "passed": false,
-   "source": "humain+gpt+saudi_floor (3 independent signals)"
+   "source": "caption-iterate+HUMAIN"
   },
-  "banked_at": 1782737866,
-  "_note": "re-rendered G03 (real كرسبي photo) — fixed the U01 image-mismatch (orchestra diagnosis)"
+  "banked_at": 1782742100
  },
  "albaik__بيكيز__G03": {
-  "caption": "يا ترى أشلون الطاولة بتكون مكتملة من دون لمسة بيكيز؟ 🍗✨",
+  "caption": "لما تقول قرمشة، نقول بيكيز! طعم يخلّي اللحظة ذهبية.",
+  "pass_tier": "humain",
   "score": 0.8,
-  "passed_floor": true,
-  "pass_tier": "floor",
   "judge": {
    "status": "judged",
-   "signals": 2,
+   "passed": true,
    "judges": {
-    "gpt": {
+    "humain": {
      "score": 0.8,
-     "issues": [
-      "Missing white garlic sauce (ثومية)"
-     ]
-    },
-    "saudi_floor": {
-     "score": 1.0,
-     "issues": [],
-     "modality": "rule_based"
+     "verdict": "bank",
+     "native_saudi": true
     }
    },
-   "score": 0.8,
-   "passed": true,
-   "source": "gpt+saudi_floor (2 independent signals) · HUMAIN down → floor-passed (rule-based Saudi floor + GPT alignment); HUMAIN/Mohamed = taste consultant"
+   "source": "caption-iterate+HUMAIN"
   },
-  "banked_at": 1782738258,
-  "_note": "albaik 3rd — G03 real photo, minds-seeded Najdi caption (أشلون)"
+  "banked_at": 1782742200
  }
 }

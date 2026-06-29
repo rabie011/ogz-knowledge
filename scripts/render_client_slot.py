@@ -478,13 +478,26 @@ def humain(system, user, timeout_s=180):
     Raises on any failure so the caller's try/except falls back to GPT-only (Rule: never stuck)."""
     prompt = (system + "\n\n" + user +
               '\n\nأرجع فقط كائن JSON بالشكل: {"options": ["...", "...", "..."]} بدون أي شرح.')
-    body = json.dumps({"prompt": prompt, "timeout_s": timeout_s}).encode()
-    rq = urllib.request.Request(f"{HUMAIN_SVC}/caption", data=body,
-                                headers={"Content-Type": "application/json"})
-    out = json.loads(urllib.request.urlopen(rq, timeout=timeout_s + 30).read())
-    reply = out.get("reply")
+
+    def _call():
+        body = json.dumps({"prompt": prompt, "timeout_s": timeout_s}).encode()
+        rq = urllib.request.Request(f"{HUMAIN_SVC}/caption", data=body,
+                                    headers={"Content-Type": "application/json"})
+        return json.loads(urllib.request.urlopen(rq, timeout=timeout_s + 30).read()).get("reply")
+
+    reply = _call()
     if not reply:
-        raise RuntimeError("humain returned no reply (not logged in / timeout)")
+        # C212h2: the pen DRIFTS under batch load (survives 1 call, returns null on the next). Self-heal
+        # INLINE — restart the service for a fresh chat page + retry ONCE — instead of silently falling to
+        # GPT-MSA mid-batch (the 30-min watchdog only covers sustained death, not mid-batch drift).
+        try:
+            import humain_watchdog as hw
+            hw._restart()
+            reply = _call()
+        except Exception:
+            pass
+    if not reply:
+        raise RuntimeError("humain returned no reply (restarted + retried)")
     return reply
 
 

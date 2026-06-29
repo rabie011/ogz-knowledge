@@ -59,6 +59,17 @@ def gates(go, allow_unconfirmed, ref, handle=None, product=None):
                 reasons.append(f"GATE0 product '{product}' not in {handle}'s real data ({_ev}) — hallucinated; refusing FAL spend")
         except Exception:
             pass  # a guard failure must not block a legit render; the other gates still apply
+    # GATE0b (June 29 scar) — NON-BYPASSABLE. The sample's reference_image can be a GENERIC brand fallback
+    # even when NO clean PRODUCT photo exists (pick_reference → None), producing a wrong-product render that
+    # the cosmetic "GAP REFUSE" print did NOT actually stop. Honor the gap-refuse as a real gate: no clean
+    # product reference → refuse (even --allow-unconfirmed must not escape a no-photo product → wrong render).
+    if handle and product:
+        try:
+            from openclaw_convert import pick_reference
+            if pick_reference(handle, product, "") is None:
+                reasons.append(f"GATE0b no clean reference photo for '{product}' in {handle} — sample's generic fallback would render the WRONG product; refusing FAL spend")
+        except Exception:
+            pass
     if r.get("no_fal_photos"):
         reasons.append("GATE1 no_fal_photos=true — Mohamed's ruling; flip it in rulings_live on his tap")
     if not (env("FAL_KEY") or env("FAL_API_KEY")):

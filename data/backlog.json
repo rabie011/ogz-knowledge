@@ -4042,6 +4042,13 @@
    "owner": "claude",
    "title": "Anti-hallucination PRODUCT-TRUTH gate (one boundary, all render doors)",
    "done_note": "June29 تشكن بيك scar: the LLM product-picker invented an albaik product (0 in real IG, not in product_truth.json); the cron rendered it via --allow-unconfirmed ($0.06 waste). FIX: truth_guards.product_is_real (shared single source) + render_openclaw GATE0 (NON-bypassable, guards cron door) + produce_complete_post delegates. Tested: تشكن بيك refused even w/ --allow-unconfirmed; فيليه/سوبر رول/كرسبي/دجاج pass. Money leak plugged."
+  },
+  {
+   "id": "C218h2",
+   "status": "done",
+   "owner": "claude",
+   "title": "GATE0b — make the photo gap-refuse a REAL gate (stop wrong-product renders + false-complete)",
+   "done_note": "June29: pick_reference returned None (GAP REFUSE printed) but render_openclaw:212 read ref from the SAMPLE which carried a GENERIC brand fallback (C7jthkloMRo.jpg) → rendered the WRONG product anyway ($0.03 each: تشكن بيك + فيليه) and produce_complete_post falsely reported complete:true. FIX: GATE0b (non-bypassable) refuses when pick_reference→None. Tested: فيليه/تشكن بيك blocked w/ zero spend + honest render_ok:false; eatjurisha جريش still matches its real photo + renders. TRUTH: albaik has NO product photos → its 3rd post needs the FREE-ASSET path (not fal-render)."
   }
  ],
  "counts": {

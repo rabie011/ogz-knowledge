@@ -3,8 +3,16 @@
   "caption": "يا صحن الجريش، لما يحطونك على السفرة، حتى الجدران تبتسم 🌟",
   "judge": {
    "status": "judged",
-   "signals": 2,
+   "signals": 3,
    "judges": {
+    "humain": {
+     "score": 0.8,
+     "verdict": "bank",
+     "native_saudi": true,
+     "issues": [
+      "المبالغة في استخدام تعبير 'حتى الجدران تبتسم' قد يكون غير واقعي بعض الشيء."
+     ]
+    },
     "gpt": {
      "score": 1.0,
      "issues": []
@@ -15,9 +23,9 @@
      "modality": "rule_based"
     }
    },
-   "score": 1.0,
+   "score": 0.8,
    "passed": true,
-   "source": "gpt+saudi_floor (2 independent signals) · HUMAIN down → floor-passed (rule-based Saudi floor + GPT alignment); HUMAIN/Mohamed = taste consultant"
+   "source": "humain+gpt+saudi_floor (3 independent signals)"
   },
   "score": 1.0,
   "candidates": 2,
@@ -25,7 +33,7 @@
   "banked_at": 1782696447,
   "_note": "served by /produce with NO live HUMAIN; re-bank if source_hash drifts (stale)",
   "passed_floor": true,
-  "pass_tier": "floor"
+  "pass_tier": "humain"
  },
  "albaik__بيكيز__R05": {
   "caption": "تلك الرائحة الذهبية الشهية من البيكيز، كأنها تقول لك: اقترب أكثر! 🌟🍟",
@@ -135,13 +143,22 @@
   "caption": "قال صندوق البيك اكسبرس: \"انفتحوا العالم للنكهة!\" 🍗🚀",
   "judge": {
    "status": "judged",
-   "signals": 2,
+   "signals": 3,
    "judges": {
+    "humain": {
+     "score": 0.4,
+     "verdict": "kill",
+     "native_saudi": false,
+     "issues": [
+      "استخدام كلمة 'انفتحوا' بدلاً من 'افتحوا' غير صحيح لغوياً ويبدو غير طبيعي في السياق السعودي.",
+      "عبارة 'انفتحوا العالم للنكهة' تبدو ركيكة وغير مألوفة في اللهجة السعودية.",
+      "استخدام 'صندوق' بدلاً من 'صوت' أو 'رسالة' يبدو غير مناسب في هذا السياق الإعلاني.",
+      "الرموز التعبيرية (🍗🚀) قد لا تكون مناسبة أو مفهومة بشكل جيد في السياق السعودي."
+     ]
+    },
     "gpt": {
      "score": 0.8,
-     "issues": [
-      "Caption does not directly mention سوبر_رول."
-     ]
+     "issues": []
     },
     "saudi_floor": {
      "score": 1.0,
@@ -149,9 +166,9 @@
      "modality": "rule_based"
     }
    },
-   "score": 0.8,
-   "passed": true,
-   "source": "gpt+saudi_floor (2 independent signals) · HUMAIN down → floor-passed (rule-based Saudi floor + GPT alignment); HUMAIN/Mohamed = taste consultant"
+   "score": 0.4,
+   "passed": false,
+   "source": "humain+gpt+saudi_floor (3 independent signals)"
   },
   "score": 0.8,
   "candidates": 2,
@@ -159,7 +176,7 @@
   "banked_at": 1782696595,
   "_note": "served by /produce with NO live HUMAIN; re-bank if source_hash drifts (stale)",
   "passed_floor": true,
-  "pass_tier": "floor"
+  "pass_tier": "killed"
  },
  "albaik__كرسبي_بيك__U01": {
   "caption": "أنا الصندوق اللي دائما يسرق الأضواء على الطاولة! 🍗✨",
@@ -286,12 +303,22 @@
   "caption": "النكهة تعلن وصولها، بخار جريشنا يملأ المكان. تخيل الدفء!",
   "judge": {
    "status": "judged",
-   "signals": 2,
+   "signals": 3,
    "judges": {
+    "humain": {
+     "score": 0.8,
+     "verdict": "fix",
+     "native_saudi": true,
+     "issues": [
+      "استخدام كلمة 'النكهة تعلن وصولها' قد يكون مبالغًا فيه قليلاً، حيث أن النكهة لا تعلن وصولها بشكل حرفي.",
+      "عبارة 'بخار جريشنا يملأ المكان' قد تكون غير دقيقة لأن الجريش ليس من الأطعمة التي تنتج بخارًا بشكل واضح.",
+      "النص قد يكون بحاجة إلى تبسيط أكثر ليكون أكثر وضوحًا وسهولة في الفهم."
+     ]
+    },
     "gpt": {
      "score": 0.8,
      "issues": [
-      "Packaging is plain and lacks brand identity."
+      "Packaging lacks visible branding elements."
      ]
     },
     "saudi_floor": {
@@ -302,7 +329,7 @@
    },
    "score": 0.8,
    "passed": true,
-   "source": "gpt+saudi_floor (2 independent signals) · HUMAIN down → floor-passed (rule-based Saudi floor + GPT alignment); HUMAIN/Mohamed = taste consultant"
+   "source": "humain+gpt+saudi_floor (3 independent signals)"
   },
   "score": 0.8,
   "candidates": 2,
@@ -310,7 +337,7 @@
   "banked_at": 1782696542,
   "_note": "served by /produce with NO live HUMAIN; re-bank if source_hash drifts (stale)",
   "passed_floor": true,
-  "pass_tier": "floor"
+  "pass_tier": "humain"
  },
  "eatjurisha__رز_كابلي__R05": {
   "caption": "فتح عينه على طبق رز كابلي نظيف أمامه، جاهز لمغامرة جديدة. طعم اليوم في انتظارك. 🍛",
@@ -528,20 +555,36 @@
   "caption": "الصينية تهمس: هنا تبدأ نكهة الدفء الحقيقية مع كرسبي بيك 🍗✨",
   "score": 0.8,
   "passed_floor": true,
-  "pass_tier": "floor",
+  "pass_tier": "killed",
   "judge": {
    "status": "judged",
-   "signals": 2,
-   "passed": true,
+   "signals": 3,
    "judges": {
+    "humain": {
+     "score": 0.4,
+     "verdict": "kill",
+     "native_saudi": false,
+     "issues": [
+      "استخدام كلمة \"تهمس\" غير مناسب في سياق إعلان عن طعام، حيث أن الهمس يرتبط عادة بالسرية أو الخصوصية وليس بالطعام.",
+      "عبارة \"هنا تبدأ نكهة الدفء الحقيقية\" تبدو مبالغة وغير واقعية في وصف طعم الدجاج.",
+      "استخدام الرموز التعبيرية (🍗✨) قد يبدو غير متناسق مع النص العربي وقد يشتت الانتباه عن الرسالة الأساسية.",
+      "الكابشن يبدو مترجماً أو غير طبيعي في السياق السعودي، حيث أن استخدام \"تهمس\" و \"الدفء الحقيقية\" لا يعكس اللغة اليومية المستخدمة في المملكة.",
+      "لا يوجد ذكر مباشر للمنتج أو البراند في الكابشن، مما قد يقلل من فعالية الإعلان في جذب الانتباه إلى المنتج المحدد."
+     ]
+    },
     "gpt": {
-     "score": 0.8
+     "score": 0.8,
+     "issues": []
     },
     "saudi_floor": {
-     "score": 1.0
+     "score": 1.0,
+     "issues": [],
+     "modality": "rule_based"
     }
    },
-   "source": "GPT-alignment+saudi-floor (HUMAIN-optional)"
+   "score": 0.4,
+   "passed": false,
+   "source": "humain+gpt+saudi_floor (3 independent signals)"
   },
   "banked_at": 1782737866,
   "_note": "re-rendered G03 (real كرسبي photo) — fixed the U01 image-mismatch (orchestra diagnosis)"

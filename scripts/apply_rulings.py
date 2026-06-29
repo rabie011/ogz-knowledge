@@ -671,7 +671,10 @@ def h_post_review(b: Path, row: dict) -> str:
             gf = b / f"clients/{handle}/profile/gold.json"
             g = json.loads(gf.read_text()) if gf.exists() else {"gold": [], "dropped": []}
             if not any(e.get("key") == bankkey for e in g.get("gold", [])):
-                g.setdefault("gold", []).append({"key": bankkey, "caption": entry.get("caption"),
+                g.setdefault("gold", []).append({"key": bankkey, "line": entry.get("caption"),  # June30 fix
+                                                 "caption": entry.get("caption"),  # write BOTH keys: render reads
+                                                 # g['line'] (gold_mint shape); writing only 'caption' KeyError'd the
+                                                 # next render = Mohamed's approval gold was severed (full-checkup #2).
                                                  "source": f"mohamed_approve {ts}", "product": product})
                 gf.parent.mkdir(parents=True, exist_ok=True)
                 gf.write_text(json.dumps(g, ensure_ascii=False, indent=1))

@@ -550,8 +550,10 @@ def load_client(handle: str) -> dict:
     gf = cdir / "profile/gold.json"
     if gf.exists():
         gold_entries = [g for g in json.loads(gf.read_text()).get("gold", [])
-                        if not _teaches_banned(g.get("line", ""))]
-        gold_lines = [g["line"] for g in gold_entries]
+                        if not _teaches_banned(g.get("line") or g.get("caption") or "")]
+        # June30 (full-checkup #2): read g['line'] OR g['caption'] — a gold entry seeded by Mohamed's portal
+        # approve had only 'caption' (no 'line') and the old hard g['line'] KeyError'd the whole render. Defensive.
+        gold_lines = [ln for g in gold_entries if (ln := (g.get("line") or g.get("caption")))]
         if gold_lines:
             exemplars = gold_lines[:3] + [e for e in exemplars if e not in gold_lines][:2]
     # final sweep across ALL sources — formula-teaching lines never reach the pen

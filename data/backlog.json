@@ -4063,6 +4063,13 @@
    "owner": "claude",
    "title": "FIX: post-approval cards were INVISIBLE (info bucket collapsed) — now visible",
    "done_note": "June29: the 8 approval cards I shipped (C219p) bucketed as info (no buttons/options field — the Approve comes from judge_lane render) → COLLAPSED behind view-all (Rule #10 flood-guard) → Mohamed never saw them → ~11 holds with no movement. FIX: stamp action_type=decision in build_card + re-bucketed the 8 live cards. Verified all 8 now bucket decision (visible). This is why path-1 (his approval) appeared stuck — the cards were hidden. Self-verify-what-you-ship lesson."
+  },
+  {
+   "id": "C220g",
+   "status": "done",
+   "owner": "claude",
+   "title": "HUMAIN-optional pass gate (Mohamed ruling: HUMAIN=Arabic consultant only)",
+   "done_note": "June29 Mohamed: pass the captions; if HUMAIN down use it as Arabic consultant only. Consulted RABIE+DeepSeek; REJECTED my GPT+DeepSeek idea (DeepSeek: 2 LLMs=same axis=cheat). Built DeepSeek-recommended design: signal A=GPT alignment (LLM), signal B=caption_filter rule-based Saudi floor (MODALITY-different) → 2 independent kinds, honors Rule #13 intent without HUMAIN. TRANSPARENT: floor pass != HUMAIN-taste (signal B is a floor, passes all filter-clean — labeled pass_tier=floor). Re-judged 5: 4 floor-pass (eatjurisha x3 + albaik سوبر_رول), albaik كرسبي fails (GPT 0.6). Mission 0/9→4/9 floor-passed. HUMAIN-when-up + Mohamed portal = authoritative upgrade."
   }
  ],
  "counts": {

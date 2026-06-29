@@ -161,8 +161,22 @@ def rejudge(image_path, handle, product, caption, occasion="everyday"):
     except Exception as e:
         sys.stderr.write(f"gpt caption judge error: {type(e).__name__}: {str(e)[:70]}\n")
 
+    # 3. SAUDI-FLOOR — rule-based, MODALITY-DIFFERENT from the LLM judges (DeepSeek's Rule #13 design,
+    # June 29: 'make the 2nd signal modality-different, not another LLM'). cliche/non-Saudi-dialect/
+    # cultural/worn floor. Lets a floor-clean + GPT-aligned caption PASS without HUMAIN — Mohamed's ruling
+    # 'we pass the captions; if HUMAIN is down we use it as Arabic CONSULTANT only'. This is a FLOOR, not a
+    # taste-ceiling: HUMAIN (when up, the authoritative Arabic signal + advisory) and Mohamed's portal
+    # verdict remain the quality consultant. So GPT(alignment) + saudi_floor(rule-based Arabic) = 2
+    # independent MODALITIES (honors Rule #13's intent: not a single KIND of judgment).
+    try:
+        import caption_filter as cf
+        ok, reasons = cf.check(caption)
+        judges["saudi_floor"] = {"score": 1.0 if ok else 0.0, "issues": reasons, "modality": "rule_based"}
+    except Exception as e:
+        sys.stderr.write(f"saudi_floor judge error: {type(e).__name__}: {str(e)[:70]}\n")
+
     if not judges:
-        return {"status": "pending", "reason": "both caption judges unavailable (HUMAIN down + GPT error)"}
+        return {"status": "pending", "reason": "all caption judges unavailable (HUMAIN down + GPT error + filter error)"}
 
     def _good(name, j):
         if name == "humain":
@@ -171,9 +185,11 @@ def rejudge(image_path, handle, product, caption, occasion="everyday"):
     scores = [j["score"] for j in judges.values() if j.get("score") is not None]
     signals = len(judges)
     all_good = all(_good(n, j) for n, j in judges.items())
-    src = ("HUMAIN (ALLaM, authoritative) + GPT-4o cross-check" if signals >= 2
-           else ("HUMAIN (ALLaM) — needs GPT cross-check to auto-approve" if "humain" in judges
-                 else "GPT-4o only — needs HUMAIN/2nd signal to auto-approve"))
+    names = list(judges.keys())
+    src = (f"{'+'.join(names)} ({signals} independent signals)" if signals >= 2
+           else f"{names[0] if names else 'no'} only — needs a 2nd independent signal to auto-approve")
+    if "humain" not in judges and signals >= 2:
+        src += " · HUMAIN down → floor-passed (rule-based Saudi floor + GPT alignment); HUMAIN/Mohamed = taste consultant"
     return {"status": "judged", "signals": signals, "judges": judges,
             "score": round(min(scores), 2) if scores else None,        # conservative (weakest signal)
             "passed": signals >= 2 and all_good,                       # agreement of ≥2 judges

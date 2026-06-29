@@ -4203,6 +4203,13 @@
    "owner": "claude",
    "title": "Wire BRAND VOICE into the minds angle prompt (3-chairs fix, Rule #20)",
    "done_note": "Mohamed: make sure the minds read EVERYTHING about the brand; consult DeepSeek on the wiring. 3-CHAIRS consult (Rule #20): DeepSeek grepped angle_prompt + verified the minds generated angles in a VOICE VACUUM — brand voice exemplars (c[exemplars]) reached only the caption stage, never the angle (severed wire Rule #6). RABIE agreed #1 fix. Built (corrected DeepSeek code: c[exemplars] plain strings not voice_exemplars dicts): angle_prompt now injects voice_rule so all 5 CD brains read the brand voice. Verified in-prompt. STILL MISSING (next 3-chairs items DeepSeek flagged): audience(age/price), brand fingerprint/DNA, full red_lines/kill_patterns in the angle."
+  },
+  {
+   "id": "C239",
+   "status": "done",
+   "owner": "claude",
+   "title": "Proactive HUMAIN page-recycle (3-chairs fix for the drift null-window)",
+   "done_note": "ROOT (grepped, 3-chairs Rule #20): the Playwright page drifts after ~15-20 calls (/health logged_in:true but scrape null) OR the service dies; humain_watchdog self-heals but only ~every 30min (launchd) → an active judging BURST sits in a null-window up to 30min (posts 5,6,8). Panel SPLIT then CONVERGED on (b): DeepSeek argued it, RABIE accepted. Rejected (a) inline-restart-on-fail = C231 SPOF, (c) faster-watchdog = probe walks the drift path. DeepSeek correction caught: ABSENCE-WITHOUT-AUDIT → grepped, no existing counter. BUILT in humain_lock: COUNT file + _maybe_recycle() (≥12 successes → background pkill+relaunch+bounded≤60s /caption probe, OUTSIDE the lock, reset-first) + _bump() on success. TESTED LIVE: service was DOWN → recycle relaunched it → HUMAIN replies real Najdi again. Self-heals in seconds now, not 30min."
   }
  ],
  "counts": {

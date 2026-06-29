@@ -871,6 +871,16 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     for ex in c["exemplars"][:3]:
         few += [{"role": "user", "content": "اكتب بصوت البراند"}, {"role": "assistant", "content": ex}]
     user = f"الفكرة (الزاوية): {angle['scene_ar']}\nالسياق: {slot.get('occasion') or slot.get('angle_theme','')} في {slot['date']}\nاكتب 3 خيارات."
+    # WIRE THE MINDS (June 29 wiring-audit fix — Rule #6 consumer law). The CD panel computes rival angles
+    # from the OTHER brains (angle['panel_alts']) but they were computed-then-DROPPED: the pen saw ONLY the
+    # lead brain's scene. Inject them so the caption is SEEDED BY ALL THE MINDS (the documented intent at
+    # cd_panel.py:12), not one. Each option can now draw a different mind's lens.
+    _alts = angle.get("panel_alts") or []
+    _alt_lines = "\n".join(f"  • [{a.get('brain','?')}] {(a.get('scene_ar') or '')[:140]}"
+                           for a in _alts[:4] if a.get("scene_ar"))
+    if _alt_lines:
+        user += ("\n\nزوايا أخرى اقترحتها العقول الإبداعية — استلهم منها لإثراء الخيارات الثلاثة "
+                 f"(لا تكررها حرفياً):\n{_alt_lines}")
     # DOORS — structural variety so the 3 options can't collapse into ONE shape (June 14
     # root-hunt: the #1 repetition driver was one formula echoed 3×). Each option enters
     # the scene through a DIFFERENT door. Moved onto the LIVE pen (gpt): the 2nd pen

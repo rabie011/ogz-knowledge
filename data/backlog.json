@@ -4077,6 +4077,13 @@
    "owner": "claude",
    "title": "Wire pre_ship_gate into the dev-facing /produce path (cultural gate was severed)",
    "done_note": "June29 wiring-audit (7-agent workflow) found export_produce_post.build() — the /produce serve path the devs call — ran ONLY kill_ban_check (soft); it NEVER ran the HARD cultural/royal/family/cloud-kitchen gate (pre_ship_gate). So /produce could serve culturally-unsafe captions. FIX: wired pre_ship_gate.verdict_of into build() (graceful refuse, not assert_shippable which SystemExits). Tested: royal→KILL block, dine-in/cloud-kitchen→KILL block, clean→ships. Rule #6 (consumer) + Rule #8 (refuse). The most dangerous severed wire the audit found."
+  },
+  {
+   "id": "C222m",
+   "status": "done",
+   "owner": "claude",
+   "title": "WIRE THE MINDS — inject panel_alts (rival brain angles) into the caption prompt",
+   "done_note": "June29 wiring-audit: the CD panel computes rival angles from the 5 brains (panel_alts) but render_captions used ONLY the lead brain scene_ar — the other minds were computed-then-DROPPED (Rule #6 severed wire; the documented intent at cd_panel.py:12 was never implemented). FIX: render_client_slot.py user-prompt now injects up to 4 rival mind angles (brain+scene_ar) so the caption is SEEDED BY ALL THE MINDS. Tested: 3 rival minds inject. This is Mohamed June29 \"wire the minds\"."
   }
  ],
  "counts": {

@@ -671,6 +671,13 @@ def angle_prompt(c: dict, slot: dict, sector: str, brain: str | None = None) -> 
             strat_rule = ("\nCEO STRATEGY (produce inside this): positioning «" + (_s.get("positioning") or "")[:80]
                           + "»; everyday pillars " + json.dumps(_pil, ensure_ascii=False)
                           + ("; pursue an angle like: " + json.dumps(_ang, ensure_ascii=False)[:400] if _ang else "") + ".")
+    # BRAND VOICE (June 29, 3-chairs fix — DeepSeek grepped + RABIE agreed, Rule #20): the minds were
+    # architecting angles in a VOICE VACUUM — the brand's own voice exemplars exist in load_client
+    # (c["exemplars"], plain caption strings) but reached only the CAPTION stage, never the angle (severed
+    # wire, Rule #6). Inject them so the angle is SPEAKABLE in the brand's real voice, not retrofitted later.
+    _voice = [str(v) for v in (c.get("exemplars") or []) if v][:3]
+    voice_rule = ("\nBRAND VOICE (the angle must be speakable in THIS voice — match its tone/register; do NOT "
+                  "propose an idea the brand can't say): " + json.dumps([v[:160] for v in _voice], ensure_ascii=False)[:520]) if _voice else ""
     facts = json.loads((BASE / "data/occasion_facts.json").read_text())
     occ = slot.get("occasion", "")
     key = {"saudi_national_day": "saudi_national_day"}.get(occ, occ)
@@ -700,7 +707,7 @@ def angle_prompt(c: dict, slot: dict, sector: str, brain: str | None = None) -> 
              "An angle is a CONCRETE SCENE: WHO (specific person/role) + WHEN (specific beat) + WHAT (specific gesture) "
              "+ where the product sits naturally inside that exact moment. BANNED: brand-as-bridge/symbol/soul metaphors, "
              "abstract culture/heritage sentences, anything a TV voiceover could say. "
-             + occ_rule + organ_rule + strat_rule + method +
+             + occ_rule + organ_rule + strat_rule + voice_rule + method +
              'Return JSON: {"scene_ar": "...", "why_it_lands": "...", "post_type": "moment|announcement|offer|greeting"}')
     user = (f"البراند: {c['brand_ar']} (bio: {c['bio'][:150]})\n"
             f"المنتجات الحقيقية: {products[:8]}\nالقنوات: {channels or 'غير معروفة — لا تخترع قناة'}\n"

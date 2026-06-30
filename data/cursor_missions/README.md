@@ -1,49 +1,49 @@
-# Cursor Missions — file bus (Orchestra ↔ Claude Code LIVE)
+# Cursor Missions — file bus
 
-**Cursor** = orchestra (plan + queue). **Claude Code** = sole executor (live session you watch).
+**Cursor** = plan + queue (mobile + Mac). **Shell executor** = `commands` missions. **Claude Code live** = `agent` missions only.
 
-## Watch Claude work
-
-1. **Claude Code app** → `/resume` → session **OGZ Executor**
-2. **iTerm/Terminal** — orchestra opens a tab when missions are pending
-3. **Status board** — `LIVE_STATUS.md` (this folder)
+See [docs/MOBILE_CONTROL.md](../../docs/MOBILE_CONTROL.md) · [docs/DAEMON_PARK.md](../../docs/DAEMON_PARK.md)
 
 ## Layout
 
 ```
 pending/     ← Cursor drops mission JSON here
-running/     ← Claude moves mission while executing
+running/     ← executor moves mission while executing
 done/        ← results + .log files
-.wake_claude ← Cursor touches this to request a live session
+.paused      ← touch to stop auto-queuing (say stop / لخ)
+.wake_claude ← agent missions need live Claude Code session
 ```
 
-## Claude Code standing orders
+## Mission types
 
-Read `CLAUDE_CODE_STANDING.md` on every session start.
+| type | Who runs |
+|------|----------|
+| `commands` | Shell executor (`claude_code_claim_executor.py` — historical name) |
+| `agent` | Claude Code **live** — flagged, not shell-run |
+| `brain-readiness` | Shell via executor |
+
+## Drain queue (Mac)
 
 ```bash
-python3 scripts/claude_code_claim_executor.py claim
-python3 scripts/claude_code_claim_executor.py run-next   # repeat until empty
-python3 scripts/claude_code_claim_executor.py release
+python3 scripts/claude_code_claim_executor.py drain
 ```
 
-## Orchestra daemon (does NOT execute missions)
+Or load `com.ogz.executor` LaunchAgent — drains in background.
 
-| Daemon | Interval | What |
-|---|---|---|
-| `com.ogz.orchestra` | 5 min | Brain heartbeat, queue health missions, **wake Claude live** |
-| `com.ogz.brain-api` | KeepAlive | brain_api :4140 |
+## Mode A (default) — parked
 
-Install orchestra (replaces old cursor-missions consumer):
+- `com.ogz.orchestra` — **parked** (Cursor replaces)
+- `com.ogz.consult-shift` — **parked**
+- `com.ogz.memory-keeper` — **parked**
+
+**Keep:** `com.ogz.brain-api` · `com.ogz.mac-sync` · optional `com.ogz.executor`
+
+## Pause without unloading
 
 ```bash
-launchctl unload ~/Library/LaunchAgents/com.ogz.cursor-missions.plist 2>/dev/null
-cp deploy/launchagents/com.ogz.orchestra.plist ~/Library/LaunchAgents/
-launchctl load ~/Library/LaunchAgents/com.ogz.orchestra.plist
+touch data/cursor_missions/.paused
 ```
 
-## Shell consumer — DISABLED
+## Status on phone
 
-`cursor_mission_consumer.py` is blocked. Claude Code only.
-
-Emergency: `ALLOW_SHELL_CONSUMER=1 python3 scripts/cursor_mission_consumer.py --once`
+Ask **status** in Cursor → `data/unified_status.txt` (Mac pushes via `mac_sync`).

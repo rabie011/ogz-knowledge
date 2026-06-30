@@ -64,10 +64,25 @@ If push fails → set up SSH key for GitHub on the Mac.
 
 ---
 
+## After onboard — confirm (one command)
+
+Do **not** paste numbered comment lines like `# 5) Confirm` into zsh — the `)` can cause `parse error near ')'`.
+
+```bash
+cd ~/Desktop/ogz-knowledge
+git pull
+chmod +x scripts/mac_confirm.sh
+./scripts/mac_confirm.sh
+```
+
+---
+
 ## Troubleshooting
 
 | Problem | Fix |
 |---------|-----|
+| `zsh: parse error near ')'` | You pasted a markdown comment/numbered step. Run `./scripts/mac_confirm.sh` instead |
+| git pull/push fails | Run `./scripts/mac_confirm.sh` (stashes status files, checks out cloud branch) |
 | BRAIN DOWN | `launchctl load ~/Library/LaunchAgents/com.ogz.brain-api.plist` |
 | Status stale on phone | `MAC_SYNC_PUSH=1 python3 scripts/mac_sync.py --push` |
 | Missions not running | `launchctl load ~/Library/LaunchAgents/com.ogz.executor.plist` |

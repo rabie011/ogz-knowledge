@@ -4,11 +4,14 @@
 
 **Status on phone:** ask **status** in Cursor — reads `data/unified_status.txt` (Mac pushes every 5 min via `mac_sync`)
 
-**When you reach the Mac:** run once:
+**When you reach the Mac:** run once, then confirm:
 
 ```bash
 cd ~/Desktop/ogz-knowledge && git pull && ./scripts/mac_onboard.sh
+./scripts/mac_confirm.sh
 ```
+
+Do not paste lines like `# 5) Confirm` into the terminal — zsh will error on `)`.
 
 See `data/cursor_missions/artifacts/MAC_ONBOARDING.md` and `docs/MOBILE_CONTROL.md`.
 

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import subprocess
 import urllib.request
 from pathlib import Path
@@ -49,8 +50,12 @@ def main() -> int:
             parked = set(json.loads(reg_path.read_text()).get("parked_daemons", []))
         except Exception:
             pass
+    launchctl = shutil.which("launchctl")
     for label in ("com.ogz.executor", "com.ogz.consult-shift", "com.ogz.orchestra", "com.ogz.memory-keeper"):
-        rc = subprocess.run(["launchctl", "list", label], capture_output=True, text=True)
+        if not launchctl:
+            results.append(check(label, True, "skipped — launchctl only on Mac"))
+            continue
+        rc = subprocess.run([launchctl, "list", label], capture_output=True, text=True)
         loaded = rc.returncode == 0
         if label in parked and not loaded:
             results.append(check(label, True, "parked (Mode A — expected unloaded)"))

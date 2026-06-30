@@ -462,6 +462,25 @@ def h_crystallize_later(b: Path, row: dict) -> str:
     return "parked for the D6 sitting (his tap recorded; drafts stay in the queue with receipts)"
 
 
+def h_closures_reopen(b: Path, row: dict) -> str:
+    """B292 — Mohamed taps 'one of these closed issues isn't actually fixed (explains which in
+    the note)' on a closures_<date> card. The NOTE is the payload: which issue + why. It is
+    already captured durably by the existing readers — founder_note_parity (→ founder_words.jsonl)
+    and portal_mini in_reply_to — the SAME path _repudiation rides (pending_unhandled treats both
+    as note-handled). So this is a REAL reader, not ack-theater: his words land and persist.
+    What this handler does NOT do is blindly call issue_log.reopen(issue_id=…): that needs WHICH-
+    issue resolution from free text, and a wrong guess reopens the wrong issue — a worse failure
+    than none. That auto-reopen is the DEFERRED dependent step (h_fork precedent — land the safe
+    half, don't guess). This handler exists so the tap resolves to a handler (Rule #6/#7: no
+    dead-end tap) and the door-check (queue_decision._assert_taps_land) can verify closures cards
+    for real instead of blanket-exempting them. Born June 30 when the grep found reopen_one
+    resolving to None, masked by the closures_ exemption."""
+    note = (row.get("note") or "").strip()
+    return (f"reopen-request recorded — his note is the payload, read by founder_note_parity + "
+            f"portal_mini in_reply_to ({'note: ' + note[:60] if note else 'no note attached'}); "
+            f"which-issue auto-reopen is the deferred dependent step")
+
+
 # prefix dispatch: (prefix, answer) pairs that match any item_id with that prefix
 def h_v37_direction(b: Path, row: dict) -> str:
     """Mohamed's v3.7 first-render decision (the directional card). His tap is a write; it
@@ -859,6 +878,7 @@ PREFIX_HANDLERS = {
     ("publish_confirm_", "published"): h_publish_confirm,  # B095v STEP 2 — the go-live tap → outcome ledger
     ("post_", "approved"): h_post_review,     # June 29 — his post approve = authoritative human pass + gold
     ("post_", "rejected"): h_post_review,     # his post reject = kill the setup (Rule #14)
+    ("closures_", "reopen_one"): h_closures_reopen,  # B292 — was a dead-end masked by the closures_ door-exemption
 }
 
 def h_pairwise_noop(b: Path, row: dict) -> str:

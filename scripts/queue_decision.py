@@ -45,7 +45,10 @@ def _action_type(item: dict) -> str:
     return "decision" if (item.get("buttons") or item.get("options") or item.get("text") or item.get("composer")) else "info"
 
 
-_TAP_EXEMPT = ("judge_", "judge2_", "ratify_", "closures_")  # lanes the sweep test exempts
+_TAP_EXEMPT = ("judge_", "judge2_", "ratify_")  # judge/ratify lanes own their own dispatch
+# NOTE: 'closures_' was REMOVED here (B292). The blanket exemption MASKED a real dead-end —
+# the 'reopen_one' tap resolved to None. Now reopen_one has a handler (apply_rulings) and 'seen'
+# is an ACK, so closures cards pass the door-check honestly AND a future bogus option is caught.
 
 
 def _assert_taps_land(item: dict):

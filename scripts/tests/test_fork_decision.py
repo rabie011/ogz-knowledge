@@ -202,8 +202,10 @@ class TestB291DeadEndSweep(unittest.TestCase):
             self.assertEqual(set(_rulings(tmp)), {"fork_decisions"})
 
     def test_live_queue_has_no_open_AB_dead_ends(self):
-        # the SWEEP invariant: no live open buttons card (outside the judge lanes + the
-        # closures/reopen_one note-path, which B292 owns) may have an unresolvable option.
+        # the SWEEP invariant: no live open buttons card (outside the judge/ratify lanes, which
+        # own their own dispatch) may have an unresolvable option. B292 CLOSED the closures_ gap —
+        # 'reopen_one' now resolves to a handler and 'seen' is an ACK, so closures_ is no longer
+        # exempted here (the exemption had MASKED reopen_one's dead-end).
         b = Path(__file__).parent.parent.parent
         q = json.loads((b / "data" / "decision_queue.json").read_text())["items"]
         dead = []
@@ -211,7 +213,7 @@ class TestB291DeadEndSweep(unittest.TestCase):
             if it.get("status") == "answered" or it.get("kind") != "buttons":
                 continue
             iid = it["id"]
-            if iid.startswith(("judge_", "judge2_", "ratify_", "closures_")):
+            if iid.startswith(("judge_", "judge2_", "ratify_")):
                 continue
             for o in it.get("options", []):
                 v = o.get("v", "")
@@ -260,6 +262,25 @@ class TestPushRefusesDeadEndTaps(unittest.TestCase):
              "options": [{"v": "ack", "label": "👍 seen"}]}), 1)
         self.assertEqual(self._push(
             {"id": "free_text_ask", "kind": "text", "status": "open", "title": "thoughts?"}), 1)
+
+    def test_closures_card_passes_now_that_reopen_one_is_wired(self):
+        # B292: closures_ is no longer blanket-exempt. The real card [seen, reopen_one] must
+        # PASS (seen=ACK, reopen_one→h_closures_reopen), proving the dead-end was closed.
+        n = self._push({"id": "closures_2026-06-30", "kind": "buttons", "status": "open",
+                        "title": "fixes closed?",
+                        "options": [{"v": "seen", "label": "✓ all seen"},
+                                    {"v": "reopen_one", "label": "↩ one isn't fixed"}]})
+        self.assertEqual(n, 1)
+
+    def test_closures_card_with_bogus_option_is_now_caught(self):
+        # B292: removing the blanket closures_ exemption means a NEW dead-end on a closures
+        # card is no longer masked — the door must REFUSE it (un-masking proof).
+        with self.assertRaises(SystemExit):
+            self._push({"id": "closures_2026-06-30", "kind": "buttons", "status": "open",
+                        "title": "fixes closed?",
+                        "options": [{"v": "seen", "label": "✓"},
+                                    {"v": "reopen_one", "label": "↩"},
+                                    {"v": "bogus_xyz", "label": "?"}]})
 
 
 if __name__ == "__main__":

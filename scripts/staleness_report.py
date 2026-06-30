@@ -16,6 +16,7 @@ Usage: python3 scripts/staleness_report.py [--handle X]
 """
 import argparse, datetime, json, sys
 from pathlib import Path
+import fingerprint_status
 
 BASE = Path(__file__).parent.parent
 TODAY = datetime.date.today()
@@ -105,7 +106,7 @@ def main():
     ap.add_argument("--handle", default=None)
     a = ap.parse_args()
     clients = ([a.handle] if a.handle else
-               sorted(d.name for d in (BASE / "clients").iterdir() if (d / "profile").is_dir()))
+               fingerprint_status.real_clients())
     blocking = 0
     report = {}
     for h in clients:

@@ -22,6 +22,7 @@ Usage: python3 scripts/provenance_ladder.py
 import json
 from pathlib import Path
 
+import fingerprint_status
 from fingerprint_status import status, G, Y, R
 
 BASE = Path(__file__).parent.parent
@@ -32,7 +33,12 @@ RUNGS = ("confirmed", "inferred", "default")
 
 
 def _clients() -> list[str]:
-    return sorted(d.name for d in (BASE / "clients").iterdir() if (d / "profile").is_dir())
+    # Route through the ONE canonical real-client list (Rule #3 — single boundary).
+    # A bare profile/ dir (test scratch like testbrand, empty typo-dups) is NOT a client
+    # and must never pollute the census. Not fail-open: a real client always carries
+    # cultural_overrides; if it carries that but lacks fingerprint.json, status() raises
+    # LOUD (fail-closed, Rule #8).
+    return fingerprint_status.real_clients()
 
 
 def census(handles: list[str] | None = None) -> dict:

@@ -30,6 +30,7 @@ Usage: python3 scripts/organ_ladder.py [--handle X]
 import argparse
 import json
 from pathlib import Path
+import fingerprint_status
 
 from fingerprint_status import status, G, Y, R
 
@@ -153,7 +154,7 @@ def pending_moves(handle: str, events: list[dict] | None = None) -> list[dict]:
 
 
 def _clients() -> list[str]:
-    return sorted(d.name for d in (BASE / "clients").iterdir() if (d / "profile").is_dir())
+    return fingerprint_status.real_clients()
 
 
 def main():

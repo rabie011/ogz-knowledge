@@ -21,6 +21,21 @@ Visual dimensions (6): faces, family_visibility, mixed_gender, modesty, music_co
 - [ ] **product_truth** (🔴 DEADLY) — لا منتج مولّد بالـAI يُعرض كأنه صورة حقيقية للمنتج (حتى حكم محمد)
       setting: `ai_imagery_of_real_products=off` [strict] · PASS if: no AI-rendered real product is shown as a real photo
 
+## alnasserjewelry
+
+- [ ] **faces** (🔴 DEADLY) — لا وجوه ظاهرة (الافتراضي الصارم — ما لم يرخّص العميل كتابةً)
+      setting: `face_visibility=never` [strict] · PASS if: no human faces are visible in the image
+- [ ] **family_visibility** (🔴 DEADLY) — لا أفراد عائلة العميل في الصورة (ترخيص العميل فقط)
+      setting: `family_member_visibility=never` [strict] · PASS if: no member of the client's family is visible
+- [ ] **mixed_gender** (🔴 DEADLY) — لا اختلاط رجال/نساء في مشهد واحد (الافتراضي العائلي)
+      setting: `mixed_gender_scenes=False` [needs_event] · PASS if: any people-mixing is family / mahram only  ⚠️ override says `False` but NO relaxation event — gate BLOCKS; hold
+- [ ] **modesty** (🔴 DEADLY) — اللبس محتشم بالمعيار السعودي المحافظ
+      setting: `modesty_dress=conservative` [strict] · PASS if: all dress is conservative by the Saudi standard
+- [ ] **music_context** (🔴 DEADLY) — إن كان فيديو: المقطع بلا موسيقى أو بإيقاع مسموح
+      setting: `music_in_video=no_music` [strict] · PASS if: if a video: no music, or a permitted rhythm only
+- [ ] **product_truth** (🔴 DEADLY) — لا منتج مولّد بالـAI يُعرض كأنه صورة حقيقية للمنتج (حتى حكم محمد)
+      setting: `ai_imagery_of_real_products=off` [strict] · PASS if: no AI-rendered real product is shown as a real photo
+
 ## eatjurisha
 
 - [ ] **faces** (🔴 DEADLY) — لا وجوه ظاهرة (الافتراضي الصارم — ما لم يرخّص العميل كتابةً)

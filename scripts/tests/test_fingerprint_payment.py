@@ -67,8 +67,7 @@ class TestPaymentRow(unittest.TestCase):
     def test_row_is_wired_and_light_is_valid(self):
         # consumer check: the row appears in status() output with a ladder-legal light
         import fingerprint_status as fs
-        clients = sorted(d.name for d in (fs.BASE / "clients").iterdir()
-                         if (d / "profile").is_dir())
+        clients = fs.real_clients()  # canonical real-client list (Rule #3), not inline glob
         self.assertTrue(clients)
         for h in clients:
             rows = {r[0]: r[1] for r in fs.status(h)["rows"]}

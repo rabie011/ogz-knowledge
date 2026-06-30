@@ -78,9 +78,29 @@ def _load_events(handle: str) -> list:
     return out
 
 
+def real_clients() -> list[str]:
+    """The ONE canonical list of real clients (Rule #3 — a single boundary across the
+    whole system). A real client is gated by a confirmed profile spine
+    (cultural_overrides.json), matching build_visual_review_checklist.clients_with_profile.
+    A bare profile/ dir (test scratch like testbrand, empty typo-dups) is NOT a client.
+    Every census/report/test must enumerate through this, never re-glob profile/ inline."""
+    return sorted(d.name for d in (BASE / "clients").iterdir()
+                  if (d / "profile" / "cultural_overrides.json").exists())
+
+
 def status(handle: str) -> dict:
     pdir = BASE / "clients" / handle / "profile"
-    fp = json.loads((pdir / "fingerprint.json").read_text())
+    fpf = pdir / "fingerprint.json"
+    if not fpf.exists():
+        # Fail-CLOSED and LOUD (Rule #8): a real client (one with cultural_overrides.json)
+        # must never be silently dropped from any census just because its fingerprint
+        # build broke. Callers enumerate real clients via cultural_overrides; reaching
+        # here means the spine is missing — alarm, don't skip.
+        raise FileNotFoundError(
+            f"{handle}: profile/fingerprint.json missing — real client without a "
+            f"fingerprint spine (rebuild it); if this is test scratch it must not live "
+            f"under clients/ with a profile/.")
+    fp = json.loads(fpf.read_text())
     tp = json.loads((pdir / "truth_pack.json").read_text())
     rl = json.loads((pdir / "red_lines.json").read_text())
     go = json.loads((pdir / "goals.json").read_text())
@@ -125,7 +145,7 @@ def status(handle: str) -> dict:
 
 
 def main():
-    clients = sorted(d.name for d in (BASE / "clients").iterdir() if (d / "profile").is_dir())
+    clients = real_clients()
     for h in clients:
         s = status(h)
         print(f"\n═══ {h} — {s['state']}" + (f" (silent {s['silent_days']}d)" if s.get("silent_days") else ""))

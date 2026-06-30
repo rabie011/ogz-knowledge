@@ -9,6 +9,7 @@ Usage: python3 scripts/goal_ratio_check.py [--handle X]
 """
 import argparse, glob, json, re, sys
 from pathlib import Path
+import fingerprint_status
 
 BASE = Path(__file__).parent.parent
 OFFER = re.compile(r"عرض|خصم|كود|اطلب|الجمعة البيضاء|deal|off|discount|order now", re.I)
@@ -39,7 +40,7 @@ def main():
     ap.add_argument("--handle", default=None)
     a = ap.parse_args()
     clients = ([a.handle] if a.handle else
-               sorted(d.name for d in (BASE / "clients").iterdir() if (d / "profile").is_dir()))
+               fingerprint_status.real_clients())
     flags = 0
     for h in clients:
         g = json.loads((BASE / "clients" / h / "profile/goals.json").read_text())

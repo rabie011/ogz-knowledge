@@ -9,6 +9,7 @@ Usage: python3 scripts/trust_ladder.py [--handle X]
 """
 import argparse, json
 from pathlib import Path
+import fingerprint_status
 
 BASE = Path(__file__).parent.parent
 
@@ -75,7 +76,7 @@ def main():
     ap.add_argument("--handle", default=None)
     a = ap.parse_args()
     clients = ([a.handle] if a.handle else
-               sorted(d.name for d in (BASE / "clients").iterdir() if (d / "profile").is_dir()))
+               fingerprint_status.real_clients())
     for h in clients:
         r = replay(h)
         bar = f"{r['counter']}/{r['unlock_at']}"

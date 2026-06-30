@@ -8,6 +8,7 @@ Usage: python3 scripts/deadly_defaults_gate.py [--handle X]   (exit 1 = blocked)
 """
 import argparse, json, sys
 from pathlib import Path
+import fingerprint_status
 
 import yaml
 
@@ -43,7 +44,7 @@ def main():
     table = yaml.safe_load(TABLE.read_text())
     deadly = {r["field"]: r for r in table.get("fields", []) if r.get("deadly_if_wrong")}
     clients = ([a.handle] if a.handle else
-               sorted(d.name for d in (BASE / "clients").iterdir() if (d / "profile").is_dir()))
+               fingerprint_status.real_clients())
     all_v = []
     for h in clients:
         v = check_client(h, deadly)

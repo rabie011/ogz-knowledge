@@ -315,3 +315,12 @@ YOUR TAP: «confirm the 4» / pick which / «hold».
 PREPARED (verified + built this shift): `bridge_drain.drain(reserve_taste_lane=)` reserves the FIRST free slot on your phone for ONE pairwise "which would you post?" bridge pair, BEFORE confirm cards fill the rest. Root: your 12 taste picks are SINGLETONS — each caption judged once — so the honest "does the system match your eye?" number (`held_out_live`) is **0-testable forever**, no matter how many you tap. A bridge pair reuses one caption you already judged, connecting the graph; ~6 bridge taps make all 12 picks testable. Bounded by Rule #10 (fires only when your load is low + no taste card already open, reserves at most ONE), consumer-asserted (Rule #7). Built FLAG-OFF: zero change to your live queue until your word. 7 new tests, full suite **545 green**. Real-data check today: your queue is at low-water (8 confirm/digest cards) so even ON it waits until a slot frees — correctly bounded.
 YOUR TAP: one word — **GO** (orchestra runs bridge_drain with `--reserve-taste-lane`; the lane self-fills as your confirm cards clear) / **HOLD**.
 (backlog B186f · Spine / TOP metric · ~1 min · code DONE + tested, go-live = your word)
+
+### A-49 Clean up 3 scratch/typo client dirs (DELETE — your word only)
+PREPARED (verified this shift): three dirs under `clients/` have a `profile/` folder but NO `cultural_overrides.json` (the real-client spine), so they are NOT real clients — they were polluting every census/ladder/gate and crashed 8 of 9 test failures (now FIXED in code: all enumeration routes through the new `fingerprint_status.real_clients()`, which gates on `cultural_overrides.json`, so these dirs are already harmless/invisible to the system). The dirs themselves still sit on disk:
+- `clients/testbrand/` — test scratch (only a `gold.json`, leaked into real `clients/` by commit deda51ee's post-by-post pass)
+- `clients/lnasserjewelry/` — EMPTY profile/, a typo-dup of the real `alnasserjewelry`
+- `clients/ecoffeecup.sa/` — EMPTY profile/
+No code reads them anymore; deleting is pure hygiene, not urgent. Not pushed to your live queue (it's at 63 items — Rule #10, no flood).
+YOUR TAP: «DELETE APPROVED» (the pair removes all three) / «keep».
+(census fix committed this shift · L0 hygiene · ~1 min on your word)

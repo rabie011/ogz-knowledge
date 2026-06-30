@@ -100,9 +100,9 @@ chmod +x scripts/mac_confirm.sh
 | `zsh: parse error near ')'` | You pasted a markdown comment/numbered step. Run `./scripts/mac_confirm.sh` instead |
 | `Need to specify how to reconcile` | Do not use bare `git pull`. Use bootstrap block above or `./scripts/mac_confirm.sh` |
 | git pull/push fails | Run `./scripts/mac_confirm.sh` (stashes status files, fetch + rebase) |
-| BRAIN DOWN | `launchctl load ~/Library/LaunchAgents/com.ogz.brain-api.plist` |
+| BRAIN DOWN | `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.ogz.brain-api.plist` |
 | Status stale on phone | `MAC_SYNC_PUSH=1 python3 scripts/mac_sync.py --push` |
-| Missions not running | `launchctl load ~/Library/LaunchAgents/com.ogz.executor.plist` |
+| Missions not running | `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.ogz.executor.plist` or re-run `./scripts/mac_onboard.sh` |
 | Too much auto-noise | `touch data/cursor_missions/.paused` |
 
 ---

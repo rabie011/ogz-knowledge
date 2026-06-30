@@ -7,24 +7,27 @@ Organization phase: minimal always-on. Reversible — nothing deleted.
 | Who | Can do |
 |-----|--------|
 | **Cursor cloud agent** | Edit docs/scripts in repo; write these commands for Mohamed |
-| **Mac Mini (you or local agent)** | `launchctl load/unload`, keep `brain_api` alive |
+| **Mac Mini (you or local agent)** | `launchctl bootstrap/bootout` (or load/unload on older macOS), keep `brain_api` alive |
 
 Cloud agents **cannot** park LaunchAgents on your Mac. After repo changes, run the blocks below **on the Mac**.
+
+**Modern macOS:** prefer `bootstrap` / `bootout` in the `gui/$(id -u)` domain. `mac_onboard.sh` does this automatically via `scripts/lib/mac_launchctl.sh`.
 
 ---
 
 ## Keep running (RUN ON MAC)
 
 ```bash
-launchctl load ~/Library/LaunchAgents/com.ogz.brain-api.plist
-launchctl load ~/Library/LaunchAgents/com.ogz.mac-sync.plist   # phone status bridge
-launchctl load ~/Library/LaunchAgents/com.ogz.executor.plist     # optional: shell missions
+cd ~/Desktop/ogz-knowledge && ./scripts/mac_onboard.sh
 ```
 
-Or run the all-in-one onboard:
+Manual (if needed):
 
 ```bash
-cd ~/Desktop/ogz-knowledge && ./scripts/mac_onboard.sh
+DOMAIN="gui/$(id -u)"
+launchctl bootstrap "$DOMAIN" ~/Library/LaunchAgents/com.ogz.brain-api.plist
+launchctl bootstrap "$DOMAIN" ~/Library/LaunchAgents/com.ogz.mac-sync.plist
+launchctl bootstrap "$DOMAIN" ~/Library/LaunchAgents/com.ogz.executor.plist
 ```
 
 Verify:
@@ -39,15 +42,19 @@ MAC_SYNC_PUSH=1 python3 scripts/mac_sync.py --push
 These overlap Cursor control or add noise without Claude Code:
 
 ```bash
+DOMAIN="gui/$(id -u)"
 for label in com.ogz.consult-shift com.ogz.memory-keeper com.ogz.orchestra; do
-  launchctl unload ~/Library/LaunchAgents/${label}.plist 2>/dev/null || true
+  launchctl bootout "$DOMAIN" ~/Library/LaunchAgents/${label}.plist 2>/dev/null || \
+    launchctl unload ~/Library/LaunchAgents/${label}.plist 2>/dev/null || true
 done
 ```
 
 Optional — park shell executor if you only work on-demand from Cursor without **go** waves:
 
 ```bash
-launchctl unload ~/Library/LaunchAgents/com.ogz.executor.plist 2>/dev/null || true
+DOMAIN="gui/$(id -u)"
+launchctl bootout "$DOMAIN" ~/Library/LaunchAgents/com.ogz.executor.plist 2>/dev/null || \
+  launchctl unload ~/Library/LaunchAgents/com.ogz.executor.plist 2>/dev/null || true
 ```
 
 Optional — park Telegram DeepSeek side chat:
@@ -60,7 +67,7 @@ launchctl unload ~/Library/LaunchAgents/com.ogz.ds-telegram.plist 2>/dev/null ||
 
 ```bash
 cp ~/Desktop/ogz-knowledge/deploy/launchagents/com.ogz.consult-shift.plist ~/Library/LaunchAgents/
-launchctl load ~/Library/LaunchAgents/com.ogz.consult-shift.plist
+launchctl bootstrap "gui/$(id -u)" ~/Library/LaunchAgents/com.ogz.consult-shift.plist
 ```
 
 ## Pause auto-queuing without unloading

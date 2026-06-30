@@ -46,8 +46,11 @@ echo ""
 echo "== Clear stale mission executor lock =="
 LOCK="$ROOT/data/cursor_missions/.executor_live.lock"
 RUNNING="$ROOT/data/cursor_missions/running"
+# shellcheck source=lib/mac_launchctl.sh
+source "$ROOT/scripts/lib/mac_launchctl.sh"
+
 if [[ -f "$LOCK" ]]; then
-  if ! launchctl list com.ogz.executor 2>/dev/null | grep -q '"PID"'; then
+  if ! mac_launchctl_loaded com.ogz.executor; then
     echo "  removing stale lock (executor not running)"
     rm -f "$LOCK"
     for f in "$RUNNING"/*.json; do

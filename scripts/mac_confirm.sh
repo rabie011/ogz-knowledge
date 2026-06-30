@@ -7,6 +7,8 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PY="${PYTHON:-/opt/homebrew/bin/python3}"
 BRANCH="${OGZ_GIT_BRANCH:-cursor/cloud-agent-1782842649010-84hv4}"
+# shellcheck source=lib/mac_git_reconcile.sh
+source "$ROOT/scripts/lib/mac_git_reconcile.sh"
 
 cd "$ROOT"
 chmod +x "$ROOT/scripts/mac_sync.py" "$ROOT/scripts/mac_confirm.sh" 2>/dev/null || true
@@ -16,32 +18,25 @@ echo "ROOT=$ROOT"
 echo "BRANCH=$BRANCH"
 echo ""
 
-echo "== Git: fetch + checkout feature branch =="
-git fetch origin
-current="$(git branch --show-current)"
-if [[ "$current" != "$BRANCH" ]]; then
-  echo "  switching: $current -> $BRANCH"
-  git checkout "$BRANCH"
-fi
-
 status_paths=(
   data/unified_status.txt
   data/unified_status.json
   data/mac_status
   data/cursor_missions/artifacts/validate_stack.json
 )
+stashed=0
 if ! git diff --quiet -- "${status_paths[@]}" 2>/dev/null || \
    ! git diff --cached --quiet -- "${status_paths[@]}" 2>/dev/null; then
-  echo "  stashing local status files..."
+  echo "== Stash local status files =="
   git stash push -m "mac-status-$(date +%Y%m%d%H%M)" -- "${status_paths[@]}" || true
   stashed=1
-else
-  stashed=0
 fi
 
-git pull --rebase origin "$BRANCH" || {
-  echo "WARN: git pull failed — fix credentials/conflicts, then re-run this script"
-}
+echo ""
+echo "== Git: fetch + rebase (no bare git pull) =="
+if ! mac_git_reconcile "$BRANCH"; then
+  echo "WARN: git reconcile failed — resolve conflicts, then re-run this script"
+fi
 
 if [[ "$stashed" -eq 1 ]]; then
   git stash pop || echo "WARN: stash pop had conflicts — resolve manually if needed"

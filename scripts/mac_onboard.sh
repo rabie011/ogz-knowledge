@@ -8,6 +8,9 @@ PY="${PYTHON:-/opt/homebrew/bin/python3}"
 LA="$HOME/Library/LaunchAgents"
 DEPLOY="$ROOT/deploy/launchagents"
 LOGS="$HOME/logs"
+BRANCH="${OGZ_GIT_BRANCH:-cursor/cloud-agent-1782842649010-84hv4}"
+# shellcheck source=lib/mac_git_reconcile.sh
+source "$ROOT/scripts/lib/mac_git_reconcile.sh"
 
 echo "== OGZ Mac onboard (mobile control bridge) =="
 echo "ROOT=$ROOT"
@@ -18,9 +21,9 @@ mkdir -p "$LOGS" "$LA"
 chmod +x "$ROOT/scripts/setup_dev_env.sh" "$ROOT/scripts/mac_sync.py"
 "$ROOT/scripts/setup_dev_env.sh"
 
-# 2) Git pull latest (cloud agent may have pushed missions)
+# 2) Git reconcile (cloud agent may have pushed missions)
 cd "$ROOT"
-git pull --rebase origin HEAD || echo "WARN: git pull failed — continue anyway"
+mac_git_reconcile "$BRANCH" || echo "WARN: git reconcile failed — continue anyway"
 
 # 3) Park noisy daemons (Mode A)
 echo ""

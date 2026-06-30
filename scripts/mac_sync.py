@@ -73,9 +73,20 @@ def _launchctl_summary() -> dict[str, str]:
     return out
 
 
+def _current_branch() -> str:
+    rc, out = _run(["git", "branch", "--show-current"])
+    branch = out.strip() if rc == 0 else ""
+    if branch:
+        return branch
+    return os.environ.get("OGZ_GIT_BRANCH", "cursor/cloud-agent-1782842649010-84hv4")
+
+
 def _git_pull() -> dict:
-    rc, out = _run(["git", "pull", "--rebase", "origin", "HEAD"])
-    return {"ok": rc == 0, "detail": out[:500]}
+    branch = _current_branch()
+    rc_f, out_f = _run(["git", "fetch", "origin", branch])
+    rc, out = _run(["git", "rebase", f"origin/{branch}"])
+    detail = ((out_f or "") + "\n" + (out or "")).strip()[:500]
+    return {"ok": rc_f == 0 and rc == 0, "detail": detail, "branch": branch}
 
 
 def refresh_status() -> dict:

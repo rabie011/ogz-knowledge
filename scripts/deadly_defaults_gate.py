@@ -15,6 +15,23 @@ import yaml
 BASE = Path(__file__).parent.parent
 TABLE = BASE / "15_cultural_specs/defaults/brand_override_defaults_v1.yaml"
 
+# A value meaning "the risky behavior NEVER happens" is no-less-strict than the
+# strictest default of EVERY deadly field — all 12 strict defaults are restrictive
+# (never / off / no_music / blocked_permanent / conservative / family-only-mixing),
+# so the risk is always the permissive direction. A total-prohibition value can
+# therefore never be a RELAXATION; flagging it is a false positive (B106 fix, June 30:
+# alnasserjewelry encoded mixed_gender_scenes=false (no mixing at all) — STRICTER than
+# the 'family-only-mixing' string default, yet str(False)!='family-only-mixing' flagged
+# it). This NARROWS violations only for provably-conservative values; a real relaxation
+# (True / 'all' / 'allowed' / 'on' / 'mixed' / any permissive token) is still flagged —
+# the opposite of a fail-open (the C221w scar). Verified by both chairs + the downstream
+# consumer render_image.py (False -> 'none' bucket -> renders no mixed-gender = correct).
+_STRICTER_OR_EQUAL = frozenset({
+    "false", "none", "no", "never", "off", "disabled",
+    "blocked", "blocked_permanent", "no_music", "no-mixing",
+    "separate", "segregated",
+})
+
 
 def check_client(handle: str, deadly_fields: dict) -> list[str]:
     pdir = BASE / "clients" / handle / "profile"
@@ -30,6 +47,8 @@ def check_client(handle: str, deadly_fields: dict) -> list[str]:
         strict = row.get("strictest_default")
         if str(val) == str(strict):
             continue  # explicitly conservative — safe
+        if val is False or str(val).strip().lower() in _STRICTER_OR_EQUAL:
+            continue  # total-prohibition value — no-less-strict than strict, never a relaxation
         # non-conservative: only a client relaxation event makes it legal
         if f'"red_line_relaxed"' in ledger and field in ledger:
             continue

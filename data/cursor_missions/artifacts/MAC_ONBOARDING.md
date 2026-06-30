@@ -64,10 +64,39 @@ If push fails → set up SSH key for GitHub on the Mac.
 
 ---
 
+## After onboard — confirm (one command)
+
+Do **not** paste numbered comment lines like `# 5) Confirm` into zsh — the `)` can cause `parse error near ')'`.
+
+Do **not** use bare `git pull` on the Mac — if branches diverged you get *Need to specify how to reconcile*. Use `mac_confirm.sh` or the bootstrap block below.
+
+```bash
+cd ~/Desktop/ogz-knowledge
+chmod +x scripts/mac_confirm.sh
+./scripts/mac_confirm.sh
+```
+
+### Bootstrap (if `mac_confirm.sh` is missing — pull failed)
+
+```bash
+cd ~/Desktop/ogz-knowledge
+git fetch origin cursor/cloud-agent-1782842649010-84hv4
+git checkout cursor/cloud-agent-1782842649010-84hv4 2>/dev/null || git checkout -B cursor/cloud-agent-1782842649010-84hv4 origin/cursor/cloud-agent-1782842649010-84hv4
+git stash push -m mac-status -- data/unified_status.txt data/unified_status.json data/mac_status data/cursor_missions/artifacts/validate_stack.json 2>/dev/null || true
+git rebase origin/cursor/cloud-agent-1782842649010-84hv4
+chmod +x scripts/mac_confirm.sh
+./scripts/mac_confirm.sh
+```
+
+---
+
 ## Troubleshooting
 
 | Problem | Fix |
 |---------|-----|
+| `zsh: parse error near ')'` | You pasted a markdown comment/numbered step. Run `./scripts/mac_confirm.sh` instead |
+| `Need to specify how to reconcile` | Do not use bare `git pull`. Use bootstrap block above or `./scripts/mac_confirm.sh` |
+| git pull/push fails | Run `./scripts/mac_confirm.sh` (stashes status files, fetch + rebase) |
 | BRAIN DOWN | `launchctl load ~/Library/LaunchAgents/com.ogz.brain-api.plist` |
 | Status stale on phone | `MAC_SYNC_PUSH=1 python3 scripts/mac_sync.py --push` |
 | Missions not running | `launchctl load ~/Library/LaunchAgents/com.ogz.executor.plist` |

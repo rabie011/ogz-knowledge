@@ -82,9 +82,18 @@ def retire_pass() -> int:
     return n
 
 
+def _resolved_meta_keys() -> set:
+    """Logical keys (item_id / issue_id / player) Mohamed has already ruled on, from
+    data/meta_card_decisions.jsonl. The Rule #6 consumer of the conf_/esc_/streak_ handlers
+    in apply_rulings: a resolved card is NEVER re-asked (no dead-end, no nag)."""
+    return {r.get("key") for r in read_jsonl(base() / "data/meta_card_decisions.jsonl")
+            if r.get("key")}
+
+
 def inject() -> list:
     """Build the candidate list by priority, respect the global budget, push."""
     q = _queue()
+    resolved = _resolved_meta_keys()   # already-ruled meta-cards: never re-ask (Rule #6)
     slots = BUDGET - len(live_feedback_cards(q))
     if slots <= 0:
         return []
@@ -100,6 +109,8 @@ def inject() -> list:
     candidates = []
     # P1 — escalations: a benched player (cold streak) or recurrence>=2
     for player, b in bench.items():
+        if player in resolved:
+            continue                       # he already ruled this bench (Rule #6 — no re-ask)
         candidates.append({"id": b["card_id"], "kind": "buttons", "priority": "urgent",
             "title": f"🧊 {player} — {b['streak']} رفضات ورا بعض",
             "tag": "تغذية راجعة", "why": "نفس العقل ينرفض باستمرار — يحتاج قرارك: نوقفه أو نكمل",
@@ -108,7 +119,7 @@ def inject() -> list:
             "options": [{"v": "bench_ok", "label": "🧊 أوقفه مؤقتاً", "rec": True},
                         {"v": "one_more", "label": "🔄 فرصة أخيرة"}]})
     for iid, st in state.get("issues", {}).items():
-        if st["recurrence_count"] >= 2 and st["status"] == "open":
+        if st["recurrence_count"] >= 2 and st["status"] == "open" and iid not in resolved:
             candidates.append({"id": f"esc_{iid}", "kind": "buttons", "priority": "urgent",
                 "title": f"🔁 نفس الشكوى رجعت — {st['reason_code']}",
                 "tag": "تغذية راجعة", "why": "شكوى اتقفلت ورجعت مرتين — وقتها تصير قانوناً",
@@ -119,6 +130,8 @@ def inject() -> list:
                             {"v": "once_more", "label": "مرة كمان وبس"}]})
     # P2 — conflicts
     for c in sc.get("conflicts", []):
+        if c["item_id"] in resolved:
+            continue                       # he already resolved this conflict (Rule #6)
         candidates.append({"id": f"conf_{c['item_id']}", "kind": "buttons",
             "title": "⚖️ اختلاف حكم بينك وبين الفريق",
             "tag": "تغذية راجعة", "why": "حكمان متعاكسان على نفس الكرت — كلمتك تحسمها وتعلّم النظام",

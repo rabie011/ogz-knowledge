@@ -142,22 +142,22 @@ def main():
     check("version auto-increments on regeneration", e1["artifact_version"] == 1 and e2["artifact_version"] == 2)
 
     print("\n── 4. PRODUCER WIRING (transactional ordering + card stamping) ──")
-    qd.push_attributed({"id": "fbcard1", "title": "t", "tag": "x", "desc": "", "clock": "",
+    qd.push_attributed({"id": "fbcard1_fork", "title": "t", "tag": "x", "desc": "", "clock": "",
                         "priority": "normal", "created": iso(datetime.now()), "status": "open",
                         "kind": "buttons", "options": [{"v": "y", "label": "Y"}]},
                        made_by="claude", reason="test")
     q = json.loads((SB / "data/decision_queue.json").read_text())
     it = q["items"][0]
     check("card stamped made_by + artifact_version", it["made_by"] == "claude" and it["artifact_version"] == 1)
-    check("attribution line exists BEFORE card (ordering)", attr.latest_version("card:fbcard1") == 1)
+    check("attribution line exists BEFORE card (ordering)", attr.latest_version("card:fbcard1_fork") == 1)
 
     print("\n── 5. ROUTER: intake, corrections, cursor ──")
     client.post("/api/approvals/answer?k=t-mo",
-                json={"item_id": "fbcard1", "answer": "rejected", "note": "النبرة غلط",
-                      "artifact_id": "card:fbcard1", "artifact_version": 1})
+                json={"item_id": "fbcard1_fork", "answer": "rejected", "note": "النبرة غلط",
+                      "artifact_id": "card:fbcard1_fork", "artifact_version": 1})
     client.post("/api/approvals/answer?k=t-mo",
-                json={"item_id": "fbcard1", "answer": "comment", "fix": "الصح: نبرة البيت",
-                      "artifact_id": "card:fbcard1", "artifact_version": 1})
+                json={"item_id": "fbcard1_fork", "answer": "comment", "fix": "الصح: نبرة البيت",
+                      "artifact_id": "card:fbcard1_fork", "artifact_version": 1})
     s = fr.process()
     issues = fl.read_jsonl(SB / "data/issues.jsonl")
     check("reject → issue opened against claude (resolved via attribution)",
@@ -217,13 +217,13 @@ def main():
 
     print("\n── 7. RECURRENCE + ESCALATION ──")
     e = il.open_issue("claude", "النبرة غلط مرة ثانية", reason_code="unspecified",
-                      source="portal", source_answer={"ts": iso(datetime.now()), "item_id": "fbcard1"})
+                      source="portal", source_answer={"ts": iso(datetime.now()), "item_id": "fbcard1_fork"})
     check("same fingerprint within 14d → REOPENED not new",
           e["event"] == "reopened" and e["recurrence_count"] == 1)
 
     print("\n── 8. REVERSAL CASCADE (void the innocent) ──")
     client.post("/api/approvals/answer?k=t-mo",
-                json={"item_id": "fbcard1", "answer": "REVERSED", "note": "غلطت — البوست تمام"})
+                json={"item_id": "fbcard1_fork", "answer": "REVERSED", "note": "غلطت — البوست تمام"})
     # the portal reverse endpoint requires note; we wrote via answer to simulate ledger row
     fr.process()
     states = [il.current_state(x["issue_id"]) for x in fl.read_jsonl(SB / "data/issues.jsonl")

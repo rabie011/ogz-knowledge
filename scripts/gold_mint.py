@@ -64,6 +64,11 @@ def mint() -> list:
     q = json.loads((B / "data/decision_queue.json").read_text()) \
         if (B / "data/decision_queue.json").exists() else {"items": []}
     cards = {it["id"]: it for it in q["items"]}
+    # His resolved law-vs-approval rulings (the Rule #6 reader for h_gold_ruling): mint_anyway =
+    # mint despite the law (his exception); uphold_law = no gold, don't re-ask. Keyed by item_id.
+    gold_rulings = {r["key"]: r["answer"]
+                    for r in read_jsonl(B / "data/meta_card_decisions.jsonl")
+                    if r.get("kind") == "gold_ruling" and r.get("key")}
     blind = _blind_ids()
     minted = []
     for bline in new.split(b"\n"):
@@ -86,7 +91,11 @@ def mint() -> list:
         # LAW CHECK — an approval never silently overrides a law
         brand_tokens = [handle, "البيك" if handle == "albaik" else "", "جريشة" if "jurisha" in handle else ""]
         viol = law_violations(caption, str(card.get("occasion", "")), brand_tokens)
-        if viol:
+        if viol and gold_rulings.get(r["item_id"]) != "mint_anyway":
+            # his ruling (Rule #6): mint_anyway falls through to mint; uphold_law/unresolved
+            # blocks. Don't re-stage a ruling he already upheld (Rule #10 — no nag).
+            if gold_rulings.get(r["item_id"]) == "uphold_law":
+                continue
             import queue_decision as qd
             rid = f"ruling_{r['item_id']}"
             if rid not in cards:

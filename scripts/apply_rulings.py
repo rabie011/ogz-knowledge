@@ -739,7 +739,116 @@ def h_taste_refresh(b: Path, row: dict) -> str:
     return f"taste candidate {slug} → {ans} (noted)"
 
 
+# ── META-CARD handlers (the 3 feedback_cards.inject families: conflict / escalation / bench) ──
+# Born June 30: feedback_cards.inject() (run live every make_sure heartbeat) generates conf_/esc_/
+# streak_ decision cards whose taps (mine/theirs/law/once_more/bench_ok/one_more) landed NOWHERE —
+# a Rule #6/#7 dead-end the B291 write-door guard (_assert_taps_land) turned from a silent
+# vanished-tap into a loud inject() crash. These handlers LAND each tap durably; the reader is
+# feedback_cards._resolved_meta_keys() (never re-ask a resolved card). Follow-on actions
+# (law-crystallize, un-bench arithmetic) are DEFERRED dependent steps per the h_fork precedent.
+def _meta_decision_keys(b: Path) -> set:
+    """Logical keys of meta-cards already ruled on, from data/meta_card_decisions.jsonl."""
+    return {r["key"] for r in _read_jsonl(b / "data/meta_card_decisions.jsonl") if r.get("key")}
+
+
+def _validate_meta_tap(b: Path, item: str, ans: str) -> str:
+    """Validate his answer against the card's DECLARED options (Rule #8 — refuse an undeclared
+    answer, never guess). Returns the chosen option's label. Same authority as h_fork_decision:
+    data/decision_queue.json is the only source of a card's valid options."""
+    dq_p = b / "data/decision_queue.json"
+    if not dq_p.exists():
+        raise RuntimeError("no data/decision_queue.json — cannot validate meta-card options")
+    dq = json.loads(dq_p.read_text(encoding="utf-8"))
+    items = dq.get("items", []) if isinstance(dq, dict) else dq
+    card = next((c for c in items if c.get("id") == item), None)
+    if not card:
+        raise RuntimeError(f"meta-card {item} not in decision_queue.json")
+    valid = {str(o.get("v")): (o.get("label") or "")
+             for o in (card.get("options") or []) if isinstance(o, dict)}
+    if ans not in valid:
+        raise RuntimeError(f"meta-card {item}: answer «{ans}» not a declared option {sorted(valid)}")
+    return valid[ans]
+
+
+def _record_meta_decision(b: Path, kind: str, key: str, item: str, ans: str,
+                          choice: str, row: dict, extra: dict = None) -> dict:
+    """Append-only durable landing for a meta-card tap (Rule #14 — persist + read back).
+    Keyed by LOGICAL key (item_id / issue_id / player) so a card id that rotates daily
+    (the bench card carries the date) is still recognised as resolved next cycle. Asserts
+    on disk before returning (Rule #11)."""
+    p = b / "data/meta_card_decisions.jsonl"
+    rec = {"kind": kind, "key": key, "card_id": item, "answer": ans, "choice": choice,
+           "ruled_at": row.get("client_ts") or row.get("ts"),
+           "applied_at": datetime.now().isoformat(timespec="seconds"), "confirmer": "mohamed"}
+    if extra:
+        rec.update(extra)
+    with open(p, "a", encoding="utf-8") as f:
+        f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    assert key in _meta_decision_keys(b), f"meta decision {key} not on disk after write"
+    return rec
+
+
+def h_conflict_resolve(b: Path, row: dict) -> str:
+    """conf_<item_id> — Mohamed resolves a mohamed-vs-judge verdict clash (feedback_cards.py P2).
+    'mine' = his verdict stands; 'theirs' = he defers to the judge. Lands the ruling; the
+    judge-calibration follow-on is the dependent step (h_fork precedent — land, don't pre-build)."""
+    item, ans = row.get("item_id", ""), (row.get("answer") or "").strip()
+    label = _validate_meta_tap(b, item, ans)
+    key = item[len("conf_"):] if item.startswith("conf_") else item
+    winner = "mohamed" if ans == "mine" else "judge"
+    _record_meta_decision(b, "conflict", key, item, ans, label, row, extra={"winner": winner})
+    return f"conflict «{key}» resolved → {winner} wins ({ans}); inject() won't re-ask"
+
+
+def h_escalation(b: Path, row: dict) -> str:
+    """esc_<issue_id> — a complaint that recurred ≥2× (feedback_cards.py P1). 'law' = crystallize
+    into a permanent law; 'once_more' = one more cycle. Lands the ruling; the actual law-crystallize
+    is the dependent step (h_fork precedent)."""
+    item, ans = row.get("item_id", ""), (row.get("answer") or "").strip()
+    label = _validate_meta_tap(b, item, ans)
+    key = item[len("esc_"):] if item.startswith("esc_") else item
+    _record_meta_decision(b, "escalation", key, item, ans, label, row, extra={"to_law": ans == "law"})
+    tail = "flagged for law crystallize (dependent step)" if ans == "law" else "one more cycle"
+    return f"escalation «{key}» ruled: {ans} → {tail}; inject() won't re-ask"
+
+
+def h_bench_decision(b: Path, row: dict) -> str:
+    """streak_<player>_<date> — a player benched for a cold streak (feedback_cards.py P1).
+    'bench_ok' = confirm the pause; 'one_more' = last chance. Keyed by PLAYER (the date is
+    stripped so the daily-rotating id doesn't fork the key). The actual un-bench is arithmetic
+    via reversal — the dependent step (h_fork precedent)."""
+    item, ans = row.get("item_id", ""), (row.get("answer") or "").strip()
+    label = _validate_meta_tap(b, item, ans)
+    body = item[len("streak_"):] if item.startswith("streak_") else item
+    key = re.sub(r"_\d{4}-\d{2}-\d{2}$", "", body)
+    _record_meta_decision(b, "bench", key, item, ans, label, row, extra={"last_chance": ans == "one_more"})
+    tail = "last chance (un-bench is arithmetic, dependent step)" if ans == "one_more" else "pause confirmed"
+    return f"bench ruling «{key}»: {ans} → {tail}; inject() won't re-ask"
+
+
+def h_gold_ruling(b: Path, row: dict) -> str:
+    """ruling_<item_id> — Mohamed's caption approval conflicts with a standing law; only he can
+    rule (gold_mint.py:88-105). 'mint_anyway' = mint it as gold despite the law (his exception);
+    'uphold_law' = the law wins, no gold. Lands the ruling keyed by item_id; gold_mint reads
+    data/meta_card_decisions.jsonl (kind=gold_ruling) next mint and acts (Rule #6 reader)."""
+    item, ans = row.get("item_id", ""), (row.get("answer") or "").strip()
+    label = _validate_meta_tap(b, item, ans)
+    key = item[len("ruling_"):] if item.startswith("ruling_") else item
+    _record_meta_decision(b, "gold_ruling", key, item, ans, label, row,
+                          extra={"mint": ans == "mint_anyway"})
+    tail = "mint as gold despite the law (his exception)" if ans == "mint_anyway" else "law upheld, no gold"
+    return f"gold ruling «{key}»: {ans} → {tail}; gold_mint will act next cycle"
+
+
 PREFIX_HANDLERS = {
+    ("ruling_", "mint_anyway"): h_gold_ruling,  # ⚖️ approval-vs-law conflict at the gold mint
+    ("ruling_", "uphold_law"): h_gold_ruling,
+    ("conf_", "mine"): h_conflict_resolve,      # ⚖️ his verdict wins a mohamed-vs-judge clash
+    ("conf_", "theirs"): h_conflict_resolve,    # he defers to the judge
+    ("esc_", "law"): h_escalation,              # 📜 a 2×-recurring complaint becomes a law
+    ("esc_", "once_more"): h_escalation,
+    ("streak_", "bench_ok"): h_bench_decision,  # 🧊 confirm the cold-streak pause
+    ("streak_", "one_more"): h_bench_decision,
     ("taste_kill_", "confirm"): h_taste_refresh,   # C245 — his tap refreshes the taste bar (Rule #6/#7)
     ("taste_kill_", "reject"): h_taste_refresh,
     ("ratify2_", "ratify"): h_recipe_verdict,

@@ -1,12 +1,26 @@
 #!/usr/bin/env python3
-"""cursor_mission_consumer.py — process pending missions from data/cursor_missions/pending/.
+"""cursor_mission_consumer.py — DEPRECATED. Claude Code is the sole executor.
 
-Cursor writes mission JSON; this script (or Claude Code) picks them up, executes, and writes
-results to done/ or failed/. Appends a line to data/make_sure_log.jsonl on completion.
+Shell consumer disabled by default. Use:
+  - Claude Code live session (see data/cursor_missions/CLAUDE_CODE_STANDING.md)
+  - scripts/claude_code_claim_executor.py run-next
 
-Run:  python3 scripts/cursor_mission_consumer.py [--once]
+Set ALLOW_SHELL_CONSUMER=1 only for emergency fallback.
 """
 from __future__ import annotations
+
+import os
+import sys
+
+if os.environ.get("ALLOW_SHELL_CONSUMER") != "1":
+    print(
+        "BLOCKED: cursor_mission_consumer is disabled.\n"
+        "Claude Code is the sole executor — open live session OGZ Executor\n"
+        "or: python3 scripts/claude_code_claim_executor.py run-next\n"
+        "Emergency: ALLOW_SHELL_CONSUMER=1 python3 scripts/cursor_mission_consumer.py",
+        file=sys.stderr,
+    )
+    raise SystemExit(2)
 
 import json
 import os

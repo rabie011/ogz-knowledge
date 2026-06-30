@@ -1,0 +1,20 @@
+{
+  "id": "mission-verify-mirror",
+  "executor": "claude_code",
+  "status": "pass",
+  "exit_codes": {
+    "cmd_0": 0,
+    "cmd_1": 0,
+    "cmd_2": 0,
+    "cmd_3": 0,
+    "cmd_4": "fixed",
+    "cmd_5": 0,
+    "cmd_6": 0
+  },
+  "summary": "all commands passed (cmd_4 had wrong interpreter python3→bash; fixed manually, exit 0)",
+  "log_path": "data/cursor_missions/done/2026-06-30-mission-verify-mirror.log",
+  "blockers": [],
+  "fix_applied": "cmd_4: bash scripts/archive_mission_logs.sh — exit 0, logs archived",
+  "fix_allowed": true,
+  "finished": "2026-06-30T13:10:32Z"
+}

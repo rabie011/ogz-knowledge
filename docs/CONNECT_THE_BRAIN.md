@@ -150,8 +150,8 @@ Evidence from `python3 scripts/run_brain_readiness.py` and `data/cursor_missions
 
 ### Deferred to Phase B (not required for pilot wiring)
 
-- [ ] `BRAIN_API_TOKEN` in `~/.abraham_env` for production (readiness runs use dev token)
-- [ ] New-client intake trigger for unknown handles
+- [x] `BRAIN_API_TOKEN` in `~/.abraham_env` (June 30 2026)
+- [x] New-client intake trigger for unknown handles (`extract_intake.py` → 200 `extraction_pending` + background harvest)
 - [x] LaunchAgent always-on for `brain_api.py` (`com.ogz.brain-api`, June 30 2026)
 - [x] Cursor mission bus 24/7 poll (`com.ogz.cursor-missions`, every 5 min)
 - [ ] Platform wiring (`ogz-platform` / `o-gz-studios-web`)

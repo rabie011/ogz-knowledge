@@ -1,0 +1,566 @@
+{
+  "id": "claude-code-history-master",
+  "generated": "2026-06-30T14:51:52Z",
+  "from": "claude-code",
+  "purpose": "Everything Cursor needs — 6 months Claude Code on this Mac",
+  "timeline": {
+    "commits_by_month": {
+      "2026-06": 658,
+      "2026-05": 174
+    },
+    "total_commits_since_dec_2025": "832"
+  },
+  "three_layers": {
+    "THE_BRAIN": "ogz-knowledge — produce pipeline + 3 HTTP contracts (/extract /produce /performance)",
+    "THE_BUILD_MACHINE": "RABIE(GPT) + Claude Code + DeepSeek + orchestra + make_sure",
+    "THE_DEV_PLATFORM": "o-gz-studios-web (Vercel, not cloned) — external dev team"
+  },
+  "systems": {
+    "repos_local": {
+      "ogz-knowledge": "/Users/abarihm/Desktop/ogz-knowledge",
+      "ogz-platform": "/Users/abarihm/ogz-platform",
+      "ogz-website": "/Users/abarihm/ogz-website",
+      "agents": "/Users/abarihm/agents",
+      "war-room": "/Users/abarihm/war-room",
+      "operator_state": "/Users/abarihm/claude_operator_state"
+    },
+    "apis_ports": {
+      "4100": "api/server.py intelligence",
+      "4140": "scripts/brain_api.py dev handoff",
+      "4199": "api/portal_mini.py founder portal",
+      "4111": "humain_service.py Saudi pen"
+    },
+    "daemons": "56182\t0\tcom.ogz.executor\n86643\t0\tcom.abraham.cloudflare\n56178\t0\tcom.ogz.live-feed\n68276\t0\tcom.abraham.os\n86638\t0\tcom.ogz.portal\n-\t0\tcom.ogz.orchestra\n68248\t0\tcom.abraham.orchestra-engine\n36403\t-15\tcom.ogz.brain-api\n-\t0\tcom.ogz.live-feed-digest\n68251\t0\tcom.abraham.orchestrator",
+    "orchestra": {
+      "rabie": "/Users/abarihm/agents/rabie/rabie.py",
+      "orchestrator": "/Users/abarihm/agents/orchestrator_daemon.py",
+      "backlog": "/Users/abarihm/Desktop/ogz-knowledge/data/backlog.json",
+      "memory": "/Users/abarihm/agents/rabie/orchestra_memory.json"
+    },
+    "consult_panel": "scripts/consult.py — DeepSeek default-first + GPT/Gemini/Groq",
+    "cursor_file_bus": "data/cursor_missions/ + scripts/cursor_mission_consumer.py"
+  },
+  "pivot_june_27": "Stop scaling infra; prepare connectable brain for dev platform",
+  "mission_9_posts": "Completed June 29 — 9/9 HUMAIN-taste-grade; photo-fix arc June 29-30",
+  "current_work_june_30": "GATE0 product_is_real hardening; art-director wired; awaiting Mohamed go on 4 re-renders",
+  "known_scars": [
+    {
+      "file": "feedback_24h_orchestra_operating_rules.md",
+      "title": "feedback-24h-orchestra-operating-rules",
+      "head": "---\nname: feedback-24h-orchestra-operating-rules\ndescription: Mohamed June 23 — the standing operating rules for the 24h orchestra toward 20 perfect posts. RABIE runs on GPT (not Claude); minds spread across models; ALWAYS consult another LLM before doing; never get stuck (mine the history); everything live in chat; $15 cap.\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: d86f5b"
+    },
+    {
+      "file": "feedback_ai_judge_cant_judge_saudi_creative.md",
+      "title": "feedback-ai-judge-cant-judge-saudi-creative",
+      "head": "---\nname: feedback-ai-judge-cant-judge-saudi-creative\ndescription: \"An AI methodology judge (gpt-4o) scored RANDOM vs Mohamed's taste (+0.08 correlation). Don't trust AI judges for Saudi creative/cultural quality — human review is irreplaceable. Always calibrate before trusting any AI metric.\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: 61a80948-378b-4296-9be4-fdb27fecca2c\n-"
+    },
+    {
+      "file": "feedback_audit_before_claiming_absence.md",
+      "title": "feedback-audit-before-claiming-absence",
+      "head": "---\nname: feedback-audit-before-claiming-absence\ndescription: \"Before claiming \\\"the system never did X\\\", audit the FULL script/artifact inventory — not just the runtime/core scripts. Over-claimed absence 3× (vision, video).\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: d86f5bda-b565-49b8-a395-1d1d2abac54d\n---\n\nBefore telling Mohamed \"we never did X\" / \"X is untouched\" / \"X "
+    },
+    {
+      "file": "feedback_check_api_keys_first.md",
+      "title": "feedback-check-api-keys-first",
+      "head": "---\nname: feedback-check-api-keys-first\ndescription: \"Always check ~/.abraham_env for API key status before assuming rate limits or credit issues. OpenAI is paid tier, Apify has credits.\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: 61a80948-378b-4296-9be4-fdb27fecca2c\n---\n\nAlways check `~/.abraham_env` for real API status before assuming limitations.\n\n**Why:** In a session w"
+    },
+    {
+      "file": "feedback_deepseek_standing_consult.md",
+      "title": "feedback-deepseek-standing-consult",
+      "head": "---\nname: feedback-deepseek-standing-consult\ndescription: Rule\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: ac29b028-a30d-454c-85ed-738f0a9dbe56\n---\n\n# DeepSeek is the standing consult — a ROLE, not a one-off (Mohamed, June 28, 2026)\n\nMohamed: \"go and consult deep seek, always consult him, make it a role.\" DeepSeek is now API-wired\n(`DEEPSEEK_API_KEY` in ~/.abraham_env, model"
+    },
+    {
+      "file": "feedback_fable_working_method.md",
+      "title": "feedback-fable-working-method",
+      "head": "---\nname: feedback-fable-working-method\ndescription: \"The working discipline distilled from Fable's 2-day OGZ orchestra (June 11-13) — inherit the self-correction machine, don't bypass it\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: d86f5bda-b565-49b8-a395-1d1d2abac54d\n---\n\nStudied from the record: Fable ran a 24/7 orchestra for 2 days — **269 commits, 141 backlog steps**, t"
+    },
+    {
+      "file": "feedback_humain_caption_quality.md",
+      "title": "feedback-humain-caption-quality",
+      "head": "---\nname: feedback-humain-caption-quality\ndescription: Lessons from building the HUMAIN/ALLaM caption collection pipeline — what caused quality failures and what fixed them.\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: d86f5bda-b565-49b8-a395-1d1d2abac54d\n---\n\n## The Brief Was the Problem, Not the Prompt\n\nWhen ALLaM produces repetitive outputs across 5 techniques, the first i"
+    },
+    {
+      "file": "feedback_learning_system.md",
+      "title": "learning-system-usage",
+      "head": "---\nname: learning-system-usage\ndescription: \"OGZ has a 6-part learning system at scripts/learning_system.py. Use it to log decisions, successes, time, and predictions. Daemon auto-mines its own logs. Session-start shows due decision reviews.\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: 3c9e38a6-f64d-4db2-97da-f0b683ef77f6\n---\n\n## OGZ Learning System — How to Use\n\nLocation: "
+    },
+    {
+      "file": "feedback_memory_keeper_daemon.md",
+      "title": "feedback-memory-keeper-daemon",
+      "head": "---\nname: feedback-memory-keeper-daemon\ndescription: A 24/7 daemon (com.abraham.memory-keeper) auto-refreshes the factual half of CURSOR.md every 6h. Agent owns the narrative half. Together they kill session recaps.\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: 61a80948-378b-4296-9be4-fdb27fecca2c\n---\n\nA 24/7 daemon keeps memory fresh so new sessions never recap.\n\n**Why:** Ses"
+    },
+    {
+      "file": "feedback_mohamed_design_taste.md",
+      "title": "feedback-mohamed-design-taste",
+      "head": "---\nname: feedback-mohamed-design-taste\ndescription: \"Mohamed's design taste signals for OGZ app/website — June 10 corrections after seeing builds\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: d86f5bda-b565-49b8-a395-1d1d2abac54d\n---\n\n# Mohamed's Design Taste — hard signals (June 10)\n\n1. **The app wears the WEBSITE's design language.** What Lovable built for the marketing sit"
+    },
+    {
+      "file": "feedback_mohamed_dictionary.md",
+      "title": "mohamed-dictionary",
+      "head": "---\nname: mohamed-dictionary\ndescription: \"THE agreed dictionary (June 10, talk session) — Mohamed's words → exact meaning, plus Rule #1 and the rulings. Read before interpreting ANY instruction.\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: d86f5bda-b565-49b8-a395-1d1d2abac54d\n---\n\n# Mohamed's Dictionary — agreed line by line, June 10, 2026\n\n## RULE #1 — PERMANENT\n**Never le"
+    },
+    {
+      "file": "feedback_ogz_knowledge_learnings.md",
+      "title": "ogz-knowledge-month1-learnings",
+      "head": "---\nname: ogz-knowledge-month1-learnings\ndescription: \"10 hard-won lessons from building ogz-knowledge (May-June 2026). Covers silent failures, GPT output trust, verification discipline, daemon state, session tracking, file-first architecture, queue order, timeouts, 80/20 quality, and idempotent scripts.\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: 3c9e38a6-f64d-4db2-97da-f0"
+    },
+    {
+      "file": "feedback_ogz_meta_patterns.md",
+      "title": "ogz-meta-patterns",
+      "head": "---\nname: ogz-meta-patterns\ndescription: \"7 meta-patterns discovered from analyzing 186 commits across ogz-knowledge month 1. Covers cascade days, boundary file instability, timeout measurement, feature-fix latency, work schedule patterns, sector alias hell, and 0-result blind spots. Apply to ALL future projects.\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: 3c9e38a6-f64d-4db"
+    },
+    {
+      "file": "feedback_one_enforced_boundary_all_doors.md",
+      "title": "feedback-one-enforced-boundary-all-doors",
+      "head": "---\nname: feedback-one-enforced-boundary-all-doors\ndescription: \"A rule that must hold (e.g. no-occasion-on-daily) needs ONE enforced boundary scanning EVERY door it can enter — and the fix must be RUN, not just written\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: d86f5bda-b565-49b8-a395-1d1d2abac54d\n---\n\nWhen a rule must hold across a system, the failure is rarely \"no fix e"
+    },
+    {
+      "file": "feedback_orchestra_session_leak.md",
+      "title": "feedback-orchestra-session-leak",
+      "head": "---\nname: feedback-orchestra-session-leak\ndescription: \"Scheduled-task/orchestra fires leak claude processes that never exit, accumulating to load 70+ and taking the portal down — the real root of recurring make_sure ALARMs.\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: f9061903-b281-4a04-9786-a41eb4631cfe\n---\n\nThe persistent rabie-orchestra (and other scheduled tasks) fire e"
+    },
+    {
+      "file": "feedback_overclaiming_and_flooding.md",
+      "title": "feedback-overclaiming-and-flooding",
+      "head": "---\nname: feedback-overclaiming-and-flooding\ndescription: \"June 22 scar (\\\"what is wrong with you\\\") — I over-claimed quality (called a generic AI burger \\\"on-brand\\\") AND flooded Mohamed with decisions message after message. Lead with the honest/flawed state; make the call myself; surface at most one decision.\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: d86f5bda-b565-49b8-"
+    },
+    {
+      "file": "feedback_portal_submit_all_lanes.md",
+      "title": "feedback-portal-submit-all-lanes",
+      "head": "---\nname: feedback-portal-submit-all-lanes\ndescription: \"The feedback portal's composer (write box + rating + SUBMIT) must render in EVERY card lane, and Mohamed's cards must be English with options+recommendation+summary\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: d86f5bda-b565-49b8-a395-1d1d2abac54d\n---\n\nThe team portal (`api/static/approvals.html`, served by `api/portal_"
+    },
+    {
+      "file": "feedback_pre_build_questions.md",
+      "title": "pre-build-questions",
+      "head": "---\nname: pre-build-questions\ndescription: \"5 questions to ask BEFORE building anything. Derived from analyzing 37 bugs — every bug maps to one missing question. Run this checklist before starting any new script, feature, or integration.\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: 3c9e38a6-f64d-4db2-97da-f0b683ef77f6\n---\n\n## The 5 Pre-Build Questions\n\nBefore writing ANY new"
+    },
+    {
+      "file": "feedback_saudi_content_red_lines.md",
+      "title": "feedback-saudi-content-red-lines",
+      "head": "---\nname: feedback-saudi-content-red-lines\ndescription: \"Mohamed's hard red lines for Saudi brand content + the rule that captions must be SHORT. From the 2026-06-07 human review where he rated 25/30 weak/fail.\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: 61a80948-378b-4296-9be4-fdb27fecca2c\n---\n\nHard red lines for any Saudi brand caption/content (Mohamed, 2026-06-07 human r"
+    },
+    {
+      "file": "feedback_session_tracking.md",
+      "title": "session-tracking-never-lose-work-history",
+      "head": "---\nname: session-tracking-never-lose-work-history\ndescription: Every coding session must update memory and checkpoint before ending. Worktree sessions must log what they did. Sessions that span multiple days must checkpoint daily.\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: 3c9e38a6-f64d-4db2-97da-f0b683ef77f6\n---\n\nEvery coding session must leave a trail. On 2026-06-02, Moh"
+    },
+    {
+      "file": "feedback_system_first_unbreakable.md",
+      "title": "feedback-system-first-unbreakable",
+      "head": "---\nname: feedback-system-first-unbreakable\ndescription: \"UNBREAKABLE RULE from Mohamed (June 10) — persist research immediately into the system, confirm understanding before any plan/build\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: d86f5bda-b565-49b8-a395-1d1d2abac54d\n---\n\n# THE UNBREAKABLE RULE — System First, Confirm First\n\nMohamed, June 10, 2026 (verbatim): \"thats my m"
+    },
+    {
+      "file": "feedback_system_truth_audit_june24.md",
+      "title": "feedback-system-truth-audit-june24",
+      "head": "---\nname: feedback-system-truth-audit-june24\ndescription: \"June 24 — Mohamed's \\\"are u sure the minds are wired to the knowledge + using client branding, and are you fixing so they LEARN, and does the SYSTEM write the prompt not you?\\\" The evidence audit verdict + what got fixed + the honest gaps.\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: ac29b028-a30d-454c-85ed-738f0a9db"
+    },
+    {
+      "file": "feedback_test_before_merge.md",
+      "title": "Always test before merge",
+      "head": "---\nname: Always test before merge\ndescription: For Play Room OS (and any OGZ platform repo), never merge to main before Mohamed has tested the branch on a running dev server\ntype: feedback\noriginSessionId: f6765072-8383-4093-b08d-f2e67c96287f\n---\nNever merge a feature branch to `main` without Mohamed first testing it on a running dev server (Play Room OS = port 4000, http://100.89.93.5:4000 via T"
+    },
+    {
+      "file": "feedback_use_sonnet_default.md",
+      "title": "feedback-use-sonnet-default",
+      "head": "---\nname: feedback-use-sonnet-default\ndescription: Default to Sonnet for all work. Switch to Opus only for complex planning/creative decisions. Long Opus sessions hit the usage cap fast.\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: 61a80948-378b-4296-9be4-fdb27fecca2c\n---\n\nDefault to Sonnet. Only switch to Opus for complex planning or creative decisions.\n\n**Why:** A 12+ hour "
+    },
+    {
+      "file": "feedback_verify_batch_is_fresh_not_just_staged.md",
+      "title": "feedback-verify-batch-is-fresh-not-just-staged",
+      "head": "---\nname: feedback-verify-batch-is-fresh-not-just-staged\ndescription: \"A \\\"new batch\\\" an auto-picker assembles may surface OLD outputs — verify the actual text/timestamps before reporting it as new or fixed\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: d86f5bda-b565-49b8-a395-1d1d2abac54d\n---\n\nWhen you fix a generator and then stage \"a new batch,\" the staging step can silent"
+    },
+    {
+      "file": "feedback_verify_before_claiming.md",
+      "title": "verify-before-claiming-done",
+      "head": "---\nname: verify-before-claiming-done\ndescription: Always run verify_ship_ready.py before claiming data quality work is done on ogz-knowledge. Never mark tasks complete based on what you think you did.\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: 3c9e38a6-f64d-4db2-97da-f0b683ef77f6\n---\n\nNever claim data quality work is done without running verification. On 2026-06-02 Mohamed"
+    },
+    {
+      "file": "feedback_verify_substring_before_reporting.md",
+      "title": "feedback-verify-substring-before-reporting",
+      "head": "---\nname: feedback-verify-substring-before-reporting\ndescription: \"A regex/substring \\\"finding\\\" is not a fact until checked against real data — I reported a hallucinated metric to Mohamed as proof\"\nmetadata: \n  node_type: memory\n  type: feedback\n  originSessionId: d86f5bda-b565-49b8-a395-1d1d2abac54d\n---\n\n2026-06-13: I built a batch-diversity gate, ran it on jurisha's year map, and reported to Mo"
+    }
+  ],
+  "recent_sessions": [
+    {
+      "date": "2026-06-30",
+      "brief": "# SESSION BRIEF — Auto-generated from memory files\n# Generated: 2026-06-30 16:29 by session-start.sh sync\n# Source: /Users/abarihm/.claude/projects/-Users-abarihm/memory\n\n---\n\n## ACTIVE PROJECTS (from memory)\n**client-pyramid** — THE CLIENT PYRAMID + 3-client pilot (June 11) — the client profile/diagnose/archive/track system, its laws, machines, and pilot state. Read before ANY client work.\n\n**project-creation-system-top** — Mohamed's THE-TOP ruling (June 13) — the main goal is the system that CREATES posts + its strategy + approvals architecture\n\n**project-dev-platform-handoff** — June 27 PIVOT — the goal is now to prepare ogz-knowledge as the CONNECTABLE BRAIN for the developer-built customer platform (o-gz-studios-web-hlhi.vercel.app). Drop scaling; the devs own infra/real-AP\n\n**ogz-play-room-platform-dashboard** — Play Room is the OGZ internal OS dashboard — Next.js 16 + React 19 at port 4000. 21 view components, 5 pages (os, bd, crm, intake, portal). Last committed April 12 (cloud-mode guards). 25 files uncomm\n\n**project-ogz-build-state** — OGZ build state as of June 22 2026 — what's done (gates, model-resilience, Art-Director v1), what's LIVE vs SHADOW (taste at 33% but that's noise on a sparse graph, not a broken model — needs his brid\n\n**ogz-knowledge-base-extraction-project** — Brain v4.3+. 6,888 obs, 60 brands. Multi-LLM caption pipeline — 221-brief matrix, 5 CD brains, V3 XML prompt + English mode. 568 captions (Claude 221 / HUMAIN 206 / GPT-4o 141), 215 score ≥87,",
+      "todo": "# 02 — TODO NEXT (POINTER)\n# Updated: 2026-06-12 — content moved to live queues; this file points, never duplicates.\n\n**One fact lives in ONE place. The live TODO sources:**\n\n| What | Live source |\n|---|---|\n| The orchestra's backlog (the pair's work queue) | `~/Desktop/ogz-knowledge/data/backlog.json` (status=todo; 110+ done) |\n| Mohamed's pending taps | the portal → https://brain.ogzstudios.com/approvals?k=ogz-0d08cf69 |\n| Mid-session state + immediate next | `CURSOR.md` (always current) |\n| Staged big reviews | `~/Desktop/ogz-knowledge/clients/MOHAMED_APPROVALS.md` |\n| Law candidates awaiting his yes/no | `~/Desktop/ogz-knowledge/data/crystallize_queue.json` |\n\n*(The June-3 session content this file used to hold is git history — superseded, not lost.)*\n"
+    },
+    {
+      "date": "2026-06-29",
+      "brief": "# SESSION BRIEF — Auto-generated from memory files\n# Generated: 2026-06-29 19:31 by session-start.sh sync\n# Source: /Users/abarihm/.claude/projects/-Users-abarihm/memory\n\n---\n\n## ACTIVE PROJECTS (from memory)\n**client-pyramid** — THE CLIENT PYRAMID + 3-client pilot (June 11) — the client profile/diagnose/archive/track system, its laws, machines, and pilot state. Read before ANY client work.\n\n**project-creation-system-top** — Mohamed's THE-TOP ruling (June 13) — the main goal is the system that CREATES posts + its strategy + approvals architecture\n\n**project-dev-platform-handoff** — June 27 PIVOT — the goal is now to prepare ogz-knowledge as the CONNECTABLE BRAIN for the developer-built customer platform (o-gz-studios-web-hlhi.vercel.app). Drop scaling; the devs own infra/real-AP\n\n**ogz-play-room-platform-dashboard** — Play Room is the OGZ internal OS dashboard — Next.js 16 + React 19 at port 4000. 21 view components, 5 pages (os, bd, crm, intake, portal). Last committed April 12 (cloud-mode guards). 25 files uncomm\n\n**project-ogz-build-state** — OGZ build state as of June 22 2026 — what's done (gates, model-resilience, Art-Director v1), what's LIVE vs SHADOW (taste at 33% but that's noise on a sparse graph, not a broken model — needs his brid\n\n**ogz-knowledge-base-extraction-project** — Brain v4.3+. 6,888 obs, 60 brands. Multi-LLM caption pipeline — 221-brief matrix, 5 CD brains, V3 XML prompt + English mode. 568 captions (Claude 221 / HUMAIN 206 / GPT-4o 141), 215 score ≥87,",
+      "todo": "# 02 — TODO NEXT (POINTER)\n# Updated: 2026-06-12 — content moved to live queues; this file points, never duplicates.\n\n**One fact lives in ONE place. The live TODO sources:**\n\n| What | Live source |\n|---|---|\n| The orchestra's backlog (the pair's work queue) | `~/Desktop/ogz-knowledge/data/backlog.json` (status=todo; 110+ done) |\n| Mohamed's pending taps | the portal → https://brain.ogzstudios.com/approvals?k=ogz-0d08cf69 |\n| Mid-session state + immediate next | `CURSOR.md` (always current) |\n| Staged big reviews | `~/Desktop/ogz-knowledge/clients/MOHAMED_APPROVALS.md` |\n| Law candidates awaiting his yes/no | `~/Desktop/ogz-knowledge/data/crystallize_queue.json` |\n\n*(The June-3 session content this file used to hold is git history — superseded, not lost.)*\n"
+    },
+    {
+      "date": "2026-06-28",
+      "brief": "# SESSION BRIEF — Auto-generated from memory files\n# Generated: 2026-06-28 23:45 by session-start.sh sync\n# Source: /Users/abarihm/.claude/projects/-Users-abarihm/memory\n\n---\n\n## ACTIVE PROJECTS (from memory)\n**client-pyramid** — THE CLIENT PYRAMID + 3-client pilot (June 11) — the client profile/diagnose/archive/track system, its laws, machines, and pilot state. Read before ANY client work.\n\n**project-creation-system-top** — Mohamed's THE-TOP ruling (June 13) — the main goal is the system that CREATES posts + its strategy + approvals architecture\n\n**project-dev-platform-handoff** — June 27 PIVOT — the goal is now to prepare ogz-knowledge as the CONNECTABLE BRAIN for the developer-built customer platform (o-gz-studios-web-hlhi.vercel.app). Drop scaling; the devs own infra/real-AP\n\n**ogz-play-room-platform-dashboard** — Play Room is the OGZ internal OS dashboard — Next.js 16 + React 19 at port 4000. 21 view components, 5 pages (os, bd, crm, intake, portal). Last committed April 12 (cloud-mode guards). 25 files uncomm\n\n**project-ogz-build-state** — OGZ build state as of June 22 2026 — what's done (gates, model-resilience, Art-Director v1), what's LIVE vs SHADOW (taste at 33% but that's noise on a sparse graph, not a broken model — needs his brid\n\n**ogz-knowledge-base-extraction-project** — Brain v4.3+. 6,888 obs, 60 brands. Multi-LLM caption pipeline — 221-brief matrix, 5 CD brains, V3 XML prompt + English mode. 568 captions (Claude 221 / HUMAIN 206 / GPT-4o 141), 215 score ≥87,",
+      "todo": "# 02 — TODO NEXT (POINTER)\n# Updated: 2026-06-12 — content moved to live queues; this file points, never duplicates.\n\n**One fact lives in ONE place. The live TODO sources:**\n\n| What | Live source |\n|---|---|\n| The orchestra's backlog (the pair's work queue) | `~/Desktop/ogz-knowledge/data/backlog.json` (status=todo; 110+ done) |\n| Mohamed's pending taps | the portal → https://brain.ogzstudios.com/approvals?k=ogz-0d08cf69 |\n| Mid-session state + immediate next | `CURSOR.md` (always current) |\n| Staged big reviews | `~/Desktop/ogz-knowledge/clients/MOHAMED_APPROVALS.md` |\n| Law candidates awaiting his yes/no | `~/Desktop/ogz-knowledge/data/crystallize_queue.json` |\n\n*(The June-3 session content this file used to hold is git history — superseded, not lost.)*\n"
+    },
+    {
+      "date": "2026-06-27",
+      "brief": "# SESSION BRIEF — Auto-generated from memory files\n# Generated: 2026-06-27 18:48 by session-start.sh sync\n# Source: /Users/abarihm/.claude/projects/-Users-abarihm/memory\n\n---\n\n## ACTIVE PROJECTS (from memory)\n**client-pyramid** — THE CLIENT PYRAMID + 3-client pilot (June 11) — the client profile/diagnose/archive/track system, its laws, machines, and pilot state. Read before ANY client work.\n\n**project-creation-system-top** — Mohamed's THE-TOP ruling (June 13) — the main goal is the system that CREATES posts + its strategy + approvals architecture\n\n**project-dev-platform-handoff** — June 27 PIVOT — the goal is now to prepare ogz-knowledge as the CONNECTABLE BRAIN for the developer-built customer platform (o-gz-studios-web-hlhi.vercel.app). Drop scaling; the devs own infra/real-AP\n\n**ogz-play-room-platform-dashboard** — Play Room is the OGZ internal OS dashboard — Next.js 16 + React 19 at port 4000. 21 view components, 5 pages (os, bd, crm, intake, portal). Last committed April 12 (cloud-mode guards). 25 files uncomm\n\n**project-ogz-build-state** — OGZ build state as of June 22 2026 — what's done (gates, model-resilience, Art-Director v1), what's LIVE vs SHADOW (taste at 33% but that's noise on a sparse graph, not a broken model — needs his brid\n\n**ogz-knowledge-base-extraction-project** — Brain v4.3+. 6,888 obs, 60 brands. Multi-LLM caption pipeline — 221-brief matrix, 5 CD brains, V3 XML prompt + English mode. 568 captions (Claude 221 / HUMAIN 206 / GPT-4o 141), 215 score ≥87,",
+      "todo": "# 02 — TODO NEXT (POINTER)\n# Updated: 2026-06-12 — content moved to live queues; this file points, never duplicates.\n\n**One fact lives in ONE place. The live TODO sources:**\n\n| What | Live source |\n|---|---|\n| The orchestra's backlog (the pair's work queue) | `~/Desktop/ogz-knowledge/data/backlog.json` (status=todo; 110+ done) |\n| Mohamed's pending taps | the portal → https://brain.ogzstudios.com/approvals?k=ogz-0d08cf69 |\n| Mid-session state + immediate next | `CURSOR.md` (always current) |\n| Staged big reviews | `~/Desktop/ogz-knowledge/clients/MOHAMED_APPROVALS.md` |\n| Law candidates awaiting his yes/no | `~/Desktop/ogz-knowledge/data/crystallize_queue.json` |\n\n*(The June-3 session content this file used to hold is git history — superseded, not lost.)*\n"
+    },
+    {
+      "date": "2026-06-26",
+      "brief": "# SESSION BRIEF — Auto-generated from memory files\n# Generated: 2026-06-26 23:43 by session-start.sh sync\n# Source: /Users/abarihm/.claude/projects/-Users-abarihm/memory\n\n---\n\n## ACTIVE PROJECTS (from memory)\n**client-pyramid** — THE CLIENT PYRAMID + 3-client pilot (June 11) — the client profile/diagnose/archive/track system, its laws, machines, and pilot state. Read before ANY client work.\n\n**project-creation-system-top** — Mohamed's THE-TOP ruling (June 13) — the main goal is the system that CREATES posts + its strategy + approvals architecture\n\n**ogz-play-room-platform-dashboard** — Play Room is the OGZ internal OS dashboard — Next.js 16 + React 19 at port 4000. 21 view components, 5 pages (os, bd, crm, intake, portal). Last committed April 12 (cloud-mode guards). 25 files uncomm\n\n**project-ogz-build-state** — OGZ build state as of June 22 2026 — what's done (gates, model-resilience, Art-Director v1), what's LIVE vs SHADOW (taste at 33% but that's noise on a sparse graph, not a broken model — needs his brid\n\n**ogz-knowledge-base-extraction-project** — Brain v4.3+. 6,888 obs, 60 brands. Multi-LLM caption pipeline — 221-brief matrix, 5 CD brains, V3 XML prompt + English mode. 568 captions (Claude 221 / HUMAIN 206 / GPT-4o 141), 215 score ≥87, 0 human\n\n**project_ogz_system_map** — The full OGZ AI content system — 5 pieces, 3 people. Brain v4.3+ (Mohamed/Abraham, running, template bleed killed) + Caption Engine (awaiting review, 0/1000 clicks) + Visual Library (Ahmed, complete",
+      "todo": "# 02 — TODO NEXT (POINTER)\n# Updated: 2026-06-12 — content moved to live queues; this file points, never duplicates.\n\n**One fact lives in ONE place. The live TODO sources:**\n\n| What | Live source |\n|---|---|\n| The orchestra's backlog (the pair's work queue) | `~/Desktop/ogz-knowledge/data/backlog.json` (status=todo; 110+ done) |\n| Mohamed's pending taps | the portal → https://brain.ogzstudios.com/approvals?k=ogz-0d08cf69 |\n| Mid-session state + immediate next | `CURSOR.md` (always current) |\n| Staged big reviews | `~/Desktop/ogz-knowledge/clients/MOHAMED_APPROVALS.md` |\n| Law candidates awaiting his yes/no | `~/Desktop/ogz-knowledge/data/crystallize_queue.json` |\n\n*(The June-3 session content this file used to hold is git history — superseded, not lost.)*\n"
+    },
+    {
+      "date": "2026-06-25",
+      "brief": "# SESSION BRIEF — Auto-generated from memory files\n# Generated: 2026-06-25 07:07 by session-start.sh sync\n# Source: /Users/abarihm/.claude/projects/-Users-abarihm/memory\n\n---\n\n## ACTIVE PROJECTS (from memory)\n**client-pyramid** — THE CLIENT PYRAMID + 3-client pilot (June 11) — the client profile/diagnose/archive/track system, its laws, machines, and pilot state. Read before ANY client work.\n\n**project-creation-system-top** — Mohamed's THE-TOP ruling (June 13) — the main goal is the system that CREATES posts + its strategy + approvals architecture\n\n**ogz-play-room-platform-dashboard** — Play Room is the OGZ internal OS dashboard — Next.js 16 + React 19 at port 4000. 21 view components, 5 pages (os, bd, crm, intake, portal). Last committed April 12 (cloud-mode guards). 25 files uncomm\n\n**project-ogz-build-state** — OGZ build state as of June 22 2026 — what's done (gates, model-resilience, Art-Director v1), what's LIVE vs SHADOW (taste at 33% but that's noise on a sparse graph, not a broken model — needs his brid\n\n**ogz-knowledge-base-extraction-project** — Brain v4.3+. 6,888 obs, 60 brands. Multi-LLM caption pipeline — 221-brief matrix, 5 CD brains, V3 XML prompt + English mode. 568 captions (Claude 221 / HUMAIN 206 / GPT-4o 141), 215 score ≥87, 0 human\n\n**project_ogz_system_map** — The full OGZ AI content system — 5 pieces, 3 people. Brain v4.3+ (Mohamed/Abraham, running, template bleed killed) + Caption Engine (awaiting review, 0/1000 clicks) + Visual Library (Ahmed, complete",
+      "todo": "# 02 — TODO NEXT (POINTER)\n# Updated: 2026-06-12 — content moved to live queues; this file points, never duplicates.\n\n**One fact lives in ONE place. The live TODO sources:**\n\n| What | Live source |\n|---|---|\n| The orchestra's backlog (the pair's work queue) | `~/Desktop/ogz-knowledge/data/backlog.json` (status=todo; 110+ done) |\n| Mohamed's pending taps | the portal → https://brain.ogzstudios.com/approvals?k=ogz-0d08cf69 |\n| Mid-session state + immediate next | `CURSOR.md` (always current) |\n| Staged big reviews | `~/Desktop/ogz-knowledge/clients/MOHAMED_APPROVALS.md` |\n| Law candidates awaiting his yes/no | `~/Desktop/ogz-knowledge/data/crystallize_queue.json` |\n\n*(The June-3 session content this file used to hold is git history — superseded, not lost.)*\n"
+    },
+    {
+      "date": "2026-06-24",
+      "brief": "# SESSION BRIEF — Auto-generated from memory files\n# Generated: 2026-06-24 15:45 by session-start.sh sync\n# Source: /Users/abarihm/.claude/projects/-Users-abarihm/memory\n\n---\n\n## ACTIVE PROJECTS (from memory)\n**client-pyramid** — THE CLIENT PYRAMID + 3-client pilot (June 11) — the client profile/diagnose/archive/track system, its laws, machines, and pilot state. Read before ANY client work.\n\n**project-creation-system-top** — Mohamed's THE-TOP ruling (June 13) — the main goal is the system that CREATES posts + its strategy + approvals architecture\n\n**ogz-play-room-platform-dashboard** — Play Room is the OGZ internal OS dashboard — Next.js 16 + React 19 at port 4000. 21 view components, 5 pages (os, bd, crm, intake, portal). Last committed April 12 (cloud-mode guards). 25 files uncomm\n\n**project-ogz-build-state** — OGZ build state as of June 22 2026 — what's done (gates, model-resilience, Art-Director v1), what's LIVE vs SHADOW (taste at 33% but that's noise on a sparse graph, not a broken model — needs his brid\n\n**ogz-knowledge-base-extraction-project** — Brain v4.3+. 6,888 obs, 60 brands. Multi-LLM caption pipeline — 221-brief matrix, 5 CD brains, V3 XML prompt + English mode. 568 captions (Claude 221 / HUMAIN 206 / GPT-4o 141), 215 score ≥87, 0 human\n\n**project_ogz_system_map** — The full OGZ AI content system — 5 pieces, 3 people. Brain v4.3+ (Mohamed/Abraham, running, template bleed killed) + Caption Engine (awaiting review, 0/1000 clicks) + Visual Library (Ahmed, complete",
+      "todo": "# 02 — TODO NEXT (POINTER)\n# Updated: 2026-06-12 — content moved to live queues; this file points, never duplicates.\n\n**One fact lives in ONE place. The live TODO sources:**\n\n| What | Live source |\n|---|---|\n| The orchestra's backlog (the pair's work queue) | `~/Desktop/ogz-knowledge/data/backlog.json` (status=todo; 110+ done) |\n| Mohamed's pending taps | the portal → https://brain.ogzstudios.com/approvals?k=ogz-0d08cf69 |\n| Mid-session state + immediate next | `CURSOR.md` (always current) |\n| Staged big reviews | `~/Desktop/ogz-knowledge/clients/MOHAMED_APPROVALS.md` |\n| Law candidates awaiting his yes/no | `~/Desktop/ogz-knowledge/data/crystallize_queue.json` |\n\n*(The June-3 session content this file used to hold is git history — superseded, not lost.)*\n"
+    },
+    {
+      "date": "2026-06-23",
+      "brief": "# SESSION BRIEF — Auto-generated from memory files\n# Generated: 2026-06-23 07:44 by session-start.sh sync\n# Source: /Users/abarihm/.claude/projects/-Users-abarihm/memory\n\n---\n\n## ACTIVE PROJECTS (from memory)\n**client-pyramid** — THE CLIENT PYRAMID + 3-client pilot (June 11) — the client profile/diagnose/archive/track system, its laws, machines, and pilot state. Read before ANY client work.\n\n**project-creation-system-top** — Mohamed's THE-TOP ruling (June 13) — the main goal is the system that CREATES posts + its strategy + approvals architecture\n\n**ogz-play-room-platform-dashboard** — Play Room is the OGZ internal OS dashboard — Next.js 16 + React 19 at port 4000. 21 view components, 5 pages (os, bd, crm, intake, portal). Last committed April 12 (cloud-mode guards). 25 files uncomm\n\n**project-ogz-build-state** — OGZ build state as of June 22 2026 — what's done (gates, model-resilience, Art-Director v1), what's LIVE vs SHADOW (taste at 33% but that's noise on a sparse graph, not a broken model — needs his brid\n\n**ogz-knowledge-base-extraction-project** — Brain v4.3+. 6,888 obs, 60 brands. Multi-LLM caption pipeline — 221-brief matrix, 5 CD brains, V3 XML prompt + English mode. 568 captions (Claude 221 / HUMAIN 206 / GPT-4o 141), 215 score ≥87, 0 human\n\n**project_ogz_system_map** — The full OGZ AI content system — 5 pieces, 3 people. Brain v4.3+ (Mohamed/Abraham, running, template bleed killed) + Caption Engine (awaiting review, 0/1000 clicks) + Visual Library (Ahmed, complete",
+      "todo": "# 02 — TODO NEXT (POINTER)\n# Updated: 2026-06-12 — content moved to live queues; this file points, never duplicates.\n\n**One fact lives in ONE place. The live TODO sources:**\n\n| What | Live source |\n|---|---|\n| The orchestra's backlog (the pair's work queue) | `~/Desktop/ogz-knowledge/data/backlog.json` (status=todo; 110+ done) |\n| Mohamed's pending taps | the portal → https://brain.ogzstudios.com/approvals?k=ogz-0d08cf69 |\n| Mid-session state + immediate next | `CURSOR.md` (always current) |\n| Staged big reviews | `~/Desktop/ogz-knowledge/clients/MOHAMED_APPROVALS.md` |\n| Law candidates awaiting his yes/no | `~/Desktop/ogz-knowledge/data/crystallize_queue.json` |\n\n*(The June-3 session content this file used to hold is git history — superseded, not lost.)*\n"
+    }
+  ],
+  "backlog": {
+    "by_status": {
+      "done": 291,
+      "superseded": 3,
+      "todo": 56,
+      "open": 4,
+      "staged": 9,
+      "skipped": 4,
+      "blocked": 1,
+      "built": 1,
+      "mohamed_must": 2,
+      "reverted": 1,
+      "in_progress": 1
+    },
+    "todo_sample": [
+      {
+        "id": "B028",
+        "layer": "L3 Machines",
+        "what": "Pick the 60-second gate delivery channel",
+        "how": "Decision card ≤3 options with recommendation from the WhatsApp research; nothing client-facing ships before this click.",
+        "who": "mohamed_must",
+        "est_minutes": 10,
+        "depends_on": [
+          "B027"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B080",
+        "layer": "L4 Bedrock",
+        "what": "Approve the two new schemas (frozen-folder rule)",
+        "how": "ADR in 00_start_here/decisions/ citing GAP-11 precedent; 12_data_shapes may not change without his permission.",
+        "who": "mohamed_must",
+        "est_minutes": 5,
+        "depends_on": [
+          "B077",
+          "B079"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B107",
+        "layer": "Immune System",
+        "what": "Ratify the deadly-defaults table",
+        "how": "60-second yes/no per row; parked rows stay parked until his word — cultural rulings are his alone. [merged 2 branches]",
+        "who": "mohamed_must",
+        "est_minutes": 10,
+        "depends_on": [
+          "B105"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B110",
+        "layer": "Immune System",
+        "what": "Answer the 3 parked cultural rulings",
+        "how": "FLANK-01 AI-image-of-real-product (never / disclosure / per-client, rec marked), family-voice «أمي جابت...» on/off, masculinity framing on/off — a machine ruling on parked culture is the scar in new clothes. [merged 4 branches]",
+        "who": "mohamed_must",
+        "est_minutes": 15,
+        "depends_on": [
+          "B109"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B126",
+        "layer": "Immune System",
+        "what": "Option C: expand the negative-control set",
+        "how": "3-5 unambiguous left-hand-SERVING images into _calibration_set + GROUND_TRUTH entries — one borderline frame can't prove a moat.",
+        "who": "pair",
+        "est_minutes": 30,
+        "depends_on": [],
+        "status": "todo"
+      },
+      {
+        "id": "B127",
+        "layer": "Immune System",
+        "what": "A/B/C evidence one-pager",
+        "how": "Detection rate, false-block rate, cost/image for A, B, A+B, C-expanded — formatted as a 60-second gate.",
+        "who": "pair",
+        "est_minutes": 15,
+        "depends_on": [
+          "B125"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B128",
+        "layer": "Immune System",
+        "what": "Pick compliance option A/B/C + rule serving-vs-handling scope",
+        "how": "Two buttons: option pick with recommendation; does left_hand_serving cover ALL left-hand food handling or only serving-to-others — cultural ruling.",
+        "who": "mohamed_must",
+        "est_minutes": 5,
+        "depends_on": [
+          "B127"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B129",
+        "layer": "Immune System",
+        "what": "Update rule text to the ruled scope",
+        "how": "universal_gestures_forbidden.yaml left_hand_serving description + detection_hints + extraction rubric match the ruling exactly.",
+        "who": "pair",
+        "est_minutes": 10,
+        "depends_on": [
+          "B128"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B132",
+        "layer": "Immune System",
+        "what": "Armor guards become law in /api/create",
+        "how": "5 example kills from the before/after diff (one per guard) as a yes/no list — porting RABIE-provisional rulings system-wide needs his stamp.",
+        "who": "mohamed_must",
+        "est_minutes": 5,
+        "depends_on": [
+          "B131"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B133",
+        "layer": "Immune System",
+        "what": "Rate 20 armored v6 outputs at /rate20",
+        "how": "His clicks are the only ground truth (AI judge proven blind); ratings ≥4 auto-flow to gold.",
+        "who": "mohamed_must",
+        "est_minutes": 30,
+        "depends_on": [
+          "B132"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B135",
+        "layer": "Immune System",
+        "what": "Ratify ADR-2026-06-11: feed-cloner as methodology of record",
+        "how": "Confirm cd_06_feed_cloner.md provenance confirmer + flip confidence experimental→confirmed; queued in MOHAMED_REVIEW_PACK.md.",
+        "who": "mohamed_must",
+        "est_minutes": 5,
+        "depends_on": [],
+        "status": "todo"
+      },
+      {
+        "id": "B148",
+        "layer": "Flanks",
+        "what": "Set package tiers + prices (FLANK-03 — money)",
+        "how": "Pick/edit one of 3 drafted tiers per pilot; numbers land in commercial_terms.json as confirmed + ledger event. Only he sets pricing. [merged 3 branches]",
+        "who": "mohamed_must",
+        "est_minutes": 15,
+        "depends_on": [
+          "B147"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B151",
+        "layer": "Flanks",
+        "what": "Approve referral-ask wording + trigger",
+        "how": "Yes/no on the one-liner — it is a client-facing send rule.",
+        "who": "mohamed_must",
+        "est_minutes": 5,
+        "depends_on": [
+          "B150"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B159",
+        "layer": "Flanks",
+        "what": "Ratify SLA + ping-budget numbers",
+        "how": "Pair proposes (reply ≤48h, ≤2 pings/wk); he yes/no's — a standing relationship promise.",
+        "who": "mohamed_must",
+        "est_minutes": 5,
+        "depends_on": [
+          "B158"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B161",
+        "layer": "Flanks",
+        "what": "Name the OGZ account owner per pilot client",
+        "how": "Button-style gate: 3 clients × one name each — org decision about his people.",
+        "who": "mohamed_must",
+        "est_minutes": 5,
+        "depends_on": [
+          "B160"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B165",
+        "layer": "Flanks",
+        "what": "Approve review-monitoring consent ask + complaint-ping template",
+        "how": "The as-a-service ping wording + consent ask before any client-facing review monitoring goes live.",
+        "who": "mohamed_must",
+        "est_minutes": 10,
+        "depends_on": [
+          "B164"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B166",
+        "layer": "Flanks",
+        "what": "Monthly review re-pull wired to comment re-pull",
+        "how": "fetch_delivery_reviews.py added to the monthly audience-mirror re-pull mechanism.",
+        "who": "pair",
+        "est_minutes": 10,
+        "depends_on": [
+          "B165"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B176",
+        "layer": "Flanks",
+        "what": "Ratify the per-batch consent rule",
+        "how": "Yes/no on the rewritten L1 paragraph — a permanent consent rule on the trust clause.",
+        "who": "mohamed_must",
+        "est_minutes": 5,
+        "depends_on": [
+          "B175"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B178",
+        "layer": "Flanks",
+        "what": "Approve the cross-client learning design",
+        "how": "60-second gate on the ADR summary — it touches client-data boundaries, so the rule is his. (RABIE 4/5 provisional.)",
+        "who": "mohamed_must",
+        "est_minutes": 5,
+        "depends_on": [
+          "B177"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B187",
+        "layer": "Spine",
+        "what": "Approve the 3 question scripts + truth-confirm cards",
+        "how": "One yes/no card each (jurisha/albaik/myfitness) — client-facing material never moves without his click; scripts carry the approver-identity + rivals questions too. [merged 5 raw across 4 branches]",
+        "who": "mohamed_must",
+        "est_minutes": 10,
+        "depends_on": [
+          "B183",
+          "B184",
+          "B185",
+          "B186"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B191",
+        "layer": "Spine",
+        "what": "Approve Khwila presentation + follow-up pack",
+        "how": "One yes/no card — the standing parked queue item; unlocks red_lines/goals/who-speaks answers (GAP-01, GAP-05). [merged 3 branches]",
+        "who": "mohamed_must",
+        "est_minutes": 10,
+        "depends_on": [
+          "B188",
+          "B189"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B192",
+        "layer": "Spine",
+        "what": "Send the Khwila pack",
+        "how": "Client-facing sends are Mohamed-only; presentation_sent event appended the same minute.",
+        "who": "mohamed_must",
+        "est_minutes": 5,
+        "depends_on": [
+          "B191"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B193",
+        "layer": "Spine",
+        "what": "Project jurisha answers into organs same-day",
+        "how": "Red lines → red_lines.json, goals/capacity/ratio → goals.json, who-speaks+USP → fingerprint l1/l2, each an intake_answer event with verbatim Arabic.",
+        "who": "pair",
+        "est_minutes": 20,
+        "depends_on": [
+          "B192"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B195",
+        "layer": "Spine",
+        "what": "Review both voice-pair sets before any client sees them",
+        "how": "Yes/no card per set.",
+        "who": "mohamed_must",
+        "est_minutes": 5,
+        "depends_on": [
+          "B194"
+        ],
+        "status": "todo"
+      },
+      {
+        "id": "B196",
+        "layer": "Spine",
+        "what": "myfitness revival voices v2 complete + filler-leak regen",
+        "how": "Render 2 missing voices (bilingual filler ban live, seeded from 372-post archive) + re-render the post that leaked «بل رحلة»; keep «مرحبا من جديد يا أهل تبوك» anchor. [merged 2]",
+        "who": "pair",
+        "est_minutes": 30,
+        "depends_on": [],
+        "status": "todo",
+        "done_note": " | 2026-06-22: ROOT found+fixed (B196r) — the leak was an unguarded VISUAL door in post_audit, not a render fluke; the stale 2026-09-10 file is caption-less (already blocked as empty). Re-render of the 2 missing voices remains (SYSTEM produces, Rule #12 — LLM step)."
+      }
+    ]
+  },
+  "recovery_point_excerpt": "# CURSOR — live recovery point · updated 2026-06-30\n\n## ⭐ JUNE 30 — GATE0 anti-hallucination matcher HARDENED (consult-first, Rule #19) · boshed 1ddca153\n**Done:** closed two product_is_real() fail-opens (scripts/truth_guards.py) that let a HALLUCINATED\nproduct clear the FAL-spend gate (Rule #12): (1) raw-substring over all profile/*.json passed a\ngreeting «عيد أضحى مبارك»; (2) any single ≥4-char caption token passed «أي منتج وهمي» (common word\n«منتج»). Now: STRUCTURED read of product_truth.json only (both shapes: albaik top-level keys /\njurisha+alnasser d[\"products\"]); pass only if query⊆real-name tokens; if client HAS product_truth\nit's the AUTHORITY (no caption back-door); corpus fallback only for no-product_truth brands (full\nphrase OR ≥2 sig tokens, never a single). Also render_openclaw GATE0 `except: pass` → FAIL-CLOSED.\n**Test:** tests/test_truth_guards.py — 19 cases, exit 0 (real pass, fakes refuse, 3 live clients);\ncaption gauntlet still green. **Consulted DeepSeek+RABIE before+after: VERIFIED, no fail-open.**\n**Residual (flagged, task_6f6385da):** no-product_truth brands (ecoffeecup/lnasserjewelry/myfitness)\ncan still pass a verbatim greeting via caption-overlap → give them product_truth or tighten that path.\n\n---\n# CURSOR — prior · updated 2026-06-23\n\n## 🔺 STANDING GOAL (Mohamed, June 23) — the 24h orchestra, this week, NEVER STOP\n**RABIE + Claude work 24/7 for the week. THE TOP: the SYSTEM produces 20 PERFECT complete posts\n(photo + caption + everything), created ONE BY ONE, across the 3 clients (albaik · jurisha ·\nmyfitness), in DIFFERENT setups — each RABIE-judged perfect (harsh: 3=default, 4=proof, 5=rare)\nbefore it counts.** Method: machine produces (Rule #12) → RABIE judges independent+harsh → fix the\nMACHINE (or brief) → re-produce → bank when perfect → next. Never accept \"fine\". Money: $3 fal cap\n(USD_CAP) gates renders — when it hits, ask Mohamed to raise it.\n**RENDER CONSTRAINT (found June 23):** flux-2-pro/EDIT edits the product reference → it makes\nPRODUCT-FORWARD shots well, but NOT human STORY scenes. So start product-forward (works); story-scene\nrendering needs a different (generation) path — a Mohamed fork.\n**Machine fixes banked toward the goal:** pick_reference matches product+flags gaps (833176fe) ·\nrender obeys face_visibility=never / faceless (d16206ca) · 7 fail-open gates closed (f6a464a1,3c1a4db7).\n\n## ⭐ JUNE 24 SESSION — 8/20 PERFECT (RABIE = GPT-4o vision judge, harsh 3=default)\n**Built rabie_judge.py** (scripts/) — GPT-",
+  "wiring_status": {
+    "brain_to_dev_platform": "contracts built + tested; Vercel extraction broken on their side",
+    "brain_to_ogz_platform": "NOT wired — separate 10-field BrandDNA",
+    "portal_to_learning": "WIRED — apply_rulings every 30s",
+    "deepseek_telegram": "WIRED — com.ogz.ds-telegram"
+  },
+  "key_mistakes_documented": [
+    "Over-claiming output quality without verification (June 22)",
+    "Hand-seeding scenes instead of fixing machine (Rule #12)",
+    "Fail-open gates letting hallucinated products render (fixed GATE0 June 29-30)",
+    "Severed wires — art-director brief not reaching fal prompt (fixed C240)",
+    "HUMAIN in wrong browser window — use CDP to Mohamed's browser (C227)",
+    "Orchestra session leak — claude sessions pile up, load 70+ (June 20)",
+    "Claiming 5/9 approved when passed=false without HUMAIN (June 29 correction)",
+    "Stale beliefs — render parked when no_fal_photos=False since June 21"
+  ],
+  "how_cursor_should_work": [
+    "Read ~/claude_operator_state/CURSOR.md first every session",
+    "Drop missions to data/cursor_missions/pending/ — Claude Code executes",
+    "Never ask Mohamed to re-explain — grep CURSOR, backlog, git, scars",
+    "Consult DeepSeek+RABIE before substantive builds (Rule #15-19)",
+    "Mohamed = decisions/taste only; machine fixes itself"
+  ]
+}

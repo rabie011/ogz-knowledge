@@ -1,0 +1,36 @@
+{
+  "platform": "/Users/abarihm/ogz-platform",
+  "api_routes": [
+    "app/api/calendar/download/route.ts",
+    "app/api/brands/correct/route.ts",
+    "app/api/brands/gap/route.ts",
+    "app/api/brands/route.ts",
+    "app/api/admin/regen/route.ts"
+  ],
+  "lib_files": [
+    "lib/types/brandDna.ts",
+    "lib/types.ts",
+    "lib/ai/c-suite/deepseek-calendar.ts",
+    "lib/ai/c-suite/coo.ts",
+    "lib/ai/brand-dna-extractor.ts",
+    "lib/ai/completeness-score.ts",
+    "lib/ai/prompts/brand-dna-extraction.ts",
+    "lib/production/weavy-client.ts",
+    "lib/db/schema.ts",
+    "lib/db/migrate.ts",
+    "lib/db/queries.ts",
+    "lib/scrapers/website.ts",
+    "lib/scrapers/instagram.ts",
+    "lib/scrapers/google-business.ts",
+    "lib/validators/brandDna.ts",
+    "lib/services/brand.ts",
+    "lib/services/brandDnaService.ts"
+  ],
+  "total_ts_files_scanned": 36,
+  "brain_endpoint": "http://127.0.0.1:4140/extract",
+  "missing_today": "No /api/onboarding/extraction-status route \u2014 must add or proxy to brain",
+  "wire_blocked_until": [
+    "mohamed_must: wire",
+    "confirm ogz-platform vs o-gz-studios-web"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "sector-fake-clients-all-waves",
+  "status": "partial",
+  "exit_codes": {
+    "cmd_0": 1,
+    "cmd_1": 1,
+    "cmd_2": 0,
+    "cmd_3": 1
+  },
+  "summary": "3 blocker(s)",
+  "log_path": "data/cursor_missions/done/2026-06-30-sector-fake-clients-all-waves.log",
+  "blockers": [
+    "command 0 failed (exit 1): cd ~/Desktop/ogz-knowledge && python3 scripts/seed_fake_sector_client.py --all",
+    "command 1 failed (exit 1): cd ~/Desktop/ogz-knowledge && python3 scripts/test_sector_coverage.py",
+    "command 3 failed (exit 1): cd ~/Desktop/ogz-knowledge && python3 scripts/wire_ready_check.py"
+  ],
+  "fix_allowed": false,
+  "finished": "2026-06-30T12:45:17Z"
+}

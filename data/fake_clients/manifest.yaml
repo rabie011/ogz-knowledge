@@ -1,0 +1,124 @@
+# Synthetic sector fixtures for fake-platform + brain wiring tests.
+# tier: ready (≥60% pre_fill + banked render) | sparse (refuse produce)
+# Do NOT use for sector_prior aggregation (synthetic_fixture provenance).
+
+clients:
+  fake_fnb:
+    sector: f_and_b
+    tier: ready
+    brand_ar: مقهى تجريبي
+    brand_en: Fake F&B Demo
+    city: Jeddah
+    dialect_register: hijazi
+    product: كومبو
+    chain: T03
+    render_source: albaik_T03.jpg
+
+  fake_beauty:
+    sector: beauty_personal_care
+    tier: ready
+    brand_ar: صالون تجريبي
+    brand_en: Fake Beauty Demo
+    city: Riyadh
+    dialect_register: najdi
+    product: عطر
+    chain: U01
+    render_source: albaik_T03.jpg
+
+  fake_retail:
+    sector: retail_lifestyle
+    tier: ready
+    brand_ar: متجر تجريبي
+    brand_en: Fake Retail Demo
+    city: Riyadh
+    dialect_register: najdi
+    product: هدية
+    chain: T03
+    render_source: albaik_T03.jpg
+
+  fake_fashion:
+    sector: fashion
+    tier: ready
+    brand_ar: أزياء تجريبية
+    brand_en: Fake Fashion Demo
+    city: Jeddah
+    dialect_register: hijazi
+    product: عباية
+    chain: G03
+    render_source: albaik_T03.jpg
+
+  fake_realestate:
+    sector: real_estate
+    tier: ready
+    brand_ar: عقارات تجريبية
+    brand_en: Fake Real Estate Demo
+    city: Riyadh
+    dialect_register: najdi
+    product: فيلا
+    chain: U01
+    render_source: albaik_T03.jpg
+
+  fake_wellness:
+    sector: healthcare_wellness
+    tier: ready
+    brand_ar: مركز عافية تجريبي
+    brand_en: Fake Wellness Demo
+    city: Tabuk
+    dialect_register: najdi
+    product: اشتراك
+    chain: U01
+    render_source: albaik_T03.jpg
+
+  fake_fnb_sparse:
+    sector: f_and_b
+    tier: sparse
+    brand_ar: مقهى ناقص
+    brand_en: Sparse F&B
+    city: Jeddah
+    product: منتج
+    chain: U01
+
+  fake_beauty_sparse:
+    sector: beauty_personal_care
+    tier: sparse
+    brand_ar: صالون ناقص
+    brand_en: Sparse Beauty
+    city: Riyadh
+    product: منتج
+    chain: U01
+
+  fake_retail_sparse:
+    sector: retail_lifestyle
+    tier: sparse
+    brand_ar: متجر ناقص
+    brand_en: Sparse Retail
+    city: Riyadh
+    product: منتج
+    chain: U01
+
+  fake_fashion_sparse:
+    sector: fashion
+    tier: sparse
+    brand_ar: أزياء ناقصة
+    brand_en: Sparse Fashion
+    city: Jeddah
+    product: منتج
+    chain: U01
+
+  fake_realestate_sparse:
+    sector: real_estate
+    tier: sparse
+    brand_ar: عقار ناقص
+    brand_en: Sparse Real Estate
+    city: Riyadh
+    product: منتج
+    chain: U01
+
+  fake_wellness_sparse:
+    sector: healthcare_wellness
+    tier: sparse
+    brand_ar: عافية ناقصة
+    brand_en: Sparse Wellness
+    city: Tabuk
+    product: منتج
+    chain: U01

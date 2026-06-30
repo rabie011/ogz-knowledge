@@ -133,6 +133,11 @@ def main() -> int:
             "goal": "Recurring health + status report",
             "fix_allowed": False,
             "commands": [
+                "cd ~/Desktop/ogz-knowledge && python3 scripts/seed_fake_sector_client.py --all",
+                "cd ~/Desktop/ogz-knowledge && python3 scripts/test_sector_coverage.py",
+                "cd ~/Desktop/ogz-knowledge && python3 scripts/fake_platform_client.py",
+                "cd ~/Desktop/ogz-knowledge && python3 scripts/refresh_handoff_bundle.py",
+                "cd ~/Desktop/ogz-knowledge && python3 scripts/wire_ready_check.py",
                 "cd ~/Desktop/ogz-knowledge && python3 scripts/make_sure.py 2>&1 | tail -20",
                 "cd ~/Desktop/ogz-knowledge && python3 scripts/cursor_autonomous_report.py",
             ],

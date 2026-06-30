@@ -1,0 +1,57 @@
+{
+  "handle": "myfitness.sa",
+  "chain": "U01",
+  "scene": "صالة أجهزة رياضية ومسبح في مركز لياقتي بتبوك",
+  "occasion": "",
+  "intent": "grow",
+  "model": "fal-ai/flux-2-pro/edit    (limit 8,000 chars)",
+  "reference_image": "clients/myfitness.sa/media/B6JMtVaBHyk.jpg",
+  "prompt": "[BRAND LOCK · identity invariant, composition open]\nThe reference image teaches the myfitness.sa brand identity. Identity is invariant — camera angle, framing, and lighting are creative decisions, not copies of the reference photo.\nIdentity DNA — preserved at any angle: عضوية شهرية — صالة أجهزة رياضية ومسبح وكارديو\nINTEGRATION: The same studio light defines backdrop and product. The product picks up subtle ambient cast at its edges; its contact shadow flows onto the backdrop with the same direction and softness as any shadow in the frame.\n\n[REALISM & CAPTURE CHARACTER]\nCapture character: clean_studio — default clean_studio for catalog. Reads as captured on a medium-format digital back, high-end commercial grade. Material truth: honest material truth for the real substrate — genuine micro-reflectance, true texture, no plastic uniformity; product-truth texture: sport_matte equipment and pool deck. Imperfections are part of realism — genuine micro-reflectance, honest shadow-to-highlight temperature shift, true material behavior. Sharpness reads mechanical-optical, never algorithmically over-sharpened. No CGI-clean perfection, no plastic uniformity.\n\n[SCALE CALIBRATION]\nreal-world product size with a clear scale-anchor object in frame — never distorted larger for emphasis. As the sole catalog subject the product fills the frame at honest packaging scale — never distorted larger for emphasis.\n\n[FRAMING & PROXIMITY]\nCatalog hero proximity. Product occupies ~55% of frame height at a strong compositional point with deliberate negative space. Reads as a flagship catalog cover — confident, uncluttered.\n\n[COLOR & CONTRAST · brand-derived]\nClean editorial palette anchored to orange #FF8C00 against a neutral backdrop. No colors foreign to the brand, no clinical pure white unless the brand owns it, no competing accents. no cartoon/illustration/stylized rendering, no oversaturation, no plastic CGI uniformity, no borrowed reference colours, no readable text on neighbouring objects\n\n[LIGHT & LENS · dimensional, mood not spec]\nPremium catalog lighting — controlled, dimensional. Model chooses key direction, light quality (soft to semi-hard), fill ratio, and rim. Reveal the product's material truth and let orange #FF8C00 read cleanly. Cleaner than the dramatic chains — the catalog needs full legibility — but never flat. Lens: model chooses macro intimacy to natural product perspective; depth from full-sharp to gentle falloff.\n\n[SCENE · creative seed]\nCreative seed (from the system): صالة أجهزة رياضية ومسبح في مركز لياقتي بتبوك\nPresent the product as the absolute hero of a clean premium frame — flagship catalog energy. Model chooses: camera angle (low-three-quarter, eye-level front, high-angle three-quarter, near-profile); placement (centered with negative space, rule-of-thirds, low-anchored); backdrop treatment (flat seamless, gradient falloff, subtle backlit glow) — all within the neutral range.\n\n[SUBJECT]\nSingle product as absolute subject, rendered to printed-catalog fidelity. No secondary elements.\n\n[BRAND CONSTRAINTS]\nSingle product only, never duplicated, mirrored, or composited. No human elements — no hands, faces, limbs, silhouettes. Clean unbroken backdrop, no props. Colors true without oversaturation. No cartoon/illustration/stylized rendering. no cartoon/illustration/stylized rendering, no oversaturation, no plastic CGI uniformity, no borrowed reference colours, no readable text on neighbouring objects\n\n[OUTPUT]\n8K photoreal commercial product photography. Editorial grade anchored to orange #FF8C00. No overlay text, no watermark, no logo other than the product's own. No human presence. No borders, frames, or UI.\n\n[SAUDI ADAPTATION — conditional, agent appends if context matches]\nauthentic contemporary Saudi setting — true materials, never generic-Arabian — for catalog, adaptation is usually minimal. warmer gold/sand/amber tones may warm the backdrop toward gold/sand/amber for fragrance/oud/luxury sectors. For Premium+ subtle gold particle haze in the upper third.\n\n[CREATIVE VARIANCE DIRECTIVE]\nAcross generations, vary camera angle, placement, light direction, backdrop treatment, depth of field. Hold constant: brand-derived palette, clean catalog legibility, material texture. Each render a fresh catalog interpretation, never a fixed canonical shot.",
+  "lint": {
+    "chars": 4318,
+    "cap": 8000,
+    "n_blocks": 12,
+    "blocks": [
+      "BRAND LOCK · identity invariant, composition open",
+      "REALISM & CAPTURE CHARACTER",
+      "SCALE CALIBRATION",
+      "FRAMING & PROXIMITY",
+      "COLOR & CONTRAST · brand-derived",
+      "LIGHT & LENS · dimensional, mood not spec",
+      "SCENE · creative seed",
+      "SUBJECT",
+      "BRAND CONSTRAINTS",
+      "OUTPUT",
+      "SAUDI ADAPTATION — conditional, agent appends if context matches",
+      "CREATIVE VARIANCE DIRECTIVE"
+    ],
+    "issues": []
+  },
+  "fill_sources": {
+    "organ": [
+      "product.identity_dna",
+      "product.material_texture"
+    ],
+    "derived": [
+      "brand.aesthetic.capture_character",
+      "brand.anti_attributes",
+      "brand.palette.background_tone",
+      "brand.palette.primary",
+      "product.dimensions",
+      "product.label_text_arabic",
+      "product.label_text_latin",
+      "saudi.color_palette_adjust",
+      "saudi.scene_context"
+    ],
+    "client_needed": [
+      "product.name"
+    ],
+    "n/a": [
+      "brief.text_request.copy",
+      "brief.text_request.style",
+      "brief.text_request.zone",
+      "saudi.occasion_overlay"
+    ]
+  },
+  "generated": "2026-06-13"
+}

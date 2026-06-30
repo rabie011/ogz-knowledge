@@ -1,0 +1,19 @@
+{
+  "ts": "2026-06-30T14:52:02Z",
+  "mohamed_gate": "wire to production",
+  "local_wire_done": true,
+  "platform_exists": true,
+  "brain_client": true,
+  "steps": [
+    "Install cloudflared or ngrok on Mac Mini",
+    "Tunnel https://localhost:4140 → public URL",
+    "Set BRAIN_API_URL on Vercel to tunnel URL",
+    "Set BRAIN_API_TOKEN on Vercel (sync from ~/.abraham_env)",
+    "Test POST /extract from Vercel preview",
+    "Mohamed says wire — then promote"
+  ],
+  "commands_hint": [
+    "cloudflared tunnel --url http://127.0.0.1:4140",
+    "python3 scripts/sync_brain_token_to_platform.py"
+  ]
+}

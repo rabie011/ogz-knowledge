@@ -126,9 +126,21 @@ to hard_blocks_triggered using the EXACT name below and set overall_compliance
 to "hard_blocked":
 {rubric}
 
-Be rigorous and literal about hand-handedness — examine thumb position, finger
-order, and the back-vs-palm of the hand. Report exactly what you observe. Do not
-assume content is clean; do not assume it is a violation. Return ONLY the JSON.
+HANDEDNESS PROTOCOL — apply to EVERY visible hand touching or reaching toward
+food, BEFORE grading. Determine left vs right FORENSICALLY and record each cue in
+hands_analysis[].reasoning: (a) which side the wrist/forearm enters the frame
+from, (b) thumb position relative to the other fingers, (c) palm vs dorsal (back)
+view — knuckles and rings sit on the dorsal side, creases on the palm side, (d)
+finger order. Conclude "right" ONLY if these cues agree with high confidence; if
+the cues conflict or any is unclear, set which_hand to "uncertain".
+
+FAIL-SAFE (conservative — left_hand_serving is a severe cultural red line): if a
+bare human hand is in DIRECT CONTACT with food (touching, dipping, holding,
+serving) and it is "left" OR "uncertain", you MUST add left_hand_serving to
+hard_blocks_triggered and set overall_compliance to "hard_blocked". A hand-on-food
+you cannot confidently clear as the right hand is treated as a violation, not as
+clean. Do not assume content is clean; do not assume it is a violation. Return
+ONLY the JSON.
 """
 
 

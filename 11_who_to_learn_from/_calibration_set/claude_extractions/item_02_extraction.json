@@ -1,5 +1,5 @@
 {
-  "observation_ulid": "01KTVFN9VT8X716WDTMCYEGC9B",
+  "observation_ulid": "01KWB8VZN0S8MA4D5918SWG5TH",
   "schema_version": 1,
   "account_handle_normalized": "OGZ-F-AND-B-Calibration-Violation-002",
   "account_ulid": "01KRKHS8R8SNJ8VJ56WKSQTS28",
@@ -14,7 +14,7 @@
     "day_of_week": null
   },
   "visual_observations": {
-    "composition_style": "product-focused with human interaction",
+    "composition_style": "product-focused with lifestyle elements",
     "lighting": "bright and even",
     "color_palette_dominant": [
       "red",
@@ -36,26 +36,34 @@
     },
     "hands_analysis": [
       {
-        "which_hand": "right",
-        "action": "dipping pizza into sauce",
-        "reasoning": "thumb on the left side, fingers on the right, palm facing down"
+        "which_hand": "uncertain",
+        "action": "dipping food into sauce",
+        "reasoning": "wrist enters from left, thumb position unclear, palm view unclear"
       }
     ],
     "text_overlays": "Arabic text with brand logo",
-    "notable_visual_elements": "pizza with cheese-filled crust, brand logo"
+    "notable_visual_elements": "pizza with cheese-filled crust, multiple dipping sauces"
   },
   "voice_observations": {
     "language": "Arabic",
     "dialect_detected": null,
     "register": "informal",
     "tone": "inviting",
-    "notable_phrases": [],
-    "call_to_action_present": false
+    "notable_phrases": [
+      "غمّس قرمش استمتع"
+    ],
+    "call_to_action_present": true
   },
   "compliance_check": {
-    "hard_blocks_triggered": [],
+    "hard_blocks_triggered": [
+      {
+        "entry_name": "left_hand_serving",
+        "severity": "severe",
+        "evidence": "hand in direct contact with food, handedness uncertain"
+      }
+    ],
     "soft_flags": [],
-    "overall_compliance": "clean"
+    "overall_compliance": "hard_blocked"
   },
   "cultural_notes": {
     "regional_orientation_detected": "Middle Eastern",

@@ -1,14 +1,14 @@
 {
   "id": "claude-code-history-master",
-  "generated": "2026-06-30T03:39:02Z",
+  "generated": "2026-06-30T16:40:51Z",
   "from": "claude-code",
   "purpose": "Everything Cursor needs — 6 months Claude Code on this Mac",
   "timeline": {
     "commits_by_month": {
-      "2026-06": 651,
+      "2026-06": 658,
       "2026-05": 174
     },
-    "total_commits_since_dec_2025": "825"
+    "total_commits_since_dec_2025": "832"
   },
   "three_layers": {
     "THE_BRAIN": "ogz-knowledge — produce pipeline + 3 HTTP contracts (/extract /produce /performance)",
@@ -30,7 +30,7 @@
       "4199": "api/portal_mini.py founder portal",
       "4111": "humain_service.py Saudi pen"
     },
-    "daemons": "68276\t0\tcom.abraham.os\n68248\t0\tcom.abraham.orchestra-engine\n78758\t0\tcom.ogz.cursor-missions\n59039\t-15\tcom.ogz.brain-api\n68251\t0\tcom.abraham.orchestrator",
+    "daemons": "56182\t0\tcom.ogz.executor\n86643\t0\tcom.abraham.cloudflare\n56178\t0\tcom.ogz.live-feed\n68276\t0\tcom.abraham.os\n86638\t0\tcom.ogz.portal\n88142\t0\tcom.ogz.orchestra\n68248\t0\tcom.abraham.orchestra-engine\n36403\t-15\tcom.ogz.brain-api\n-\t0\tcom.ogz.live-feed-digest\n68251\t0\tcom.abraham.orchestrator",
     "orchestra": {
       "rabie": "/Users/abarihm/agents/rabie/rabie.py",
       "orchestrator": "/Users/abarihm/agents/orchestrator_daemon.py",
@@ -183,7 +183,7 @@
   "recent_sessions": [
     {
       "date": "2026-06-30",
-      "brief": "# SESSION BRIEF — Auto-generated from memory files\n# Generated: 2026-06-30 06:27 by session-start.sh sync\n# Source: /Users/abarihm/.claude/projects/-Users-abarihm/memory\n\n---\n\n## ACTIVE PROJECTS (from memory)\n**client-pyramid** — THE CLIENT PYRAMID + 3-client pilot (June 11) — the client profile/diagnose/archive/track system, its laws, machines, and pilot state. Read before ANY client work.\n\n**project-creation-system-top** — Mohamed's THE-TOP ruling (June 13) — the main goal is the system that CREATES posts + its strategy + approvals architecture\n\n**project-dev-platform-handoff** — June 27 PIVOT — the goal is now to prepare ogz-knowledge as the CONNECTABLE BRAIN for the developer-built customer platform (o-gz-studios-web-hlhi.vercel.app). Drop scaling; the devs own infra/real-AP\n\n**ogz-play-room-platform-dashboard** — Play Room is the OGZ internal OS dashboard — Next.js 16 + React 19 at port 4000. 21 view components, 5 pages (os, bd, crm, intake, portal). Last committed April 12 (cloud-mode guards). 25 files uncomm\n\n**project-ogz-build-state** — OGZ build state as of June 22 2026 — what's done (gates, model-resilience, Art-Director v1), what's LIVE vs SHADOW (taste at 33% but that's noise on a sparse graph, not a broken model — needs his brid\n\n**ogz-knowledge-base-extraction-project** — Brain v4.3+. 6,888 obs, 60 brands. Multi-LLM caption pipeline — 221-brief matrix, 5 CD brains, V3 XML prompt + English mode. 568 captions (Claude 221 / HUMAIN 206 / GPT-4o 141), 215 score ≥87,",
+      "brief": "# SESSION BRIEF — Auto-generated from memory files\n# Generated: 2026-06-30 16:29 by session-start.sh sync\n# Source: /Users/abarihm/.claude/projects/-Users-abarihm/memory\n\n---\n\n## ACTIVE PROJECTS (from memory)\n**client-pyramid** — THE CLIENT PYRAMID + 3-client pilot (June 11) — the client profile/diagnose/archive/track system, its laws, machines, and pilot state. Read before ANY client work.\n\n**project-creation-system-top** — Mohamed's THE-TOP ruling (June 13) — the main goal is the system that CREATES posts + its strategy + approvals architecture\n\n**project-dev-platform-handoff** — June 27 PIVOT — the goal is now to prepare ogz-knowledge as the CONNECTABLE BRAIN for the developer-built customer platform (o-gz-studios-web-hlhi.vercel.app). Drop scaling; the devs own infra/real-AP\n\n**ogz-play-room-platform-dashboard** — Play Room is the OGZ internal OS dashboard — Next.js 16 + React 19 at port 4000. 21 view components, 5 pages (os, bd, crm, intake, portal). Last committed April 12 (cloud-mode guards). 25 files uncomm\n\n**project-ogz-build-state** — OGZ build state as of June 22 2026 — what's done (gates, model-resilience, Art-Director v1), what's LIVE vs SHADOW (taste at 33% but that's noise on a sparse graph, not a broken model — needs his brid\n\n**ogz-knowledge-base-extraction-project** — Brain v4.3+. 6,888 obs, 60 brands. Multi-LLM caption pipeline — 221-brief matrix, 5 CD brains, V3 XML prompt + English mode. 568 captions (Claude 221 / HUMAIN 206 / GPT-4o 141), 215 score ≥87,",
       "todo": "# 02 — TODO NEXT (POINTER)\n# Updated: 2026-06-12 — content moved to live queues; this file points, never duplicates.\n\n**One fact lives in ONE place. The live TODO sources:**\n\n| What | Live source |\n|---|---|\n| The orchestra's backlog (the pair's work queue) | `~/Desktop/ogz-knowledge/data/backlog.json` (status=todo; 110+ done) |\n| Mohamed's pending taps | the portal → https://brain.ogzstudios.com/approvals?k=ogz-0d08cf69 |\n| Mid-session state + immediate next | `CURSOR.md` (always current) |\n| Staged big reviews | `~/Desktop/ogz-knowledge/clients/MOHAMED_APPROVALS.md` |\n| Law candidates awaiting his yes/no | `~/Desktop/ogz-knowledge/data/crystallize_queue.json` |\n\n*(The June-3 session content this file used to hold is git history — superseded, not lost.)*\n"
     },
     {
@@ -224,12 +224,14 @@
   ],
   "backlog": {
     "by_status": {
-      "done": 289,
+      "done": 291,
       "superseded": 3,
-      "todo": 59,
+      "todo": 56,
       "open": 4,
-      "staged": 8,
+      "staged": 9,
       "skipped": 4,
+      "blocked": 1,
+      "built": 1,
       "mohamed_must": 2,
       "reverted": 1,
       "in_progress": 1
@@ -283,19 +285,6 @@
           "B109"
         ],
         "status": "todo"
-      },
-      {
-        "id": "B125",
-        "layer": "Immune System",
-        "what": "Option B: Claude-vision second vote with fail-safe blocking",
-        "how": "Anthropic vision call (paid key); any left-hand-near-food disagreement = hard block; run 10 items, record agreement matrix.",
-        "who": "pair",
-        "est_minutes": 30,
-        "depends_on": [
-          "B123"
-        ],
-        "status": "todo",
-        "progress_note": "2026-06-30: PARTIAL — single-model conservative fail-safe added to extract_calibration_item.py (forensic handedness + hand-on-food left/uncertain->hard_block). Level-1 negative control item_02 now PASSES (was silently CLEAN 3wks). True 2nd independent vision vote still BLOCKED: Anthropic dry, Gemini exhausted -> needs 2nd funded vision model (Mohamed money decision). False-block rate unmeasured (no clean right-hand-on-food control = B126/B127)."
       },
       {
         "id": "B126",
@@ -536,6 +525,17 @@
           "B194"
         ],
         "status": "todo"
+      },
+      {
+        "id": "B196",
+        "layer": "Spine",
+        "what": "myfitness revival voices v2 complete + filler-leak regen",
+        "how": "Render 2 missing voices (bilingual filler ban live, seeded from 372-post archive) + re-render the post that leaked «بل رحلة»; keep «مرحبا من جديد يا أهل تبوك» anchor. [merged 2]",
+        "who": "pair",
+        "est_minutes": 30,
+        "depends_on": [],
+        "status": "todo",
+        "done_note": " | 2026-06-22: ROOT found+fixed (B196r) — the leak was an unguarded VISUAL door in post_audit, not a render fluke; the stale 2026-09-10 file is caption-less (already blocked as empty). Re-render of the 2 missing voices remains (SYSTEM produces, Rule #12 — LLM step)."
       }
     ]
   },

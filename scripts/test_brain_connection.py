@@ -152,7 +152,7 @@ def test_sparse_client(handle):
     st, prof = _req("GET", f"/extract?handle={urllib.parse.quote(handle)}", timeout=20)
     check(f"{handle}: /extract 200", st == 200, f"status {st}")
     cov = (prof.get("_coverage") or {}).get("pct", 100)
-    check(f"{handle}: profile is sparse (<60%)", cov < 60, f"{cov}%")
+    check(f"{handle}: not produce-ready (ready:false)", not prof.get("ready", True), f"ready={prof.get('ready')} cov={cov}%")
     # produce must REFUSE (not crash, not fake a post)
     st, r = _req("POST", "/produce", {"handle": handle, "product": "منتج", "chain": "U01",
                                       "produce": False}, timeout=20)

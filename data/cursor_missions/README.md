@@ -1,52 +1,49 @@
-# Cursor Missions — file bus between Cursor and Claude Code
+# Cursor Missions — file bus (Orchestra ↔ Claude Code LIVE)
 
-Task queue for split execution: **Cursor** writes missions, **Claude Code** (or `cursor_mission_consumer.py`) executes them.
+**Cursor** = orchestra (plan + queue). **Claude Code** = sole executor (live session you watch).
+
+## Watch Claude work
+
+1. **Claude Code app** → `/resume` → session **OGZ Executor**
+2. **iTerm/Terminal** — orchestra opens a tab when missions are pending
+3. **Status board** — `LIVE_STATUS.md` (this folder)
 
 ## Layout
 
 ```
-pending/    ← drop mission JSON here (Cursor)
-running/    ← consumer moves mission here while executing
-done/       ← result JSON + .log files land here
-failed/     ← hard failures (unparseable mission, crash)
+pending/     ← Cursor drops mission JSON here
+running/     ← Claude moves mission while executing
+done/        ← results + .log files
+.wake_claude ← Cursor touches this to request a live session
 ```
 
-## Run pending missions
+## Claude Code standing orders
+
+Read `CLAUDE_CODE_STANDING.md` on every session start.
 
 ```bash
-cd ~/Desktop/ogz-knowledge
-python3 scripts/cursor_mission_consumer.py          # process all pending
-python3 scripts/cursor_mission_consumer.py --once   # one mission only
+python3 scripts/claude_code_claim_executor.py claim
+python3 scripts/claude_code_claim_executor.py run-next   # repeat until empty
+python3 scripts/claude_code_claim_executor.py release
 ```
 
-## Mission types
-
-| `type` | Behavior |
-|---|---|
-| *(omit)* or `commands` | Run `commands[]` shell lines sequentially |
-| `brain-readiness` | Run `scripts/run_brain_readiness.py` (Phase A suite) |
-| `orchestra` | Run brain-readiness runner; set `"workflow": "brain-readiness-test"` |
-
-## Claude Code standing instruction
-
-On session start or when Mohamed says **"check cursor missions"**:
-
-```bash
-python3 scripts/cursor_mission_consumer.py
-```
-
-Then read `data/cursor_missions/done/` for the latest result JSON.
-
-## 24/7 operation
+## Orchestra daemon (does NOT execute missions)
 
 | Daemon | Interval | What |
 |---|---|---|
-| `com.ogz.brain-api` | KeepAlive | `brain_api` on :4140 |
-| `com.ogz.cursor-missions` | 5 min | `cursor_24h_shift.py` — run one mission, hourly context refresh, brain heartbeat |
+| `com.ogz.orchestra` | 5 min | Brain heartbeat, queue health missions, **wake Claude live** |
+| `com.ogz.brain-api` | KeepAlive | brain_api :4140 |
 
-**Standing role:** `.cursor/rules/ogz-autonomous-mission-control.mdc` — chain waves until Mohamed texts in Cursor.
+Install orchestra (replaces old cursor-missions consumer):
 
-Logs: `~/logs/brain_api.*.log`, `~/logs/cursor_missions.*.log`, `~/logs/cursor_24h_shift.log`  
-Heartbeat: `data/cursor_missions/done/24h-heartbeat.jsonl`  
-**Full status:** `data/cursor_missions/done/autonomous-status-report.json`  
-**Artifacts:** `data/cursor_missions/artifacts/` (wire-handoff, deepseek, etc.)
+```bash
+launchctl unload ~/Library/LaunchAgents/com.ogz.cursor-missions.plist 2>/dev/null
+cp deploy/launchagents/com.ogz.orchestra.plist ~/Library/LaunchAgents/
+launchctl load ~/Library/LaunchAgents/com.ogz.orchestra.plist
+```
+
+## Shell consumer — DISABLED
+
+`cursor_mission_consumer.py` is blocked. Claude Code only.
+
+Emergency: `ALLOW_SHELL_CONSUMER=1 python3 scripts/cursor_mission_consumer.py --once`

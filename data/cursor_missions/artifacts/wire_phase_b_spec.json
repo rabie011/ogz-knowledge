@@ -1,0 +1,31 @@
+{
+  "target_repo": "/Users/abarihm/ogz-platform",
+  "blocked_until": "mohamed_must: wire",
+  "env_vars": [
+    "BRAIN_API_URL=http://127.0.0.1:4140",
+    "BRAIN_API_TOKEN"
+  ],
+  "new_files_in_platform": [
+    "lib/brain/client.ts",
+    "lib/brain/types.ts",
+    "app/api/onboarding/extraction-status/[brandId]/route.ts"
+  ],
+  "client_methods": [
+    "extract(handle:string)->prefill wrapper",
+    "produce(handle,product,chain)->job_id",
+    "jobStatus(job_id)->status",
+    "performance(payload)->ack"
+  ],
+  "brain_routes": [
+    "/extract GET",
+    "/produce POST",
+    "/job/{id} GET",
+    "/performance POST",
+    "/health GET"
+  ],
+  "replace_in_platform": [
+    "lib/services/brandDnaService.ts \u2014 proxy to brain or fallback"
+  ],
+  "prefill_mapping": "81 keys passthrough from brain pre_fill",
+  "polling": "platform keeps existing onboarding poll UX, backend calls brain /extract"
+}

@@ -1,0 +1,122 @@
+{
+  "version": 2,
+  "updated": "2026-06-30",
+  "control_surface": "Cursor (mobile + Mac)",
+  "notes": {
+    "claude_code_claim_executor.py": "Historical filename — shell executor only, not Claude LLM",
+    "live_feed": "Mac debug at :4141 — not mobile control",
+    "telegram": "Parked — optional DeepSeek side chat, not commands"
+  },
+  "agents": [
+    {
+      "id": "ORCHESTRA",
+      "runtime": "cursor",
+      "status": "active",
+      "role": "Plan and queue missions; never shell-execute",
+      "inputs": ["unified_status.txt", "im_here.md"],
+      "outputs": ["data/cursor_missions/pending/"],
+      "mission_types": ["plan"]
+    },
+    {
+      "id": "CONSULT",
+      "runtime": "deepseek",
+      "status": "on_demand",
+      "role": "Engineering consult — Cursor calls consult.py before big moves",
+      "inputs": ["unified_status.json"],
+      "outputs": ["data/consult_logs/"],
+      "script": "scripts/consult.py"
+    },
+    {
+      "id": "EXECUTOR-SHELL",
+      "runtime": "python_daemon",
+      "status": "parked_optional",
+      "role": "Drain shell missions (health, test, curl) — NOT Claude Code",
+      "script_file": "scripts/claude_code_claim_executor.py",
+      "inputs": ["data/cursor_missions/pending/"],
+      "outputs": ["data/cursor_missions/done/"],
+      "daemon": "scripts/executor_daemon.py",
+      "mission_types": ["commands", "health", "brain-readiness", "research"]
+    },
+    {
+      "id": "BUILDER",
+      "runtime": "claude_code_live",
+      "status": "not_wired_24h",
+      "role": "Code fixes and organ builds — requires live Claude Code session",
+      "inputs": ["agent missions"],
+      "outputs": ["git commits"],
+      "mission_types": ["agent"],
+      "wake_flag": "data/cursor_missions/.wake_claude"
+    },
+    {
+      "id": "RABIE",
+      "runtime": "gpt-4o",
+      "status": "active",
+      "role": "Harsh taste proxy and vision judge",
+      "outputs": ["data/rabie_verdicts.jsonl"],
+      "script": "scripts/rabie_judge.py"
+    },
+    {
+      "id": "HUMAIN",
+      "runtime": "browser",
+      "status": "active",
+      "role": "Saudi Arabic caption authority",
+      "port": 4111,
+      "script": "scripts/humain_service.py"
+    },
+    {
+      "id": "CREATIVE",
+      "runtime": "pipeline",
+      "status": "active",
+      "role": "Post concepts, render prep — FAL gated by Mohamed",
+      "outputs": ["data/creative_outputs/"],
+      "script": "scripts/creative_agent_loop.py",
+      "mohamed_gate": "render go"
+    },
+    {
+      "id": "SEARCH",
+      "runtime": "python",
+      "status": "on_demand",
+      "role": "Collect internet facts with citations",
+      "outputs": ["data/knowledge/raw/"],
+      "script": "scripts/search_agent.py"
+    },
+    {
+      "id": "LEARNER",
+      "runtime": "python",
+      "status": "on_demand",
+      "role": "Index staged knowledge into domains",
+      "inputs": ["data/knowledge/staged/"],
+      "outputs": ["data/knowledge/indexed/", "data/knowledge/domains/"],
+      "script": "scripts/knowledge_learner.py"
+    },
+    {
+      "id": "MEMORY",
+      "runtime": "python",
+      "status": "on_demand",
+      "role": "Mine Claude history and scar index",
+      "outputs": ["data/artifacts/memory/"],
+      "script": "scripts/memory_keeper.py"
+    },
+    {
+      "id": "WATCHDOG",
+      "runtime": "python",
+      "status": "on_demand",
+      "role": "Alarms when stuck",
+      "outputs": ["data/im_here.md"],
+      "script": "scripts/make_sure.py"
+    }
+  ],
+  "mission_type_routing": {
+    "commands": "EXECUTOR-SHELL",
+    "health": "EXECUTOR-SHELL",
+    "brain-readiness": "EXECUTOR-SHELL",
+    "research": "EXECUTOR-SHELL",
+    "agent": "BUILDER",
+    "creative": "CREATIVE",
+    "consult": "CONSULT"
+  },
+  "mohamed_gates": ["render go", "wire", "taste_pairs", "stop", "لخ"],
+  "always_on": ["com.ogz.brain-api", "com.ogz.mac-sync"],
+  "recommended_mac": ["com.ogz.executor"],
+  "parked_daemons": ["com.ogz.consult-shift", "com.ogz.memory-keeper", "com.ogz.orchestra"]
+}

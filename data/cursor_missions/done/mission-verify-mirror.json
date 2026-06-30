@@ -1,0 +1,21 @@
+{
+  "id": "mission-verify-mirror",
+  "executor": "claude_code",
+  "status": "partial",
+  "exit_codes": {
+    "cmd_0": 0,
+    "cmd_1": 0,
+    "cmd_2": 0,
+    "cmd_3": 0,
+    "cmd_4": 1,
+    "cmd_5": 0,
+    "cmd_6": 0
+  },
+  "summary": "1 blocker(s)",
+  "log_path": "data/cursor_missions/done/2026-06-30-mission-verify-mirror.log",
+  "blockers": [
+    "command 4 failed (exit 1): cd ~/Desktop/ogz-knowledge && /opt/homebrew/bin/python3 scripts/archive_mission_logs.sh"
+  ],
+  "fix_allowed": true,
+  "finished": "2026-06-30T13:10:32Z"
+}

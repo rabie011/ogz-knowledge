@@ -1,0 +1,180 @@
+{
+  "id": "fake-platform-test",
+  "generated": "2026-06-30T17:21:12Z",
+  "simulates": "o-gz-studios-web onboarding + produce + performance",
+  "brain_base": "http://127.0.0.1:4140",
+  "scenarios": [
+    {
+      "name": "onboarding_albaik",
+      "pass": true,
+      "status": 200,
+      "filled": 65,
+      "ready": true,
+      "onboarding_status": "extraction_complete"
+    },
+    {
+      "name": "sparse_myfitness",
+      "pass": false,
+      "extract_ready": true,
+      "produce_refused": true,
+      "detail": "no banked render for myfitness.sa · منتج · U01 — brand not produce-ready"
+    },
+    {
+      "name": "unknown_brand_pending",
+      "pass": true,
+      "status": 200,
+      "onboarding_status": "extraction_pending"
+    },
+    {
+      "name": "no_auth_rejected",
+      "pass": true,
+      "status": 401
+    },
+    {
+      "name": "produce_eatjurisha",
+      "pass": true,
+      "job_status": "done",
+      "image_url": "api/static/renders_v37/eatjurisha_جريش_G03.jpg"
+    },
+    {
+      "name": "performance_loop",
+      "pass": true,
+      "status": 200,
+      "action": null
+    },
+    {
+      "name": "extract_fake_fnb",
+      "pass": true,
+      "status": 200,
+      "sector": "f_and_b",
+      "filled": 67,
+      "ready": true,
+      "sector_hint": "Food & Beverage"
+    },
+    {
+      "name": "produce_fake_fnb",
+      "pass": true,
+      "job_status": "done",
+      "image_url": "api/static/renders_v37/fake_fnb_كومبو_T03.jpg"
+    },
+    {
+      "name": "extract_fake_beauty",
+      "pass": true,
+      "status": 200,
+      "sector": "beauty_personal_care",
+      "filled": 67,
+      "ready": true,
+      "sector_hint": "beauty_personal_care"
+    },
+    {
+      "name": "produce_fake_beauty",
+      "pass": true,
+      "job_status": "done",
+      "image_url": "api/static/renders_v37/fake_beauty_عطر_U01.jpg"
+    },
+    {
+      "name": "extract_fake_retail",
+      "pass": true,
+      "status": 200,
+      "sector": "retail_lifestyle",
+      "filled": 67,
+      "ready": true,
+      "sector_hint": "retail_lifestyle"
+    },
+    {
+      "name": "produce_fake_retail",
+      "pass": true,
+      "job_status": "done",
+      "image_url": "api/static/renders_v37/fake_retail_هدية_T03.jpg"
+    },
+    {
+      "name": "extract_fake_fashion",
+      "pass": true,
+      "status": 200,
+      "sector": "fashion",
+      "filled": 67,
+      "ready": true,
+      "sector_hint": "Fashion & Retail"
+    },
+    {
+      "name": "produce_fake_fashion",
+      "pass": true,
+      "job_status": "done",
+      "image_url": "api/static/renders_v37/fake_fashion_عباية_G03.jpg"
+    },
+    {
+      "name": "extract_fake_realestate",
+      "pass": true,
+      "status": 200,
+      "sector": "real_estate",
+      "filled": 67,
+      "ready": true,
+      "sector_hint": "Real Estate"
+    },
+    {
+      "name": "produce_fake_realestate",
+      "pass": true,
+      "job_status": "done",
+      "image_url": "api/static/renders_v37/fake_realestate_فيلا_U01.jpg"
+    },
+    {
+      "name": "extract_fake_wellness",
+      "pass": true,
+      "status": 200,
+      "sector": "healthcare_wellness",
+      "filled": 67,
+      "ready": true,
+      "sector_hint": "healthcare_wellness"
+    },
+    {
+      "name": "produce_fake_wellness",
+      "pass": true,
+      "job_status": "done",
+      "image_url": "api/static/renders_v37/fake_wellness_اشتراك_U01.jpg"
+    },
+    {
+      "name": "refuse_fake_fnb_sparse",
+      "pass": true,
+      "extract_ready": false,
+      "produce_refused": true,
+      "detail": "no banked render for fake_fnb_sparse · منتج · U01 — brand not produce-ready"
+    },
+    {
+      "name": "refuse_fake_beauty_sparse",
+      "pass": true,
+      "extract_ready": false,
+      "produce_refused": true,
+      "detail": "no banked render for fake_beauty_sparse · منتج · U01 — brand not produce-ready"
+    },
+    {
+      "name": "refuse_fake_retail_sparse",
+      "pass": true,
+      "extract_ready": false,
+      "produce_refused": true,
+      "detail": "no banked render for fake_retail_sparse · منتج · U01 — brand not produce-ready"
+    },
+    {
+      "name": "refuse_fake_fashion_sparse",
+      "pass": true,
+      "extract_ready": false,
+      "produce_refused": true,
+      "detail": "no banked render for fake_fashion_sparse · منتج · U01 — brand not produce-ready"
+    },
+    {
+      "name": "refuse_fake_realestate_sparse",
+      "pass": true,
+      "extract_ready": false,
+      "produce_refused": true,
+      "detail": "no banked render for fake_realestate_sparse · منتج · U01 — brand not produce-ready"
+    },
+    {
+      "name": "refuse_fake_wellness_sparse",
+      "pass": true,
+      "extract_ready": false,
+      "produce_refused": true,
+      "detail": "no banked render for fake_wellness_sparse · منتج · U01 — brand not produce-ready"
+    }
+  ],
+  "summary": "23/24 pass",
+  "wire_ready_simulation": false
+}

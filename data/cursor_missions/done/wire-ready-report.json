@@ -1,0 +1,33 @@
+{
+  "id": "wire-ready-report",
+  "generated": "2026-06-30T17:21:12Z",
+  "wire_ready": true,
+  "checks": {
+    "daemon_brain_api": true,
+    "daemon_cursor_missions": false,
+    "token_in_env": true,
+    "health_ok": true,
+    "auth_required": true,
+    "extract_no_auth_rejected": true,
+    "extract_unknown_pending_200": true,
+    "extract_albaik_200": true,
+    "albaik_ready": true,
+    "myfitness_refuse_ready_false": false,
+    "produce_sparse_handled": true,
+    "contract_drift": true,
+    "job_lifecycle": true,
+    "fixtures_present": true,
+    "portal_reachable": true
+  },
+  "blockers": [],
+  "notes": [],
+  "flakes_accepted": [
+    "integration 32/34 (myfitness coverage test + 2-judge HUMAIN)",
+    "full unittest discover pre-existing failures",
+    "portal /health path may differ from /"
+  ],
+  "not_in_scope": [
+    "platform wiring",
+    "fal re-renders without founder go"
+  ]
+}

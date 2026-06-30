@@ -1,0 +1,17 @@
+{
+  "id": "orchestra-smoke-test",
+  "executor": "claude_code",
+  "status": "fail",
+  "exit_codes": {
+    "cmd_0": 127,
+    "cmd_1": 127
+  },
+  "summary": "2 blocker(s)",
+  "log_path": "data/cursor_missions/done/2026-06-30-orchestra-smoke-test.log",
+  "blockers": [
+    "command 0 failed (exit 127): cd ~/Desktop/ogz-knowledge && /opt/homebrew/bin/python3 scripts/claude_code_claim_executor.py status",
+    "command 1 failed (exit 127): cd ~/Desktop/ogz-knowledge && /opt/homebrew/bin/python3 scripts/wire_ready_check.py"
+  ],
+  "fix_allowed": false,
+  "finished": "2026-06-30T13:03:59Z"
+}

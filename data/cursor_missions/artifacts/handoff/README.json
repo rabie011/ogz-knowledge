@@ -1,0 +1,99 @@
+{
+  "brain_url": "http://HOST:4140",
+  "auth": "Authorization: Bearer BRAIN_API_TOKEN",
+  "endpoints": [
+    "/health",
+    "/extract?handle=",
+    "/produce",
+    "/job/{id}",
+    "/performance"
+  ],
+  "ready_gate": "check ready:true on /extract before /produce",
+  "unknown_handle": "200 extraction_pending + background harvest (not 404)",
+  "pilots": {
+    "albaik": "produce-ready",
+    "eatjurisha": "produce-ready",
+    "myfitness.sa": "organs filled — render still needed for ready:true"
+  },
+  "sector_fakes": [
+    "fake_fnb",
+    "fake_beauty",
+    "fake_retail",
+    "fake_fashion",
+    "fake_realestate",
+    "fake_wellness"
+  ],
+  "files_in_bundle": [
+    "README.json",
+    "prefill_albaik.json",
+    "prefill_eatjurisha.json",
+    "prefill_fake_beauty.json",
+    "prefill_fake_fashion.json",
+    "prefill_fake_fnb.json",
+    "prefill_fake_realestate.json",
+    "prefill_fake_retail.json",
+    "prefill_fake_wellness.json",
+    "prefill_myfitness.sa.json",
+    "prefill_myfitness_sa.json",
+    "openapi.yaml",
+    "contract_fixtures/"
+  ],
+  "exports": [
+    {
+      "handle": "albaik",
+      "ready": true,
+      "coverage_pct": 79,
+      "prefill": "data/cursor_missions/artifacts/handoff/prefill_albaik.json"
+    },
+    {
+      "handle": "eatjurisha",
+      "ready": true,
+      "coverage_pct": 70,
+      "prefill": "data/cursor_missions/artifacts/handoff/prefill_eatjurisha.json"
+    },
+    {
+      "handle": "myfitness.sa",
+      "ready": true,
+      "coverage_pct": 64,
+      "prefill": "data/cursor_missions/artifacts/handoff/prefill_myfitness_sa.json"
+    },
+    {
+      "handle": "fake_fnb",
+      "ready": true,
+      "coverage_pct": 81,
+      "prefill": "data/cursor_missions/artifacts/handoff/prefill_fake_fnb.json"
+    },
+    {
+      "handle": "fake_beauty",
+      "ready": true,
+      "coverage_pct": 81,
+      "prefill": "data/cursor_missions/artifacts/handoff/prefill_fake_beauty.json"
+    },
+    {
+      "handle": "fake_retail",
+      "ready": true,
+      "coverage_pct": 81,
+      "prefill": "data/cursor_missions/artifacts/handoff/prefill_fake_retail.json"
+    },
+    {
+      "handle": "fake_fashion",
+      "ready": true,
+      "coverage_pct": 81,
+      "prefill": "data/cursor_missions/artifacts/handoff/prefill_fake_fashion.json"
+    },
+    {
+      "handle": "fake_realestate",
+      "ready": true,
+      "coverage_pct": 81,
+      "prefill": "data/cursor_missions/artifacts/handoff/prefill_fake_realestate.json"
+    },
+    {
+      "handle": "fake_wellness",
+      "ready": true,
+      "coverage_pct": 81,
+      "prefill": "data/cursor_missions/artifacts/handoff/prefill_fake_wellness.json"
+    }
+  ],
+  "refreshed": "2026-06-30T17:21:11Z",
+  "when_to_wire": "after wire_ready_report.json shows wire_ready:true"
+}

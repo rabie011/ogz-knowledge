@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.ogz.mac-sync</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/python3</string>
+    <string>/Users/abarihm/Desktop/ogz-knowledge/scripts/mac_sync.py</string>
+    <string>--push</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>MAC_SYNC_PUSH</key><string>1</string>
+  </dict>
+  <key>StartInterval</key><integer>300</integer>
+  <key>RunAtLoad</key><true/>
+  <key>StandardOutPath</key><string>/Users/abarihm/logs/mac_sync.out.log</string>
+  <key>StandardErrorPath</key><string>/Users/abarihm/logs/mac_sync.err.log</string>
+</dict>
+</plist>

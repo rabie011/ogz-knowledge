@@ -140,8 +140,13 @@ class Handler(BaseHTTPRequestHandler):
             except ValueError as ce:
                 return self._send(400, {"ok": False, "error": getattr(ce, "message", str(ce)),
                                         "field": getattr(ce, "field", "handle")})
-            if not (B / "clients" / handle).exists():   # unknown brand → 404, not an empty 200 (DeepSeek)
-                return self._send(404, {"ok": False, "error": f"no client '{handle}' onboarded"})
+            if not (B / "clients" / handle).exists():
+                try:
+                    import extract_intake as ei
+                    code, body = ei.handle_extract(handle)
+                    return self._send(code, body)
+                except Exception as e:
+                    return self._send(500, {"ok": False, "error": f"{type(e).__name__}: {str(e)[:200]}"})
             try:
                 import export_prefill as ep
                 return self._send(200, ep.export(handle))

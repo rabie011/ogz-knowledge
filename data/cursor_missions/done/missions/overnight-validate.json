@@ -1,0 +1,18 @@
+{
+  "id": "overnight-validate",
+  "executor": "claude_code",
+  "status": "partial",
+  "exit_codes": {
+    "cmd_0": 0,
+    "cmd_1": 1,
+    "cmd_2": 0,
+    "cmd_3": 0
+  },
+  "summary": "1 blocker(s)",
+  "log_path": "data/cursor_missions/done/2026-06-30T1658Z-overnight-validate.log",
+  "blockers": [
+    "command 1 failed (exit 1): cd ~/Desktop/ogz-knowledge && /opt/homebrew/bin/python3 scripts/test_brain_connection.py"
+  ],
+  "fix_allowed": false,
+  "finished": "2026-06-30T16:58:46Z"
+}

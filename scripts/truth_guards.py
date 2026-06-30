@@ -123,46 +123,102 @@ def build_corpus(brand: str, base_dir=None) -> str:
     return " ".join(p for p in parts if p).lower()
 
 
+def _norm_ar(s: str) -> str:
+    """Normalize Arabic/Latin text for product matching: strip tatweel + diacritics, drop
+    punctuation/emoji, collapse whitespace, lowercase. Keeps Arabic + word chars."""
+    import re as _re
+    s = _re.sub(r"[ـً-ْ]", "", s or "")     # tatweel ـ + harakat (diacritics)
+    s = _re.sub(r"[^\wء-ي\s]", " ", s)            # punctuation/emoji → space
+    return _re.sub(r"\s+", " ", s).strip().lower()
+
+
+def product_truth_names(handle: str, base_dir=None) -> list[str]:
+    """The client's CONFIRMED product identities, read STRUCTURED from product_truth.json ONLY —
+    never a raw substring over every profile json (that was the moments_bank fail-open: a random
+    narrative phrase like «عيد أضحى مبارك» passed as a 'product'). Two on-disk shapes are handled:
+      • products under d["products"]  (eatjurisha, alnasserjewelry)
+      • products as TOP-LEVEL keys beside "_meta"  (albaik)
+    Returns the canonical product-name strings ([] if no product_truth on disk)."""
+    import json as _j
+    from pathlib import Path as _P
+    b = _P(base_dir) if base_dir else _P(__file__).parent.parent
+    f = b / f"clients/{handle}/profile/product_truth.json"
+    if not f.exists():
+        return []
+    try:
+        d = _j.loads(f.read_text())
+    except Exception:
+        return []
+    prods = d.get("products")
+    if isinstance(prods, dict):
+        return [str(k) for k in prods]
+    return [str(k) for k in d if not str(k).startswith("_")]
+
+
 def product_is_real(handle: str, product: str, base_dir=None):
     """Rule #12 anti-hallucination — SHARED guard, one source for all render doors. A product must exist
     in the brand's REAL data before any FAL spend. Born June 29: the LLM product-picker invented 'تشكن بيك'
     for albaik (0 hits in their real IG / not in product_truth.json) and the cron rendered it via
-    --allow-unconfirmed → $0.06 on a product that doesn't exist. Returns (is_real, evidence). Conservative:
-    allows when it cannot disprove (no corpus on disk). Refuse-don't-warn (Rule #8)."""
+    --allow-unconfirmed → $0.06 on a product that doesn't exist. Returns (is_real, evidence).
+
+    HARDENED June 30 (DeepSeek+RABIE consult, Rule #19 consult-before-build) after two proven fail-opens:
+      (1) step1 did a RAW substring over EVERY profile/*.json — «عيد أضحى مبارك» (a greeting in
+          moments_bank.json) passed as a product;
+      (2) step2 passed on ANY single ≥4-char token in captions — «أي منتج وهمي» passed for
+          alnasserjewelry because the common word «منتج»=product is in its captions.
+    The matcher now REQUIRES POSITIVE confirmation: (1) the product is COVERED BY a real name in the
+    client's STRUCTURED product_truth.json (query ⊆ a real product's tokens, never the reverse — a fake
+    can't ride a real name as a substring), OR (2) — only as a fallback for a brand not yet carrying
+    product_truth — a HIGH-OVERLAP phrase in the real captions (full phrase, or ≥2 significant tokens ALL
+    present). A single common token is NEVER enough. No positive evidence → refuse (Rule #8/#12)."""
     import glob
     import json as _j
-    import re as _re
     from pathlib import Path as _P
     b = _P(base_dir) if base_dir else _P(__file__).parent.parent
     p = (product or "").strip()
     if not p:
         return False, "empty product"
-    # 1) client-confirmed profile truth (locked product identities)
-    for f in glob.glob(str(b / f"clients/{handle}/profile/*.json")):
-        try:
-            if p in _P(f).read_text():
-                return True, f"in confirmed profile ({_P(f).name})"
-        except Exception:
-            pass
-    # 2) the brand's REAL instagram captions (what they actually posted about)
+    p_norm = _norm_ar(p)
+    p_tok = set(t for t in p_norm.split() if t)
+    if not p_tok:
+        return False, "product has no real tokens after normalization"
+
+    # 1) STRUCTURED product_truth confirmation (the locked, client-confirmed product identities).
+    #    Pass ONLY when the query is COVERED BY a real product name — exact, or every query token is a
+    #    token of that name (query ⊆ name). NOT name ⊆ query: that would let «سوبر رول وهمي» ride the
+    #    real «سوبر رول» (DeepSeek+RABIE ruling, June 30). A lone common word can't line up with a real
+    #    product identity, so «أي منتج وهمي» finds no name to cover it here.
+    names = product_truth_names(handle, base_dir=b)
+    for name in names:
+        n_tok = set(t for t in _norm_ar(name).split() if t)
+        if not n_tok:
+            continue
+        if p_norm == _norm_ar(name) or p_tok <= n_tok:
+            return True, f"confirmed in product_truth ({name})"
+
+    # If the client HAS a confirmed product_truth, it is the AUTHORITY — no caption back-door. Captions
+    # are marketing copy full of greetings/slogans («عيد أضحى مبارك» is a real full-phrase in alnasser's
+    # captions but is NOT a product); confirming a product from them re-opens the fail-open. A real product
+    # missing here must be ADDED to product_truth (the structured source), not back-doored via copy. Refuse.
+    if names:
+        return False, (f"'{product}' not covered by any of {handle}'s {len(names)} confirmed "
+                       f"product_truth products — refusing (Rule #12; add it to product_truth if real)")
+
+    # 2) CORPUS FALLBACK — a SAFETY NET only for a brand that has NO product_truth yet (un-onboarded).
     raws = sorted(glob.glob(str(b / f"clients/{handle}/raw/instagram/*/posts.jsonl")))
     if not raws:
-        # June 29 (DeepSeek consult, 3-chairs): FAIL-CLOSED, not fail-open. The old "allow — cannot disprove"
-        # let a client with NO product_truth + NO IG corpus (a scenario/half-onboarded brand) pass ANY product =
-        # hallucinated FAL spend (the very thing GATE0 guards, Rule #12). Anti-hallucination requires POSITIVE
-        # confirmation: a product is real only if it's in the brand's confirmed profile OR real captions. No
-        # evidence → refuse (Rule #8). The 3 real clients confirm via product_truth, so they're unaffected.
-        return False, "no IG corpus + product not in confirmed profile — cannot confirm it's real, refusing (Rule #12)"
-    corpus = " ".join(_j.loads(l).get("caption", "") for l in open(raws[-1]) if l.strip())
-    if p in corpus:
+        # C244 (June 29): no product_truth match + no IG corpus → cannot positively confirm → refuse.
+        return False, "not in product_truth + no IG corpus — cannot confirm it's real, refusing (Rule #12)"
+    corpus = _norm_ar(" ".join(_j.loads(l).get("caption", "") for l in open(raws[-1]) if l.strip()))
+    # POSITIVE phrase-level evidence required — never a single common token (the «منتج» fail-open).
+    if len(p_tok) >= 2 and p_norm in corpus:
         return True, "exact product phrase in real captions"
-    toks = [t for t in _re.split(r"\s+", p) if len(t) >= 4]   # ≥4 skips brand short-forms (e.g. بيك)
-    real = [t for t in toks if t in corpus]
-    if real:
-        return True, f"real product tokens in captions: {real}"
-    if not toks:
-        return True, "only short/brand tokens — allow"
-    return False, f"NONE of {toks} appear in {handle}'s real captions — looks hallucinated"
+    sig = [t for t in p_tok if len(t) >= 4]               # ≥4 skips brand short-forms (e.g. بيك)
+    present = [t for t in sig if t in corpus]
+    if len(sig) >= 2 and len(present) == len(sig):
+        return True, f"high-overlap product phrase in real captions: {present}"
+    return False, (f"not in product_truth and no high-overlap phrase in {handle}'s captions "
+                   f"(matched {present or 'none'}) — looks hallucinated, refusing (Rule #12)")
 
 
 def ungrounded(text: str, corpus: str, documented: bool) -> str | None:

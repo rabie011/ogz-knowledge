@@ -57,8 +57,11 @@ def gates(go, allow_unconfirmed, ref, handle=None, product=None):
             _ok, _ev = product_is_real(handle, product)
             if not _ok:
                 reasons.append(f"GATE0 product '{product}' not in {handle}'s real data ({_ev}) — hallucinated; refusing FAL spend")
-        except Exception:
-            pass  # a guard failure must not block a legit render; the other gates still apply
+        except Exception as _e:
+            # FAIL-CLOSED (Rule #8 refuse-don't-warn, June 30 consult): a CRASH in the anti-hallucination
+            # guard must NOT silently clear GATE0 — that re-opens the very FAL-spend hole it guards. A broken
+            # guard refuses; fix the guard, then re-run.
+            reasons.append(f"GATE0 anti-hallucination guard crashed ({type(_e).__name__}: {str(_e)[:80]}) — refusing FAL spend")
     # GATE0b (June 29 scar) — NON-BYPASSABLE. The sample's reference_image can be a GENERIC brand fallback
     # even when NO clean PRODUCT photo exists (pick_reference → None), producing a wrong-product render that
     # the cosmetic "GAP REFUSE" print did NOT actually stop. Honor the gap-refuse as a real gate: no clean

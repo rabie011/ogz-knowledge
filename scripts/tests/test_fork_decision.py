@@ -222,5 +222,45 @@ class TestB291DeadEndSweep(unittest.TestCase):
         self.assertEqual(dead, [], f"live A/B dead-end cards remain: {dead}")
 
 
+class TestPushRefusesDeadEndTaps(unittest.TestCase):
+    """The write-DOOR guard (June 30): queue_decision.push() must REFUSE a buttons card whose
+    taps resolve to no handler — moving the B291 sweep invariant from a post-hoc test to the
+    write path, so the dead-end card (vision_2nd_model_fund without `_fork`) can't be staged."""
+
+    def _push(self, item):
+        import queue_decision as qd
+        d = tempfile.mkdtemp()
+        (Path(d) / "data").mkdir()
+        orig = qd._queue_path
+        qd._queue_path = lambda: Path(d) / "data" / "decision_queue.json"
+        try:
+            return qd.push(dict(item))
+        finally:
+            qd._queue_path = orig
+
+    def test_dead_end_buttons_card_is_refused(self):
+        with self.assertRaises(SystemExit):
+            self._push({"id": "money_gate_deadend", "kind": "buttons", "status": "open",
+                        "title": "spend or hold?",
+                        "options": [{"v": "hold", "label": "hold"},
+                                    {"v": "spend", "label": "spend"}]})
+
+    def test_fork_suffixed_card_passes(self):
+        # same options, but the `_fork` suffix routes taps to h_fork_decision → lands
+        n = self._push({"id": "money_gate_fork", "kind": "buttons", "status": "open",
+                        "title": "spend or hold?",
+                        "options": [{"v": "hold", "label": "hold"},
+                                    {"v": "spend", "label": "spend"}]})
+        self.assertEqual(n, 1)
+
+    def test_ack_and_nonbutton_cards_pass(self):
+        # ACK answers are whole-actions; non-buttons cards (text/info) have no taps to land
+        self.assertEqual(self._push(
+            {"id": "fyi_note", "kind": "buttons", "status": "open", "title": "seen?",
+             "options": [{"v": "ack", "label": "👍 seen"}]}), 1)
+        self.assertEqual(self._push(
+            {"id": "free_text_ask", "kind": "text", "status": "open", "title": "thoughts?"}), 1)
+
+
 if __name__ == "__main__":
     unittest.main()

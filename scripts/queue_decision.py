@@ -45,8 +45,35 @@ def _action_type(item: dict) -> str:
     return "decision" if (item.get("buttons") or item.get("options") or item.get("text") or item.get("composer")) else "info"
 
 
+_TAP_EXEMPT = ("judge_", "judge2_", "ratify_", "closures_")  # lanes the sweep test exempts
+
+
+def _assert_taps_land(item: dict):
+    """REFUSE-DON'T-WARN (Rule #8) the dead-end tap at the DOOR (Rule #7): every option on a
+    live buttons card must resolve to a handler, or the tap lands nowhere. Born June 30 when a
+    money-gate card (vision_2nd_model_fund) was staged WITHOUT the `_fork` suffix and its taps
+    (hold/anthropic/gemini) resolved to None — caught only later by the B291 sweep test. This
+    moves the invariant from a post-hoc test to the write path: the bad card can't be staged.
+    Exemptions mirror the sweep test exactly (judge/closures lanes own their own dispatch)."""
+    if item.get("kind") != "buttons":
+        return
+    iid = item.get("id", "")
+    if iid.startswith(_TAP_EXEMPT):
+        return
+    import apply_rulings  # lazy: apply_rulings imports queue_decision only inside funcs (no cycle)
+    dead = [o.get("v", "") for o in item.get("options", [])
+            if o.get("v", "") not in apply_rulings.ACK_ANSWERS
+            and apply_rulings._resolve((iid, o.get("v", ""))) is None]
+    if dead:
+        raise SystemExit(
+            f"🚫 REFUSED: card '{iid}' has dead-end tap(s) {dead} — no handler resolves them "
+            f"(Rule #7: pre-wire the tap). Fix: suffix the id with '_fork' for a record-only "
+            f"decision card, or register a handler in apply_rulings before pushing.")
+
+
 def push(item: dict):
     QUEUE = _queue_path()
+    _assert_taps_land(item)                     # Rule #7/#8: no dead-end tap reaches his portal
     item["action_type"] = _action_type(item)   # deterministic bucket for the portal gate (re-look fix)
     q = json.loads(QUEUE.read_text()) if QUEUE.exists() else {"items": []}
     q["items"] = [i for i in q["items"] if i["id"] != item["id"]] + [item]

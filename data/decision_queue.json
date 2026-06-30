@@ -655,9 +655,9 @@
   },
   {
    "id": "alarm_live",
-   "title": "🚨 إنذار: portal_mini, portal_public, portal_items_ok, founder_taste_fresh واقف",
+   "title": "🚨 إنذار: founder_taste_fresh واقف",
    "tag": "نظام",
-   "desc": "فحص الأدلة فشل: ['portal_mini', 'portal_public', 'portal_items_ok', 'founder_taste_fresh']. كلود يعالج — هذا للعلم.",
+   "desc": "فحص الأدلة فشل: ['founder_taste_fresh']. كلود يعالج — هذا للعلم.",
    "clock": "",
    "priority": "urgent",
    "created": "2026-06-21T19:44:52",
@@ -1737,6 +1737,37 @@
    ],
    "made_by": "system:taste_refresh",
    "artifact_version": 2,
+   "action_type": "decision"
+  },
+  {
+   "id": "vision_2nd_model_fund",
+   "title": "Compliance moat: fund a 2nd vision eye, or hold on the fail-safe?",
+   "tag": "mohamed_must",
+   "desc": "",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-06-30T06:35:08",
+   "status": "open",
+   "why": "L1 moat passes ONLY via B125's conservative fail-safe (blocks left-OR-uncertain hand-on-food), not a reliable eye. False-block rate is unmeasured: a 2nd independent vision vote needs a funded model (Anthropic dry, Gemini exhausted).",
+   "need": "Pick one: spend on a 2nd vision model now, or hold on the fail-safe until a real batch shows over-blocks.",
+   "did": "Re-measured calibration (10/10 green, L1 detected); corrected stale BASELINE_RESULTS.md to live state; kept the over-claim caveat; staged this gate. No spend made.",
+   "kind": "buttons",
+   "options": [
+    {
+     "v": "hold",
+     "label": "HOLD on the fail-safe (no spend) — recommended"
+    },
+    {
+     "v": "anthropic",
+     "label": "Top up Anthropic for Claude-vision 2nd vote"
+    },
+    {
+     "v": "gemini",
+     "label": "Enable Gemini billing on GCP"
+    }
+   ],
+   "made_by": "claude",
+   "artifact_version": 1,
    "action_type": "decision"
   }
  ]

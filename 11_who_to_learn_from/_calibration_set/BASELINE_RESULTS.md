@@ -1,4 +1,43 @@
-# BASELINE_RESULTS — first honest 10-item calibration baseline (B123)
+# BASELINE_RESULTS — 10-item calibration baseline (B123)
+
+> ⚠️ **2026-06-19 numbers below are SUPERSEDED.** Live grader now PASSES — see the
+> 2026-06-30 re-measure section directly under this note. The 🔴 FAIL table further down
+> is preserved as history (the root-cause analysis still holds), not as current state.
+
+## 2026-06-30 RE-MEASURE (RABIE orchestra shift) — live grader, current state
+
+Grader: `scripts/test_extraction_accuracy.py`. B130 gate (`data/extraction_accuracy_gate.json`)
+confirms: `exit_code: 0`, `level1_passed: true`, `completeness: 1.0`, `accuracy: 0.9166`.
+
+| Level | What it checks | Threshold | MEASURED (2026-06-30) | Verdict |
+|-------|----------------|-----------|-----------------------|---------|
+| **L1 — hard-block detection** | item_02 must trigger `left_hand_serving` | must pass | **detected** | 🟢 **pass** |
+| L2 — field completeness | required fields present across 10 items | ≥ 80% | **100.0%** | 🟢 pass |
+| L3 — field accuracy | field values match ground truth | ≥ 60% | **91.7%** | 🟢 pass |
+
+### Why L1 now passes — and the honest caveat (do NOT over-claim the moat — Rule #12/#9)
+
+L1 flipped 🔴→🟢 because of **B125's conservative fail-safe** in `extract_calibration_item.py`
+(hand-on-food read as left OR uncertain → `hard_block`), NOT because the vision eye got
+smarter. The eye still misreads handedness (the 2026-06-11 extraction called item_02's left
+hand "right"); the fail-safe blocks anyway. So:
+
+- **The moat is NOT yet proven by perception** — it passes structurally, by blocking the
+  ambiguous case. A smarter eye is still owed.
+- **False-block rate is still UNMEASURED.** A fail-safe that blocks "left OR uncertain" will
+  also block legitimate right-hand-on-food content. There is NO clean right-hand-on-food
+  control in the set to catch that over-block. **B126** (3–5 unambiguous left-hand-serving
+  frames) + a clean right-hand-on-food control remain required before trusting this pass.
+- **The set is still too thin** — one negative control (item_02) cannot prove a moat.
+
+Open blockers (both gated, staged for Mohamed): (1) a **2nd funded vision model** for an
+independent orientation vote (Anthropic dry, Gemini exhausted); (2) sourcing the B126 control
+frames. Until then the green above means "the gate bites on the one control we have," not
+"the eye is reliable."
+
+---
+
+## HISTORY — 2026-06-19 baseline (SUPERSEDED, kept for the root-cause analysis)
 
 Recorded: 2026-06-19 (RABIE orchestra shift). Measured numbers, not feelings.
 Grader: `scripts/test_extraction_accuracy.py` over `claude_extractions/item_01..10`.

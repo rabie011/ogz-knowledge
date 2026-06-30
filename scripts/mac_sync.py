@@ -78,7 +78,7 @@ def _current_branch() -> str:
     branch = out.strip() if rc == 0 else ""
     if branch:
         return branch
-    return os.environ.get("OGZ_GIT_BRANCH", "cursor/cloud-agent-1782842649010-84hv4")
+    return os.environ.get("OGZ_GIT_BRANCH", "main")
 
 
 def _git_pull() -> dict:

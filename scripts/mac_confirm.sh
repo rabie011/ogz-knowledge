@@ -6,7 +6,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PY="${PYTHON:-/opt/homebrew/bin/python3}"
-BRANCH="${OGZ_GIT_BRANCH:-cursor/cloud-agent-1782842649010-84hv4}"
+BRANCH="${OGZ_GIT_BRANCH:-main}"
 # shellcheck source=lib/mac_git_reconcile.sh
 source "$ROOT/scripts/lib/mac_git_reconcile.sh"
 
@@ -40,6 +40,24 @@ fi
 
 if [[ "$stashed" -eq 1 ]]; then
   git stash pop || echo "WARN: stash pop had conflicts — resolve manually if needed"
+fi
+
+echo ""
+echo "== Clear stale mission executor lock =="
+LOCK="$ROOT/data/cursor_missions/.executor_live.lock"
+RUNNING="$ROOT/data/cursor_missions/running"
+if [[ -f "$LOCK" ]]; then
+  if ! launchctl list com.ogz.executor 2>/dev/null | grep -q '"PID"'; then
+    echo "  removing stale lock (executor not running)"
+    rm -f "$LOCK"
+    for f in "$RUNNING"/*.json; do
+      [[ -f "$f" ]] || continue
+      echo "  moving stale running mission back to pending: $(basename "$f")"
+      mv "$f" "$ROOT/data/cursor_missions/pending/"
+    done
+  else
+    echo "  executor running — leaving lock in place"
+  fi
 fi
 
 echo ""

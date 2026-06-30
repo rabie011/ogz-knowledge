@@ -8,7 +8,7 @@ PY="${PYTHON:-/opt/homebrew/bin/python3}"
 LA="$HOME/Library/LaunchAgents"
 DEPLOY="$ROOT/deploy/launchagents"
 LOGS="$HOME/logs"
-BRANCH="${OGZ_GIT_BRANCH:-cursor/cloud-agent-1782842649010-84hv4}"
+BRANCH="${OGZ_GIT_BRANCH:-main}"
 # shellcheck source=lib/mac_git_reconcile.sh
 source "$ROOT/scripts/lib/mac_git_reconcile.sh"
 

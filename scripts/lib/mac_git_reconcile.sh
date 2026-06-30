@@ -6,7 +6,7 @@ set -euo pipefail
 mac_git_reconcile() {
   local branch="${1:-$(git branch --show-current)}"
   if [[ -z "$branch" || "$branch" == "HEAD" ]]; then
-    branch="${OGZ_GIT_BRANCH:-cursor/cloud-agent-1782842649010-84hv4}"
+    branch="${OGZ_GIT_BRANCH:-main}"
   fi
 
   echo "  git fetch origin $branch"

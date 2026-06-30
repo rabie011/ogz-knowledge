@@ -76,14 +76,17 @@ chmod +x scripts/mac_confirm.sh
 ./scripts/mac_confirm.sh
 ```
 
-### Bootstrap (if `mac_confirm.sh` is missing — pull failed)
+### Bootstrap (stay on main — do not switch to cloud branch)
+
+PR #1 is merged. Mac local `main` may have unpushed commits — keep them.
 
 ```bash
 cd ~/Desktop/ogz-knowledge
-git fetch origin cursor/cloud-agent-1782842649010-84hv4
-git checkout cursor/cloud-agent-1782842649010-84hv4 2>/dev/null || git checkout -B cursor/cloud-agent-1782842649010-84hv4 origin/cursor/cloud-agent-1782842649010-84hv4
-git stash push -m mac-status -- data/unified_status.txt data/unified_status.json data/mac_status data/cursor_missions/artifacts/validate_stack.json 2>/dev/null || true
-git rebase origin/cursor/cloud-agent-1782842649010-84hv4
+git fetch origin main
+git checkout main
+git stash push -m mac-status -- data/unified_status.txt data/unified_status.json data/mac_status data/cursor_missions/artifacts/validate_stack.json data/LIVE_STATUS.md data/events.jsonl 2>/dev/null || true
+git rebase origin/main
+git stash pop 2>/dev/null || true
 chmod +x scripts/mac_confirm.sh
 ./scripts/mac_confirm.sh
 ```

@@ -6,7 +6,7 @@
   "goal": "Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status)",
   "fix_allowed": false,
   "commands": [
-    "cd ~/Desktop/ogz-knowledge && git pull --rebase origin HEAD",
-    "cd ~/Desktop/ogz-knowledge && chmod +x scripts/mac_onboard.sh && ./scripts/mac_onboard.sh"
+    "cd ~/Desktop/ogz-knowledge && git fetch origin main && git rebase origin/main",
+    "cd ~/Desktop/ogz-knowledge && chmod +x scripts/mac_onboard.sh scripts/mac_confirm.sh && ./scripts/mac_onboard.sh"
   ]
 }

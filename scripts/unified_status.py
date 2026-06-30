@@ -89,6 +89,17 @@ def _pilot_lines() -> list[str]:
     return lines
 
 
+def _mac_last_sync() -> dict | None:
+    meta = ROOT / "data/mac_status/sync_meta.json"
+    if not meta.exists():
+        return None
+    try:
+        doc = json.loads(meta.read_text(encoding="utf-8"))
+        return {"ts": doc.get("ts"), "hostname": doc.get("hostname"), "git_sha": doc.get("git_sha")}
+    except Exception:
+        return None
+
+
 def build() -> dict:
     pending = sorted(p.name for p in (MISSIONS / "pending").glob("*.json"))
     running = sorted(p.name for p in (MISSIONS / "running").glob("*.json"))
@@ -109,6 +120,7 @@ def build() -> dict:
         "knowledge": {"raw_docs": knowledge_raw, "indexed_docs": knowledge_indexed},
         "mistake_count": mistakes,
         "control_surface": "Cursor (mobile + Mac)",
+        "mac_last_sync": _mac_last_sync(),
         "live_feed_mac_debug": "http://localhost:4141",
         "brain_api": "http://localhost:4140",
     }
@@ -144,6 +156,14 @@ def to_plain(st: dict) -> str:
         lines.append("")
     if st.get("paused"):
         lines.append("System paused — say go to resume auto-queuing.")
+        lines.append("")
+    mac_sync = st.get("mac_last_sync")
+    if mac_sync and mac_sync.get("ts"):
+        host = mac_sync.get("hostname") or "mac"
+        lines.append(f"MAC SYNC: {mac_sync['ts']} ({host})")
+        lines.append("")
+    elif not brain_ok:
+        lines.append("MAC SYNC: never — run ./scripts/mac_onboard.sh on the Mac")
         lines.append("")
     lines.extend([
         "YOUR GATES: render go · wire to prod · taste pairs · stop/لخ",

@@ -2,7 +2,15 @@
 
 **One place to talk:** Cursor (mobile + Mac)
 
-**Status on phone:** ask **status** in Cursor — reads `data/unified_status.txt`
+**Status on phone:** ask **status** in Cursor — reads `data/unified_status.txt` (Mac pushes every 5 min via `mac_sync`)
+
+**When you reach the Mac:** run once:
+
+```bash
+cd ~/Desktop/ogz-knowledge && git pull && ./scripts/mac_onboard.sh
+```
+
+See `data/cursor_missions/artifacts/MAC_ONBOARDING.md` and `docs/MOBILE_CONTROL.md`.
 
 **Mac debug only:** http://localhost:4141 (not your mobile control surface)
 

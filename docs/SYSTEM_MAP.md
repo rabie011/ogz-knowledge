@@ -74,7 +74,8 @@ Ask **status** in Cursor → reads `data/unified_status.txt` (plain English).
 | Label | Script | Verdict |
 |-------|--------|---------|
 | `com.ogz.brain-api` | `brain_api_launcher.py` | **KEEP** |
-| `com.ogz.executor` | `executor_daemon.py` | **Park** — only when you say go |
+| `com.ogz.mac-sync` | `mac_sync.py` | **KEEP** — pushes status to GitHub for phone |
+| `com.ogz.executor` | `executor_daemon.py` | **Recommended** — drains cloud-queued shell missions |
 | `com.ogz.live-feed` | `live_feed_server.py` | Optional — Mac debug |
 | `com.ogz.live-feed-digest` | `live_feed_digest.py` | Optional — Mac debug |
 | `com.ogz.orchestra` | `orchestra_shift.py` | **PARKED** — Cursor replaces |

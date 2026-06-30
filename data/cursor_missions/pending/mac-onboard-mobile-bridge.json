@@ -1,0 +1,12 @@
+{
+  "id": "mac-onboard-mobile-bridge",
+  "from": "cursor-cloud",
+  "created": "2026-06-30T18:45:00Z",
+  "type": "commands",
+  "goal": "Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status)",
+  "fix_allowed": false,
+  "commands": [
+    "cd ~/Desktop/ogz-knowledge && git pull --rebase origin HEAD",
+    "cd ~/Desktop/ogz-knowledge && chmod +x scripts/mac_onboard.sh && ./scripts/mac_onboard.sh"
+  ]
+}

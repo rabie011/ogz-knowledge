@@ -17,12 +17,21 @@ Cloud agents **cannot** park LaunchAgents on your Mac. After repo changes, run t
 
 ```bash
 launchctl load ~/Library/LaunchAgents/com.ogz.brain-api.plist
+launchctl load ~/Library/LaunchAgents/com.ogz.mac-sync.plist   # phone status bridge
+launchctl load ~/Library/LaunchAgents/com.ogz.executor.plist     # optional: shell missions
+```
+
+Or run the all-in-one onboard:
+
+```bash
+cd ~/Desktop/ogz-knowledge && ./scripts/mac_onboard.sh
 ```
 
 Verify:
 
 ```bash
 curl -sf http://127.0.0.1:4140/health && echo "brain OK"
+MAC_SYNC_PUSH=1 python3 scripts/mac_sync.py --push
 ```
 
 ## Parked (unload) — RUN ON MAC

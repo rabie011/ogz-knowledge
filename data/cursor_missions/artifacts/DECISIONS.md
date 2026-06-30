@@ -22,9 +22,10 @@ Two homes — avoids re-building the brain:
 
 Cursor (mobile + Mac) — unchanged from Phase 0.
 
-## Next step (waiting on **go**)
+## Next step
 
-See `PROPOSAL_TRACK_PR_PLAN.md` — Step 1 = Google Drive service account + list Amira proposals + quotations.
+1. **Mac:** run `./scripts/mac_onboard.sh` (see `MAC_ONBOARDING.md`)
+2. **Proposals:** split `proposals/` → `ogz-proposals` + Google Drive (PR 1)
 
 ## Advisor note
 

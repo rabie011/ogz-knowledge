@@ -21,7 +21,8 @@
 ## Control surface (Mohamed)
 
 - **Primary:** Cursor chat (mobile + Mac)
-- **Status:** ask `status` → read `data/unified_status.txt`
+- **Status:** ask `status` → read `data/unified_status.txt` (Mac pushes via `mac_sync`)
+- **Mac setup:** one command — `./scripts/mac_onboard.sh` (see [docs/MOBILE_CONTROL.md](docs/MOBILE_CONTROL.md))
 - **Mac debug:** http://localhost:4141 (not mobile)
 - **Portal:** taste pairs only
 - **Telegram:** parked — optional DS side chat, not commands
@@ -99,7 +100,8 @@ Full reference: [docs/DAEMON_PARK.md](docs/DAEMON_PARK.md)
 
 | Path | Purpose |
 |------|---------|
-| `data/unified_status.txt` | Plain status for mobile |
+| `data/unified_status.txt` | Plain status for mobile (Mac pushes via mac_sync) |
+| `data/mac_status/sync_meta.json` | Last Mac sync time + LaunchAgent state |
 | `data/cursor_missions/` | Mission bus |
 | `data/cursor_missions/artifacts/handoff/` | Pilot wire bundle |
 | `data/rabie_verdicts.jsonl` | Judge memory |
@@ -110,11 +112,12 @@ Full reference: [docs/DAEMON_PARK.md](docs/DAEMON_PARK.md)
 
 ## Roadmap (v2 — after organize)
 
-1. **Clean repo decision** — keep `ogz-knowledge` as brain or split proposal tooling (TBD with Mohamed)
-2. **Google Drive** — source of truth: Amira proposal templates + quotations
-3. **Google Slides** — proposal agent output (on-demand from Cursor)
-4. **OGZ posts** — existing brain/render, 20 perfect posts goal
-5. **Mode B** — optional 24/7 daemons, one at a time
+1. **Mac mobile bridge** — `mac_sync` + `mac_onboard.sh` (done in repo; run on Mac)
+2. **ogz-proposals** — scaffold in `proposals/`; split + Drive on Mac
+3. **Google Drive** — Amira templates + quotations
+4. **Google Slides** — proposal output from Cursor
+5. **OGZ posts** — brain/render, 20 perfect posts
+6. **Mode B** — optional 24/7 daemons, one at a time
 
 ---
 

@@ -51,7 +51,7 @@ def main() -> int:
         except Exception:
             pass
     launchctl = shutil.which("launchctl")
-    for label in ("com.ogz.executor", "com.ogz.consult-shift", "com.ogz.orchestra", "com.ogz.memory-keeper"):
+    for label in ("com.ogz.executor", "com.ogz.mac-sync", "com.ogz.consult-shift", "com.ogz.orchestra", "com.ogz.memory-keeper"):
         if not launchctl:
             results.append(check(label, True, "skipped — launchctl only on Mac"))
             continue

@@ -46,6 +46,8 @@ Ask **status** in Cursor → reads `data/unified_status.txt`.
 ### Phase A deliverables (done)
 
 - [x] `docs/SYSTEM_MAP.md` — inventory
+- [x] `docs/MOBILE_CONTROL.md` — phone ↔ Mac ↔ GitHub loop
+- [x] `scripts/mac_sync.py` + `mac_onboard.sh` — Mac pushes status for mobile
 - [x] `AGENTS.md` — agent instructions + Mac vs cloud separation
 - [x] `scripts/setup_dev_env.sh` — reproducible env setup
 - [x] Honest naming (shell executor ≠ Claude Code)
@@ -63,7 +65,9 @@ Ask **status** in Cursor → reads `data/unified_status.txt`.
 
 See `data/cursor_missions/artifacts/DECISIONS.md` and `PROPOSAL_TRACK_PR_PLAN.md`.
 
-### Phase B — Proposals track (next — waiting on **go**)
+### Phase B — Proposals track (next)
+
+**Scaffold:** `proposals/` in repo — split to `ogz-proposals` on Mac.
 
 **Source of truth:** Google Drive
 

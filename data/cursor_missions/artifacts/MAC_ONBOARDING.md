@@ -1,0 +1,83 @@
+# Mac onboarding — run once when you're at the machine
+
+**Goal:** Phone Cursor can read live Mac status from GitHub.
+
+---
+
+## Quick start (copy-paste)
+
+```bash
+cd ~/Desktop/ogz-knowledge
+git pull
+chmod +x scripts/mac_onboard.sh
+./scripts/mac_onboard.sh
+```
+
+Expected output: brain OK, mac-sync loaded, first git push of status.
+
+---
+
+## Checklist
+
+### A. Repo + Python
+
+- [ ] `git pull` — get cloud agent changes
+- [ ] `./scripts/setup_dev_env.sh` — venv + deps
+- [ ] `~/.abraham_env` exists with `BRAIN_API_TOKEN`
+
+### B. Daemons (Mode A)
+
+- [ ] **Keep:** `com.ogz.brain-api` (:4140)
+- [ ] **Install:** `com.ogz.mac-sync` (status → GitHub every 5 min)
+- [ ] **Install:** `com.ogz.executor` (run shell missions from cloud)
+- [ ] **Park:** consult-shift, memory-keeper, orchestra
+
+```bash
+# Verify
+launchctl list | grep com.ogz
+curl -sf http://127.0.0.1:4140/health && echo brain OK
+```
+
+### C. Git push (required for phone status)
+
+Mac must push status files. Test:
+
+```bash
+MAC_SYNC_PUSH=1 python3 scripts/mac_sync.py --push
+```
+
+If push fails → set up SSH key for GitHub on the Mac.
+
+### D. Proposals track (next, after onboard)
+
+- [ ] Create `~/Desktop/ogz-proposals` from `proposals/` scaffold (see `proposals/README.md`)
+- [ ] Copy good parts from `~/agents` (router, proposal_agent, client knowledge)
+- [ ] Google Drive service account → `~/.config/ogz/google_sa.json` (gitignored)
+
+---
+
+## Verify from phone
+
+1. Wait 5 min after onboard (or run mac_sync manually)
+2. In Cursor mobile ask: **status**
+3. Should show `BRAIN: healthy` and recent `mac_last_sync`
+
+---
+
+## Troubleshooting
+
+| Problem | Fix |
+|---------|-----|
+| BRAIN DOWN | `launchctl load ~/Library/LaunchAgents/com.ogz.brain-api.plist` |
+| Status stale on phone | `MAC_SYNC_PUSH=1 python3 scripts/mac_sync.py --push` |
+| Missions not running | `launchctl load ~/Library/LaunchAgents/com.ogz.executor.plist` |
+| Too much auto-noise | `touch data/cursor_missions/.paused` |
+
+---
+
+## Do NOT run (Mode A)
+
+- `./scripts/ogz_live.sh` — installs orchestra + consult + memory (noisy legacy)
+- Unpark consult-shift until you want Mode B 24/7
+
+See [docs/MOBILE_CONTROL.md](../../docs/MOBILE_CONTROL.md).

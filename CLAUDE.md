@@ -230,6 +230,44 @@ See `BUILD_PLAN.md` for specifics, but at minimum:
 
 ---
 
+## Cursor Missions (file bus with Cursor IDE)
+
+Cursor writes tasks; **you** execute them on this machine. No copy-paste of test logs between chats.
+
+**On session start** or when Mohamed says **"check cursor missions"**:
+
+```bash
+python3 scripts/cursor_mission_consumer.py
+```
+
+Read results in `data/cursor_missions/done/*.json`. Protocol: `data/cursor_missions/README.md`.
+
+Mission types:
+- `commands` — run shell lines in `commands[]`
+- `brain-readiness` / `orchestra` — runs `scripts/run_brain_readiness.py` (Phase A dev-handoff tests)
+
+Do **not** fix code unless the mission sets `"fix_allowed": true`. Write blockers to the done JSON.
+
+### 24/7 daemons (installed via `deploy/launchagents/`)
+
+| LaunchAgent | Role |
+|---|---|
+| `com.ogz.brain-api` | `brain_api.py` on **:4140** (KeepAlive) |
+| `com.ogz.cursor-missions` | Every **5 min**: `cursor_24h_shift.py` → one pending mission + hourly context refresh |
+
+Install / reload:
+
+```bash
+cp deploy/launchagents/com.ogz.brain-api.plist ~/Library/LaunchAgents/
+cp deploy/launchagents/com.ogz.cursor-missions.plist ~/Library/LaunchAgents/
+launchctl load -w ~/Library/LaunchAgents/com.ogz.brain-api.plist
+launchctl load -w ~/Library/LaunchAgents/com.ogz.cursor-missions.plist
+```
+
+Heartbeat: `data/cursor_missions/done/24h-heartbeat.jsonl` · shift log: `~/logs/cursor_24h_shift.log`
+
+---
+
 ## Notes for Future Sessions
 
 - This repo will be public-internal eventually (visible to OGZ partners, employees). Write all comments and READMEs as if a new team member will read them tomorrow.

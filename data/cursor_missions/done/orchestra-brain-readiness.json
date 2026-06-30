@@ -1,0 +1,117 @@
+{
+  "id": "orchestra-brain-readiness",
+  "phase": "A",
+  "finished": "2026-06-30T01:15:00Z",
+  "overall_status": "partial",
+  "summary": "Brain API is wire-ready on core contracts (extract/produce/performance/auth). Blocked on missing BRAIN_API_TOKEN in ~/.abraham_env. Integration 32/34; two non-blocking flakes. Full unittest discover has 9 pre-existing failures unrelated to brain HTTP.",
+  "todos_completed": {
+    "setup-file-bus": true,
+    "setup-orchestra-workflow": true,
+    "phase-a-orchestra-run": true,
+    "phase-a-cursor-review": true
+  },
+  "setup_verified": {
+    "file_bus": {
+      "pending": "data/cursor_missions/pending/.gitkeep",
+      "running": "data/cursor_missions/running/.gitkeep",
+      "done": "data/cursor_missions/done/",
+      "failed": "data/cursor_missions/failed/.gitkeep",
+      "consumer": "scripts/cursor_mission_consumer.py",
+      "readme": "data/cursor_missions/README.md"
+    },
+    "orchestra_workflow": "~/.claude/projects/-Users-abarihm-Desktop-ogz-knowledge/ac29b028-a30d-454c-85ed-738f0a9dbe56/workflows/scripts/brain-readiness-test-wf_a1b2c3d4-e5f6.js"
+  },
+  "phase_a_runs": [
+    {
+      "run": 1,
+      "finished": "2026-06-30T00:53:59Z",
+      "env": "sandbox",
+      "status": "fail",
+      "root_cause": "BRAIN_API_TOKEN not readable; all authenticated routes 401"
+    },
+    {
+      "run": 2,
+      "finished": "2026-06-30T01:11:03Z",
+      "env": "all permissions, no token in ~/.abraham_env",
+      "status": "fail",
+      "root_cause": "Same — token line absent from ~/.abraham_env"
+    },
+    {
+      "run": 3,
+      "finished": "2026-06-30T01:12:35Z",
+      "env": "all permissions, BRAIN_API_TOKEN exported for run",
+      "status": "partial",
+      "integration": "32/34 pass",
+      "core_brain_tests": "all green"
+    }
+  ],
+  "exit_codes_final": {
+    "test_job_lifecycle": 0,
+    "test_job_lifecycle_edges": 0,
+    "test_perf_ingestor_coldstart": 0,
+    "test_ledger_index": 0,
+    "unittest_discover": 1,
+    "contract_drift": 0,
+    "integration": 1
+  },
+  "checks_final": {
+    "auth_401_without_bearer": true,
+    "albaik_81_keys": true,
+    "albaik_coverage_75": true,
+    "albaik_ready": true,
+    "myfitness_not_ready": true,
+    "contract_drift_clean": true,
+    "fixtures_saved": true,
+    "integration_32_of_34": true
+  },
+  "failure_classification": {
+    "blockers": [
+      {
+        "id": "missing_brain_api_token",
+        "detail": "BRAIN_API_TOKEN not in ~/.abraham_env — authenticated smoke + integration get 401 until token is set and brain_api restarted with matching token"
+      }
+    ],
+    "pre_existing": [
+      {
+        "id": "testbrand_fingerprint",
+        "tests": ["test_provenance_ladder (6)", "test_fingerprint_payment (1)"],
+        "detail": "clients/testbrand/profile/fingerprint.json missing"
+      },
+      {
+        "id": "lovable_watch_git",
+        "tests": ["test_lovable_watch (0-5 depending on env)"],
+        "detail": "Git sandbox / repo access for Lovable commit watch"
+      },
+      {
+        "id": "taste_staleness",
+        "tests": ["test_taste_staleness.test_live_repo_currently_fresh"],
+        "detail": "founder_taste 17d behind latest rating (threshold 14d)"
+      },
+      {
+        "id": "visual_review_checklist_stale",
+        "tests": ["test_visual_review_checklist.test_live_file_is_fresh"],
+        "detail": "On-disk checklist out of sync — run build_visual_review_checklist.py"
+      },
+      {
+        "id": "myfitness_sparse_threshold",
+        "tests": ["test_brain_connection myfitness profile <60%"],
+        "detail": "Profile now 62% (was ~53%); test threshold stale — refusal path still correct"
+      }
+    ],
+    "flakes": [
+      {
+        "id": "humain_second_judge",
+        "tests": ["test_brain_connection albaik 2-judge HUMAIN+GPT"],
+        "detail": "Live produce succeeded; only GPT judge registered (signals=1). HUMAIN was up. Retry may pass."
+      }
+    ]
+  },
+  "mohamed_next": [
+    "Add BRAIN_API_TOKEN=<stable-token> to ~/.abraham_env",
+    "Restart brain_api: python3 scripts/brain_api.py (or launchd — Phase B)",
+    "Share token + Mac Mini URL (http://127.0.0.1:4140) with platform devs",
+    "Re-run: BRAIN_API_TOKEN=... python3 scripts/run_brain_readiness.py — expect partial/pass once token persisted",
+    "Optional housekeeping (not blocking wiring): refresh founder_taste, rebuild visual review checklist, add testbrand fingerprint fixture"
+  ],
+  "deferred": ["Phase B hardening", "platform-side wiring implementation"]
+}

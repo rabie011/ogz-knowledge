@@ -1,0 +1,113 @@
+{
+  "id": "overnight-morning-brief",
+  "generated": "2026-06-30T01:43:43Z",
+  "health": {
+    "id": "overnight-01-health",
+    "status": "pass",
+    "exit_codes": {
+      "cmd_0": 0,
+      "cmd_1": 0,
+      "cmd_2": 0,
+      "cmd_3": 0
+    },
+    "summary": "all commands passed",
+    "log_path": "data/cursor_missions/done/2026-06-30-overnight-01-health.log",
+    "blockers": [],
+    "fix_allowed": false,
+    "finished": "2026-06-30T01:43:34Z"
+  },
+  "prefill": {
+    "albaik": {
+      "pct": 79,
+      "filled": 64,
+      "ready": true
+    },
+    "eatjurisha": {
+      "pct": 70,
+      "filled": 57,
+      "ready": true
+    },
+    "myfitness.sa": {
+      "pct": 62,
+      "filled": 50,
+      "ready": false
+    }
+  },
+  "deepseek": {
+    "question": "Brain API is live 24/7 on :4140. Phase A readiness partial (32/34). 9/9 mission HUMAIN-passed. 4 photos killed for generic look — art-director wired, awaiting founder go to re-render. Dev platform o-gz-studios-web not cloned locally.\n\nWhat is the SINGLE highest-value next step that needs NO founder render-go and NO new agents? Answer in 5 bullets max. Facts only.",
+    "answer": "1. **Clone `o-gz-studios-web` locally** — without the repo, you cannot test, debug, or deploy any frontend changes, blocking all Phase A completion.\n2. **Resolve the 2 missing Phase A readiness items** — partial readiness (32/34) means two blockers remain; identify and fix them to reach full readiness.\n3. **Re-render the 4 killed photos using existing art-director guidance** — since no founder go is needed, the art-director can proceed with the wired direction to restore visual consistency.\n4. **Verify Brain API endpoint stability** — confirm the live API on `:4140` handles all 9 HUMAIN-passed missions without regression, especially after the photo kills.\n5. **Document the current local dev environment gaps** — list missing dependencies, configs, or credentials needed to run `o-gz-studios-web` once cloned."
+  },
+  "heartbeats": [
+    {
+      "ts": "2026-06-30T01:38:16Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": true,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "consumer_rc": 0
+    },
+    {
+      "ts": "2026-06-30T01:38:16Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": true,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "consumer_rc": 0
+    },
+    {
+      "ts": "2026-06-30T01:40:03Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": true,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "consumer_rc": 0
+    },
+    {
+      "ts": "2026-06-30T01:43:17Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": true,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "consumer_rc": 0
+    },
+    {
+      "ts": "2026-06-30T01:43:34Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": true,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "consumer_rc": 0
+    }
+  ],
+  "blockers_for_mohamed": [
+    "4 killed posts need render-go (~0.12 fal)",
+    "13 bridge taste pairs on portal",
+    "Platform wire not started"
+  ],
+  "daemon": "com.ogz.brain-api + com.ogz.cursor-missions every 5min"
+}

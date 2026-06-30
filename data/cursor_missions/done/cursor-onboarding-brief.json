@@ -1,0 +1,619 @@
+{
+  "id": "cursor-onboarding-brief",
+  "generated": "2026-06-30T03:39:01Z",
+  "from": "claude-code",
+  "repo": "/Users/abarihm/Desktop/ogz-knowledge",
+  "recovery_point_head": "# CURSOR — live recovery point · updated 2026-06-30\n\n## ⭐ JUNE 30 — GATE0 anti-hallucination matcher HARDENED (consult-first, Rule #19) · boshed 1ddca153\n**Done:** closed two product_is_real() fail-opens (scripts/truth_guards.py) that let a HALLUCINATED\nproduct clear the FAL-spend gate (Rule #12): (1) raw-substring over all profile/*.json passed a\ngreeting «عيد أضحى مبارك»; (2) any single ≥4-char caption token passed «أي منتج وهمي» (common word\n«منتج»). Now: STRUCTURED read of product_truth.json only (both shapes: albaik top-level keys /\njurisha+alnasser d[\"products\"]); pass only if query⊆real-name tokens; if client HAS product_truth\nit's the AUTHORITY (no caption back-door); corpus fallback only for no-product_truth brands (full\nphrase OR ≥2 sig tokens, never a single). Also render_openclaw GATE0 `except: pass` → FAIL-CLOSED.\n**Test:** tests/test_truth_guards.py — 19 cases, exit 0 (real pass, fakes refuse, 3 live clients);\ncaption gauntlet still green. **Consulted DeepSeek+RABIE before+after: VERIFIED, no fail-open.**\n**Residual (flagged, task_6f6385da):** no-product_truth brands (ecoffeecup/lnasserjewelry/myfitness)\ncan still pass a verbatim greeting via caption-overlap → give them product_truth or tighten that path.\n\n---\n# CURSOR — prior · updated 2026-06-23\n\n## 🔺 STANDING GOAL (Mohamed, June 23) — the 24h orchestra, this week, NEVER STOP\n**RABIE + Claude work 24/7 for the week. THE TOP: the SYSTEM produces 20 PERFECT complete posts\n(photo + caption + everything), created ONE BY ONE, across the 3 clients (albaik · jurisha ·\nmyfitness), in DIFFERENT setups — each RABIE-judged perfect (harsh: 3=default, 4=proof, 5=rare)\nbefore it counts.** Method: machine produces (Rule #12) → RABIE judges independent+harsh → fix the\nMACHINE (or brief) → re-produce → bank when perfect → next. Never accept \"fine\". Money: $3 fal cap\n(USD_CAP) gates renders — when it hits, ask Mohamed to raise it.\n**RENDER CONSTRAINT (found June 23):** flux-2-pro/EDIT edits the product reference → it makes\nPRODUCT-FORWARD shots well, but NOT human STORY scenes. So start product-forward (works); story-scene\nrendering needs a different (generation) path — a Mohamed fork.\n**Machine fixes banked toward the goal:** pick_reference matches product+flags gaps (833176fe) ·\nrender obeys face_visibility=never / faceless (d16206ca) · 7 fail-open gates closed (f6a464a1,3c1a4db7).\n\n## ⭐ JUNE 24 SESSION — 8/20 PERFECT (RABIE = GPT-4o vision judge, harsh 3=default)\n**Built rabie_judge.py** (scripts/) — GPT-4o vision scores product_truth/composition/cultural/\nbrand/caption 1-5 → bank/fix/kill. The mechanical RABIE.\n**8 banked (perfect_0X_*.jpg in api/static/renders_v37/):** دبل بيك · سوبر رول · بيكيز · جريش ·\nكرسبي بيك(5/5) · سليق(5/5) · تمن(4/5) · قرصان(4/5).\n**Root machine fixes this session (all boshed):**\n1. product_truth NESTED read — jurisha uses {\"products\":{}}, assembly lock was SILENT for ALL\n   jurisha → now reads both flat(albaik)+nested. (008d9b5b)\n2. image_prompt_strength=0.92 — anchor",
+  "recovery_point_tail": "D to\nnull (worn from the session) → kept originals (4/5, no regression). HUMAIN needs REST (drifts under sustained\nload). 9/9 stays solid + HUMAIN-passed. Polish (4/5→5/5) is non-urgent + HUMAIN-limited — resumes as HUMAIN\nrecovers (longer gaps). AWAIT Mohamed's next-phase: polish-rest-of-set / P2 full-batches / P3 dev-handoff / myfitness-products.\n\n## 🎨 PHOTO-FIX ARC (June 29 ~22:00) — Mohamed killed 5 posts = GENERIC photos → art-director wired + per-brand signature\nAfter 9/9: post-by-post polish DONE (post1 hook-upgraded, 8 kept). C238 minds-read-voice+pains PROVEN (A/B). C239/b\nHUMAIN drift ROOT-FIXED (proactive page-recycle every 12 calls in humain_lock, proven live). Then Mohamed JUDGED the\nportal posts: APPROVED 3 (jurisha جريش-G03, albaik بيكيز-R05, albaik كرسبي-U01), KILLED 5 (albaik سوبر-رول + كومبو-بيك,\njurisha باشميل + تمن + سليق). Kill reason = photos GENERIC/STOCK. ROOT (3-chairs): art_director produced a deliberate\nbrief but it never reached the fal prompt (to_converter_args dropped it to chain+scene; openclaw built chain-mechanically)\n= severed wire (Rule #6). FIXES bosh'd: C240 = wire the AD brief into the render (produce_complete_post persists brief +\n--brief; render_openclaw appends [ART DIRECTION] block, fail-closed). C241 = PER-BRAND craft signature (each brand's own\nvisual_dna.capture_character + a fixed hero-focus move; NOT one fixed chiaroscuro — that was wrong-tone for bright ALBAIK,\nGPT+DeepSeek vision flagged 'noir on a daylight brand'). PROVEN on سوبر رول: generic→bright-glossy distinctive; GPT-vision\n+DeepSeek both SHIP; eatjurisha gets WARM ($0-verified). Spent $2.43/$15 (3 proof renders ~$0.09).\nNEXT: AWAITING Mohamed's GO to render the OTHER 4 killed posts w/ per-brand signatures (~$0.12) → he re-judges. HUMAIN\ndrops during produce runs (caption→weak GPT) so ensure HUMAIN-up first. Gate no_fal_photos=False open. Then full-set\nre-judge → P2 (full batches) / P3 (dev handoff). Loop holds at this gate (Rule #11, no spend without his go).\n",
+  "git": {
+    "exit": 0,
+    "out": "f645c16e fix: resync calibration BASELINE_RESULTS to live GREEN + stage 2nd-vision-model money-gate\nede1d5dd fix(immune): conservative fail-safe fixes 3-week silent moat failure on left-hand-serving control\n0ef6a7cb fix: clear 2 make_sure alarms — taste-staleness armor false-RED + cards_attributed wire (Rule #6)\nc00050a7 feat: C245 taste-writeback-bridge — close the B114 staleness loop\n4a14d01f fix: deadly_defaults gate false-positive on stricter-than-strict cultural values\na7409591 fix: one canonical real_clients() boundary — kill scratch-dir census pollution\n1ddca153 fix(GATE0): close two product_is_real fail-opens that let hallucinated products pass\n26470e40 fix: remove the redundant [ART DIRECTION] append — the v3.7 canon already integrates the brand look [canon-integration, Mohamed's catch]\n7c54c860 feat: com.ogz.ds-telegram launchd plist — DeepSeek's 24/7 private-chat daemon (KeepAlive)\n4f34d326 fix: Mohamed's portal-approve gold was severed — write 'line' key, harden reader [full-checkup #2 VERIFIED]\nfb62fd8b feat: alnasserjewelry cultural_overrides (face=never, no mixed-gender) — completes PRODUCE_CRITICAL [patch 1/3]\nd4830aab feat: onboard alnasserjewelry (jewelry) — product_truth from 6 real corpus-grounded products [patch 1/3]\nafb26483 fix: product_is_real fail-CLOSED on no-corpus (was fail-open) [C244, DeepSeek consult]\n51ff7700 feat: fast feedback-consume daemon — Mohamed's taps reach the brain in 30s not 3min [C243]\ne08bb1ce fix: re-review post cards (post_<key>__refix) map their tap to the base post [Rule #7]\n"
+  },
+  "git_branch": {
+    "exit": 0,
+    "out": "main\n"
+  },
+  "git_status": {
+    "exit": 0,
+    "out": "## main...origin/main\n M CLAUDE.md\n M \"api/static/renders_v37/albaik_\\330\\263\\331\\210\\330\\250\\330\\261_\\330\\261\\331\\210\\331\\204_U01.jpg\"\n M clients/albaik/derived/rival_corpus.json\n M clients/albaik/prefill.json\n M clients/albaik/profile/gold.json\n M clients/eatjurisha/derived/rival_corpus.json\n M clients/eatjurisha/prefill.json\n M clients/eatjurisha/profile/gold.json\n M clients/myfitness.sa/prefill.json\n M data/applied_rulings.jsonl\n M data/attribution.jsonl\n M data/caption_bank.json\n M data/extraction_accuracy_gate.json\n M data/fal_cost_log.jsonl\n M data/feedback_router_cursor.json\n M data/founder_words.jsonl\n M data/gold_mint_cursor.json\n M data/im_here.md\n M data/issues.jsonl\n M data/issues_state.json\n M data/kill_fingerprints.json\n M data/make_sure_state.json\n M data/mission_9posts.json\n M data/mohamed_answers.jsonl\n M data/openclaw_v37/samples/albaik_G03.json\n M data/openclaw_v37/samples/albaik_U01.json\n M data/openclaw_v37/samples/alnasserjewelry_T08.json\n M data/outcome_events.jsonl\n M data/pairwise_prefs.jsonl\n M data/produced_posts.jsonl\n M data/scorecards.json\n M data/taste_elo.json\n M docs/CONNECT_THE_BRAIN.md\n M logs/enricher_state.json\n M scripts/test_brain_connection.py\n?? clients/albaik/profile/.versions/gold.20260629T233532321565.json\n?? clients/albaik/profile/.versions/gold.20260629T233532323678.json\n?? clients/alnasserjewelry/profile/media_class.json\n?? clients/eatjurisha/profile/.versions/gold.20260629T233532322991.json\n?? \"data/.ad_brief_albaik_\\330\\263\\331\\210\\330\\250\\330\\261_\\330\\261\\331\\210\\331\\204.json\"\n?? data/contract_fixtures/\n?? data/cursor_missions/\n?? data/make_sure.lock\n?? data/openclaw_v37/samples/alnasserjewelry_T30.json\n?? data/openclaw_v37/samples/alnasserjewelry_U01.json\n?? deploy/launchagents/com.ogz.brain-api.plist\n?? deploy/launchagents/com.ogz.cursor-missions.plist\n?? docs/FULL_CHECKUP_findings_jun30.json\n?? scripts/brain_api_launcher.py\n?? scripts/cursor_24h_shift.py\n?? scripts/cursor_autonomous_report.py\n?? scripts/cursor_build_context.py\n?? scripts/cursor_mine_history.py\n?? scripts/cursor_mission_consumer.py\n?? scripts/ogz_env.sh\n?? scripts/run_brain_api.sh\n?? scripts/run_brain_readiness.py\n"
+  },
+  "port_4140_brain_api": {
+    "exit": 0,
+    "out": "COMMAND   PID    USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME\nPython  59039 abarihm    3u  IPv4 0x85de2518f31b11f8      0t0  TCP localhost:cedros_fds (LISTEN)\n"
+  },
+  "port_4199_portal": {
+    "exit": 0,
+    "out": ""
+  },
+  "port_4100_intelligence_api": {
+    "exit": 0,
+    "out": "COMMAND   PID    USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME\nPython  33426 abarihm    6u  IPv4 0x69ef79f1b4e69107      0t0  TCP *:igo-incognito (LISTEN)\n"
+  },
+  "port_4111_humain": {
+    "exit": 0,
+    "out": "COMMAND   PID    USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME\nPython  45438 abarihm    6u  IPv4 0xf569c678b53931d0      0t0  TCP localhost:xgrid (LISTEN)\n"
+  },
+  "brain_token_set": true,
+  "health": {
+    "exit": 0,
+    "out": "{\"ok\": true, \"humain\": true, \"queue_depth\": 0, \"auth_required\": true}"
+  },
+  "abraham_env_keys": [
+    "ABRAHAM_RECEIVE_TOKEN",
+    "ALAI_API_KEY",
+    "ALHARETH_TELEGRAM_CHAT_ID",
+    "ALHARETH_TELEGRAM_TOKEN",
+    "ANTHROPIC_API_KEY",
+    "APIFY_TOKEN",
+    "APPROVALS_KEY",
+    "BRAIN_API_TOKEN",
+    "BRAVE_API_KEY",
+    "DEEPSEEK_API_KEY",
+    "DEEPSEEK_BOT_TOKEN",
+    "FAL_KEY",
+    "FIGMA_API_KEY",
+    "GEMINI_API_KEY",
+    "GITHUB_REPO",
+    "GITHUB_TOKEN",
+    "GITHUB_USERNAME",
+    "GOOGLE_AI_STUDIO_KEY",
+    "GROQ_API_KEY",
+    "META_APP_SECRET",
+    "N8N_API_KEY",
+    "N8N_BRIEFING_WEBHOOK",
+    "N8N_PASSWORD",
+    "N8N_URL",
+    "OPENAI_API_KEY",
+    "OPENROUTER_KEY_1",
+    "OPENROUTER_KEY_2",
+    "OPENROUTER_KEY_3",
+    "TELEGRAM_CHAT_ID",
+    "TELEGRAM_TOKEN",
+    "export GMAIL_ACCOUNT",
+    "export GMAIL_APP_PASSWORD",
+    "export GMAIL_SEND_AS",
+    "export OPENROUTER_API_KEY"
+  ],
+  "client_handles": [
+    "_plays",
+    "_templates",
+    "albaik",
+    "alnasserjewelry",
+    "eatjurisha",
+    "ecoffeecup.sa",
+    "lnasserjewelry",
+    "myfitness.sa",
+    "testbrand"
+  ],
+  "launchagents": [
+    "com.abraham.backup.plist",
+    "com.abraham.builder.plist",
+    "com.abraham.cloudflare.plist",
+    "com.abraham.feedback-autoclose.plist",
+    "com.abraham.humain-watchdog.plist",
+    "com.abraham.memory-keeper.plist",
+    "com.abraham.orchestra-engine.plist",
+    "com.abraham.orchestrator.plist",
+    "com.abraham.os.plist",
+    "com.abraham.qdrant.plist",
+    "com.abraham.reaper.plist",
+    "com.abraham.storage-guardian.plist",
+    "com.abraham.watchdog.plist",
+    "com.ogz.brain-api.plist",
+    "com.ogz.cursor-missions.plist",
+    "com.ogz.ds-telegram.plist",
+    "com.ogz.enricher.plist",
+    "com.ogz.healthcheck.plist",
+    "com.ogz.playroom.plist.disabled",
+    "com.ogz.portal.plist",
+    "com.ogz.rulings-consume.plist"
+  ],
+  "repo_ogz-platform": {
+    "path": "/Users/abarihm/ogz-platform",
+    "git": {
+      "exit": 0,
+      "out": "0884ea7 fix: graceful DB error handling + dev server port config\n3797d16 feat: Sprint 4 — Admin panel, QA queue, auth, white-label\n7321095 feat: Sprint 3 — Content Generation Pipeline A\n14bbfba feat: Sprint 2 complete — gap questions, correction flags, API routes\n919f524 feat: Sprint 2 core — 15-question form, scrapers, Brand Snapshot page\n"
+    }
+  },
+  "repo_ogz-website": {
+    "path": "/Users/abarihm/ogz-website",
+    "git": {
+      "exit": 0,
+      "out": "c2a1c22 content: 40-question pool REVIEWED+APPROVED by founder — 4 dialect fixes, Western numerals, gender-neutral, tails trimmed, 1 cut (pool=39)\n2598381 law: toggle ruling ratified — ON-toggle counts as the screen's one accent (founder call)\n6665107 fix(design): IG handle verified live — @ogz_studios (signature artwork outdated)\n055b9b6 chore(design): archive path moved to ~/Documents/OGZ/02-Brand (PC organize)\naf99572 feat(design): Claude Design v0.2.0 lands in-repo — tokens digital namespace, 7 law docs, styleguide, full 19-screen project master (AR/EN, light/dark), validation 5/5\n"
+    }
+  },
+  "repo_agents": {
+    "path": "/Users/abarihm/agents",
+    "git": {
+      "exit": 0,
+      "out": "57ff28f feat: ds_telegram — dedicated-bot poller for Mohamed<->DeepSeek private chat (DeepSeek's design, urllib, chat-id locked)\ne5f54af feat: ds_chat — DeepSeek's persistent-memory chat engine (reuse CURSOR + ds_chat.jsonl, no new DB)\n4dbb2a9 feat: arm RABIE+DeepSeek with Claude's full mistake list — correction duty (Mohamed) Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>\n5afd532 perf: lean consult history (20→6, trimmed) — ~658k tok/day saved [token discipline, Mohamed] Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>\n861624d feat: orchestra PHASES manifest — the one idea salvaged from the infinite-loop proposal\n"
+    }
+  },
+  "repo_war-room": {
+    "path": "/Users/abarihm/war-room",
+    "git": {
+      "exit": 0,
+      "out": "7e231f4 Add GitHub Actions auto-deploy pipeline\n9cc0892 Add remote development setup brief\n032dcc1 OGZ Play Room — full platform with OGZ branding redesign\n"
+    }
+  },
+  "backlog_status": {
+    "done": 289,
+    "superseded": 3,
+    "todo": 59,
+    "open": 4,
+    "staged": 8,
+    "skipped": 4,
+    "mohamed_must": 2,
+    "reverted": 1,
+    "in_progress": 1
+  },
+  "backlog_todo": [
+    {
+      "id": "B028",
+      "what": "Pick the 60-second gate delivery channel",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B080",
+      "what": "Approve the two new schemas (frozen-folder rule)",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B107",
+      "what": "Ratify the deadly-defaults table",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B110",
+      "what": "Answer the 3 parked cultural rulings",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B125",
+      "what": "Option B: Claude-vision second vote with fail-safe blocking",
+      "who": "pair"
+    },
+    {
+      "id": "B126",
+      "what": "Option C: expand the negative-control set",
+      "who": "pair"
+    },
+    {
+      "id": "B127",
+      "what": "A/B/C evidence one-pager",
+      "who": "pair"
+    },
+    {
+      "id": "B128",
+      "what": "Pick compliance option A/B/C + rule serving-vs-handling scope",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B129",
+      "what": "Update rule text to the ruled scope",
+      "who": "pair"
+    },
+    {
+      "id": "B132",
+      "what": "Armor guards become law in /api/create",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B133",
+      "what": "Rate 20 armored v6 outputs at /rate20",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B135",
+      "what": "Ratify ADR-2026-06-11: feed-cloner as methodology of record",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B148",
+      "what": "Set package tiers + prices (FLANK-03 — money)",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B151",
+      "what": "Approve referral-ask wording + trigger",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B159",
+      "what": "Ratify SLA + ping-budget numbers",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B161",
+      "what": "Name the OGZ account owner per pilot client",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B165",
+      "what": "Approve review-monitoring consent ask + complaint-ping template",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B166",
+      "what": "Monthly review re-pull wired to comment re-pull",
+      "who": "pair"
+    },
+    {
+      "id": "B176",
+      "what": "Ratify the per-batch consent rule",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B178",
+      "what": "Approve the cross-client learning design",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B187",
+      "what": "Approve the 3 question scripts + truth-confirm cards",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B191",
+      "what": "Approve Khwila presentation + follow-up pack",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B192",
+      "what": "Send the Khwila pack",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B193",
+      "what": "Project jurisha answers into organs same-day",
+      "who": "pair"
+    },
+    {
+      "id": "B195",
+      "what": "Review both voice-pair sets before any client sees them",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B196",
+      "what": "myfitness revival voices v2 complete + filler-leak regen",
+      "who": "pair"
+    },
+    {
+      "id": "B197",
+      "what": "myfitness 3-post revival arc, EXPIRED voice-draft only",
+      "who": "pair"
+    },
+    {
+      "id": "B198",
+      "what": "RABIE provisional rating round on revival voices + arc",
+      "who": "pair"
+    },
+    {
+      "id": "B199",
+      "what": "Verdict the myfitness revival voices + 3-post arc",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B202",
+      "what": "Click the albaik state checkpoint",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B204",
+      "what": "albaik occasion-gold seeding — 5 occasions via armored pipeline",
+      "who": "pair"
+    },
+    {
+      "id": "B205",
+      "what": "myfitness occasion-gold seeding — 6 occasions via armored pipeline",
+      "who": "pair"
+    },
+    {
+      "id": "B206",
+      "what": "Confirm occasion-gold: rate all RABIE-4+ seed lines",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B208",
+      "what": "jurisha day-of pick-of-3 renders — 5 majors",
+      "who": "pair"
+    },
+    {
+      "id": "B209",
+      "what": "albaik day-of pick-of-3 renders — 5 majors",
+      "who": "pair"
+    },
+    {
+      "id": "B210",
+      "what": "myfitness day-of pick-of-3 renders — 5 majors",
+      "who": "pair"
+    },
+    {
+      "id": "B211",
+      "what": "Lead-up pick-of-3 renders — 18 beats across 3 clients",
+      "who": "pair"
+    },
+    {
+      "id": "B212",
+      "what": "jurisha: pick day-of winners (15 cards)",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B213",
+      "what": "albaik: pick day-of winners (15 cards)",
+      "who": "mohamed_must"
+    },
+    {
+      "id": "B214",
+      "what": "myfitness: pick day-of winners (15 cards)",
+      "who": "mohamed_must"
+    }
+  ],
+  "backlog_mohamed_must": [
+    {
+      "id": "B028",
+      "what": "Pick the 60-second gate delivery channel"
+    },
+    {
+      "id": "B057c",
+      "what": "FORK: was Thin-Brain-v3.0 primary-block removal intentional?"
+    },
+    {
+      "id": "B080",
+      "what": "Approve the two new schemas (frozen-folder rule)"
+    },
+    {
+      "id": "B107",
+      "what": "Ratify the deadly-defaults table"
+    },
+    {
+      "id": "B110",
+      "what": "Answer the 3 parked cultural rulings"
+    },
+    {
+      "id": "B128",
+      "what": "Pick compliance option A/B/C + rule serving-vs-handling scope"
+    },
+    {
+      "id": "B132",
+      "what": "Armor guards become law in /api/create"
+    },
+    {
+      "id": "B133",
+      "what": "Rate 20 armored v6 outputs at /rate20"
+    },
+    {
+      "id": "B135",
+      "what": "Ratify ADR-2026-06-11: feed-cloner as methodology of record"
+    },
+    {
+      "id": "B148",
+      "what": "Set package tiers + prices (FLANK-03 — money)"
+    },
+    {
+      "id": "B151",
+      "what": "Approve referral-ask wording + trigger"
+    },
+    {
+      "id": "B159",
+      "what": "Ratify SLA + ping-budget numbers"
+    },
+    {
+      "id": "B161",
+      "what": "Name the OGZ account owner per pilot client"
+    },
+    {
+      "id": "B165",
+      "what": "Approve review-monitoring consent ask + complaint-ping template"
+    },
+    {
+      "id": "B176",
+      "what": "Ratify the per-batch consent rule"
+    },
+    {
+      "id": "B178",
+      "what": "Approve the cross-client learning design"
+    },
+    {
+      "id": "B187",
+      "what": "Approve the 3 question scripts + truth-confirm cards"
+    },
+    {
+      "id": "B191",
+      "what": "Approve Khwila presentation + follow-up pack"
+    },
+    {
+      "id": "B192",
+      "what": "Send the Khwila pack"
+    },
+    {
+      "id": "B195",
+      "what": "Review both voice-pair sets before any client sees them"
+    },
+    {
+      "id": "B199",
+      "what": "Verdict the myfitness revival voices + 3-post arc"
+    },
+    {
+      "id": "B201",
+      "what": "Rule albaik outreach: internal dry-run vs real contact (GAP-10)"
+    },
+    {
+      "id": "B202",
+      "what": "Click the albaik state checkpoint"
+    },
+    {
+      "id": "B206",
+      "what": "Confirm occasion-gold: rate all RABIE-4+ seed lines"
+    },
+    {
+      "id": "B207",
+      "what": "Pick winners in the 3 existing pick-sets + ratify voice A"
+    },
+    {
+      "id": "B212",
+      "what": "jurisha: pick day-of winners (15 cards)"
+    },
+    {
+      "id": "B213",
+      "what": "albaik: pick day-of winners (15 cards)"
+    },
+    {
+      "id": "B214",
+      "what": "myfitness: pick day-of winners (15 cards)"
+    },
+    {
+      "id": "B215",
+      "what": "Pick winners for all 18 lead-up sets — one client per sitting"
+    },
+    {
+      "id": "B216",
+      "what": "Rule regen scope: all 330 v1 slots now vs rolling window"
+    },
+    {
+      "id": "B221",
+      "what": "Rate 5 anchor cards (his eyes are the only judge)"
+    },
+    {
+      "id": "B222",
+      "what": "RABIE return ritual: approve/reverse every PROVISIONAL entry"
+    },
+    {
+      "id": "B223",
+      "what": "Ratify MAJORS LAW as permanent"
+    },
+    {
+      "id": "B225",
+      "what": "Rate the blind 20"
+    },
+    {
+      "id": "B226",
+      "what": "Run the hostile rehearsal"
+    },
+    {
+      "id": "B233",
+      "what": "Ratify approvals-file rule into CLAUDE.md"
+    },
+    {
+      "id": "B260",
+      "what": "Rule on the 2 intelligence_layer backup files"
+    },
+    {
+      "id": "B173b",
+      "what": "Mohamed decision: invest in multi-surface (carousel/reel/story) or stay feed-only for pilots?"
+    },
+    {
+      "id": "B095t",
+      "what": "FORK: where does the go-live event that calls outcome_ledger.record_published originate?"
+    },
+    {
+      "id": "B289",
+      "what": "Rescope card_hygiene + issue_pulse to machine-defects only (+ dispose 2 approved-seeded issues)"
+    },
+    {
+      "id": "C208",
+      "what": "Get the devs integration spec (REST vs package vs queue) — the contract shape decides the wiring"
+    }
+  ],
+  "missions_pending": [],
+  "missions_running": [],
+  "missions_done": [
+    "autonomous-status-report.json",
+    "brain-readiness-phase-a.json",
+    "brain-token-and-verify.json",
+    "claude-code-history-master.json",
+    "cursor-brain-verify.json",
+    "cursor-full-onboard.json",
+    "cursor-onboarding-brief.json",
+    "deep-history-mine.json",
+    "ecosystem-audit.json",
+    "full-system-discovery.json",
+    "nightly-brain-readiness.json",
+    "orchestra-brain-readiness.json",
+    "overnight-01-health.json",
+    "overnight-02-prefill-snapshot.json",
+    "overnight-03-deepseek-wire-brief.json",
+    "overnight-04-morning-brief.json",
+    "overnight-deepseek-wire-brief.json",
+    "overnight-morning-brief.json",
+    "overnight-prefill-snapshot.json",
+    "verify-24h-stack.json",
+    "wave-02-brain-smoke-all-pilots.json",
+    "wave-02-extract-smoke.json",
+    "wave-02-find-clone-platform.json",
+    "wave-02-platform-clone.json",
+    "wave-02-status-report.json",
+    "wave-02-wire-checklist.json",
+    "wave-03-consult.json",
+    "wave-03-final-report.json",
+    "wave-03-platform-audit.json",
+    "wave-03-studios-site-repo.json",
+    "wave-03-wire-artifact.json",
+    "wave-03b-retry-artifacts.json",
+    "wave-04-health-cycle.json",
+    "wave-health-2026-06-30.json"
+  ],
+  "missions_failed": [],
+  "doc_heads": {
+    "docs/REALITY.md": [
+      "# OGZ AI — THE REALITY (June 29, 2026)",
+      "",
+      "The honest one-pager. Written after the full-power audit + the orchestra's verdict on the 50-client",
+      "\"Complete System Architecture\" spec. That spec is a **north star, not a plan** — its values are right,",
+      "its scale/metrics/infra are pre-pivot fiction. This doc is what is TRUE.",
+      "",
+      "## The three things — never conflate them",
+      "- **THE BRAIN** = `ogz-knowledge`: the produce pipeline (occasion → brief → CD-minds → 94-chain prompt →"
+    ],
+    "docs/CONNECT_THE_BRAIN.md": [
+      "# Connect the Brain — ogz-knowledge → the OGZ platform",
+      "",
+      "**For the platform developers.** Your onboarding polls",
+      "`GET /api/onboarding/extraction-status/{brand_id}` and expects an 81-field `pre_fill` brand",
+      "profile, filled from the brand's sources. **ogz-knowledge produces exactly that JSON.** This doc is",
+      "how you plug it in. (Full field-by-field contract: [DEV_PLATFORM_INTEGRATION.md](DEV_PLATFORM_INTEGRATION.md).)",
+      "",
+      "## What you get"
+    ],
+    "docs/DEV_PLATFORM_INTEGRATION.md": [
+      "# DEV PLATFORM INTEGRATION — the connection contract (discovered June 27, 2026)",
+      "",
+      "Discovered empirically by walking the live onboarding at `o-gz-studios-web-hlhi.vercel.app`",
+      "with albaik's data (a full signup + the 16-step \"smart registration form\"). This is the",
+      "contract ogz-knowledge (the brain) must fulfill. **Pipeline A (self-service) per ogz-knowledge's",
+      "own CLAUDE.md.**",
+      "",
+      "## The architecture the devs built"
+    ],
+    "docs/HOW_IT_WORKS.md": [
+      "# HOW IT WORKS — ogz-knowledge",
+      "",
+      "The mental model a developer needs to take this system over. Read this once, top to bottom, and",
+      "you'll understand every moving part. Then `HANDOVER.md` for setup + known issues, `README.md` for",
+      "the original build briefing, and `docs/` for deep dives.",
+      "",
+      "---",
+      ""
+    ],
+    "HANDOVER.md": [
+      "# HANDOVER — ogz-knowledge",
+      "",
+      "Developer onboarding for the OGZ Studios Saudi creative-intelligence system.",
+      "",
+      "> **➡️ To understand HOW THE SYSTEM WORKS, read [`docs/HOW_IT_WORKS.md`](docs/HOW_IT_WORKS.md) first**",
+      "> (the mental model + architecture diagrams). This file is setup + known-issues; that one is the map.",
+      "",
+      "Then `README.md` (original build briefing) and `docs/` for deep dives. Last updated 2026-06-17."
+    ],
+    "BACKLOG.md": [
+      "# OGZ MASTER BACKLOG — built 2026-06-12",
+      "",
+      "**264 steps** (442 swept → 178 merged away) · **220 pair / 44 MOHAMED** · est **108h pair + 7.7h Mohamed**",
+      "",
+      "| Layer | steps | pair | MOHAMED | est min |",
+      "|---|---|---|---|---|",
+      "| L1 Laws | 3 | 3 | 0 | 55 |",
+      "| L2 Organs | 17 | 17 | 0 | 350 |"
+    ]
+  }
+}

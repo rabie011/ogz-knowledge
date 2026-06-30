@@ -1,0 +1,16 @@
+{
+  "id": "brain-token-and-verify",
+  "status": "partial",
+  "exit_codes": {
+    "cmd_0": 0,
+    "cmd_1": 0,
+    "cmd_2": 1
+  },
+  "summary": "1 blocker(s)",
+  "log_path": "data/cursor_missions/done/2026-06-30-brain-token-and-verify.log",
+  "blockers": [
+    "command 2 failed (exit 1): cd ~/Desktop/ogz-knowledge && BRAIN_API_TOKEN=$(grep '^BRAIN_API_TOKEN=' ~/.abraham_env | cut -d= -f2 | tr -d '\"') MISSI"
+  ],
+  "fix_allowed": true,
+  "finished": "2026-06-30T01:16:20Z"
+}

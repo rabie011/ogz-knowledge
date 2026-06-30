@@ -1,0 +1,35 @@
+{
+  "id": "cursor-brain-verify",
+  "status": "fail",
+  "exit_codes": {
+    "test_job_lifecycle": 0,
+    "test_job_lifecycle_edges": 0,
+    "test_perf_ingestor_coldstart": 0,
+    "test_ledger_index": 0,
+    "unittest_discover": 1,
+    "contract_drift": 0,
+    "integration": 1
+  },
+  "checks": {
+    "auth_401_without_bearer": true,
+    "albaik_81_keys": true,
+    "albaik_coverage_75": true,
+    "albaik_ready": true,
+    "myfitness_sparse": false,
+    "myfitness_not_ready": true,
+    "unit_tests_green": true,
+    "full_suite_green": false,
+    "contract_drift_clean": true,
+    "integration_green": false,
+    "fixtures_saved": true
+  },
+  "summary": "Phase A failed: 1 blocker(s)",
+  "log_path": "data/cursor_missions/done/brain-readiness-phase-a.log",
+  "blockers": [
+    "test_brain_connection.py failed"
+  ],
+  "notes": {
+    "full_suite": "full unittest discover has pre-existing failures (not brain-API blockers)"
+  },
+  "finished": "2026-06-30T01:27:45Z"
+}

@@ -1,0 +1,182 @@
+{
+  "id": "autonomous-status-report",
+  "generated": "2026-06-30T04:34:06Z",
+  "role": "run-until-mohamed-texts",
+  "daemons": "89632\t0\tcom.ogz.cursor-missions\n59039\t-15\tcom.ogz.brain-api",
+  "brain": {
+    "ok": true,
+    "body": {
+      "ok": true,
+      "humain": true,
+      "queue_depth": 0,
+      "auth_required": true
+    }
+  },
+  "portal": "404",
+  "humain": "200",
+  "prefill_pilots": {
+    "albaik": {
+      "pct": 79,
+      "filled": 64,
+      "ready": true
+    },
+    "eatjurisha": {
+      "pct": 70,
+      "filled": 57,
+      "ready": true
+    },
+    "myfitness.sa": {
+      "pct": 62,
+      "filled": 50,
+      "ready": false
+    }
+  },
+  "pending_missions": [],
+  "recent_done_missions": [
+    "autonomous-status-report",
+    "claude-code-history-master",
+    "cursor-onboarding-brief",
+    "wave-health-2026-06-30",
+    "wave-04-health-cycle",
+    "wave-03b-retry-artifacts",
+    "wave-03-final-report",
+    "wave-03-consult",
+    "wave-03-wire-artifact",
+    "wave-03-platform-audit",
+    "wave-03-studios-site-repo",
+    "wave-02-status-report",
+    "wave-02-wire-checklist",
+    "wave-02-brain-smoke-all-pilots",
+    "wave-02-extract-smoke"
+  ],
+  "backlog_status": {
+    "done": 289,
+    "superseded": 3,
+    "todo": 59,
+    "open": 4,
+    "staged": 9,
+    "skipped": 4,
+    "mohamed_must": 2,
+    "reverted": 1,
+    "in_progress": 1
+  },
+  "git": "90af44b1 B125: Claude-vision second-vote compliance gate (fail-safe) + tests\n68c692a8 fix(feedback): wire 4 meta-card handlers — close the B291-exposed dead-end taps\ne1dde620 fix: refuse dead-end taps at the write door (Rule #7/#8)",
+  "git_dirty": "## main...origin/main\n M CLAUDE.md\n M \"api/static/renders_v37/albaik_\\330\\263\\331\\210\\330\\250\\330\\261_\\330\\261\\331\\210\\331\\204_U01.jpg\"\n M clients/albaik/derived/rival_corpus.json\n M clients/albaik/prefill.json",
+  "studios_web_local": null,
+  "heartbeats_last_8": [
+    {
+      "ts": "2026-06-30T03:54:03Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": true,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "consumer_rc": 0
+    },
+    {
+      "ts": "2026-06-30T03:59:04Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": true,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "consumer_rc": 0
+    },
+    {
+      "ts": "2026-06-30T04:04:04Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": true,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "consumer_rc": 0
+    },
+    {
+      "ts": "2026-06-30T04:09:04Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": true,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "consumer_rc": 0
+    },
+    {
+      "ts": "2026-06-30T04:14:05Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": true,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "consumer_rc": 0
+    },
+    {
+      "ts": "2026-06-30T04:19:05Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": true,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "consumer_rc": 0
+    },
+    {
+      "ts": "2026-06-30T04:24:05Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": true,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "consumer_rc": 0
+    },
+    {
+      "ts": "2026-06-30T04:29:06Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": true,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "consumer_rc": 0
+    }
+  ],
+  "blockers_mohamed_must": [
+    "4 killed posts — render-go required (~$0.12 fal)",
+    "13 bridge taste pairs on portal",
+    "reserve_taste_lane flip — only when queue ≤7 AND you approve"
+  ],
+  "autonomous_next": [
+    "wave: clone o-gz-studios-web if repo URL found",
+    "wave: lib/brain smoke client against :4140",
+    "wave: consult DeepSeek on wire checklist"
+  ]
+}

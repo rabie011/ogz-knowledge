@@ -18,6 +18,7 @@ import time
 import urllib.request
 import urllib.error
 import urllib.parse
+import os
 from pathlib import Path
 
 B = Path(__file__).parent.parent
@@ -25,6 +26,23 @@ BASE = "http://127.0.0.1:4140"
 SAMPLES = B / "data" / "openclaw_v37" / "samples"
 
 RESULTS = []
+
+
+def _token():
+    f = os.path.expanduser("~/.abraham_env")
+    if os.path.exists(f):
+        for l in open(f):
+            if l.startswith("BRAIN_API_TOKEN="):
+                return l.split("=", 1)[1].strip().strip('"')
+    return os.environ.get("BRAIN_API_TOKEN") or "ogz-brain-readiness-dev"
+
+
+def _auth_headers():
+    tok = _token()
+    h = {"Content-Type": "application/json"}
+    if tok:
+        h["Authorization"] = f"Bearer {tok}"
+    return h
 
 
 def check(name, cond, detail=""):
@@ -37,7 +55,7 @@ def _req(method, path, body=None, timeout=30):
     url = BASE + path
     data = json.dumps(body).encode() if body is not None else None
     req = urllib.request.Request(url, data=data, method=method,
-                                 headers={"Content-Type": "application/json"})
+                                 headers=_auth_headers())
     try:
         r = urllib.request.urlopen(req, timeout=timeout)
         return r.status, json.loads(r.read())

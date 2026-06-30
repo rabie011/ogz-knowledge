@@ -247,35 +247,13 @@ def main():
         "products PLAIN: solid brand colours only, with ABSOLUTELY NO text, NO letters, NO words, NO "
         "wordmark, NO logo, NO numbers on ANY surface — smooth unbranded surfaces. (The real brand "
         "logo is composited in afterward.)")
-    # ART DIRECTION (June 29, 3-chairs wire B — Mohamed judged the photos 'generic/stock'; the art-director's
-    # DELIBERATE design existed but never reached the fal prompt = severed wire, Rule #6). Append its craft as a
-    # forceful block — the same final-prompt stage that already forces brand-text + product-truth. FAIL-CLOSED
-    # (Rule #8): --brief passed but unreadable → exit non-zero, never a silent generic fallback.
-    if a.brief:
-        try:
-            _ad = json.loads(Path(a.brief).read_text())
-        except Exception as _e:
-            sys.exit(f"--brief passed but unreadable ({type(_e).__name__}: {_e}) — fail-closed (Rule #8)")
-        _dz, _bv = (_ad.get("design") or {}), (_ad.get("brand_visual") or {})
-        _cs = _ad.get("craft_signature") or {}
-        _bits = []
-        # OGZ CRAFT SIGNATURE leads (June29, 3-chairs — the repeatable distinctive look). It REPLACES the generic
-        # 'LIGHT'+'CAPTURE' lines (DeepSeek's no-bloat rule): the signature IS the lighting+focus directive now.
-        if _cs:
-            _sig = "; ".join(str(_cs[_k]) for _k in ("key_light", "falloff", "focus", "ground") if _cs.get(_k))
-            if _sig:
-                _bits.append(f"• SIGNATURE LOOK — OGZ {_cs.get('type','chiaroscuro')}, render EVERY shot this way: {_sig[:320]}")
-            if _cs.get("anti"):
-                _bits.append(f"• SIGNATURE NEVER: {str(_cs['anti'])[:160]}")
-        for _lbl, _val in (("PALETTE", _bv.get("palette_primary") or _bv.get("color_field")),
-                           ("COMPOSITION", _dz.get("composition")), ("MOOD", _dz.get("mood")),
-                           ("NEVER (anti-generic)", _bv.get("anti_attributes"))):
-            if _val:
-                _bits.append(f"• {_lbl}: {str(_val)[:200]}")
-        if _bits:
-            prompt = prompt + ("\n\n[ART DIRECTION — a DELIBERATELY DESIGNED photograph, not a stock shot]\n"
-                               + "\n".join(_bits))
-            print(f"  🎨 art-direction block appended ({len(_bits)} deliberate choices from the brief)")
+    # NO [ART DIRECTION] APPEND (June 30 — Mohamed's catch + 3-chairs canon-integration). The C240/C241 block
+    # appended the brief's capture/palette/anti/composition/mood ON TOP of the v3.7 prompt — but openclaw_convert
+    # ALREADY injects every one of those from the brand's visual_dna (capture_character :230, palette/anti :227-231,
+    # tone_register :233; the chain template carries composition + mood). With the PER-BRAND signature it stopped
+    # CONFLICTING and started DUPLICATING the canon = rule_bloat. The v3.7 canon is the single authority for the
+    # brand look; the art-director's value is the ANGLE (cd_panel/C238, A/B-proven) + the chain pick, not a second
+    # lighting directive. (--brief is still accepted by argparse for back-compat but is no longer consumed here.)
     # PRODUCT-TRUTH ASSEMBLY + NEGATIVE PROMPT (June 23). The consult panel (GPT+Gemini) + RABIE:
     # the positive identity_dna fixed the SAUCE but flux still rendered a DECONSTRUCTED platter (loose
     # tenders + an empty/open bun) instead of the ASSEMBLED product. This last-mile, forceful block

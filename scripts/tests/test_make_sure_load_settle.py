@@ -82,5 +82,58 @@ class SettleLoadSpikeTest(unittest.TestCase):
         self.assertEqual(ms._phone_dead(checks, {}), [])
 
 
+class ShouldHoldSaturatedTest(unittest.TestCase):
+    """B287 — the pure decision to SHORT-CIRCUIT the heavy probes when the box stays saturated."""
+
+    def test_settled_box_runs_gauntlet(self):
+        self.assertFalse(ms.should_hold_saturated({"settled": True}))
+
+    def test_still_saturated_box_holds(self):
+        self.assertTrue(ms.should_hold_saturated({"settled": False}))
+
+    def test_missing_settled_defaults_to_run(self):
+        # ambiguity must NEVER skip probes — only a confirmed-saturated box holds
+        self.assertFalse(ms.should_hold_saturated({}))
+
+    def test_garbled_truthy_settled_runs(self):
+        # only an explicit False holds; any other value runs the gauntlet (fail-safe, not fail-open)
+        self.assertFalse(ms.should_hold_saturated({"settled": None}))
+
+
+class ConsecutiveHoldSaturatedTest(unittest.TestCase):
+    """B287 fail-open guard — count the unbroken tail streak of HOLD_SATURATED fires."""
+
+    def _write(self, lines):
+        import tempfile
+        f = tempfile.NamedTemporaryFile("w", suffix=".jsonl", delete=False)
+        for ln in lines:
+            f.write(ln + "\n")
+        f.close()
+        self.addCleanup(lambda: os.path.exists(f.name) and os.unlink(f.name))
+        return f.name
+
+    def test_missing_log_is_zero(self):
+        self.assertEqual(ms.consecutive_hold_saturated("/no/such/log.jsonl"), 0)
+
+    def test_no_holds_is_zero(self):
+        import json as _j
+        p = self._write([_j.dumps({"verdict": "ALIVE"}), _j.dumps({"verdict": "ALARM"})])
+        self.assertEqual(ms.consecutive_hold_saturated(p), 0)
+
+    def test_counts_only_the_unbroken_tail(self):
+        import json as _j
+        p = self._write([_j.dumps({"verdict": "HOLD_SATURATED"}),   # old streak — broken below
+                         _j.dumps({"verdict": "ALIVE"}),            # breaker
+                         _j.dumps({"verdict": "HOLD_SATURATED"}),
+                         _j.dumps({"verdict": "HOLD_SATURATED"})])  # tail streak = 2
+        self.assertEqual(ms.consecutive_hold_saturated(p), 2)
+
+    def test_garbage_line_breaks_the_streak(self):
+        import json as _j
+        p = self._write([_j.dumps({"verdict": "HOLD_SATURATED"}), "{not json",
+                         _j.dumps({"verdict": "HOLD_SATURATED"})])
+        self.assertEqual(ms.consecutive_hold_saturated(p), 1)
+
+
 if __name__ == "__main__":
     unittest.main()

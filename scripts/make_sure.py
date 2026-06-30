@@ -204,6 +204,36 @@ def settle_load_spike(read_load=_loadavg1, sleeper=time.sleep, ncpu=None,
             "ncpu": ncpu, "settled": not load_saturated(load1, ncpu)}
 
 
+def should_hold_saturated(settle_result):
+    """B287 (PURE, unit-testable): given a settle_load_spike() result, should this fire SHORT-CIRCUIT
+    into HOLD_SATURATED instead of running the heavy subprocess probes? True iff the box is STILL
+    saturated after the bounded settle (`settled` is False). A missing/garbled result defaults to
+    False (run the gauntlet) — we never SKIP probes on ambiguity, only on a confirmed-saturated box."""
+    return settle_result.get("settled", True) is False
+
+
+def consecutive_hold_saturated(log_path):
+    """B287 fail-open guard (DeepSeek's catch): how many of the MOST RECENT fires HOLD_SATURATED'd in
+    an unbroken streak. A box stuck saturated for many fires means a real problem (e.g. the session
+    leak) is masking the gauntlet — surfaced as a LOUDER log line (the independent com.abraham.reaper
+    breaks genuine saturation, so the HOLD window self-heals; this never pages his phone — Rule #10)."""
+    try:
+        with open(log_path) as f:
+            lines = [ln for ln in f if ln.strip()]
+    except OSError:
+        return 0
+    streak = 0
+    for ln in reversed(lines):
+        try:
+            if json.loads(ln).get("verdict") == "HOLD_SATURATED":
+                streak += 1
+            else:
+                break
+        except (ValueError, TypeError):
+            break
+    return streak
+
+
 def _phone_dead(checks, prev_checks):
     """Which dead checks have EARNED an urgent card on MOHAMED'S PHONE (vs. just the honest log).
 
@@ -297,6 +327,35 @@ def main():
     # never flap a false RED in the log (the phone is already gated; this stops the logged red too).
     # Bounded ≤60s; on a real sustained outage it gives up and the probes run + RED honestly below.
     checks["_load_settle"] = settle_load_spike()
+
+    # B287 — LOAD-SATURATED SHORT-CIRCUIT (Rule #8 refuse-don't-warn / Rule #10 don't-flood). If the
+    # box is STILL saturated after the bounded settle above, every heavy subprocess probe below
+    # (the 9-script feedback drive, the armor unittest suite, immune_suite, deadly/events/visual gates,
+    # law_registry up to 400s, feedback_system) would fan out ~8 procs, time out one-by-one — a 20-min
+    # hang that ADDS load — and flap FALSE REDs onto his phone (the documented June-20 scar). A
+    # saturated box is a BUSY machine, not a failed brain. Emit an honest HOLD_SATURATED verdict
+    # (exit 0, NOT an alarm), skip the heavy probes, and let the next CALM fire run the full gauntlet.
+    # Only the cheap pre-settle checks already taken (grinder/guards) ride along in the trail; the
+    # load-sensitive ones are deliberately skipped (they false-time-out under saturation anyway).
+    # FAIL-OPEN guard (DeepSeek's catch): a PERPETUALLY saturated box would HOLD forever and mask a
+    # real outage — so we surface the consecutive-HOLD streak. The independent com.abraham.reaper
+    # breaks genuine saturation (the leak is the usual cause), so the HOLD window self-heals; a long
+    # streak just gets a LOUDER log line, never a phone card (Rule #10).
+    if should_hold_saturated(checks["_load_settle"]):
+        streak = consecutive_hold_saturated(LOG) + 1
+        _ls = checks["_load_settle"]
+        entry = {"ts": now, **checks, "verdict": "HOLD_SATURATED",
+                 "cards_total": cards, "hold_streak": streak}
+        with open(LOG, "a") as f:
+            f.write(json.dumps(entry) + "\n")
+        STATE.write_text(json.dumps({"ts": now, "cards_total": cards}))
+        print(f"⏸️  MAKE-SURE: HOLD_SATURATED — load {_ls['final_load']} ≥ "
+              f"{_ls['ncpu']}×{SATURATE_PER_CORE}/core after {_ls['deferred_s']}s settle; "
+              f"heavy probes skipped this fire (not an alarm — next calm fire runs the gauntlet).")
+        if streak >= 6:
+            print(f"⚠️  HOLD_SATURATED streak={streak} fires — box saturated for ~{streak*5}+ min; "
+                  f"the reaper (com.abraham.reaper) should be clearing the session leak — verify it.")
+        raise SystemExit(0)
 
     # 3. portal up — LOCAL and PUBLIC. The tunnel died once (June 12) while local
     # was fine, so Mohamed's phone saw nothing and no alarm fired. Check what he touches.

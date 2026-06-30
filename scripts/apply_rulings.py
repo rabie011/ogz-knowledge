@@ -692,7 +692,56 @@ def h_post_review(b: Path, row: dict) -> str:
     return f"post {bankkey} → {ans} (noted)"
 
 
+def h_taste_refresh(b: Path, row: dict) -> str:
+    """C245 (June 30) — the READER for taste_refresh.py's kill-candidate cards (Rule #6/#7).
+    His tap on a taste_kill_<slug> card is the ONLY thing that refreshes founder_taste.json (the
+    bar the critic judges against). The B114 tripwire keeps going RED because he rates but the bar
+    never updates; this handler closes that writeback loop WITHOUT us ever authoring taste (Rule
+    #12 — the candidate is his own lowest-ranked caption; we only record his verdict).
+      confirm → append the caption to founder_taste.kills + re-stamp _meta.built=today (the
+                tripwire clears HONESTLY — his fresh input, not a faked date, Rule #11).
+      reject  → mark the candidate rejected so it's excluded from the next proposal batch.
+    Self-audit: the kill MUST be on disk before we claim it applied (Rule #11). Idempotent —
+    re-confirming an already-killed caption is a no-op, never a duplicate."""
+    import datetime as _dt
+    item, ans = row.get("item_id", ""), (row.get("answer") or "").strip()
+    slug = item[len("taste_kill_"):]
+    ts = (row.get("client_ts") or row.get("ts", ""))[:16]
+    propf = b / "data/taste_proposals.json"
+    prop = json.loads(propf.read_text()) if propf.exists() else {"candidates": {}}
+    cand = prop.get("candidates", {}).get(slug)
+    if not cand:
+        raise RuntimeError(f"taste candidate {slug} not in taste_proposals.json — no card meaning to apply")
+    caption = cand.get("caption", "")
+    tf = b / "data/founder_taste.json"
+    taste = json.loads(tf.read_text())
+    if ans == "confirm":
+        norm = re.sub(r"\s+", " ", caption.strip())
+        have = {re.sub(r"\s+", " ", (k if isinstance(k, str) else k.get("caption", "")).strip())
+                for k in taste.get("kills", [])}
+        if norm not in have:
+            taste.setdefault("kills", []).append(
+                {"caption": caption, "slug": slug, "source": f"portal:{item}",
+                 "confirmer": "mohamed", "ts": ts})
+        taste.setdefault("_meta", {})["built"] = _dt.date.today().isoformat()
+        taste["_meta"]["last_session"] = f"taste_refresh confirm {ts}"
+        tf.write_text(json.dumps(taste, ensure_ascii=False, indent=1))
+        cand["status"] = "confirmed"
+        propf.write_text(json.dumps(prop, ensure_ascii=False, indent=1))
+        disk = json.loads(tf.read_text())  # assert-on-disk (Rule #11)
+        assert any((k.get("slug") == slug) for k in disk.get("kills", []) if isinstance(k, dict)), \
+            f"taste kill {slug} not on disk after confirm"
+        return f"taste bar refreshed: killed «{caption[:40]}…» + _meta.built re-stamped (tripwire clears)"
+    elif ans == "reject":
+        cand["status"] = "rejected"
+        propf.write_text(json.dumps(prop, ensure_ascii=False, indent=1))
+        return f"taste candidate {slug} → rejected (he keeps it; excluded from next batch)"
+    return f"taste candidate {slug} → {ans} (noted)"
+
+
 PREFIX_HANDLERS = {
+    ("taste_kill_", "confirm"): h_taste_refresh,   # C245 — his tap refreshes the taste bar (Rule #6/#7)
+    ("taste_kill_", "reject"): h_taste_refresh,
     ("ratify2_", "ratify"): h_recipe_verdict,
     ("ratify2_", "kill"): h_recipe_verdict,
     ("ratify2_", "edit"): h_recipe_verdict,

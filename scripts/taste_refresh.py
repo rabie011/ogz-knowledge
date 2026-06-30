@@ -120,7 +120,7 @@ def stage_cards(limit: int = 5) -> int:
             "buttons": [{"value": "confirm", "label": "نعم — اقتله من المعيار"},
                         {"value": "reject", "label": "لا — هذا مقبول"}],
         }
-        qd.push_attributed(item, made_by="taste_refresh")
+        qd.push_attributed(item, made_by="system:taste_refresh")  # valid PLAYER form (system:*); bare "taste_refresh" fails is_player (C245 wire-bug, fixed June 30)
         staged += 1
     return staged
 

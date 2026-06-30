@@ -126,7 +126,8 @@ def main():
             if dry:
                 print(f"  WOULD push: post_{bankkey} (score {entry.get('score')}) «{(entry.get('caption') or '')[:40]}»")
             else:
-                qd.push(card)
+                qd.push_attributed(card, made_by="system:produce",
+                                   via="scripts/push_posts_for_review.py")  # was qd.push() → no attribution event (cards_attributed RED, Rule #6); fixed June 30
                 print(f"  ✅ pushed: post_{bankkey} (score {entry.get('score')})")
             pushed.append(bankkey)
         extra = len(items) - cap

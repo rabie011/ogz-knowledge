@@ -101,6 +101,30 @@ class TestTasteRefresh(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             ar.h_taste_refresh(self.d, {"item_id": "taste_kill_nonexistent", "answer": "confirm"})
 
+    def test_stage_cards_uses_valid_attributed_player(self):
+        """LOCKS the staging wire (C245 wire-bug, fixed June 30): stage_cards must push with a
+        made_by that passes is_player AND producer_allows for its via — else attribute.py raises
+        'not a valid PLAYER' and 0 cards reach his portal (the harvester writes, nothing reads).
+        The bare 'taste_refresh' shipped untested last shift and silently staged NOTHING; this
+        guard makes that impossible to regress (Rule #6 — a write needs its reader to actually fire)."""
+        import queue_decision as qd
+        import feedback_lib as fl
+        tr.build_proposals()
+        captured = []
+        orig = qd.push_attributed
+        qd.push_attributed = lambda item, made_by="claude", via="scripts/queue_decision.py", reason="": \
+            captured.append((made_by, via)) or item
+        try:
+            n = tr.stage_cards(limit=5)
+        finally:
+            qd.push_attributed = orig
+        self.assertEqual(n, 3)  # 3 candidates → 3 staged
+        self.assertTrue(captured, "stage_cards pushed nothing")
+        for made_by, via in captured:
+            self.assertTrue(fl.is_player(made_by), f"{made_by!r} fails is_player — attribute.py would reject")
+            self.assertTrue(fl.producer_allows(via, made_by),
+                            f"producer_map: {via!r} may not claim {made_by!r}")
+
 
 if __name__ == "__main__":
     unittest.main()

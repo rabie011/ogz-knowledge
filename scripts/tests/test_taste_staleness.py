@@ -72,10 +72,22 @@ class TestTasteStaleness(unittest.TestCase):
         self.assertFalse(st["available"])
         self.assertFalse(st["stale"])
 
-    def test_live_repo_currently_fresh(self):
-        """Eyes-on the real files this shift: the bar is not stale (would fail loudly if it were)."""
+    def test_live_repo_detector_runs_clean_on_real_files(self):
+        """Eyes-on the REAL files: the staleness DETECTOR runs and returns a well-formed verdict on
+        live data (mechanism integrity — locked here). The real-world freshness VERDICT (is he behind
+        the threshold?) is a MONITORING signal owned by make_sure.founder_taste_fresh — NOT an armor
+        assertion, because it goes legitimately RED whenever he hasn't rated in 14d (his TAP, not a
+        code bug). Asserting it in the armor suite polluted CI with false REDs that stayed red for
+        days until he tapped (RABIE + DeepSeek converged, June 30 — C245 follow-up). We lock the
+        detector here; the live state is monitored in make_sure + staged to his portal (taste_kill_*
+        cards). When the bar is legitimately stale we SKIP (honest — Rule #11), never fail."""
         st = cl.founder_taste_staleness()
-        self.assertFalse(st["stale"], f"founder_taste went stale: {st}")
+        self.assertIn("available", st)
+        self.assertIn("stale", st)
+        if st.get("available") and st.get("stale"):
+            self.skipTest(f"founder_taste stale by {st.get('gap_days')}d — MONITORING signal "
+                          f"(make_sure.founder_taste_fresh, taste_kill_* cards on his portal), "
+                          f"his tap clears it, not an armor fail: {st}")
 
 
 if __name__ == "__main__":

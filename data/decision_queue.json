@@ -628,7 +628,7 @@
    "judge_lane": true,
    "lane": "creative",
    "tag": "Pick",
-   "status": "open",
+   "status": "answered",
    "priority": "normal",
    "title": "myfitness.sa · which would you post?",
    "handle": "myfitness.sa",
@@ -649,13 +649,15 @@
    "pw_rank": 0,
    "made_by": "system:pairwise",
    "artifact_version": 2,
-   "action_type": "decision"
+   "action_type": "decision",
+   "answered": "b",
+   "answered_by": "mohamed"
   },
   {
    "id": "alarm_live",
-   "title": "🚨 إنذار: armor_tests, feedback_system, founder_taste_fresh واقف",
+   "title": "🚨 إنذار: portal_mini, portal_public, portal_items_ok, founder_taste_fresh واقف",
    "tag": "نظام",
-   "desc": "فحص الأدلة فشل: ['armor_tests', 'feedback_system', 'founder_taste_fresh']. كلود يعالج — هذا للعلم.",
+   "desc": "فحص الأدلة فشل: ['portal_mini', 'portal_public', 'portal_items_ok', 'founder_taste_fresh']. كلود يعالج — هذا للعلم.",
    "clock": "",
    "priority": "urgent",
    "created": "2026-06-21T19:44:52",
@@ -1208,7 +1210,10 @@
    "island_text": "يا صحن الجريش، لما يحطونك على السفرة، حتى الجدران تبتسم 🌟",
    "made_by": "system:produce",
    "artifact_version": "1",
-   "action_type": "decision"
+   "action_type": "decision",
+   "status": "answered",
+   "answered": "approved",
+   "answered_by": "mohamed"
   },
   {
    "id": "post_eatjurisha__باشميل__U01",
@@ -1229,7 +1234,10 @@
    "island_text": "علبة الباشميل تفتح الطريق لأجمل وجبة اليوم. مستعد للمفاجآت؟",
    "made_by": "system:produce",
    "artifact_version": "1",
-   "action_type": "decision"
+   "action_type": "decision",
+   "status": "answered",
+   "answered": "rejected",
+   "answered_by": "mohamed"
   },
   {
    "id": "post_eatjurisha__تمن_(رز_أبيض)__U01",
@@ -1250,7 +1258,10 @@
    "island_text": "المعكرونة راحت ورا، التمن يتصدر المشهد اليوم. اطلب من «جريّشة | Jurisha» وخلّ لغداك نكهة مميزة 🍚",
    "made_by": "system:produce",
    "artifact_version": "1",
-   "action_type": "decision"
+   "action_type": "decision",
+   "status": "answered",
+   "answered": "rejected",
+   "answered_by": "mohamed"
   },
   {
    "id": "post_eatjurisha__سليق__U01",
@@ -1271,7 +1282,10 @@
    "island_text": "أنا السليق، أنا الملاذ! نقلتكم من يوم عادي لاحتفال بالنكهات الأصيلة مع كل لقمة. جريّشة | Jurisha جبت لكم الطعم الحقيقي.",
    "made_by": "system:produce",
    "artifact_version": "1",
-   "action_type": "decision"
+   "action_type": "decision",
+   "status": "answered",
+   "answered": "rejected",
+   "answered_by": "mohamed"
   },
   {
    "id": "post_albaik__سوبر_رول__U01",
@@ -1292,7 +1306,10 @@
    "island_text": "قال صندوق البيك اكسبرس: \"انفتحوا العالم للنكهة!\" 🍗🚀",
    "made_by": "system:produce",
    "artifact_version": "1",
-   "action_type": "decision"
+   "action_type": "decision",
+   "status": "answered",
+   "answered": "rejected",
+   "answered_by": "mohamed"
   },
   {
    "id": "post_albaik__كومبو_بيك__U01",
@@ -1313,7 +1330,10 @@
    "island_text": "الجوع يختفي بسحبة! كومبو بيك جاهز للبطولة 🏆🍗",
    "made_by": "system:produce",
    "artifact_version": "1",
-   "action_type": "decision"
+   "action_type": "decision",
+   "status": "answered",
+   "answered": "rejected",
+   "answered_by": "mohamed"
   },
   {
    "id": "post_albaik__بيكيز__R05",
@@ -1334,7 +1354,10 @@
    "island_text": "تلك الرائحة الذهبية الشهية من البيكيز، كأنها تقول لك: اقترب أكثر! 🌟🍟",
    "made_by": "system:produce",
    "artifact_version": "1",
-   "action_type": "decision"
+   "action_type": "decision",
+   "status": "answered",
+   "answered": "approved",
+   "answered_by": "mohamed"
   },
   {
    "id": "post_albaik__كرسبي_بيك__U01",
@@ -1355,6 +1378,365 @@
    "island_text": "أنا الصندوق اللي دائما يسرق الأضواء على الطاولة! 🍗✨",
    "made_by": "system:produce",
    "artifact_version": "1",
+   "action_type": "decision",
+   "status": "answered",
+   "answered": "approved",
+   "answered_by": "mohamed"
+  },
+  {
+   "id": "v37_eatjurisha_products_phys",
+   "handle": "eatjurisha",
+   "title": "🎨 جريش الرياض — product_physical",
+   "tag": "v3.7 Visual",
+   "lane": "strategy",
+   "kind": "text",
+   "why": "المنتجات اللي بنصوّرها: جريش، رز كابلي، سليق، تمن (رز أبيض)، باشميل، قرصان، لازانيا، إضافة دجاج للجريشة. لكل واحد نحتاج تأكيد: الخامة (لمعة/قماش/ذهب…) والحجم التقريبي. أكّدوا أو صححوا.",
+   "need": "اكتبوا الجواب — يعبّي visual_dna ويخلّي الصورة تطابق v3.7.",
+   "organ": "visual_dna",
+   "group": "product_physical",
+   "status": "open",
+   "priority": "normal",
+   "created": "2026-06-29T20:37:21",
+   "drained_by": "bridge_drain B186b"
+  },
+  {
+   "id": "post_albaik__كرسبي_بيك__G03",
+   "title": "albaik · كرسبي_بيك · G03",
+   "action_type": "decision",
+   "tag": "Judge",
+   "kind": "caption_judge",
+   "judge_lane": "True",
+   "lane": "creative",
+   "priority": "normal",
+   "handle": "albaik",
+   "product": "كرسبي_بيك",
+   "caption": "لما تقرمش، تعرف إنك مع البيك. 😋🔥",
+   "occasion": "evergreen",
+   "image_url": "/static/renders_v37/albaik_كرسبي_بيك_G03.jpg",
+   "why": "Approve ✓ → counts the post DONE (your human verdict is authoritative) + seeds gold. Reject ✗ → kill the setup.",
+   "need": "Your verdict on the FULL post: the image above + the Arabic caption.",
+   "did": "System produced + GPT-judged (score 0.8); HUMAIN down so it needs YOUR signal to pass.",
+   "island_text": "لما تقرمش، تعرف إنك مع البيك. 😋🔥",
+   "made_by": "system:produce",
+   "artifact_version": "1",
+   "status": "answered",
+   "answered": "approved",
+   "answered_by": "mohamed"
+  },
+  {
+   "id": "post_albaik__بيكيز__G03",
+   "title": "albaik · بيكيز · G03",
+   "action_type": "decision",
+   "tag": "Judge",
+   "kind": "caption_judge",
+   "judge_lane": "True",
+   "lane": "creative",
+   "priority": "normal",
+   "handle": "albaik",
+   "product": "بيكيز",
+   "caption": "لما تقول قرمشة، نقول بيكيز! طعم يخلّي اللحظة ذهبية.",
+   "occasion": "evergreen",
+   "image_url": "/static/renders_v37/albaik_بيكيز_G03.jpg",
+   "why": "Approve ✓ → counts the post DONE (your human verdict is authoritative) + seeds gold. Reject ✗ → kill the setup.",
+   "need": "Your verdict on the FULL post: the image above + the Arabic caption.",
+   "did": "System produced + GPT-judged (score 0.8); HUMAIN down so it needs YOUR signal to pass.",
+   "island_text": "لما تقول قرمشة، نقول بيكيز! طعم يخلّي اللحظة ذهبية.",
+   "made_by": "system:produce",
+   "artifact_version": "1",
+   "status": "answered",
+   "answered": "approved",
+   "answered_by": "mohamed"
+  },
+  {
+   "id": "post_albaik__بيكيز__U01",
+   "title": "albaik · بيكيز · U01",
+   "action_type": "decision",
+   "tag": "Judge",
+   "kind": "caption_judge",
+   "judge_lane": "True",
+   "lane": "creative",
+   "priority": "normal",
+   "handle": "albaik",
+   "product": "بيكيز",
+   "caption": "الشعور بالرضا يبدأ مع آخر بيكيز في العلبة! جاهز لجولة جديدة؟ 🍔✨",
+   "occasion": "evergreen",
+   "image_url": "/static/renders_v37/albaik_بيكيز_U01.jpg",
+   "why": "Approve ✓ → counts the post DONE (your human verdict is authoritative) + seeds gold. Reject ✗ → kill the setup.",
+   "need": "Your verdict on the FULL post: the image above + the Arabic caption.",
+   "did": "System produced + GPT-judged (score 0.4); HUMAIN down so it needs YOUR signal to pass.",
+   "island_text": "الشعور بالرضا يبدأ مع آخر بيكيز في العلبة! جاهز لجولة جديدة؟ 🍔✨",
+   "made_by": "system:produce",
+   "artifact_version": "1",
+   "status": "answered",
+   "answered": "approved",
+   "answered_by": "mohamed"
+  },
+  {
+   "id": "post_albaik__دبل_بيك__R05",
+   "title": "albaik · دبل_بيك · R05",
+   "action_type": "decision",
+   "tag": "Judge",
+   "kind": "caption_judge",
+   "judge_lane": "True",
+   "lane": "creative",
+   "priority": "normal",
+   "handle": "albaik",
+   "product": "دبل_بيك",
+   "caption": "صندوقي الصغير يتكلم بصوت عالي: 'أنا دبل بيك، متى تجربني؟'",
+   "occasion": "evergreen",
+   "image_url": "/static/renders_v37/albaik_دبل_بيك_R05.jpg",
+   "why": "Approve ✓ → counts the post DONE (your human verdict is authoritative) + seeds gold. Reject ✗ → kill the setup.",
+   "need": "Your verdict on the FULL post: the image above + the Arabic caption.",
+   "did": "System produced + GPT-judged (score 0.4); HUMAIN down so it needs YOUR signal to pass.",
+   "island_text": "صندوقي الصغير يتكلم بصوت عالي: 'أنا دبل بيك، متى تجربني؟'",
+   "made_by": "system:produce",
+   "artifact_version": "1",
+   "status": "answered",
+   "answered": "rejected",
+   "answered_by": "mohamed"
+  },
+  {
+   "id": "post_eatjurisha__قرصان__U01",
+   "title": "eatjurisha · قرصان · U01",
+   "action_type": "decision",
+   "tag": "Judge",
+   "kind": "caption_judge",
+   "judge_lane": "True",
+   "lane": "creative",
+   "priority": "normal",
+   "handle": "eatjurisha",
+   "product": "قرصان",
+   "caption": "حتى يوم عادي يستاهل قرصان من جريّشة | Jurisha! كل قطعة ألذ من الثانية. 😋",
+   "occasion": "evergreen",
+   "image_url": "/static/renders_v37/eatjurisha_قرصان_U01.jpg",
+   "why": "Approve ✓ → counts the post DONE (your human verdict is authoritative) + seeds gold. Reject ✗ → kill the setup.",
+   "need": "Your verdict on the FULL post: the image above + the Arabic caption.",
+   "did": "System produced + GPT-judged (score 1.0); HUMAIN down so it needs YOUR signal to pass.",
+   "island_text": "حتى يوم عادي يستاهل قرصان من جريّشة | Jurisha! كل قطعة ألذ من الثانية. 😋",
+   "made_by": "system:produce",
+   "artifact_version": "1",
+   "status": "answered",
+   "answered": "approved",
+   "answered_by": "mohamed"
+  },
+  {
+   "id": "post_eatjurisha__لازانيا__U01",
+   "title": "eatjurisha · لازانيا · U01",
+   "action_type": "decision",
+   "tag": "Judge",
+   "kind": "caption_judge",
+   "judge_lane": "True",
+   "lane": "creative",
+   "priority": "normal",
+   "handle": "eatjurisha",
+   "product": "لازانيا",
+   "caption": "أنا باشميل، وفي هذا القدر يتجمع السحر. كل طبقة تحكي قصة حب مع الجبنة. اطلبني اليوم من «جريّشة | Jurisha».",
+   "occasion": "evergreen",
+   "image_url": "/static/renders_v37/eatjurisha_لازانيا_U01.jpg",
+   "why": "Approve ✓ → counts the post DONE (your human verdict is authoritative) + seeds gold. Reject ✗ → kill the setup.",
+   "need": "Your verdict on the FULL post: the image above + the Arabic caption.",
+   "did": "System produced + GPT-judged (score 1.0); HUMAIN down so it needs YOUR signal to pass.",
+   "island_text": "أنا باشميل، وفي هذا القدر يتجمع السحر. كل طبقة تحكي قصة حب مع الجبنة. اطلبني اليوم من «جريّشة | Jurisha».",
+   "made_by": "system:produce",
+   "artifact_version": "1",
+   "status": "answered",
+   "answered": "approved",
+   "answered_by": "mohamed"
+  },
+  {
+   "id": "post_eatjurisha__جريش__U01",
+   "title": "eatjurisha · جريش · U01",
+   "action_type": "decision",
+   "tag": "Judge",
+   "kind": "caption_judge",
+   "judge_lane": "True",
+   "lane": "creative",
+   "priority": "normal",
+   "handle": "eatjurisha",
+   "product": "جريش",
+   "caption": "النكهة تعلن وصولها، بخار جريشنا يملأ المكان. تخيل الدفء!",
+   "occasion": "evergreen",
+   "image_url": "/static/renders_v37/eatjurisha_جريش_U01.jpg",
+   "why": "Approve ✓ → counts the post DONE (your human verdict is authoritative) + seeds gold. Reject ✗ → kill the setup.",
+   "need": "Your verdict on the FULL post: the image above + the Arabic caption.",
+   "did": "System produced + GPT-judged (score 0.8); HUMAIN down so it needs YOUR signal to pass.",
+   "island_text": "النكهة تعلن وصولها، بخار جريشنا يملأ المكان. تخيل الدفء!",
+   "made_by": "system:produce",
+   "artifact_version": "1",
+   "status": "answered",
+   "answered": "approved",
+   "answered_by": "mohamed"
+  },
+  {
+   "id": "post_eatjurisha__رز_كابلي__S01",
+   "title": "eatjurisha · رز_كابلي · S01",
+   "action_type": "decision",
+   "tag": "Judge",
+   "kind": "caption_judge",
+   "judge_lane": "True",
+   "lane": "creative",
+   "priority": "normal",
+   "handle": "eatjurisha",
+   "product": "رز_كابلي",
+   "caption": "رائحة البهارات وهي تخترق الجو، ترحيب لذيذ من رز كابلي من «جريّشة | Jurisha»",
+   "occasion": "evergreen",
+   "image_url": "/static/renders_v37/eatjurisha_رز_كابلي_S01.jpg",
+   "why": "Approve ✓ → counts the post DONE (your human verdict is authoritative) + seeds gold. Reject ✗ → kill the setup.",
+   "need": "Your verdict on the FULL post: the image above + the Arabic caption.",
+   "did": "System produced + GPT-judged (score 0.6); HUMAIN down so it needs YOUR signal to pass.",
+   "island_text": "رائحة البهارات وهي تخترق الجو، ترحيب لذيذ من رز كابلي من «جريّشة | Jurisha»",
+   "made_by": "system:produce",
+   "artifact_version": "1",
+   "status": "answered",
+   "answered": "approved",
+   "answered_by": "mohamed"
+  },
+  {
+   "id": "post_albaik__سوبر_رول__U01__refix",
+   "title": "albaik · سوبر_رول · U01",
+   "action_type": "decision",
+   "tag": "Judge",
+   "kind": "caption_judge",
+   "judge_lane": "True",
+   "lane": "creative",
+   "priority": "normal",
+   "handle": "albaik",
+   "product": "سوبر_رول",
+   "caption": "يا الطيب، خلك من الحكي، هالرول يوقف السكرول!",
+   "occasion": "evergreen",
+   "image_url": "/static/renders_v37/albaik_سوبر_رول_U01.jpg",
+   "why": "Approve ✓ → counts the post DONE (your human verdict is authoritative) + seeds gold. Reject ✗ → kill the setup.",
+   "need": "Your verdict on the FULL post: the image above + the Arabic caption.",
+   "did": "System produced + GPT-judged (score 0.8); HUMAIN down so it needs YOUR signal to pass.",
+   "island_text": "يا الطيب، خلك من الحكي، هالرول يوقف السكرول!",
+   "made_by": "system:produce",
+   "artifact_version": "1",
+   "note": "RE-RENDERED with the per-brand art-director signature — the generic photo you killed is now bright-glossy distinctive. Re-judge the PHOTO.",
+   "status": "answered",
+   "answered": "approved",
+   "answered_by": "mohamed"
+  },
+  {
+   "id": "closures_2026-06-30",
+   "kind": "buttons",
+   "title": "✅ 4 إصلاحات اتقفلت — بالأدلة",
+   "tag": "تغذية راجعة",
+   "why": "كلامك صار commits — هذا الإثبات",
+   "did": "«hيه العلاقه بين حارات وجريشه» · «rejected» · «rejected»",
+   "options": [
+    {
+     "v": "seen",
+     "label": "✓ شفتها كلها",
+     "rec": true
+    },
+    {
+     "v": "reopen_one",
+     "label": "↩ وحدة لسه ما اتصلحت (اشرح بالملاحظة)"
+    }
+   ],
+   "source": "feedback_cards",
+   "made_by": "system:feedback_cards",
+   "artifact_version": 1,
+   "action_type": "decision"
+  },
+  {
+   "id": "taste_kill_kc164f98429",
+   "title": "تأكيد: هل هذا الكابشن مرفوض دائمًا؟",
+   "tag": "taste_refresh",
+   "desc": "صوت الضحكات يمتزج مع أصوات الشوك على الصحون، الدراسة لها طعم أروع مع ج",
+   "kind": "buttons",
+   "buttons": [
+    {
+     "value": "confirm",
+     "label": "نعم — اقتله من المعيار"
+    },
+    {
+     "value": "reject",
+     "label": "لا — هذا مقبول"
+    }
+   ],
+   "made_by": "system:taste_refresh",
+   "artifact_version": 2,
+   "action_type": "decision"
+  },
+  {
+   "id": "taste_kill_k6b11a9e85a",
+   "title": "تأكيد: هل هذا الكابشن مرفوض دائمًا؟",
+   "tag": "taste_refresh",
+   "desc": "كيف يقدر الكابلي يحول كل قصة إلى ذكرى؟",
+   "kind": "buttons",
+   "buttons": [
+    {
+     "value": "confirm",
+     "label": "نعم — اقتله من المعيار"
+    },
+    {
+     "value": "reject",
+     "label": "لا — هذا مقبول"
+    }
+   ],
+   "made_by": "system:taste_refresh",
+   "artifact_version": 2,
+   "action_type": "decision"
+  },
+  {
+   "id": "taste_kill_k9fe8df4a02",
+   "title": "تأكيد: هل هذا الكابشن مرفوض دائمًا؟",
+   "tag": "taste_refresh",
+   "desc": "أنا هنا، أسمع ضحكاتكم وأشعر بالدفء من كل منكم مع كل لقمة.",
+   "kind": "buttons",
+   "buttons": [
+    {
+     "value": "confirm",
+     "label": "نعم — اقتله من المعيار"
+    },
+    {
+     "value": "reject",
+     "label": "لا — هذا مقبول"
+    }
+   ],
+   "made_by": "system:taste_refresh",
+   "artifact_version": 2,
+   "action_type": "decision"
+  },
+  {
+   "id": "taste_kill_k309782cc37",
+   "title": "تأكيد: هل هذا الكابشن مرفوض دائمًا؟",
+   "tag": "taste_refresh",
+   "desc": "الجار الصغير يمر بجانبنا ويرمق العبوة بنظرة فضول... فعلاً للبيك اكسبرس",
+   "kind": "buttons",
+   "buttons": [
+    {
+     "value": "confirm",
+     "label": "نعم — اقتله من المعيار"
+    },
+    {
+     "value": "reject",
+     "label": "لا — هذا مقبول"
+    }
+   ],
+   "made_by": "system:taste_refresh",
+   "artifact_version": 2,
+   "action_type": "decision"
+  },
+  {
+   "id": "taste_kill_kde64c31462",
+   "title": "تأكيد: هل هذا الكابشن مرفوض دائمًا؟",
+   "tag": "taste_refresh",
+   "desc": "صوت التعليمات يرتفع: 'حركة واحدة بعد، قوة!' — التدريب على سناب لياقتي",
+   "kind": "buttons",
+   "buttons": [
+    {
+     "value": "confirm",
+     "label": "نعم — اقتله من المعيار"
+    },
+    {
+     "value": "reject",
+     "label": "لا — هذا مقبول"
+    }
+   ],
+   "made_by": "system:taste_refresh",
+   "artifact_version": 2,
    "action_type": "decision"
   }
  ]

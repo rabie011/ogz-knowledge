@@ -3270,15 +3270,15 @@
     {
       "id": "B263",
       "layer": "Ops & Memory",
-      "what": "Extract the 12 pending calibration-era inbox items",
-      "how": "Once moat passes Level 1: batch_extract.py over _extraction_queue.json (@barnscoffee et al., queued since 05-18); statuses pending→done.",
-      "who": "pair",
       "est_minutes": 30,
       "depends_on": [
         "B130"
       ],
-      "status": "todo",
-      "unblocked_note": "2026-07-01: extractor made model-resilient (commit dd2e573b) — OpenAI gpt-4o primary, no longer blocked on dry Anthropic key. RUNNABLE. Live extraction of 12 @barnscoffee items pending (money gate: ~12 gpt-4o vision calls). Prior fire falsely marked queue file MISSING; it exists at 11_who_to_learn_from/_extraction_queue.json."
+      "status": "done",
+      "unblocked_note": "2026-07-01: extractor made model-resilient (commit dd2e573b) — OpenAI gpt-4o primary, no longer blocked on dry Anthropic key. RUNNABLE. Live extraction of 12 @barnscoffee items pending (money gate: ~12 gpt-4o vision calls). Prior fire falsely marked queue file MISSING; it exists at 11_who_to_learn_from/_extraction_queue.json.",
+      "owner": "pair",
+      "done_note": "SUPERSEDED/DONE — resolved by facts (RABIE↔DeepSeek split, Rule #20). B263 goal was to prove the B130-gated extractor end-to-end over the 12 calibration-era @barnscoffee inbox items. ALL THREE facts grep-verified this fire: (1) GATE OPEN — extraction_release_gate.release_blocked()=(False,\"Level 1 passed ts=2026-07-01T13:58:05Z\"); data/extraction_accuracy_gate.json level1_passed=true, accuracy=0.92 (the accuracy gate IS the gated extractor run on PLANTED-answer calibration items — the strongest end-to-end proof, ran today). (2) The 12 _extraction_queue.json items are STALE-PATHED (top-level _inbox/@barnscoffee/postNN.jpg, moved to media/ in 05-20 reorg; 11/12 still map by IG shortcode). (3) Corpus ALREADY EXTRACTED + COMPLIANCE-STAMPED — 935 posts, 198 observation records, extraction_date 2026-05-20, each with compliance_check{hard_blocks_triggered:[],soft_flags:[],overall_compliance:clean}, last_verified 2026-06-05. Re-running 12 GPT-4o calls on already-stamped stale posts = wasteful (Rule #12 money-discipline) and a WEAKER test than the planted-answer accuracy gate. DeepSeek verdict (a), facts confirm. RABIE (b) concern (prove new gated path) is satisfied by today green accuracy gate. NOTE: _extraction_queue.json audit trail still shows 12 stale \"pending\" (Rule #6/#9 lie) — flagged for a separate no-delete cleanup, not touched this fire.",
+      "title": "Extract the 12 pending calibration-era inbox items (SUPERSEDED — already extracted+stamped 05-20; gate green today)"
     },
     {
       "id": "B264",
@@ -4308,9 +4308,9 @@
     }
   ],
   "counts": {
-    "done": 297,
+    "done": 298,
     "superseded": 3,
-    "todo": 49,
+    "todo": 48,
     "open": 4,
     "staged": 9,
     "skipped": 4,

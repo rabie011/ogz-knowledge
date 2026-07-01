@@ -45,6 +45,7 @@ Ask **status** in Cursor → reads `data/unified_status.txt`.
 
 ### Phase A deliverables (done)
 
+- [x] Mobile bridge wired — Mac pushes status to `main`, phone **status** works
 - [x] `docs/SYSTEM_MAP.md` — inventory
 - [x] `docs/MOBILE_CONTROL.md` — phone ↔ Mac ↔ GitHub loop
 - [x] `scripts/mac_sync.py` + `mac_onboard.sh` — Mac pushes status for mobile

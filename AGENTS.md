@@ -8,8 +8,8 @@
 
 | Action | Where |
 |--------|--------|
-| Edit docs, scripts, missions | **Any agent** (repo edits) |
-| `launchctl`, park/unpark daemons | **Mac Mini only** — cloud agents cannot do this |
+| Edit docs, scripts, missions | **Cloud conductor** (GitHub) |
+| Sync, drain, wire, launchctl, keys | **Mac Executor** — [`MAC_EXECUTOR_MASTER_PROMPT.md`](data/cursor_missions/artifacts/MAC_EXECUTOR_MASTER_PROMPT.md) |
 | `brain_api` always-on | **Mac Mini only** (`com.ogz.brain-api`) |
 | FAL render spend | **Mohamed says `render go`** only |
 | Production wire / Vercel | **Mohamed says `wire`** only |

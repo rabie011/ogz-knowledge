@@ -1,5 +1,7 @@
 # Mac Mini Cursor Agent — WIRE prompt (paste into Cursor on the Mac)
 
+> **Master prompt (full role):** [`MAC_EXECUTOR_MASTER_PROMPT.md`](MAC_EXECUTOR_MASTER_PROMPT.md) — use that for ongoing Mac executor sessions. This file is the **wire-only** shortcut when Mohamed says `wire`.
+
 **Give this entire block to the agent running ON the Mac Mini.**  
 Repo: `~/Desktop/ogz-knowledge` · User: `abarihm` · Branch: `main`
 

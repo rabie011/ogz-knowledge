@@ -35,8 +35,17 @@ KNOWN_GAPS = [
     "healthcare_wellness + real_estate sectors HELD for validation — present in all source "
     "logs but not emitted; intelligence_depth 0 and no arabic_copywriting per_sector_analysis, "
     "so their voice/copy signals could not be grounded. Emit only after human validation.",
-    "dialect, cultural, and caption entities are later waves — not yet in this export "
-    "(shipped so far: sector, occasion, visual_pattern, reference_account, brand_observation).",
+    "dialect_variant and caption_pattern are the remaining waves — not yet in this export "
+    "(shipped: sector, occasion, visual_pattern, reference_account, brand_observation, cultural_rule).",
+    "cultural_rule.description_ar is null on EVERY record — source rules are English-only and cultural "
+    "rules are NEVER machine-translated (authenticity is the moat); each carries "
+    "extra.translation_needed=true for a human Arabic pass.",
+    "10 arabic_text_rule records carry domain='visual' with extra.enum_mismatch=true + "
+    "true_domain='language_text' — the spec §5.4 domain enum has no language/text value, so they ship as "
+    "advisory (nothing dropped, §4.7), flagged for a future enum extension.",
+    "80/84 culturalspec_field records include held-sector (healthcare_wellness/real_estate) values in "
+    "sector_defaults, flagged extra.is_held — informational FIELD defaults from existing cultural-spec "
+    "files, NOT the held sector BASELINE records.",
     "reference_accounts (110) vs brand_observations (45) are LARGELY DISJOINT populations: only "
     "15 brands appear in both, so only 15/110 reference_accounts carry observation_ids and 30 "
     "brand_observations have no matching reference_account. The benchmark reference pool and the "

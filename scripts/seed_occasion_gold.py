@@ -116,7 +116,10 @@ def mint_occasions(handle: str, occasions, product: str, produce_fn, ts: str, go
             continue
         entry = make_seed_entry(occ, line, product, ts)
         merge_seed(gold, entry)
-        results.append({"occasion": occ, "status": "minted", "line": line, "named_product": product in line})
+        # bool(product) guard: '' in line is always True, so a client with no product_candidates
+        # (e.g. a service brand) would otherwise report a FALSE ✓product flag (Rule #9 report honesty).
+        results.append({"occasion": occ, "status": "minted", "line": line,
+                        "named_product": bool(product) and product in line})
     return gold, results
 
 

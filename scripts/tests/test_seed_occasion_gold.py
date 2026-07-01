@@ -81,6 +81,14 @@ class TestMintLoop(unittest.TestCase):
         self.assertEqual(by["boom"], "produce_error")
         self.assertEqual(by["founding_day"], "minted")   # batch survived the dead one
 
+    def test_empty_product_is_not_falsely_flagged_as_named(self):
+        # a service brand with no product_candidates yields product='' — '' in line is always True,
+        # so named_product must be guarded to False, not a false ✓product (Rule #9).
+        gold, results = sog.mint_occasions("myfitness.sa", ["ramadan"], "", lambda h, o, p: ["صوت الضحكات يملأ الحديقة"],
+                                           self.TS, {"seed_unconfirmed": [], "gold": []})
+        self.assertEqual(results[0]["status"], "minted")
+        self.assertFalse(results[0]["named_product"])
+
     def test_no_line_when_producer_returns_empty(self):
         gold, results = sog.mint_occasions("albaik", ["ramadan"], "زنجر", lambda h, o, p: [],
                                            self.TS, {"seed_unconfirmed": [], "gold": []})

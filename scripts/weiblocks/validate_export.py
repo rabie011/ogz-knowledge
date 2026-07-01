@@ -110,6 +110,63 @@ def main():
         if dupes:
             fail("id.unique", f"{name}: duplicate ids {list(dupes)[:5]}")
 
+    # C12 PRIVACY: zero third-party @handles anywhere in brand_observations (audit P0 finding)
+    if "brand_observations.ndjson" in data:
+        import re as _re
+        raw_bo = data["brand_observations.ndjson"][1]
+        leaks = _re.findall(r"@[A-Za-z0-9_.]{2,30}", raw_bo)
+        if leaks:
+            fail("privacy.at_handles", f"brand_observations: {len(leaks)} @-handle tokens leak (e.g. {leaks[:3]})")
+
+    # C13 occasion cross-refs resolve (Rule #6 — the 3 broken joins the audit found)
+    if occ_keys:
+        if "sectors.json" in data:
+            for r in data["sectors.json"][0]:
+                for t in (r.get("typical_occasions") or []):
+                    k = t.get("occasion_key") if isinstance(t, dict) else None
+                    if k is not None and k not in occ_keys:
+                        fail("xref.sector_occasion", f"sector {r.get('sector_key')} typical_occasions key {k!r} unresolved")
+        if "brand_observations.ndjson" in data:
+            for r in data["brand_observations.ndjson"][0]:
+                for k in (r.get("occasions_seen") or []):
+                    if k not in occ_keys:
+                        fail("xref.obs_occasion", f"brand_observation {r.get('brand_code')} occasions_seen {k!r} unresolved")
+                for c in (r.get("example_captions") or []):
+                    ck = c.get("occasion")
+                    if ck is not None and ck not in occ_keys:
+                        fail("xref.caption_occasion", f"{r.get('brand_code')} example_caption occasion {ck!r} unresolved")
+
+    # C14 cultural_rule sector_defaults must only carry SHIPPED sectors (held values live in extra)
+    if "cultural_rules.json" in data:
+        for r in data["cultural_rules.json"][0]:
+            sd = r.get("sector_defaults")
+            if isinstance(sd, dict):
+                bad = [k for k in sd if k not in SHIPPED_SECTORS]
+                if bad:
+                    fail("held.sector_defaults", f"cultural_rule {r.get('id')} sector_defaults carries unshipped {bad}")
+
+    # C15 caption_patterns honesty: no engagement-metric claims (retired label), Arabic real-or-null
+    if "caption_patterns.json" in data:
+        import re as _re
+        for r in data["caption_patterns.json"][0]:
+            w = str(r.get("why_it_works") or "")
+            if _re.search(r"\blift\b|engagement_rate|multiplier|\b\d-\d+x\b", w, _re.I):
+                fail("caption.engagement_claim", f"caption_pattern {r.get('id')} why_it_works carries a retired-metric claim")
+            for f_ in ("structure_ar", "example_skeleton_ar"):
+                v = r.get(f_)
+                if v is not None and not _re.search(r"[؀-ۿ]", str(v)):
+                    fail("caption.arabic", f"caption_pattern {r.get('id')} {f_} non-null but not Arabic script")
+
+    # C16 dialect_variants honesty: avoid_phrases empty (no source), signatures Arabic-script
+    if "dialect_variants.json" in data:
+        import re as _re
+        for r in data["dialect_variants.json"][0]:
+            if r.get("avoid_phrases_ar"):
+                fail("dialect.avoid_fabricated", f"dialect_variant {r.get('id')} avoid_phrases_ar non-empty (no per-dialect source exists)")
+            for ph in (r.get("signature_phrases_ar") or []):
+                if not _re.search(r"[؀-ۿ]", str(ph)):
+                    fail("dialect.non_arabic_signature", f"dialect_variant {r.get('id')} signature {str(ph)[:40]!r} not Arabic script")
+
     # C9 reference <-> observation join integrity
     if "reference_accounts.json" in data and "brand_observations.ndjson" in data:
         refs = data["reference_accounts.json"][0]

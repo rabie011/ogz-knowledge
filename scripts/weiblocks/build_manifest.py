@@ -35,8 +35,24 @@ KNOWN_GAPS = [
     "healthcare_wellness + real_estate sectors HELD for validation — present in all source "
     "logs but not emitted; intelligence_depth 0 and no arabic_copywriting per_sector_analysis, "
     "so their voice/copy signals could not be grounded. Emit only after human validation.",
-    "dialect, brand_observation, reference, cultural, and caption entities are later waves — "
-    "not part of this v1 export (sector + visual_pattern + occasion only).",
+    "dialect, cultural, and caption entities are later waves — not yet in this export "
+    "(shipped so far: sector, occasion, visual_pattern, reference_account, brand_observation).",
+    "reference_accounts (110) vs brand_observations (45) are LARGELY DISJOINT populations: only "
+    "15 brands appear in both, so only 15/110 reference_accounts carry observation_ids and 30 "
+    "brand_observations have no matching reference_account. The benchmark reference pool and the "
+    "scraped observation pool were built from different account sets.",
+    "brand_observations: 45 brands aggregated from 6,888 real observations. 95% of the source obs "
+    "were keyed by REAL Instagram handles (not the anon scheme); those are hash-anonymized to "
+    "OGZ-<SECTOR>-OBS-<sha256(handle)[:8]> (one-way, no reverse map stored) and captions are "
+    "scrubbed of the brand's own handle. No real handle is stored or emitted anywhere.",
+    "brand_observation.performance.avg_likes is null for EVERY record — the corpus has no numeric "
+    "engagement; performance.qualitative_engagement (low/medium/high) carries the only signal and "
+    "verified=false, metrics_source='qualitative_inference'.",
+    "reference_account.trust: 63 verified / 47 unverified (46 dead IG handles from xlsx prefix-"
+    "mangling + 1 unmatched). Engine must filter trust=verified before using the fallback pool.",
+    "international brands present in brand_observations (e.g. global retail/fragrance active in the "
+    "Saudi market) are NOT flagged is_international — deferred: no verified international-brand list "
+    "exists to ground the flag, so it is left unset rather than guessed.",
     "visual_pattern records are confidence=experimental (observed_count=null) — chains are "
     "templates, not observed post outcomes; parsed/authored fields, not measured.",
     "occasion behavior fields (type, priority, lead_weeks, recommended_mix_shift, tone_shift, "

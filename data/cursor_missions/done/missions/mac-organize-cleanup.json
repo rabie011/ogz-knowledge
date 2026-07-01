@@ -1,16 +1,18 @@
 {
   "id": "mac-organize-cleanup",
   "executor": "shell",
-  "status": "pass",
+  "status": "partial",
   "exit_codes": {
-    "cmd_0": 0,
+    "cmd_0": 128,
     "cmd_1": 0,
     "cmd_2": 0,
     "cmd_3": 0
   },
-  "summary": "all commands passed",
+  "summary": "1 blocker(s)",
   "log_path": "data/cursor_missions/done/mac-organize-cleanup.log",
-  "blockers": [],
+  "blockers": [
+    "command 0 failed (exit 128): cd ~/Desktop/ogz-knowledge && git fetch origin main && git checkout main && chmod +x scripts/mac_con"
+  ],
   "fix_allowed": false,
-  "finished": "2026-07-01T02:09:04Z"
+  "finished": "2026-07-01T12:13:55Z"
 }

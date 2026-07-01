@@ -1,13 +1,13 @@
 {
   "id": "autonomous-status-report",
-  "generated": "2026-06-30T17:32:04Z",
+  "generated": "2026-07-01T12:13:40Z",
   "role": "run-until-mohamed-texts",
-  "daemons": "36403\t-15\tcom.ogz.brain-api",
+  "daemons": "1230\t0\tcom.ogz.brain-api",
   "brain": {
     "ok": true,
     "body": {
       "ok": true,
-      "humain": true,
+      "humain": false,
       "queue_depth": 0,
       "auth_required": true
     }
@@ -31,23 +31,26 @@
       "ready": false
     }
   },
-  "pending_missions": [],
+  "pending_missions": [
+    "mac-organize-cleanup.json",
+    "proposals-foundation-go.json"
+  ],
   "recent_done_missions": [
-    "restart-executor",
-    "autonomous-status-report",
-    "wave-go-04-creative-watchdog",
-    "wave-go-03-knowledge-expand",
-    "wave-go-02-platform-brain",
-    "sector-coverage-test",
-    "fake-platform-test",
-    "wave-go-01-health",
-    "wire-ready-report",
-    "handoff-bundle-refresh",
-    "overnight-validate",
     "claude-code-history-master",
     "cursor-onboarding-brief",
-    "phase-health-24h",
-    "sector-fake-clients-seed"
+    "executor-recover-stuck",
+    "mac-post-reboot-check",
+    "mac-organize-cleanup",
+    "wire-ready-report",
+    "autonomous-status-report",
+    "mac-onboard-mobile-bridge",
+    "wire-ready-03-handoff-bundle",
+    "wire-ready-02-readiness",
+    "wire-ready-01-system",
+    "wave-myfitness-organs",
+    "wave-install-orchestra",
+    "wave-health-2026-06-30",
+    "wave-handoff-health"
   ],
   "backlog_status": {
     "done": 291,
@@ -62,25 +65,10 @@
     "reverted": 1,
     "in_progress": 1
   },
-  "git": "70b4578f B292: close the reopen_one dead-end masked by the closures_ door-exemption\n2af61e0b feat(B287): make_sure load_saturated short-circuit — HOLD_SATURATED early-exit\n37c8fb26 feat: B125f — compliance_read.py, the FIRST-vote forbidden-list gate (the missing writer)",
-  "git_dirty": "## main...origin/main\n M clients/myfitness.sa/prefill.json\n M clients/myfitness.sa/profile/cultural_overrides.json\n M clients/myfitness.sa/profile/media_class.json\n M clients/myfitness.sa/profile/red_lines.json",
+  "git": "8becdb3c mac-sync: status snapshot 2026-07-01T12:12:29\nb4a22644 mac-sync: status snapshot 2026-07-01T12:12:28\n3d805833 mac-sync: status snapshot 2026-07-01T12:12:27",
+  "git_dirty": "## weiblocks-export...origin/weiblocks-export\n M data/cursor_missions/.24h_state.json\n M data/cursor_missions/LIVE_STATUS.md\n M data/cursor_missions/done/claude-code-history-master.json\n M data/cursor_missions/done/cursor-onboarding-brief.json",
   "studios_web_local": null,
   "heartbeats_last_8": [
-    {
-      "ts": "2026-06-30T16:55:53Z",
-      "health": {
-        "ok": true,
-        "body": {
-          "ok": true,
-          "humain": true,
-          "queue_depth": 0,
-          "auth_required": true
-        }
-      },
-      "executor_live": false,
-      "pending": 0,
-      "orchestra": true
-    },
     {
       "ts": "2026-06-30T16:57:01Z",
       "health": {
@@ -185,6 +173,21 @@
       "executor_live": false,
       "pending": 0,
       "orchestra": true
+    },
+    {
+      "ts": "2026-06-30T17:32:04Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": true,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "executor_live": false,
+      "pending": 0,
+      "orchestra": true
     }
   ],
   "blockers_mohamed_must": [
@@ -192,9 +195,5 @@
     "13 bridge taste pairs on portal",
     "reserve_taste_lane flip — only when queue ≤7 AND you approve"
   ],
-  "autonomous_next": [
-    "wave: clone o-gz-studios-web if repo URL found",
-    "wave: lib/brain smoke client against :4140",
-    "wave: consult DeepSeek on wire checklist"
-  ]
+  "autonomous_next": []
 }

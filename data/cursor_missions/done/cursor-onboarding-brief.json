@@ -1,21 +1,21 @@
 {
   "id": "cursor-onboarding-brief",
-  "generated": "2026-06-30T16:40:51Z",
+  "generated": "2026-07-01T12:13:10Z",
   "from": "claude-code",
   "repo": "/Users/abarihm/Desktop/ogz-knowledge",
   "recovery_point_head": "# CURSOR — live recovery point · updated 2026-06-30\n\n## ⭐ JUNE 30 — GATE0 anti-hallucination matcher HARDENED (consult-first, Rule #19) · boshed 1ddca153\n**Done:** closed two product_is_real() fail-opens (scripts/truth_guards.py) that let a HALLUCINATED\nproduct clear the FAL-spend gate (Rule #12): (1) raw-substring over all profile/*.json passed a\ngreeting «عيد أضحى مبارك»; (2) any single ≥4-char caption token passed «أي منتج وهمي» (common word\n«منتج»). Now: STRUCTURED read of product_truth.json only (both shapes: albaik top-level keys /\njurisha+alnasser d[\"products\"]); pass only if query⊆real-name tokens; if client HAS product_truth\nit's the AUTHORITY (no caption back-door); corpus fallback only for no-product_truth brands (full\nphrase OR ≥2 sig tokens, never a single). Also render_openclaw GATE0 `except: pass` → FAIL-CLOSED.\n**Test:** tests/test_truth_guards.py — 19 cases, exit 0 (real pass, fakes refuse, 3 live clients);\ncaption gauntlet still green. **Consulted DeepSeek+RABIE before+after: VERIFIED, no fail-open.**\n**Residual (flagged, task_6f6385da):** no-product_truth brands (ecoffeecup/lnasserjewelry/myfitness)\ncan still pass a verbatim greeting via caption-overlap → give them product_truth or tighten that path.\n\n---\n# CURSOR — prior · updated 2026-06-23\n\n## 🔺 STANDING GOAL (Mohamed, June 23) — the 24h orchestra, this week, NEVER STOP\n**RABIE + Claude work 24/7 for the week. THE TOP: the SYSTEM produces 20 PERFECT complete posts\n(photo + caption + everything), created ONE BY ONE, across the 3 clients (albaik · jurisha ·\nmyfitness), in DIFFERENT setups — each RABIE-judged perfect (harsh: 3=default, 4=proof, 5=rare)\nbefore it counts.** Method: machine produces (Rule #12) → RABIE judges independent+harsh → fix the\nMACHINE (or brief) → re-produce → bank when perfect → next. Never accept \"fine\". Money: $3 fal cap\n(USD_CAP) gates renders — when it hits, ask Mohamed to raise it.\n**RENDER CONSTRAINT (found June 23):** flux-2-pro/EDIT edits the product reference → it makes\nPRODUCT-FORWARD shots well, but NOT human STORY scenes. So start product-forward (works); story-scene\nrendering needs a different (generation) path — a Mohamed fork.\n**Machine fixes banked toward the goal:** pick_reference matches product+flags gaps (833176fe) ·\nrender obeys face_visibility=never / faceless (d16206ca) · 7 fail-open gates closed (f6a464a1,3c1a4db7).\n\n## ⭐ JUNE 24 SESSION — 8/20 PERFECT (RABIE = GPT-4o vision judge, harsh 3=default)\n**Built rabie_judge.py** (scripts/) — GPT-4o vision scores product_truth/composition/cultural/\nbrand/caption 1-5 → bank/fix/kill. The mechanical RABIE.\n**8 banked (perfect_0X_*.jpg in api/static/renders_v37/):** دبل بيك · سوبر رول · بيكيز · جريش ·\nكرسبي بيك(5/5) · سليق(5/5) · تمن(4/5) · قرصان(4/5).\n**Root machine fixes this session (all boshed):**\n1. product_truth NESTED read — jurisha uses {\"products\":{}}, assembly lock was SILENT for ALL\n   jurisha → now reads both flat(albaik)+nested. (008d9b5b)\n2. image_prompt_strength=0.92 — anchor",
   "recovery_point_tail": "D to\nnull (worn from the session) → kept originals (4/5, no regression). HUMAIN needs REST (drifts under sustained\nload). 9/9 stays solid + HUMAIN-passed. Polish (4/5→5/5) is non-urgent + HUMAIN-limited — resumes as HUMAIN\nrecovers (longer gaps). AWAIT Mohamed's next-phase: polish-rest-of-set / P2 full-batches / P3 dev-handoff / myfitness-products.\n\n## 🎨 PHOTO-FIX ARC (June 29 ~22:00) — Mohamed killed 5 posts = GENERIC photos → art-director wired + per-brand signature\nAfter 9/9: post-by-post polish DONE (post1 hook-upgraded, 8 kept). C238 minds-read-voice+pains PROVEN (A/B). C239/b\nHUMAIN drift ROOT-FIXED (proactive page-recycle every 12 calls in humain_lock, proven live). Then Mohamed JUDGED the\nportal posts: APPROVED 3 (jurisha جريش-G03, albaik بيكيز-R05, albaik كرسبي-U01), KILLED 5 (albaik سوبر-رول + كومبو-بيك,\njurisha باشميل + تمن + سليق). Kill reason = photos GENERIC/STOCK. ROOT (3-chairs): art_director produced a deliberate\nbrief but it never reached the fal prompt (to_converter_args dropped it to chain+scene; openclaw built chain-mechanically)\n= severed wire (Rule #6). FIXES bosh'd: C240 = wire the AD brief into the render (produce_complete_post persists brief +\n--brief; render_openclaw appends [ART DIRECTION] block, fail-closed). C241 = PER-BRAND craft signature (each brand's own\nvisual_dna.capture_character + a fixed hero-focus move; NOT one fixed chiaroscuro — that was wrong-tone for bright ALBAIK,\nGPT+DeepSeek vision flagged 'noir on a daylight brand'). PROVEN on سوبر رول: generic→bright-glossy distinctive; GPT-vision\n+DeepSeek both SHIP; eatjurisha gets WARM ($0-verified). Spent $2.43/$15 (3 proof renders ~$0.09).\nNEXT: AWAITING Mohamed's GO to render the OTHER 4 killed posts w/ per-brand signatures (~$0.12) → he re-judges. HUMAIN\ndrops during produce runs (caption→weak GPT) so ensure HUMAIN-up first. Gate no_fal_photos=False open. Then full-set\nre-judge → P2 (full batches) / P3 (dev handoff). Loop holds at this gate (Rule #11, no spend without his go).\n",
   "git": {
     "exit": 0,
-    "out": "70b4578f B292: close the reopen_one dead-end masked by the closures_ door-exemption\n2af61e0b feat(B287): make_sure load_saturated short-circuit — HOLD_SATURATED early-exit\n37c8fb26 feat: B125f — compliance_read.py, the FIRST-vote forbidden-list gate (the missing writer)\n19e976f0 fix(immune): B125w blocked — severed-wire false premise; route real first-vote path (B125f)\n90af44b1 B125: Claude-vision second-vote compliance gate (fail-safe) + tests\n68c692a8 fix(feedback): wire 4 meta-card handlers — close the B291-exposed dead-end taps\ne1dde620 fix: refuse dead-end taps at the write door (Rule #7/#8)\nf645c16e fix: resync calibration BASELINE_RESULTS to live GREEN + stage 2nd-vision-model money-gate\nede1d5dd fix(immune): conservative fail-safe fixes 3-week silent moat failure on left-hand-serving control\n0ef6a7cb fix: clear 2 make_sure alarms — taste-staleness armor false-RED + cards_attributed wire (Rule #6)\nc00050a7 feat: C245 taste-writeback-bridge — close the B114 staleness loop\n4a14d01f fix: deadly_defaults gate false-positive on stricter-than-strict cultural values\na7409591 fix: one canonical real_clients() boundary — kill scratch-dir census pollution\n1ddca153 fix(GATE0): close two product_is_real fail-opens that let hallucinated products pass\n26470e40 fix: remove the redundant [ART DIRECTION] append — the v3.7 canon already integrates the brand look [canon-integration, Mohamed's catch]\n"
+    "out": "8becdb3c mac-sync: status snapshot 2026-07-01T12:12:29\nb4a22644 mac-sync: status snapshot 2026-07-01T12:12:28\n3d805833 mac-sync: status snapshot 2026-07-01T12:12:27\ne9cc961b mac-sync: status snapshot 2026-07-01T12:12:26\nabb61864 mac-sync: status snapshot 2026-07-01T12:12:25\n2866ff0f mac-sync: status snapshot 2026-07-01T12:12:23\ndb17ec27 mac-sync: status snapshot 2026-07-01T12:12:22\n5624a2e6 mac-sync: status snapshot 2026-07-01T12:12:21\nd182c9d5 mac-sync: status snapshot 2026-07-01T12:12:20\n01de712b mac-sync: status snapshot 2026-07-01T12:12:19\nc47188fc mac-sync: status snapshot 2026-07-01T12:12:17\n3930aa1b mac-sync: status snapshot 2026-07-01T12:12:16\n72181502 mac-sync: status snapshot 2026-07-01T12:12:15\n4515d6be mac-sync: status snapshot 2026-07-01T12:12:14\nc6cbf23c mac-sync: status snapshot 2026-07-01T12:12:12\n"
   },
   "git_branch": {
     "exit": 0,
-    "out": "main\n"
+    "out": "weiblocks-export\n"
   },
   "git_status": {
     "exit": 0,
-    "out": "## main...origin/main\n M clients/myfitness.sa/prefill.json\n M clients/myfitness.sa/profile/cultural_overrides.json\n M clients/myfitness.sa/profile/media_class.json\n M clients/myfitness.sa/profile/red_lines.json\n M data/contract_fixtures/extract_albaik.json\n M data/contract_fixtures/extract_myfitness.json\n M data/contract_fixtures/produce_eatjurisha.json\n M data/cursor_missions/.24h_state.json\n M data/cursor_missions/README.md\n M data/cursor_missions/done/24h-heartbeat.jsonl\n M data/cursor_missions/done/autonomous-status-report.json\n M data/cursor_missions/done/brain-readiness-phase-a.json\n M data/cursor_missions/done/claude-code-history-master.json\n M data/cursor_missions/done/cursor-onboarding-brief.json\n M data/cursor_missions/done/missions/wave-health-2026-06-30.json\n M data/cursor_missions/done/wave-health-2026-06-30.json\n M data/decision_queue.json\n M data/fal_cost_log.jsonl\n M data/im_here.md\n M data/issues_state.json\n M data/make_sure_log.jsonl\n M data/make_sure_state.json\n M data/mohamed_rulings_live.json\n M data/outcome_events.jsonl\n M data/produced_posts.jsonl\n M data/scorecards.json\n M docs/CONNECT_THE_BRAIN.md\n M scripts/brain_api.py\n M scripts/cursor_24h_shift.py\n M scripts/cursor_mission_consumer.py\n M scripts/memory_keeper.py\n M scripts/test_brain_connection.py\n?? \"api/static/renders_v37/fake_beauty_\\330\\271\\330\\267\\330\\261_U01.jpg\"\n?? \"api/static/renders_v37/fake_fashion_\\330\\271\\330\\250\\330\\247\\331\\212\\330\\251_G03.jpg\"\n?? \"api/static/renders_v37/fake_fnb_\\331\\203\\331\\210\\331\\205\\330\\250\\331\\210_T03.jpg\"\n?? \"api/static/renders_v37/fake_realestate_\\331\\201\\331\\212\\331\\204\\330\\247_U01.jpg\"\n?? \"api/static/renders_v37/fake_retail_\\331\\207\\330\\257\\331\\212\\330\\251_T03.jpg\"\n?? \"api/static/renders_v37/fake_wellness_\\330\\247\\330\\264\\330\\252\\330\\261\\330\\247\\331\\203_U01.jpg\"\n?? \"api/static/renders_v37/myfitness.sa_\\330\\247\\330\\264\\330\\252\\330\\261\\330\\247\\331\\203_\\330\\264\\331\\207\\330\\261\\331\\212_U01.jpg\"\n?? clients/fake_beauty/\n?? clients/fake_beauty_sparse/\n?? clients/fake_fashion/\n?? clients/fake_fashion_sparse/\n?? clients/fake_fnb/\n?? clients/fake_fnb_sparse/\n?? clients/fake_realestate/\n?? clients/fake_realestate_sparse/\n?? clients/fake_retail/\n?? clients/fake_retail_sparse/\n?? clients/fake_wellness/\n?? clients/fake_wellness_sparse/\n?? clients/myfitness.sa/profile/.versions/cultural_overrides.20260630T154834729926.json\n?? clients/myfitness.sa/profile/.versions/cultural_overrides.20260630T160527396641.json\n?? clients/myfitness.sa/profile/.versions/product_truth.20260630T160527395495.json\n?? clients/myfitness.sa/profile/.versions/red_lines.20260630T154834729113.json\n?? clients/myfitness.sa/profile/.versions/red_lines.20260630T160527396244.json\n?? clients/myfitness.sa/profile/product_truth.json\n?? data/agents/\n?? data/artifacts/\n?? data/contract_fixtures/extract_eatjurisha.json\n?? data/contract_fixtures/extract_fake_beauty.json\n?? data/contract_fixtures/extract_fake_fashion.json\n?? data/contract_fixtures/extract_fake_fnb.json\n?? data/contract_fixtures/extract_fake_realestate.json\n?? data/contract_fixtures/extract_fake_retail.json\n?? data/contract_fixtures/extract_fake_wellness.json\n?? data/contract_fixtures/extract_myfitness_sa.json\n?? data/creative_outputs/\n?? data/cursor_missions/.memory_keeper_state.json\n?? data/cursor_missions/.wake_prompt.txt\n?? data/cursor_missions/CLAUDE_CODE_STANDING.md\n?? data/cursor_missions/EXECUTOR_SYSTEM.md\n?? data/cursor_missions/LIVE_STATUS.md\n?? data/cursor_missions/artifacts/MASTER_PLAN_24H.md\n?? data/cursor_missions/artifacts/extract_intake_smoke.json\n?? data/cursor_missions/artifacts/handoff/\n?? data/cursor_missions/artifacts/mohamed_blockers.json\n?? data/cursor_missions/artifacts/pilot_gap_report.json\n?? data/cursor_missions/artifacts/platform_brain_gap.json\n?? data/cursor_missions/artifacts/platform_tunnel_checklist.json\n?? data/cursor_missions/artifacts/platform_wire_checklist.json\n?? data/cursor_missions/artifacts/wire_complete.json\n?? data/cursor_missions/artifacts/wire_phase_b_spec"
+    "out": "## weiblocks-export...origin/weiblocks-export\n M data/cursor_missions/LIVE_STATUS.md\n D data/cursor_missions/pending/consult-mirror-proposals-foundation.json\nMM data/live_feed/events.jsonl\n M data/mistake_registry.jsonl\n M data/taste_elo.json\n?? data/cursor_missions/.executor_live.lock\n?? data/cursor_missions/artifacts/WIRE_STATUS.json\n?? data/cursor_missions/artifacts/consult_mirror_proposals_latest.txt\n?? data/cursor_missions/artifacts/mac_environment_latest.txt\n?? data/cursor_missions/artifacts/proposals_agent_demo_latest.txt\n?? data/cursor_missions/artifacts/wire_test_latest.json\n?? data/cursor_missions/done/executor-recover-stuck.json\n?? data/cursor_missions/done/mac-post-reboot-check.json\n?? data/cursor_missions/done/missions/executor-recover-stuck.json\n?? data/cursor_missions/done/missions/mac-post-reboot-check.json\n?? data/cursor_missions/running/consult-mirror-proposals-foundation.json\n"
   },
   "port_4140_brain_api": {
     "exit": 0,
@@ -36,7 +36,7 @@
   "brain_token_set": true,
   "health": {
     "exit": 0,
-    "out": "{\"ok\": true, \"humain\": true, \"queue_depth\": 0, \"auth_required\": true}"
+    "out": "{\"ok\": true, \"humain\": false, \"queue_depth\": 0, \"auth_required\": true}"
   },
   "abraham_env_keys": [
     "ABRAHAM_RECEIVE_TOKEN",
@@ -111,7 +111,9 @@
     "com.abraham.reaper.plist",
     "com.abraham.storage-guardian.plist",
     "com.abraham.watchdog.plist",
+    "com.ogz.archive-freshness.plist",
     "com.ogz.brain-api.plist",
+    "com.ogz.consult-shift.plist",
     "com.ogz.cursor-missions.plist",
     "com.ogz.ds-telegram.plist",
     "com.ogz.enricher.plist",
@@ -119,6 +121,8 @@
     "com.ogz.healthcheck.plist",
     "com.ogz.live-feed-digest.plist",
     "com.ogz.live-feed.plist",
+    "com.ogz.mac-sync.plist",
+    "com.ogz.memory-keeper.plist",
     "com.ogz.orchestra.plist",
     "com.ogz.playroom.plist.disabled",
     "com.ogz.portal.plist",
@@ -533,8 +537,14 @@
       "what": "Get the devs integration spec (REST vs package vs queue) — the contract shape decides the wiring"
     }
   ],
-  "missions_pending": [],
-  "missions_running": [],
+  "missions_pending": [
+    "mac-organize-cleanup.json",
+    "proposals-foundation-go.json"
+  ],
+  "missions_running": [
+    "agent-run-now.json",
+    "consult-mirror-proposals-foundation.json"
+  ],
   "missions_done": [
     "autonomous-status-report.json",
     "brain-prep-wave-intake-handoff-myfitness.json",
@@ -546,10 +556,14 @@
     "cursor-onboarding-brief.json",
     "deep-history-mine.json",
     "ecosystem-audit.json",
+    "executor-recover-stuck.json",
     "fake-platform-full-test.json",
     "fake-platform-test.json",
     "full-system-discovery.json",
     "handoff-bundle-refresh.json",
+    "mac-onboard-mobile-bridge.json",
+    "mac-organize-cleanup.json",
+    "mac-post-reboot-check.json",
     "mission-blockers-report.json",
     "mission-brain-connection-recheck.json",
     "mission-brain-connection-smoke.json",
@@ -596,10 +610,12 @@
     "overnight-deepseek-wire-brief.json",
     "overnight-morning-brief.json",
     "overnight-prefill-snapshot.json",
+    "overnight-validate.json",
     "phase-health-24h.json",
     "phase0-bootstrap.json",
     "phase1-cinema-knowledge.json",
     "phase2-creative-tunnel.json",
+    "restart-executor.json",
     "sector-coverage-test.json",
     "sector-fake-clients-all-waves.json",
     "sector-fake-clients-seed.json",
@@ -618,6 +634,10 @@
     "wave-03-wire-artifact.json",
     "wave-03b-retry-artifacts.json",
     "wave-04-health-cycle.json",
+    "wave-go-01-health.json",
+    "wave-go-02-platform-brain.json",
+    "wave-go-03-knowledge-expand.json",
+    "wave-go-04-creative-watchdog.json",
     "wave-handoff-health.json",
     "wave-health-2026-06-30.json",
     "wave-install-orchestra.json",

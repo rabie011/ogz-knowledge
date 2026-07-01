@@ -1,0 +1,20 @@
+{
+  "id": "wire-test-go",
+  "executor": "shell",
+  "status": "partial",
+  "exit_codes": {
+    "cmd_0": 0,
+    "cmd_1": 0,
+    "cmd_2": 0,
+    "cmd_3": 2,
+    "cmd_4": -9
+  },
+  "summary": "2 blocker(s)",
+  "log_path": "data/cursor_missions/done/wire-test-go.log",
+  "blockers": [
+    "command 3 failed (exit 2): cd ~/Desktop/ogz-knowledge && /opt/homebrew/bin/python3 scripts/wire_publish_handoff.py",
+    "command 4 failed (exit -9): cd ~/Desktop/ogz-knowledge && MAC_SYNC_PUSH=1 /opt/homebrew/bin/python3 scripts/mac_sync.py --push"
+  ],
+  "fix_allowed": true,
+  "finished": "2026-07-01T12:13:44Z"
+}

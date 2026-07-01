@@ -1,0 +1,18 @@
+{
+  "id": "executor-recover-stuck",
+  "executor": "shell",
+  "status": "partial",
+  "exit_codes": {
+    "cmd_0": 0,
+    "cmd_1": 0,
+    "cmd_2": 0,
+    "cmd_3": -15
+  },
+  "summary": "1 blocker(s)",
+  "log_path": "data/cursor_missions/done/recover-executor-recover-stuck.log",
+  "blockers": [
+    "command 3 failed (exit -15): cd ~/Desktop/ogz-knowledge && MAC_SYNC_PUSH=1 /opt/homebrew/bin/python3 scripts/mac_sync.py --push"
+  ],
+  "fix_allowed": true,
+  "finished": "2026-07-01T12:13:02Z"
+}

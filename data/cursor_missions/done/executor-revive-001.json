@@ -1,0 +1,17 @@
+{
+  "id": "executor-revive-001",
+  "executor": "shell",
+  "status": "fail",
+  "exit_codes": {
+    "cmd_0": 2,
+    "cmd_1": 2
+  },
+  "summary": "2 blocker(s)",
+  "log_path": "data/cursor_missions/done/2026-07-01T1749-executor-revive-001.log",
+  "blockers": [
+    "command 0 failed (exit 2): /opt/homebrew/bin/python3 ~/Desktop/ogz-knowledge/scripts/executor_health.py",
+    "command 1 failed (exit 2): /opt/homebrew/bin/python3 ~/Desktop/ogz-knowledge/scripts/executor_start.py"
+  ],
+  "fix_allowed": false,
+  "finished": "2026-07-01T17:49:18Z"
+}

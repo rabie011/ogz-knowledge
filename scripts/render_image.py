@@ -57,7 +57,7 @@ def cultural_constraint_clause(ov: dict) -> str:
     scene demands', which silently PERMITTED faces — a leak for a face_visibility:never brand.)"""
     parts = []
     face = str(ov.get("face_visibility") or "never").lower()
-    if face == "never":
+    if face in ("never", "faceless"):   # 'faceless' is the same no-visible-faces rule (enum: never|faceless|visible)
         parts.append("no human faces, no recognizable people")
     elif face in ("limited", "partial", "incidental"):
         parts.append("faces only incidental and out of focus, never the subject")

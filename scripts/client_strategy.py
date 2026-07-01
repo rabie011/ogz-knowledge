@@ -57,7 +57,7 @@ def build_avoid(h):
         avoid.append("never name a real person (roles only)")
     if str(ov.get("family_voice_lines", "")).startswith("blocked"):
         avoid.append("never put words in a family member's mouth")
-    if ov.get("face_visibility") == "never":
+    if cr.faces_forbidden(ov):
         avoid.append("visual: no visible faces/expressions (hands/food/objects only)")
     if ov.get("family_member_visibility") == "never":
         avoid.append("visual: no family members/children in frame")

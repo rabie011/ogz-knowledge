@@ -654,7 +654,7 @@ def angle_prompt(c: dict, slot: dict, sector: str, brain: str | None = None) -> 
         _ab.append("NO named real person (roles only — never «الكابتن عادل»)")
     if str(_ov.get("family_voice_lines", "")).startswith("blocked"):
         _ab.append("NO family member speaking/quoted")
-    if _ov.get("face_visibility") == "never" or _ov.get("family_member_visibility") == "never":
+    if _cr.faces_forbidden(_ov) or _ov.get("family_member_visibility") == "never":
         _ab.append("the scene must work with NO visible faces/family (hands/food/objects/place)")
     if _cr._is_cloud_kitchen(c["handle"]):
         _ab.append("DELIVERY-ONLY — never a dine-in/restaurant/cart scene; the food arrives")
@@ -1180,7 +1180,7 @@ def shot_card(c: dict, angle: dict, ground: bool = False) -> list[str]:
     import client_rules as _cr
     _ov = _cr._overrides(c["handle"])
     rules = ["NO visible human faces, expressions, smiles, or eye-contact directions — hands/food/objects/place only"
-             if _ov.get("face_visibility") == "never" else "",
+             if _cr.faces_forbidden(_ov) else "",
              "NO family members or children in frame"
              if _ov.get("family_member_visibility") == "never" else "",
              "show DELIVERY — packaging/box/the food arriving; never a restaurant/dine-in/cart/branch setting"

@@ -106,9 +106,13 @@ def client_rows(handle: str, vfields: list[dict], base: Path) -> list[dict]:
 
 
 def clients_with_profile(base: Path) -> list[str]:
+    # Must stay in sync with fingerprint_status.real_clients(): a confirmed spine
+    # (cultural_overrides.json) AND not a synthetic sector fixture (.synthetic_fixture.json,
+    # do_not_aggregate) — fixtures are coverage scratch, never a real client on the checklist.
     cdir = base / "clients"
     return sorted(d.name for d in cdir.iterdir()
-                  if (d / "profile" / "cultural_overrides.json").exists())
+                  if (d / "profile" / "cultural_overrides.json").exists()
+                  and not (d / "profile" / ".synthetic_fixture.json").exists())
 
 
 def build_checklist(base: Path = BASE) -> str:

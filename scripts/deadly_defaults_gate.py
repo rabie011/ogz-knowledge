@@ -30,6 +30,10 @@ _STRICTER_OR_EQUAL = frozenset({
     "false", "none", "no", "never", "off", "disabled",
     "blocked", "blocked_permanent", "no_music", "no-mixing",
     "separate", "segregated",
+    # face_visibility=faceless: faces may be in frame but NONE visible — a total prohibition
+    # of the guarded risk (a visible face), no-less-strict than 'never'. render_image treats
+    # never/faceless identically; no consumer reads it as permissive. Parallel to 'false' above.
+    "faceless",
 })
 
 

@@ -353,6 +353,10 @@ def run_checks() -> dict:
     import glob as _g
     counter_lies = []
     for gf in _g.glob(str(B / "clients/*/profile/goals.json")):
+        # Synthetic sector fixtures are coverage scratch, not real clients — they must never
+        # pollute a production-readiness metric (same boundary as fingerprint_status.real_clients).
+        if (Path(gf).parent / ".synthetic_fixture.json").exists():
+            continue
         g = json.loads(Path(gf).read_text())
         confirmed = sum(1 for k in ("goal_ratio", "capacity_ceiling", "usp_his_words")
                         if g.get(k))

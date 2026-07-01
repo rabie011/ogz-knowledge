@@ -26,6 +26,21 @@ class TestCulturalConstraints(unittest.TestCase):
         s = cultural_constraint_clause({"face_visibility": "never"})
         self.assertIn("no human faces", s)
 
+    def test_face_faceless_yields_no_human_faces(self):
+        # 'faceless' (enum never|faceless|visible) forbids a VISIBLE face just like 'never'.
+        # Regression lock: a scattered `== "never"` silently permitted faces for a faceless
+        # brand (myfitness.sa) across render + gate + strategy — this is the 3rd-miss guard.
+        s = cultural_constraint_clause({"face_visibility": "faceless"})
+        self.assertIn("no human faces", s)
+
+    def test_faces_forbidden_predicate_covers_the_enum(self):
+        # THE single boundary (Rule #3): client_rules.faces_forbidden is what every gate asks.
+        import client_rules as cr
+        self.assertTrue(cr.faces_forbidden({"face_visibility": "never"}))
+        self.assertTrue(cr.faces_forbidden({"face_visibility": "faceless"}))
+        self.assertTrue(cr.faces_forbidden({}))  # absent = strictest governs
+        self.assertFalse(cr.faces_forbidden({"face_visibility": "visible"}))
+
     def test_face_allowed_drops_the_face_constraint(self):
         s = cultural_constraint_clause({"face_visibility": "allowed", "modesty_dress": "relaxed"})
         self.assertNotIn("no human faces", s)

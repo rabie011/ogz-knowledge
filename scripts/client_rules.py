@@ -71,6 +71,22 @@ def _is_cloud_kitchen(handle):
     return val == "cloud_kitchen"
 
 
+# face_visibility enum: never | faceless | visible. BOTH 'never' and 'faceless' forbid a
+# VISIBLE face — the deadly risk this guards. THE single boundary (Rule #3): every gate /
+# strategy / render path that forbids faces asks HERE, never a scattered `== "never"`. That
+# scatter is exactly what leaked twice — a new enum value ('faceless') added but the inline
+# comparisons not updated (render brief + face gate silently permitted faces for myfitness.sa).
+_FACES_FORBIDDEN_VALUES = frozenset({"never", "faceless"})
+
+
+def faces_forbidden(ov: dict) -> bool:
+    """True when the client forbids visible faces (face_visibility never|faceless, or absent =
+    strictest default). The absent case is strict-by-default (the organ law); only an explicit
+    'visible'/'allowed' relaxes it."""
+    v = str(ov.get("face_visibility") or "never").lower()
+    return v in _FACES_FORBIDDEN_VALUES
+
+
 def _sector(handle):
     ym = B / "clients" / handle / "year_map.json"
     return json.loads(ym.read_text()).get("sector", "") if ym.exists() else ""
@@ -107,7 +123,7 @@ def violations(post, handle):
     # a shot that explicitly avoids faces/people (دون إظهار وجوه / اليد فقط) is COMPLIANT —
     # don't flag the face-WORD inside its own negation (Rule #9 false-positive fix, June 14).
     compliant_vis = bool(NO_FACE_MARKER.search(vis))
-    if ov.get("face_visibility") == "never" and FACE_VIS.search(vis) and not compliant_vis:
+    if faces_forbidden(ov) and FACE_VIS.search(vis) and not compliant_vis:
         out.append(("face_visibility", "block", "visual directs visible faces/expressions but face_visibility=never"))
     if ov.get("family_member_visibility") == "never" and FAMILY_VIS.search(vis) and not compliant_vis:
         out.append(("family_visibility", "block", "visual shows family members/children but family_member_visibility=never"))

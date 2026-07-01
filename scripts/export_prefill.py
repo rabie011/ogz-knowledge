@@ -314,7 +314,10 @@ def _formality(tone):
 
 
 def _religious(co):
-    if (co.get("modesty_dress") == "conservative" or co.get("face_visibility") == "never"):
+    # face_visibility never|faceless both signal a high-conservative brand (no visible faces) —
+    # keep in step with client_rules.faces_forbidden; a bare == "never" here would miss faceless.
+    if (co.get("modesty_dress") == "conservative"
+            or co.get("face_visibility") in ("never", "faceless")):
         return "High"
     return None
 

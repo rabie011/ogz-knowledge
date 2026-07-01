@@ -38,6 +38,32 @@ def llm_tally(comments: list[str]) -> dict:
     return json.loads(out["choices"][0]["message"]["content"])
 
 
+def latest_maps_reviews(client_dir) -> list[str]:
+    """Reader for the newest Maps-reviews surface (B166 — the customer's UNPROMPTED voice).
+    fetch_delivery_reviews.py WRITES raw/maps_reviews/<date>/reviews.jsonl; this is its
+    missing CONSUMER (Rule #6 — a writer with no reader is a severed wire). Returns the
+    review texts of the most recent day, tolerating both 'text' and 'reviewText' keys and
+    dropping blanks. Missing surface → []."""
+    root = Path(client_dir) / "raw/maps_reviews"
+    if not root.exists():
+        return []
+    days = sorted(d for d in root.iterdir() if d.is_dir())
+    if not days:
+        return []
+    rf = days[-1] / "reviews.jsonl"
+    if not rf.exists():
+        return []
+    texts = []
+    for l in rf.read_text().strip().split("\n"):
+        if not l.strip():
+            continue
+        it = json.loads(l)
+        t = (it.get("text") or it.get("reviewText") or "").strip()
+        if t:
+            texts.append(t)
+    return texts
+
+
 def build(handle: str):
     raw_root = BASE / "clients" / handle / "raw/instagram"
     days = sorted(d for d in raw_root.iterdir() if d.is_dir())
@@ -46,11 +72,15 @@ def build(handle: str):
     if cf.exists():
         comments = [json.loads(l).get("text", "") for l in cf.read_text().strip().split("\n")
                     if l.strip() and json.loads(l).get("text")]
+    reviews = latest_maps_reviews(BASE / "clients" / handle)   # B166 — fold Maps reviews into the tally corpus
+    comments = comments + reviews                              # the unprompted voice joins the comment voice
     mf = BASE / "clients" / handle / "profile/audience_mirror.json"
     mirror = json.loads(mf.read_text()) if mf.exists() else {}
     before_curated = {k: mirror.get(k) for k in ("customer_language", "pains_aggregate", "note")}
 
     mirror.setdefault("comments_count", len(comments))
+    if reviews:
+        mirror["reviews_count"] = len(reviews)   # B166 — provenance: how many of the corpus are Maps reviews
     mirror.setdefault("sample", comments[:10])
     mirror.setdefault("note", f"machine-built {days[-1].name} from {len(comments)} comments")
     if not comments:

@@ -2,13 +2,14 @@
   "id": "consult-mirror-proposals-foundation",
   "priority": 1,
   "from": "cursor-cloud",
-  "created": "2026-07-01T01:00:00Z",
+  "created": "2026-07-01T03:00:00Z",
   "type": "commands",
-  "goal": "DeepSeek consult — mirror architecture + Agent Kit + proposals foundation (Mohamed requested)",
+  "goal": "DeepSeek consult — Mac-local agents + cloud orchestrator + proposals (Mohamed requested again)",
   "fix_allowed": false,
   "commands": [
     "cd ~/Desktop/ogz-knowledge && git fetch origin main && git rebase origin/main",
-    "cd ~/Desktop/ogz-knowledge && python3 scripts/consult.py --models deepseek,gpt,gemini \"Mohamed OGZ: ONE Cursor cloud chat. Mac worker not second planner. Mirrors: GitHub mac-sync pull+drain+push; cursor_mirror pending/done JSON; unified_status. Agent Kit: Drive+Mac archive, append-only learnings. PROPOSALS first agent from ~/agents to Google Slides. Cloud no SSH. Is foundation correct? Missing pieces? What NOT to build? Implementation order?\" | tee data/cursor_missions/artifacts/consult_mirror_proposals_latest.txt",
+    "cd ~/Desktop/ogz-knowledge && python3 scripts/consult.py --models deepseek \"OGZ architecture review (June 2026). LOCKED: Mohamed talks ONLY in Cursor (phone+Mac). Mac Mini runs brain :4140, mac-sync, executor, API keys in ~/.abraham_env. Cloud Cursor plans and queues missions to GitHub; Mac pulls, runs shell missions, pushes status. NO SSH cloud-to-Mac. PROPOSALS agent first: harvest ~/agents to ~/Desktop/ogz-proposals, Google Drive SA, Slides output. Agent Kit: Think=GitHub+Cursor, Run=Mac homes, Archive=Drive+~/OGZ-Archive. Mohamed asks: should we build ALL agents on Mac Mini locally (they take tasks, report to cloud via mirror/events, not chat to user)? Launch many agents vs one executor? Mode A on-demand vs Mode B 24/7 daemons. Give: (1) verdict on Mac-local agents + cloud planner split, (2) top 3 risks, (3) what NOT to build, (4) exact implementation order for next 7 days, (5) one sentence for Mohamed.\" | tee data/cursor_missions/artifacts/consult_mirror_proposals_latest.txt",
+    "cd ~/Desktop/ogz-knowledge && python3 scripts/consult.py --models gpt,gemini \"Cross-check DeepSeek verdict on OGZ Mac-local agents + Cursor-only control. Agree or disagree in 5 bullets.\" | tee -a data/cursor_missions/artifacts/consult_mirror_proposals_latest.txt",
     "cd ~/Desktop/ogz-knowledge && MAC_SYNC_PUSH=1 python3 scripts/mac_sync.py --push"
   ]
 }

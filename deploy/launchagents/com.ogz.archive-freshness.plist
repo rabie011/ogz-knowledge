@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.ogz.archive-freshness</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/python3</string>
+    <string>/Users/abarihm/Desktop/ogz-knowledge/scripts/check_archive_freshness.py</string>
+    <string>--days</string>
+    <string>30</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key><string>/Users/abarihm/.local/bin:/opt/homebrew/bin:/usr/bin:/bin</string>
+    <key>HOME</key><string>/Users/abarihm</string>
+  </dict>
+  <key>StartInterval</key><integer>604800</integer>
+  <key>RunAtLoad</key><false/>
+  <key>StandardOutPath</key><string>/Users/abarihm/logs/archive-freshness.log</string>
+  <key>StandardErrorPath</key><string>/Users/abarihm/logs/archive-freshness.err.log</string>
+</dict>
+</plist>

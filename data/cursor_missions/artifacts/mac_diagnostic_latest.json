@@ -1,0 +1,61 @@
+{
+  "id": "mac-full-diagnostic",
+  "generated": "2026-07-01T13:22:09Z",
+  "hostname": "abarihms-Mac-mini.local",
+  "platform": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
+  "launchagents": {
+    "com.ogz.brain-api": "loaded",
+    "com.ogz.mac-bridge": "loaded",
+    "com.ogz.mac-sync": "loaded",
+    "com.ogz.executor": "loaded",
+    "com.ogz.consult-shift": "loaded",
+    "com.ogz.memory-keeper": "loaded",
+    "com.ogz.orchestra": "loaded"
+  },
+  "keys": {
+    "BRAIN_API_TOKEN": "set",
+    "MAC_BRIDGE_TOKEN": "missing",
+    "DEEPSEEK_API_KEY": "set",
+    "OPENAI_API_KEY": "set",
+    "ANTHROPIC_API_KEY": "set",
+    "FAL_KEY": "set",
+    "GOOGLE_SA_PATH": "missing"
+  },
+  "git": {
+    "branch": "weiblocks-export",
+    "sha": "f2d2a81e",
+    "status_short": [
+      "## weiblocks-export...origin/weiblocks-export",
+      " M clients/albaik/derived/rival_corpus.json",
+      " M clients/eatjurisha/derived/rival_corpus.json",
+      " M clients/fake_beauty/profile/.synthetic_fixture.json",
+      " M clients/fake_beauty/profile/audience_mirror.json",
+      " M clients/fake_beauty/profile/cultural_overrides.json",
+      " M clients/fake_beauty/profile/fingerprint.json",
+      " M clients/fake_beauty/profile/goals.json",
+      " M clients/fake_beauty/profile/passport.json",
+      " M clients/fake_beauty/profile/product_truth.json",
+      " M clients/fake_beauty/profile/red_lines.json",
+      " M clients/fake_beauty/profile/truth_pack.json"
+    ]
+  },
+  "missions": {
+    "pending": [],
+    "running": [
+      "agent-run-now.json",
+      "consult-mirror-proposals-foundation.json",
+      "mac-bridge-wire-go.json"
+    ],
+    "executor_lock": {
+      "pid": 80287,
+      "claimed_at": "2026-07-01T13:22:01Z",
+      "session": "executor_daemon"
+    }
+  },
+  "tailscale": {
+    "ok": false,
+    "error": "Expecting ',' delimiter: line 130 column 8 (char 4000)"
+  },
+  "unified_status_rc": 0,
+  "unified_status": "OGZ Status · 2026-07-01T13:22:09Z\n\nCONTROL: Cursor (this chat) — mobile and Mac\n\nBRAIN: healthy :4140\nQUEUE: 0 pending, 3 running — idle\nEXECUTOR: running a mission\n\nPILOTS:\n  · albaik: ready, 79% coverage\n  · eatjurisha: ready, 70% coverage\n  · myfitness.sa: ready, 64% coverage\n\nKNOWLEDGE: 16 docs indexed\nMISTAKES LOGGED: 7\n\nMAC SYNC: 2026-07-01T13:22:03Z (abarihms-Mac-mini.local)\n\nYOUR GATES: render go · wire to prod · taste pairs · stop/لخ\n\nMac debug feed (not mobile): http://localhost:4141"
+}

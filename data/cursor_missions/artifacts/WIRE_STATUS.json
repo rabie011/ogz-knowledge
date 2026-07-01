@@ -1,0 +1,86 @@
+{
+  "id": "wire-status",
+  "mohamed_gate": "wire",
+  "authorized_at": "2026-07-01T13:22:09Z",
+  "control": "Cursor only — Mac Bridge :4150 + GitHub mission bus + tailnet",
+  "mac_bridge": {
+    "port": 4150,
+    "artifact": "data/cursor_missions/artifacts/mac_diagnostic_latest.json",
+    "auth": "MAC_BRIDGE_TOKEN in ~/.abraham_env"
+  },
+  "tailscale": {
+    "ok": true,
+    "hostname": "abarihms-mac-mini.tail174530.ts.net",
+    "services": {
+      "brain": "https://abarihms-mac-mini.tail174530.ts.net:4140",
+      "live_feed": "https://abarihms-mac-mini.tail174530.ts.net:4141",
+      "mac_bridge": "https://abarihms-mac-mini.tail174530.ts.net:4150"
+    }
+  },
+  "wire_ready": true,
+  "wire_checks": {
+    "daemon_brain_api": true,
+    "daemon_cursor_missions": false,
+    "token_in_env": true,
+    "health_ok": true,
+    "auth_required": true,
+    "extract_no_auth_rejected": true,
+    "extract_unknown_pending_200": true,
+    "extract_albaik_200": true,
+    "albaik_ready": true,
+    "myfitness_refuse_ready_false": false,
+    "produce_sparse_handled": true,
+    "contract_drift": true,
+    "job_lifecycle": true,
+    "fixtures_present": true,
+    "portal_reachable": false
+  },
+  "wire_test": {
+    "local_health": {
+      "ok": true,
+      "code": 200,
+      "body": {
+        "ok": true,
+        "humain": false,
+        "queue_depth": 0,
+        "auth_required": true
+      }
+    },
+    "endpoint_file": true,
+    "tailnet_health": {
+      "ok": false,
+      "code": 0,
+      "url": "https://abarihms-mac-mini.tail174530.ts.net:4140"
+    },
+    "auth_required": {
+      "ok": true,
+      "code": 401
+    },
+    "extract_albaik": {
+      "ok": true,
+      "code": 200,
+      "ready": true
+    },
+    "mac_bridge_health": {
+      "ok": true,
+      "code": 200,
+      "body": {
+        "ok": true,
+        "service": "mac_bridge",
+        "port": 4150,
+        "auth_required": true,
+        "token_configured": false
+      }
+    },
+    "mac_bridge_status": {
+      "ok": false,
+      "error": "MAC_BRIDGE_TOKEN missing"
+    },
+    "wire_ready_script": {
+      "ok": true,
+      "exit": 0
+    }
+  },
+  "wire_blockers": [],
+  "handoff_updated": true
+}

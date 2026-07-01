@@ -1,0 +1,54 @@
+{
+  "id": "wire-test",
+  "at": "2026-07-01T13:22:09Z",
+  "tests": {
+    "local_health": {
+      "ok": true,
+      "code": 200,
+      "body": {
+        "ok": true,
+        "humain": false,
+        "queue_depth": 0,
+        "auth_required": true
+      }
+    },
+    "endpoint_file": true,
+    "tailnet_health": {
+      "ok": false,
+      "code": 0,
+      "url": "https://abarihms-mac-mini.tail174530.ts.net:4140"
+    },
+    "auth_required": {
+      "ok": true,
+      "code": 401
+    },
+    "extract_albaik": {
+      "ok": true,
+      "code": 200,
+      "ready": true
+    },
+    "mac_bridge_health": {
+      "ok": true,
+      "code": 200,
+      "body": {
+        "ok": true,
+        "service": "mac_bridge",
+        "port": 4150,
+        "auth_required": true,
+        "token_configured": false
+      }
+    },
+    "mac_bridge_status": {
+      "ok": false,
+      "error": "MAC_BRIDGE_TOKEN missing"
+    },
+    "wire_ready_script": {
+      "ok": true,
+      "exit": 0
+    }
+  },
+  "pass": true,
+  "wire_ready": true,
+  "tailnet_ok": false,
+  "mac_bridge_ok": true
+}

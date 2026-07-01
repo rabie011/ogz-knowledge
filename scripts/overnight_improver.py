@@ -87,6 +87,31 @@ def task_test_all_combos():
 
 
 # ═══════════════════════════════════════════════════════════
+# Rule #8 — REFUSE, don't warn (B057 sibling — schema-drift guard).
+# intelligence_layer.json drifted: 'universal_rules' / 'sector_playbooks'
+# moved to 'sector_facts' / 'occasion_calendar', which these readers do not
+# parse. A missing/empty key must REFUSE loudly (raise) — never silently
+# write empty intelligence (deep_why) or crash with an opaque IndexError
+# (sector_comparison). Mirrors the guard on calibrate_cd_router.py. The
+# strip-vs-rewire resolution is the B057c fork (Mohamed's call); this only
+# stops the silent rot until then.
+# ═══════════════════════════════════════════════════════════
+def _require_intel_key(intel, key):
+    """Return intel[key] when it carries real signal; otherwise raise a clear
+    schema-drift refusal so the task fails loud instead of producing empty
+    output."""
+    val = intel.get(key)
+    if not val:
+        raise RuntimeError(
+            f"REFUSED (schema drift): intelligence_layer.json has no usable "
+            f"'{key}' — data now lives under 'sector_facts' / 'occasion_calendar', "
+            f"which this reader does not parse. Refusing to produce empty "
+            f"intelligence. Fix the reader (B057c fork) before running."
+        )
+    return val
+
+
+# ═══════════════════════════════════════════════════════════
 # TASK 2: Deep WHY analysis with GPT
 # ═══════════════════════════════════════════════════════════
 def task_deep_why():
@@ -97,7 +122,7 @@ def task_deep_why():
         return "Skipped — no OPENAI_API_KEY"
 
     intel = json.loads((BASE / "11_who_to_learn_from" / "intelligence_layer.json").read_text())
-    universal = intel.get("universal_rules", [])
+    universal = _require_intel_key(intel, "universal_rules")
 
     client = openai.OpenAI(api_key=api_key)
     deep_whys = []
@@ -142,6 +167,7 @@ Give me 3 specific reasons, each 1-2 sentences. Be concrete, not generic."""
 def task_sector_comparison():
     """Generate cross-sector intelligence comparison."""
     intel = json.loads((BASE / "11_who_to_learn_from" / "intelligence_layer.json").read_text())
+    _require_intel_key(intel, "sector_playbooks")
 
     report = {"sectors": {}, "generated_at": datetime.now().isoformat()}
     for sector, pb in intel.get("sector_playbooks", {}).items():

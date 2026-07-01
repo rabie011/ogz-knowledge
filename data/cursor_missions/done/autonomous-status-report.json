@@ -1,6 +1,6 @@
 {
   "id": "autonomous-status-report",
-  "generated": "2026-07-01T18:44:16Z",
+  "generated": "2026-07-01T20:24:22Z",
   "role": "run-until-mohamed-texts",
   "daemons": "53401\t0\tcom.ogz.brain-api",
   "brain": {
@@ -13,7 +13,7 @@
     }
   },
   "portal": "404",
-  "humain": "200",
+  "humain": "000unreachable",
   "prefill_pilots": {
     "albaik": {
       "pct": 79,
@@ -34,8 +34,11 @@
   "pending_missions": [],
   "recent_done_missions": [
     "autonomous-status-report",
-    "cursor-onboarding-brief",
     "claude-code-history-master",
+    "cursor-onboarding-brief",
+    "investigate_executor_failures",
+    "validate_knowledge_paths",
+    "diagnose_executor",
     "wave-health-2026-07-01",
     "wire-ready-report",
     "handoff-bundle-refresh",
@@ -44,16 +47,13 @@
     "sector-fake-clients-seed",
     "queue-clear-stuck-running",
     "wire-test-go",
-    "shell-diag-02",
-    "shell-diag-01",
-    "revive-executor-001",
-    "proposals-foundation-go"
+    "shell-diag-02"
   ],
   "backlog_status": {
-    "done": 299,
+    "done": 301,
     "superseded": 3,
-    "todo": 47,
-    "open": 4,
+    "todo": 46,
+    "open": 3,
     "staged": 8,
     "skipped": 4,
     "blocked": 4,
@@ -62,12 +62,12 @@
     "reverted": 1,
     "in_progress": 1
   },
-  "git": "15820707 mac-sync: mission bus 2026-07-01T18:44:10\nc1cdcb3d mac-sync: status snapshot 2026-07-01T18:44:10\n8b9d1d29 mac-sync: mission bus 2026-07-01T18:39:05",
-  "git_dirty": "## weiblocks-export...origin/weiblocks-export\n M clients/albaik/derived/rival_corpus.json\n M clients/eatjurisha/derived/rival_corpus.json\n M clients/fake_beauty/profile/.synthetic_fixture.json\n M clients/fake_beauty/profile/audience_mirror.json",
+  "git": "018a8b91 release(weiblocks): ALL 8 entities accurate + gated — 493 records, byte-reproducible\nd8850ad0 fix(seed_occasion_gold): guard named_product false-positive when product='' (Rule #9)\nb570cf8f feat(B204): reusable occasion-gold minting machine + albaik 5/5 seeded",
+  "git_dirty": "## weiblocks-export...origin/weiblocks-export\n M clients/albaik/derived/rival_corpus.json\n M clients/albaik/profile/gold.json\n M clients/albaik/profile/red_lines.json\n M clients/eatjurisha/derived/rival_corpus.json",
   "studios_web_local": null,
   "heartbeats_last_8": [
     {
-      "ts": "2026-07-01T18:04:13Z",
+      "ts": "2026-07-01T19:44:20Z",
       "health": {
         "ok": true,
         "body": {
@@ -82,7 +82,7 @@
       "orchestra": true
     },
     {
-      "ts": "2026-07-01T18:09:13Z",
+      "ts": "2026-07-01T19:49:20Z",
       "health": {
         "ok": true,
         "body": {
@@ -97,7 +97,7 @@
       "orchestra": true
     },
     {
-      "ts": "2026-07-01T18:14:14Z",
+      "ts": "2026-07-01T19:54:20Z",
       "health": {
         "ok": true,
         "body": {
@@ -112,7 +112,7 @@
       "orchestra": true
     },
     {
-      "ts": "2026-07-01T18:19:14Z",
+      "ts": "2026-07-01T19:59:21Z",
       "health": {
         "ok": true,
         "body": {
@@ -127,7 +127,7 @@
       "orchestra": true
     },
     {
-      "ts": "2026-07-01T18:24:14Z",
+      "ts": "2026-07-01T20:04:21Z",
       "health": {
         "ok": true,
         "body": {
@@ -142,7 +142,7 @@
       "orchestra": true
     },
     {
-      "ts": "2026-07-01T18:29:15Z",
+      "ts": "2026-07-01T20:09:21Z",
       "health": {
         "ok": true,
         "body": {
@@ -157,7 +157,7 @@
       "orchestra": true
     },
     {
-      "ts": "2026-07-01T18:34:15Z",
+      "ts": "2026-07-01T20:14:22Z",
       "health": {
         "ok": true,
         "body": {
@@ -172,7 +172,7 @@
       "orchestra": true
     },
     {
-      "ts": "2026-07-01T18:39:16Z",
+      "ts": "2026-07-01T20:19:22Z",
       "health": {
         "ok": true,
         "body": {

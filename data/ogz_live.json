@@ -1,0 +1,232 @@
+{
+  "version": 1,
+  "updated_at": "2026-07-01T17:55:25Z",
+  "healthy": false,
+  "stale": true,
+  "stale_reason": "executor jammed",
+  "sync": {
+    "last_push": "2026-07-01T02:03:32Z",
+    "last_pull_ok": false,
+    "git_sha": "fa730966",
+    "hostname": "abarihms-Mac-mini.local",
+    "launchagents": {
+      "com.ogz.brain-api": "loaded",
+      "com.ogz.mac-sync": "loaded",
+      "com.ogz.executor": "loaded",
+      "com.ogz.consult-shift": "unloaded",
+      "com.ogz.memory-keeper": "unloaded",
+      "com.ogz.orchestra": "unloaded"
+    },
+    "last_drain_at": "2026-07-01T02:03:32Z",
+    "last_drain_ok": null
+  },
+  "executor": {
+    "daemon": "loaded",
+    "lock_alive": false,
+    "state": "jammed",
+    "current_mission": "agent-run-now",
+    "started_at": "2026-07-01T17:54:53Z",
+    "pending": [
+      "executor-recover-stuck.json",
+      "executor-sync-always.json",
+      "mac-organize-cleanup.json",
+      "mac-post-reboot-check.json",
+      "queue-clear-stuck-running.json",
+      "tailscale-brain-wire.json",
+      "wire-go.json",
+      "wire-test-go.json"
+    ],
+    "running": [
+      "agent-run-now.json",
+      "consult-mirror-proposals-foundation.json",
+      "queue-clear-stuck-running.json"
+    ],
+    "ghost_running": [],
+    "last_drain_at": "2026-07-01T02:03:32Z",
+    "last_drain_ok": null
+  },
+  "brain": {
+    "ok": true,
+    "port": 4140
+  },
+  "bridge": {
+    "ok": true,
+    "port": 4150
+  },
+  "agents": {
+    "BUILDER": {
+      "last_seen": null,
+      "state": "unknown",
+      "summary": ""
+    },
+    "CONSULT": {
+      "last_seen": null,
+      "state": "unknown",
+      "summary": ""
+    },
+    "CREATIVE": {
+      "last_seen": null,
+      "state": "unknown",
+      "summary": ""
+    },
+    "EXECUTOR-SHELL": {
+      "last_seen": null,
+      "state": "unknown",
+      "summary": ""
+    },
+    "HUMAIN": {
+      "last_seen": null,
+      "state": "unknown",
+      "summary": ""
+    },
+    "LEARNER": {
+      "last_seen": null,
+      "state": "unknown",
+      "summary": ""
+    },
+    "MEMORY": {
+      "last_seen": null,
+      "state": "unknown",
+      "summary": ""
+    },
+    "ORCHESTRA": {
+      "last_seen": null,
+      "state": "unknown",
+      "summary": ""
+    },
+    "PROPOSALS": {
+      "last_seen": "2026-07-01T12:13:59Z",
+      "state": "idle",
+      "summary": "Foundation harvest from ~/agents"
+    },
+    "RABIE": {
+      "last_seen": null,
+      "state": "unknown",
+      "summary": ""
+    },
+    "SEARCH": {
+      "last_seen": null,
+      "state": "unknown",
+      "summary": ""
+    },
+    "WATCHDOG": {
+      "last_seen": null,
+      "state": "unknown",
+      "summary": ""
+    }
+  },
+  "recent_events": [
+    {
+      "ts": "2026-06-30T17:50:12Z",
+      "source": "digest",
+      "type": "digest",
+      "level": "info",
+      "message": "Last mission: Finished restart-executor: fail — 1 blocker(s) · Recent missions: 1 finished (0 ok, 1 issues) · ⚠ 1 error(s) — see feed · Activity from: digest(16), mac(6), executor(2), cursor(1)"
+    },
+    {
+      "ts": "2026-06-30T17:51:12Z",
+      "source": "digest",
+      "type": "digest",
+      "level": "info",
+      "message": "Activity from: digest(17), mac(6), executor(1), cursor(1)"
+    },
+    {
+      "ts": "2026-06-30T17:52:12Z",
+      "source": "digest",
+      "type": "digest",
+      "level": "info",
+      "message": "Activity from: digest(18), mac(6), cursor(1)"
+    },
+    {
+      "ts": "2026-06-30T17:53:12Z",
+      "source": "digest",
+      "type": "digest",
+      "level": "info",
+      "message": "Activity from: digest(19), mac(5), cursor(1)"
+    },
+    {
+      "ts": "2026-06-30T17:54:12Z",
+      "source": "digest",
+      "type": "digest",
+      "level": "info",
+      "message": "Activity from: digest(20), mac(4), cursor(1)"
+    },
+    {
+      "ts": "2026-06-30T17:55:13Z",
+      "source": "digest",
+      "type": "digest",
+      "level": "info",
+      "message": "Activity from: digest(21), mac(3), cursor(1)"
+    },
+    {
+      "ts": "2026-06-30T17:56:13Z",
+      "source": "digest",
+      "type": "digest",
+      "level": "info",
+      "message": "Activity from: digest(22), mac(2), cursor(1)"
+    },
+    {
+      "ts": "2026-06-30T17:57:13Z",
+      "source": "digest",
+      "type": "digest",
+      "level": "info",
+      "message": "Activity from: digest(23), mac(1), cursor(1)"
+    },
+    {
+      "ts": "2026-06-30T17:58:13Z",
+      "source": "digest",
+      "type": "digest",
+      "level": "info",
+      "message": "Activity from: digest(24), cursor(1)"
+    },
+    {
+      "ts": "2026-06-30T17:59:13Z",
+      "source": "digest",
+      "type": "digest",
+      "level": "info",
+      "message": "Activity from: digest(24), cursor(1)"
+    },
+    {
+      "ts": "2026-06-30T18:00:13Z",
+      "source": "digest",
+      "type": "digest",
+      "level": "info",
+      "message": "Activity from: digest(25)"
+    },
+    {
+      "ts": "2026-06-30T18:01:13Z",
+      "source": "digest",
+      "type": "digest",
+      "level": "info",
+      "message": "Activity from: digest(25)"
+    },
+    {
+      "ts": "2026-06-30T18:02:13Z",
+      "source": "digest",
+      "type": "digest",
+      "level": "info",
+      "message": "Activity from: digest(25)"
+    },
+    {
+      "ts": "2026-06-30T18:03:14Z",
+      "source": "digest",
+      "type": "digest",
+      "level": "info",
+      "message": "Activity from: digest(25)"
+    },
+    {
+      "ts": "2026-07-01T17:55:25Z",
+      "source": "executor",
+      "type": "idle",
+      "level": "info",
+      "message": "Executor released — queue idle"
+    }
+  ],
+  "waiting_on_mohamed": [],
+  "pilots_summary": [
+    "  · albaik: ready, 79% coverage",
+    "  · eatjurisha: ready, 70% coverage",
+    "  · myfitness.sa: ready, 64% coverage"
+  ],
+  "unified_status_ts": "2026-07-01T17:55:25Z"
+}

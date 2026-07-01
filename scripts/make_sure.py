@@ -682,7 +682,9 @@ def main():
     if _oc:
         print(f"⚠️  {_oc} orphaned intel reads in {len(checks.get('_orphaned_intel_files') or [])} "
               f"reader(s) ({', '.join(checks.get('_orphaned_intel_files') or [])}) — keys dropped from "
-              f"intelligence_layer.json, silently read as empty (Rule #6; resolution gated on B057c fork)")
+              f"intelligence_layer.json; readers already REFUSE on miss (Rule #8 guarded — "
+              f"overnight_improver.py raises RuntimeError, calibrate_cd_router.py exits 2), NOT silently empty. "
+              f"Rewire-vs-strip resolution gated on B057c fork.")
     elif _oc == 0:
         print("✅ intel-consumer health: 0 orphaned reads")
 

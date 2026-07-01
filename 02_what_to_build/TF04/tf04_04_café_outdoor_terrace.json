@@ -1,0 +1,94 @@
+{
+  "$schema": "../../12_data_shapes/chain_v1.schema.json",
+  "chain_ulid": "6ZAR8QBP7SRB6TEEXBBJ8PD1Y2",
+  "chain_id_short": "tf04_04",
+  "family": "TF04",
+  "schema_version": 1,
+  "name_en": "Café Outdoor Terrace",
+  "name_ar": "تراس كافيه خارجي",
+  "purpose": "Product on café terrace table outdoor setting. Golden-hour light.",
+  "models_used": [
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/flux-pro/kontext",
+      "role": "primary_image_generation"
+    },
+    {
+      "provider": "fal",
+      "model_id": "fal-ai/kling-video/v1.6/pro/image-to-video",
+      "role": "image_to_image_edit"
+    }
+  ],
+  "input_schema": {
+    "subject_description": {
+      "type": "string",
+      "description": "The subject (product, person, scene) to be rendered",
+      "required": true,
+      "min_length": 10
+    },
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Target video duration in seconds",
+      "required": false,
+      "default": 5
+    },
+    "tone_descriptor": {
+      "type": "string",
+      "description": "Tone direction: contemplative, bold, warm, dignified, kinetic, etc.",
+      "required": false
+    }
+  },
+  "prompt_template": "Lifestyle outdoor photography of {product_descriptor} on warm wooden café terrace table, soft golden-hour light from low angle, blurred café background with potted plants and neutral terrace furniture, ambient warm tones, shot on 50mm at f/2.8 with bokeh, no text, no watermark, no people {cultural_constraints_injection}",
+  "output_type": "image",
+  "target_dimensions": {
+    "width": 1080,
+    "height": 1080,
+    "aspect_ratio_label": "1:1"
+  },
+  "eligibility_filters": {
+    "sectors_allowed": [
+      "f_and_b",
+      "beauty",
+      "beauty_personal_care",
+      "food_and_beverage",
+      "real_estate",
+      "healthcare_wellness"
+    ],
+    "occasions_allowed": [
+      "*"
+    ],
+    "quality_tiers_allowed": [
+      "growth",
+      "enterprise"
+    ],
+    "min_brand_maturity_days": 0
+  },
+  "cultural_constraints": {
+    "requires_wardrobe_check": false,
+    "requires_gesture_check": false,
+    "requires_cultural_coherence_check": true,
+    "requires_arabic_text_validation": true,
+    "high_religious_sensitivity": false,
+    "high_gender_sensitivity": false,
+    "human_review_recommended_above_quality_tier": "never"
+  },
+  "cost_estimate_usd": 0.04,
+  "latency_estimate_seconds": 15,
+  "best_for_cd_brains": [
+    "cd_03"
+  ],
+  "anti_patterns": [
+    "Avoid in output: text",
+    "Avoid in output: watermark",
+    "Avoid in output: hands",
+    "Avoid in output: person"
+  ],
+  "notes": "Intents: grow, defend. Source code in research corpus: T15. Saudi adaptation guidance: Saudi café outdoor terraces have distinct evening aesthetic. Best in cooler months October-March. Reference image: Required. Recommended frequency: 1-2 per week.",
+  "provenance": {
+    "source": "internal_research_corpus/OGz_2_0_ChainLibrary_v2_Complete.docx#TF04#T15",
+    "date_added": "2026-05-13T15:30:00Z",
+    "confirmer": "Mohamed",
+    "confidence": "experimental",
+    "scope": "universal"
+  }
+}

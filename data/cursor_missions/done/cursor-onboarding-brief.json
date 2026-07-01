@@ -1,13 +1,13 @@
 {
   "id": "cursor-onboarding-brief",
-  "generated": "2026-07-01T13:18:47Z",
+  "generated": "2026-07-01T14:18:53Z",
   "from": "claude-code",
   "repo": "/Users/abarihm/Desktop/ogz-knowledge",
   "recovery_point_head": "# CURSOR — live recovery point · updated 2026-07-01\n\n## ⭐ JULY 1 — B166 Maps-reviews consumer wired into audience mirror (Rule #6) · boshed 0836b4f1\n**Fire (orchestra shift):** suite GREEN 1114→1117. make_sure ALARM = 2 reds, BOTH Mohamed-gated\n(founder_taste_fresh 17-day gap · feedback_system readiness_honest) — staged, not blockers.\n**Done:** severed wire found — fetch_delivery_reviews.py WROTE clients/<h>/raw/maps_reviews/<date>/\nreviews.jsonl but build_audience_mirror.py read ONLY raw/instagram comments. Added pure reader\nlatest_maps_reviews() + folded reviews into the tally corpus + reviews_count provenance. 3 offline\ntests (no LLM/money), suite green. Panel (RABIE+DeepSeek) 3/5 CONDITIONAL PASS.\n**NEXT / MISSING:** (1) B286 orchestra self-terminate — code BUILT (scripts/orchestra_self_terminate.py\n228L, Jun 29) but UNWIRED into the fire + unverifiable under load (needs load<2, was 5.69); wire+verify\non a calm box. (2) build_audience_mirror.py is standalone — not called by any pipeline (DeepSeek). (3)\nfetcher monthly auto-schedule = Mohamed-gated money (B239c-like).\n\n---\n# CURSOR — prior · updated 2026-06-30\n\n## ⭐ JUNE 30 — GATE0 anti-hallucination matcher HARDENED (consult-first, Rule #19) · boshed 1ddca153\n**Done:** closed two product_is_real() fail-opens (scripts/truth_guards.py) that let a HALLUCINATED\nproduct clear the FAL-spend gate (Rule #12): (1) raw-substring over all profile/*.json passed a\ngreeting «عيد أضحى مبارك»; (2) any single ≥4-char caption token passed «أي منتج وهمي» (common word\n«منتج»). Now: STRUCTURED read of product_truth.json only (both shapes: albaik top-level keys /\njurisha+alnasser d[\"products\"]); pass only if query⊆real-name tokens; if client HAS product_truth\nit's the AUTHORITY (no caption back-door); corpus fallback only for no-product_truth brands (full\nphrase OR ≥2 sig tokens, never a single). Also render_openclaw GATE0 `except: pass` → FAIL-CLOSED.\n**Test:** tests/test_truth_guards.py — 19 cases, exit 0 (real pass, fakes refuse, 3 live clients);\ncaption gauntlet still green. **Consulted DeepSeek+RABIE before+after: VERIFIED, no fail-open.**\n**Residual (flagged, task_6f6385da):** no-product_truth brands (ecoffeecup/lnasserjewelry/myfitness)\ncan still pass a verbatim greeting via caption-overlap → give them product_truth or tighten that path.\n\n---\n# CURSOR — prior · updated 2026-06-23\n\n## 🔺 STANDING GOAL (Mohamed, June 23) — the 24h orchestra, this week, NEVER STOP\n**RABIE + Claude work 24/7 for the week. THE TOP: the SYSTEM produces 20 PERFECT complete posts\n(photo + caption + everything), created ONE BY ONE, across the 3 clients (albaik · jurisha ·\nmyfitness), in DIFFERENT setups — each RABIE-judged perfect (harsh: 3=default, 4=proof, 5=rare)\nbefore it counts.** Method: machine produces (Rule #12) → RABIE judges independent+harsh → fix the\nMACHINE (or brief) → re-produce → bank when perfect → next. Never accept \"fine\". Money: $3 fal cap\n(USD_CAP) gates renders — when it hits, ask Mohamed to raise it.\n**RENDER ",
   "recovery_point_tail": "D to\nnull (worn from the session) → kept originals (4/5, no regression). HUMAIN needs REST (drifts under sustained\nload). 9/9 stays solid + HUMAIN-passed. Polish (4/5→5/5) is non-urgent + HUMAIN-limited — resumes as HUMAIN\nrecovers (longer gaps). AWAIT Mohamed's next-phase: polish-rest-of-set / P2 full-batches / P3 dev-handoff / myfitness-products.\n\n## 🎨 PHOTO-FIX ARC (June 29 ~22:00) — Mohamed killed 5 posts = GENERIC photos → art-director wired + per-brand signature\nAfter 9/9: post-by-post polish DONE (post1 hook-upgraded, 8 kept). C238 minds-read-voice+pains PROVEN (A/B). C239/b\nHUMAIN drift ROOT-FIXED (proactive page-recycle every 12 calls in humain_lock, proven live). Then Mohamed JUDGED the\nportal posts: APPROVED 3 (jurisha جريش-G03, albaik بيكيز-R05, albaik كرسبي-U01), KILLED 5 (albaik سوبر-رول + كومبو-بيك,\njurisha باشميل + تمن + سليق). Kill reason = photos GENERIC/STOCK. ROOT (3-chairs): art_director produced a deliberate\nbrief but it never reached the fal prompt (to_converter_args dropped it to chain+scene; openclaw built chain-mechanically)\n= severed wire (Rule #6). FIXES bosh'd: C240 = wire the AD brief into the render (produce_complete_post persists brief +\n--brief; render_openclaw appends [ART DIRECTION] block, fail-closed). C241 = PER-BRAND craft signature (each brand's own\nvisual_dna.capture_character + a fixed hero-focus move; NOT one fixed chiaroscuro — that was wrong-tone for bright ALBAIK,\nGPT+DeepSeek vision flagged 'noir on a daylight brand'). PROVEN on سوبر رول: generic→bright-glossy distinctive; GPT-vision\n+DeepSeek both SHIP; eatjurisha gets WARM ($0-verified). Spent $2.43/$15 (3 proof renders ~$0.09).\nNEXT: AWAITING Mohamed's GO to render the OTHER 4 killed posts w/ per-brand signatures (~$0.12) → he re-judges. HUMAIN\ndrops during produce runs (caption→weak GPT) so ensure HUMAIN-up first. Gate no_fal_photos=False open. Then full-set\nre-judge → P2 (full batches) / P3 (dev handoff). Loop holds at this gate (Rule #11, no spend without his go).\n",
   "git": {
     "exit": 0,
-    "out": "7b66f1ea mac-sync: mission bus 2026-07-01T13:17:53\ndf8ed911 mac-sync: status snapshot 2026-07-01T13:17:53\n8a4f7834 feat(B239c): schedule lovable_watch via com.ogz.lovable-watch LaunchAgent (daily)\nc6e37110 mac-sync: mission bus 2026-07-01T13:12:48\na2d1188f mac-sync: status snapshot 2026-07-01T13:12:48\nca5e2f42 mac-sync: mission bus 2026-07-01T13:07:43\n57623c87 mac-sync: status snapshot 2026-07-01T13:07:43\nd6b7a4aa mac-sync: mission bus 2026-07-01T13:02:37\nb504d44b mac-sync: status snapshot 2026-07-01T13:02:37\nfda40513 mac-sync: mission bus 2026-07-01T12:57:32\n10bf099b mac-sync: status snapshot 2026-07-01T12:57:32\n0836b4f1 feat: B166 — wire Maps-reviews consumer into audience mirror (Rule #6)\n82e9ad8e mac-sync: mission bus 2026-07-01T12:52:27\nc5badf46 mac-sync: status snapshot 2026-07-01T12:52:27\na935dabd mac-sync: mission bus 2026-07-01T12:47:23\n"
+    "out": "72c34d15 mac-sync: mission bus 2026-07-01T14:13:55\nec33195b mac-sync: status snapshot 2026-07-01T14:13:55\ne1eb6b17 orchestra(B286): self-terminate lever superseded by 5-min cadence — mark blocked, stage decision\n7cd0318a mac-sync: mission bus 2026-07-01T14:08:49\n21483f86 mac-sync: status snapshot 2026-07-01T14:08:49\nf218dd11 mac-sync: mission bus 2026-07-01T14:03:44\n0fdd7405 mac-sync: status snapshot 2026-07-01T14:03:44\n58b455c4 B126h: harden moat gate — negative control must be vision-sourced\nffe1c99c mac-sync: mission bus 2026-07-01T13:58:37\n15efd179 mac-sync: status snapshot 2026-07-01T13:58:37\n719e7257 mac-sync: mission bus 2026-07-01T13:53:32\nc5b8e31f mac-sync: status snapshot 2026-07-01T13:53:32\n6e0f4c16 mac-sync: mission bus 2026-07-01T13:48:26\n1fc0a463 mac-sync: status snapshot 2026-07-01T13:48:26\n7b7d1da7 fix(B127): merge B128 card into canonical A-06, drop dup A-50 (Rule #10)\n"
   },
   "git_branch": {
     "exit": 0,
@@ -58,6 +58,7 @@
     "GITHUB_USERNAME",
     "GOOGLE_AI_STUDIO_KEY",
     "GROQ_API_KEY",
+    "MAC_BRIDGE_TOKEN",
     "META_APP_SECRET",
     "N8N_API_KEY",
     "N8N_BRIEFING_WEBHOOK",
@@ -122,6 +123,7 @@
     "com.ogz.live-feed-digest.plist",
     "com.ogz.live-feed.plist",
     "com.ogz.lovable-watch.plist",
+    "com.ogz.mac-bridge.plist",
     "com.ogz.mac-sync.plist",
     "com.ogz.memory-keeper.plist",
     "com.ogz.orchestra.plist",
@@ -158,13 +160,13 @@
     }
   },
   "backlog_status": {
-    "done": 293,
+    "done": 296,
     "superseded": 3,
-    "todo": 54,
+    "todo": 51,
     "open": 4,
-    "staged": 9,
+    "staged": 8,
     "skipped": 4,
-    "blocked": 1,
+    "blocked": 3,
     "built": 1,
     "mohamed_must": 2,
     "reverted": 1,
@@ -190,16 +192,6 @@
       "id": "B110",
       "what": "Answer the 3 parked cultural rulings",
       "who": "mohamed_must"
-    },
-    {
-      "id": "B126",
-      "what": "Option C: expand the negative-control set",
-      "who": "pair"
-    },
-    {
-      "id": "B127",
-      "what": "A/B/C evidence one-pager",
-      "who": "pair"
     },
     {
       "id": "B128",
@@ -370,6 +362,16 @@
       "id": "B215",
       "what": "Pick winners for all 18 lead-up sets — one client per sitting",
       "who": "mohamed_must"
+    },
+    {
+      "id": "B219",
+      "what": "myfitness v1 spine regen — 10 chunks, 95 slots, all EXPIRED-stamped",
+      "who": "pair"
+    },
+    {
+      "id": "B221",
+      "what": "Rate 5 anchor cards (his eyes are the only judge)",
+      "who": "mohamed_must"
     }
   ],
   "backlog_mohamed_must": [
@@ -539,11 +541,10 @@
     }
   ],
   "missions_pending": [],
-  "missions_running": [
-    "agent-run-now.json",
-    "consult-mirror-proposals-foundation.json"
-  ],
+  "missions_running": [],
   "missions_done": [
+    "agent-run-now.json",
+    "audit-mistakes.json",
     "autonomous-status-report.json",
     "brain-prep-wave-intake-handoff-myfitness.json",
     "brain-readiness-phase-a.json",
@@ -554,12 +555,14 @@
     "cursor-full-onboard.json",
     "cursor-onboarding-brief.json",
     "deep-history-mine.json",
+    "diagnose-executor.json",
     "ecosystem-audit.json",
     "executor-recover-stuck.json",
     "fake-platform-full-test.json",
     "fake-platform-test.json",
     "full-system-discovery.json",
     "handoff-bundle-refresh.json",
+    "mac-bridge-wire-go.json",
     "mac-onboard-mobile-bridge.json",
     "mac-organize-cleanup.json",
     "mac-post-reboot-check.json",
@@ -600,6 +603,8 @@
     "mission-wire-spec-draft.json",
     "mission-wire-verify.json",
     "nightly-brain-readiness.json",
+    "ogz-001.json",
+    "ogz-002.json",
     "orchestra-brain-readiness.json",
     "orchestra-smoke-test.json",
     "overnight-01-health.json",
@@ -615,6 +620,7 @@
     "phase1-cinema-knowledge.json",
     "phase2-creative-tunnel.json",
     "proposals-foundation-go.json",
+    "queue-clear-stuck-running.json",
     "restart-executor.json",
     "sector-coverage-test.json",
     "sector-fake-clients-all-waves.json",

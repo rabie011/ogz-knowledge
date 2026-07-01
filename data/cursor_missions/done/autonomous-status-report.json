@@ -1,6 +1,6 @@
 {
   "id": "autonomous-status-report",
-  "generated": "2026-07-01T13:58:52Z",
+  "generated": "2026-07-01T14:03:52Z",
   "role": "run-until-mohamed-texts",
   "daemons": "53401\t0\tcom.ogz.brain-api",
   "brain": {
@@ -33,6 +33,8 @@
   },
   "pending_missions": [],
   "recent_done_missions": [
+    "ogz-002",
+    "ogz-001",
     "autonomous-status-report",
     "queue-clear-stuck-running",
     "agent-run-now",
@@ -45,42 +47,25 @@
     "wave-health-2026-07-01",
     "handoff-bundle-refresh",
     "fake-platform-test",
-    "sector-coverage-test",
-    "sector-fake-clients-seed",
-    "consult-mirror-proposals-foundation"
+    "sector-coverage-test"
   ],
   "backlog_status": {
-    "done": 295,
+    "done": 296,
     "superseded": 3,
-    "todo": 53,
+    "todo": 52,
     "open": 4,
     "staged": 8,
     "skipped": 4,
-    "blocked": 1,
+    "blocked": 2,
     "built": 1,
     "mohamed_must": 2,
     "reverted": 1,
     "in_progress": 1
   },
-  "git": "ffe1c99c mac-sync: mission bus 2026-07-01T13:58:37\n15efd179 mac-sync: status snapshot 2026-07-01T13:58:37\n719e7257 mac-sync: mission bus 2026-07-01T13:53:32",
+  "git": "f218dd11 mac-sync: mission bus 2026-07-01T14:03:44\n0fdd7405 mac-sync: status snapshot 2026-07-01T14:03:44\n58b455c4 B126h: harden moat gate — negative control must be vision-sourced",
   "git_dirty": "## weiblocks-export...origin/weiblocks-export\n M clients/albaik/derived/rival_corpus.json\n M clients/eatjurisha/derived/rival_corpus.json\n M clients/fake_beauty/profile/.synthetic_fixture.json\n M clients/fake_beauty/profile/audience_mirror.json",
   "studios_web_local": null,
   "heartbeats_last_8": [
-    {
-      "ts": "2026-07-01T13:18:47Z",
-      "health": {
-        "ok": true,
-        "body": {
-          "ok": true,
-          "humain": false,
-          "queue_depth": 0,
-          "auth_required": true
-        }
-      },
-      "executor_live": false,
-      "pending": 0,
-      "orchestra": true
-    },
     {
       "ts": "2026-07-01T13:23:47Z",
       "health": {
@@ -173,6 +158,21 @@
     },
     {
       "ts": "2026-07-01T13:53:52Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": false,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "executor_live": false,
+      "pending": 0,
+      "orchestra": true
+    },
+    {
+      "ts": "2026-07-01T13:58:52Z",
       "health": {
         "ok": true,
         "body": {

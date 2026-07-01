@@ -32,6 +32,7 @@ ROOT = Path(__file__).resolve().parents[2]
 OBS = ROOT / "11_who_to_learn_from" / "observations"
 ACC = ROOT / "11_who_to_learn_from" / "accounts"
 OUT = ROOT / "exports" / "weiblocks_v1"
+ENRICH = ROOT / "data" / "weiblocks_enrichment" / "shortcode_enrichment.jsonl"
 DATE_ADDED = "2026-07-01"
 # full slug map (observations use granular slugs). Anything NOT here — fashion, healthcare_wellness,
 # real_estate (unshipped/held) — retags to Other, flagged provisional (panel-ruled: real market
@@ -40,6 +41,19 @@ SECTOR_MAP = {"f_and_b": "F&B", "beauty_personal_care": "Beauty_Wellness", "beau
               "retail_lifestyle": "Retail", "retail": "Retail"}
 SECTOR_ABBR = {"f_and_b": "FB", "beauty": "BEAUTY", "retail": "RETAIL"}
 _ANON_RE = re.compile(r"^OGZ-.+-Reference-\d+$")
+
+
+def load_enrichment():
+    """shortCode -> RAW-LAYER truth re-extracted from _raw_archive (reextract_raw.py, DeepSeek-ruled
+    b79a9974): real likesCount/commentsCount, real hashtags[], deterministically keyword-detected
+    occasions, giveaway flag. The extracted-obs layer missed these; the raw layer carries them."""
+    m = {}
+    if ENRICH.exists():
+        for line in open(ENRICH, encoding="utf-8"):
+            if line.strip():
+                r = json.loads(line)
+                m[r["shortCode"]] = r
+    return m
 
 
 def load_handle_map():
@@ -162,6 +176,7 @@ def spread_captions(rows):
 
 def build():
     handle_map = load_handle_map()
+    enrich = load_enrichment()
     brands = {}  # ANON brand_code -> aggregation buckets
     for fp in sorted(glob.glob(str(OBS / "*" / "*.json"))):
         d = json.load(open(fp, encoding="utf-8"))
@@ -175,7 +190,19 @@ def build():
             "phrases": Counter(), "dialects": Counter(), "palette": Counter(), "composition": Counter(),
             "lighting": Counter(), "pillars": Counter(), "engagement": Counter(), "emoji": [], "caps": [],
             "raw_handles": set(),
+            "raw_likes": [], "raw_hashtags": Counter(), "occ_detected": Counter(), "raw_joined": 0,
         })
+        # ── RAW-LAYER JOIN (shortCode) — real engagement + detected occasions + real hashtags ──
+        _sc = ((d.get("content_ref") or {}).get("filename") or "").rsplit(".", 1)[0]
+        _er = enrich.get(_sc)
+        if _er:
+            b["raw_joined"] += 1
+            if _er.get("likesCount") is not None and not _er.get("is_giveaway"):
+                b["raw_likes"].append(_er["likesCount"])   # giveaways excluded: they inflate avg_likes
+            for _h in (_er.get("hashtags") or []):
+                b["raw_hashtags"]["#" + _h.lstrip("#")] += 1
+            for _k in (_er.get("occasions_detected") or []):
+                b["occ_detected"][_k] += 1
         if not _ANON_RE.match(raw):
             b["raw_handles"].add(raw)
         vo = d.get("voice_observations") or {}
@@ -228,6 +255,14 @@ def build():
         phrases = [scrub_mentions(scrub(p, rh)) for p in _top(b["phrases"], TOP_PHRASES)]
         # occasion keys via THE shared module: resolved spec keys only; unresolved originals -> extra
         occ_keys, occ_unresolved = occ_normalize_list(sorted(b["occasions"]))
+        # RAW-RECOVERED occasions (deterministic keyword detection over raw captions) union in;
+        # detector bank keys ARE spec occasion_keys. Recovered-only keys reported in extra.
+        occ_recovered = sorted(set(b["occ_detected"]) - set(occ_keys))
+        occ_keys = sorted(set(occ_keys) | set(b["occ_detected"]))
+        # REAL engagement from the raw layer: mean likes over non-giveaway numeric posts; verified
+        # becomes TRUE only with a real sample (>=5 posts) — DeepSeek-ruled b79a9974.
+        _likes = b["raw_likes"]
+        _has_real = len(_likes) >= 5
         records.append({
             "id": f"bobs_{bc}",
             "entity": "brand_observation",
@@ -245,11 +280,12 @@ def build():
                 "lighting": _dom(b["lighting"]),
             },
             "performance": {
-                "metrics_source": "qualitative_inference",
-                "avg_likes": None,               # NO numeric engagement in source — honest null
+                "metrics_source": "apify_scrape" if _has_real else "qualitative_inference",
+                "avg_likes": (round(sum(_likes) / len(_likes)) if _has_real else None),
                 "best_content_types": _top(b["pillars"], 3),
-                "verified": False,
+                "verified": _has_real,           # TRUE only when backed by >=5 real scraped like-counts
                 "qualitative_engagement": _dom(b["engagement"]),
+                "engagement_sample_size": (len(_likes) if _has_real else None),
             },
             "occasions_seen": occ_keys,              # spec occasion_key values only (joins resolve)
             "example_captions": ex_caps,
@@ -268,6 +304,9 @@ def build():
                 "occasion_distribution": dict(b["occasions"]),   # full raw token distribution
                 "occasions_unresolved": occ_unresolved,          # raw tokens that map to no shipped occasion_key
                 "performed_basis": "engagement_potential_inference",  # 'performed' = qualitative inference, NOT a measured metric
+                "raw_posts_joined": b["raw_joined"],             # raw-archive posts joined by shortCode
+                "occasions_recovered_from_raw": occ_recovered,   # keys the old extraction missed entirely
+                "top_hashtags": [h for h, _ in sorted(b["raw_hashtags"].items(), key=lambda kv: (-kv[1], kv[0]))[:8]],
                 "observation_ulids": b["ulids"],                 # drill-down (also feeds reference_account)
                 # PRIVACY: source_url, real handle, filename, capture_date DELIBERATELY EXCLUDED.
             },

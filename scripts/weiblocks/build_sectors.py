@@ -22,10 +22,12 @@ import yaml
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from occasion_keys import normalize as normalize_occasion, SHIPPED_KEYS  # THE shared join module — never a local map
 
-ROOT = "/Users/abarihm/Desktop/ogz-knowledge"
-LOGS = os.path.join(ROOT, "logs")
-SECDEF = os.path.join(ROOT, "05_sector_defaults")
-OUT_DIR = os.path.join(ROOT, "exports", "weiblocks_v1")
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]  # repo/worktree root — NEVER hardcode (reproducibility)
+LOGS = os.path.join(str(ROOT), "logs")
+SECDEF = os.path.join(str(ROOT), "05_sector_defaults")
+OUT_DIR = os.path.join(str(ROOT), "exports", "weiblocks_v1")
 OUT_FILE = os.path.join(OUT_DIR, "sectors.json")
 DATE = "2026-07-01"
 
@@ -241,14 +243,20 @@ def derive_caption_conventions(slug):
         ],
     }
 
-    # common_hashtags_ar: the corpus has NO hashtag-text field; the closest real Arabic
-    # tokens are occasion_keyword_clusters (real counted keywords). We surface those as
-    # hashtag-able Arabic tokens, honestly labeled (they are keywords, not scraped '#tags').
-    clusters = ARABIC["per_sector_analysis"][slug].get("occasion_keyword_clusters", {})
+    # common_hashtags_ar: REAL scraped hashtags from the raw-archive re-extraction
+    # (data/weiblocks_enrichment/REEXTRACT_REPORT.json — actual '#tags' with counts,
+    # hashtag_source='apify_scrape'). Falls back to occasion_keyword_clusters (real counted
+    # keywords, NOT scraped tags) with hashtag_source='keyword_cluster' when the raw layer
+    # has none for this sector — the source is always declared per entry.
     common_hashtags_ar = []
-    for occ, kws in clusters.items():
-        for kw in kws[:2]:
-            common_hashtags_ar.append({"tag": kw["keyword"], "occasion": occ, "count": kw["count"]})
+    for e in _real_hashtags(slug):
+        common_hashtags_ar.append({"tag": e["tag"], "count": e["count"], "hashtag_source": "apify_scrape"})
+    if not common_hashtags_ar:
+        clusters = ARABIC["per_sector_analysis"][slug].get("occasion_keyword_clusters", {})
+        for occ, kws in clusters.items():
+            for kw in kws[:2]:
+                common_hashtags_ar.append({"tag": kw["keyword"], "occasion": occ, "count": kw["count"],
+                                           "hashtag_source": "keyword_cluster"})
 
     agency = CAPTION.get("agency_rules_by_sector", {}).get(slug, [])
 
@@ -259,6 +267,27 @@ def derive_caption_conventions(slug):
         "common_hashtags_ar": common_hashtags_ar,
         "_agency_rules": agency,
     }
+
+
+_REEXTRACT = ROOT / "data" / "weiblocks_enrichment" / "REEXTRACT_REPORT.json"
+# raw-report sector slugs -> our source slugs (the report keys by obs_sector)
+_RAW_SECTOR_FOR = {"f_and_b": ["f_and_b"], "beauty_personal_care": ["beauty_personal_care"],
+                   "retail_lifestyle": ["retail_lifestyle", "fashion"]}
+
+
+def _real_hashtags(slug, top=10):
+    """REAL scraped hashtags for a sector from the raw-archive re-extraction report.
+    retail_lifestyle also absorbs 'fashion' (same fold as brand_observations). [] when absent."""
+    try:
+        rep = json.load(open(_REEXTRACT, encoding="utf-8"))["sector_real_hashtags_top12"]
+    except Exception:
+        return []
+    merged = {}
+    for raw in _RAW_SECTOR_FOR.get(slug, [slug]):
+        for e in rep.get(raw, []):
+            merged[e["tag"]] = merged.get(e["tag"], 0) + e["count"]
+    return [{"tag": t_, "count": c} for t_, c in
+            sorted(merged.items(), key=lambda kv: (-kv[1], kv[0]))[:top]]
 
 
 def derive_occasions(occ_list):

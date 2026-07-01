@@ -20,7 +20,7 @@ import json
 import sys
 from pathlib import Path
 
-OUT_DIR = Path("/Users/abarihm/Desktop/ogz-knowledge/exports/weiblocks_v1")
+OUT_DIR = Path(__file__).resolve().parents[2] / "exports" / "weiblocks_v1"
 MANIFEST = OUT_DIR / "MANIFEST.json"
 EXPORTED_AT = "2026-07-01"  # stamped, deterministic (not now())
 
@@ -66,9 +66,10 @@ KNOWN_GAPS = [
     "(exact): all @-handles — the brand's own AND third parties' — are replaced with [mention] in "
     "example_captions and recurring_phrases_ar; brand names may still appear as ordinary words "
     "inside verbatim caption text — that is the content itself, not an identifier leak.",
-    "brand_observation.performance.avg_likes is null for EVERY record — the corpus has no numeric "
-    "engagement; performance.qualitative_engagement (low/medium/high) carries the only signal and "
-    "verified=false, metrics_source='qualitative_inference'.",
+    "ENGAGEMENT UPGRADED FROM THE RAW LAYER (reextract_raw.py over 11_who_to_learn_from/_raw_archive, "
+    "5,834 raw Apify posts): 40/45 brand_observations now carry REAL avg_likes (mean of >=5 non-giveaway "
+    "scraped like-counts; giveaways excluded — they inflate averages) with metrics_source='apify_scrape' "
+    "and verified=true + engagement_sample_size; the remaining 5 keep the honest null/qualitative shape.",
     "reference_account.trust: 63 verified / 47 unverified (46 dead IG handles from xlsx prefix-"
     "mangling + 1 unmatched). Engine must filter trust=verified before using the fallback pool.",
     "international brands present in brand_observations (e.g. global retail/fragrance active in the "
@@ -83,8 +84,10 @@ KNOWN_GAPS = [
     "tones.approval_rate is a PREVALENCE proxy, not a measured approval rate.",
     "sector content_mix_default (product/lifestyle/occasion/brand_story/founder) is fully "
     "INFERRED — no observed content-mix split exists anywhere in the sources.",
-    "common_hashtags_ar are occasion KEYWORDS (occasion_keyword_clusters), not scraped "
-    "'#hashtag' tokens — the corpus has no hashtag text field.",
+    "common_hashtags_ar are REAL scraped '#hashtags' from the raw archive for the 3 observed sectors "
+    "(hashtag_source='apify_scrape' per entry); keyword_cluster entries only as a declared fallback. "
+    "Occasion recovery from raw captions reconnected mothers_day (9 brands) and esports_world_cup (2); "
+    "soundstorm + singles_day remain honestly zero-evidence (0 posts in 5,834 raw captions).",
     "visual_pattern record count is 127 (all real chain files: INDEX.json total_chains=127), "
     "not the '88 canonical' figure — flagged, not silently trimmed.",
 ]

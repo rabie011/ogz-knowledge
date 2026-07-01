@@ -30,7 +30,11 @@ OBS = ROOT / "11_who_to_learn_from" / "observations"
 ACC = ROOT / "11_who_to_learn_from" / "accounts"
 OUT = ROOT / "exports" / "weiblocks_v1"
 DATE_ADDED = "2026-07-01"
-SECTOR_MAP = {"f_and_b": "F&B", "beauty": "Beauty_Wellness", "retail": "Retail"}
+# full slug map (observations use granular slugs). Anything NOT here — fashion, healthcare_wellness,
+# real_estate (unshipped/held) — retags to Other, flagged provisional (panel-ruled: real market
+# observations, kept but not pretending to be a baselined sector).
+SECTOR_MAP = {"f_and_b": "F&B", "beauty_personal_care": "Beauty_Wellness", "beauty": "Beauty_Wellness",
+              "retail_lifestyle": "Retail", "retail": "Retail"}
 SECTOR_ABBR = {"f_and_b": "FB", "beauty": "BEAUTY", "retail": "RETAIL"}
 _ANON_RE = re.compile(r"^OGZ-.+-Reference-\d+$")
 
@@ -39,7 +43,7 @@ def load_handle_map():
     """real IG handle -> existing anon code (from the 110 account records). Covers ~15 of the
     45 real-handle observation brands; the rest get a deterministic hash code."""
     m = {}
-    for f in glob.glob(str(ACC / "*" / "account_*.json")):
+    for f in sorted(glob.glob(str(ACC / "*" / "account_*.json"))):
         d = json.load(open(f, encoding="utf-8"))
         hi, an = d.get("account_handle_internal"), d.get("account_handle_normalized")
         if hi and an:
@@ -77,7 +81,16 @@ TOP_PHRASES = 5
 
 
 def _top(counter, n, min_len=0):
-    return [k for k, _ in counter.most_common() if k and len(str(k)) >= min_len][:n]
+    # deterministic tie-break: count desc, then key asc (ties never depend on insertion order)
+    ranked = sorted(counter.items(), key=lambda kv: (-kv[1], str(kv[0])))
+    return [k for k, _ in ranked if k and len(str(k)) >= min_len][:n]
+
+
+def _dom(counter):
+    """deterministic single most-common (count desc, key asc). None if empty."""
+    if not counter:
+        return None
+    return sorted(counter.items(), key=lambda kv: (-kv[1], str(kv[0])))[0][0]
 
 
 def spread_captions(rows):
@@ -102,7 +115,7 @@ def spread_captions(rows):
 def build():
     handle_map = load_handle_map()
     brands = {}  # ANON brand_code -> aggregation buckets
-    for fp in glob.glob(str(OBS / "*" / "*.json")):
+    for fp in sorted(glob.glob(str(OBS / "*" / "*.json"))):
         d = json.load(open(fp, encoding="utf-8"))
         raw = d.get("account_handle_normalized")
         if not raw:
@@ -148,11 +161,13 @@ def build():
     for bc, b in sorted(brands.items()):
         n = len(b["ulids"])
         brand_ulids[bc] = b["ulids"]
-        dom_dialect_raw = b["dialects"].most_common(1)[0][0] if b["dialects"] else None
+        dom_dialect_raw = _dom(b["dialects"])
         dialect = DIALECT_FOLD.get(dom_dialect_raw)  # None => held (mixed/saudi/other)
         emoji_ratio = (sum(b["emoji"]) / len(b["emoji"])) if b["emoji"] else 0
         emoji = "frequent" if emoji_ratio > 0.6 else ("moderate" if emoji_ratio > 0.2 else "sparing")
         rh = b["raw_handles"]
+        sk = SECTOR_MAP.get(b["sector"], "Other")   # unshipped/held raw slug -> Other (graph stays consistent)
+        provisional = sk == "Other"                 # True = observed brand, sector not baselined
         ex_caps = spread_captions(b["caps"])
         for c in ex_caps:
             c["text_ar"] = scrub(c["text_ar"], rh)   # residual-leak guard: strip own handle from captions
@@ -161,7 +176,7 @@ def build():
             "id": f"bobs_{bc}",
             "entity": "brand_observation",
             "brand_code": bc,
-            "sector_key": SECTOR_MAP.get(b["sector"], b["sector"]),
+            "sector_key": sk,
             "dialect": dialect,
             "voice_signals": {
                 "tone": _top(b["tones"], 3),
@@ -171,14 +186,14 @@ def build():
             "visual_signals": {
                 "palette": _top(b["palette"], 6),
                 "composition": _top(b["composition"], 4),
-                "lighting": (b["lighting"].most_common(1)[0][0] if b["lighting"] else None),
+                "lighting": _dom(b["lighting"]),
             },
             "performance": {
                 "metrics_source": "qualitative_inference",
                 "avg_likes": None,               # NO numeric engagement in source — honest null
                 "best_content_types": _top(b["pillars"], 3),
                 "verified": False,
-                "qualitative_engagement": (b["engagement"].most_common(1)[0][0] if b["engagement"] else None),
+                "qualitative_engagement": _dom(b["engagement"]),
             },
             "occasions_seen": sorted(b["occasions"]),
             "example_captions": ex_caps,
@@ -187,10 +202,11 @@ def build():
                 "confidence": "inferred",           # claude_code_extraction, not human/metric-verified
                 "observed_count": n,                # REAL count of observations aggregated (honest)
                 "date_added": DATE_ADDED,
-                "scope": f"sector:{SECTOR_MAP.get(b['sector'], b['sector'])}+brand:{bc}",
+                "scope": f"sector:{sk}+brand:{bc}",
             },
             "extra": {
                 "source_label": b["sector"],
+                "provisional_sector": provisional,  # True => raw sector not shipped, retagged Other
                 "dialect_source": dom_dialect_raw,               # original before fold
                 "dialect_distribution": dict(b["dialects"]),
                 "occasion_distribution": dict(b["occasions"]),

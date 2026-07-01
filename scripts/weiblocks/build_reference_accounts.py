@@ -35,6 +35,17 @@ def load_trust():
     return m
 
 
+def _norm_conf(c):
+    """map source confidence vocab (BrandDNA ladder: confirmed/high/medium/low) -> spec enum
+    {verified, inferred, experimental}. validate_export caught 2 accounts carrying 'confirmed'."""
+    c = (c or "").strip().lower()
+    if c in ("confirmed", "verified", "high"):
+        return "verified"
+    if c in ("inferred", "medium"):
+        return "inferred"
+    return "experimental"
+
+
 def build():
     trust_map = load_trust()
     records = []
@@ -57,7 +68,7 @@ def build():
             "trust": trust,
             "provenance": {
                 "source": "manual_curation",  # xlsx benchmark corpus (confirmer: Mohamed)
-                "confidence": (d.get("provenance") or {}).get("confidence", "experimental"),
+                "confidence": _norm_conf((d.get("provenance") or {}).get("confidence")),
                 "observed_count": None,
                 "date_added": DATE_ADDED,
                 "scope": f"sector:{SECTOR_MAP.get(sector, sector)}+brand:{brand_code}",

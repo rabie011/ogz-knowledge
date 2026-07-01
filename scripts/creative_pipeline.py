@@ -33,21 +33,87 @@ def _load_env():
 _load_env()
 
 
+# --- Thin-Brain v4.2 key map (B057c fork ruled A=REWIRE, 2026-06-22) ---
+# The v3.0 slim (commit f80d27e4) dropped sector_playbooks / occasion_rules /
+# universal_rules / emotion_rules / campaign_arcs. This reader used to .get()
+# those dead keys → silently empty → generic fallback (Rule #6 severed wire,
+# flagged by intel_consumer_health). It now sources the SAME fields consumers
+# expect from the LIVE keys: sector_facts, occasion_calendar, visual_intelligence,
+# and logs/pattern_engagement_evidence.json.
+PATTERN_EVIDENCE = BASE / "logs" / "pattern_engagement_evidence.json"
+_SECTOR_ALIAS = {
+    "food": "f_and_b", "f&b": "f_and_b", "fnb": "f_and_b", "f_and_b": "f_and_b",
+    "restaurant": "f_and_b", "cafe": "f_and_b", "beverage": "f_and_b",
+    "retail": "retail_lifestyle", "retail_lifestyle": "retail_lifestyle",
+    "fashion": "fashion", "beauty": "beauty_personal_care",
+    "beauty_personal_care": "beauty_personal_care",
+    "fitness": "healthcare_wellness", "wellness": "healthcare_wellness",
+    "healthcare": "healthcare_wellness", "healthcare_wellness": "healthcare_wellness",
+    "real_estate": "real_estate", "realestate": "real_estate",
+}
+
+
+def _norm_sector(sector):
+    s = (sector or "").lower().strip()
+    return _SECTOR_ALIAS.get(s, s)
+
+
 def load_intelligence(sector, occasion):
-    """Load intelligence for this sector + occasion."""
+    """Load intelligence for this sector + occasion (Thin-Brain v4.2 live keys)."""
     intel = json.loads(INTEL.read_text())
-    pb = intel.get("sector_playbooks", {}).get(sector, {})
-    occ_rules = {r["occasion"]: r for r in intel.get("occasion_rules", [])}
+    sec = _norm_sector(sector)
+
+    # must_use ← real per-sector engagement patterns (high-engagement share %).
+    # Require MIN_PATTERN_N observations so n=1 flukes at 100% don't outrank the
+    # true signal (Rule #9 — a high_share_pct on a tiny sample is noise, not fact).
+    MIN_PATTERN_N = 30
+    must_use = []
+    if PATTERN_EVIDENCE.exists():
+        pe = json.loads(PATTERN_EVIDENCE.read_text())
+        rows = []
+        for name, rec in pe.items():
+            if name.startswith("_") or not isinstance(rec, dict):
+                continue
+            bys = (rec.get("by_sector") or {}).get(sec)
+            if bys and bys.get("high_share_pct") and (bys.get("n") or 0) >= MIN_PATTERN_N:
+                rows.append({"pattern": name, "engagement": bys["high_share_pct"], "n": bys["n"]})
+        rows.sort(key=lambda r: r["engagement"], reverse=True)
+        must_use = rows[:5]
+
+    # visual_dna ← visual_intelligence winning-visual entries (real GPT-4o vision)
+    vi = intel.get("visual_intelligence", {})
+    top_share = must_use[0]["engagement"] if must_use else 0
+    visual_dna = []
+    for _k, v in vi.items():
+        if isinstance(v, dict) and (v.get("lighting") or v.get("setting")):
+            visual_dna.append({
+                "lighting": v.get("lighting", "natural"),
+                "setting": v.get("setting", "studio"),
+                "high_pct": top_share,
+            })
+    visual_dna = visual_dna[:3]
+
+    # never_use ← cultural guardrails (forbidden props / behaviors / visuals)
+    cg = intel.get("cultural_guardrails", {})
+    never_use = []
+    for fk in ("forbidden_props", "forbidden_behaviors", "forbidden_visuals", "forbidden_gestures"):
+        never_use.extend(cg.get(fk, []) or [])
+    never_use = never_use[:5]
+
+    # obs_count ← real sector observation count
+    obs_count = (intel.get("sector_facts", {}).get(sec, {}) or {}).get("obs_count", 0)
+
+    aq = intel.get("arabic_quality_rules")
     return {
-        "must_use": pb.get("must_use", [])[:5],
-        "never_use": pb.get("never_use", [])[:5],
-        "visual_dna": pb.get("visual_dna", [])[:3],
-        "winning_formulas": pb.get("winning_formulas", [])[:3],
-        "universal": intel.get("universal_rules", [])[:3],
-        "occasion": occ_rules.get(occasion, {}),
-        "emotion": intel.get("emotion_rules", {}).get(sector, [{}])[0] if intel.get("emotion_rules", {}).get(sector) else {},
-        "campaign_arc": intel.get("campaign_arcs", {}).get(occasion, {}),
-        "obs_count": pb.get("obs_count", 0),
+        "must_use": must_use,
+        "never_use": never_use,
+        "visual_dna": visual_dna,
+        "winning_formulas": [],   # v3.0 dropped; no live equivalent (honest empty)
+        "universal": aq[:3] if isinstance(aq, list) else [],
+        "occasion": intel.get("occasion_calendar", {}).get(occasion, {}),
+        "emotion": {},            # v3.0 dropped; no live equivalent
+        "campaign_arc": {},       # v3.0 dropped; no live equivalent
+        "obs_count": obs_count,
     }
 
 

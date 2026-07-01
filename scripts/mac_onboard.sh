@@ -20,7 +20,7 @@ echo "ROOT=$ROOT"
 mkdir -p "$LOGS" "$LA"
 
 # 1) Dev environment
-chmod +x "$ROOT/scripts/setup_dev_env.sh" "$ROOT/scripts/mac_sync.py"
+chmod +x "$ROOT/scripts/setup_dev_env.sh" "$ROOT/scripts/mac_sync.py" "$ROOT/scripts/mac_ensure_control.sh"
 "$ROOT/scripts/setup_dev_env.sh"
 
 # 2) Git reconcile (cloud agent may have pushed missions)

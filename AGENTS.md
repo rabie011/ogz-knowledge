@@ -20,9 +20,10 @@
 
 ## Control surface (Mohamed)
 
-- **Primary:** Cursor chat (mobile + Mac)
+- **Primary:** Cursor chat (mobile + Mac) — **only place you give commands**
+- **Permanent model:** [docs/CURSOR_ONLY.md](docs/CURSOR_ONLY.md)
 - **Status:** ask `status` → read `data/unified_status.txt` (Mac pushes via `mac_sync`)
-- **Mac setup:** one command — `./scripts/mac_onboard.sh` (see [docs/MOBILE_CONTROL.md](docs/MOBILE_CONTROL.md))
+- **Mac repair:** `./scripts/mac_ensure_control.sh` (after reboot)
 - **Mac debug:** http://localhost:4141 (not mobile)
 - **Portal:** taste pairs only
 - **Telegram:** parked — optional DS side chat, not commands

@@ -89,8 +89,19 @@ def _git_pull() -> dict:
     return {"ok": rc_f == 0 and rc == 0, "detail": detail, "branch": branch}
 
 
+def _ensure_control_if_needed(launchagents: dict[str, str]) -> None:
+    if platform.system() != "Darwin":
+        return
+    labels = ("com.ogz.brain-api", "com.ogz.mac-sync", "com.ogz.executor")
+    if any(launchagents.get(lb) == "unloaded" for lb in labels):
+        _run(["bash", str(ROOT / "scripts/mac_ensure_control.sh"), "--quiet"])
+
+
 def refresh_status() -> dict:
     MAC_STATUS.mkdir(parents=True, exist_ok=True)
+    agents = _launchctl_summary()
+    _ensure_control_if_needed(agents)
+    agents = _launchctl_summary()
     rc_status, _ = _run([PYTHON, str(ROOT / "scripts/unified_status.py"), "--plain"])
     rc_val, val_out = _run([PYTHON, str(ROOT / "scripts/validate_stack.py")])
 

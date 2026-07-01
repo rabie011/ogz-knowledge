@@ -26,6 +26,8 @@ You are the **OGZ cloud conductor** in repo `rabie011/ogz-knowledge`. Mohamed (O
 
 ## What happened (2026-07-01)
 
+- **OGZ Live Truth shipped to `main`** — one file: `data/ogz_live.txt` / `.json`. Cloud `status` reads this only. See `docs/OGZ_LIVE.md`.
+- **Finish line for you:** read `data/cursor_missions/artifacts/CLOUD_FINISH_NOW.md` — wait for Mac push, then confirm `healthy=true`.
 - **Mac Bridge** built — `:4150` (`scripts/mac_bridge.py`, `com.ogz.mac-bridge`). Full diagnostics → `artifacts/mac_diagnostic_latest.json` on each sync. Keys reported as set/missing only.
 - **Tailscale wired** — `:4140` brain, `:4141` feed, `:4150` bridge on `abarihms-mac-mini.tail174530.ts.net`. Endpoint: `data/mac_status/remote_endpoint.json`.
 - **Wire scripts** shipped — `wire_test.py`, `wire_publish_handoff.py`. Status: `artifacts/WIRE_STATUS.json`.

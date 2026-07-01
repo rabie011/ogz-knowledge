@@ -143,14 +143,82 @@ def register_crop(handle, crop_path, product_en, src=""):
     return key
 
 
+def is_clean_ref(v):
+    """A media_class entry usable AS-IS as a flux-edit reference: a product/packaging shot with NO
+    person (a registered crop qualifies — the person was cropped out). Mirrors pick_reference's
+    `clean` filter + classify_media's `usable` list so all three agree on what a clean ref is."""
+    return bool(v.get("usable_as_product_reference")) and not v.get("has_person") \
+        and not v.get("is_royal_or_public_figure")
+
+
+def select_crop_candidates(cache):
+    """PURE selection (zero spend, fully testable — like crop_to_bbox): given a brand's media_class
+    dict, return the lifestyle-image keys whose product should be cropped OUT for the render ref.
+
+    The lifestyle path is a FALLBACK: only fires when the brand has NO clean product ref at all (a
+    jewelry/fashion/beauty brand that posts model shots, not clean product photos — the whole reason
+    C245 exists). A candidate is a person shot where the person is INCIDENTAL (a product is the point,
+    the person just wears/holds it) and is NOT a royal/public figure — safe to crop the product away.
+    Portraits/models/royals (person_role='subject') are NEVER cropped. Already-registered crops
+    (kind='product_crop' / source='crop') count as clean refs, so a second run selects nothing —
+    the idempotency guard (Rule #6: the writer must not duplicate on re-run)."""
+    if any(is_clean_ref(v) for v in cache.values()):
+        return []
+    return [k for k, v in cache.items()
+            if v.get("has_person")
+            and v.get("person_role") == "incidental"
+            and not v.get("is_royal_or_public_figure")
+            and v.get("kind") != "product_crop"
+            and v.get("source") != "crop"]
+
+
+def harvest_crops(handle, key, cache=None, cropper=crop_product, limit=5):
+    """CONSUMER WIRE (Rule #6): the batch that makes the lifestyle-render path actually fire in the
+    pipeline. classify_media tags media but never crops — so a brand with only model shots reached
+    pick_reference → None → render BLOCKED (render_openclaw.py:72). This composes the pure selector
+    with the vision cropper + register_crop so each incidental-product shot becomes a safe clean ref.
+
+    `cropper` is injected (default crop_product = gpt-4o vision + PIL) so the batch logic is testable
+    with a fake cropper at zero spend. A failed vision call on one image must NOT abort the batch
+    (Rule #8 bites per-image, not for the whole brand). Returns the list of registered crop keys."""
+    mc = B / "clients" / handle / "profile" / "media_class.json"
+    if cache is None:
+        cache = json.loads(mc.read_text()) if mc.exists() else {}
+    registered = []
+    for k in select_crop_candidates(cache)[:limit]:
+        src = Path(k) if Path(k).is_absolute() else B / k
+        out = B / "clients" / handle / "profile" / "crops" / (Path(k).stem + "_crop.jpg")
+        try:
+            res = cropper(src, key, out)
+        except Exception as e:
+            print(f"  — crop skipped for {Path(k).name}: {str(e)[:80]}")
+            continue
+        if not res.get("found"):
+            continue
+        reg = register_crop(handle, res["crop"], res.get("product_en", ""), src=str(src))
+        registered.append(reg)
+        print(f"  ✂️  cropped {res.get('product_en','')!r} → {reg}")
+    return registered
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--handle", required=True)
-    ap.add_argument("--image", required=True, help="path (abs or repo-relative) to a lifestyle image")
+    ap.add_argument("--image", help="path (abs or repo-relative) to ONE lifestyle image")
+    ap.add_argument("--harvest", action="store_true",
+                    help="batch: crop all incidental-product shots for a brand with no clean ref")
+    ap.add_argument("--limit", type=int, default=5, help="max crops per harvest run")
     a = ap.parse_args()
     key = env("OPENAI_API_KEY")
     if not key:
         raise SystemExit("no OPENAI_API_KEY in ~/.abraham_env")
+    if a.harvest:
+        regs = harvest_crops(a.handle, key, limit=a.limit)
+        print(f"✅ harvested {len(regs)} safe product crop(s) for {a.handle}" if regs
+              else f"— nothing to harvest for {a.handle} (has a clean ref, or no incidental-product shots)")
+        return
+    if not a.image:
+        raise SystemExit("pass --image <path> for one image, or --harvest for the batch")
     src = Path(a.image)
     if not src.is_absolute():
         src = B / a.image

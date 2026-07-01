@@ -152,5 +152,85 @@ class TestPatch3CropRegistration(unittest.TestCase):
         self.assertIsNone(ref)                       # Rule #8 preserved: no wrong-product render
 
 
+class TestPatch4HarvestWire(unittest.TestCase):
+    """C245 patch-4: the pipeline consumer wire (Rule #6). select_crop_candidates is PURE (zero
+    spend, like crop_to_bbox) and harvest_crops composes it with an injectable cropper — so a brand
+    with only model shots gets safe product crops registered, instead of pick_reference → None →
+    render BLOCKED. Proves selection logic, the fallback-only guard, idempotency, and end-to-end
+    register → pick_reference, all with a FAKE cropper (no network)."""
+
+    def setUp(self):
+        self.d = Path(tempfile.mkdtemp())
+        self.handle = "lifestylebrand"
+        (self.d / "clients" / self.handle / "profile").mkdir(parents=True)
+        self._cpB = cp.B
+        cp.B = self.d
+
+    def tearDown(self):
+        cp.B = self._cpB
+
+    def test_selects_only_incidental_product_shots(self):
+        cache = {
+            "a.jpg": {"has_person": True, "person_role": "incidental", "is_royal_or_public_figure": False},
+            "b.jpg": {"has_person": True, "person_role": "subject", "is_royal_or_public_figure": False},  # portrait/model
+            "c.jpg": {"has_person": True, "person_role": "incidental", "is_royal_or_public_figure": True},  # royal
+            "d.jpg": {"has_person": False, "person_role": "none"},  # no person, but not a usable ref
+        }
+        self.assertEqual(cp.select_crop_candidates(cache), ["a.jpg"])
+
+    def test_fallback_only_when_no_clean_ref(self):
+        # a brand that already has a clean product photo needs no crop harvest
+        cache = {
+            "clean.jpg": {"usable_as_product_reference": True, "has_person": False, "is_royal_or_public_figure": False},
+            "model.jpg": {"has_person": True, "person_role": "incidental", "is_royal_or_public_figure": False},
+        }
+        self.assertEqual(cp.select_crop_candidates(cache), [])
+
+    def test_harvest_registers_and_is_idempotent(self):
+        src = self.d / "clients" / self.handle / "media"
+        src.mkdir(parents=True)
+        (src / "model1.jpg").write_bytes(b"x")
+        cache = {"clients/%s/media/model1.jpg" % self.handle:
+                 {"has_person": True, "person_role": "incidental", "is_royal_or_public_figure": False}}
+
+        def fake_cropper(s, key, out):
+            Path(out).parent.mkdir(parents=True, exist_ok=True)
+            Image.new("RGB", (40, 40), (200, 170, 60)).save(out, "JPEG")
+            return {"found": True, "product_en": "gold ring", "crop": str(out)}
+
+        regs = cp.harvest_crops(self.handle, "KEY", cache=cache, cropper=fake_cropper, limit=8)
+        self.assertEqual(len(regs), 1)
+        # the crop is now a clean ref in media_class.json, and pick_reference finds it
+        import openclaw_convert as oc
+        _ocB = oc.B
+        oc.B = self.d
+        try:
+            mc = json.loads((self.d / "clients" / self.handle / "profile" / "media_class.json").read_text())
+            self.assertTrue(any(v.get("source") == "crop" for v in mc.values()))
+            self.assertEqual(oc.pick_reference(self.handle, product="gold ring"), regs[0])
+            # idempotency: re-run over the updated cache selects nothing (crop counts as a clean ref)
+            self.assertEqual(cp.select_crop_candidates(mc), [])
+        finally:
+            oc.B = _ocB
+
+    def test_one_failed_crop_does_not_abort_batch(self):
+        cache = {
+            "clients/%s/media/a.jpg" % self.handle: {"has_person": True, "person_role": "incidental", "is_royal_or_public_figure": False},
+            "clients/%s/media/b.jpg" % self.handle: {"has_person": True, "person_role": "incidental", "is_royal_or_public_figure": False},
+        }
+        calls = {"n": 0}
+
+        def flaky_cropper(s, key, out):
+            calls["n"] += 1
+            if calls["n"] == 1:
+                raise RuntimeError("vision API 500")
+            Path(out).parent.mkdir(parents=True, exist_ok=True)
+            Image.new("RGB", (40, 40), (200, 170, 60)).save(out, "JPEG")
+            return {"found": True, "product_en": "silver cuff", "crop": str(out)}
+
+        regs = cp.harvest_crops(self.handle, "KEY", cache=cache, cropper=flaky_cropper, limit=8)
+        self.assertEqual(len(regs), 1)   # first failed (Rule #8 per-image), second still registered
+
+
 if __name__ == "__main__":
     unittest.main()

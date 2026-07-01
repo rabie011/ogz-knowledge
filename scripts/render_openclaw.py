@@ -71,8 +71,11 @@ def gates(go, allow_unconfirmed, ref, handle=None, product=None):
             from openclaw_convert import pick_reference
             if pick_reference(handle, product, "") is None:
                 reasons.append(f"GATE0b no clean reference photo for '{product}' in {handle} — sample's generic fallback would render the WRONG product; refusing FAL spend")
-        except Exception:
-            pass
+        except Exception as _e:
+            # FAIL-CLOSED (Rule #8, mirrors GATE0 above): a CRASH in the reference check must NOT
+            # silently skip GATE0b and let FAL spend proceed on a generic fallback → wrong-product
+            # render. A broken check refuses; fix it, then re-run. (DeepSeek catch, C245 patch-4.)
+            reasons.append(f"GATE0b reference check crashed ({type(_e).__name__}: {str(_e)[:80]}) — refusing FAL spend")
     if r.get("no_fal_photos"):
         reasons.append("GATE1 no_fal_photos=true — Mohamed's ruling; flip it in rulings_live on his tap")
     if not (env("FAL_KEY") or env("FAL_API_KEY")):

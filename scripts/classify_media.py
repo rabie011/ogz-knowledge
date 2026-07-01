@@ -116,6 +116,15 @@ def main():
           f"→ {out_f.relative_to(B)}")
     for u in usable[:6]:
         print("  ✓ ref:", u)
+    # CONSUMER WIRE (Rule #6, C245): a brand with NO clean product ref (jewelry/fashion/beauty that
+    # posts only model shots) would reach pick_reference → None → render BLOCKED. Fall back to the
+    # lifestyle path: crop the product OUT of incidental-product shots so pick_reference has a SAFE,
+    # person-free ref. Idempotent (a registered crop counts as a clean ref → re-run harvests nothing).
+    if not usable:
+        from crop_product import harvest_crops
+        regs = harvest_crops(a.handle, key, cache=cache, limit=8)
+        print(f"🎨 no clean ref → harvested {len(regs)} safe product crop(s) from lifestyle shots"
+              if regs else "⚠️  no clean ref and no incidental-product shots to crop — render will GAP-REFUSE")
 
 
 if __name__ == "__main__":

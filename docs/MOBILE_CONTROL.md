@@ -21,6 +21,14 @@ Phone asks "status" → agent reads data/unified_status.txt from repo
 
 Cloud agents **cannot** SSH to your Mac. The Mac must **push truth** into the repo.
 
+**You only talk in Cursor.** The Mac runs work automatically:
+
+1. You say **go** → cloud agent queues `data/cursor_missions/pending/*.json`
+2. **mac-sync** (every 5 min): pull → **drain missions** → push results
+3. You ask **status** → cloud reads GitHub
+
+No Terminal paste required when `com.ogz.mac-sync` + `com.ogz.executor` are loaded.
+
 ---
 
 ## What runs where

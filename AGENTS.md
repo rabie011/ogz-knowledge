@@ -14,7 +14,9 @@
 | FAL render spend | **Mohamed says `render go`** only |
 | Production wire / Vercel | **Mohamed says `wire`** only |
 
-**Cloud Cursor agent:** write files + output exact bash blocks for Mohamed to run on the Mac. Never assume LaunchAgents were changed unless verified on the Mac.
+**Cloud Cursor agent:** write files + queue missions. Mac **mac-sync** pulls and drains automatically — Mohamed does not paste commands.
+
+**This chat runs on cloud** (edits GitHub). **Mac Mini runs hands** (brain, Drive, `~/agents`). One voice here; two machines by design.
 
 ---
 

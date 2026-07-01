@@ -4,6 +4,9 @@
 Run ON THE MAC MINI. Refreshes unified_status, records sync metadata,
 optionally commits and pushes so cloud agents read live Mac truth.
 
+Pulls new missions from GitHub, drains executor, pushes results — so Mohamed
+only talks in Cursor (no manual paste).
+
   python3 scripts/mac_sync.py           # local refresh only
   python3 scripts/mac_sync.py --push    # commit + push status files
 """
@@ -23,6 +26,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MAC_STATUS = ROOT / "data/mac_status"
 SYNC_META = MAC_STATUS / "sync_meta.json"
+MISSIONS = ROOT / "data/cursor_missions"
+PAUSED = MISSIONS / ".paused"
 PYTHON = os.environ.get("OGZ_PYTHON", "/opt/homebrew/bin/python3")
 if not Path(PYTHON).exists():
     PYTHON = sys.executable
@@ -35,6 +40,12 @@ TRACKED = (
     "data/cursor_missions/artifacts/validate_stack.json",
 )
 
+STASH_PATHS = (
+    *TRACKED,
+    "data/LIVE_STATUS.md",
+    "data/live_feed/events.jsonl",
+)
+
 
 def _now() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
@@ -42,7 +53,7 @@ def _now() -> str:
 
 def _run(cmd: list[str], cwd: Path | None = None) -> tuple[int, str]:
     try:
-        r = subprocess.run(cmd, cwd=cwd or ROOT, capture_output=True, text=True, timeout=120)
+        r = subprocess.run(cmd, cwd=cwd or ROOT, capture_output=True, text=True, timeout=300)
         out = (r.stdout or "") + (r.stderr or "")
         return r.returncode, out.strip()
     except Exception as e:
@@ -81,12 +92,37 @@ def _current_branch() -> str:
     return os.environ.get("OGZ_GIT_BRANCH", "main")
 
 
+def _git_stash_status_paths() -> bool:
+    existing = [p for p in STASH_PATHS if (ROOT / p).exists()]
+    if not existing:
+        return False
+    rc, _ = _run(["git", "diff", "--quiet", "--", *existing])
+    rc2, _ = _run(["git", "diff", "--cached", "--quiet", "--", *existing])
+    if rc == 0 and rc2 == 0:
+        return False
+    tag = f"mac-sync-{_now()[:19].replace(':', '')}"
+    rc, _ = _run(["git", "stash", "push", "-m", tag, "--", *existing])
+    return rc == 0
+
+
+def _git_stash_pop() -> None:
+    _run(["git", "stash", "pop"])
+
+
 def _git_pull() -> dict:
     branch = _current_branch()
+    stashed = _git_stash_status_paths()
     rc_f, out_f = _run(["git", "fetch", "origin", branch])
     rc, out = _run(["git", "rebase", f"origin/{branch}"])
+    if stashed:
+        _git_stash_pop()
     detail = ((out_f or "") + "\n" + (out or "")).strip()[:500]
-    return {"ok": rc_f == 0 and rc == 0, "detail": detail, "branch": branch}
+    return {
+        "ok": rc_f == 0 and rc == 0,
+        "detail": detail,
+        "branch": branch,
+        "stashed": stashed,
+    }
 
 
 def _ensure_control_if_needed(launchagents: dict[str, str]) -> None:
@@ -97,13 +133,24 @@ def _ensure_control_if_needed(launchagents: dict[str, str]) -> None:
         _run(["bash", str(ROOT / "scripts/mac_ensure_control.sh"), "--quiet"])
 
 
-def refresh_status() -> dict:
+def _drain_missions() -> dict:
+    if platform.system() != "Darwin":
+        return {"skipped": True, "reason": "not macOS"}
+    if PAUSED.exists():
+        return {"skipped": True, "reason": "paused"}
+    if os.environ.get("MAC_SYNC_NO_DRAIN", "").strip() in ("1", "true", "yes"):
+        return {"skipped": True, "reason": "MAC_SYNC_NO_DRAIN"}
+    rc, out = _run([PYTHON, str(ROOT / "scripts/claude_code_claim_executor.py"), "drain"])
+    return {"ok": rc == 0, "detail": out[:800]}
+
+
+def refresh_status(pull_meta: dict | None = None) -> dict:
     MAC_STATUS.mkdir(parents=True, exist_ok=True)
     agents = _launchctl_summary()
     _ensure_control_if_needed(agents)
     agents = _launchctl_summary()
     rc_status, _ = _run([PYTHON, str(ROOT / "scripts/unified_status.py"), "--plain"])
-    rc_val, val_out = _run([PYTHON, str(ROOT / "scripts/validate_stack.py")])
+    rc_val, _ = _run([PYTHON, str(ROOT / "scripts/validate_stack.py")])
 
     plain_path = ROOT / "data/unified_status.txt"
     latest = MAC_STATUS / "latest.txt"
@@ -118,32 +165,50 @@ def refresh_status() -> dict:
         "unified_status_rc": rc_status,
         "validate_stack_rc": rc_val,
         "launchagents": agents,
-        "pull": _git_pull(),
+        "pull": pull_meta or {"ok": False, "detail": "skipped"},
     }
     SYNC_META.write_text(json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8")
     return meta
 
 
+def _commit_paths(paths: list[str], msg: str) -> dict:
+    existing = [p for p in paths if (ROOT / p).exists() or p.endswith("/")]
+    if not existing:
+        return {"ok": True, "skipped": True}
+    _run(["git", "add", *paths])
+    rc, _ = _run(["git", "diff", "--cached", "--quiet"])
+    if rc == 0:
+        return {"ok": True, "skipped": True}
+    rc, out = _run(["git", "commit", "-m", msg])
+    return {"ok": rc == 0, "detail": out[:500]}
+
+
 def push_status(meta: dict) -> dict:
     env_push = os.environ.get("MAC_SYNC_PUSH", "").strip() in ("1", "true", "yes")
-    paths = [ROOT / p for p in TRACKED if (ROOT / p).exists()]
-    if not paths:
+    if not (ROOT / "data/unified_status.txt").exists():
         return {"ok": False, "detail": "no status files to push"}
 
-    _run(["git", "add", *TRACKED])
-    rc, diff = _run(["git", "diff", "--cached", "--quiet"])
-    if rc == 0:
-        return {"ok": True, "detail": "nothing to commit", "skipped": True}
+    status_commit = _commit_paths(
+        list(TRACKED),
+        f"mac-sync: status snapshot {meta.get('ts', '')[:19]}",
+    )
+    mission_commit = _commit_paths(
+        [
+            "data/cursor_missions/pending",
+            "data/cursor_missions/done",
+            "data/cursor_missions/running",
+            "data/cursor_missions/failed",
+        ],
+        f"mac-sync: mission bus {meta.get('ts', '')[:19]}",
+    )
 
-    msg = f"mac-sync: status snapshot {meta.get('ts', '')[:19]}"
-    rc, out = _run(["git", "commit", "-m", msg])
-    if rc != 0:
-        return {"ok": False, "detail": out[:500]}
+    if status_commit.get("skipped") and mission_commit.get("skipped"):
+        return {"ok": True, "detail": "nothing to commit", "skipped": True}
 
     if not env_push:
         return {
             "ok": True,
-            "detail": "committed locally — set MAC_SYNC_PUSH=1 or use --push to git push",
+            "detail": "committed locally — set MAC_SYNC_PUSH=1 or use --push",
             "committed": True,
         }
 
@@ -155,16 +220,21 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Mac status sync for Cursor mobile")
     ap.add_argument("--push", action="store_true", help="Commit and push status files to origin")
     ap.add_argument("--no-pull", action="store_true", help="Skip git pull before refresh")
+    ap.add_argument("--no-drain", action="store_true", help="Skip mission drain")
     args = ap.parse_args()
 
     if args.push:
         os.environ["MAC_SYNC_PUSH"] = "1"
+    if args.no_drain:
+        os.environ["MAC_SYNC_NO_DRAIN"] = "1"
 
+    pull_meta = {"ok": True, "detail": "skipped"}
     if not args.no_pull:
-        _git_pull()
+        pull_meta = _git_pull()
 
-    meta = refresh_status()
-    result = {"refresh": meta}
+    drain_meta = _drain_missions()
+    meta = refresh_status(pull_meta)
+    result = {"pull": pull_meta, "drain": drain_meta, "refresh": meta}
 
     if args.push or os.environ.get("MAC_SYNC_PUSH", "").strip() in ("1", "true", "yes"):
         result["push"] = push_status(meta)

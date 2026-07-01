@@ -1,6 +1,6 @@
 {
   "id": "autonomous-status-report",
-  "generated": "2026-07-01T14:03:52Z",
+  "generated": "2026-07-01T14:13:53Z",
   "role": "run-until-mohamed-texts",
   "daemons": "53401\t0\tcom.ogz.brain-api",
   "brain": {
@@ -33,9 +33,9 @@
   },
   "pending_missions": [],
   "recent_done_missions": [
+    "autonomous-status-report",
     "ogz-002",
     "ogz-001",
-    "autonomous-status-report",
     "queue-clear-stuck-running",
     "agent-run-now",
     "audit-mistakes",
@@ -52,50 +52,20 @@
   "backlog_status": {
     "done": 296,
     "superseded": 3,
-    "todo": 52,
+    "todo": 51,
     "open": 4,
     "staged": 8,
     "skipped": 4,
-    "blocked": 2,
+    "blocked": 3,
     "built": 1,
     "mohamed_must": 2,
     "reverted": 1,
     "in_progress": 1
   },
-  "git": "f218dd11 mac-sync: mission bus 2026-07-01T14:03:44\n0fdd7405 mac-sync: status snapshot 2026-07-01T14:03:44\n58b455c4 B126h: harden moat gate — negative control must be vision-sourced",
+  "git": "e1eb6b17 orchestra(B286): self-terminate lever superseded by 5-min cadence — mark blocked, stage decision\n7cd0318a mac-sync: mission bus 2026-07-01T14:08:49\n21483f86 mac-sync: status snapshot 2026-07-01T14:08:49",
   "git_dirty": "## weiblocks-export...origin/weiblocks-export\n M clients/albaik/derived/rival_corpus.json\n M clients/eatjurisha/derived/rival_corpus.json\n M clients/fake_beauty/profile/.synthetic_fixture.json\n M clients/fake_beauty/profile/audience_mirror.json",
   "studios_web_local": null,
   "heartbeats_last_8": [
-    {
-      "ts": "2026-07-01T13:23:47Z",
-      "health": {
-        "ok": true,
-        "body": {
-          "ok": true,
-          "humain": false,
-          "queue_depth": 0,
-          "auth_required": true
-        }
-      },
-      "executor_live": false,
-      "pending": 0,
-      "orchestra": true
-    },
-    {
-      "ts": "2026-07-01T13:28:50Z",
-      "health": {
-        "ok": true,
-        "body": {
-          "ok": true,
-          "humain": false,
-          "queue_depth": 0,
-          "auth_required": true
-        }
-      },
-      "executor_live": false,
-      "pending": 0,
-      "orchestra": true
-    },
     {
       "ts": "2026-07-01T13:33:51Z",
       "health": {
@@ -173,6 +143,36 @@
     },
     {
       "ts": "2026-07-01T13:58:52Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": false,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "executor_live": false,
+      "pending": 0,
+      "orchestra": true
+    },
+    {
+      "ts": "2026-07-01T14:03:52Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": false,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "executor_live": false,
+      "pending": 0,
+      "orchestra": true
+    },
+    {
+      "ts": "2026-07-01T14:08:53Z",
       "health": {
         "ok": true,
         "body": {

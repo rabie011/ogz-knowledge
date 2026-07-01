@@ -1,6 +1,6 @@
 {
   "id": "autonomous-status-report",
-  "generated": "2026-07-01T13:43:51Z",
+  "generated": "2026-07-01T13:48:51Z",
   "role": "run-until-mohamed-texts",
   "daemons": "53401\t0\tcom.ogz.brain-api",
   "brain": {
@@ -33,8 +33,8 @@
   },
   "pending_missions": [],
   "recent_done_missions": [
-    "queue-clear-stuck-running",
     "autonomous-status-report",
+    "queue-clear-stuck-running",
     "agent-run-now",
     "audit-mistakes",
     "diagnose-executor",
@@ -50,9 +50,9 @@
     "consult-mirror-proposals-foundation"
   ],
   "backlog_status": {
-    "done": 294,
+    "done": 295,
     "superseded": 3,
-    "todo": 54,
+    "todo": 53,
     "open": 4,
     "staged": 8,
     "skipped": 4,
@@ -62,25 +62,10 @@
     "reverted": 1,
     "in_progress": 1
   },
-  "git": "ee909929 mac-sync: mission bus 2026-07-01T13:43:19\n401464ae mac-sync: status snapshot 2026-07-01T13:43:19\n2344d329 mac-sync: mission bus 2026-07-01T13:38:51",
+  "git": "6e0f4c16 mac-sync: mission bus 2026-07-01T13:48:26\n1fc0a463 mac-sync: status snapshot 2026-07-01T13:48:26\n7b7d1da7 fix(B127): merge B128 card into canonical A-06, drop dup A-50 (Rule #10)",
   "git_dirty": "## weiblocks-export...origin/weiblocks-export\n M clients/albaik/derived/rival_corpus.json\n M clients/eatjurisha/derived/rival_corpus.json\n M clients/fake_beauty/profile/.synthetic_fixture.json\n M clients/fake_beauty/profile/audience_mirror.json",
   "studios_web_local": null,
   "heartbeats_last_8": [
-    {
-      "ts": "2026-07-01T13:03:46Z",
-      "health": {
-        "ok": true,
-        "body": {
-          "ok": true,
-          "humain": false,
-          "queue_depth": 0,
-          "auth_required": true
-        }
-      },
-      "executor_live": false,
-      "pending": 0,
-      "orchestra": true
-    },
     {
       "ts": "2026-07-01T13:08:46Z",
       "health": {
@@ -173,6 +158,21 @@
     },
     {
       "ts": "2026-07-01T13:38:51Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": false,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "executor_live": false,
+      "pending": 0,
+      "orchestra": true
+    },
+    {
+      "ts": "2026-07-01T13:43:51Z",
       "health": {
         "ok": true,
         "body": {

@@ -191,9 +191,13 @@ YOUR TAP: 3 one-word rulings.
 (backlog B110 · Immune System · ~15 min · after B109)
 
 ### A-06 Pick compliance option A/B/C + rule serving-vs-handling scope (item_02)
-PREPARED (partial, verified): the full finding with options A/B/C + recommendation (A first — cheapest) lives at `11_who_to_learn_from/_calibration_set/CRITICAL_FINDING_item_02.md` — the moat FAILED its only negative control (GPT-4o called a left hand right). TO-PREP: the detection-rate/false-block/cost one-pager table (B127) was never built.
-YOUR TAP: Pick A (harden prompt) / B (second model vote) / C (expand control set) + one word on scope (all-handling / serving-only).
-(backlog B128 · Immune System · ~5 min · after B127)
+PREPARED (verified + built this shift — B127 DONE): the 60-second evidence one-pager is on disk — `11_who_to_learn_from/_calibration_set/ABC_EVIDENCE_ONEPAGER.md`, every number grep/test-verified 2026-07-01. Honest state of the three options:
+- **A** (GPT-4o + conservative fail-safe) — **LIVE**: item_02 caught (L1 🟢), completeness 100%, accuracy 91.7%. BUT the pass is **structural, not perceptual** (the eye still misread the hand; fail-safe blocked anyway) and **false-block rate is UNMEASURED** (no clean right-hand-on-food control).
+- **B** (Anthropic 2nd-vote, escalate-only, fail-safe) — **BUILT, `reconcile()` 9/9 tests green, but 0 LIVE RUNS** (Anthropic dry since 06-12). Detection/false-block = UNKNOWN until it runs.
+- **C-expanded** (widen the set, B126) — **NOT built**; the only path that can ever measure the false-block rate and truly prove the moat.
+Pair's provisional rec (your eye rules): **A now → A+B when Anthropic funded → C-expanded to prove it** (a sequence, not either/or; C is the real unlock). Root finding still at `CRITICAL_FINDING_item_02.md`.
+YOUR TAP (two answers): (1) Option — **A now / A+B / hold-for-C** (rec: A now). (2) Scope — does `left_hand_serving` forbid **ALL** left-hand food contact, or **only serving-to-others**? (flows into B129 rule text on your word.)
+(backlog B128 · Immune System · one-pager ~60 sec · B127 done → unblocks this)
 
 ### A-04 Ratify the deadly-defaults table
 PREPARED (verified, B105 done 2026-06-12): `15_cultural_specs/defaults/brand_override_defaults_v1.yaml` exists and parses — **14 rows: 12 deadly / 2 survivable** (dialect_register, brand_signature_hero_prop), 3 parked → mohamed (family_voice_lines, masculinity_framing, ai_imagery_of_real_products — same 3 as A-05). Each row: strictest_default + deadly-why + relax_requires + example violation. Wired: `scripts/visual_gate_checklist.py` now READS its 5 visual rows from this table (hardcoded list = fallback only); re-run on albaik verified identical + idempotent.
@@ -324,16 +328,3 @@ PREPARED (verified this shift): three dirs under `clients/` have a `profile/` fo
 No code reads them anymore; deleting is pure hygiene, not urgent. Not pushed to your live queue (it's at 63 items — Rule #10, no flood).
 YOUR TAP: «DELETE APPROVED» (the pair removes all three) / «keep».
 (census fix committed this shift · L0 hygiene · ~1 min on your word)
-
-### A-50 Pick the left-hand-serving compliance option + rule its scope (UNBLOCKS the immune moat)
-PREPARED (verified + built this shift — B127): the 60-second evidence one-pager is on disk at `11_who_to_learn_from/_calibration_set/ABC_EVIDENCE_ONEPAGER.md`, every number grep/test-verified 2026-07-01. The honest state of the three options:
-- **A** (single-model GPT-4o + conservative fail-safe) — **LIVE**. item_02 control caught (L1 🟢), completeness 100%, accuracy 91.7%. But the pass is **structural, not perceptual** (the eye still misread the hand; the fail-safe blocked anyway) and **false-block rate is UNMEASURED** (no clean right-hand-on-food control).
-- **B** (Anthropic 2nd-vote, escalate-only, fail-safe) — **BUILT, `reconcile()` 9/9 tests green, but 0 LIVE RUNS** (Anthropic dry since 06-12). Detection/false-block = UNKNOWN until it runs.
-- **C-expanded** (widen the set, B126) — **NOT built**; the only path that can ever measure the false-block rate and truly prove the moat.
-
-The pair's provisional recommendation (your eye rules): **A now → A+B when Anthropic is funded → C-expanded to prove it** — a sequence, not either/or. C is the real unlock.
-
-YOUR TAP (two answers):
-1. Option: **A now / A+B / hold for C-first** (recommend: A now, sequence above).
-2. Scope: does `left_hand_serving` forbid **ALL** left-hand food contact, or **only serving-to-others**? (flows into B129 rule text on your word.)
-(backlog B127 done → unblocks B128 · Immune System · one-pager ~60 sec)

@@ -1,18 +1,16 @@
 {
   "id": "queue-clear-stuck-running",
   "executor": "shell",
-  "status": "partial",
+  "status": "pass",
   "exit_codes": {
-    "cmd_0": 1,
+    "cmd_0": 0,
     "cmd_1": 0,
     "cmd_2": 0,
     "cmd_3": 0
   },
-  "summary": "1 blocker(s)",
-  "log_path": "data/cursor_missions/done/recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-queue-clear-stuck-running.log",
-  "blockers": [
-    "command 0 failed (exit 1): cd ~/Desktop/ogz-knowledge/data/cursor_missions/running && for f in *.json; do [ -f \"$f\" ] || contin"
-  ],
+  "summary": "all commands passed",
+  "log_path": "data/cursor_missions/done/recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-recover-queue-clear-stuck-running.log",
+  "blockers": [],
   "fix_allowed": true,
-  "finished": "2026-07-01T13:37:24Z"
+  "finished": "2026-07-01T13:37:27Z"
 }

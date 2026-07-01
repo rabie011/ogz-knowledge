@@ -105,7 +105,16 @@ Mac archive = fast local recovery. Drive archive = team + phone access.
 
 **Append-only.** Corrections = new events, not edits.
 
-### Event shape (v1 — file contract)
+### Continuity (cloud visibility)
+
+Each agent also reports heartbeat into **`data/ogz_live.json`** → `agents.{AGENT_ID}`:
+
+- `last_seen` — timestamp of latest `log_event.py` call
+- `state` — `active` / `idle`
+- `summary` — one line from last event
+
+Long-term memory stays in local `events/agent_events.jsonl`; cloud reads the aggregated map in ogz_live after Mac push. See [OGZ_LIVE.md](OGZ_LIVE.md).
+
 
 ```json
 {

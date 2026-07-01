@@ -65,26 +65,42 @@ def _pid_alive(pid: int) -> bool:
         return False
 
 
+def _refresh_ogz_live() -> None:
+    try:
+        subprocess.run(
+            [PYTHON, str(ROOT / "scripts/ogz_live.py")],
+            cwd=str(ROOT),
+            capture_output=True,
+            timeout=60,
+            check=False,
+        )
+    except Exception:
+        pass
+
+
 def _update_live(msg: str) -> None:
-    body = f"""# LIVE — Claude Code executor
+    pointer = f"""# LIVE — orchestra scratch (not canonical truth)
 
 Updated: {_now()}
 
+**Canonical status:** `data/ogz_live.txt` · full: `data/ogz_live.json`
+
 {msg}
 
-## Queue
+## Queue snapshot
 
 | Pending | Running |
 |---------|---------|
 | {len(list(PENDING.glob('*.json')))} | {len(list(RUNNING.glob('*.json')))} |
 
-## Watch live (one tab)
+## Watch live (Mac debug)
 
 **{FEED_URL}** — plain-English feed. Pin in browser. No iTerm required.
 
 Cursor drops missions to `pending/`; executor daemon drains them.
 """
-    LIVE.write_text(body, encoding="utf-8")
+    LIVE.write_text(pointer, encoding="utf-8")
+    _refresh_ogz_live()
 
 
 def cmd_status() -> int:

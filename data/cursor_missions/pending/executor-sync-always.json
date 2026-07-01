@@ -1,18 +1,17 @@
 {
-  "id": "queue-clear-stuck-running",
-  "priority": -5,
+  "id": "executor-sync-always",
+  "priority": -4,
   "from": "cursor-cloud",
-  "created": "2026-07-01T13:35:00Z",
+  "created": "2026-07-01T14:50:00Z",
   "type": "commands",
-  "goal": "Clear ghost running/ missions (already in done/) + push status + diagnostics to GitHub",
+  "goal": "Bootstrap/recover mac-sync + executor + ogz_live push. LaunchAgent com.ogz.mac-sync is the permanent loop; this mission is one-shot recovery only.",
   "fix_allowed": true,
   "commands": [
     "cd ~/Desktop/ogz-knowledge && git fetch origin main && git pull --rebase origin main || git reset --hard origin/main",
+    "bash ~/Desktop/ogz-knowledge/scripts/mac_ensure_control.sh --quiet",
     "cd ~/Desktop/ogz-knowledge/data/cursor_missions/running && for f in *.json; do [ -f \"$f\" ] || continue; id=\"${f%.json}\"; [ -f ../done/${id}.json ] && rm -f \"$f\" && echo cleared:$f || true; done",
     "/opt/homebrew/bin/python3 ~/Desktop/ogz-knowledge/scripts/claude_code_claim_executor.py release 2>/dev/null || true",
-    "cd ~/Desktop/ogz-knowledge && /opt/homebrew/bin/python3 scripts/unified_status.py --plain > data/unified_status.txt",
     "cd ~/Desktop/ogz-knowledge && /opt/homebrew/bin/python3 scripts/ogz_live.py",
-    "test -f ~/Desktop/ogz-knowledge/scripts/mac_bridge.py && curl -sf http://127.0.0.1:4150/health >/dev/null && echo bridge_4150=ok || echo bridge_4150=skip",
     "cd ~/Desktop/ogz-knowledge && MAC_SYNC_PUSH=1 /opt/homebrew/bin/python3 scripts/mac_sync.py --push"
   ]
 }

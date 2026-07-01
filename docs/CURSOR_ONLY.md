@@ -59,7 +59,7 @@ That re-bootstraps the three daemons and pushes status.
 
 | Say | Result |
 |-----|--------|
-| **status** | Live Mac truth from GitHub |
+| **status** | Live truth from **`data/ogz_live.txt`** on GitHub |
 | **go …** / **queue …** | Mission dropped; Mac executor runs it |
 | **stop** / **لخ** | `touch data/cursor_missions/.paused` |
 | **render go** | FAL spend (your gate) |

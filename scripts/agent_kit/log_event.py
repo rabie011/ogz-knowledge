@@ -79,6 +79,15 @@ def main() -> int:
     with path.open("a", encoding="utf-8") as f:
         f.write(json.dumps(event, ensure_ascii=False) + "\n")
 
+    try:
+        sys.path.insert(0, str(ROOT / "scripts"))
+        from ogz_live import patch_agent, refresh_if_debounced
+
+        refresh_if_debounced(30.0)
+        patch_agent(args.agent.upper(), summary=args.summary or args.event_type, state="active")
+    except Exception:
+        pass
+
     print(json.dumps({"ok": True, "path": str(path), "event_ulid": event["event_ulid"]}, indent=2))
     return 0
 

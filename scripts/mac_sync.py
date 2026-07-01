@@ -35,6 +35,8 @@ if not Path(PYTHON).exists():
 TRACKED = (
     "data/unified_status.txt",
     "data/unified_status.json",
+    "data/ogz_live.json",
+    "data/ogz_live.txt",
     "data/mac_status/sync_meta.json",
     "data/mac_status/latest.txt",
     "data/cursor_missions/artifacts/validate_stack.json",
@@ -43,6 +45,7 @@ TRACKED = (
 STASH_PATHS = (
     *TRACKED,
     "data/LIVE_STATUS.md",
+    "data/cursor_missions/LIVE_STATUS.md",
     "data/live_feed/events.jsonl",
 )
 
@@ -144,7 +147,7 @@ def _drain_missions() -> dict:
     return {"ok": rc == 0, "detail": out[:800]}
 
 
-def refresh_status(pull_meta: dict | None = None) -> dict:
+def refresh_status(pull_meta: dict | None = None, drain_meta: dict | None = None) -> dict:
     MAC_STATUS.mkdir(parents=True, exist_ok=True)
     agents = _launchctl_summary()
     _ensure_control_if_needed(agents)
@@ -166,8 +169,12 @@ def refresh_status(pull_meta: dict | None = None) -> dict:
         "validate_stack_rc": rc_val,
         "launchagents": agents,
         "pull": pull_meta or {"ok": False, "detail": "skipped"},
+        "drain": drain_meta or {"skipped": True},
+        "last_drain_at": _now() if drain_meta and not drain_meta.get("skipped") else None,
+        "last_drain_ok": drain_meta.get("ok") if drain_meta and not drain_meta.get("skipped") else None,
     }
     SYNC_META.write_text(json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8")
+    _run([PYTHON, str(ROOT / "scripts/ogz_live.py")])
     return meta
 
 
@@ -233,7 +240,7 @@ def main() -> int:
         pull_meta = _git_pull()
 
     drain_meta = _drain_missions()
-    meta = refresh_status(pull_meta)
+    meta = refresh_status(pull_meta, drain_meta)
     result = {"pull": pull_meta, "drain": drain_meta, "refresh": meta}
 
     if args.push or os.environ.get("MAC_SYNC_PUSH", "").strip() in ("1", "true", "yes"):

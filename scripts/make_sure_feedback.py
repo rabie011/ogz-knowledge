@@ -354,6 +354,13 @@ def run_checks() -> dict:
     counter_lies = []
     for gf in _g.glob(str(B / "clients/*/profile/goals.json")):
         g = json.loads(Path(gf).read_text())
+        # synthetic fixtures (source==synthetic_fixture) are experimental test data, not real
+        # clients whose readiness counter can "lie" — skip. Also skip when no 'answered' counter
+        # exists at all: with no claim there is nothing to audit (DeepSeek-consulted, July 1).
+        if g.get("_meta", {}).get("_prov", {}).get("source") == "synthetic_fixture":
+            continue
+        if "answered" not in g:
+            continue
         confirmed = sum(1 for k in ("goal_ratio", "capacity_ceiling", "usp_his_words")
                         if g.get(k))
         if g.get("answered", 0) != confirmed and not (g.get("answered", 0) >= confirmed):

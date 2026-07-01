@@ -1,0 +1,22 @@
+{
+  "id": "mac-git-recover-sync",
+  "executor": "shell",
+  "status": "partial",
+  "exit_codes": {
+    "cmd_0": 0,
+    "cmd_1": 0,
+    "cmd_2": 0,
+    "cmd_3": 0,
+    "cmd_4": 0,
+    "cmd_5": 0,
+    "cmd_6": 0,
+    "cmd_7": 1
+  },
+  "summary": "1 blocker(s)",
+  "log_path": "data/cursor_missions/done/mac-git-recover-sync.log",
+  "blockers": [
+    "command 7 failed (exit 1): cd ~/Desktop/ogz-knowledge && MAC_SYNC_PUSH=1 /opt/homebrew/bin/python3 scripts/mac_sync.py --push"
+  ],
+  "fix_allowed": true,
+  "finished": "2026-07-01T01:59:21Z"
+}

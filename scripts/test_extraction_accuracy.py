@@ -36,6 +36,13 @@ GATE_PATH = REPO_ROOT / "data" / "extraction_accuracy_gate.json"
 COMPLETENESS_THRESHOLD = 0.80
 ACCURACY_THRESHOLD = 0.60
 
+# B126: a negative control PROVES the moat only when its detection was SYSTEM-PRODUCED
+# by a real vision run — a hand-authored extraction with the hard block pre-filled is a
+# Rule #12 false green (Level 1 would "pass" on an answer WE wrote, not one the pipeline
+# produced). Every expected-block item must carry vision provenance, or Level 1 FAILS
+# (Rule #8: refuse-don't-warn — a fabricated proof is a hard fail, never a pass-with-note).
+VISION_PROVENANCE_MARKER = "vision"
+
 
 def _persist_gate(exit_code: int, *, level1_passed: bool,
                   completeness: float | None = None, accuracy: float | None = None) -> None:
@@ -100,6 +107,17 @@ def level_1_hard_block(ground_truth: dict, extractions: dict[str, dict]) -> bool
         extraction = extractions.get(item_id)
         if extraction is None:
             print(f"  ✗ {item_id}: no extraction found")
+            all_pass = False
+            continue
+
+        # B126 moat-honesty gate: a negative control only proves the moat if the SYSTEM
+        # produced the detection (a real vision run). A hand-authored extraction with the
+        # block pre-filled is a Rule #12 false green — fail it here, before the block is
+        # even read, so a fabricated proof can never satisfy Level 1.
+        method = str((extraction.get("provenance") or {}).get("extraction_method") or "")
+        if VISION_PROVENANCE_MARKER not in method.lower():
+            print(f"  ✗ {item_id}: negative control not vision-sourced "
+                  f"(provenance.extraction_method={method!r}) — fabricated proof, Rule #12")
             all_pass = False
             continue
 

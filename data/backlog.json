@@ -1604,7 +1604,19 @@
       "who": "pair",
       "est_minutes": 30,
       "depends_on": [],
-      "status": "todo"
+      "status": "blocked",
+      "blocked_reason": "CORE gated on HUMAN-CERTIFIED image sourcing. FACT (2026-07-01, grep): the block is self-reported by the GPT-4o vision model (extract_calibration_item.py: compliance_check=model_out.get(compliance_check)); no deterministic rule derives left_hand_serving from observations. Hand-authoring extraction JSONs = Rule #12 false green. Real negative controls NEED unambiguous left-hand-serving images at content/item_N.jpg (only a human can certify ground truth) + a real vision run (OpenAI funded). Unblock: drop 3-4 certified images -> run extract_calibration_item.py item_N -> add GROUND_TRUTH id+expected_hard_blocks. See B126h."
+    },
+    {
+      "id": "B126h",
+      "layer": "Immune System",
+      "what": "Harden the moat gate: negative control must be vision-sourced",
+      "how": "test_extraction_accuracy.py Level 1 now FAILS any expected-block item whose provenance.extraction_method lacks \"vision\" — a hand-authored (fabricated) negative control can no longer satisfy the moat proof (Rule #12 encoded, Rule #8 refuse-dont-warn). Reader chain live: Level1 -> _persist_gate -> extraction_release_gate.release_blocked. +5 unit tests (test_extraction_accuracy_provenance.py). Full suite 1122 green; item_02 (real vision) stays green.",
+      "who": "pair",
+      "est_minutes": 20,
+      "depends_on": [],
+      "status": "done",
+      "born": "B126 consult-before-build save 2026-07-01"
     },
     {
       "id": "B127",
@@ -4289,16 +4301,16 @@
     }
   ],
   "counts": {
-    "done": 295,
-    "superseded": 3,
-    "todo": 53,
-    "open": 4,
-    "staged": 8,
-    "skipped": 4,
-    "blocked": 1,
+    "blocked": 2,
     "built": 1,
+    "done": 296,
+    "in_progress": 1,
     "mohamed_must": 2,
+    "open": 4,
     "reverted": 1,
-    "in_progress": 1
+    "skipped": 4,
+    "staged": 8,
+    "superseded": 3,
+    "todo": 52
   }
 }

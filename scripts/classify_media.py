@@ -28,6 +28,7 @@ PROMPT = (
     "Return STRICT JSON only: "
     '{"kind":"product_food|packaging|storefront|person_portrait|graphic|other",'
     '"has_person":true|false,"is_royal_or_public_figure":true|false,'
+    '"person_role":"subject|incidental|none",'
     '"usable_as_product_reference":true|false,'
     '"product_en":"<2-4 word ENGLISH name of the SPECIFIC product/dish shown, e.g. '
     "'double chicken fillet burger' / 'crispy chicken strips' / 'chicken nuggets box' / "
@@ -37,6 +38,10 @@ PROMPT = (
     "usable_as_product_reference is TRUE only if the image cleanly shows the brand's FOOD / PRODUCT / "
     "PACKAGING with NO prominent person. Any portrait or photo featuring a person — ESPECIALLY a "
     "royal or public figure — is FALSE (it would hijack the generated subject). "
+    "person_role: 'subject' = the person IS the point of the photo (portrait / model headshot / royal / "
+    "public figure); 'incidental' = a person is present but a PRODUCT (jewelry, garment, watch, bottle, "
+    "item) is being worn / held / displayed and IS the visual point — such a product could be cleanly "
+    "cropped out of the person; 'none' = no person in the image. "
     "Be SPECIFIC about the food in product_en/product_keywords (burger vs strips vs nuggets vs wrap "
     "vs box) so it can be matched to a named menu item."
 )
@@ -54,7 +59,22 @@ def classify(path, key):
     out = json.loads(urllib.request.urlopen(rq, timeout=60).read())
     txt = out["choices"][0]["message"]["content"]
     m = re.search(r"\{.*\}", txt, re.S)
-    return json.loads(m.group(0)) if m else {"kind": "other", "usable_as_product_reference": False}
+    tags = json.loads(m.group(0)) if m else {"kind": "other", "usable_as_product_reference": False}
+    return _guard(tags)
+
+
+def _guard(tags):
+    """Deterministic cultural red-line guard (C245 patch-2, DeepSeek SAFETY catch).
+    The vision model can hallucinate person_role='incidental' on a royal/public-figure photo;
+    a royal is NEVER croppable (cultural red line, Rule #8 refuse-don't-warn). Force 'subject'
+    so no downstream crop policy (patch-3) can ever salvage a royal image. Also normalise
+    person_role so patch-3 never reads None: default to 'subject' when a person is present,
+    'none' otherwise (fail-SAFE — an untagged person is treated as the subject, never cropped)."""
+    if tags.get("is_royal_or_public_figure"):
+        tags["person_role"] = "subject"
+    elif tags.get("person_role") not in ("subject", "incidental", "none"):
+        tags["person_role"] = "subject" if tags.get("has_person") else "none"
+    return tags
 
 
 def main():
@@ -75,7 +95,10 @@ def main():
         c = cache.get(rel, {})
         # re-tag a clean product ref that predates the product_en field (so pick_reference can match
         # the brief's product to the right photo); skip everything already complete or non-usable.
-        if "kind" in c and ("product_en" in c or not c.get("usable_as_product_reference")):
+        # C245 patch-2: entries tagged before person_role existed lack it → re-tag so patch-3 (crop
+        # path for jewelry/fashion/beauty) never reads a missing field (DeepSeek cache-staleness catch).
+        if "kind" in c and "person_role" in c and (
+                "product_en" in c or not c.get("usable_as_product_reference")):
             continue
         try:
             cache[rel] = classify(p, key)

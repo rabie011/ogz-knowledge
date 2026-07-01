@@ -3789,8 +3789,8 @@
       "who": "pair",
       "est_minutes": 45,
       "depends_on": [],
-      "status": "todo",
-      "done_note": "2026-06-28: reaper made PREVENTIVE (removed --max-load 6 gate from com.abraham.reaper.plist) — age>=4h detached sessions now reaped every 300s regardless of load, after a 29.8h leak survived at load 4.5. This SHARPENS the mitigation; the TRUE root fix (each fire self-terminates) still pending. RABIE+DeepSeek both endorsed (panel). plist tracked at deploy/launchagents/. test_orchestra_reaper.py locks it.",
+      "status": "blocked",
+      "done_note": "2026-06-28: reaper made PREVENTIVE (removed --max-load 6 gate from com.abraham.reaper.plist) — age>=4h detached sessions now reaped every 300s regardless of load, after a 29.8h leak survived at load 4.5. This SHARPENS the mitigation; the TRUE root fix (each fire self-terminates) still pending. RABIE+DeepSeek both endorsed (panel). plist tracked at deploy/launchagents/. test_orchestra_reaper.py locks it. | 2026-07-01 ORCHESTRA FINDING (grep-verified): the PROACTIVE self-terminate half (orchestra_self_terminate.py, 14 tests pass) is BUILT but UNWIRED (no launchd/cron/scheduler ref = dead code). Its 1500s timeout was justified by a 30-min cadence; SKILL.md now fires EVERY 5 MIN, so wiring it as-is would SIGKILL productive shifts mid-build (DeepSeek ruling). The live reaper (com.abraham.reaper, HARD_CAP=25, exit 0) already BOUNDS the leak (14 detached today; historical load-74 was 161 procs). B286-via-self-terminate premise SUPERSEDED. Decision staged to portal: B286_selfterminate_supersede_fork (delete dead code vs re-scope to 30-min hang-catcher). BLOCKED on Mohamed.",
       "source": "B284 verdict + 2026-06-23 04:23 shift: 161 leaked claude sessions -> load 74"
     },
     {

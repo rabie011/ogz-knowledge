@@ -2696,8 +2696,9 @@
       "who": "mohamed_must",
       "est_minutes": 5,
       "depends_on": [],
-      "status": "staged",
-      "evidence": "regen_scope_ruling card on his phone"
+      "status": "done",
+      "evidence": "regen_scope_ruling card on his phone",
+      "done_note": "2026-07-01 reconciliation: regen_scope RULED 'rolling_window' (mohamed_rulings_live.json, portal:regen_scope_ruling, 2026-06-13T02:35). The ruling was written but the backlog never consumed it (Rule#6 severed wire). Card answered -> marked done."
     },
     {
       "id": "B217",
@@ -2731,14 +2732,15 @@
       "id": "B219",
       "layer": "Spine",
       "what": "myfitness v1 spine regen — 10 chunks, 95 slots, all EXPIRED-stamped",
-      "how": "render_slots_batch.py --handle myfitness.sa over 2026-08-04→2027-06-29 in 10 chunks; every card EXPIRED voice-draft until client confirms. [merged 10]",
+      "how": "render_slots_batch.py --handle myfitness.sa over the ROLLING 60-day window (per regen_scope ruling 2026-06-13, NOT all-slots) in chunks; every card EXPIRED voice-draft until his fresh taste. NO fal image spend (rulings_live meaning). Panel 2026-07-01: do not execute while taste starved 17d (Rule#12 volume-trap); spec fixed, awaits taste refresh.",
       "who": "pair",
       "est_minutes": 240,
       "depends_on": [
         "B066",
         "B216"
       ],
-      "status": "todo"
+      "status": "todo",
+      "note": "2026-07-01: spec corrected all-slots(2026-08-04->2027-06-29) -> rolling_window to honor Mohamed's ruling. Was Rule#12 trap as written."
     },
     {
       "id": "B220",
@@ -3290,8 +3292,9 @@
       "depends_on": [
         "B263"
       ],
-      "status": "todo",
-      "unblocked_note": "2026-07-01: VERIFIED NO-OP this fire (Rule#9). 0 of 9 tier-1(priority-A) done accounts stale >30d — _raw_archive mtime 14-27d, obs last_verified_at 25d (2026-06-06). Precondition (raw>30d) unmet, no money spent. NEXT ACTIONABLE ~2026-07-11 when the 25d cohort crosses 30d — even then a money-spend (~$1.39/acct Apify+OpenAI) to STAGE for Mohamed go, not autonomous. SEPARATE completeness gap flagged: centrepointstores=1obs, goldenscent=5obs (vs 114-125) need re-extract (money-gated)."
+      "status": "blocked",
+      "unblocked_note": "2026-07-01: VERIFIED NO-OP this fire (Rule#9). 0 of 9 tier-1(priority-A) done accounts stale >30d — _raw_archive mtime 14-27d, obs last_verified_at 25d (2026-06-06). Precondition (raw>30d) unmet, no money spent. NEXT ACTIONABLE ~2026-07-11 when the 25d cohort crosses 30d — even then a money-spend (~$1.39/acct Apify+OpenAI) to STAGE for Mohamed go, not autonomous. SEPARATE completeness gap flagged: centrepointstores=1obs, goldenscent=5obs (vs 114-125) need re-extract (money-gated).",
+      "note": "Time-gated NO-OP (Rule#9/#12 honesty): precondition raw_archive>30d unmet — 0/9 tier-1 stale as of 2026-07-01 (mtimes 14-27d). NOT done (no refresh ran). Next actionable ~2026-07-11 when 25d cohort crosses 30d; even then money-spend to STAGE, not autonomous."
     },
     {
       "id": "D45-4",
@@ -4309,13 +4312,13 @@
     }
   ],
   "counts": {
-    "done": 298,
+    "done": 299,
     "superseded": 3,
-    "todo": 48,
+    "todo": 47,
     "open": 4,
-    "staged": 9,
+    "staged": 8,
     "skipped": 4,
-    "blocked": 3,
+    "blocked": 4,
     "built": 1,
     "mohamed_must": 2,
     "reverted": 1,

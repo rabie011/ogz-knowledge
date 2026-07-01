@@ -1,6 +1,6 @@
 {
   "id": "autonomous-status-report",
-  "generated": "2026-07-01T16:29:05Z",
+  "generated": "2026-07-01T16:34:05Z",
   "role": "run-until-mohamed-texts",
   "daemons": "53401\t0\tcom.ogz.brain-api",
   "brain": {
@@ -31,7 +31,10 @@
       "ready": false
     }
   },
-  "pending_missions": [],
+  "pending_missions": [
+    "2026-07-01T1633-shell-diag-01.json",
+    "2026-07-01T1633-shell-diag-02.json"
+  ],
   "recent_done_missions": [
     "autonomous-status-report",
     "claude-code-history-master",
@@ -62,25 +65,10 @@
     "reverted": 1,
     "in_progress": 1
   },
-  "git": "d91fdd84 mac-sync: mission bus 2026-07-01T16:26:27\n34df28d0 mac-sync: status snapshot 2026-07-01T16:26:27\n6d5858c6 mac-sync: mission bus 2026-07-01T16:21:20",
+  "git": "cf29cf8a chore(C245): record patch-3 shipped + patch-4 next in backlog/log\n00efc4ae feat(C245 patch-3): wire pick_reference to consume safe crops (Rule #6 consumer)\ncaf02a6e mac-sync: mission bus 2026-07-01T16:31:32",
   "git_dirty": "## weiblocks-export...origin/weiblocks-export\n M clients/albaik/derived/rival_corpus.json\n M clients/eatjurisha/derived/rival_corpus.json\n M clients/fake_beauty/profile/.synthetic_fixture.json\n M clients/fake_beauty/profile/audience_mirror.json",
   "studios_web_local": null,
   "heartbeats_last_8": [
-    {
-      "ts": "2026-07-01T15:49:02Z",
-      "health": {
-        "ok": true,
-        "body": {
-          "ok": true,
-          "humain": false,
-          "queue_depth": 0,
-          "auth_required": true
-        }
-      },
-      "executor_live": false,
-      "pending": 0,
-      "orchestra": true
-    },
     {
       "ts": "2026-07-01T15:54:02Z",
       "health": {
@@ -185,6 +173,21 @@
       "executor_live": false,
       "pending": 0,
       "orchestra": true
+    },
+    {
+      "ts": "2026-07-01T16:29:05Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": false,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "executor_live": false,
+      "pending": 0,
+      "orchestra": true
     }
   ],
   "blockers_mohamed_must": [
@@ -192,9 +195,5 @@
     "13 bridge taste pairs on portal",
     "reserve_taste_lane flip — only when queue ≤7 AND you approve"
   ],
-  "autonomous_next": [
-    "wave: clone o-gz-studios-web if repo URL found",
-    "wave: lib/brain smoke client against :4140",
-    "wave: consult DeepSeek on wire checklist"
-  ]
+  "autonomous_next": []
 }

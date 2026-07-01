@@ -1,6 +1,6 @@
 {
   "id": "autonomous-status-report",
-  "generated": "2026-07-01T18:04:13Z",
+  "generated": "2026-07-01T18:09:13Z",
   "role": "run-until-mohamed-texts",
   "daemons": "53401\t0\tcom.ogz.brain-api",
   "brain": {
@@ -33,10 +33,10 @@
   },
   "pending_missions": [],
   "recent_done_missions": [
+    "autonomous-status-report",
     "cursor-onboarding-brief",
     "claude-code-history-master",
     "wave-health-2026-07-01",
-    "autonomous-status-report",
     "wire-ready-report",
     "handoff-bundle-refresh",
     "fake-platform-test",
@@ -62,25 +62,10 @@
     "reverted": 1,
     "in_progress": 1
   },
-  "git": "7f3650c2 mac-sync: mission bus 2026-07-01T18:03:16\ne6e6dd59 mac-sync: status snapshot 2026-07-01T18:03:16\n4eb52c77 fix(feedback): retro-attribute B166 ghost card → cards_attributed GREEN",
+  "git": "5c70ce43 mac-sync: mission bus 2026-07-01T18:08:22\n96a7455b mac-sync: status snapshot 2026-07-01T18:08:22\n7f3650c2 mac-sync: mission bus 2026-07-01T18:03:16",
   "git_dirty": "## weiblocks-export...origin/weiblocks-export\n M clients/albaik/derived/rival_corpus.json\n M clients/eatjurisha/derived/rival_corpus.json\n M clients/fake_beauty/profile/.synthetic_fixture.json\n M clients/fake_beauty/profile/audience_mirror.json",
   "studios_web_local": null,
   "heartbeats_last_8": [
-    {
-      "ts": "2026-07-01T17:19:09Z",
-      "health": {
-        "ok": true,
-        "body": {
-          "ok": true,
-          "humain": false,
-          "queue_depth": 0,
-          "auth_required": true
-        }
-      },
-      "executor_live": false,
-      "pending": 1,
-      "orchestra": true
-    },
     {
       "ts": "2026-07-01T17:24:10Z",
       "health": {
@@ -184,6 +169,21 @@
       },
       "executor_live": false,
       "pending": 1,
+      "orchestra": true
+    },
+    {
+      "ts": "2026-07-01T18:04:13Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": false,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "executor_live": false,
+      "pending": 0,
       "orchestra": true
     }
   ],

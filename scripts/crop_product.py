@@ -16,10 +16,12 @@ spend:
 
 Bbox convention: normalized floats {x0,y0,x1,y1} in [0,1], origin top-left, x1>x0, y1>y0.
 
-CONSUMER (Rule #6): the crop written to clients/<h>/profile/crops/ is READ by pick_reference (C245
-patch-3, NOT yet built). Until patch-3 lands this writer has no live reader — that severed wire is
-tracked in the backlog (C245) and intentional for this patch. Do not ship the render path on crops
-until patch-3 wires the reader.
+CONSUMER (Rule #6): the crop written to clients/<h>/profile/crops/ is READ by pick_reference
+(openclaw_convert.py). C245 patch-3 wired the reader: register_crop() (below) persists each crop
+into the brand's media_class.json as a clean, person-free product reference, and pick_reference's
+existing clean-ref scorer matches it by product — so a jewelry/fashion brand with no clean product
+photo gets a SAFE crop reference instead of a GAP-REFUSE. The wire is live (test_crop_product.py
+TestPatch3CropRegistration proves register→pick_reference end-to-end).
 """
 import argparse, base64, json, os, re, urllib.request
 from pathlib import Path
@@ -109,6 +111,38 @@ def crop_product(img_path, key, out_path):
             "src": str(img_path), "crop": saved, "px": px}
 
 
+def register_crop(handle, crop_path, product_en, src=""):
+    """CONSUMER WIRE (Rule #6, C245 patch-3): persist the crop into the brand's media_class.json
+    as a clean, person-free product reference, so pick_reference (openclaw_convert.py) matches it
+    BY PRODUCT and uses it as the flux-edit reference — instead of GAP-REFUSING a jewelry/fashion
+    brand that has no clean product photo (the whole reason the lifestyle-render path exists).
+
+    Design (RABIE + DeepSeek, consult-before-build): reuse the EXISTING media_class.json schema +
+    pick_reference's existing scorer — NOT a second _index.json (over-engineering). A crop is safe
+    (the person was cropped out, DeepSeek's safety design) so it carries has_person=False,
+    is_royal_or_public_figure=False, usable_as_product_reference=True → it flows straight into
+    pick_reference's `clean` list and is scored by product_en/product_keywords like any real ref.
+
+    Returns the repo-relative key written (so B/key == the crop file, which pick_reference checks)."""
+    mc = B / "clients" / handle / "profile" / "media_class.json"
+    data = json.loads(mc.read_text()) if mc.exists() else {}
+    cp = Path(crop_path)
+    key = str(cp.relative_to(B)) if cp.is_absolute() else str(cp)
+    data[key] = {
+        "kind": "product_crop",
+        "has_person": False,
+        "is_royal_or_public_figure": False,
+        "usable_as_product_reference": True,
+        "product_en": product_en or "",
+        "product_keywords": product_en or "",
+        "source": "crop",
+        "src": src,
+    }
+    mc.parent.mkdir(parents=True, exist_ok=True)
+    mc.write_text(json.dumps(data, ensure_ascii=False, indent=2))
+    return key
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--handle", required=True)
@@ -121,12 +155,15 @@ def main():
     if not src.is_absolute():
         src = B / a.image
     out = B / "clients" / a.handle / "profile" / "crops" / (src.stem + "_crop.jpg")
-    # CONSUMER: pick_reference (C245 patch-3, not yet built) reads clients/<h>/profile/crops/.
     res = crop_product(src, key, out)
     if not res.get("found"):
         print(f"— no product located in {src.name} (safe: nothing written)")
         return
+    # CONSUMER WIRE (C245 patch-3): register the crop into media_class.json so pick_reference
+    # matches it by product and uses it as the flux-edit ref (no longer a severed wire).
+    reg = register_crop(a.handle, res["crop"], res["product_en"], src=str(src))
     print(f"✅ cropped {res['product_en']!r} → {Path(res['crop']).relative_to(B)}  px={res['px']}")
+    print(f"   ↳ registered as clean product ref in media_class.json ({reg}) — pick_reference will match '{res['product_en']}'")
 
 
 if __name__ == "__main__":

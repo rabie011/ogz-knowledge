@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """C245 patch-1: product-crop primitive. Deterministic geometry, zero network (vision mocked)."""
-import sys, unittest, tempfile
+import sys, unittest, tempfile, json
 from pathlib import Path
 from unittest import mock
 
@@ -104,6 +104,52 @@ class TestRealJpegIntegration(unittest.TestCase):
         self.assertEqual(res["px"], exp)
         with Image.open(res["crop"]) as cropped:
             self.assertEqual(cropped.size, (exp[2] - exp[0], exp[3] - exp[1]))
+
+
+class TestPatch3CropRegistration(unittest.TestCase):
+    """C245 patch-3: register_crop persists the crop into media_class.json as a clean product ref,
+    and pick_reference (openclaw_convert.py) then MATCHES it by product — the Rule #6 consumer wire.
+    Proves end-to-end: a jewelry brand with no clean product photo gets a SAFE crop reference instead
+    of a GAP-REFUSE, while a non-matching product still refuses (Rule #8 preserved). Zero network."""
+
+    def setUp(self):
+        # sandbox the repo root both modules resolve paths against, so we never touch real clients/
+        self.d = Path(tempfile.mkdtemp())
+        self.handle = "testjewelry"
+        prof = self.d / "clients" / self.handle / "profile" / "crops"
+        prof.mkdir(parents=True)
+        self.crop = prof / "lifestyle_crop.jpg"
+        Image.new("RGB", (80, 80), (212, 175, 55)).save(self.crop, "JPEG")  # a "gold" crop
+        import openclaw_convert as oc
+        self.oc = oc
+        self._cpB, self._ocB = cp.B, oc.B
+        cp.B = self.d
+        oc.B = self.d
+
+    def tearDown(self):
+        cp.B, self.oc.B = self._cpB, self._ocB
+
+    def test_register_writes_clean_person_free_entry(self):
+        key = cp.register_crop(self.handle, str(self.crop), "gold pendant necklace", src="src.jpg")
+        mc = json.loads((self.d / "clients" / self.handle / "profile" / "media_class.json").read_text())
+        self.assertIn(key, mc)
+        e = mc[key]
+        self.assertTrue(e["usable_as_product_reference"])
+        self.assertFalse(e["has_person"])          # safe: person was cropped out
+        self.assertFalse(e["is_royal_or_public_figure"])
+        self.assertEqual(e["source"], "crop")
+        self.assertEqual(e["product_en"], "gold pendant necklace")
+        self.assertTrue((self.d / key).exists())    # B/key resolves to the real crop file
+
+    def test_pick_reference_matches_the_registered_crop(self):
+        key = cp.register_crop(self.handle, str(self.crop), "gold pendant necklace")
+        ref = self.oc.pick_reference(self.handle, product="gold pendant necklace")
+        self.assertEqual(ref, key)                  # the wire: crop is chosen as the flux-edit ref
+
+    def test_non_matching_product_still_refuses(self):
+        cp.register_crop(self.handle, str(self.crop), "gold pendant necklace")
+        ref = self.oc.pick_reference(self.handle, product="diamond tennis bracelet")
+        self.assertIsNone(ref)                       # Rule #8 preserved: no wrong-product render
 
 
 if __name__ == "__main__":

@@ -7,6 +7,21 @@ Repo: `rabie011/ogz-knowledge` · Branch: `main`
 
 You are the **OGZ cloud conductor** in repo `rabie011/ogz-knowledge`. Mohamed (OGZ Studios, Riyadh) talks **only here** — not to Claude Code, Terminal, or Mac agents.
 
+## Operating agreement (locked 2026-07-01)
+
+**Mohamed:** talks here only. Says what he wants in plain words (`go`, `status`, task names). **Does nothing else** — no Terminal, no paste blocks, no Mac agent chats.
+
+**You (cloud):** take what he says → plan → queue missions → edit repo → read results from GitHub → report back.
+
+**Mac:** runs hands automatically (executor, mac-sync, bridge). Mohamed does not operate it.
+
+**You only bother Mohamed when:**
+1. **Connection blocker** — Mac sync stale >30 min, GitHub push failing twice, Tailscale/bridge unreachable after queued fix missions
+2. **One-time gates he must say** — `render go`, production `wire`, taste pairs, client send
+3. **One-time install** — Google SA key, something physically only he can tap on the Mac UI
+
+**Never** send Terminal commands for normal work. Queue `queue-clear-stuck-running`, `mac_ensure_control`, git-fix missions instead.
+
 **Read first:** `AGENTS.md` → `docs/CURSOR_ONLY.md` → `docs/MAC_BRIDGE.md` → `data/cursor_missions/artifacts/CLOUD_AGENT_HANDOFF.md` → `data/unified_status.txt`
 
 ## What happened (2026-07-01)

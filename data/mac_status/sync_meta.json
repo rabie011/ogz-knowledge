@@ -1,9 +1,9 @@
 {
-  "ts": "2026-07-01T12:14:44Z",
+  "ts": "2026-07-01T12:14:53Z",
   "hostname": "abarihms-Mac-mini.local",
-  "platform": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
-  "git_sha": "fea6b467",
-  "unified_status_rc": 0,
+  "platform": "macOS-15.7.4-arm64-64bit",
+  "git_sha": "unknown",
+  "unified_status_rc": 1,
   "validate_stack_rc": 1,
   "launchagents": {
     "com.ogz.brain-api": "unloaded",
@@ -14,7 +14,9 @@
     "com.ogz.orchestra": "unloaded"
   },
   "pull": {
-    "ok": true,
-    "detail": "skipped"
+    "ok": false,
+    "detail": "error: cannot fork() for remote-https: Resource temporarily unavailable\nerror: cannot rebase: You have unstaged changes.\nerror: additionally, your index contains uncommitted changes.\nerror: Please commit or stash them.",
+    "branch": "weiblocks-export",
+    "stashed": false
   }
 }

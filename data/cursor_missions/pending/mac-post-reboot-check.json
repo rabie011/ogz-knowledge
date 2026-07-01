@@ -1,0 +1,15 @@
+{
+  "id": "mac-post-reboot-check",
+  "priority": -4,
+  "from": "cursor-cloud",
+  "created": "2026-07-01T06:00:00Z",
+  "type": "commands",
+  "goal": "After reboot/Abraham+PlayRoom — report Mac user, daemons, ports 4000/4140, tailscale, ogz paths",
+  "fix_allowed": true,
+  "commands": [
+    "cd ~/Desktop/ogz-knowledge 2>/dev/null || cd ~/ogz-knowledge 2>/dev/null || { echo NO_OGZ_REPO; exit 1; }",
+    "REPORT=~/Desktop/ogz-knowledge/data/cursor_missions/artifacts/mac_environment_latest.txt; ROOT=~/Desktop/ogz-knowledge; [ -d \"$ROOT\" ] || ROOT=~/ogz-knowledge; REPORT=\"$ROOT/data/cursor_missions/artifacts/mac_environment_latest.txt\"; { echo \"# Mac environment — $(date -u +%Y-%m-%dT%H:%M:%SZ)\"; echo; echo \"## User\"; whoami; echo \"HOME=$HOME\"; echo; echo \"## Host\"; hostname; scutil --get ComputerName 2>/dev/null || true; echo; echo \"## Tailscale\"; (tailscale status 2>/dev/null | head -8) || echo 'tailscale not running'; echo; echo \"## OGZ LaunchAgents (com.ogz.*)\"; launchctl list 2>/dev/null | grep com.ogz || echo 'none'; echo; echo \"## Abraham LaunchAgents (com.abraham.*)\"; launchctl list 2>/dev/null | grep com.abraham || echo 'none'; echo; echo \"## Ports\"; (curl -sf -o /dev/null -w 'brain_4140=%{http_code}\\n' http://127.0.0.1:4140/health 2>/dev/null) || echo 'brain_4140=down'; (curl -sf -o /dev/null -w 'playroom_4000=%{http_code}\\n' http://127.0.0.1:4000/ 2>/dev/null) || echo 'playroom_4000=down'; echo; echo \"## Repo\"; ls -la \"$ROOT\" 2>/dev/null | head -5; echo; echo \"## Keys\"; test -f ~/.abraham_env && echo 'abraham_env=ok' || echo 'abraham_env=MISSING'; echo; echo \"## Running missions\"; ls \"$ROOT/data/cursor_missions/running/\" 2>/dev/null; echo; echo \"## Pending missions\"; ls \"$ROOT/data/cursor_missions/pending/\" 2>/dev/null; } | tee \"$REPORT\"",
+    "cd \"$ROOT\" && ./scripts/mac_ensure_control.sh --quiet 2>&1 | tail -5",
+    "cd \"$ROOT\" && MAC_SYNC_PUSH=1 /opt/homebrew/bin/python3 scripts/mac_sync.py --push"
+  ]
+}

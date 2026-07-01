@@ -117,8 +117,12 @@ def stage_cards(limit: int = 5) -> int:
             "tag": "taste_refresh",
             "desc": c["caption"],
             "kind": "buttons",
-            "buttons": [{"value": "confirm", "label": "نعم — اقتله من المعيار"},
-                        {"value": "reject", "label": "لا — هذا مقبول"}],
+            # PORTAL CONTRACT: the approvals frontend renders taps ONLY from `options` with a `v`
+            # field (approvals.html: answer = it.options[j.choice].v); it never reads `buttons`.
+            # Emitting `buttons`/`value` shipped DEAD cards (title+desc show, no tap button) — the
+            # loop stayed cut despite a "staged" success. Fixed July 1 (0 `it.buttons` refs in FE).
+            "options": [{"v": "confirm", "label": "نعم — اقتله من المعيار"},
+                        {"v": "reject", "label": "لا — هذا مقبول"}],
         }
         qd.push_attributed(item, made_by="system:taste_refresh")  # valid PLAYER form (system:*); bare "taste_refresh" fails is_player (C245 wire-bug, fixed June 30)
         staged += 1

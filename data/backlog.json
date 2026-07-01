@@ -3762,9 +3762,10 @@
       "depends_on": [
         "B239b"
       ],
-      "status": "todo",
+      "status": "done",
       "what": "Schedule the lovable_watch fetch (sensor freshness trigger)",
-      "how": "Give lovable_watch.py a periodic trigger so the inbox stays fresh — fold into the B262 archive-freshness LaunchAgent (com.ogz pattern, weekly) or the orchestra fire sequence. Reader (B239b) already surfaces whatever lands; this keeps what lands current. Needs Mohamed-aware install (no autonomous launchd, session-leak risk)."
+      "how": "Give lovable_watch.py a periodic trigger so the inbox stays fresh — fold into the B262 archive-freshness LaunchAgent (com.ogz pattern, weekly) or the orchestra fire sequence. Reader (B239b) already surfaces whatever lands; this keeps what lands current. Needs Mohamed-aware install (no autonomous launchd, session-leak risk).",
+      "done_note": "2026-07-01: com.ogz.lovable-watch.plist created (deploy/launchagents/), copied to ~/Library/LaunchAgents/, loaded (status 0), RunAtLoad fired clean (no new commits, idempotent baseline held). Daily StartInterval 86400. Sensor now auto-runs — was manual-only. Panel: RABIE build / DeepSeek HOLD-split; resolved by facts (DeepSeek falsely claimed make_sure has no lovable ref — grep shows 4 refs L644-650; freshness surface already exists). test_lovable_watch 5/5 green."
     },
     {
       "id": "B286",
@@ -4287,6 +4288,6 @@
   ],
   "counts": {
     "total": 373,
-    "todo": 55
+    "todo": 54
   }
 }

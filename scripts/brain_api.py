@@ -36,6 +36,7 @@ B = Path(__file__).parent.parent
 sys.path.insert(0, str(B / "scripts"))
 
 PORT = int(os.environ.get("BRAIN_API_PORT", "4140"))
+BIND = os.environ.get("BRAIN_API_BIND", "127.0.0.1")
 QUEUE_MAX = 4                       # pending produce jobs before 429 (backpressure)
 PER_JOB_SECONDS = 10                # conservative per-job drain estimate for Retry-After / ETA (C203);
 # banked serves are ~0s, a cache-miss queues instantly — 10s is a safe upper bound for the dev's retry.
@@ -208,8 +209,8 @@ class Handler(BaseHTTPRequestHandler):
 
 def main():
     threading.Thread(target=_produce_worker, daemon=True).start()
-    srv = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
-    print(f"🧠 brain_api on http://127.0.0.1:{PORT}  [🔒 auth required]")
+    srv = ThreadingHTTPServer((BIND, PORT), Handler)
+    print(f"🧠 brain_api on http://{BIND}:{PORT}  [🔒 auth required]")
     if _ENV_TOKEN:
         print("   token: from BRAIN_API_TOKEN (env)")
     else:

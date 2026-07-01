@@ -1,0 +1,16 @@
+{
+  "id": "tailscale-brain-wire",
+  "priority": 3,
+  "from": "cursor-cloud",
+  "created": "2026-07-01T04:00:00Z",
+  "type": "commands",
+  "goal": "Wire brain :4140 on Tailscale tailnet — serve tcp proxy + brain_remote_endpoint.json (Mohamed requested)",
+  "fix_allowed": true,
+  "commands": [
+    "cd ~/Desktop/ogz-knowledge && git fetch origin main && git rebase origin/main",
+    "chmod +x ~/Desktop/ogz-knowledge/scripts/mac_tailscale_wire.sh",
+    "cd ~/Desktop/ogz-knowledge && ./scripts/mac_tailscale_wire.sh",
+    "curl -sf http://127.0.0.1:4140/health | head -c 200 || echo 'brain local health failed'",
+    "cd ~/Desktop/ogz-knowledge && MAC_SYNC_PUSH=1 /opt/homebrew/bin/python3 scripts/mac_sync.py --push"
+  ]
+}

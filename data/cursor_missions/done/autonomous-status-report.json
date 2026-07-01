@@ -1,6 +1,6 @@
 {
   "id": "autonomous-status-report",
-  "generated": "2026-07-01T12:38:44Z",
+  "generated": "2026-07-01T12:43:45Z",
   "role": "run-until-mohamed-texts",
   "daemons": "53401\t0\tcom.ogz.brain-api",
   "brain": {
@@ -62,25 +62,10 @@
     "reverted": 1,
     "in_progress": 1
   },
-  "git": "cdb0c88a mac-sync: mission bus 2026-07-01T12:37:14\n40e85a22 mac-sync: status snapshot 2026-07-01T12:37:14\n4504823f fix: close 2 real leaks caught RED by the suite (3 chairs)",
+  "git": "c4b13533 fix(deadly-gate): 'faceless' is a proven-strict value, not a relaxation\n5cc2b3f8 mac-sync: mission bus 2026-07-01T12:42:18\n6a027bb8 mac-sync: status snapshot 2026-07-01T12:42:18",
   "git_dirty": "## weiblocks-export...origin/weiblocks-export\n M clients/albaik/derived/rival_corpus.json\n M clients/eatjurisha/derived/rival_corpus.json\n M clients/fake_beauty/profile/.synthetic_fixture.json\n M clients/fake_beauty/profile/audience_mirror.json",
   "studios_web_local": null,
   "heartbeats_last_8": [
-    {
-      "ts": "2026-06-30T17:22:03Z",
-      "health": {
-        "ok": true,
-        "body": {
-          "ok": true,
-          "humain": true,
-          "queue_depth": 0,
-          "auth_required": true
-        }
-      },
-      "executor_live": true,
-      "pending": 0,
-      "orchestra": true
-    },
     {
       "ts": "2026-06-30T17:27:04Z",
       "health": {
@@ -173,6 +158,21 @@
     },
     {
       "ts": "2026-07-01T12:33:44Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": false,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "executor_live": false,
+      "pending": 0,
+      "orchestra": true
+    },
+    {
+      "ts": "2026-07-01T12:38:45Z",
       "health": {
         "ok": true,
         "body": {

@@ -106,9 +106,14 @@ def client_rows(handle: str, vfields: list[dict], base: Path) -> list[dict]:
 
 
 def clients_with_profile(base: Path) -> list[str]:
+    # Single boundary (Rule #3): synthetic fixtures (do_not_aggregate) are NOT real clients —
+    # exclude them here exactly as fingerprint_status.real_clients() does, so census and checklist
+    # never disagree on who a client is.
+    from fingerprint_status import _is_synthetic_fixture
     cdir = base / "clients"
     return sorted(d.name for d in cdir.iterdir()
-                  if (d / "profile" / "cultural_overrides.json").exists())
+                  if (d / "profile" / "cultural_overrides.json").exists()
+                  and not _is_synthetic_fixture(d / "profile"))
 
 
 def build_checklist(base: Path = BASE) -> str:

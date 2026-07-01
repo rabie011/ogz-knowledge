@@ -83,9 +83,24 @@ def real_clients() -> list[str]:
     whole system). A real client is gated by a confirmed profile spine
     (cultural_overrides.json), matching build_visual_review_checklist.clients_with_profile.
     A bare profile/ dir (test scratch like testbrand, empty typo-dups) is NOT a client.
+    A synthetic fixture (profile/.synthetic_fixture.json with do_not_aggregate:true, written by
+    seed_fake_sector_client.py for platform sector-coverage tests) is NOT a client either — it
+    carries a cultural_overrides.json but no state.json, and must never enter any census.
     Every census/report/test must enumerate through this, never re-glob profile/ inline."""
     return sorted(d.name for d in (BASE / "clients").iterdir()
-                  if (d / "profile" / "cultural_overrides.json").exists())
+                  if (d / "profile" / "cultural_overrides.json").exists()
+                  and not _is_synthetic_fixture(d / "profile"))
+
+
+def _is_synthetic_fixture(pdir: Path) -> bool:
+    """True when profile/.synthetic_fixture.json marks the dir do_not_aggregate (synthetic-only)."""
+    marker = pdir / ".synthetic_fixture.json"
+    if not marker.exists():
+        return False
+    try:
+        return bool(json.loads(marker.read_text()).get("do_not_aggregate"))
+    except (json.JSONDecodeError, OSError):
+        return False
 
 
 def status(handle: str) -> dict:

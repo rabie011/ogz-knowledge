@@ -1,0 +1,19 @@
+{
+  "id": "mac-bridge-wire-go",
+  "priority": 0,
+  "from": "cursor-cloud",
+  "created": "2026-07-01T12:30:00Z",
+  "type": "commands",
+  "goal": "Install Mac Bridge :4150, Tailscale wire, full diagnostic push, wire handoff",
+  "fix_allowed": true,
+  "commands": [
+    "cd ~/Desktop/ogz-knowledge && git fetch origin HEAD && git pull --rebase origin HEAD || true",
+    "chmod +x ~/Desktop/ogz-knowledge/scripts/mac_tailscale_wire.sh ~/Desktop/ogz-knowledge/scripts/mac_ensure_control.sh",
+    "cd ~/Desktop/ogz-knowledge && ./scripts/mac_ensure_control.sh --quiet",
+    "cd ~/Desktop/ogz-knowledge && ./scripts/mac_tailscale_wire.sh",
+    "cd ~/Desktop/ogz-knowledge && /opt/homebrew/bin/python3 scripts/mac_full_diagnostic.py --json",
+    "cd ~/Desktop/ogz-knowledge && /opt/homebrew/bin/python3 scripts/wire_test.py || true",
+    "cd ~/Desktop/ogz-knowledge && /opt/homebrew/bin/python3 scripts/wire_publish_handoff.py",
+    "cd ~/Desktop/ogz-knowledge && MAC_SYNC_PUSH=1 /opt/homebrew/bin/python3 scripts/mac_sync.py --push --no-pull"
+  ]
+}

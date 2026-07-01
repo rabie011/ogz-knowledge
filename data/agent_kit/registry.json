@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "updated": "2026-07-01",
+  "description": "Registry of OGZ agent homes — any agent registers here",
+  "drive_root_name": "OGZ Agents",
+  "mac_archive_root": "~/OGZ-Archive/agents",
+  "agents": [
+    {
+      "id": "PROPOSALS",
+      "status": "bootstrap",
+      "mac_home": "~/Desktop/ogz-proposals",
+      "repo": "ogz-proposals",
+      "scaffold_in_brain": "proposals/",
+      "drive_subfolder": "PROPOSALS",
+      "harvest_from": ["~/agents/router.py", "~/agents/proposal_agent.py", "~/agents/knowledge/clients", "~/agents/OGZ-Reference-Proposals"],
+      "scripts": {
+        "auth": "scripts/drive_auth_check.py",
+        "index": "scripts/drive_list.py",
+        "run": "scripts/proposal_agent.py",
+        "output": "scripts/proposal_to_slides.py"
+      },
+      "events": "events/agent_events.jsonl",
+      "learnings": "knowledge/learnings.jsonl",
+      "mohamed_gates": ["approve_before_client_send"]
+    },
+    {
+      "id": "CREATIVE",
+      "status": "active_in_brain",
+      "mac_home": "~/Desktop/ogz-knowledge",
+      "drive_subfolder": "CREATIVE",
+      "scripts": {
+        "run": "scripts/creative_agent_loop.py"
+      },
+      "events": "data/creative_outputs/",
+      "mohamed_gates": ["render go"]
+    }
+  ]
+}

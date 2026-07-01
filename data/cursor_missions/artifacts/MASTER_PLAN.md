@@ -68,6 +68,8 @@ See `data/cursor_missions/artifacts/DECISIONS.md` and `PROPOSAL_TRACK_PR_PLAN.md
 
 ### Phase B — Proposals track (next)
 
+**Foundation:** [docs/AGENT_KIT.md](../docs/AGENT_KIT.md) — universal agent homes, Drive + Mac archive, append-only memory.
+
 **Scaffold:** `proposals/` in repo — split to `ogz-proposals` on Mac.
 
 **Source of truth:** Google Drive

@@ -104,6 +104,24 @@
       "role": "Alarms when stuck",
       "outputs": ["data/im_here.md"],
       "script": "scripts/make_sure.py"
+    },
+    {
+      "id": "PROPOSALS",
+      "runtime": "python",
+      "status": "bootstrap",
+      "role": "Drive → proposal → Google Slides — on-demand; grows via learnings.jsonl",
+      "mac_home": "~/Desktop/ogz-proposals",
+      "agent_kit": "data/agent_kit/registry.json",
+      "inputs": ["knowledge/clients", "data/drive_manifest.json"],
+      "outputs": ["events/agent_events.jsonl", "knowledge/learnings.jsonl", "~/OGZ-Archive/agents/PROPOSALS"],
+      "scripts": {
+        "bootstrap": "scripts/agent_kit/bootstrap_home.py",
+        "log": "scripts/agent_kit/log_event.py",
+        "archive": "scripts/agent_kit/archive_run.py",
+        "run": "scripts/proposal_agent.py",
+        "slides": "scripts/proposal_to_slides.py"
+      },
+      "mohamed_gates": ["approve_before_client_send"]
     }
   ],
   "mission_type_routing": {

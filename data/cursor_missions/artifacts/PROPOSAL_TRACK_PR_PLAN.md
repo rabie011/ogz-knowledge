@@ -1,7 +1,8 @@
 # Proposal Track — PR Plan (draft)
 
 **Status:** waiting on Mohamed **go**  
-**Decision:** proposals first · new clean repo for proposal tooling · brain stays in `ogz-knowledge`
+**Decision:** proposals first · new clean repo · brain stays in `ogz-knowledge`  
+**Foundation:** [AGENT_KIT.md](../../docs/AGENT_KIT.md) — archive (Drive + Mac), memory (jsonl), assets — **any agent**
 
 ---
 

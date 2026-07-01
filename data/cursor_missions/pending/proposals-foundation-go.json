@@ -1,0 +1,22 @@
+{
+  "id": "proposals-foundation-go",
+  "from": "cursor-cloud",
+  "created": "2026-07-01T00:30:00Z",
+  "type": "commands",
+  "goal": "Proposals foundation — bootstrap agent home, harvest ~/agents, consult DeepSeek, Mac archive dirs",
+  "fix_allowed": false,
+  "commands": [
+    "cd ~/Desktop/ogz-knowledge && git fetch origin main && git rebase origin/main",
+    "mkdir -p ~/OGZ-Archive/agents/PROPOSALS",
+    "cd ~/Desktop/ogz-knowledge && python3 scripts/agent_kit/bootstrap_home.py PROPOSALS",
+    "test -d ~/Desktop/ogz-proposals || cp -R ~/Desktop/ogz-knowledge/proposals ~/Desktop/ogz-proposals",
+    "cd ~/Desktop/ogz-proposals && python3 scripts/agent_kit/bootstrap_home.py PROPOSALS 2>/dev/null || python3 ~/Desktop/ogz-knowledge/scripts/agent_kit/bootstrap_home.py PROPOSALS",
+    "test -f ~/agents/router.py && cp ~/agents/router.py ~/Desktop/ogz-proposals/lib/router.py || true",
+    "test -f ~/agents/proposal_agent.py && cp ~/agents/proposal_agent.py ~/Desktop/ogz-proposals/scripts/proposal_agent.py || true",
+    "test -d ~/agents/knowledge/clients && cp -R ~/agents/knowledge/clients/* ~/Desktop/ogz-proposals/knowledge/clients/ 2>/dev/null || true",
+    "test -f ~/agents/prompts/proposal_agent.md && cp ~/agents/prompts/proposal_agent.md ~/Desktop/ogz-proposals/prompts/proposal_agent.md || true",
+    "cd ~/Desktop/ogz-knowledge && python3 scripts/consult.py \"Review OGZ Agent Kit foundation in docs/AGENT_KIT.md: Drive+Mac archive, harvest proposals from ~/agents, append-only events/learnings. What is missing before first Slides output?\" || true",
+    "cd ~/Desktop/ogz-knowledge && python3 scripts/agent_kit/log_event.py --agent PROPOSALS --type harvested --summary \"Foundation harvest from ~/agents\" --artifacts \"{\\\"mac_home\\\":\\\"~/Desktop/ogz-proposals\\\"}\"",
+    "ls -la ~/Desktop/ogz-proposals ~/OGZ-Archive/agents/PROPOSALS 2>/dev/null | head -30"
+  ]
+}

@@ -29,6 +29,8 @@ Then copy live code from `~/agents`:
 
 See `../data/cursor_missions/artifacts/PROPOSAL_TRACK_PR_PLAN.md`
 
+**Universal foundation (all agents):** `../docs/AGENT_KIT.md` + `../data/agent_kit/registry.json`
+
 ## Layout
 
 ```

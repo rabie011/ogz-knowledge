@@ -324,3 +324,16 @@ PREPARED (verified this shift): three dirs under `clients/` have a `profile/` fo
 No code reads them anymore; deleting is pure hygiene, not urgent. Not pushed to your live queue (it's at 63 items — Rule #10, no flood).
 YOUR TAP: «DELETE APPROVED» (the pair removes all three) / «keep».
 (census fix committed this shift · L0 hygiene · ~1 min on your word)
+
+### A-50 Pick the left-hand-serving compliance option + rule its scope (UNBLOCKS the immune moat)
+PREPARED (verified + built this shift — B127): the 60-second evidence one-pager is on disk at `11_who_to_learn_from/_calibration_set/ABC_EVIDENCE_ONEPAGER.md`, every number grep/test-verified 2026-07-01. The honest state of the three options:
+- **A** (single-model GPT-4o + conservative fail-safe) — **LIVE**. item_02 control caught (L1 🟢), completeness 100%, accuracy 91.7%. But the pass is **structural, not perceptual** (the eye still misread the hand; the fail-safe blocked anyway) and **false-block rate is UNMEASURED** (no clean right-hand-on-food control).
+- **B** (Anthropic 2nd-vote, escalate-only, fail-safe) — **BUILT, `reconcile()` 9/9 tests green, but 0 LIVE RUNS** (Anthropic dry since 06-12). Detection/false-block = UNKNOWN until it runs.
+- **C-expanded** (widen the set, B126) — **NOT built**; the only path that can ever measure the false-block rate and truly prove the moat.
+
+The pair's provisional recommendation (your eye rules): **A now → A+B when Anthropic is funded → C-expanded to prove it** — a sequence, not either/or. C is the real unlock.
+
+YOUR TAP (two answers):
+1. Option: **A now / A+B / hold for C-first** (recommend: A now, sequence above).
+2. Scope: does `left_hand_serving` forbid **ALL** left-hand food contact, or **only serving-to-others**? (flows into B129 rule text on your word.)
+(backlog B127 done → unblocks B128 · Immune System · one-pager ~60 sec)

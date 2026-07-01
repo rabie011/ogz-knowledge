@@ -13,29 +13,23 @@ source-only fields (recommended_chains, day_specific_variations, etc.) go to ext
 """
 import glob
 import json
+import sys
 from pathlib import Path
 
 import yaml
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from occasion_keys import normalize  # THE one shared slug->occasion_key map (never local)
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / "06_saudi_calendar"
 OUT = ROOT / "exports" / "weiblocks_v1"
 DATE_ADDED = "2026-07-01"  # stamped (deterministic), not now()
 
-# REAL occasion_slug (read from inside each YAML, NOT the filename) -> spec occasion_key
-# (controlled vocab §3; stable snake_case invented for the new ones). The two that used to
-# fall through to raw slugs — 'mdl_beast' and '11_11_shopping' — are now mapped explicitly.
-# Original slug is preserved verbatim in extra.source_label.
-KEY_MAP = {
-    "ramadan": "ramadan", "eid_al_fitr": "eid_fitr", "eid_al_adha": "eid_adha",
-    "hajj_season": "hajj_season", "saudi_national_day": "national_day",
-    "saudi_founding_day": "founding_day", "riyadh_season": "riyadh_season",
-    "jeddah_season": "jeddah_season", "white_friday": "white_friday",
-    "11_11_shopping": "singles_day", "arab_mothers_day": "mothers_day",
-    "esports_world_cup": "esports_world_cup", "leap_conference": "leap_conference",
-    "mdl_beast": "soundstorm",
-}
 SECTORS = ["F&B", "Retail", "Beauty_Wellness", "Healthcare", "Real_Estate", "Corporate_Services", "Other"]
+# Sector baselines NOT shipped in this export (held): consumers get the occasion knowledge
+# (it is real) but each held sector object carries held:true so nobody joins to a missing baseline.
+HELD_SECTORS = {"Healthcare", "Real_Estate"}
 ENTERTAINMENT = {"riyadh_season", "jeddah_season", "esports_world_cup", "leap_conference", "soundstorm"}
 COMMERCIAL = {"white_friday", "singles_day"}
 # hard_rules = ONLY law/religious/flag/modesty-level. Softer style anti-patterns are NOT hard rules;
@@ -44,12 +38,17 @@ HARD_KW = ["law", "flag", "fasting", "daylight", "prayer", "haram", "modesty", "
 
 
 def derive_type(key, cs):
+    # PRECEDENCE CONTRACT (do not reorder): religious > entertainment > national > commercial.
+    # Entertainment membership beats patriotic_weight — Saudi mega-events (esports_world_cup,
+    # leap_conference, riyadh_season) all carry patriotic_weight=high but are entertainment/
+    # business occasions, not national holidays. A key in ENTERTAINMENT with religious_weight
+    # high would still come out religious — intended: religion always wins.
     if cs.get("religious_weight") in ("highest", "high"):
         return "religious"
-    if cs.get("patriotic_weight") in ("highest", "high"):
-        return "national"
     if key in ENTERTAINMENT:
         return "entertainment"
+    if cs.get("patriotic_weight") in ("highest", "high"):
+        return "national"
     return "commercial"
 
 
@@ -94,13 +93,25 @@ def sector_applicability(key):
                          "Beauty_Wellness": "green-themed looks", "Healthcare": "community pride",
                          "Real_Estate": "Vision 2030 living", "Corporate_Services": "pride, achievement",
                          "Other": "celebratory national greeting"},
+        # founding_day is NOT national_day (source YAML content_donts forbid conflating them:
+        # Founding = 1727 First Saudi State, Najdi-historical, Dir'iyah palette terracotta/palm
+        # green/sand, traditional crafts + dress — NOT green accents, NOT Vision 2030).
+        "founding_day": {"F&B": "heritage dishes, Dir'iyah palette (terracotta, palm green, sand)",
+                         "Retail": "heritage collections, traditional crafts, terracotta/sand palette",
+                         "Beauty_Wellness": "heritage-inspired looks, historic dress accents, subtle",
+                         "Healthcare": "community heritage pride, rooted and dignified",
+                         "Real_Estate": "Dir'iyah/Najdi heritage architecture (mud-brick, palm groves)",
+                         "Corporate_Services": "founding heritage, three centuries narrative (1727)",
+                         "Other": "heritage greeting, Dir'iyah palette"},
     }
     emap["eid_fitr"] = emap["eid_adha"] = emap["ramadan"]
-    emap["founding_day"] = emap["national_day"]
     per = emap.get(key)
     out = {}
     for s in SECTORS:
-        out[s] = {"applies": True, "emphasis": (per.get(s, "") if per else "seasonal relevance")}
+        entry = {"applies": True, "emphasis": (per.get(s, "") if per else "seasonal relevance")}
+        if s in HELD_SECTORS:
+            entry["held"] = True  # knowledge is real; the sector BASELINE is not shipped in v1
+        out[s] = entry
     return out
 
 
@@ -132,7 +143,11 @@ def build():
         if not d:
             continue
         slug = d.get("occasion_slug") or Path(fp).stem
-        key = KEY_MAP.get(slug, slug)
+        key, _ = normalize(slug)  # shared module, never a local map
+        if key is None:  # Rule #8: refuse, don't warn — an unmapped occasion must not ship
+            raise SystemExit(f"REFUSE: occasion slug {slug!r} ({fp}) not resolvable by "
+                             f"occasion_keys.normalize — add it to the shared module first")
+        yprov = d.get("provenance", {}) or {}
         cs = d.get("cultural_significance", {}) or {}
         dr = d.get("date_recurrence", {}) or {}
         dsv = d.get("day_specific_variations", {}) or {}
@@ -156,12 +171,18 @@ def build():
             "dos": d.get("content_dos") or [],
             "donts": d.get("content_donts") or [],
             "hard_rules": hard_rules,
+            # TRUE provenance carried from the YAML's own block (never hardcoded): real source
+            # (xlsx corpus / internet_research), Mohamed as confirmer where present, and the
+            # YAML's self-declared confidence. Unknown -> null, never invented.
             "provenance": {
-                "source": "manual_curation", "confidence": "experimental",
+                "source": yprov.get("source"), "confidence": yprov.get("confidence") or "experimental",
+                "confirmer": yprov.get("confirmer"),
                 "observed_count": None, "date_added": DATE_ADDED, "scope": f"occasion:{key}",
             },
             "extra": {
                 "source_label": slug,
+                "source_date_added": yprov.get("date_added"),  # the YAML's own timestamp
+                **({"provenance_missing_source": True} if not yprov.get("source") else {}),
                 "derived_fields": ["type", "priority", "lead_weeks", "recommended_mix_shift",
                                    "tone_shift", "sector_applicability", "hard_rules", "soft_flags"],
                 "derived_note": "behavior fields inferred from cultural_significance weights + "

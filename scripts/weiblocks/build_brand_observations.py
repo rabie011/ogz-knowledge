@@ -15,8 +15,9 @@ DeepSeek-reasoner ruled (W2 Step 2, stamped consults b827dd30 / 8f17b7a1):
   recurring_phrases_ar = top-5 aggregated notable_phrases. reference_account.observation_ids = grouped
   raw observation_ulids per brand.
 
-Dialect folded to spec's 4 (Mohamed's ruling): eastern→Khaleeji, msa→Fusha, mixed/saudi/other→held
-(dialect=null, original dist in extra). Native Arabic raw (NDJSON, ensure_ascii=False per line).
+Dialect folded to spec's 4 (Mohamed's ruling): eastern→Khaleeji, msa→Fusha; dominant is picked among
+FOLD-MAPPABLE tokens only (non_arabic/unknown/mixed/saudi never outvote a real dialect); a brand with
+NO mappable token is held (dialect=null, full dist in extra). Native Arabic raw (ensure_ascii=False).
 """
 import glob
 import hashlib
@@ -24,6 +25,8 @@ import json
 import re
 from collections import Counter
 from pathlib import Path
+
+from occasion_keys import normalize as occ_normalize, normalize_list as occ_normalize_list  # THE shared join module — never a local map
 
 ROOT = Path(__file__).resolve().parents[2]
 OBS = ROOT / "11_who_to_learn_from" / "observations"
@@ -73,6 +76,45 @@ def scrub(text, handles):
             continue
         text = re.sub(r"@?" + re.escape(h), "[brand]", text, flags=re.IGNORECASE)
     return text
+
+
+# P0 PRIVACY (audit worst finding): 73 distinct THIRD-PARTY @handles — real private individuals —
+# leaked verbatim inside example_captions after the own-handle scrub. Strip ALL remaining @-mentions.
+_MENTION_RE = re.compile(r"@[A-Za-z0-9_.]{2,30}")   # the IG-handle charset (all measured leaks match)
+_MENTION_ANY_RE = re.compile(r"@[\w.]+")            # unicode catch-all guard (DeepSeek C-consult: future-proof)
+
+
+def scrub_mentions(text):
+    """replace every remaining @-mention with [mention] (applied AFTER own-handle scrub)."""
+    if not text:
+        return text
+    text = _MENTION_RE.sub("[mention]", text)
+    return _MENTION_ANY_RE.sub("[mention]", text)
+
+
+# extractor-prose artifacts: the phrase extractor sometimes emitted its own narration
+# ("Two key Arabic phrases: …" — 525 distinct in the raw corpus) instead of caption content.
+_AR_SCRIPT_RE = re.compile(r"[؀-ۿ]")
+_LATIN_RE = re.compile(r"[A-Za-z]")
+_PROSE_COLON_RE = re.compile(r"^[A-Za-z]+(?: [A-Za-z]+){2,}\s*:")  # >=3 English words then a colon
+
+
+def is_extractor_prose(p):
+    """True = extractor narration / non-phrase junk — filtered from the phrase counter at ingest.
+    Patterns (panel-ruled): contains 'arabic phrase' (525 real artifacts); English-prose-colon prefix
+    before Arabic (0 extra hits today, guards the shape); len>60 mixed-script (sentence-length
+    bilingual copy — not a recurring PHRASE; 48 real hits, eyeballed)."""
+    if not p:
+        return True
+    if "arabic phrase" in p.lower():
+        return True
+    if _PROSE_COLON_RE.match(p) and _AR_SCRIPT_RE.search(p):
+        return True
+    if len(p) > 60 and _AR_SCRIPT_RE.search(p) and _LATIN_RE.search(p):
+        return True
+    return False
+
+
 DIALECT_FOLD = {"najdi": "Najdi", "hijazi": "Hejazi", "hejazi": "Hejazi", "khaleeji": "Khaleeji",
                 "eastern": "Khaleeji", "khaleeji_neutral": "Khaleeji", "msa": "Fusha (MSA)",
                 "fusha": "Fusha (MSA)", "standard": "Fusha (MSA)"}
@@ -94,16 +136,22 @@ def _dom(counter):
 
 
 def spread_captions(rows):
-    """up to 12 captions spread across occasions (round-robin by occasion)."""
+    """up to 12 captions spread across occasions (round-robin by raw occasion for balance).
+    Emitted occasion = shared occasion_keys.normalize key or null; unresolved raw token kept
+    honest in sibling occasion_source (never a fabricated 'evergreen' when the source had none)."""
     by_occ = {}
     for cap, occ, perf in rows:
-        by_occ.setdefault(occ or "evergreen", []).append((cap, perf))
+        by_occ.setdefault(occ or "evergreen", []).append((cap, occ, perf))
     out, i = [], 0
     while len(out) < CAP_CAPTIONS and any(by_occ.values()):
-        for occ in list(by_occ):
-            if by_occ[occ]:
-                cap, perf = by_occ[occ].pop(0)
-                out.append({"text_ar": cap, "occasion": occ, "performed": perf or "unknown"})
+        for group in list(by_occ):
+            if by_occ[group]:
+                cap, raw_occ, perf = by_occ[group].pop(0)
+                key, orig = occ_normalize(raw_occ)
+                entry = {"text_ar": cap, "occasion": key, "performed": perf or "unknown"}
+                if key is None and orig is not None and str(orig).strip():
+                    entry["occasion_source"] = orig    # unresolved raw token, kept for provenance
+                out.append(entry)
                 if len(out) >= CAP_CAPTIONS:
                     break
         i += 1
@@ -139,6 +187,8 @@ def build():
         if vo.get("tone"):
             b["tones"][vo["tone"]] += 1
         for p in (vo.get("notable_phrases") or []):
+            if is_extractor_prose(p):    # extractor narration never enters the counter
+                continue
             b["phrases"][p] += 1
         if vo.get("dialect_detected"):
             b["dialects"][vo["dialect_detected"]] += 1
@@ -161,8 +211,11 @@ def build():
     for bc, b in sorted(brands.items()):
         n = len(b["ulids"])
         brand_ulids[bc] = b["ulids"]
-        dom_dialect_raw = _dom(b["dialects"])
-        dialect = DIALECT_FOLD.get(dom_dialect_raw)  # None => held (mixed/saudi/other)
+        # dialect-null bug fix: pick dominant among FOLD-MAPPABLE keys only — non_arabic/unknown/mixed
+        # counts must never outvote a real dialect (najdi:17 was folding to null under non_arabic:58).
+        mappable = Counter({k: v for k, v in b["dialects"].items() if k in DIALECT_FOLD})
+        dom_dialect_raw = _dom(mappable)
+        dialect = DIALECT_FOLD.get(dom_dialect_raw)  # None => NO mappable dialect observed (saudi/mixed/non_arabic-only held)
         emoji_ratio = (sum(b["emoji"]) / len(b["emoji"])) if b["emoji"] else 0
         emoji = "frequent" if emoji_ratio > 0.6 else ("moderate" if emoji_ratio > 0.2 else "sparing")
         rh = b["raw_handles"]
@@ -170,8 +223,11 @@ def build():
         provisional = sk == "Other"                 # True = observed brand, sector not baselined
         ex_caps = spread_captions(b["caps"])
         for c in ex_caps:
-            c["text_ar"] = scrub(c["text_ar"], rh)   # residual-leak guard: strip own handle from captions
-        phrases = [scrub(p, rh) for p in _top(b["phrases"], TOP_PHRASES)]
+            # own-handle scrub first ([brand]), then ALL third-party @-mentions ([mention]) — P0 privacy
+            c["text_ar"] = scrub_mentions(scrub(c["text_ar"], rh))
+        phrases = [scrub_mentions(scrub(p, rh)) for p in _top(b["phrases"], TOP_PHRASES)]
+        # occasion keys via THE shared module: resolved spec keys only; unresolved originals -> extra
+        occ_keys, occ_unresolved = occ_normalize_list(sorted(b["occasions"]))
         records.append({
             "id": f"bobs_{bc}",
             "entity": "brand_observation",
@@ -195,7 +251,7 @@ def build():
                 "verified": False,
                 "qualitative_engagement": _dom(b["engagement"]),
             },
-            "occasions_seen": sorted(b["occasions"]),
+            "occasions_seen": occ_keys,              # spec occasion_key values only (joins resolve)
             "example_captions": ex_caps,
             "provenance": {
                 "source": "apify_scrape",          # underlying content scraped; extraction by claude
@@ -207,9 +263,11 @@ def build():
             "extra": {
                 "source_label": b["sector"],
                 "provisional_sector": provisional,  # True => raw sector not shipped, retagged Other
-                "dialect_source": dom_dialect_raw,               # original before fold
-                "dialect_distribution": dict(b["dialects"]),
-                "occasion_distribution": dict(b["occasions"]),
+                "dialect_source": dom_dialect_raw,               # dominant MAPPABLE raw token before fold (None = held)
+                "dialect_distribution": dict(b["dialects"]),     # full raw distribution, nothing hidden
+                "occasion_distribution": dict(b["occasions"]),   # full raw token distribution
+                "occasions_unresolved": occ_unresolved,          # raw tokens that map to no shipped occasion_key
+                "performed_basis": "engagement_potential_inference",  # 'performed' = qualitative inference, NOT a measured metric
                 "observation_ulids": b["ulids"],                 # drill-down (also feeds reference_account)
                 # PRIVACY: source_url, real handle, filename, capture_date DELIBERATELY EXCLUDED.
             },

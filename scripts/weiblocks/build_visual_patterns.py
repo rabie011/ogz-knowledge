@@ -17,19 +17,26 @@ HONESTY (evidence rule, Rules #9/#12/#16):
     forbiddens (alcohol/pork for F&B) read from 04_saudi_rules + 05_sector_defaults -> the cultural
     subset is tagged in extra so its origin is never lost.
   - sector_key / occasion_key are tagged ONLY where a real mapping exists (chain sectors_allowed +
-    default_eligible_chains score; occasion detected in id/name/occasions_allowed). No mapping -> null.
+    default_eligible_chains score; occasion via the SHARED occasion_keys module over occasions_allowed
+    + declared-in-name detection). No mapping -> null. Multi-occasion chains keep a single primary in
+    occasion_key but EVERY resolved key rides in extra.occasion_keys_all (no lossy collapse).
+  - props are WORD-BOUNDARY matched (never substring) and negation-aware: a prop the template
+    negates ("no plates") lands in props_forbidden, never props_allowed.
   - The observed sector-intel enrichment IS real data; it is surfaced under extra.observed_sector_intel
     with its own n / lift / date, and the observed lighting/palette/composition winners are MERGED into
     the spec fields but flagged (source tagged) so authored vs observed is always distinguishable.
 
 Native Arabic preserved (ensure_ascii=False). Empty over missing (null / []). Nothing dropped -> extra.
 """
+import bisect
 import glob
 import json
 import re
 from pathlib import Path
 
 import yaml
+
+from occasion_keys import SHIPPED_KEYS, normalize_list  # the ONE shared occasion vocab
 
 ROOT = Path(__file__).resolve().parents[2]
 CHAINS_DIR = ROOT / "02_what_to_build"
@@ -50,6 +57,11 @@ SECTOR_KEY = {
     "real_estate": "Real_Estate",
     "healthcare_wellness": "Healthcare", "fitness": "Healthcare",
 }
+# held sector BASELINES (Mohamed's ruling): patterns tied to these retag sector_key=null
+# (universal) with the true sector preserved in extra.source_sector — the graph must only
+# join on shipped sectors (validator C2). Baked in-transformer (the wiped post-hoc
+# normalizer used to do this; reproducibility requires it live HERE).
+HELD_SECTORS = {"Healthcare", "Real_Estate"}
 # map spec sector_key -> visual_sector_intel bucket (its own slug set)
 SECTOR_TO_INTEL = {
     "F&B": "f_and_b", "Beauty_Wellness": "beauty_personal_care", "Retail": "retail_lifestyle",
@@ -59,13 +71,17 @@ SECTOR_TO_INTEL = {
 NON_SECTOR = {"*", "all_sectors_with_face_visibility_permission_true"}
 
 # ---------------------------------------------------------------------------
-# occasion detection -> Weiblocks occasion_key vocab (matches occasions.json export)
-# key = regex over chain id + name_en + occasions_allowed ; value = occasion_key
+# occasion DETECTION (free-text -> declared primary) over chain id + name_en + family
+# ONLY. Slug->key MAPPING lives in the shared occasion_keys module (never local).
+# Every value here MUST be a SHIPPED key (asserted at import — Rule #8).
+# Removed (fabricated nearest-key local maps): winter_tantora->riyadh_season and
+# major_eid->eid_fitr (major eid is culturally adha) — those slugs now stay
+# honestly UNRESOLVED in extra instead of being force-mapped.
 # ---------------------------------------------------------------------------
 OCCASION_PATTERNS = [
     (r"eid_al_fitr|eid_fitr", "eid_fitr"),
     (r"eid_al_adha|eid_adha", "eid_adha"),
-    (r"\beid\b|major_eid|eid_table", "eid_fitr"),          # generic eid -> eid_fitr (fitr is the table/greeting default)
+    (r"\beid\b|eid_table", "eid_fitr"),                    # generic eid -> eid_fitr (matches shared ALIASES default)
     (r"ramadan|iftar|suhoor|ghabga", "ramadan"),
     (r"founding_day|founding", "founding_day"),
     (r"national_day|national", "national_day"),
@@ -73,8 +89,9 @@ OCCASION_PATTERNS = [
     (r"riyadh_season|riyadh", "riyadh_season"),
     (r"jeddah_season|jeddah", "jeddah_season"),
     (r"mother.?s_day|mothers_day", "mothers_day"),
-    (r"winter_tantora|tantora", "riyadh_season"),          # AlUla/winter season -> nearest seasonal key
 ]
+_bad_keys = sorted({k for _, k in OCCASION_PATTERNS} - SHIPPED_KEYS)
+assert not _bad_keys, f"OCCASION_PATTERNS emits non-shipped occasion keys: {_bad_keys}"
 
 # ---------------------------------------------------------------------------
 # lexicons for parsing the prompt_template prose. Derived from the corpus's own
@@ -111,7 +128,7 @@ PROP_TERMS = [
     "dates", "water cups", "vimto", "samosas", "harees", "kabsa", "dallah", "coffee pot",
     "brass dallah", "arabic coffee", "gahwa", "oud", "bakhoor", "incense", "perfume bottle",
     "fragrance bottle", "gift box", "ribbon", "roses", "rose petals", "petals", "flowers",
-    "marble counter", "marble slab", "wooden table", "ceramic plate", "plate", "tray",
+    "marble counter", "marble countertop", "marble slab", "wooden table", "ceramic plate", "plate", "tray",
     "candle", "lantern", "fanoos", "crescent", "palm", "date palm", "sadu", "sadu pattern",
     "laptop", "coffee cup", "tablet", "menu", "price tag", "shopping bag", "watch",
     "leather strap", "ice cubes", "smoke", "splash", "water droplets", "dropper", "swatch",
@@ -120,6 +137,12 @@ PROP_TERMS = [
 ]
 
 FORBIDDEN_PREFIX = "avoid in output:"
+
+# negation-aware prop polarity (measured on the corpus: every negation sits <=3
+# tokens BEFORE its prop, e.g. "no text, no plates, no hands"; 0 forward-negation
+# constructs like "plates avoided" exist — re-measure if the corpus grows)
+NEGATION_TOKENS = {"no", "without", "never", "avoid"}
+NEGATION_WINDOW = 3
 
 
 def load_yaml(fp):
@@ -150,16 +173,41 @@ def primary_sector(chain, eligible_score):
 
 
 def detect_occasion(chain):
+    """The chain's own DECLARED occasion — detected from its identity fields only
+    (id + name + family). Eligibility slugs are handled by resolve_occasions()."""
     hay = " ".join([
         chain.get("chain_id_short", ""), chain.get("name_en", ""),
-        " ".join(chain["eligibility_filters"].get("occasions_allowed", [])),
         chain.get("family", ""),
     ]).lower()
-    # a chain that explicitly allows only '*' with no occasion words = sector-wide
     for pat, key in OCCASION_PATTERNS:
         if re.search(pat, hay):
             return key
     return None
+
+
+def _clean_slug(slug):
+    """pre-normalize source slugs before the shared module lookup (cleaning, not mapping):
+    'ramadan_(high)' -> 'ramadan' ; "mother's_day" -> 'mothers_day'."""
+    s = str(slug).strip().lower()
+    s = re.sub(r"_\(.*?\)$", "", s)
+    return s.replace("'", "")
+
+
+def resolve_occasions(chain):
+    """-> (primary_key|None, occasion_keys_all, unresolved_slugs).
+    primary = the chain's own declared occasion (name/id) if present, else the
+    lowest-sorted resolved key (deterministic). occasion_keys_all = EVERY resolved
+    eligibility key (+ primary) so a multi-occasion chain stays findable under all
+    of them — the single primary is no longer lossy. Mapping = shared occasion_keys
+    module ONLY; slugs that don't resolve stay honestly in unresolved (never force-
+    mapped), '*' excluded (it is the wildcard, kept verbatim in occasions_allowed_raw)."""
+    raw = chain["eligibility_filters"].get("occasions_allowed") or []
+    resolved, unresolved = normalize_list([_clean_slug(x) for x in raw])
+    declared = detect_occasion(chain)
+    primary = declared or (resolved[0] if resolved else None)
+    keys_all = sorted(set(resolved) | ({primary} if primary else set()))
+    unresolved = [u for u in unresolved if u != "*"]
+    return primary, keys_all, unresolved
 
 
 def extract_terms(text, terms):
@@ -177,6 +225,47 @@ def extract_terms(text, terms):
             seen.add(t)
             out.append(t)
     return out
+
+
+def extract_props(text, terms):
+    """PROP extraction with WORD-BOUNDARY matching + negation polarity.
+    -> (allowed, negated), each in text order, deduped.
+
+    Replaces the old substring find() which produced verified false positives:
+    'cube'<-'ice cubes', 'oud'<-'clouds', 'plate'<-'template'/'plated',
+    'watch'<-'swatch', 'candle'<-'candlelight', 'abaya'<-'{abaya_or_hijab_descriptor}'.
+
+    Rules (each measured against the 127-chain corpus before adoption):
+      1. token match: (?<!\\w) term s? (?!\\w) — word-boundary, trailing-s plural
+         tolerant ('no plates' still hits the 'plate' term; 0 -es plurals exist).
+      2. containment: a match fully inside a LONGER different-term match is dropped
+         PER-OCCURRENCE ('cube' inside 'ice cubes'; 'dallah' inside 'brass dallah'
+         collapses to the more specific term; standalone occurrences elsewhere survive).
+      3. polarity: a negator (no/without/never/avoid) within NEGATION_WINDOW tokens
+         BEFORE the match routes the prop to negated (-> props_forbidden). Negation
+         wins if a term appears both ways (0 such cases measured; kept for safety).
+    """
+    low = text.lower()
+    matches = []
+    for t in terms:
+        pat = re.compile(r"(?<!\w)" + re.escape(t) + r"s?(?!\w)")
+        for m in pat.finditer(low):
+            matches.append((m.start(), m.end(), t))
+    kept = [(s, e, t) for (s, e, t) in matches
+            if not any(t2 != t and s2 <= s and e <= e2 and (e2 - s2) > (e - s)
+                       for (s2, e2, t2) in matches)]
+    kept.sort()
+    toks = [(m.start(), m.group()) for m in re.finditer(r"\w+", low)]
+    starts = [s for s, _ in toks]
+    allowed, negated = [], []
+    for s, e, t in kept:
+        i = bisect.bisect_right(starts, s) - 1
+        window = {toks[j][1] for j in range(max(0, i - NEGATION_WINDOW), i)}
+        bucket = negated if (window & NEGATION_TOKENS) else allowed
+        if t not in bucket:
+            bucket.append(t)
+    allowed = [t for t in allowed if t not in negated]  # negation wins
+    return allowed, negated
 
 
 def parse_forbidden(anti_patterns):
@@ -217,7 +306,9 @@ def draft_why(chain, intel_sector, occasion_key):
     """why_it_works: a short authored rationale grounded in chain fields + (if present) observed lift."""
     bits = []
     fam = chain.get("family")
-    bits.append(f"A {chain.get('output_type')} pattern from family {fam}")
+    out_type = chain.get("output_type") or "content"
+    article = "An" if out_type[:1].lower() in "aeiou" else "A"  # 'An image', not 'A image'
+    bits.append(f"{article} {out_type} pattern from family {fam}")
     if occasion_key:
         bits.append(f"tuned for the {occasion_key} occasion window")
     if intel_sector:
@@ -273,14 +364,18 @@ def build():
 
         elig = eligible_by_chain.get(cid, {})
         sector = primary_sector(c, elig)
-        occasion = detect_occasion(c)
+        held_source_sector = None
+        if sector in HELD_SECTORS:
+            held_source_sector = sector      # preserve the truth in extra
+            sector = None                    # universal — never a held join key
+        occasion, occasion_keys_all, occ_unresolved = resolve_occasions(c)
         intel_sec = intel_sectors.get(SECTOR_TO_INTEL.get(sector)) if sector else None
 
         # --- parse structured fields from the template prose (all derived) ---
         composition = extract_terms(tmpl, COMPOSITION_TERMS)
         lighting_terms = extract_terms(tmpl, LIGHTING_TERMS)
         palette = extract_terms(tmpl, PALETTE_TERMS)
-        props_allowed = extract_terms(tmpl, PROP_TERMS)
+        props_allowed, props_negated = extract_props(tmpl, PROP_TERMS)
 
         # merge observed sector winners INTO composition (tagged via extra.observed_*)
         obs_comp = intel_top(intel_sec, "composition")
@@ -298,10 +393,11 @@ def build():
             if op["value"] not in palette:
                 palette.append(op["value"])
 
-        # --- forbidden props: chain's own anti_patterns + sector cultural forbiddens ---
+        # --- forbidden props: chain's own anti_patterns + template-negated props
+        #     ("no plates" -> forbidden, never allowed) + sector cultural forbiddens ---
         chain_forbidden, chain_rules = parse_forbidden(c.get("anti_patterns"))
         cultural_forbidden = CULTURAL_FORBIDDEN.get(sector, [])
-        props_forbidden = list(dict.fromkeys(chain_forbidden + cultural_forbidden))
+        props_forbidden = list(dict.fromkeys(chain_forbidden + props_negated + cultural_forbidden))
 
         derived_fields = ["composition", "lighting", "palette", "props_allowed",
                           "description_en", "why_it_works"]
@@ -328,6 +424,7 @@ def build():
                          (f"|occasion:{occasion}" if occasion else ""),
             },
             "extra": {
+                "source_sector": held_source_sector,  # non-null => held-sector pattern, retagged universal
                 "source_label": Path(fp).name,
                 "chain_id_short": cid,
                 "chain_family": c.get("family"),
@@ -337,6 +434,9 @@ def build():
                 "prompt_template": tmpl,                 # the ground truth we parsed — kept verbatim
                 "sectors_allowed_raw": c["eligibility_filters"].get("sectors_allowed"),
                 "occasions_allowed_raw": c["eligibility_filters"].get("occasions_allowed"),
+                "occasion_keys_all": occasion_keys_all,      # EVERY resolved key — multi-occasion chains stay findable
+                "occasion_slugs_unresolved": occ_unresolved,  # honest: slugs with no shipped key (never force-mapped)
+                "props_negated_in_template": props_negated,   # template-negated props routed to props_forbidden
                 "eligible_sector_scores": elig or None,  # real per-sector scores if any
                 "cultural_constraints": c.get("cultural_constraints"),
                 "chain_anti_pattern_rules": chain_rules,  # non-prop anti-patterns (kept, not dropped)
@@ -355,13 +455,17 @@ def build():
                 "derived_fields": derived_fields,
                 "derived_note": (
                     "composition/lighting/palette/props_allowed PARSED from prompt_template prose via "
-                    "curated corpus lexicons; description_en/why_it_works AUTHORED from chain "
+                    "curated corpus lexicons (props: word-boundary matched, negation-aware — a prop "
+                    "preceded by no/without/never/avoid within 3 tokens routes to props_forbidden); "
+                    "description_en/why_it_works AUTHORED from chain "
                     "name+purpose+notes. Chains are experimental templates, not observed posts "
                     "(observed_count=null). Where a primary sector matched, the observed winners from "
                     "logs/visual_sector_intel.json (real, n/lift stamped) were MERGED into "
                     "composition/palette and surfaced verbatim under observed_sector_intel; "
-                    "props_forbidden = chain anti_patterns + Saudi cultural forbiddens "
-                    "(alcohol/pork for F&B, tagged in props_forbidden_cultural_injected)."
+                    "props_forbidden = chain anti_patterns + template-negated props + Saudi cultural "
+                    "forbiddens (alcohol/pork for F&B, tagged in props_forbidden_cultural_injected). "
+                    "occasion_key = single primary (chain-declared, else lowest sorted resolved); "
+                    "occasion_keys_all carries EVERY resolved eligibility key (shared occasion_keys vocab)."
                 ),
                 "source_provenance": c.get("provenance"),  # keep the chain's own provenance block
                 "notes": c.get("notes"),
@@ -376,11 +480,15 @@ def build():
     # --- audit to stdout ---
     n_sector = sum(1 for r in records if r["sector_key"])
     n_occ = sum(1 for r in records if r["occasion_key"])
+    n_multi = sum(1 for r in records if len(r["extra"]["occasion_keys_all"]) > 1)
+    n_negated = sum(1 for r in records if r["extra"]["props_negated_in_template"])
     n_intel = sum(1 for r in records if r["extra"]["observed_sector_intel"])
     n_cultforbid = sum(1 for r in records if r["extra"]["props_forbidden_cultural_injected"])
     print(f"wrote {len(records)} visual_pattern records -> {outfp}")
     print(f"  sector_key tagged: {n_sector}/{len(records)} | null: {len(records) - n_sector}")
     print(f"  occasion_key tagged: {n_occ}/{len(records)} | null: {len(records) - n_occ}")
+    print(f"  multi-occasion (occasion_keys_all > 1): {n_multi}")
+    print(f"  template-negated props routed to forbidden: {n_negated} record(s)")
     print(f"  observed_sector_intel enriched: {n_intel}/{len(records)}")
     print(f"  cultural forbiddens injected: {n_cultforbid}/{len(records)}")
     from collections import Counter

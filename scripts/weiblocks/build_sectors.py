@@ -15,8 +15,12 @@ Output:    exports/weiblocks_v1/sectors.json  (ensure_ascii=False — native Ara
 """
 import json
 import os
+import sys
 import hashlib
 import yaml
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from occasion_keys import normalize as normalize_occasion, SHIPPED_KEYS  # THE shared join module — never a local map
 
 ROOT = "/Users/abarihm/Desktop/ogz-knowledge"
 LOGS = os.path.join(ROOT, "logs")
@@ -33,6 +37,17 @@ SECTOR_MAP = {
     "beauty_personal_care":{"key": "Beauty_Wellness",  "yaml": "beauty.yaml",   "name_en": "Beauty & Personal Care","name_ar": "العناية والجمال"},
 }
 SHIP_ORDER = ["f_and_b", "retail_lifestyle", "beauty_personal_care"]  # 3 observed
+
+# ---- honesty notes (baked in — reproducibility: no post-hoc normalizer) ----------
+# NOTE text is the contract-shipped string, byte-for-byte. Do not reword.
+TONE_HONESTY_NOTE = (
+    "voice tone approval_rate is null (no measured approval data); `prevalence` = how often "
+    "the tone appears in the sector (proxy), not a measured approval rate"
+)
+NEG_LIFT_NOTE_ALL = (
+    "palette colors are rank-order least-bad; every color underperforms the baseline "
+    "(negative lift) — not proven winners"
+)
 
 
 # ---- loaders --------------------------------------------------------------------
@@ -69,10 +84,11 @@ def stable_id(seed):
 def derive_voice(slug, yml):
     """
     tone_default   <- fingerprint profile.tone.top_3 (real observed prevalence).
-    top/worst_performing_tones <- SAME distribution. HONESTY: the corpus has NO
-      tone->engagement/approval table anywhere. approval_rate here = observed
-      PREVALENCE SHARE (pct), NOT an engagement/approval rate. sample = obs_count*pct
-      (derived count). This is stated plainly in the derived_note.
+    top/worst_performing_tones <- SAME distribution. HONESTY (baked in, not post-hoc):
+      the corpus has NO tone->engagement/approval table anywhere, so approval_rate is
+      emitted as None (null) — never a fabricated rate. prevalence = observed share
+      (pct) of the tone in the sector, the honest proxy. sample = obs_count*pct
+      (derived count). Stated in extra.honesty_notes (TONE_HONESTY_NOTE).
     love_lines / hate_lines <- arabic signal_phrases / avoid_phrases (real high/low
       engagement ratios), observed_count carried as sample.
     person <- authored persona string derived from YAML register/tone_attributes (curated).
@@ -86,13 +102,14 @@ def derive_voice(slug, yml):
 
     # top performers = the higher-prevalence tones; worst = the lowest of the top_3 tail.
     # (There is no true worst-tone engagement signal; we surface the least-prevalent observed tone.)
-    top_perf = [
-        {"tone": t["value"], "approval_rate": round(t["pct"], 3), "sample": int(round(obs * t["pct"]))}
-        for t in top3[:2]
-    ]
-    worst_perf = [
-        {"tone": top3[-1]["value"], "approval_rate": round(top3[-1]["pct"], 3), "sample": int(round(obs * top3[-1]["pct"]))}
-    ]
+    # approval_rate = None ALWAYS (no measured approval data exists); prevalence carries the pct.
+    # Key order (tone, approval_rate, sample, prevalence) is the shipped contract shape.
+    def _tone_obj(t):
+        return {"tone": t["value"], "approval_rate": None,
+                "sample": int(round(obs * t["pct"])), "prevalence": round(t["pct"], 3)}
+
+    top_perf = [_tone_obj(t) for t in top3[:2]]
+    worst_perf = [_tone_obj(top3[-1])] if top3 else []
 
     ar = ARABIC["per_sector_analysis"][slug]
     love_lines = [
@@ -244,11 +261,21 @@ def derive_caption_conventions(slug):
     }
 
 
-def derive_occasions(yml):
-    return [
-        {"occasion_slug": o["occasion_slug"], "priority": o["priority"]}
-        for o in yml.get("default_occasions_priority", [])
-    ]
+def derive_occasions(occ_list):
+    """occasion_key = shared occasion_keys.normalize(slug) — the JOIN field; it MUST resolve
+    to a shipped occasions.json occasion_key. The original (YAML/authored) slug is kept as
+    occasion_slug_source for provenance. Rule #8 (refuse, don't warn): an unresolvable slug
+    EXITS the build non-zero — a join key that doesn't resolve must never ship."""
+    out = []
+    for o in occ_list or []:
+        key, orig = normalize_occasion(o["occasion_slug"])
+        if key is None or key not in SHIPPED_KEYS:
+            raise SystemExit(
+                f"REFUSE (Rule #8): occasion slug {o['occasion_slug']!r} does not resolve to a "
+                f"shipped occasion_key — fix occasion_keys.py aliases or the source, then re-run"
+            )
+        out.append({"occasion_key": key, "occasion_slug_source": orig, "priority": o["priority"]})
+    return out
 
 
 def derive_negative_patterns(slug, yml):
@@ -329,7 +356,7 @@ def build_observed(slug):
             "hashtag_strategy": caption_conv["hashtag_strategy"],
             "common_hashtags_ar": caption_conv["common_hashtags_ar"],
         },
-        "typical_occasions": derive_occasions(yml),
+        "typical_occasions": derive_occasions(yml.get("default_occasions_priority", [])),
         "common_negative_patterns": derive_negative_patterns(slug, yml),
         "dos": dos,
         "donts": donts,
@@ -383,6 +410,23 @@ def build_observed(slug):
             ),
         },
     }
+
+    # honesty_notes — baked in (Rule: honesty in the transformer, never a post-hoc normalizer).
+    honesty_notes = [TONE_HONESTY_NOTE]
+    lifts = [c["lift"] for c in visual["palette_top_performing_colors"]]
+    neg = sum(1 for l in lifts if l < 0)
+    if lifts and neg == len(lifts):
+        # every color underperforms the baseline — 'top_performing' is rank-order least-bad
+        honesty_notes.append(NEG_LIFT_NOTE_ALL)
+    elif lifts and neg > len(lifts) / 2:
+        # majority negative — same warning, stated with the real numbers (never claim
+        # 'every color underperforms' when one does not; verify-the-number rule)
+        honesty_notes.append(
+            f"palette colors are rank-order least-bad; {neg} of {len(lifts)} colors underperform "
+            f"the baseline (negative lift), best remaining lift only +{max(lifts):.3f} "
+            f"— not proven winners"
+        )
+    rec["extra"]["honesty_notes"] = honesty_notes
     return rec
 
 
@@ -428,13 +472,13 @@ def build_other():
             "hashtag_strategy": {"best_bucket": "1-5", "best_avg_engagement": None, "buckets": []},
             "common_hashtags_ar": [],
         },
-        "typical_occasions": [
+        "typical_occasions": derive_occasions([
             {"occasion_slug": "ramadan", "priority": 0.8},
             {"occasion_slug": "eid_al_fitr", "priority": 0.8},
             {"occasion_slug": "saudi_national_day", "priority": 0.75},
             {"occasion_slug": "saudi_founding_day", "priority": 0.55},
             {"occasion_slug": "eid_al_adha", "priority": 0.55},
-        ],
+        ]),
         "common_negative_patterns": [
             {"pattern": "alcohol references", "kind": "forbidden_topic", "source": "universal_saudi_red_lines"},
             {"pattern": "pork references", "kind": "forbidden_topic", "source": "universal_saudi_red_lines"},
@@ -484,6 +528,7 @@ def build_other():
                 "Palette = neutral subset of common OGZ tokens; content_mix = balanced default; "
                 "occasions/red-lines = universal Saudi baseline. Nothing here is engagement-observed."
             ),
+            "honesty_notes": [TONE_HONESTY_NOTE],
         },
     }
     return rec

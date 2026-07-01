@@ -366,23 +366,28 @@
     },
     "typical_occasions": [
       {
-        "occasion_slug": "ramadan",
+        "occasion_key": "ramadan",
+        "occasion_slug_source": "ramadan",
         "priority": 1.0
       },
       {
-        "occasion_slug": "eid_al_fitr",
+        "occasion_key": "eid_fitr",
+        "occasion_slug_source": "eid_al_fitr",
         "priority": 0.95
       },
       {
-        "occasion_slug": "eid_al_adha",
+        "occasion_key": "eid_adha",
+        "occasion_slug_source": "eid_al_adha",
         "priority": 0.8
       },
       {
-        "occasion_slug": "saudi_national_day",
+        "occasion_key": "national_day",
+        "occasion_slug_source": "saudi_national_day",
         "priority": 0.75
       },
       {
-        "occasion_slug": "saudi_founding_day",
+        "occasion_key": "founding_day",
+        "occasion_slug_source": "saudi_founding_day",
         "priority": 0.55
       }
     ],
@@ -923,23 +928,28 @@
     },
     "typical_occasions": [
       {
-        "occasion_slug": "eid_al_fitr",
+        "occasion_key": "eid_fitr",
+        "occasion_slug_source": "eid_al_fitr",
         "priority": 1.0
       },
       {
-        "occasion_slug": "ramadan",
+        "occasion_key": "ramadan",
+        "occasion_slug_source": "ramadan",
         "priority": 0.9
       },
       {
-        "occasion_slug": "saudi_national_day",
+        "occasion_key": "national_day",
+        "occasion_slug_source": "saudi_national_day",
         "priority": 0.85
       },
       {
-        "occasion_slug": "eid_al_adha",
+        "occasion_key": "eid_adha",
+        "occasion_slug_source": "eid_al_adha",
         "priority": 0.75
       },
       {
-        "occasion_slug": "saudi_founding_day",
+        "occasion_key": "founding_day",
+        "occasion_slug_source": "saudi_founding_day",
         "priority": 0.55
       }
     ],
@@ -1108,7 +1118,8 @@
       ],
       "derived_note": "voice.tone_default = sector_fingerprint profile.tone.top_3 (observed PREVALENCE, not engagement). voice.top/worst_performing_tones.approval_rate = the SAME prevalence share (pct) — the corpus has NO tone->approval/engagement table anywhere, so approval_rate is prevalence, and sample = obs_count*pct (derived count), NOT a counted approval. love_lines/hate_lines = arabic_copywriting_by_sector signal_phrases/avoid_phrases (real high/low engagement ratios); sample = real 'total'. visual.palette hex = 05_sector_defaults YAML default_visual (curated palette); palette_top_performing_colors + lighting/composition best_performing = visual_sector_intel (real engagement_rate, real n). content_mix_default = INFERRED honest default split — no product/lifestyle/occasion/brand_story/founder split exists in the corpus. caption_conventions = caption_intelligence_by_sector buckets + caption_length_hashtag_analysis best_wc/hc (real). common_hashtags_ar = occasion_keyword_clusters (real counted Arabic keywords) — these are KEYWORDS, the corpus has no scraped '#hashtag' text field. typical_occasions = YAML default_occasions_priority (curated). dos/donts = visual_sector_intel best/worst (real eng) + forbidden_topics (YAML).",
       "honesty_notes": [
-        "voice tone approval_rate is null (no measured approval data); `prevalence` = how often the tone appears in the sector (proxy), not a measured approval rate"
+        "voice tone approval_rate is null (no measured approval data); `prevalence` = how often the tone appears in the sector (proxy), not a measured approval rate",
+        "palette colors are rank-order least-bad; 4 of 5 colors underperform the baseline (negative lift), best remaining lift only +0.013 — not proven winners"
       ]
     }
   },
@@ -1479,23 +1490,28 @@
     },
     "typical_occasions": [
       {
-        "occasion_slug": "eid_al_fitr",
+        "occasion_key": "eid_fitr",
+        "occasion_slug_source": "eid_al_fitr",
         "priority": 0.9
       },
       {
-        "occasion_slug": "saudi_national_day",
+        "occasion_key": "national_day",
+        "occasion_slug_source": "saudi_national_day",
         "priority": 0.8
       },
       {
-        "occasion_slug": "ramadan",
+        "occasion_key": "ramadan",
+        "occasion_slug_source": "ramadan",
         "priority": 0.65
       },
       {
-        "occasion_slug": "saudi_founding_day",
+        "occasion_key": "founding_day",
+        "occasion_slug_source": "saudi_founding_day",
         "priority": 0.55
       },
       {
-        "occasion_slug": "eid_al_adha",
+        "occasion_key": "eid_adha",
+        "occasion_slug_source": "eid_al_adha",
         "priority": 0.4
       }
     ],
@@ -1663,7 +1679,8 @@
       ],
       "derived_note": "voice.tone_default = sector_fingerprint profile.tone.top_3 (observed PREVALENCE, not engagement). voice.top/worst_performing_tones.approval_rate = the SAME prevalence share (pct) — the corpus has NO tone->approval/engagement table anywhere, so approval_rate is prevalence, and sample = obs_count*pct (derived count), NOT a counted approval. love_lines/hate_lines = arabic_copywriting_by_sector signal_phrases/avoid_phrases (real high/low engagement ratios); sample = real 'total'. visual.palette hex = 05_sector_defaults YAML default_visual (curated palette); palette_top_performing_colors + lighting/composition best_performing = visual_sector_intel (real engagement_rate, real n). content_mix_default = INFERRED honest default split — no product/lifestyle/occasion/brand_story/founder split exists in the corpus. caption_conventions = caption_intelligence_by_sector buckets + caption_length_hashtag_analysis best_wc/hc (real). common_hashtags_ar = occasion_keyword_clusters (real counted Arabic keywords) — these are KEYWORDS, the corpus has no scraped '#hashtag' text field. typical_occasions = YAML default_occasions_priority (curated). dos/donts = visual_sector_intel best/worst (real eng) + forbidden_topics (YAML).",
       "honesty_notes": [
-        "voice tone approval_rate is null (no measured approval data); `prevalence` = how often the tone appears in the sector (proxy), not a measured approval rate"
+        "voice tone approval_rate is null (no measured approval data); `prevalence` = how often the tone appears in the sector (proxy), not a measured approval rate",
+        "palette colors are rank-order least-bad; every color underperforms the baseline (negative lift) — not proven winners"
       ]
     }
   },
@@ -1728,23 +1745,28 @@
     },
     "typical_occasions": [
       {
-        "occasion_slug": "ramadan",
+        "occasion_key": "ramadan",
+        "occasion_slug_source": "ramadan",
         "priority": 0.8
       },
       {
-        "occasion_slug": "eid_al_fitr",
+        "occasion_key": "eid_fitr",
+        "occasion_slug_source": "eid_al_fitr",
         "priority": 0.8
       },
       {
-        "occasion_slug": "saudi_national_day",
+        "occasion_key": "national_day",
+        "occasion_slug_source": "saudi_national_day",
         "priority": 0.75
       },
       {
-        "occasion_slug": "saudi_founding_day",
+        "occasion_key": "founding_day",
+        "occasion_slug_source": "saudi_founding_day",
         "priority": 0.55
       },
       {
-        "occasion_slug": "eid_al_adha",
+        "occasion_key": "eid_adha",
+        "occasion_slug_source": "eid_al_adha",
         "priority": 0.55
       }
     ],

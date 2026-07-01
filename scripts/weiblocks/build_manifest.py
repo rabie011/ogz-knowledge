@@ -32,11 +32,21 @@ VOCAB_MAPPING_APPLIED = True
 # known_gaps[] — carried forward verbatim from the W1 builder honesty ledger so the whole
 # export declares its edges in one place. These are DATA gaps, not script bugs.
 KNOWN_GAPS = [
-    "healthcare_wellness + real_estate sectors HELD for validation — present in all source "
-    "logs but not emitted; intelligence_depth 0 and no arabic_copywriting per_sector_analysis, "
-    "so their voice/copy signals could not be grounded. Emit only after human validation.",
-    "dialect_variant and caption_pattern are the remaining waves — not yet in this export "
-    "(shipped: sector, occasion, visual_pattern, reference_account, brand_observation, cultural_rule).",
+    "TYPING CONTRACT provenance.observed_count: integer when a real count exists, null when never "
+    "counted — never 0-for-unknown (that would fabricate a measurement). Loaders must accept "
+    "int|null on this field (DeepSeek final-verify note, release round 10).",
+    "healthcare_wellness + real_estate sector BASELINES are HELD for validation (Mohamed's ruling: "
+    "their voice profiles are extrapolated, not observed). Note: real_estate DOES have arabic "
+    "per_sector_analysis in the corpus (healthcare does not) — the hold is a validation decision, "
+    "not a data-absence claim. Observed BRAND DATA from held sectors still ships: retagged "
+    "sector_key=Other with extra.provisional_sector=true + the real slug in extra.source_label "
+    "(panel-ruled: real market observations are kept, flagged, never silently deleted).",
+    "caption_patterns: descriptive prevalence ONLY ('used by N accounts') — the corpus's engagement "
+    "label was retired as signal-free, so NO lift/engagement claims anywhere; Arabic fields are "
+    "verbatim-source or null+translation_needed (never machine-written).",
+    "dialect_variants: avoid_phrases_ar is [] on EVERY record — zero per-dialect avoid-phrase source "
+    "exists in the corpus; any value would be fabrication. Occasion-generic greetings are excluded "
+    "from signature phrases (extra.occasion_generic). Thin cells flagged extra.thin_cell.",
     "cultural_rule.description_ar is null on EVERY record — source rules are English-only and cultural "
     "rules are NEVER machine-translated (authenticity is the moat); each carries "
     "extra.translation_needed=true for a human Arabic pass.",
@@ -52,8 +62,10 @@ KNOWN_GAPS = [
     "scraped observation pool were built from different account sets.",
     "brand_observations: 45 brands aggregated from 6,888 real observations. 95% of the source obs "
     "were keyed by REAL Instagram handles (not the anon scheme); those are hash-anonymized to "
-    "OGZ-<SECTOR>-OBS-<sha256(handle)[:8]> (one-way, no reverse map stored) and captions are "
-    "scrubbed of the brand's own handle. No real handle is stored or emitted anywhere.",
+    "OGZ-<SECTOR>-OBS-<sha256(handle)[:8]> (one-way, no reverse map stored). PRIVACY WARRANTY "
+    "(exact): all @-handles — the brand's own AND third parties' — are replaced with [mention] in "
+    "example_captions and recurring_phrases_ar; brand names may still appear as ordinary words "
+    "inside verbatim caption text — that is the content itself, not an identifier leak.",
     "brand_observation.performance.avg_likes is null for EVERY record — the corpus has no numeric "
     "engagement; performance.qualitative_engagement (low/medium/high) carries the only signal and "
     "verified=false, metrics_source='qualitative_inference'.",

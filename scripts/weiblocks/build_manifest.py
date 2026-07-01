@@ -22,6 +22,8 @@ from pathlib import Path
 
 OUT_DIR = Path(__file__).resolve().parents[2] / "exports" / "weiblocks_v1"
 MANIFEST = OUT_DIR / "MANIFEST.json"
+# extensions beyond the 8-entity spec — listed separately so a strict loader can ignore them
+EXTENSION_FILES = {"creative_methods.json", "routing_rules.json", "scorecard_weights.json"}
 EXPORTED_AT = "2026-07-01"  # stamped, deterministic (not now())
 
 # Export-level contract (spec §7).
@@ -32,6 +34,13 @@ VOCAB_MAPPING_APPLIED = True
 # known_gaps[] — carried forward verbatim from the W1 builder honesty ledger so the whole
 # export declares its edges in one place. These are DATA gaps, not script bugs.
 KNOWN_GAPS = [
+    "EXTENSIONS beyond the 8-entity spec (§0/§4.7 invited the fill): creative_methods, routing_rules, "
+    "scorecard_weights — the Creative-Direction + scorecard KNOWLEDGE, versioned so it is not hardcoded "
+    "in runtime code. BrandDNA method 'vulnerability' has NO OGz creative_method (a gap, not force-fit); "
+    "cd_06 feed_cloner is OGz-proprietary. scorecard_weights are GUIDE-SOURCED, not measured.",
+    "sectors.extra.observed_rhythm: REAL measured posting rhythm from the raw archive (recent >=2024 "
+    "posts, AST hours, per-source-slug — fashion kept separate from retail_lifestyle to avoid "
+    "distortion); comments_per_like is directional only, never a KPI.",
     "TYPING CONTRACT provenance.observed_count: integer when a real count exists, null when never "
     "counted — never 0-for-unknown (that would fabricate a measurement). Loaders must accept "
     "int|null on this field (DeepSeek final-verify note, release round 10).",
@@ -146,12 +155,14 @@ def main() -> None:
         print(f"REFUSE: cannot build manifest — {e}", file=sys.stderr)
         sys.exit(1)
 
+    extensions = {k: files.pop(k) for k in list(files) if k in EXTENSION_FILES}
     manifest = {
         "export_version": EXPORT_VERSION,
         "exported_at": EXPORTED_AT,
         "schema_contract": SCHEMA_CONTRACT,
         "vocab_mapping_applied": VOCAB_MAPPING_APPLIED,
         "files": files,
+        "extensions": extensions,
         "known_gaps": KNOWN_GAPS,
     }
 

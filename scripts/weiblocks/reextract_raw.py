@@ -127,6 +127,7 @@ def main():
                 "timestamp": d.get("timestamp"),
                 "likesCount": likes, "commentsCount": comments,
                 "hashtags": sorted(set(h for h in (d.get("hashtags") or []) if h)),
+                "type": d.get("type"),
                 "occasions_detected": detect_occasions(cap),
                 "is_giveaway": bool(GIVEAWAY.search(cap)),
                 "observation_ulid": o_ulid, "obs_sector": o_sector, "obs_occasion_old": o_occ,
@@ -152,7 +153,63 @@ def main():
         for h in r["hashtags"]:
             if AR_TOKEN.search(h):
                 bag["#" + h.lstrip("#")] += 1
+    # ── OBSERVED POSTING RHYTHM per sector (DeepSeek-ruled 287d5b91): RECENT posts only
+    # (>=2024-01 — algorithm-era relevant; pre-2015 legacy excluded entirely), honest samples,
+    # AST hours (UTC+3). Frequency stats only for brands with >=30 recent posts. ──
+    RECENT = "2024-01"
+    rhythm = {}
+    brand_weekly = {}
+    for r in joined:
+        sec, ts = r["obs_sector"], r.get("timestamp") or ""
+        if not sec or ts[:7] < RECENT:
+            continue
+        rh = rhythm.setdefault(sec, {"hours": Counter(), "days": Counter(), "formats": Counter(),
+                                      "cpl": [], "n": 0, "dmin": ts[:10], "dmax": ts[:10]})
+        rh["n"] += 1
+        if r.get("type"):
+            rh["formats"][r["type"]] += 1
+        rh["dmin"], rh["dmax"] = min(rh["dmin"], ts[:10]), max(rh["dmax"], ts[:10])
+        try:
+            rh["hours"][(int(ts[11:13]) + 3) % 24] += 1
+            import datetime as _dt
+            rh["days"][_dt.date(int(ts[:4]), int(ts[5:7]), int(ts[8:10])).strftime("%A")] += 1
+        except (ValueError, IndexError):
+            pass
+        if r.get("likesCount") and r.get("commentsCount") is not None and r["likesCount"] > 0:
+            rh["cpl"].append(r["commentsCount"] / r["likesCount"])
+        brand_weekly.setdefault((sec, r["brand"]), []).append(ts[:10])
+    def _median(xs):
+        xs = sorted(xs)
+        return xs[len(xs) // 2] if xs else None
+    weekly_by_sector = {}
+    for (sec, brand), dates in brand_weekly.items():
+        if len(dates) < 30:
+            continue  # honest floor: thin brands excluded from frequency stats
+        import datetime as _dt
+        d0 = _dt.date.fromisoformat(min(dates)); d1 = _dt.date.fromisoformat(max(dates))
+        weeks = max((d1 - d0).days / 7.0, 1.0)
+        weekly_by_sector.setdefault(sec, []).append(round(len(dates) / weeks, 2))
+    observed_rhythm = {}
+    for sec, rh in sorted(rhythm.items()):
+        fmt_tot = sum(rh["formats"].values()) or 1
+        observed_rhythm[sec] = {
+            "sample_posts": rh["n"], "date_range": [rh["dmin"], rh["dmax"]],
+            "top_hours_ast": [{"hour": h, "posts": c} for h, c in
+                              sorted(rh["hours"].items(), key=lambda kv: (-kv[1], kv[0]))[:5]],
+            "top_days": [{"day": d, "posts": c} for d, c in
+                         sorted(rh["days"].items(), key=lambda kv: (-kv[1], kv[0]))[:3]],
+            "median_posts_per_week": _median(weekly_by_sector.get(sec, [])),
+            "brands_in_frequency_stat": len(weekly_by_sector.get(sec, [])),
+            "comments_per_like_median": (round(_median(rh["cpl"]), 4) if rh["cpl"] else None),
+            "note": "recent posts (>=2024-01) only; AST=UTC+3; comments_per_like is DIRECTIONAL only, "
+                    "not a KPI; frequency medians use brands with >=30 recent posts",
+        }
+    for sec, rh in rhythm.items():
+        fmt_tot = sum(rh["formats"].values()) or 1
+        observed_rhythm[sec]["format_mix"] = {
+            k: round(v / fmt_tot, 3) for k, v in sorted(rh["formats"].items())}
     report = {
+        "observed_rhythm_by_sector": observed_rhythm,
         "raw_files": len(sorted(glob.glob(str(RAW / "*" / "*" / "*_apify_raw.jsonl")))),
         "kept": len(rows), "joined_to_observations": len(joined),
         "filtered": dict(sorted(filtered.items())),

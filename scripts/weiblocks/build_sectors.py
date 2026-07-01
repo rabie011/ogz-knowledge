@@ -275,6 +275,18 @@ _RAW_SECTOR_FOR = {"f_and_b": ["f_and_b"], "beauty_personal_care": ["beauty_pers
                    "retail_lifestyle": ["retail_lifestyle", "fashion"]}
 
 
+def _observed_rhythm(slug):
+    """REAL posting rhythm from the raw-archive re-extraction (DeepSeek-ruled 287d5b91): recent
+    (>=2024) posts, AST hours, honest samples. Keyed by SOURCE slug (fashion kept separate from
+    retail_lifestyle — merging would distort; transparency over tidiness)."""
+    try:
+        rep = json.load(open(_REEXTRACT, encoding="utf-8"))["observed_rhythm_by_sector"]
+    except Exception:
+        return None
+    out = {raw: rep[raw] for raw in _RAW_SECTOR_FOR.get(slug, [slug]) if raw in rep}
+    return out or None
+
+
 def _real_hashtags(slug, top=10):
     """REAL scraped hashtags for a sector from the raw-archive re-extraction report.
     retail_lifestyle also absorbs 'fashion' (same fold as brand_observations). [] when absent."""
@@ -455,6 +467,9 @@ def build_observed(slug):
             f"the baseline (negative lift), best remaining lift only +{max(lifts):.3f} "
             f"— not proven winners"
         )
+    _rh = _observed_rhythm(slug)
+    if _rh:
+        rec["extra"]["observed_rhythm"] = _rh   # REAL measured posting rhythm (source slugs kept separate)
     rec["extra"]["honesty_notes"] = honesty_notes
     return rec
 

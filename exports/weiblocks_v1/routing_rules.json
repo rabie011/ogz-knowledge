@@ -1,0 +1,74 @@
+[
+  {
+    "id": "routing_rule_cd_brain_v1",
+    "entity": "routing_rule",
+    "scoring_formula": "score(brain) = cd_routing_weights[brain] × brain.sector_affinity[sector_slug] × occasion_factor(brain, occasion_slugs)",
+    "occasion_factor_rule": "if occasion_slugs is empty: 1.0. else: max(brain.occasion_affinity[slug] for slug in occasion_slugs). missing affinity entries default to 0.5 (neutral).",
+    "tie_break_priority": [
+      "1. brand_fingerprint.l1_strategy.primary_cd_brain wins all ties",
+      "2. higher cd_routing_weights value wins",
+      "3. lower cd_brain_slug alphabetical wins (cd_01 < cd_02 < ...)"
+    ],
+    "two_cd_diagnostic_gate": {
+      "trigger": "second-highest score is within 0.15 of the primary score",
+      "behavior": "include both brains as 'two-cd diagnostic'. The brief generates two parallel direction candidates; brand-side strategist or human reviewer picks the stronger.",
+      "rationale": "Anti-sameness — prevents the formula from collapsing into one default brain that overfits a sector."
+    },
+    "minimum_score_floor": {
+      "threshold": 0.1,
+      "behavior": "if no brain scores above 0.10, route to human review with reason 'cd_routing_no_signal'. Brief is likely under-specified."
+    },
+    "occasion_overrides": {
+      "ramadan": {
+        "boost_brains": [
+          "cd_03_authenticity_detective",
+          "cd_04_heritage_decoder"
+        ],
+        "boost_factor": 1.2,
+        "reason": "Authenticity + heritage register lands hardest in Ramadan content."
+      },
+      "eid_al_fitr": {
+        "boost_brains": [
+          "cd_01_firaasa_architect",
+          "cd_03_authenticity_detective"
+        ],
+        "boost_factor": 1.15,
+        "reason": "Eid joy is communal and family-rooted — Firaasa (cultural insight) + Authenticity fit."
+      },
+      "eid_al_adha": {
+        "boost_brains": [
+          "cd_04_heritage_decoder",
+          "cd_03_authenticity_detective"
+        ],
+        "boost_factor": 1.15,
+        "reason": "Reverent, family-hospitality register favors heritage + authenticity."
+      },
+      "saudi_national_day": {
+        "boost_brains": [
+          "cd_04_heritage_decoder",
+          "cd_02_metaphor_architect"
+        ],
+        "boost_factor": 1.2,
+        "reason": "National pride wants heritage anchoring AND fresh metaphor — both, together."
+      },
+      "saudi_founding_day": {
+        "boost_brains": [
+          "cd_04_heritage_decoder"
+        ],
+        "boost_factor": 1.3,
+        "reason": "Founding Day is heritage-deep; the Heritage Decoder leads strongly."
+      }
+    },
+    "provenance": {
+      "source": "manual_curation",
+      "confidence": "experimental",
+      "observed_count": null,
+      "date_added": "2026-07-01",
+      "scope": "universal"
+    },
+    "extra": {
+      "keying": "sector×occasion + brand cd_routing_weights (the WHAT); the dev team keys to archetype×stage×intent (the HOW)",
+      "owner": "CD-Brain Router (deterministic, not an LLM)"
+    }
+  }
+]

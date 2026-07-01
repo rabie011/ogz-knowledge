@@ -141,7 +141,15 @@ def cmd_run_next() -> int:
     for d in (PENDING, RUNNING, DONE, FAILED):
         d.mkdir(parents=True, exist_ok=True)
 
-    pending = sorted(PENDING.glob("*.json"), key=lambda p: p.stat().st_mtime)
+    def _pending_key(p: Path) -> tuple:
+        try:
+            m = json.loads(p.read_text(encoding="utf-8"))
+            prio = int(m.get("priority", 100))
+        except (json.JSONDecodeError, OSError, TypeError, ValueError):
+            prio = 100
+        return (prio, p.stat().st_mtime)
+
+    pending = sorted(PENDING.glob("*.json"), key=_pending_key)
     if not pending:
         print("no pending")
         return 0

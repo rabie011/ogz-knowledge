@@ -40,6 +40,7 @@ import post_audit as pa
 import render_reel as rr
 import taste_rank as tr
 import gen_identity
+import gate_state
 from render_client_slot import scene_core, batch_diversity_check
 
 # IMAGE RENDER PATH (June 21 — WIRE THE MASTER): the v3.7 MASTER is the correct image path —
@@ -397,6 +398,10 @@ def main():
              "subject_generation_ulid": gen_identity.subject_generation_ulid(x["h"], x["dt"], _file),
              "brand_ulid": gen_identity.brand_ulid(x["h"]),
              "card_path": cardpath_of(x),
+             # B_gate_state (Rule #6, live consumer): the machine's autonomy for this slot's occasion
+             # family. Fail-closed to SAMPLED — every slot needs the human eye until a human sets the
+             # family's active_level=FULL (AI never advances). B_occasion_crit will branch on this.
+             "gate_mode": gate_state.gate_mode(x["h"], x["occ"] or "daily"),
              "brain": x["d"].get("brain"), "captions": x["d"].get("captions"), "media": fmt}
         if fmt == "reel":
             still = _still_for(x["h"], x["dt"])

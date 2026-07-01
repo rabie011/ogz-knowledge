@@ -1,0 +1,131 @@
+{
+ "_doc": "B_gate_state — machine autonomy per client/occasion-family. Computed from the ledger, never asserted; active_level is human-owned (AI never advances). FAIL-CLOSED: absent => SAMPLED.",
+ "clean_batch_to_propose": 5,
+ "major_families": [
+  "eid_al_adha",
+  "eid_al_fitr",
+  "ramadan",
+  "ramadan_evergreen",
+  "saudi_founding_day",
+  "saudi_national_day"
+ ],
+ "clients": {
+  "albaik": {
+   "eid_al_fitr": {
+    "active_level": "BLOCKED",
+    "proposed_level": "SAMPLED",
+    "clean_batch": 1,
+    "approved": 1,
+    "breaches": 0,
+    "last_breach": null,
+    "confidence": 0.2,
+    "major": true,
+    "ledger_corrupt": 0
+   },
+   "evergreen": {
+    "active_level": "BLOCKED",
+    "proposed_level": "FULL",
+    "clean_batch": 10,
+    "approved": 10,
+    "breaches": 0,
+    "last_breach": null,
+    "confidence": 1.0,
+    "major": false,
+    "ledger_corrupt": 0
+   },
+   "occasion": {
+    "active_level": "BLOCKED",
+    "proposed_level": "SAMPLED",
+    "clean_batch": 4,
+    "approved": 4,
+    "breaches": 0,
+    "last_breach": null,
+    "confidence": 0.8,
+    "major": false,
+    "ledger_corrupt": 0
+   }
+  },
+  "alnasserjewelry": {},
+  "eatjurisha": {
+   "ramadan": {
+    "active_level": "BLOCKED",
+    "proposed_level": "SAMPLED",
+    "clean_batch": 1,
+    "approved": 1,
+    "breaches": 0,
+    "last_breach": null,
+    "confidence": 0.2,
+    "major": true,
+    "ledger_corrupt": 0
+   },
+   "evergreen": {
+    "active_level": "BLOCKED",
+    "proposed_level": "FULL",
+    "clean_batch": 12,
+    "approved": 12,
+    "breaches": 0,
+    "last_breach": null,
+    "confidence": 1.0,
+    "major": false,
+    "ledger_corrupt": 0
+   },
+   "occasion": {
+    "active_level": "BLOCKED",
+    "proposed_level": "FULL",
+    "clean_batch": 7,
+    "approved": 7,
+    "breaches": 0,
+    "last_breach": null,
+    "confidence": 1.0,
+    "major": false,
+    "ledger_corrupt": 0
+   },
+   "ramadan_evergreen": {
+    "active_level": "BLOCKED",
+    "proposed_level": "SAMPLED",
+    "clean_batch": 6,
+    "approved": 6,
+    "breaches": 0,
+    "last_breach": null,
+    "confidence": 1.0,
+    "major": true,
+    "ledger_corrupt": 0
+   }
+  },
+  "myfitness.sa": {
+   "ramadan": {
+    "active_level": "BLOCKED",
+    "proposed_level": "SAMPLED",
+    "clean_batch": 1,
+    "approved": 1,
+    "breaches": 0,
+    "last_breach": null,
+    "confidence": 0.2,
+    "major": true,
+    "ledger_corrupt": 0
+   },
+   "evergreen": {
+    "active_level": "BLOCKED",
+    "proposed_level": "FULL",
+    "clean_batch": 9,
+    "approved": 9,
+    "breaches": 0,
+    "last_breach": null,
+    "confidence": 1.0,
+    "major": false,
+    "ledger_corrupt": 0
+   },
+   "occasion": {
+    "active_level": "BLOCKED",
+    "proposed_level": "SAMPLED",
+    "clean_batch": 1,
+    "approved": 1,
+    "breaches": 0,
+    "last_breach": null,
+    "confidence": 0.2,
+    "major": false,
+    "ledger_corrupt": 0
+   }
+  }
+ }
+}

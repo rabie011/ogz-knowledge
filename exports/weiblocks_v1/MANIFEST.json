@@ -1,0 +1,30 @@
+{
+  "export_version": "ogz-knowledge-v1",
+  "exported_at": "2026-07-01",
+  "schema_contract": "weiblocks-knowledge-spec-v1",
+  "vocab_mapping_applied": true,
+  "files": {
+    "occasions.json": {
+      "format": "array",
+      "records": 14
+    },
+    "sectors.json": {
+      "format": "array",
+      "records": 4
+    },
+    "visual_patterns.json": {
+      "format": "array",
+      "records": 127
+    }
+  },
+  "known_gaps": [
+    "healthcare_wellness + real_estate sectors HELD for validation — present in all source logs but not emitted; intelligence_depth 0 and no arabic_copywriting per_sector_analysis, so their voice/copy signals could not be grounded. Emit only after human validation.",
+    "dialect, brand_observation, reference, cultural, and caption entities are later waves — not part of this v1 export (sector + visual_pattern + occasion only).",
+    "visual_pattern records are confidence=experimental (observed_count=null) — chains are templates, not observed post outcomes; parsed/authored fields, not measured.",
+    "occasion behavior fields (type, priority, lead_weeks, recommended_mix_shift, tone_shift, sector_applicability, hard_rules, soft_flags) are DERIVED from cultural_significance weights + day_specific_variations — curated inference, not observed campaign data.",
+    "No tone->approval/engagement table exists in the corpus: sector voice.top/worst_performing_tones.approval_rate is a PREVALENCE proxy, not a measured approval rate.",
+    "sector content_mix_default (product/lifestyle/occasion/brand_story/founder) is fully INFERRED — no observed content-mix split exists anywhere in the sources.",
+    "common_hashtags_ar are occasion KEYWORDS (occasion_keyword_clusters), not scraped '#hashtag' tokens — the corpus has no hashtag text field.",
+    "visual_pattern record count is 127 (all real chain files: INDEX.json total_chains=127), not the '88 canonical' figure — flagged, not silently trimmed."
+  ]
+}

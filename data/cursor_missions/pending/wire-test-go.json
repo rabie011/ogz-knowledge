@@ -1,0 +1,16 @@
+{
+  "id": "wire-test-go",
+  "priority": -1,
+  "from": "cursor-cloud",
+  "created": "2026-07-01T05:30:00Z",
+  "type": "commands",
+  "goal": "Test wire end-to-end — local brain + Tailscale + auth + wire_test_latest.json",
+  "fix_allowed": true,
+  "commands": [
+    "cd ~/Desktop/ogz-knowledge && git fetch origin main && git reset --hard origin/main",
+    "cd ~/Desktop/ogz-knowledge && ./scripts/mac_ensure_control.sh --quiet",
+    "cd ~/Desktop/ogz-knowledge && /opt/homebrew/bin/python3 scripts/wire_test.py; echo wire_test_exit=$?",
+    "cd ~/Desktop/ogz-knowledge && /opt/homebrew/bin/python3 scripts/wire_publish_handoff.py",
+    "cd ~/Desktop/ogz-knowledge && MAC_SYNC_PUSH=1 /opt/homebrew/bin/python3 scripts/mac_sync.py --push"
+  ]
+}

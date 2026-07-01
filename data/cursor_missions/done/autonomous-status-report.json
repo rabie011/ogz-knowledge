@@ -1,6 +1,6 @@
 {
   "id": "autonomous-status-report",
-  "generated": "2026-07-01T13:33:51Z",
+  "generated": "2026-07-01T13:38:51Z",
   "role": "run-until-mohamed-texts",
   "daemons": "53401\t0\tcom.ogz.brain-api",
   "brain": {
@@ -33,9 +33,11 @@
   },
   "pending_missions": [],
   "recent_done_missions": [
+    "queue-clear-stuck-running",
+    "agent-run-now",
+    "autonomous-status-report",
     "audit-mistakes",
     "diagnose-executor",
-    "autonomous-status-report",
     "wire-ready-report",
     "mac-bridge-wire-go",
     "claude-code-history-master",
@@ -45,16 +47,14 @@
     "fake-platform-test",
     "sector-coverage-test",
     "sector-fake-clients-seed",
-    "consult-mirror-proposals-foundation",
-    "proposals-foundation-go",
-    "mac-organize-cleanup"
+    "consult-mirror-proposals-foundation"
   ],
   "backlog_status": {
-    "done": 293,
+    "done": 294,
     "superseded": 3,
     "todo": 54,
     "open": 4,
-    "staged": 9,
+    "staged": 8,
     "skipped": 4,
     "blocked": 1,
     "built": 1,
@@ -62,25 +62,10 @@
     "reverted": 1,
     "in_progress": 1
   },
-  "git": "c0a0735e mac-sync: mission bus 2026-07-01T13:33:08\n8d7e2aba mac-sync: status snapshot 2026-07-01T13:33:08\n9db41d5e mac-sync: mission bus 2026-07-01T13:28:03",
+  "git": "a1c285f7 mac-sync: mission bus 2026-07-01T13:38:47\n350cab76 mac-sync: status snapshot 2026-07-01T13:38:47\n06360266 mac-sync: mission bus 2026-07-01T13:38:44",
   "git_dirty": "## weiblocks-export...origin/weiblocks-export\n M clients/albaik/derived/rival_corpus.json\n M clients/eatjurisha/derived/rival_corpus.json\n M clients/fake_beauty/profile/.synthetic_fixture.json\n M clients/fake_beauty/profile/audience_mirror.json",
   "studios_web_local": null,
   "heartbeats_last_8": [
-    {
-      "ts": "2026-07-01T12:53:45Z",
-      "health": {
-        "ok": true,
-        "body": {
-          "ok": true,
-          "humain": false,
-          "queue_depth": 0,
-          "auth_required": true
-        }
-      },
-      "executor_live": false,
-      "pending": 0,
-      "orchestra": true
-    },
     {
       "ts": "2026-07-01T12:58:46Z",
       "health": {
@@ -173,6 +158,21 @@
     },
     {
       "ts": "2026-07-01T13:28:50Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": false,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "executor_live": false,
+      "pending": 0,
+      "orchestra": true
+    },
+    {
+      "ts": "2026-07-01T13:33:51Z",
       "health": {
         "ok": true,
         "body": {

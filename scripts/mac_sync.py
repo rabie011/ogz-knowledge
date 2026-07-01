@@ -117,7 +117,7 @@ def refresh_status() -> dict:
         "git_sha": _git_sha(),
         "unified_status_rc": rc_status,
         "validate_stack_rc": rc_val,
-        "launchagents": _launchctl_summary(),
+        "launchagents": agents,
         "pull": _git_pull(),
     }
     SYNC_META.write_text(json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8")

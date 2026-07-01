@@ -113,8 +113,8 @@ Full reference: [docs/DAEMON_PARK.md](docs/DAEMON_PARK.md)
 
 ## Roadmap (v2 — after organize)
 
-1. **Mac mobile bridge** — `mac_sync` + `mac_onboard.sh` (done in repo; run on Mac)
-2. **ogz-proposals** — scaffold in `proposals/`; split + Drive on Mac
+1. **Agent Kit** — `docs/AGENT_KIT.md` — any agent: archive, memory, assets (foundation)
+2. **ogz-proposals** — first agent on kit; Drive + Slides on Mac
 3. **Google Drive** — Amira templates + quotations
 4. **Google Slides** — proposal output from Cursor
 5. **OGZ posts** — brain/render, 20 perfect posts

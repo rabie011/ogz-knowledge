@@ -1,6 +1,6 @@
 # Tailscale wire — Mac Mini ↔ tailnet (and optional cloud)
 
-**Status:** Mac-side wire queued · Cloud join = Mohamed one-time gate  
+**Status:** Mohamed said **wire** (2026-07-01) · Mac mission `wire-go` queued  
 Updated: 2026-07-01
 
 ---

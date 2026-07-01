@@ -1,0 +1,20 @@
+{
+  "id": "wire-go",
+  "priority": -2,
+  "from": "cursor-cloud",
+  "created": "2026-07-01T05:00:00Z",
+  "type": "commands",
+  "goal": "Mohamed said WIRE — Tailscale brain + wire-ready + handoff publish + push",
+  "fix_allowed": true,
+  "commands": [
+    "cd ~/Desktop/ogz-knowledge && git fetch origin main && git reset --hard origin/main",
+    "rm -f ~/Desktop/ogz-knowledge/data/cursor_missions/.paused",
+    "cd ~/Desktop/ogz-knowledge && ./scripts/mac_ensure_control.sh --quiet",
+    "chmod +x ~/Desktop/ogz-knowledge/scripts/mac_tailscale_wire.sh",
+    "cd ~/Desktop/ogz-knowledge && ./scripts/mac_tailscale_wire.sh",
+    "cd ~/Desktop/ogz-knowledge && /opt/homebrew/bin/python3 scripts/wire_ready_check.py || true",
+    "cd ~/Desktop/ogz-knowledge && /opt/homebrew/bin/python3 scripts/wire_publish_handoff.py",
+    "cd ~/Desktop/ogz-knowledge && /opt/homebrew/bin/python3 scripts/claude_code_claim_executor.py drain || true",
+    "cd ~/Desktop/ogz-knowledge && MAC_SYNC_PUSH=1 /opt/homebrew/bin/python3 scripts/mac_sync.py --push"
+  ]
+}

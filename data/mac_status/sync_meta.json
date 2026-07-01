@@ -1,20 +1,22 @@
 {
-  "ts": "2026-07-01T12:14:52Z",
+  "ts": "2026-07-01T12:15:03Z",
   "hostname": "abarihms-Mac-mini.local",
   "platform": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
-  "git_sha": "11542a90",
-  "unified_status_rc": 1,
+  "git_sha": "a194c3ea",
+  "unified_status_rc": 0,
   "validate_stack_rc": 1,
   "launchagents": {
-    "com.ogz.brain-api": "loaded",
+    "com.ogz.brain-api": "unloaded",
     "com.ogz.mac-sync": "unloaded",
-    "com.ogz.executor": "unloaded",
+    "com.ogz.executor": "loaded",
     "com.ogz.consult-shift": "loaded",
     "com.ogz.memory-keeper": "loaded",
     "com.ogz.orchestra": "loaded"
   },
   "pull": {
-    "ok": true,
-    "detail": "skipped"
+    "ok": false,
+    "detail": "From https://github.com/rabie011/ogz-knowledge\n * branch              weiblocks-export -> FETCH_HEAD\nerror: cannot rebase: You have unstaged changes.\nerror: additionally, your index contains uncommitted changes.\nerror: Please commit or stash them.",
+    "branch": "weiblocks-export",
+    "stashed": false
   }
 }

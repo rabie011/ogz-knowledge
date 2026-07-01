@@ -1,0 +1,13 @@
+{
+  "id": "consult-mirror-proposals-foundation",
+  "from": "cursor-cloud",
+  "created": "2026-07-01T01:00:00Z",
+  "type": "commands",
+  "goal": "DeepSeek consult — mirror architecture + Agent Kit + proposals foundation (Mohamed requested)",
+  "fix_allowed": false,
+  "commands": [
+    "cd ~/Desktop/ogz-knowledge && git fetch origin main && git rebase origin/main",
+    "cd ~/Desktop/ogz-knowledge && python3 scripts/consult.py --models deepseek,gpt,gemini \"Mohamed OGZ: ONE Cursor cloud chat. Mac worker not second planner. Mirrors: GitHub mac-sync pull+drain+push; cursor_mirror pending/done JSON; unified_status. Agent Kit: Drive+Mac archive, append-only learnings. PROPOSALS first agent from ~/agents to Google Slides. Cloud no SSH. Is foundation correct? Missing pieces? What NOT to build? Implementation order?\" | tee data/cursor_missions/artifacts/consult_mirror_proposals_latest.txt",
+    "cd ~/Desktop/ogz-knowledge && MAC_SYNC_PUSH=1 python3 scripts/mac_sync.py --push"
+  ]
+}

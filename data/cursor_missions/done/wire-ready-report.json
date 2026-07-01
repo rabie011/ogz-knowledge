@@ -1,6 +1,6 @@
 {
   "id": "wire-ready-report",
-  "generated": "2026-06-30T17:21:12Z",
+  "generated": "2026-07-01T12:19:02Z",
   "wire_ready": true,
   "checks": {
     "daemon_brain_api": true,
@@ -17,10 +17,12 @@
     "contract_drift": true,
     "job_lifecycle": true,
     "fixtures_present": true,
-    "portal_reachable": true
+    "portal_reachable": false
   },
   "blockers": [],
-  "notes": [],
+  "notes": [
+    "portal :4199 not reachable from wire-ready check"
+  ],
   "flakes_accepted": [
     "integration 32/34 (myfitness coverage test + 2-judge HUMAIN)",
     "full unittest discover pre-existing failures",

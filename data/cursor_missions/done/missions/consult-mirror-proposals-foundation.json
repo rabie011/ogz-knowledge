@@ -1,0 +1,19 @@
+{
+  "id": "consult-mirror-proposals-foundation",
+  "executor": "shell",
+  "status": "partial",
+  "exit_codes": {
+    "cmd_0": 1,
+    "cmd_1": 0,
+    "cmd_2": 0,
+    "cmd_3": -9
+  },
+  "summary": "2 blocker(s)",
+  "log_path": "data/cursor_missions/done/consult-mirror-proposals-foundation.log",
+  "blockers": [
+    "command 0 failed (exit 1): cd ~/Desktop/ogz-knowledge && git fetch origin main && git rebase origin/main",
+    "command 3 failed (exit -9): cd ~/Desktop/ogz-knowledge && MAC_SYNC_PUSH=1 python3 scripts/mac_sync.py --push"
+  ],
+  "fix_allowed": false,
+  "finished": "2026-07-01T12:15:56Z"
+}

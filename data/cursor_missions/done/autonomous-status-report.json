@@ -1,8 +1,8 @@
 {
   "id": "autonomous-status-report",
-  "generated": "2026-07-01T12:13:40Z",
+  "generated": "2026-07-01T12:33:44Z",
   "role": "run-until-mohamed-texts",
-  "daemons": "1230\t0\tcom.ogz.brain-api",
+  "daemons": "53401\t0\tcom.ogz.brain-api",
   "brain": {
     "ok": true,
     "body": {
@@ -12,8 +12,8 @@
       "auth_required": true
     }
   },
-  "portal": "404",
-  "humain": "200",
+  "portal": "000unreachable",
+  "humain": "000unreachable",
   "prefill_pilots": {
     "albaik": {
       "pct": 79,
@@ -31,31 +31,28 @@
       "ready": false
     }
   },
-  "pending_missions": [
-    "mac-organize-cleanup.json",
-    "proposals-foundation-go.json"
-  ],
+  "pending_missions": [],
   "recent_done_missions": [
+    "autonomous-status-report",
+    "wave-health-2026-07-01",
+    "wire-ready-report",
+    "handoff-bundle-refresh",
+    "fake-platform-test",
+    "sector-coverage-test",
+    "sector-fake-clients-seed",
     "claude-code-history-master",
     "cursor-onboarding-brief",
-    "executor-recover-stuck",
-    "mac-post-reboot-check",
+    "consult-mirror-proposals-foundation",
+    "proposals-foundation-go",
     "mac-organize-cleanup",
-    "wire-ready-report",
-    "autonomous-status-report",
-    "mac-onboard-mobile-bridge",
-    "wire-ready-03-handoff-bundle",
-    "wire-ready-02-readiness",
-    "wire-ready-01-system",
-    "wave-myfitness-organs",
-    "wave-install-orchestra",
-    "wave-health-2026-06-30",
-    "wave-handoff-health"
+    "mac-post-reboot-check",
+    "wire-test-go",
+    "executor-recover-stuck"
   ],
   "backlog_status": {
-    "done": 291,
+    "done": 292,
     "superseded": 3,
-    "todo": 56,
+    "todo": 55,
     "open": 4,
     "staged": 9,
     "skipped": 4,
@@ -65,70 +62,10 @@
     "reverted": 1,
     "in_progress": 1
   },
-  "git": "8becdb3c mac-sync: status snapshot 2026-07-01T12:12:29\nb4a22644 mac-sync: status snapshot 2026-07-01T12:12:28\n3d805833 mac-sync: status snapshot 2026-07-01T12:12:27",
-  "git_dirty": "## weiblocks-export...origin/weiblocks-export\n M data/cursor_missions/.24h_state.json\n M data/cursor_missions/LIVE_STATUS.md\n M data/cursor_missions/done/claude-code-history-master.json\n M data/cursor_missions/done/cursor-onboarding-brief.json",
+  "git": "9d4cdd1b B262 done: track archive-freshness LaunchAgent in repo (reproducibility gap closed)\nd587dc47 mac-sync: mission bus 2026-07-01T12:14:37\nc36e5694 mac-sync: mission bus 2026-07-01T12:14:37",
+  "git_dirty": "## weiblocks-export...origin/weiblocks-export\n M clients/albaik/derived/rival_corpus.json\n M clients/eatjurisha/derived/rival_corpus.json\n M clients/fake_beauty/profile/.synthetic_fixture.json\n M clients/fake_beauty/profile/audience_mirror.json",
   "studios_web_local": null,
   "heartbeats_last_8": [
-    {
-      "ts": "2026-06-30T16:57:01Z",
-      "health": {
-        "ok": true,
-        "body": {
-          "ok": true,
-          "humain": true,
-          "queue_depth": 0,
-          "auth_required": true
-        }
-      },
-      "executor_live": false,
-      "pending": 0,
-      "orchestra": true
-    },
-    {
-      "ts": "2026-06-30T17:02:01Z",
-      "health": {
-        "ok": true,
-        "body": {
-          "ok": true,
-          "humain": true,
-          "queue_depth": 0,
-          "auth_required": true
-        }
-      },
-      "executor_live": false,
-      "pending": 0,
-      "orchestra": true
-    },
-    {
-      "ts": "2026-06-30T17:07:02Z",
-      "health": {
-        "ok": true,
-        "body": {
-          "ok": true,
-          "humain": true,
-          "queue_depth": 0,
-          "auth_required": true
-        }
-      },
-      "executor_live": false,
-      "pending": 0,
-      "orchestra": true
-    },
-    {
-      "ts": "2026-06-30T17:12:02Z",
-      "health": {
-        "ok": true,
-        "body": {
-          "ok": true,
-          "humain": true,
-          "queue_depth": 0,
-          "auth_required": true
-        }
-      },
-      "executor_live": false,
-      "pending": 0,
-      "orchestra": true
-    },
     {
       "ts": "2026-06-30T17:17:03Z",
       "health": {
@@ -188,6 +125,66 @@
       "executor_live": false,
       "pending": 0,
       "orchestra": true
+    },
+    {
+      "ts": "2026-07-01T12:13:43Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": false,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "executor_live": true,
+      "pending": 2,
+      "orchestra": true
+    },
+    {
+      "ts": "2026-07-01T12:18:44Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": false,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "executor_live": false,
+      "pending": 1,
+      "orchestra": true
+    },
+    {
+      "ts": "2026-07-01T12:23:44Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": false,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "executor_live": false,
+      "pending": 0,
+      "orchestra": true
+    },
+    {
+      "ts": "2026-07-01T12:28:44Z",
+      "health": {
+        "ok": true,
+        "body": {
+          "ok": true,
+          "humain": false,
+          "queue_depth": 0,
+          "auth_required": true
+        }
+      },
+      "executor_live": false,
+      "pending": 0,
+      "orchestra": true
     }
   ],
   "blockers_mohamed_must": [
@@ -195,5 +192,9 @@
     "13 bridge taste pairs on portal",
     "reserve_taste_lane flip — only when queue ≤7 AND you approve"
   ],
-  "autonomous_next": []
+  "autonomous_next": [
+    "wave: clone o-gz-studios-web if repo URL found",
+    "wave: lib/brain smoke client against :4140",
+    "wave: consult DeepSeek on wire checklist"
+  ]
 }

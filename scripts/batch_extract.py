@@ -6,8 +6,9 @@ Usage:
   python3 scripts/batch_extract.py --account barnscoffee --batch B2 --count 25
   python3 scripts/batch_extract.py --account aseeb.najd --batch B1 --count 25
 
-Reads images from _inbox/@{account}/media/, calls Anthropic API (claude-haiku-4-5)
-with vision to generate observation_v1 JSON records, saves to observations/f_and_b/.
+Reads images from _inbox/@{account}/media/ and calls a model-resilient vision
+extractor (OpenAI gpt-4o primary — funded; Anthropic claude-haiku-4-5 fallback)
+to generate observation_v1 JSON records, saved to observations/f_and_b/.
 """
 from __future__ import annotations
 import argparse
@@ -17,9 +18,12 @@ import os
 import random
 import sys
 import time
+import urllib.request
 from pathlib import Path
 
-import anthropic
+# anthropic is imported lazily inside vision_extract()'s fallback branch — the
+# script now runs OpenAI-first (Anthropic dry, June 2026) and no longer requires
+# the anthropic package to be installed. See vision_extract() below.
 
 from extraction_release_gate import assert_release_allowed  # B130 (Rule #8)
 
@@ -257,8 +261,106 @@ def select_images(media_dir: Path, used: set[str], count: int, seed: int = 42) -
     return eligible[:count]
 
 
+def _env(name: str) -> str:
+    """Read an API key from the environment or ~/.abraham_env (shell does not
+    auto-source that file). Returns '' when absent."""
+    val = os.environ.get(name, "")
+    if val:
+        return val
+    env_path = Path.home() / ".abraham_env"
+    if env_path.exists():
+        for line in env_path.read_text().splitlines():
+            line = line.strip()
+            if line.startswith(f"{name}="):
+                return line.split("=", 1)[1].strip().strip('"').strip("'")
+    return ""
+
+
+def usable_provider() -> str:
+    """Which vision provider can run right now. OpenAI is primary (funded);
+    Anthropic is the fallback (dry June 2026, revives free later). '' = none."""
+    if _env("OPENAI_API_KEY"):
+        return "openai"
+    if _env("ANTHROPIC_API_KEY"):
+        return "anthropic"
+    return ""
+
+
+def _openai_vision(system: str, user_msg: str, img_b64: str,
+                   media_type: str, max_tokens: int) -> str:
+    """gpt-4o vision via raw urllib (mirrors classify_media.py). Returns the raw
+    text. RAISES on any failure — never fail-open (Rule #8)."""
+    key = _env("OPENAI_API_KEY")
+    if not key:
+        raise RuntimeError("no OPENAI_API_KEY")
+    body = {
+        "model": "gpt-4o",
+        "max_tokens": max_tokens,
+        "temperature": 0,
+        "messages": [
+            {"role": "system", "content": system},
+            {"role": "user", "content": [
+                {"type": "image_url",
+                 "image_url": {"url": f"data:{media_type};base64,{img_b64}"}},
+                {"type": "text", "text": user_msg},
+            ]},
+        ],
+    }
+    rq = urllib.request.Request(
+        "https://api.openai.com/v1/chat/completions",
+        data=json.dumps(body).encode("utf-8"),
+        headers={"Authorization": f"Bearer {key}",
+                 "Content-Type": "application/json"},
+    )
+    with urllib.request.urlopen(rq, timeout=120) as resp:
+        payload = json.loads(resp.read().decode("utf-8"))
+    text = (payload.get("choices") or [{}])[0].get("message", {}).get("content", "")
+    if not text or not text.strip():
+        raise RuntimeError("openai vision returned empty content")
+    return text.strip()
+
+
+def _anthropic_vision(system: str, user_msg: str, img_b64: str,
+                      media_type: str, max_tokens: int) -> str:
+    """claude-haiku-4-5 vision fallback (lazy import). RAISES on failure."""
+    key = _env("ANTHROPIC_API_KEY")
+    if not key:
+        raise RuntimeError("no ANTHROPIC_API_KEY")
+    import anthropic  # lazy — not required when running OpenAI-only
+    client = anthropic.Anthropic(api_key=key)
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=max_tokens,
+        system=system,
+        messages=[{"role": "user", "content": [
+            {"type": "image", "source": {"type": "base64",
+                                         "media_type": media_type, "data": img_b64}},
+            {"type": "text", "text": user_msg},
+        ]}],
+    )
+    text = response.content[0].text if response.content else ""
+    if not text or not text.strip():
+        raise RuntimeError("anthropic vision returned empty content")
+    return text.strip()
+
+
+def vision_extract(system: str, user_msg: str, img_b64: str,
+                   media_type: str, max_tokens: int = 2000) -> str:
+    """Model-resilient vision call: OpenAI gpt-4o primary (funded), Anthropic
+    claude-haiku fallback. Returns the raw model text (markdown fences stripped
+    by the caller). RAISES RuntimeError when no provider is usable or the call
+    fails — the extractor must never write bad/empty data silently (Rule #8)."""
+    provider = usable_provider()
+    if provider == "openai":
+        return _openai_vision(system, user_msg, img_b64, media_type, max_tokens)
+    if provider == "anthropic":
+        return _anthropic_vision(system, user_msg, img_b64, media_type, max_tokens)
+    raise RuntimeError(
+        "vision_extract: no usable provider (need OPENAI_API_KEY or "
+        "ANTHROPIC_API_KEY in env or ~/.abraham_env)")
+
+
 def extract_one(
-    client: anthropic.Anthropic,
     img_path: Path,
     meta: dict,
     caption: str,
@@ -282,29 +384,9 @@ def extract_one(
         caption=caption or "(no caption available)",
     )
 
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=2000,
-        system=EXTRACTION_SYSTEM,
-        messages=[
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "image",
-                        "source": {
-                            "type": "base64",
-                            "media_type": media_type,
-                            "data": img_b64,
-                        },
-                    },
-                    {"type": "text", "text": user_msg},
-                ],
-            }
-        ],
-    )
-
-    raw = response.content[0].text.strip()
+    raw = vision_extract(
+        EXTRACTION_SYSTEM, user_msg, img_b64, media_type, max_tokens=2000
+    ).strip()
     # Strip any markdown code fences
     if raw.startswith("```"):
         raw = raw.split("\n", 1)[1].rsplit("```", 1)[0].strip()
@@ -479,20 +561,13 @@ def main():
         print(f"ERROR: Unknown account '{account}'. Known: {list(ACCOUNT_META.keys())}")
         sys.exit(1)
 
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
-    if not api_key:
-        # Try loading from .abraham_env
-        env_path = Path.home() / ".abraham_env"
-        if env_path.exists():
-            for line in env_path.read_text().splitlines():
-                if line.startswith("ANTHROPIC_API_KEY="):
-                    api_key = line.split("=", 1)[1].strip()
-                    break
-    if not api_key:
-        print("ERROR: No ANTHROPIC_API_KEY found")
+    provider = usable_provider()
+    if not provider:
+        print("ERROR: no vision provider — need OPENAI_API_KEY (primary) or "
+              "ANTHROPIC_API_KEY (fallback) in env or ~/.abraham_env")
         sys.exit(1)
-
-    client = anthropic.Anthropic(api_key=api_key)
+    print(f"[{account}] vision provider: {provider}"
+          f"{' (gpt-4o)' if provider == 'openai' else ' (claude-haiku-4-5)'}")
 
     media_dir = REPO / "11_who_to_learn_from" / "_inbox" / f"@{account}" / "media"
     if not media_dir.exists():
@@ -530,7 +605,7 @@ def main():
         print(f"  [{i+1}/{len(images)}] Extracting {img_path.name} → {ulid}.json", end="", flush=True)
 
         try:
-            obs = extract_one(client, img_path, meta, caption, ulid)
+            obs = extract_one(img_path, meta, caption, ulid)
             out_path = OBS_DIR / f"{ulid}.json"
             out_path.write_text(json.dumps(obs, ensure_ascii=False, indent=2))
             print(f" ✓ [{obs['compliance_check']['overall_compliance']}]")

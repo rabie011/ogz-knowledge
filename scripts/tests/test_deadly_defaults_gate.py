@@ -82,5 +82,59 @@ class TestDeadlyDefaultsGate(unittest.TestCase):
         self.assertEqual(self._violations("a"), [])
 
 
+# the July-1 second proven-strict value: face_visibility='faceless' (zero faces shown) is a
+# total prohibition on the risky direction (a SHOWN face), no-less-strict than the 'never'
+# default — yet str('faceless')!='never' flagged it. The consumer render_image.py:60 already
+# buckets faceless==never; the gate was the only place out of step. Locks both directions.
+FACE_DEADLY = {"face_visibility": {"field": "face_visibility",
+                                   "strictest_default": "never",
+                                   "deadly_if_wrong": True}}
+
+
+class TestFaceVisibilityFaceless(unittest.TestCase):
+    def setUp(self):
+        self._orig_base = g.BASE
+        self._tmp = Path(tempfile.mkdtemp())
+        g.BASE = self._tmp
+
+    def tearDown(self):
+        g.BASE = self._orig_base
+
+    def _client(self, handle, face_val, event=False):
+        pdir = self._tmp / "clients" / handle / "profile"
+        pdir.mkdir(parents=True)
+        (pdir / "cultural_overrides.json").write_text(
+            json.dumps({"face_visibility": face_val}))
+        if event:
+            ev = self._tmp / "clients" / handle / "events"
+            ev.mkdir(parents=True)
+            (ev / "ledger.jsonl").write_text(
+                json.dumps({"type": "red_line_relaxed", "field": "face_visibility"}) + "\n")
+
+    def _violations(self, handle):
+        return g.check_client(handle, FACE_DEADLY)
+
+    # ---- SAFE: 'faceless' (and 'never') are total prohibitions, must NOT block ----
+    def test_faceless_is_safe(self):
+        # the myfitness.sa case: 'faceless' == no faces = as strict as 'never'
+        self._client("a", "faceless")
+        self.assertEqual(self._violations("a"), [])
+
+    def test_never_is_safe(self):
+        self._client("a", "never")
+        self.assertEqual(self._violations("a"), [])
+
+    # ---- BLOCKED: a real relaxation (a shown face) must STILL be flagged (no fail-open) ----
+    def test_permissive_face_values_are_flagged(self):
+        for v in ("visible", "shown", "all", "allowed", "always"):
+            with self.subTest(v=v):
+                self._client(f"c_{v}", v)
+                self.assertEqual(len(self._violations(f"c_{v}")), 1, f"{v!r} must be flagged")
+
+    def test_relaxation_with_event_is_safe(self):
+        self._client("a", "visible", event=True)
+        self.assertEqual(self._violations("a"), [])
+
+
 if __name__ == "__main__":
     unittest.main()

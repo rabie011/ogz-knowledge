@@ -22,14 +22,18 @@ TABLE = BASE / "15_cultural_specs/defaults/brand_override_defaults_v1.yaml"
 # therefore never be a RELAXATION; flagging it is a false positive (B106 fix, June 30:
 # alnasserjewelry encoded mixed_gender_scenes=false (no mixing at all) — STRICTER than
 # the 'family-only-mixing' string default, yet str(False)!='family-only-mixing' flagged
-# it). This NARROWS violations only for provably-conservative values; a real relaxation
-# (True / 'all' / 'allowed' / 'on' / 'mixed' / any permissive token) is still flagged —
-# the opposite of a fail-open (the C221w scar). Verified by both chairs + the downstream
-# consumer render_image.py (False -> 'none' bucket -> renders no mixed-gender = correct).
+# it). A SECOND proven-strict value (July 1): myfitness.sa encodes face_visibility='faceless'
+# (zero faces shown) — a total prohibition on the risky direction (a SHOWN face), no-less-strict
+# than the 'never' default, yet str('faceless')!='never' flagged it. The downstream consumer
+# render_image.py:60 already buckets faceless==never (no faces), so the gate was the only place
+# out of step. This NARROWS violations only for provably-conservative values; a real relaxation
+# (True / 'all' / 'allowed' / 'on' / 'mixed' / 'visible' / 'shown' / any permissive token) is still
+# flagged — the opposite of a fail-open (the C221w scar). Verified by both chairs + the downstream
+# consumers render_image.py (False -> 'none' bucket = no mixed-gender; faceless -> no-faces bucket).
 _STRICTER_OR_EQUAL = frozenset({
     "false", "none", "no", "never", "off", "disabled",
     "blocked", "blocked_permanent", "no_music", "no-mixing",
-    "separate", "segregated",
+    "separate", "segregated", "faceless",
 })
 
 

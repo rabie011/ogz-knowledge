@@ -81,12 +81,34 @@ def _slot_hash(handle: str, date: str) -> int:
     return int(hashlib.sha1(f"{handle}|{date}".encode()).hexdigest(), 16)
 
 
-def lens_theme(sector: str, occ_slug: str) -> str | None:
+# face-directing seed words (June 30 — Rule #8 root fix): a sector-lens moment that
+# depicts human faces/expressions/gatherings makes the Art-Director HOLD the image for a
+# face_visibility=never brand (the gate correctly refuses). A no-face brand must never be
+# SEEDED with a face-directing angle_theme in the first place — fix the input, not the
+# gate (RABIE + DeepSeek converged 2026-06-30, verified against render_client_slot HOLD).
+_FACE_SEED_WORDS = ("famil", "grandparent", "gather", "sharing storie", "faces",
+                    "children", "kids", "friends meeting", "friends gathering",
+                    "loved ones", "smiling", "expressions", "people enjoying")
+
+
+def _directs_faces(text: str) -> bool:
+    t = (text or "").lower()
+    return any(w in t for w in _FACE_SEED_WORDS)
+
+
+def lens_theme(sector: str, occ_slug: str, face_free: bool = False) -> str | None:
     facts = json.loads((BASE / "data/occasion_facts.json").read_text())
     key = {"saudi_national_day": "saudi_national_day"}.get(occ_slug, occ_slug)
     lens = (facts.get(key, {}).get("sector_lenses") or {}).get(sector) or {}
     m = lens.get("moments") or []
-    return m[0][:100] if m else None
+    if not m:
+        return None
+    if face_free:
+        # prefer the first moment that does NOT direct faces; if every moment does,
+        # return None so build() falls back to the face-neutral generic theme.
+        clean = [x for x in m if not _directs_faces(x)]
+        return clean[0][:100] if clean else None
+    return m[0][:100]
 
 
 def build(handle: str, sector: str, start: datetime.date) -> dict:
@@ -96,6 +118,13 @@ def build(handle: str, sector: str, start: datetime.date) -> dict:
     state = json.loads((pdir / "state.json").read_text())
     moments = json.loads((pdir / "moments_bank.json").read_text())["moments"]
     truth = json.loads((pdir / "truth_pack.json").read_text())
+    # face policy (June 30): a face_visibility=never brand must not be seeded with a
+    # face-directing occasion angle_theme (the Art-Director would HOLD every such slot).
+    try:
+        _co = json.loads((pdir / "cultural_overrides.json").read_text())
+        face_free = str(_co.get("face_visibility", "")).lower() == "never"
+    except Exception:
+        face_free = False
     per_week = CADENCE.get(state["state"], 2)
     end = start.replace(year=start.year + 1)
 
@@ -157,7 +186,7 @@ def build(handle: str, sector: str, start: datetime.date) -> dict:
             slots.append({"date": str(d), "type": "occasion", "occasion": o["slug"], "beat": o["beat"],
                           "major": o["major"], "moonsighting_check": o["moonsighting"],
                           "formula": FORMULAS[i % 7],
-                          "angle_theme": lens_theme(sector, o["slug"]) or f"{o['slug']} × real brand moment",
+                          "angle_theme": lens_theme(sector, o["slug"], face_free=face_free) or f"{o['slug']} × real brand moment",
                           "format": "image",  # computed → some flip to 'reel' in the post-loop ranking pass
                           "anchor": o["major"] and o["beat"] == "day_of", "status": "planned"})
             i += 1

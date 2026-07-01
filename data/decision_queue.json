@@ -655,9 +655,9 @@
   },
   {
    "id": "alarm_live",
-   "title": "🚨 إنذار: commits_flowing, armor_tests, deadly_defaults, feedback_system, founder_taste_fresh, visual_checklist_fresh واقف",
+   "title": "🚨 إنذار: founder_taste_fresh واقف",
    "tag": "نظام",
-   "desc": "فحص الأدلة فشل: ['commits_flowing', 'armor_tests', 'deadly_defaults', 'feedback_system', 'founder_taste_fresh', 'visual_checklist_fresh']. كلود يعالج — هذا للعلم.",
+   "desc": "فحص الأدلة فشل: ['founder_taste_fresh']. كلود يعالج — هذا للعلم.",
    "clock": "",
    "priority": "urgent",
    "created": "2026-06-21T19:44:52",
@@ -1764,6 +1764,89 @@
     {
      "v": "gemini",
      "label": "Enable Gemini billing on GCP"
+    }
+   ],
+   "made_by": "claude",
+   "artifact_version": 1,
+   "action_type": "decision"
+  },
+  {
+   "id": "closures_2026-07-01",
+   "kind": "buttons",
+   "title": "✅ 4 إصلاحات اتقفلت — بالأدلة",
+   "tag": "تغذية راجعة",
+   "why": "كلامك صار commits — هذا الإثبات",
+   "did": "«hيه العلاقه بين حارات وجريشه» · «rejected» · «rejected»",
+   "options": [
+    {
+     "v": "seen",
+     "label": "✓ شفتها كلها",
+     "rec": true
+    },
+    {
+     "v": "reopen_one",
+     "label": "↩ وحدة لسه ما اتصلحت (اشرح بالملاحظة)"
+    }
+   ],
+   "source": "feedback_cards",
+   "made_by": "system:feedback_cards",
+   "artifact_version": 1,
+   "action_type": "decision"
+  },
+  {
+   "id": "B286_selfterminate_supersede_fork",
+   "title": "B286 session-leak root-fix: the self-terminate lever is now WRONG (cadence changed 30min→5min)",
+   "tag": "infra",
+   "desc": "FACTS grep-verified 2026-07-01: (1) orchestra_self_terminate.py DEFAULT_TIMEOUT=1500s justified by a 30-min cadence in docstring; SKILL.md now fires EVERY 5 MIN. (2) No launchd/cron/scheduler references it = dead code. (3) Reaper live, exit 0, HARD_CAP=25 bounds accumulation (historical load-74 was 161 procs; today 14 detached). REC: re-scope to 30-min hang-catcher; reaper handles normal accumulation.",
+   "clock": "60",
+   "priority": "normal",
+   "created": "2026-07-01T17:12:22",
+   "status": "open",
+   "why": "self_terminate.py (built+tested, 14 tests pass) is UNWIRED dead code; wiring it as-is would SIGKILL productive 5-min-cadence shifts mid-build. The live reaper (HARD_CAP=25) already bounds the leak.",
+   "need": "Close B286: retire the unused self-terminate script, or keep it as a rare hang-catcher?",
+   "kind": "buttons",
+   "options": [
+    {
+     "v": "delete",
+     "label": "DELETE the dead self_terminate.py (reaper HARD_CAP=25 is sole working backstop)"
+    },
+    {
+     "v": "rescope",
+     "label": "KEEP re-scoped as a 30-min HANG-DETECTOR only, not cadence-bound — REC"
+    },
+    {
+     "v": "hold",
+     "label": "Hold, discuss later"
+    }
+   ],
+   "made_by": "system:orchestra",
+   "artifact_version": 1,
+   "action_type": "decision"
+  },
+  {
+   "id": "B166_maps_review_repull_fork",
+   "title": "Monthly Maps-review re-pull — approve Apify spend?",
+   "tag": "flanks",
+   "desc": "B166. GREPPED STATE: (1) READER WIRED+TESTED — build_audience_mirror.py folds raw/maps_reviews into the tally corpus (test_audience_mirror_reviews.py, 3 tests green). (2) WRITER exists — fetch_delivery_reviews.py hits Apify (costs credits). (3) NO monthly scheduler — gated on this budget call. RABIE+DeepSeek both ruled STAGE-don't-build (money-discipline). Approve = we wire a monthly guarded re-pull; Manual = we leave it on-demand.",
+   "clock": "",
+   "priority": "normal",
+   "created": "2026-07-01T18:17:35",
+   "status": "open",
+   "why": "The reader is built & tested; only the paid monthly refresh needs your budget nod.",
+   "need": "Approve a monthly Apify pull of Google-Maps reviews (≤50/client) so the audience-mirror's 'unprompted customer voice' stays fresh — or keep it manual.",
+   "kind": "buttons",
+   "options": [
+    {
+     "v": "approve_monthly",
+     "label": "Approve monthly re-pull"
+    },
+    {
+     "v": "manual",
+     "label": "Keep manual/on-demand"
+    },
+    {
+     "v": "hold",
+     "label": "Hold"
     }
    ],
    "made_by": "claude",

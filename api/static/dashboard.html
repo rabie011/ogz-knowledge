@@ -497,6 +497,13 @@ async function savePin(){
 function delPin(ref){ D.pins=D.pins.filter(p=>p.ref!==ref); save(); render(); }
 
 /* ================= verdict bar ================= */
+/* setV: the 3 verdict buttons called this but it was never defined (July 2 button
+   audit — every Approve/Edit/Kill tap threw ReferenceError). Same toggle idiom as
+   approvals.html selVerdict + the sdot taste buttons. */
+function setV(v){
+  D.verdict=(D.verdict===v)?null:v; save();
+  renderBar(ITEMS.find(x=>x.id===CUR));
+}
 function renderBar(it){
   const judgeable=it&&(it.kind==='proposal_judge'||it.kind==='caption_judge'||String(it.id).startsWith('post_')||(!it.options&&it.kind!=='text'));
   document.getElementById('bar').style.display=(judgeable&&WHO)?'':'none';

@@ -152,6 +152,16 @@ textarea:focus,input:focus{border-color:var(--pin)}
 .donerow .dw{color:var(--dim);font-size:12px;flex:0 0 auto}
 .leaving{opacity:0;transform:translateY(-8px);transition:.22s}
 
+/* ---------- deck embed (Mohamed's visual-first rule) ---------- */
+.deckzone{margin:14px 0 6px}
+.deckframe{width:100%;height:560px;border:1px solid var(--line);border-radius:12px;background:#000;display:block}
+.deckrow{display:flex;gap:8px;align-items:center;margin-top:8px}
+.deckrow .dkbtn{padding:.45em 1em;border-radius:9px;border:1px solid var(--line2);font-weight:700;font-size:13px;color:var(--mut)}
+.deckrow .dkbtn:hover{color:var(--ink);border-color:var(--ink)}
+.deckrow .dkname{color:var(--dim);font-size:12px;margin-inline-start:auto}
+.deckpin.pinned-mark{border-color:var(--pin);color:var(--pin)}
+.txtlbl{margin:20px 4px 2px;font-size:11.5px;font-weight:800;letter-spacing:1.2px;color:var(--dim);text-transform:uppercase}
+
 /* ---------- activity feed ---------- */
 .dayhdr{margin:22px 4px 8px;font-size:12px;font-weight:800;letter-spacing:1.2px;color:var(--dim);text-transform:uppercase}
 .act{display:flex;gap:12px;align-items:flex-start;padding:10px 14px;border-bottom:1px solid var(--line)}
@@ -325,6 +335,10 @@ function render(){
   h+=`<div id="body">`;
 
   if(it.kind==='proposal_judge'){
+    // MOHAMED'S VISUAL-FIRST RULE: the deck is the PRIMARY thing — injected by loadDeck()
+    // right here; the text renders below it as supporting detail.
+    h+=`<div class="deckzone" id="deckzone" data-ref="deck" data-zone="visual"></div>`;
+    h+=`<div class="txtlbl">التفاصيل النصية · SUPPORTING TEXT</div>`;
     const slides=slidesOf(it.caption||it.island_text||'');
     slides.forEach((s,si)=>{
       const sid='slide:'+si+(s.title?'-'+slug(s.title):'');
@@ -360,7 +374,37 @@ function render(){
   }
   h+=`</div></div>`;
   st.innerHTML=h;
+  if(it.kind==='proposal_judge') loadDeck(it.id);
   renderBar(it); updatePos();
+}
+
+/* ---------- deck embed (visual-first) ---------- */
+const DECKMETA={};   // item id -> meta (cached; conversion happens server-side once)
+async function loadDeck(id){
+  const z=document.getElementById('deckzone'); if(!z) return;
+  let m=DECKMETA[id];
+  if(!m){
+    z.innerHTML=`<div class="adet" style="padding:8px 4px">…فحص العرض التقديمي</div>`;
+    try{ m=await (await fetch('/api/dashboard/deck?meta=1&item='+encodeURIComponent(id)+'&k='+encodeURIComponent(K))).json(); }
+    catch(e){ m={ok:false}; }
+    DECKMETA[id]=m;
+  }
+  if(CUR!==id) return;                       // he moved on while we fetched
+  if(!m.ok && m.convertible){                // pptx-only: the GET itself converts once
+    z.innerHTML=`<div class="adet" style="padding:8px 4px">…تصدير العرض إلى PDF (أول مرة فقط)</div>`;
+    try{ m=await (await fetch('/api/dashboard/deck?meta=1&item='+encodeURIComponent(id)+'&k='+encodeURIComponent(K)+'&convert=1')).json(); }
+    catch(e){}
+    DECKMETA[id]=m;
+  }
+  if(!m||!m.ok){ z.innerHTML=''; return; }   // no deck on this card — text stays primary
+  const url='/api/dashboard/deck?item='+encodeURIComponent(id)+'&k='+encodeURIComponent(K);
+  const p=pinFor('deck');
+  z.innerHTML=`<embed class="deckframe" src="${url}" type="application/pdf">
+    <div class="deckrow" data-ref="deck" data-zone="visual">
+      <button class="dkbtn deckpin ${p?'pinned-mark':''}" onclick="openComposer(document.getElementById('deckzone'))">📌 تعليق على العرض</button>
+      <a class="dkbtn" href="${url}&dl=1">📥 تحميل</a>
+      <span class="dkname">${esc(m.name||'')}</span>
+    </div>`+(p?pinHtml(p):'');
 }
 /* ---------- activity: every session's work, one view (reads the EXISTING journal) ---------- */
 const AICO={'files-added':'➕','files-modified':'✏️','files-vanished':'⚠️','files-moved':'📁',
@@ -418,7 +462,8 @@ function openComposer(el){
   const ref=el.dataset.ref; if(!ref||!WHO)return;
   if(COMP&&COMP.ref===ref){return}
   closeComposer(true);
-  const quote=(el.innerText||'').replace(/📌.*$/m,'').trim().slice(0,220);
+  const quote=(el.dataset.ref==='deck')?('العرض التقديمي · '+((DECKMETA[CUR]||{}).name||'DECK')):
+    (el.innerText||'').replace(/📌.*$/m,'').trim().slice(0,220);
   const zone=el.dataset.zone||''; const guessed=guessKind(quote,zone);
   const KINDS=['copy','price','visual','caption','idea','script','strategy','data'];
   const c=document.createElement('div'); c.id='composer';

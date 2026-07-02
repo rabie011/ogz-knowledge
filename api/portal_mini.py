@@ -210,6 +210,67 @@ def activity(request: Request, k: str = ""):
                         headers={"ETag": etag, "Cache-Control": "private, no-cache"})
 
 
+JOBS_ROOT = OGZ_ROOT / "studio" / "jobs"
+SOFFICE = "/opt/homebrew/bin/soffice"
+
+
+def _deck_pdf_for(stem: str):
+    """Newest DECK*.pdf in the card's job dir; falls back to converting the newest
+    DECK*.pptx via soffice (write-once cache next to it — never deleted, never redone).
+    Returns (pdf_path|None, pptx_to_convert|None). Path-guarded: stem resolved under jobs/."""
+    if not stem or any(c in stem for c in "/\\\x00") or ".." in stem:
+        return None, None
+    d = (JOBS_ROOT / stem).resolve()
+    if not (str(d).startswith(str(JOBS_ROOT.resolve()) + "/") and d.is_dir()):
+        return None, None
+    pdfs = sorted(d.glob("DECK*.pdf"), key=lambda p: p.stat().st_mtime, reverse=True)
+    if pdfs:
+        return pdfs[0], None
+    ppts = sorted(d.glob("DECK*.pptx"), key=lambda p: p.stat().st_mtime, reverse=True)
+    return None, (ppts[0] if ppts else None)
+
+
+@app.get("/api/dashboard/deck")
+async def deck(item: str = "", k: str = "", meta: int = 0, dl: int = 0):
+    """MOHAMED'S VISUAL-FIRST RULE (July 2): the rendered deck IS the card. Serves the
+    job's DECK pdf; a pptx-only job is converted ONCE at first view (flock + re-check —
+    DeepSeek consult deck-embed-20260702: no double-convert race, async so the worker
+    never blocks the event loop). ?meta=1 → availability JSON; ?dl=1 → download headers."""
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    stem = item[len("studio_"):] if item.startswith("studio_") else item
+    pdf, pptx = _deck_pdf_for(stem)
+    if pdf is None and pptx is not None:
+        import asyncio
+        import fcntl as _f
+        lock = open(pptx.parent / ".deck_convert.lock", "w")
+        try:
+            _f.flock(lock, _f.LOCK_EX)
+            npdf, _ = _deck_pdf_for(stem)          # double-check after the lock
+            if npdf is None:
+                proc = await asyncio.create_subprocess_exec(
+                    SOFFICE, "--headless", "--convert-to", "pdf",
+                    "--outdir", str(pptx.parent), str(pptx),
+                    stdout=asyncio.subprocess.DEVNULL, stderr=asyncio.subprocess.DEVNULL)
+                try:
+                    await asyncio.wait_for(proc.wait(), timeout=120)
+                except asyncio.TimeoutError:
+                    proc.kill()
+            pdf, _ = _deck_pdf_for(stem)
+        finally:
+            _f.flock(lock, _f.LOCK_UN)
+            lock.close()
+    if meta:
+        return {"ok": pdf is not None, "name": pdf.name if pdf else None,
+                "convertible": pptx is not None}
+    if pdf is None:
+        return JSONResponse({"ok": False, "error": "no deck"}, status_code=404)
+    headers = {"Cache-Control": "private, no-cache"}
+    if dl:
+        headers["Content-Disposition"] = f'attachment; filename="{stem}-{pdf.name}"'
+    return FileResponse(pdf, media_type="application/pdf", headers=headers)
+
+
 @app.get("/api/approvals/whoami")
 def whoami(k: str = ""):
     """Per-judge key → fixed identity (no picker). Shared key → roster picker."""
@@ -276,6 +337,11 @@ def _bucket(it: dict) -> str:
     bt = it.get("action_type")
     if bt in ("alarm", "decision", "info"):
         return bt
+    # a judge-lane card IS a decision — Mohamed can ACT on it (July 2 fix: the legacy
+    # field-presence inference filed 'training ·' proposal cards as no-action info and
+    # COLLAPSED them off the dashboard, while '🔴 LIVE' siblings matched the alarm emoji)
+    if it.get("kind") in ("proposal_judge", "caption_judge"):
+        return "decision"
     txt = f"{it.get('title','')} {it.get('tag','')} {it.get('id','')}"
     if any(e in txt for e in ("🚨", "🔴", "alarm", "إنذار", "taste_stale")):
         return "alarm"

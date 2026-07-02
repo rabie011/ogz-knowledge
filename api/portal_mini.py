@@ -117,6 +117,18 @@ OGZ_ROOT = Path.home() / "OGZ-System"
 _ACTIVITY_SOURCES = [OGZ_ROOT / "journal/journal.jsonl", OGZ_ROOT / "journal/runs.log"]
 
 
+@app.get("/plan")
+def agents_plan(k: str = ""):
+    """AGENTS-PLAN.pdf for Mohamed's remote read (July 2) — same key gate as everything."""
+    if not _ok(k):
+        return JSONResponse({"error": "key required"}, status_code=403)
+    f = OGZ_ROOT / "AGENTS-PLAN.pdf"
+    if not f.exists():
+        return JSONResponse({"error": "plan not found"}, status_code=404)
+    return FileResponse(f, media_type="application/pdf",
+                        headers={"Cache-Control": "private, no-cache"})
+
+
 def _epoch(ts) -> float:
     """All activity sources are ISO-ish strings (some naive, some +0300) — normalize to
     epoch BEFORE sorting (DeepSeek consult activity-panel: string-sort across formats lies)."""

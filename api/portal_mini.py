@@ -98,6 +98,21 @@ def page(request: Request, k: str = ""):
     return FileResponse(f, headers={"Cache-Control": "private, no-cache", "ETag": etag})
 
 
+@app.get("/dashboard")
+def dashboard(request: Request, k: str = ""):
+    """THE FEEDBACK DASHBOARD (July 2 — Mohamed's order: the one place he lives in).
+    Same key auth, same items API, same answer write path as /approvals — this route
+    only serves the richer surface (full decks, full posts, inline element comments)."""
+    if not _ok(k):
+        return JSONResponse({"error": "key required"}, status_code=403)
+    f = STATIC / "dashboard.html"
+    st = f.stat()
+    etag = f'W/"{int(st.st_mtime)}-{st.st_size}"'
+    if request.headers.get("if-none-match") == etag:
+        return Response(status_code=304, headers={"ETag": etag})
+    return FileResponse(f, headers={"Cache-Control": "private, no-cache", "ETag": etag})
+
+
 @app.get("/api/approvals/whoami")
 def whoami(k: str = ""):
     """Per-judge key → fixed identity (no picker). Shared key → roster picker."""
@@ -281,7 +296,23 @@ async def answer(request: Request, k: str = ""):
         from feedback_lib import validate_target
         if not validate_target(str(target)):
             target = None
-    entry = {"schema_v": 2,
+    # ELEMENT COMMENTS (July 2, DeepSeek consult feedback-dashboard-ux: ONE row + comments[]
+    # array — never N rows, so the byte-cursor consumers see one answer processed once).
+    # Each comment pins a sub-element: ref (stable selector, e.g. slide:2/blk:4), the quoted
+    # text (agent context — survives regeneration), quote_hash (drift detection vs
+    # artifact_version), el_kind (drives studio-side mind routing), text (the comment itself).
+    _EL_KINDS = {"copy", "price", "visual", "caption", "script", "strategy", "data", "idea"}
+    comments = []
+    for c in (body.get("comments") or [])[:20]:
+        if not isinstance(c, dict) or not str(c.get("ref", "")).strip():
+            continue
+        comments.append({"ref": str(c["ref"])[:80],
+                         "text": str(c.get("text", ""))[:500],
+                         "quote": str(c.get("quote", ""))[:280],
+                         "quote_hash": str(c.get("quote_hash", ""))[:64],
+                         "el_kind": c.get("el_kind") if c.get("el_kind") in _EL_KINDS else "copy"})
+    entry = {"schema_v": 3 if comments else 2,
+             **({"comments": comments} if comments else {}),
              "ts": datetime.now().isoformat(timespec="seconds"),
              "client_ts": client_ts, **({"skewed": True} if skewed else {}),
              "item_id": body.get("item_id"), "answer": str(body.get("answer", ""))[:2000],
@@ -294,7 +325,7 @@ async def answer(request: Request, k: str = ""):
              "artifact_version": body.get("artifact_version") if isinstance(body.get("artifact_version"), int) else None,
              "reason_codes": [str(c)[:40] for c in (body.get("reason_codes") or [])][:3],
              "in_reply_to": body.get("in_reply_to"),
-             "source": body.get("source") if body.get("source") in ("team_portal", "after_strip", "flag_sheet") else "team_portal"}
+             "source": body.get("source") if body.get("source") in ("team_portal", "after_strip", "flag_sheet", "dashboard") else "team_portal"}
     if quarantine:
         with open(UNVERIFIED, "a") as f:
             f.write(json.dumps(entry, ensure_ascii=False) + "\n")

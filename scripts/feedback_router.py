@@ -165,6 +165,22 @@ def process(verbose: bool = False) -> dict:
                     "judge": judge, "player": player, "artifact_id": row.get("artifact_id"),
                     "lane": row.get("lane"), "fix_text": fix_text})
                 stats["corrections"] += 1
+            # ELEMENT COMMENTS (July 2, schema_v3): each dashboard pin is a verbatim
+            # correction against ONE sub-element — richest taste signal, per-element.
+            # element{} rides along so the consumer knows exactly what was hit; the
+            # quoted text is kept (the artifact may regenerate; the ledger is the message).
+            for cm in (row.get("comments") or [])[:20]:
+                if not isinstance(cm, dict) or not cm.get("ref") or not (cm.get("text") or "").strip():
+                    continue
+                append_jsonl(corrections_path(), {
+                    "ts": now_iso(), "source_answer": {"ts": row.get("ts"), "item_id": row.get("item_id")},
+                    "judge": judge, "player": player, "artifact_id": row.get("artifact_id"),
+                    "lane": row.get("lane"),
+                    "element": {"ref": cm["ref"], "el_kind": cm.get("el_kind", "copy"),
+                                "quote": cm.get("quote", ""), "quote_hash": cm.get("quote_hash", "")},
+                    "fix_text": f"@{cm['ref']}" + (f" «{cm['quote']}»" if cm.get("quote") else "")
+                                + f": {cm['text'].strip()}"})
+                stats["corrections"] += 1
             if _is_reject(row) or fix_text:
                 codes = row.get("reason_codes") or []
                 # a mind's issue carries its METHODOLOGY FILE as target_path — so the

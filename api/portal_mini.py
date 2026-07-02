@@ -113,6 +113,103 @@ def dashboard(request: Request, k: str = ""):
     return FileResponse(f, headers={"Cache-Control": "private, no-cache", "ETag": etag})
 
 
+OGZ_ROOT = Path.home() / "OGZ-System"
+_ACTIVITY_SOURCES = [OGZ_ROOT / "journal/journal.jsonl", OGZ_ROOT / "journal/runs.log"]
+
+
+def _epoch(ts) -> float:
+    """All activity sources are ISO-ish strings (some naive, some +0300) — normalize to
+    epoch BEFORE sorting (DeepSeek consult activity-panel: string-sort across formats lies)."""
+    try:
+        dt = datetime.fromisoformat(str(ts).strip())
+        if dt.tzinfo is None:
+            dt = dt.astimezone()          # naive = this machine's local time
+        return dt.timestamp()
+    except Exception:
+        return 0.0
+
+
+@app.get("/api/dashboard/activity")
+def activity(request: Request, k: str = ""):
+    """EVERY SESSION'S ACTIVITY IN ONE VIEW (July 2, Mohamed-approved) — read-only merge of
+    the EXISTING ledgers (no new tracking system): the cross-project journal (file bursts,
+    collapsed per run+event+top-dir), runs.log (session-level sync/scan story), the minds'
+    learning ledger, and portal verdicts. Newest first, capped, epoch-sorted."""
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    # ETag over the mtimes of every source — unchanged ledgers → 304, zero payload
+    lmon = sorted((OGZ_ROOT / "journal/learnings").glob("*.jsonl"))[-2:] \
+        if (OGZ_ROOT / "journal/learnings").exists() else []
+    srcs = [p for p in _ACTIVITY_SOURCES + lmon + [ANSWERS] if p.exists()]
+    etag = 'W/"' + "-".join(str(int(p.stat().st_mtime)) for p in srcs) + '"'
+    if request.headers.get("if-none-match") == etag:
+        return Response(status_code=304, headers={"ETag": etag})
+    rows = []
+
+    def _tail_jsonl(path: Path, n: int):
+        if not path.exists():
+            return []
+        out = []
+        for ln in path.read_bytes().splitlines()[-n:]:
+            try:
+                out.append(json.loads(ln.decode("utf-8", errors="replace")))
+            except Exception:
+                continue
+        return out
+
+    # 1 — file changes: journal.jsonl bursts collapsed per (run ts, event, top-level dir)
+    groups = {}
+    for e in _tail_jsonl(OGZ_ROOT / "journal/journal.jsonl", 1200):
+        if e.get("event") == "baseline":
+            continue
+        top = str(e.get("path", "")).split("/", 1)[0]
+        key = (e.get("ts"), e.get("event"), top)
+        g = groups.setdefault(key, {"n": 0, "paths": []})
+        g["n"] += 1
+        if len(g["paths"]) < 3:
+            g["paths"].append(str(e.get("path", "")).rsplit("/", 1)[-1])
+    _EV_AR = {"added": "ملف جديد", "modified": "تعديل", "vanished": "اختفى"}
+    for (ts, ev, top), g in groups.items():
+        label = _EV_AR.get(ev, ev)
+        rows.append({"ts": _epoch(ts), "kind": "files-" + str(ev), "who": top or "OGZ-System",
+                     "text": (f"{g['n']} × {label} in {top}/" if g["n"] > 1 else f"{label}: {g['paths'][0]}"),
+                     "detail": " · ".join(g["paths"]) if g["n"] > 1 else ""})
+
+    # 2 — session story: runs.log ("<iso ts> | <tool> | <message>") — the commit-level narrative
+    runs_f = OGZ_ROOT / "journal/runs.log"
+    if runs_f.exists():
+        for ln in runs_f.read_bytes().splitlines()[-80:]:
+            parts = ln.decode("utf-8", errors="replace").split(" | ", 2)
+            if len(parts) == 3:
+                rows.append({"ts": _epoch(parts[0]), "kind": "session", "who": parts[1],
+                             "text": parts[2][:220], "detail": ""})
+
+    # 3 — agent learnings/corrections/verdicts (month-sharded ledger; who = the mind)
+    for shard in lmon:
+        for e in _tail_jsonl(shard, 300):
+            rows.append({"ts": _epoch(e.get("ts")), "kind": "learning-" + str(e.get("kind", "learned")),
+                         "who": "mind:" + str(e.get("mind", "?")), "text": str(e.get("text", ""))[:240],
+                         "detail": str(e.get("source", ""))[:120]})
+
+    # 4 — human verdicts from this portal's own ledger (who = the judge)
+    for e in _tail_jsonl(ANSWERS, 120):
+        if e.get("judge") in ("", "unverified", None):
+            continue
+        npins = len(e.get("comments") or [])
+        txt = f"{e.get('answer','?')} — {e.get('item_id','')}"
+        if e.get("rating"):
+            txt += f" · ★{e['rating']}"
+        if npins:
+            txt += f" · {npins} 📌"
+        rows.append({"ts": _epoch(e.get("ts")), "kind": "verdict", "who": str(e.get("judge")),
+                     "text": txt[:220], "detail": str(e.get("note") or e.get("fix") or "")[:140]})
+
+    rows = [r for r in rows if r["ts"] > 0]
+    rows.sort(key=lambda r: r["ts"], reverse=True)
+    return JSONResponse({"rows": rows[:120]},
+                        headers={"ETag": etag, "Cache-Control": "private, no-cache"})
+
+
 @app.get("/api/approvals/whoami")
 def whoami(k: str = ""):
     """Per-judge key → fixed identity (no picker). Shared key → roster picker."""

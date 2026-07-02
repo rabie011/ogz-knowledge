@@ -151,6 +151,20 @@ textarea:focus,input:focus{border-color:var(--pin)}
 .donerow .dt{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .donerow .dw{color:var(--dim);font-size:12px;flex:0 0 auto}
 .leaving{opacity:0;transform:translateY(-8px);transition:.22s}
+
+/* ---------- activity feed ---------- */
+.dayhdr{margin:22px 4px 8px;font-size:12px;font-weight:800;letter-spacing:1.2px;color:var(--dim);text-transform:uppercase}
+.act{display:flex;gap:12px;align-items:flex-start;padding:10px 14px;border-bottom:1px solid var(--line)}
+.act:last-child{border-bottom:0}
+.act .aico{flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:var(--card2);border:1px solid var(--line);
+  display:grid;place-items:center;font-size:14px}
+.act .abody{flex:1;min-width:0}
+.act .atxt{font-size:14px;line-height:1.5;word-break:break-word}
+.act .adet{color:var(--dim);font-size:12px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.act .atime{flex:0 0 auto;color:var(--dim);font-size:11.5px;font-variant-numeric:tabular-nums;padding-top:2px}
+.act .awho{display:inline-block;font-size:10.5px;font-weight:800;color:var(--pin);border:1px solid #1d4a63;
+  border-radius:6px;padding:.1em .5em;margin-inline-end:.5em;vertical-align:1px}
+.act .awho.human{color:var(--ok);border-color:#14532d}
 </style>
 </head>
 <body>
@@ -186,7 +200,8 @@ textarea:focus,input:focus{border-color:var(--pin)}
 const K=new URLSearchParams(location.search).get('k')||'';
 let WHO=null, AUTH='none', ITEMS=[], FILTER='all', CUR=null, D=null, SNACK=null;
 
-const FILTERS=[['all','الكل'],['proposal','Proposals'],['post','Posts'],['ask','Asks'],['done','Done']];
+const FILTERS=[['all','الكل'],['proposal','Proposals'],['post','Posts'],['ask','Asks'],['done','Done'],['activity','⚡ Activity']];
+let ACT=null;   // last fetched activity rows
 function famOf(it){
   if(it.status==='answered') return 'done';
   if(it.kind==='proposal_judge') return 'proposal';
@@ -233,7 +248,7 @@ function renderChips(){
   const counts={all:0,proposal:0,post:0,ask:0,done:0};
   for(const it of ITEMS){const f=famOf(it); counts[f]++; if(f!=='done'&&!it.collapsed)counts.all++;}
   document.getElementById('chips').innerHTML=FILTERS.map(([k,l])=>
-    `<button class="chip ${FILTER===k?'on':''}" onclick="FILTER='${k}';pickNext();renderChips()">${l}<small>${k==='all'?counts.all:counts[k]}</small></button>`).join('');
+    `<button class="chip ${FILTER===k?'on':''}" onclick="FILTER='${k}';pickNext();renderChips()">${l}${k==='activity'?'':`<small>${k==='all'?counts.all:counts[k]}</small>`}</button>`).join('');
 }
 
 /* ================= drafts (per-item, survives reload) ================= */
@@ -294,6 +309,7 @@ function pinHtml(p){
 function render(){
   closeComposer(true);
   const st=document.getElementById('stage');
+  if(FILTER==='activity'){ renderActivity(st); document.getElementById('bar').style.display='none'; updatePos(); return; }
   if(FILTER==='done'){ renderDone(st); document.getElementById('bar').style.display='none'; updatePos(); return; }
   const it=ITEMS.find(x=>x.id===CUR);
   if(!it){ st.innerHTML='<div class="empty"><div class="big">🎉</div>الطابور فاضي — كل الشغل اتراجع<br><small>أي شغل جديد من الوكلاء يظهر هنا لحاله</small></div>';
@@ -346,6 +362,47 @@ function render(){
   st.innerHTML=h;
   renderBar(it); updatePos();
 }
+/* ---------- activity: every session's work, one view (reads the EXISTING journal) ---------- */
+const AICO={'files-added':'➕','files-modified':'✏️','files-vanished':'⚠️','files-moved':'📁',
+  'session':'📦','learning-learned':'🧠','learning-correction':'🛠️','learning-verdict':'⚖️','verdict':'✅'};
+async function fetchActivity(){
+  try{
+    const r=await fetch('/api/dashboard/activity?k='+encodeURIComponent(K),{cache:'no-cache'});
+    if(r.ok){ ACT=(await r.json()).rows||[]; }
+  }catch(e){}
+}
+function renderActivity(st){
+  if(ACT===null){
+    st.innerHTML='<div class="empty">…جاري تحميل النشاط</div>';
+    fetchActivity().then(()=>{ if(FILTER==='activity') renderActivity(st); });
+    return;
+  }
+  if(!ACT.length){ st.innerHTML='<div class="empty"><div class="big">🌙</div>ما فيه نشاط مسجل بعد</div>'; return; }
+  const days={};
+  for(const r of ACT){
+    const d=new Date(r.ts*1000);
+    const dk=d.toLocaleDateString('en-CA');   // YYYY-MM-DD
+    (days[dk]=days[dk]||[]).push(r);
+  }
+  const today=new Date().toLocaleDateString('en-CA');
+  const yest=new Date(Date.now()-86400e3).toLocaleDateString('en-CA');
+  let h='';
+  for(const dk of Object.keys(days)){
+    h+=`<div class="dayhdr">${dk===today?'اليوم · TODAY':(dk===yest?'أمس · YESTERDAY':dk)}</div><div class="itemcard">`;
+    for(const r of days[dk]){
+      const t=new Date(r.ts*1000);
+      const hhmm=String(t.getHours()).padStart(2,'0')+':'+String(t.getMinutes()).padStart(2,'0');
+      const human=(r.kind==='verdict');
+      h+=`<div class="act"><span class="aico">${AICO[r.kind]||'·'}</span>
+        <span class="abody"><span class="atxt" dir="auto"><span class="awho ${human?'human':''}">${esc(r.who)}</span>${esc(r.text)}</span>
+        ${r.detail?`<span class="adet" dir="auto">${esc(r.detail)}</span>`:''}</span>
+        <span class="atime">${hhmm}</span></div>`;
+    }
+    h+='</div>';
+  }
+  st.innerHTML=h;
+}
+
 function renderDone(st){
   const done=ITEMS.filter(x=>x.status==='answered').slice(-40).reverse();
   st.innerHTML=`<div class="itemcard">`+(done.map(d=>
@@ -489,7 +546,10 @@ function undoLast(){
 }
 
 /* ================= go ================= */
-(async()=>{ if(await whoami()){ await load(true); flush(); setInterval(()=>load(false),12000); } })();
+(async()=>{ if(await whoami()){ await load(true); flush();
+  setInterval(()=>{ load(false);
+    if(FILTER==='activity') fetchActivity().then(()=>{ if(FILTER==='activity') renderActivity(document.getElementById('stage')); });
+  },12000); } })();
 </script>
 </body>
 </html>

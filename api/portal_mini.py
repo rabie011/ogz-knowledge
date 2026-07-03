@@ -129,6 +129,18 @@ def agents_plan(k: str = ""):
                         headers={"Cache-Control": "private, no-cache"})
 
 
+@app.get("/day-report")
+def day_report(k: str = ""):
+    """DAY-REPORT-2026-07-02.pdf for Mohamed's remote read (July 3) — same key gate as /plan."""
+    if not _ok(k):
+        return JSONResponse({"error": "key required"}, status_code=403)
+    f = OGZ_ROOT / "DAY-REPORT-2026-07-02.pdf"
+    if not f.exists():
+        return JSONResponse({"error": "day report not found"}, status_code=404)
+    return FileResponse(f, media_type="application/pdf",
+                        headers={"Cache-Control": "private, no-cache"})
+
+
 def _epoch(ts) -> float:
     """All activity sources are ISO-ish strings (some naive, some +0300) — normalize to
     epoch BEFORE sorting (DeepSeek consult activity-panel: string-sort across formats lies)."""

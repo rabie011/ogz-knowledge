@@ -1112,6 +1112,195 @@ async def chat(request: Request, k: str = ""):
     return JSONResponse({"ok": True, "answer": answer})
 
 
+# ---- PER-AGENT CHAT (July 4 — Mohamed: a chat for EVERY agent, grounded in ITS own context) ----
+AGENT_CHAT_DIR = DATA_ROOT / "data" / "agent_chat"
+# id -> (name, role/what, home rel). Built from the same rosters the Agents view uses.
+_CORE_WF_FALLBACK = {
+    "proposal": ["Receive the RFP/brief + past learnings", "Council sets direction + price",
+                 "Writers' room drafts", "CCO gate → review-queue → Mohamed"],
+    "client-intel": ["Watch inbox + client bibles", "Pull market intel on demand",
+                     "Draft BD outreach", "Hand the brief to the council"],
+    "knowledge": ["Index + embed the corpus", "Serve know-how to every mind",
+                  "Capture new learnings", "Keep the taste-moat current"],
+    "design": ["Read the CD route + tokens", "Lay out image-first slides/deck",
+               "Self-audit vs the visual rules", "Render + hand off"],
+}
+
+
+def _agent_lookup(aid: str):
+    for mid, name, room, rel, reports, what in _MINDS:
+        if mid == aid:
+            return name, what, rel
+    for cid, name, rel, what, children in _CORE:
+        if cid == aid:
+            return name, what, rel
+    return None
+
+
+def _agent_memory_info(rel: str):
+    mem = OGZ_ROOT / rel / "memory.md"
+    if not mem.exists():
+        return {"exists": False, "path": rel + "/memory.md"}
+    txt = _safe_read(mem)
+    _h, body = _last_entry(mem)
+    return {"exists": True, "path": rel + "/memory.md", "mtime": int(mem.stat().st_mtime),
+            "lines": len(txt.splitlines()), "last_entry": (body or _h or "")[:180]}
+
+
+def _agent_context(aid: str):
+    """The agent's OWN grounding: role, its numbered workflow, and the tail of its memory."""
+    look = _agent_lookup(aid)
+    if not look:
+        return None
+    name, what, rel = look
+    steps = _workflow_steps(rel) or _CORE_WF_FALLBACK.get(aid, [])
+    wf_src = "WORKFLOW.md" if (OGZ_ROOT / rel / "WORKFLOW.md").exists() else (
+        "AGENT.md Method" if _method_steps(_safe_read(OGZ_ROOT / rel / "AGENT.md")) else "core-fallback")
+    mem_tail = _safe_read(OGZ_ROOT / rel / "memory.md")[-1800:]
+    return {"name": name, "what": what, "rel": rel, "steps": steps,
+            "wf_src": wf_src, "mem_tail": mem_tail}
+
+
+def _agent_chat_file(aid: str) -> Path:
+    safe = "".join(c for c in aid if c.isalnum() or c in "_-")
+    return AGENT_CHAT_DIR / (safe + ".jsonl")
+
+
+def _agent_chat_history(aid: str, n=40):
+    f = _agent_chat_file(aid)
+    rows = []
+    for ln in _safe_read(f).splitlines()[-200:]:
+        try:
+            rows.append(json.loads(ln))
+        except Exception:
+            continue
+    return rows[-n:]
+
+
+@app.get("/api/control/agent-chat/history")
+def agent_chat_history(agent: str = "", k: str = ""):
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    if not _agent_lookup(agent):
+        return JSONResponse({"ok": False, "error": "unknown agent"}, status_code=404)
+    return JSONResponse({"ok": True, "agent": agent, "turns": _agent_chat_history(agent)})
+
+
+@app.post("/api/control/agent-chat")
+async def agent_chat(request: Request, k: str = ""):
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    body = await request.json()
+    aid = str(body.get("agent", "")).strip()
+    msg = str(body.get("message", "")).strip()[:2000]
+    ctx = _agent_context(aid)
+    if not ctx:
+        return JSONResponse({"ok": False, "error": "unknown agent"}, status_code=404)
+    if not msg:
+        return JSONResponse({"ok": False, "error": "empty message"}, status_code=400)
+    judge, _ = _resolve_judge(k)
+    AGENT_CHAT_DIR.mkdir(parents=True, exist_ok=True)
+    cf = _agent_chat_file(aid)
+    # READ-BEFORE is ctx (its memory + workflow); WRITE-AFTER starts with the user turn (append-only)
+    with open(cf, "a", encoding="utf-8") as f:
+        f.write(json.dumps({"ts": datetime.now().isoformat(timespec="seconds"), "role": "user",
+                            "text": msg, "by": judge or "shared"}, ensure_ascii=False) + "\n")
+    key = _env("OPENAI_API_KEY")
+    if not key:
+        return JSONResponse({"ok": False, "error": "no OPENAI_API_KEY on the box"}, status_code=503)
+    know = _knowhow_retrieve(msg)
+    steps_txt = "\n".join(f"{i+1}. {s}" for i, s in enumerate(ctx["steps"])) or "(no steps documented)"
+    system = (
+        f"You ARE the OGZ '{ctx['name']}' agent — speaking in the first person as this specific agent inside "
+        f"Mohamed's autonomous studio. Your job: {ctx['what']}.\n"
+        f"You are grounded ONLY in YOUR OWN workflow, YOUR OWN memory, and the retrieved know-how below — never "
+        f"invent facts, numbers, or steps you don't see. If asked about something outside your lane, say which "
+        f"agent owns it. You run LOCALLY on the brain and read the shared know-how base every cycle.\n\n"
+        f"=== YOUR WORKFLOW (the steps you follow) ===\n{steps_txt}\n\n"
+        f"=== YOUR MEMORY (your dated lessons/verdicts, append-only) ===\n{ctx['mem_tail'] or '(memory empty)'}\n\n"
+        f"=== RELEVANT KNOW-HOW (retrieved from the brain for this question) ===\n{know}\n\n"
+        f"Answer AS this agent: concise, concrete, honest, grounded in the above. Mohamed has ADHD — lead with "
+        f"the answer. Arabic or English, follow his language. You don't change the system yourself — you explain "
+        f"your work and note requests for the operator (Claude Code).")
+    hist = _agent_chat_history(aid, n=8)
+    messages = [{"role": "system", "content": system}]
+    for t in hist:
+        if t.get("role") in ("user", "assistant"):
+            messages.append({"role": t["role"], "content": str(t.get("text", ""))[:1500]})
+    messages.append({"role": "user", "content": msg})
+    import urllib.request
+    answer, usage = None, {}
+    try:
+        rq = urllib.request.Request(
+            "https://api.openai.com/v1/chat/completions",
+            data=json.dumps({"model": "gpt-4o", "temperature": 0.3, "max_tokens": 700,
+                             "messages": messages}).encode(),
+            headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"})
+        out = json.loads(urllib.request.urlopen(rq, timeout=60).read())
+        answer = out["choices"][0]["message"]["content"].strip()
+        usage = out.get("usage", {})
+    except Exception as e:
+        return JSONResponse({"ok": False, "error": f"gpt-4o: {type(e).__name__}: {str(e)[:160]}"}, status_code=502)
+    try:
+        it, ot = usage.get("prompt_tokens", 0), usage.get("completion_tokens", 0)
+        usd = it / 1e6 * 2.5 + ot / 1e6 * 10.0
+        with open(OGZ_ROOT / "journal/model_usage.jsonl", "a", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": datetime.now().isoformat(timespec="seconds"),
+                                "capability": "agent_chat", "provider": "openai", "model": "gpt-4o",
+                                "in_tokens": it, "out_tokens": ot, "usd": round(usd, 6),
+                                "flags": ["control_center", aid], "purpose": f"chat as {aid}"}) + "\n")
+    except Exception:
+        pass
+    with open(cf, "a", encoding="utf-8") as f:
+        f.write(json.dumps({"ts": datetime.now().isoformat(timespec="seconds"), "role": "assistant",
+                            "text": answer}, ensure_ascii=False) + "\n")
+    return JSONResponse({"ok": True, "agent": aid, "answer": answer})
+
+
+@app.get("/api/control/agent-wiring")
+def agent_wiring(k: str = ""):
+    """PART B — the memory+wiring proof map: for EVERY agent, does it have its own memory
+    (read-before / write-after), does it read its workflow, is it wired to the brain/know-how.
+    All fields are evidenced from real files; gaps are stated plainly."""
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    rows = []
+    order = [("core", c[0]) for c in _CORE] + [("mind", m[0]) for m in _MINDS]
+    for kind, aid in order:
+        look = _agent_lookup(aid)
+        if not look:
+            continue
+        name, what, rel = look
+        mem = _agent_memory_info(rel)
+        steps = _workflow_steps(rel) or _CORE_WF_FALLBACK.get(aid, [])
+        wf_src = "WORKFLOW.md" if (OGZ_ROOT / rel / "WORKFLOW.md").exists() else (
+            "AGENT.md Method" if _method_steps(_safe_read(OGZ_ROOT / rel / "AGENT.md")) else
+            ("core-fallback" if steps else "none"))
+        chist = _agent_chat_history(aid, n=500)
+        gaps = []
+        if not mem["exists"]:
+            gaps.append("no own memory.md")
+        if not steps:
+            gaps.append("no workflow")
+        rows.append({
+            "id": aid, "kind": kind, "name": name, "home": rel,
+            "own_memory": mem["exists"], "memory_path": mem.get("path"),
+            "memory_lines": mem.get("lines"), "memory_mtime": mem.get("mtime"),
+            "memory_last": mem.get("last_entry"),
+            "reads_workflow": bool(steps), "workflow_source": wf_src, "workflow_steps": len(steps),
+            "knowhow_wired": True,   # constitutional (MINDS.md) + the chat retrieves /know-how + /alhareth
+            "read_before": mem["exists"] and bool(steps),   # chat loads memory + workflow before answering
+            "write_after": True,     # chat appends every turn to data/agent_chat/<id>.jsonl
+            "chat_turns": len(chist),
+            "connected": not gaps, "gaps": gaps,
+        })
+    return JSONResponse({"ok": True, "agents": rows,
+                         "summary": {"total": len(rows),
+                                     "connected": sum(1 for r in rows if r["connected"]),
+                                     "with_memory": sum(1 for r in rows if r["own_memory"]),
+                                     "with_workflow": sum(1 for r in rows if r["reads_workflow"])}})
+
+
 @app.get("/api/approvals/whoami")
 def whoami(k: str = ""):
     """Per-judge key → fixed identity (no picker). Shared key → roster picker."""

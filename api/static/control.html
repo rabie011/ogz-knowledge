@@ -85,6 +85,17 @@ textarea:focus,input:focus{border-color:var(--green)}
 .step.done{color:var(--dim)}.step.done .num{border-color:var(--line);color:var(--dim)}
 .step.cur{color:var(--ink)}.step.cur .num{background:var(--green);border-color:var(--green);color:#04180e}
 .step.cur{background:var(--green-dim);border-radius:10px;margin:2px -8px;padding:8px}
+/* per-agent mini chat */
+.achat{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.achat-head{font-size:12.5px;font-weight:700;color:var(--green);margin-bottom:8px}
+.amsgs{display:flex;flex-direction:column;gap:7px;max-height:320px;overflow:auto;margin-bottom:9px}
+.amsg{max-width:90%;padding:8px 11px;border-radius:12px;font-size:13.5px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+.amsg.u{align-self:flex-end;background:#1a1f14;border:1px solid #2c3a1c}
+.amsg.b{align-self:flex-start;background:var(--card2);border:1px solid var(--line2)}
+.amsg.think{color:var(--dim);font-style:italic}
+.ain{display:flex;gap:7px}
+.ain textarea{flex:1;min-height:40px;max-height:110px;resize:none;font-size:14px}
+.ain button{flex:0 0 auto;width:46px;border-radius:11px;background:var(--green);color:#04180e;font-weight:900;font-size:18px}
 
 /* rows (More sub-views reuse these) */
 .row{display:flex;align-items:center;gap:12px;padding:15px 0;border-bottom:1px solid var(--line)}
@@ -182,16 +193,19 @@ async function viewAgents(st,poll){
   if(d.phase&&d.active_roles.length) h+=`<div class="livebar"><span class="dot on"></span><span dir="auto">▶ live: ${esc(d.phase)}</span></div>`;
   else h+=`<div class="note dim" style="margin-bottom:16px">Pipeline idle right now — agents show their last output.</div>`;
   h+=`<div class="h1">Core agents</div><div class="card" style="padding:4px 20px">`;
-  d.core.forEach((a,i)=>h+=agentRow(a,'c'+i));
+  d.core.forEach(a=>h+=agentRow(a));
   h+=`</div><div class="h1">Minds</div><div class="card" style="padding:4px 20px">`;
-  d.minds.forEach((a,i)=>h+=agentRow(a,'m'+i));
+  d.minds.forEach(a=>h+=agentRow(a));
   h+=`</div>`;
   st.innerHTML=h;
-  if(poll&&VIEW==='agents'){ POLL=setInterval(()=>{if(VIEW==='agents')viewAgents(document.getElementById('stage'),false);},12000); }
+  OPEN.forEach(id=>{ if(ACHAT[id]) renderAgentMsgs(id); else loadAgentChat(id); });  // repaint open chats after re-render
+  // pause the live poll while an agent is open so a chat/typing is never wiped
+  if(poll&&VIEW==='agents'){ POLL=setInterval(()=>{if(VIEW==='agents'&&OPEN.size===0)viewAgents(document.getElementById('stage'),false);},12000); }
 }
-function agentRow(a,id){
+function agentRow(a){
+  const id=a.id;
   const working=a.status==='working';
-  const stepTxt=working?(a.current_step?`▶ step ${a.current_step}/${a.n_steps}`:'▶ working'):(a.status==='recent'?'idle':'idle');
+  const stepTxt=working?(a.current_step?`▶ step ${a.current_step}/${a.n_steps}`:'▶ working'):'idle';
   let sub='';
   if(working&&a.doing_now) sub=esc(a.doing_now);
   else if(a.last_output) sub='last: '+esc(a.last_output);
@@ -202,7 +216,14 @@ function agentRow(a,id){
       <span class="aname">${esc(a.name)}</span>
       <span class="astep ${working?'':'idle'}">${stepTxt}</span><span class="chev">›</span></div>
     <div class="asub" dir="auto">${sub}${k}</div>
-    <div class="wf" id="wf_${id}">${wfSteps(a)}</div></div>`;
+    <div class="wf">${wfSteps(a)}
+      <div class="achat" onclick="event.stopPropagation()">
+        <div class="achat-head">💬 Talk to ${esc(a.name)} <span class="dim" style="font-weight:400">— grounded in its workflow + memory</span></div>
+        <div class="amsgs" id="am_${id}"></div>
+        <div class="ain"><textarea id="ai_${id}" rows="1" placeholder="اسأل هذا الوكيل… ask this agent"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAgentChat('${id}');}"></textarea>
+          <button onclick="sendAgentChat('${id}')">➤</button></div>
+      </div></div></div>`;
 }
 function wfSteps(a){
   if(!a.workflow||!a.workflow.length) return '<div class="dim" style="font-size:13px">workflow not documented yet</div>';
@@ -212,7 +233,38 @@ function wfSteps(a){
     return `<div class="step ${cls}"><span class="num">${n===cur&&working?'●':n}</span><span dir="auto">${esc(s)}</span></div>`;
   }).join('');
 }
-function tgl(id){ if(OPEN.has(id))OPEN.delete(id); else OPEN.add(id); document.getElementById('ag_'+id).classList.toggle('open'); }
+function tgl(id){ const op=!OPEN.has(id); if(op)OPEN.add(id); else OPEN.delete(id);
+  document.getElementById('ag_'+id).classList.toggle('open');
+  if(op) loadAgentChat(id); }
+const ACHAT={};   // agent id -> loaded turns (cache; refreshed on open + after send)
+async function loadAgentChat(id){
+  const box=document.getElementById('am_'+id); if(!box) return;
+  const d=await fetchJSON('/api/control/agent-chat/history?agent='+encodeURIComponent(id));
+  ACHAT[id]=(d&&d.turns)||[]; renderAgentMsgs(id);
+}
+function renderAgentMsgs(id,extra){
+  const box=document.getElementById('am_'+id); if(!box) return;
+  const turns=ACHAT[id]||[];
+  let h=turns.map(t=>{const u=t.role==='user';
+    return `<div class="amsg ${u?'u':'b'}"><span dir="auto">${esc(t.text)}</span></div>`;}).join('');
+  if(!turns.length&&!extra) h=`<div class="dim" style="font-size:12.5px;padding:6px 2px">لا محادثة بعد — اسأله عن خطواته أو ذاكرته.</div>`;
+  if(extra)h+=extra;
+  box.innerHTML=h; box.scrollTop=box.scrollHeight;
+}
+const ABUSY={};
+async function sendAgentChat(id){
+  if(ABUSY[id]) return; const inp=document.getElementById('ai_'+id); if(!inp) return;
+  const msg=inp.value.trim(); if(!msg) return;
+  ABUSY[id]=true; inp.value=''; inp.style.height='auto';
+  ACHAT[id]=(ACHAT[id]||[]).concat([{role:'user',text:msg,by:'you'}]);
+  renderAgentMsgs(id,`<div class="amsg b think">…</div>`);
+  let res; try{ const r=await fetch('/api/control/agent-chat?k='+encodeURIComponent(K),{method:'POST',
+    headers:{'Content-Type':'application/json'},body:JSON.stringify({agent:id,message:msg})}); res=await r.json(); }
+  catch(e){ res={ok:false,error:String(e)}; }
+  ABUSY[id]=false;
+  if(res&&res.ok){ ACHAT[id].push({role:'assistant',text:res.answer}); renderAgentMsgs(id); }
+  else renderAgentMsgs(id,`<div class="amsg b" style="border-color:var(--epink);color:var(--epink)">${esc((res&&res.error)||'failed')}</div>`);
+}
 
 /* ---------- ASK (chat) ---------- */
 function chatSession(){ return WHO||'mohamed'; }

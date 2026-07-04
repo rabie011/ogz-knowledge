@@ -129,6 +129,32 @@ def agents_plan(k: str = ""):
                         headers={"Cache-Control": "private, no-cache"})
 
 
+@app.get("/plan-v2")
+def agents_plan_v2(k: str = ""):
+    """AGENTS-PLAN-v2.pdf — the corrected v2 for Mohamed's remote read (July 3). Same key
+    gate as /plan; v1 stays served at /plan (append-only, nothing overwritten)."""
+    if not _ok(k):
+        return JSONResponse({"error": "key required"}, status_code=403)
+    f = OGZ_ROOT / "AGENTS-PLAN-v2.pdf"
+    if not f.exists():
+        return JSONResponse({"error": "plan v2 not found"}, status_code=404)
+    return FileResponse(f, media_type="application/pdf",
+                        headers={"Cache-Control": "private, no-cache"})
+
+
+@app.get("/state")
+def state_of_everything(k: str = ""):
+    """STATE-OF-EVERYTHING.pdf — the deep-understanding pass across all know-how, data,
+    systems, clients, and history (July 3). Same key gate as /plan. Surfaced before the plan."""
+    if not _ok(k):
+        return JSONResponse({"error": "key required"}, status_code=403)
+    f = OGZ_ROOT / "STATE-OF-EVERYTHING.pdf"
+    if not f.exists():
+        return JSONResponse({"error": "state doc not found"}, status_code=404)
+    return FileResponse(f, media_type="application/pdf",
+                        headers={"Cache-Control": "private, no-cache"})
+
+
 @app.get("/day-report")
 def day_report(k: str = ""):
     """DAY-REPORT-2026-07-02.pdf for Mohamed's remote read (July 3) — same key gate as /plan."""
@@ -293,6 +319,481 @@ async def deck(item: str = "", k: str = "", meta: int = 0, dl: int = 0):
     if dl:
         headers["Content-Disposition"] = f'attachment; filename="{stem}-{pdf.name}"'
     return FileResponse(pdf, media_type="application/pdf", headers=headers)
+
+
+@app.get("/control")
+def control_center(request: Request, k: str = ""):
+    """THE FULL-SYSTEM CONTROL CENTER (July 4 — Mohamed's order: 'see everything happening
+    across all aspects, live, from my phone'). Extends the portal — same key gate, same
+    tunnel, same /static. Read-only views (agents, live pipeline, review, know-how, budget,
+    health, activity) all read the EXISTING ledgers; nothing new-tracks, nothing writes here
+    except the review flow which reuses /api/approvals/answer (one write path)."""
+    if not _ok(k):
+        return JSONResponse({"error": "key required"}, status_code=403)
+    f = STATIC / "control.html"
+    st = f.stat()
+    etag = f'W/"{int(st.st_mtime)}-{st.st_size}"'
+    if request.headers.get("if-none-match") == etag:
+        return Response(status_code=304, headers={"ETag": etag})
+    return FileResponse(f, headers={"Cache-Control": "private, no-cache", "ETag": etag})
+
+
+# ---- control-center data (all READ-ONLY; each source guarded so one failure never 500s) ----
+
+def _safe_read(path: Path) -> str:
+    try:
+        return path.read_text(encoding="utf-8", errors="replace")
+    except Exception:
+        return ""
+
+
+def _last_entry(mem: Path):
+    """newest '## ...' dated header + the line under it from a mind's memory.md."""
+    txt = _safe_read(mem)
+    if not txt:
+        return None, None
+    header, body = None, ""
+    for ln in txt.splitlines():
+        if ln.startswith("## "):
+            header, body = ln[3:].strip(), ""
+        elif header is not None and ln.strip() and not body:
+            body = ln.strip()
+    return header, body
+
+
+def _age_status(mtime: float) -> str:
+    if not mtime:
+        return "unknown"
+    age = datetime.now().timestamp() - mtime
+    if age < 86400:
+        return "working"       # <1d
+    if age < 3 * 86400:
+        return "recent"        # <3d
+    return "idle"
+
+
+_MINDS = [
+    ("ceo", "CEO", "Executive council", "orchestrator/minds/ceo", "Mohamed",
+     "Brief classification → go/no-go → direction frame → human-gate triggers"),
+    ("coo", "COO", "Executive council", "orchestrator/minds/coo", "CEO",
+     "Queue order, capacity enforcement, confidence states, readiness"),
+    ("cfo", "CFO", "Executive council", "orchestrator/minds/cfo", "CEO",
+     "Pricing sanity, margin, resource budgets, cost discipline — owns the model router"),
+    ("cco", "CCO", "THE GATE", "02-Platform-AI/Knowledge/minds/cco", "Mohamed (taste-proxy)",
+     "Quality gate (dual rubric) — is it Saudi-native, on-taste, good enough to leave the building"),
+    ("creative-director", "Creative Director", "Writers' room", "02-Platform-AI/Knowledge/minds/creative-director", "CCO",
+     "Brief interrogation, 5-brain routing, the creative-direction brief"),
+    ("copywriter", "Copywriter", "Writers' room", "02-Platform-AI/Knowledge/minds/copywriter", "Creative Director",
+     "Long-form proposal prose + campaign copy, bilingual"),
+    ("caption-writer", "Caption Writer", "Writers' room", "02-Platform-AI/Knowledge/minds/caption-writer", "Creative Director",
+     "Saudi Arabic short-form captions from the pattern-card menu"),
+    ("scriptwriter", "Scriptwriter", "Writers' room", "02-Platform-AI/Knowledge/minds/scriptwriter", "Creative Director",
+     "Film scripts + VO, bilingual — beat-by-beat"),
+    ("designer", "Designer", "Visual room", "02-Platform-AI/Design/minds/designer", "Creative Director",
+     "Slide/deck design, token-law enforcement, image-first discipline"),
+    ("treatment-cinematography", "Treatment / Cinematography", "Visual room", "02-Platform-AI/Design/minds/treatment-cinematography", "Creative Director",
+     "Director's treatment, shot choreography, mood/reference direction"),
+    ("marketing-strategist", "Marketing Strategist", "Council + solo", "01-OGZ-Studios/Emails/minds/marketing-strategist", "CEO",
+     "Opportunity surfacing, positioning frames, market map"),
+    ("data-analyst", "Data / Insight Analyst", "Solo, feeds every room", "02-Platform-AI/Knowledge/minds/data-analyst", "COO",
+     "Corpus reading, pattern verification, eyeballed metrics behind every claim"),
+]
+
+# core agents (umbrella owners) — activity rolls up from their child minds
+_CORE = [
+    ("proposal", "Proposal Agent", "01-OGZ-Studios/Proposals", "RFP → strategy → proposal assembly → learnings", ["copywriter"]),
+    ("client-intel", "Client-Intel & Inbox Agent", "01-OGZ-Studios/Emails", "Client bible, market intel, BD outreach drafts", ["marketing-strategist"]),
+    ("knowledge", "Knowledge Agent", "02-Platform-AI/Knowledge", "Index, taste-moat keeper, enrichment, corpus search", ["cco", "creative-director", "copywriter", "caption-writer", "scriptwriter", "data-analyst"]),
+    ("design", "Design & Render Agent", "02-Platform-AI/Design", "Design-system stewardship, token law, render canon", ["designer", "treatment-cinematography"]),
+]
+
+
+@app.get("/api/control/agents")
+def control_agents(k: str = ""):
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    minds = {}
+    for mid, name, room, rel, reports, what in _MINDS:
+        home = OGZ_ROOT / rel
+        mem = home / "memory.md"
+        agent_md = home / "AGENT.md"
+        mt = mem.stat().st_mtime if mem.exists() else 0
+        # a newer learnings-ledger entry overrides the memory mtime (true last activity)
+        header, body = _last_entry(mem)
+        minds[mid] = {
+            "id": mid, "name": name, "room": room, "reports_to": reports, "what": what,
+            "model": "Claude (scoped agent)",
+            "home": rel,
+            "has_agent_md": agent_md.exists(), "has_memory": mem.exists(),
+            "has_field": (home / "field").exists(),
+            "memory_mtime": int(mt),
+            "last_entry": header, "last_note": (body or "")[:180],
+            "status": _age_status(mt),
+        }
+    # CCO's live grader seat model, if the calibration state names one (truthful, not guessed)
+    try:
+        stt = json.loads(_safe_read(OGZ_ROOT / "studio/training/state.json") or "{}")
+        gm = (stt.get("grader_seat") or {}).get("model")
+        if gm and "cco" in minds:
+            minds["cco"]["model"] = f"Claude (gate) · grader seat: {gm}"
+    except Exception:
+        pass
+    core = []
+    for cid, name, rel, what, children in _CORE:
+        child_mt = [minds[c]["memory_mtime"] for c in children if c in minds]
+        mt = max(child_mt) if child_mt else 0
+        core.append({"id": cid, "name": name, "home": rel, "what": what,
+                     "model": "Claude (scoped agent)", "children": children,
+                     "memory_mtime": mt, "status": _age_status(mt),
+                     "note": "activity rolls up from " + ", ".join(children)})
+    return JSONResponse({"ok": True, "core": core, "minds": list(minds.values()),
+                         "counts": {"core": len(core), "minds": len(minds)}})
+
+
+@app.get("/api/control/agentdoc")
+def control_agentdoc(id: str = "", k: str = ""):
+    """The role/method doc (AGENT.md) for a mind — the drill-down the Agents view opens.
+    (No WORKFLOW.md exists per mind; AGENT.md IS the role + method.) Read-only, id-guarded."""
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    rel = next((m[3] for m in _MINDS if m[0] == id), None)
+    if not rel:
+        return JSONResponse({"ok": False, "error": "unknown agent"}, status_code=404)
+    doc = _safe_read(OGZ_ROOT / rel / "AGENT.md")[:12000]
+    mem = _safe_read(OGZ_ROOT / rel / "memory.md")
+    # last ~1200 chars of memory = the freshest learnings
+    return JSONResponse({"ok": True, "id": id, "agent_md": doc,
+                         "memory_tail": mem[-1600:] if mem else ""})
+
+
+@app.get("/api/control/knowhow")
+def control_knowhow(aspect: str = "", who: str = "", k: str = ""):
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    KH = OGZ_ROOT / "02-Platform-AI/Knowledge/know-how"
+    # drill-down: return one aspect's atoms (read-only; Alhareth's are protected → view only)
+    if aspect:
+        aspect = "".join(c for c in aspect if c.isalnum() or c in "-_")   # guard
+        base = KH / ("_alhareth_atoms" if who == "alhareth" else "_atoms")
+        pre = ("alhareth__" + aspect) if who == "alhareth" else aspect
+        atoms = []
+        try:
+            for p in sorted(base.glob(pre + "__*.txt"))[:60]:
+                atoms.append(_safe_read(p).strip()[:600])
+        except Exception:
+            pass
+        return JSONResponse({"ok": True, "aspect": aspect, "who": who or "mohamed",
+                             "atoms": atoms, "count": len(atoms)})
+    # overview: aspects + counts from INDEX.md + atom-dir counts + calibration
+    def _count(dirp: Path, pre=""):
+        try:
+            return len([p for p in dirp.glob(pre + "*.txt")]) if dirp.exists() else 0
+        except Exception:
+            return 0
+    aspects = []
+    idx = _safe_read(KH / "INDEX.md")
+    import re as _re
+    for m in _re.finditer(r"^\|\s*([a-z0-9-]+)\s*\|\s*(\d+)\s*\|", idx, _re.M):
+        nm = m.group(1)
+        aspects.append({"name": nm, "findings": int(m.group(2)),
+                        "atoms": _count(KH / "_atoms", nm + "__")})
+    al_aspects = []
+    albase = KH / "_alhareth_atoms"
+    seen = {}
+    if albase.exists():
+        for p in albase.glob("alhareth__*__*.txt"):
+            asp = p.name.split("__")[1] if len(p.name.split("__")) > 2 else "other"
+            seen[asp] = seen.get(asp, 0) + 1
+    for nm, c in sorted(seen.items(), key=lambda x: -x[1]):
+        al_aspects.append({"name": nm, "atoms": c})
+    total = sum(a["findings"] for a in aspects)
+    cal = {}
+    try:
+        stt = json.loads(_safe_read(OGZ_ROOT / "studio/training/state.json") or "{}")
+        c = stt.get("calibration", {})
+        g = stt.get("grader_seat", {})
+        seed = c.get("seeded_from_history", {})
+        cal = {"epoch": c.get("calibration_epoch"), "last_intake": c.get("last_intake_ts"),
+               "last_mohamed_score": c.get("last_mohamed_score"),
+               "samples_since_feedback": c.get("samples_since_last_feedback"),
+               "hard_stopped": c.get("hard_stopped"),
+               "grader_model": g.get("model"), "grader_verdict": g.get("verdict"),
+               "seeded_samples": (seed.get("distribution", {}) or {}).get("portal_answers_total")
+               or seed.get("portal_answers_total")}
+    except Exception:
+        pass
+    return JSONResponse({"ok": True, "total": total, "aspects": aspects,
+                         "alhareth_total": _count(albase), "alhareth_aspects": al_aspects,
+                         "calibration": cal})
+
+
+@app.get("/api/control/budget")
+def control_budget(k: str = ""):
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    usage = OGZ_ROOT / "journal/model_usage.jsonl"
+    by_model, by_provider = {}, {}
+    today_usd = month_usd = 0.0
+    last_provider = last_model = None
+    today = datetime.now().strftime("%Y-%m-%d")
+    month = datetime.now().strftime("%Y-%m")
+    for ln in _safe_read(usage).splitlines():
+        try:
+            r = json.loads(ln)
+        except Exception:
+            continue
+        if not r.get("provider"):
+            continue      # skip tool/skip meter rows (no provider)
+        usd = float(r.get("usd") or 0)
+        prov, mdl = r.get("provider"), r.get("model", "?")
+        bm = by_model.setdefault(mdl, {"model": mdl, "usd": 0.0, "calls": 0})
+        bm["usd"] += usd; bm["calls"] += 1
+        bp = by_provider.setdefault(prov, {"provider": prov, "usd": 0.0, "calls": 0})
+        bp["usd"] += usd; bp["calls"] += 1
+        ts = str(r.get("ts", ""))
+        if ts[:10] == today:
+            today_usd += usd
+        if ts[:7] == month:
+            month_usd += usd
+        last_provider, last_model = prov, mdl
+    _TIER = {"local": "LOCAL", "gemini": "FREE_POOL", "groq": "FREE_POOL",
+             "deepseek": "CHEAP", "openai": "PAID", "fable": "FABLE"}
+    tier = _TIER.get(last_provider or "", (last_provider or "—"))
+    if last_model and "fable" in str(last_model):
+        tier = "FABLE"
+    caps, state = {}, {}
+    try:
+        cfg = json.loads(_safe_read(OGZ_ROOT / "tools/model_router.json") or "{}")
+        b = cfg.get("budget", {})
+        caps = {"usd_per_day": b.get("usd_per_day"), "usd_per_month": b.get("usd_per_month"),
+                "openai_usd_per_day": b.get("openai_usd_per_day"),
+                "fable_per_day": b.get("fable_escalations_per_day"),
+                "apify_usd_per_day": ((b.get("tools", {}) or {}).get("apify", {}) or {}).get("usd_per_day"),
+                "proposal_monthly_usd": b.get("openai_proposal_monthly_usd")}
+    except Exception:
+        pass
+    try:
+        state = json.loads(_safe_read(OGZ_ROOT / "journal/model_router_state.json") or "{}")
+    except Exception:
+        pass
+    rnd = lambda x: round(x, 4)
+    for d in (by_model, by_provider):
+        for v in d.values():
+            v["usd"] = rnd(v["usd"])
+    return JSONResponse({"ok": True, "today_usd": rnd(today_usd), "month_usd": rnd(month_usd),
+                         "by_model": sorted(by_model.values(), key=lambda x: -x["usd"]),
+                         "by_provider": sorted(by_provider.values(), key=lambda x: -x["usd"]),
+                         "caps": caps, "current_tier": tier,
+                         "state": {kk: state.get(kk) for kk in
+                                   ("day", "usd_day", "usd_month", "fable_day", "usd_day_by",
+                                    "proposal_month_usd") if kk in state}})
+
+
+def _hb_lines(n=12):
+    """parse heartbeat.md: dated 'YYYY-MM-DD HH:MM · msg' then bare 'HH:MM · msg' inherit the date."""
+    out, cur_date = [], None
+    import re as _re
+    for ln in _safe_read(OGZ_ROOT / "journal/heartbeat.md").splitlines():
+        ln = ln.strip()
+        if not ln:
+            continue
+        m = _re.match(r"^(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2})\s*·?\s*(.*)$", ln)
+        if m:
+            cur_date = m.group(1)
+            out.append({"date": cur_date, "time": m.group(2), "msg": m.group(3)})
+            continue
+        m2 = _re.match(r"^(\d{2}:\d{2})\s*·?\s*(.*)$", ln)
+        if m2:
+            out.append({"date": cur_date or today_str(), "time": m2.group(1), "msg": m2.group(2)})
+        else:
+            out.append({"date": cur_date, "time": "", "msg": ln})
+    return out[-n:]
+
+
+def today_str():
+    return datetime.now().strftime("%Y-%m-%d")
+
+
+@app.get("/api/control/pipeline")
+def control_pipeline(k: str = ""):
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    usage = OGZ_ROOT / "journal/model_usage.jsonl"
+    rows = []
+    for ln in _safe_read(usage).splitlines()[-40:]:
+        try:
+            rows.append(json.loads(ln))
+        except Exception:
+            continue
+    prop = [r for r in rows if str(r.get("capability", "")).startswith("proposal")]
+    last = rows[-1] if rows else {}
+    first_today = None
+    tdy = today_str()
+    for r in rows:
+        if str(r.get("ts", ""))[:10] == tdy and str(r.get("capability", "")).startswith("proposal"):
+            first_today = r; break
+    last_ts = str(last.get("ts", "")) if last else ""
+    # running vs stalled from the newest ts age
+    age_secs = None
+    try:
+        age_secs = datetime.now().timestamp() - _epoch(last_ts)
+    except Exception:
+        pass
+    status = "unknown"
+    if age_secs is not None:
+        status = "RUNNING" if age_secs < 600 else ("STALLED" if age_secs < 3600 else "PAUSED/idle")
+    # newest jadarat job dir + its files
+    jobsdir = OGZ_ROOT / "studio/jobs"
+    job = None
+    try:
+        jd = sorted([p for p in jobsdir.glob("*jadarat*") if p.is_dir()],
+                    key=lambda p: p.stat().st_mtime, reverse=True)
+        job = jd[0] if jd else None
+    except Exception:
+        pass
+    files = []
+    if job:
+        try:
+            for p in sorted(job.iterdir(), key=lambda p: p.stat().st_mtime, reverse=True):
+                if p.is_file():
+                    files.append({"name": p.name, "size": p.stat().st_size,
+                                  "mtime": int(p.stat().st_mtime), "job": job.name})
+        except Exception:
+            pass
+    cur = {"client": "HRDF · Jadarat", "job_id": job.name if job else None,
+           "stage": (last.get("capability") if prop else None),
+           "agent": (f"{last.get('model')} ({last.get('provider')})" if last.get("provider") else None),
+           "started_at": (first_today.get("ts") if first_today else None),
+           "last_activity": last_ts, "status": status,
+           "deadline": "Sun 20:00 Riyadh (Jadarat first draft)"}
+    recent = [{"ts": r.get("ts"), "event": r.get("capability"), "model": r.get("model"),
+               "usd": r.get("usd")} for r in rows[-14:][::-1]]
+    return JSONResponse({"ok": True, "current": cur, "heartbeat": _hb_lines(12),
+                         "recent_calls": recent, "files": files[:16]})
+
+
+@app.get("/api/control/jobfile")
+def control_jobfile(job: str = "", name: str = "", k: str = ""):
+    """Serve one file from a studio job dir (the pipeline 'open file' buttons). Read-only,
+    path-guarded under studio/jobs (rejects .., slashes)."""
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    if not job or not name or any(c in job + name for c in "/\\\x00") or ".." in job + name:
+        return JSONResponse({"ok": False, "error": "bad path"}, status_code=400)
+    p = (OGZ_ROOT / "studio/jobs" / job / name).resolve()
+    root = (OGZ_ROOT / "studio/jobs").resolve()
+    if not (str(p).startswith(str(root) + "/") and p.is_file()):
+        return JSONResponse({"ok": False, "error": "not found"}, status_code=404)
+    mt = "application/pdf" if p.suffix == ".pdf" else (
+        "text/plain; charset=utf-8" if p.suffix in (".md", ".txt", ".json", ".jsonl", ".log") else "application/octet-stream")
+    return FileResponse(p, media_type=mt, headers={"Cache-Control": "private, no-cache"})
+
+
+@app.get("/api/control/health")
+def control_health(k: str = ""):
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    import subprocess
+    import shutil
+
+    def run(cmd, timeout=8):
+        try:
+            r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+            return r.stdout.strip(), r.returncode
+        except Exception as e:
+            return f"(err {type(e).__name__})", 1
+
+    services = []
+    for name, port in (("brain_api", 4140), ("portal", 4199)):
+        out, _ = run(["curl", "-s", "-m", "3", "-o", "/dev/null",
+                      "-w", "%{http_code} %{time_total}", f"http://127.0.0.1:{port}/"], 5)
+        code = (out.split() + ["", ""])[0]
+        up = code.isdigit()
+        services.append({"name": name, "port": port, "up": up,
+                         "http_code": code if up else "—",
+                         "detail": "listening" if up else "no response"})
+    # tunnels
+    tunnels = []
+    cf, _ = run(["pgrep", "-fl", "cloudflared"], 5)
+    tunnels.append({"name": "cloudflared · ogz-brain", "up": "ogz-brain" in cf,
+                    "detail": (cf.splitlines()[0][:90] if cf and "ogz-brain" in cf else "not running")})
+    if shutil.which("tailscale"):
+        ts, _ = run(["tailscale", "ip", "-4"], 5)
+        tunnels.append({"name": "tailscale", "up": bool(ts and ts[0:1].isdigit()),
+                        "detail": ts.splitlines()[0] if ts else "status unavailable"})
+    # launchagents
+    la = []
+    lo, _ = run(["launchctl", "list"], 6)
+    for line in lo.splitlines():
+        if any(t in line for t in ("com.ogz", "abraham", "com.abraham")):
+            parts = line.split("\t")
+            if len(parts) >= 3:
+                la.append({"label": parts[2], "pid": parts[0],
+                           "loaded": parts[0] != "-", "exit": parts[1]})
+    # last scan
+    last_scan = {}
+    try:
+        cr = _safe_read(OGZ_ROOT / "journal/corpus-refresh.jsonl").splitlines()
+        if cr:
+            j = json.loads(cr[-1])
+            ts = j.get("ts", "")
+            last_scan = {"ts": ts, "age_hours": round((datetime.now().timestamp() - _epoch(ts)) / 3600, 1),
+                         "steps": list((j.get("steps") or {}).keys()) if isinstance(j.get("steps"), dict) else j.get("steps")}
+    except Exception:
+        pass
+    # commits
+    commits = []
+    for label, repo in (("OGZ-System", OGZ_ROOT), ("brain", OGZ_ROOT / "02-Platform-AI/Knowledge/brain")):
+        out, rc = run(["git", "-C", str(repo), "log", "-1", "--format=%h|%s|%aI"], 8)
+        if rc == 0 and "|" in out:
+            h, msg, ts = (out.split("|", 2) + ["", "", ""])[:3]
+            commits.append({"repo": label, "hash": h, "msg": msg[:100], "ts": ts,
+                            "age_hours": round((datetime.now().timestamp() - _epoch(ts)) / 3600, 1)})
+    # heartbeat freshness
+    hbf = OGZ_ROOT / "journal/heartbeat.md"
+    hb = {}
+    if hbf.exists():
+        mt = hbf.stat().st_mtime
+        lines = [l for l in _safe_read(hbf).splitlines() if l.strip()]
+        hb = {"mtime": int(mt), "fresh_secs": int(datetime.now().timestamp() - mt),
+              "last_line": lines[-1][:160] if lines else ""}
+    # overall
+    down = [s for s in services if not s["up"]]
+    stale_scan = last_scan.get("age_hours", 0) and last_scan["age_hours"] > 36
+    status = "healthy"
+    if len(down) >= 2:
+        status = "critical"
+    elif down or stale_scan or (hb.get("fresh_secs", 0) > 3600):
+        status = "degraded"
+    return JSONResponse({"ok": True, "status": status, "services": services, "tunnels": tunnels,
+                         "launchagents": la, "last_scan": last_scan, "commits": commits,
+                         "heartbeat": hb, "checked_at": datetime.now().isoformat(timespec="seconds")})
+
+
+@app.get("/api/control/review")
+def control_review(k: str = ""):
+    """A lightweight summary for the Review tab (open cards + recent verdicts) — the full
+    judging flow stays at /dashboard (reused, one write path). This never writes."""
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    q = json.loads(_safe_read(QUEUE) or '{"items":[]}') if QUEUE.exists() else {"items": []}
+    items = q.get("items", []) if isinstance(q, dict) else q
+    open_n = sum(1 for it in items if it.get("status") != "answered")
+    proposals = sum(1 for it in items if it.get("kind") == "proposal_judge" and it.get("status") != "answered")
+    posts = sum(1 for it in items if it.get("kind") == "caption_judge" and it.get("status") != "answered")
+    verdicts = []
+    for ln in _safe_read(ANSWERS).splitlines()[-30:][::-1]:
+        try:
+            e = json.loads(ln)
+        except Exception:
+            continue
+        if e.get("judge") in ("", "unverified", None):
+            continue
+        verdicts.append({"ts": e.get("ts"), "judge": e.get("judge"), "item": e.get("item_id"),
+                         "answer": e.get("answer"), "rating": e.get("rating"),
+                         "pins": len(e.get("comments") or [])})
+    return JSONResponse({"ok": True, "open": open_n, "proposals": proposals, "posts": posts,
+                         "verdicts": verdicts[:12]})
 
 
 @app.get("/api/approvals/whoami")

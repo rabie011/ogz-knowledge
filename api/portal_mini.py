@@ -167,6 +167,23 @@ def day_report(k: str = ""):
                         headers={"Cache-Control": "private, no-cache"})
 
 
+@app.get("/jadarat")
+def jadarat_deck(k: str = ""):
+    """The HRDF/Jadarat proposal DECK (rendered through the OGZ design system) for Mohamed's
+    phone — visual-first judging (July 5). Same key gate as /plan. Serves the NEWEST amira
+    render so a re-polish auto-updates this link; falls back to any hrdf-jadarat deck."""
+    if not _ok(k):
+        return JSONResponse({"error": "key required"}, status_code=403)
+    cands = sorted(JOBS_ROOT.glob("*hrdf-jadarat-amira*/DECK-CLOUD-DESIGN.pdf"),
+                   key=lambda p: p.stat().st_mtime, reverse=True) or \
+            sorted(JOBS_ROOT.glob("*hrdf-jadarat*/DECK*.pdf"),
+                   key=lambda p: p.stat().st_mtime, reverse=True)
+    if not cands:
+        return JSONResponse({"error": "jadarat deck not found"}, status_code=404)
+    return FileResponse(cands[0], media_type="application/pdf",
+                        headers={"Cache-Control": "private, no-cache"})
+
+
 def _epoch(ts) -> float:
     """All activity sources are ISO-ish strings (some naive, some +0300) — normalize to
     epoch BEFORE sorting (DeepSeek consult activity-panel: string-sort across formats lies)."""
@@ -794,6 +811,186 @@ def control_review(k: str = ""):
                          "pins": len(e.get("comments") or [])})
     return JSONResponse({"ok": True, "open": open_n, "proposals": proposals, "posts": posts,
                          "verdicts": verdicts[:12]})
+
+
+# ---- THE SYSTEM ASSISTANT CHAT (July 4 — Mohamed: "talk to the system on everything") ----
+CHAT_F = DATA_ROOT / "data" / "control_chat.jsonl"
+
+
+def _env(key: str):
+    p = Path.home() / ".abraham_env"
+    if not p.exists():
+        return None
+    import re as _re
+    for ln in p.read_text().splitlines():
+        ln = _re.sub(r"^export\s+", "", ln.strip())
+        if ln.startswith(key + "="):
+            return ln.split("=", 1)[1].strip().strip('"').strip("'")
+    return None
+
+
+def _control_snapshot() -> str:
+    """A compact, TRUE snapshot of the live system for the assistant's grounding — read
+    straight off the same ledgers the control views use (no fabrication)."""
+    L = []
+    # agents
+    try:
+        buckets = {"working": [], "recent": [], "idle": []}
+        for mid, name, room, rel, reports, what in _MINDS:
+            mt = (OGZ_ROOT / rel / "memory.md").stat().st_mtime if (OGZ_ROOT / rel / "memory.md").exists() else 0
+            buckets.setdefault(_age_status(mt), []).append(name)
+        L.append(f"AGENTS: 4 core + 12 minds. working={buckets.get('working',[])} recent={len(buckets.get('recent',[]))} idle={len(buckets.get('idle',[]))}.")
+    except Exception:
+        pass
+    # pipeline
+    try:
+        rows = [json.loads(x) for x in _safe_read(OGZ_ROOT / "journal/model_usage.jsonl").splitlines()[-8:] if x.strip()]
+        last = rows[-1] if rows else {}
+        hb = _hb_lines(3)
+        L.append(f"PIPELINE: stage={last.get('capability')} model={last.get('model')} last={last.get('ts')}. "
+                 f"heartbeat: " + " | ".join(f"{h.get('time')} {h.get('msg')}" for h in hb))
+    except Exception:
+        pass
+    # budget
+    try:
+        tdy = today_str()
+        tu = mu = 0.0
+        for x in _safe_read(OGZ_ROOT / "journal/model_usage.jsonl").splitlines():
+            try:
+                r = json.loads(x)
+            except Exception:
+                continue
+            if not r.get("provider"):
+                continue
+            u = float(r.get("usd") or 0)
+            if str(r.get("ts", ""))[:10] == tdy:
+                tu += u
+            if str(r.get("ts", ""))[:7] == tdy[:7]:
+                mu += u
+        L.append(f"BUDGET: today=${tu:.3f} month=${mu:.3f} (caps from model_router.json).")
+    except Exception:
+        pass
+    # review queue
+    try:
+        q = json.loads(_safe_read(QUEUE) or '{"items":[]}')
+        items = q.get("items", []) if isinstance(q, dict) else q
+        openn = sum(1 for it in items if it.get("status") != "answered")
+        L.append(f"REVIEW: {openn} open cards (of {len(items)}).")
+    except Exception:
+        pass
+    # health (lite — no subprocess to stay fast for chat)
+    try:
+        hbf = OGZ_ROOT / "journal/heartbeat.md"
+        fresh = int(datetime.now().timestamp() - hbf.stat().st_mtime) if hbf.exists() else None
+        L.append(f"HEALTH: heartbeat {fresh}s old; portal+brain serving.")
+    except Exception:
+        pass
+    return "\n".join(L)
+
+
+def _knowhow_retrieve(q: str) -> str:
+    """Query the brain's know-how + Alhareth engineering know-how (the same /know-how, /alhareth
+    endpoints the platform exposes) so the assistant is grounded in the real corpus."""
+    import urllib.request
+    out = []
+    for path, label in (("/know-how", "MOHAMED KNOW-HOW"), ("/alhareth", "ALHARETH ENG")):
+        try:
+            rq = urllib.request.Request("http://127.0.0.1:4140" + path,
+                                        data=json.dumps({"q": q, "top_k": 4}).encode(),
+                                        headers={"Content-Type": "application/json"})
+            d = json.loads(urllib.request.urlopen(rq, timeout=12).read())
+            for h in (d.get("hits") or [])[:4]:
+                out.append(f"[{label} · {h.get('source','')}] {str(h.get('text',''))[:280]}")
+        except Exception:
+            continue
+    return "\n".join(out) if out else "(no know-how hits for this query)"
+
+
+def _chat_history(session: str, n=40):
+    rows = []
+    for ln in _safe_read(CHAT_F).splitlines()[-200:]:
+        try:
+            e = json.loads(ln)
+        except Exception:
+            continue
+        if e.get("session") == session:
+            rows.append(e)
+    return rows[-n:]
+
+
+@app.get("/api/control/chat/history")
+def chat_history(session: str = "mohamed", k: str = ""):
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    return JSONResponse({"ok": True, "turns": _chat_history(session)})
+
+
+@app.post("/api/control/chat")
+async def chat(request: Request, k: str = ""):
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    body = await request.json()
+    msg = str(body.get("message", "")).strip()[:2000]
+    session = str(body.get("session", "mohamed"))[:40]
+    if not msg:
+        return JSONResponse({"ok": False, "error": "empty message"}, status_code=400)
+    judge, _ = _resolve_judge(k)
+    # persist the user turn FIRST (append-only; survives even if the model call fails)
+    with open(CHAT_F, "a", encoding="utf-8") as f:
+        f.write(json.dumps({"ts": datetime.now().isoformat(timespec="seconds"),
+                            "role": "user", "text": msg, "session": session,
+                            "by": judge or "shared"}, ensure_ascii=False) + "\n")
+    key = _env("OPENAI_API_KEY")
+    if not key:
+        return JSONResponse({"ok": False, "error": "no OPENAI_API_KEY on the box"}, status_code=503)
+    snapshot = _control_snapshot()
+    know = _knowhow_retrieve(msg)
+    system = (
+        "You are the OGZ SYSTEM ASSISTANT — the voice of Mohamed's autonomous studio, speaking from "
+        "inside the OGZ brain. You are grounded ONLY in the real system state and know-how given below; "
+        "never invent numbers, agents, or facts — if it is not in the context, say you don't see it. "
+        "You COMPLEMENT Mohamed's Dispatch chat with Claude Code (the operator that actually builds/changes "
+        "things); you answer questions about what's happening and note simple requests, but you do NOT execute "
+        "changes yourself. Be concise, concrete, honest. Mohamed has ADHD — lead with the answer, short. "
+        "Arabic or English, follow his language.\n\n"
+        f"=== LIVE SYSTEM STATE ===\n{snapshot}\n\n=== RELEVANT KNOW-HOW (retrieved) ===\n{know}\n\n"
+        "If he asks you to DO something beyond answering, tell him plainly you've logged it for the operator "
+        "(Claude Code) and what you understood — you don't change the system yourself.")
+    hist = _chat_history(session, n=8)
+    messages = [{"role": "system", "content": system}]
+    for t in hist:
+        if t.get("role") in ("user", "assistant"):
+            messages.append({"role": t["role"], "content": str(t.get("text", ""))[:1500]})
+    messages.append({"role": "user", "content": msg})
+    import urllib.request
+    answer, usage = None, {}
+    try:
+        rq = urllib.request.Request(
+            "https://api.openai.com/v1/chat/completions",
+            data=json.dumps({"model": "gpt-4o", "temperature": 0.3, "max_tokens": 700,
+                             "messages": messages}).encode(),
+            headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"})
+        out = json.loads(urllib.request.urlopen(rq, timeout=60).read())
+        answer = out["choices"][0]["message"]["content"].strip()
+        usage = out.get("usage", {})
+    except Exception as e:
+        return JSONResponse({"ok": False, "error": f"gpt-4o: {type(e).__name__}: {str(e)[:160]}"}, status_code=502)
+    # meter to the CFO ledger so the Budget view stays honest (control_chat capability)
+    try:
+        it, ot = usage.get("prompt_tokens", 0), usage.get("completion_tokens", 0)
+        usd = it / 1e6 * 2.5 + ot / 1e6 * 10.0
+        with open(OGZ_ROOT / "journal/model_usage.jsonl", "a", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": datetime.now().isoformat(timespec="seconds"),
+                                "capability": "control_chat", "provider": "openai", "model": "gpt-4o",
+                                "in_tokens": it, "out_tokens": ot, "usd": round(usd, 6),
+                                "flags": ["control_center"], "purpose": "system assistant"}) + "\n")
+    except Exception:
+        pass
+    with open(CHAT_F, "a", encoding="utf-8") as f:
+        f.write(json.dumps({"ts": datetime.now().isoformat(timespec="seconds"),
+                            "role": "assistant", "text": answer, "session": session},
+                           ensure_ascii=False) + "\n")
+    return JSONResponse({"ok": True, "answer": answer})
 
 
 @app.get("/api/approvals/whoami")

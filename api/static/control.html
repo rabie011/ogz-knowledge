@@ -9,11 +9,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>OGZ · Control</title>
 <style>
+/* OGeeZ design system v0.2.0 (rabie011/clone-in-a-snap) — digital.app color law */
+@font-face{font-family:'Modern Era';src:url('/static/fonts/modern-era-extrabold.ttf') format('truetype');font-weight:800;font-display:swap}
+@font-face{font-family:'Modern Era';src:url('/static/fonts/modern-era-black.ttf') format('truetype');font-weight:900;font-display:swap}
 :root{
-  --bg:#0c0d0f; --card:#14161a; --card2:#1a1d22; --line:#272b32; --line2:#333945;
-  --ink:#eae7e0; --mut:#8f939c; --dim:#6b6f78;
-  --ok:#34d399; --ok-dim:#0e2a20; --edit:#f5b544; --edit-dim:#2b220e; --kill:#f87171; --kill-dim:#2a1414;
-  --pin:#67c8ff; --pin-dim:#0e2230; --r:14px;
+  --bg:#0F0F0E; --card:#1A1A18; --card2:#222220; --stage:#252523; --line:#2E2E2B; --line2:#3a3a36;
+  --ink:#F4F5F0; --mut:#A2A599; --dim:#6E7166;
+  --green:#33EB05; --ultra:#3349EB; --epink:#E602BB;
+  --ok:#33EB05; --ok-dim:#0f2a08;          /* Electric Green = the OGZ moment: live / up / healthy */
+  --edit:#e0a80b; --edit-dim:#2b2208;       /* pending / attention */
+  --kill:#E602BB; --kill-dim:#2a0a22;       /* Epink = HOLD / ERROR only (brand law) */
+  --pin:#6b8aff; --pin-dim:#111a3a;         /* Ultramarine family — info / links */
+  --display:'Modern Era',-apple-system,'SF Pro','Segoe UI',system-ui,sans-serif;
+  --r:14px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
@@ -23,11 +31,12 @@ button{font:inherit;border:0;cursor:pointer;background:none;color:inherit}
 a{color:var(--pin);text-decoration:none}
 
 /* header */
-#hdr{position:sticky;top:0;z-index:30;background:rgba(12,13,15,.9);backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line);padding:10px 16px 0}
-.hrow{max-width:820px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-#mark{font-weight:800;letter-spacing:.4px;font-size:15px}#mark b{color:var(--ok)}
-#live{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:pulse 2.4s infinite}
+#hdr{position:sticky;top:0;z-index:30;background:rgba(15,15,14,.92);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);padding:11px 16px 0}
+.hrow{max-width:820px;margin:0 auto;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+#logo{height:26px;width:auto;display:block;filter:drop-shadow(0 0 10px rgba(51,235,5,.35))}
+#mark{font-family:var(--display);font-weight:900;letter-spacing:.6px;font-size:17px;text-transform:uppercase}
+#live{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2.4s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
 #sys{margin-inline-start:auto;font-size:12px;font-weight:700;padding:.25em .7em;border-radius:99px;border:1px solid var(--line2);color:var(--mut)}
 #sys.healthy{color:var(--ok);border-color:var(--ok)}#sys.degraded{color:var(--edit);border-color:var(--edit)}
@@ -74,7 +83,7 @@ a{color:var(--pin);text-decoration:none}
 /* stat tiles */
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:10px 0}
 .tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
-.tile .big{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+.tile .big{font-family:var(--display);font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
 .tile .lbl{color:var(--dim);font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-top:2px}
 .bar{height:7px;border-radius:99px;background:var(--card2);overflow:hidden;margin-top:8px}
 .bar>i{display:block;height:100%;background:var(--ok)}
@@ -97,12 +106,35 @@ a{color:var(--pin);text-decoration:none}
 .dayhdr{margin:16px 4px 6px;font-size:11.5px;font-weight:800;letter-spacing:1.1px;color:var(--dim);text-transform:uppercase}
 .pill{font-size:11px;font-weight:700;padding:.18em .6em;border-radius:99px;border:1px solid var(--line2);color:var(--mut)}
 .pill.run{color:var(--ok);border-color:var(--ok)}
+
+/* section labels + tabs in the brand display face */
+.sec{font-family:var(--display)}
+.tab{font-family:var(--display);text-transform:uppercase;letter-spacing:.3px}
+
+/* ---------- chat (system assistant) ---------- */
+#chatwrap{display:flex;flex-direction:column;min-height:calc(100vh - 220px)}
+.chatnote{background:linear-gradient(180deg,var(--ok-dim),transparent);border:1px solid #1c3a10;border-radius:12px;
+  padding:10px 13px;font-size:12.5px;color:var(--mut);margin-bottom:10px}
+.chatnote b{color:var(--green)}
+#msgs{flex:1;display:flex;flex-direction:column;gap:10px;padding:4px 0 12px}
+.msg{max-width:88%;padding:10px 13px;border-radius:14px;font-size:14.5px;line-height:1.55;word-break:break-word;white-space:pre-wrap}
+.msg.user{align-self:flex-end;background:var(--pin-dim);border:1px solid #23306a;border-bottom-right-radius:5px}
+.msg.bot{align-self:flex-start;background:var(--card);border:1px solid var(--line);border-bottom-left-radius:5px}
+.msg.bot.think{color:var(--dim);font-style:italic}
+.msg .role{display:block;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px;opacity:.7}
+.msg.bot .role{color:var(--green)}.msg.user .role{color:var(--pin)}
+#chatbar{position:sticky;bottom:0;background:rgba(15,15,14,.95);backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);padding:10px 0 calc(6px + env(safe-area-inset-bottom));display:flex;gap:8px;margin-top:6px}
+#chatin{flex:1;min-height:44px;max-height:120px;resize:none;border-radius:12px;padding:.7em .9em}
+#chatsend{flex:0 0 auto;width:52px;border-radius:12px;background:var(--green);color:#04180e;font-weight:900;font-size:20px}
+#chatsend:disabled{background:var(--card2);color:var(--dim)}
 </style>
 </head>
 <body>
 <div id="hdr">
   <div class="hrow">
-    <span id="mark">OGZ <b>·</b> CONTROL</span><span id="live"></span>
+    <img id="logo" src="/static/ogz-mouth.svg" alt="OGZ" onerror="this.src='/static/ogz-mouth.png'">
+    <span id="mark">Control</span><span id="live"></span>
     <span id="sys">…</span>
     <span id="who"></span>
   </div>
@@ -114,8 +146,9 @@ a{color:var(--pin);text-decoration:none}
 const K=new URLSearchParams(location.search).get('k')||'';
 let WHO=null, VIEW='agents', POLL=null, ACT=null, AGENTS=null, AFILTER='all', KHWHO='mohamed', KHDATA=null;
 
-const TABS=[['agents','🧠 Agents'],['live','⚡ Live'],['review','✅ Review'],
+const TABS=[['agents','🧠 Agents'],['live','⚡ Live'],['chat','💬 Ask'],['review','✅ Review'],
   ['knowhow','📚 Know-How'],['budget','💰 Budget'],['health','🩺 Health'],['activity','📜 Activity']];
+let CHATBUSY=false;
 
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 async function fetchJSON(path){
@@ -152,6 +185,7 @@ function render(){
   const st=document.getElementById('stage'); st.innerHTML='<div class="empty">…</div>';
   if(VIEW==='agents') return viewAgents(st);
   if(VIEW==='live') return viewLive(st,true);
+  if(VIEW==='chat') return viewChat(st);
   if(VIEW==='review') return viewReview(st);
   if(VIEW==='knowhow') return viewKnowhow(st);
   if(VIEW==='budget') return viewBudget(st);
@@ -354,6 +388,56 @@ async function viewActivity(st,poll){
   }
   st.innerHTML=h;
   if(poll&&VIEW==='activity'){ if(POLL)clearInterval(POLL); POLL=setInterval(()=>{ if(VIEW==='activity') viewActivity(document.getElementById('stage'),false); },12000); }
+}
+
+/* ---------- CHAT — the system assistant (gpt-4o, grounded in the brain) ---------- */
+function chatSession(){ return WHO||'mohamed'; }
+function viewChat(st){
+  st.innerHTML=`<div id="chatwrap">
+    <div class="chatnote">💬 <b>System assistant</b> — I speak from inside the OGZ brain (know-how, agents, live pipeline, budget, health, review), wired to <b>gpt-4o</b>. I answer what's happening and note simple requests; I <b>don't change the system myself</b> — that's your Dispatch chat with Claude Code.</div>
+    <div id="msgs"></div>
+    <div id="chatbar">
+      <textarea id="chatin" placeholder="اسأل عن أي شيء في النظام…  ask the system anything" rows="1"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}"></textarea>
+      <button id="chatsend" onclick="sendChat()">➤</button>
+    </div></div>`;
+  loadChat();
+}
+async function loadChat(){
+  const d=await fetchJSON('/api/control/chat/history?session='+encodeURIComponent(chatSession()));
+  renderMsgs((d&&d.turns)||[]);
+}
+function renderMsgs(turns,extra){
+  const m=document.getElementById('msgs'); if(!m) return;
+  let h='';
+  if(!turns.length&&!extra) h=`<div class="empty" style="padding:24px 10px">اسألني عن حالة النظام، التكلفة، الوكلاء، أو الـ pipeline.<br><span style="font-size:12px">Try: "what's the pipeline doing?" · "كم صرفنا اليوم؟"</span></div>`;
+  for(const t of turns){
+    const u=t.role==='user';
+    h+=`<div class="msg ${u?'user':'bot'}"><span class="role">${u?(t.by||'you'):'system'}</span><span dir="auto">${esc(t.text)}</span></div>`;
+  }
+  if(extra) h+=extra;
+  m.innerHTML=h;
+  m.scrollTop=m.scrollHeight;
+  const w=document.getElementById('stage'); if(w) w.scrollTop=w.scrollHeight;
+}
+async function sendChat(){
+  if(CHATBUSY) return;
+  const inp=document.getElementById('chatin'); if(!inp) return;
+  const msg=inp.value.trim(); if(!msg) return;
+  CHATBUSY=true; const btn=document.getElementById('chatsend'); if(btn) btn.disabled=true;
+  inp.value=''; inp.style.height='auto';
+  const hist=(await fetchJSON('/api/control/chat/history?session='+encodeURIComponent(chatSession()))).turns||[];
+  hist.push({role:'user',text:msg,by:'you'});
+  renderMsgs(hist,`<div class="msg bot think" id="thinking"><span class="role">system</span>…يفكّر</div>`);
+  let res;
+  try{
+    const r=await fetch('/api/control/chat?k='+encodeURIComponent(K),{method:'POST',
+      headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg,session:chatSession()})});
+    res=await r.json();
+  }catch(e){ res={ok:false,error:String(e)}; }
+  CHATBUSY=false; if(btn) btn.disabled=false;
+  if(res&&res.ok){ hist.push({role:'assistant',text:res.answer}); renderMsgs(hist); }
+  else { renderMsgs(hist,`<div class="msg bot" style="border-color:var(--kill);color:var(--kill)"><span class="role">error</span>${esc((res&&res.error)||'failed')}</div>`); }
 }
 
 function errBox(d){ return `<div class="empty"><div class="big">⚠️</div>تعذّر التحميل<br><span class="mono" style="font-size:11px">${esc((d&&d.error)||'error')}</span><br><button class="refresh" style="margin-top:10px" onclick="render()">↻ retry</button></div>`; }

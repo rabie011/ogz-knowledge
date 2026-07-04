@@ -1,132 +1,120 @@
 <!doctype html>
-<!-- THE FULL-SYSTEM CONTROL CENTER (July 4, 2026 — Mohamed's order: "see everything happening
-     across all aspects, live, from my phone"). Built ON the portal: same key gate, same tunnel,
-     same /static, same fetch pattern as dashboard.html. Read-only views over the EXISTING ledgers;
-     the only write path is Review → /dashboard (reused). Every control is wired — no dead buttons. -->
+<!-- OGZ CONTROL — v2 (July 4): simpler, calmer, on-brand (clone-in-a-snap v0.2.0 digital.app law).
+     4 tabs (Now · Agents · Ask · More), single Electric-Green accent, generous whitespace.
+     Agents view shows each agent's numbered WORKFLOW + the step it's on right now (live).
+     Built on the portal — same key gate, same /static, same endpoints. Every control wired + tested. -->
 <html lang="ar">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>OGZ · Control</title>
 <style>
-/* OGeeZ design system v0.2.0 (rabie011/clone-in-a-snap) — digital.app color law */
 @font-face{font-family:'Modern Era';src:url('/static/fonts/modern-era-extrabold.ttf') format('truetype');font-weight:800;font-display:swap}
 @font-face{font-family:'Modern Era';src:url('/static/fonts/modern-era-black.ttf') format('truetype');font-weight:900;font-display:swap}
 :root{
-  --bg:#0F0F0E; --card:#1A1A18; --card2:#222220; --stage:#252523; --line:#2E2E2B; --line2:#3a3a36;
-  --ink:#F4F5F0; --mut:#A2A599; --dim:#6E7166;
-  --green:#33EB05; --ultra:#3349EB; --epink:#E602BB;
-  --ok:#33EB05; --ok-dim:#0f2a08;          /* Electric Green = the OGZ moment: live / up / healthy */
-  --edit:#e0a80b; --edit-dim:#2b2208;       /* pending / attention */
-  --kill:#E602BB; --kill-dim:#2a0a22;       /* Epink = HOLD / ERROR only (brand law) */
-  --pin:#6b8aff; --pin-dim:#111a3a;         /* Ultramarine family — info / links */
-  --display:'Modern Era',-apple-system,'SF Pro','Segoe UI',system-ui,sans-serif;
-  --r:14px;
+  --bg:#0F0F0E; --card:#161614; --card2:#1e1e1c; --line:#252523; --line2:#33332f;
+  --ink:#F4F5F0; --mut:#9a9b90; --dim:#63645b;
+  --green:#33EB05; --green-dim:#0e2a06; --ultra:#6b8aff; --epink:#E602BB;
+  --display:'Modern Era',-apple-system,'SF Pro','Segoe UI',system-ui,sans-serif; --r:16px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
-  font:16px/1.55 -apple-system,"SF Pro","SF Arabic","Segoe UI",system-ui,sans-serif}
+html,body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.6 -apple-system,"SF Pro","SF Arabic","Segoe UI",system-ui,sans-serif}
 body{padding-bottom:40px}
 button{font:inherit;border:0;cursor:pointer;background:none;color:inherit}
-a{color:var(--pin);text-decoration:none}
+a{color:inherit;text-decoration:none}
+input,textarea{font:inherit;color:var(--ink);background:var(--card2);border:1px solid var(--line2);border-radius:12px;padding:.7em .9em;outline:none}
+textarea:focus,input:focus{border-color:var(--green)}
+::placeholder{color:var(--dim)}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 
 /* header */
-#hdr{position:sticky;top:0;z-index:30;background:rgba(15,15,14,.92);backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line);padding:11px 16px 0}
-.hrow{max-width:820px;margin:0 auto;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-#logo{height:26px;width:auto;display:block;filter:drop-shadow(0 0 10px rgba(51,235,5,.35))}
-#mark{font-family:var(--display);font-weight:900;letter-spacing:.6px;font-size:17px;text-transform:uppercase}
-#live{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2.4s infinite}
+#hdr{position:sticky;top:0;z-index:30;background:rgba(15,15,14,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:13px 20px 0}
+.hrow{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:10px}
+#logo{height:24px;filter:drop-shadow(0 0 10px rgba(51,235,5,.4))}
+#mark{font-family:var(--display);font-weight:900;font-size:16px;letter-spacing:.5px;text-transform:uppercase}
+#live{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2.6s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
-#sys{margin-inline-start:auto;font-size:12px;font-weight:700;padding:.25em .7em;border-radius:99px;border:1px solid var(--line2);color:var(--mut)}
-#sys.healthy{color:var(--ok);border-color:var(--ok)}#sys.degraded{color:var(--edit);border-color:var(--edit)}
-#sys.critical{color:var(--kill);border-color:var(--kill)}
-#who{font-size:12px;color:var(--dim)}
-#tabs{max-width:820px;margin:10px auto 0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:8px}
-#tabs::-webkit-scrollbar{display:none}
-.tab{flex:0 0 auto;padding:.4em .9em;border-radius:99px;border:1px solid var(--line);color:var(--mut);
-  font-size:13.5px;font-weight:700;white-space:nowrap;transition:.15s}
-.tab.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+#sys{margin-inline-start:auto;font-size:12px;color:var(--dim)}
+#tabs{max-width:760px;margin:14px auto 0;display:flex;gap:4px}
+.tab{flex:1;padding:.6em 0;text-align:center;font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:.4px;
+  text-transform:uppercase;color:var(--dim);border-bottom:2px solid transparent;transition:.15s}
+.tab.on{color:var(--ink);border-bottom-color:var(--green)}
 
 /* stage */
-#stage{max-width:820px;margin:14px auto;padding:0 16px}
-.sec{margin:18px 0 8px;font-size:11.5px;font-weight:800;letter-spacing:1.2px;color:var(--dim);text-transform:uppercase;
-  display:flex;align-items:center;gap:8px}
-.sec .rt{margin-inline-start:auto;font-weight:700;color:var(--mut);font-size:11px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:10px 0}
-.row{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-bottom:1px solid var(--line)}
-.row:last-child{border-bottom:0}
-.dot{flex:0 0 auto;width:9px;height:9px;border-radius:50%;margin-top:6px;background:var(--dim)}
-.dot.working{background:var(--ok);animation:pulse 2s infinite}.dot.recent{background:var(--edit)}
-.dot.idle{background:var(--dim)}.dot.up{background:var(--ok)}.dot.down{background:var(--kill)}
-.rbody{flex:1;min-width:0}
-.rt1{font-weight:700;font-size:14.5px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
-.rt2{color:var(--mut);font-size:12.5px;margin-top:2px;word-break:break-word}
-.badge{font-size:10.5px;font-weight:800;padding:.12em .55em;border-radius:6px;border:1px solid var(--line2);color:var(--mut)}
-.badge.model{color:var(--pin);border-color:#1d4a63}
-.badge.on{color:var(--ok);border-color:var(--ok)}
-.badge.warn{color:var(--edit);border-color:var(--edit)}
-.badge.bad{color:var(--kill);border-color:var(--kill)}
-.rtime{flex:0 0 auto;color:var(--dim);font-size:11.5px;font-variant-numeric:tabular-nums;padding-top:2px}
-.chev{flex:0 0 auto;color:var(--dim);padding-top:2px;transition:.2s}
-.row.open .chev{transform:rotate(90deg)}
-.drill{padding:0 14px 14px;border-bottom:1px solid var(--line);display:none}
-.row.open + .drill{display:block}
-.drill pre{white-space:pre-wrap;word-break:break-word;background:var(--card2);border:1px solid var(--line);
-  border-radius:10px;padding:.8em;font-size:12px;max-height:340px;overflow:auto;direction:auto;color:var(--mut)}
+#stage{max-width:760px;margin:0 auto;padding:22px 20px}
+.h1{font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin:0 0 14px}
+.h1:not(:first-child){margin-top:34px}
+.big{font-family:var(--display);font-weight:900;font-variant-numeric:tabular-nums}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.card+.card{margin-top:12px}
+.muted{color:var(--mut)}.dim{color:var(--dim)}
+.grn{color:var(--green)}
+.dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;background:var(--dim)}
+.dot.on{background:var(--green);box-shadow:0 0 7px var(--green);animation:pulse 2s infinite}
+.dot.recent{background:#b9a94a}.dot.idle{background:var(--dim)}.dot.bad{background:var(--epink)}
 
-/* filters / subtabs */
-.filters{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0}
-.fchip{padding:.3em .8em;border-radius:99px;border:1px solid var(--line);color:var(--mut);font-size:12.5px;font-weight:700}
-.fchip.on{background:var(--pin);color:#062033;border-color:var(--pin)}
+/* NOW hero */
+.hero .state{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:19px}
+.hero .line{color:var(--mut);margin-top:12px;font-size:14.5px;line-height:1.55}
+.hero .meta{color:var(--dim);font-size:13px;margin-top:14px;line-height:1.8}
+.hero .meta b{color:var(--ink);font-weight:600}
+.strip{display:flex;gap:10px;margin-top:12px}
+.stat{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.stat .n{font-family:var(--display);font-weight:900;font-size:20px}
+.stat .l{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.6px;margin-top:2px}
 
-/* stat tiles */
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:10px 0}
-.tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
-.tile .big{font-family:var(--display);font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
-.tile .lbl{color:var(--dim);font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-top:2px}
-.bar{height:7px;border-radius:99px;background:var(--card2);overflow:hidden;margin-top:8px}
-.bar>i{display:block;height:100%;background:var(--ok)}
-.bar>i.warn{background:var(--edit)}.bar>i.bad{background:var(--kill)}
+/* AGENTS */
+.note{color:var(--mut);font-size:13.5px;line-height:1.6;margin-bottom:6px}
+.note b{color:var(--green)}
+.livebar{display:flex;gap:9px;align-items:center;background:var(--green-dim);border:1px solid #1c3a10;border-radius:12px;
+  padding:11px 14px;margin:12px 0 18px;font-size:13.5px}
+.agent{border-bottom:1px solid var(--line);padding:16px 2px}
+.agent:last-child{border-bottom:0}
+.arow{display:flex;align-items:center;gap:11px}
+.aname{font-weight:700;font-size:15.5px}
+.astep{margin-inline-start:auto;font-size:12.5px;color:var(--green);font-weight:700;white-space:nowrap}
+.astep.idle{color:var(--dim);font-weight:600}
+.asub{color:var(--mut);font-size:13px;margin-top:5px;padding-inline-start:19px;line-height:1.5}
+.asub .k{color:var(--green);font-size:11px;font-weight:700}
+.chev{margin-inline-start:8px;color:var(--dim);transition:.2s}.agent.open .chev{transform:rotate(90deg)}
+.wf{display:none;padding:12px 0 4px 19px}.agent.open .wf{display:block}
+.step{display:flex;gap:11px;padding:7px 0;font-size:13.5px;line-height:1.5;color:var(--mut)}
+.step .num{flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;
+  font-size:11px;font-weight:800;color:var(--dim)}
+.step.done{color:var(--dim)}.step.done .num{border-color:var(--line);color:var(--dim)}
+.step.cur{color:var(--ink)}.step.cur .num{background:var(--green);border-color:var(--green);color:#04180e}
+.step.cur{background:var(--green-dim);border-radius:10px;margin:2px -8px;padding:8px}
 
-/* heartbeat / activity feed */
-.feed .row{align-items:flex-start}
-.hb{display:flex;gap:10px;padding:9px 14px;border-bottom:1px solid var(--line);font-size:13.5px}
-.hb:last-child{border-bottom:0}.hb .t{flex:0 0 auto;color:var(--pin);font-variant-numeric:tabular-nums;font-size:12px;padding-top:1px}
-.hb .m{flex:1;min-width:0;word-break:break-word}
-.filebtn{display:inline-flex;gap:6px;align-items:center;margin:4px 6px 0 0;padding:.4em .8em;border-radius:9px;
-  border:1px solid var(--line2);color:var(--ink);font-size:12.5px;font-weight:600}
-.filebtn:hover{border-color:var(--pin)}
-.big-btn{display:block;width:100%;text-align:center;padding:.9em;border-radius:12px;background:var(--ok);color:#04180e;
-  font-weight:800;font-size:15px;margin:12px 0}
-.refresh{font-size:12px;color:var(--pin);font-weight:700;border:1px solid var(--line2);border-radius:8px;padding:.3em .7em}
-.empty{text-align:center;color:var(--mut);padding:40px 10px}.empty .big{font-size:40px;margin-bottom:8px}
-.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
-.aico{flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:var(--card2);border:1px solid var(--line);display:grid;place-items:center;font-size:14px}
-.dayhdr{margin:16px 4px 6px;font-size:11.5px;font-weight:800;letter-spacing:1.1px;color:var(--dim);text-transform:uppercase}
-.pill{font-size:11px;font-weight:700;padding:.18em .6em;border-radius:99px;border:1px solid var(--line2);color:var(--mut)}
-.pill.run{color:var(--ok);border-color:var(--ok)}
+/* rows (More sub-views reuse these) */
+.row{display:flex;align-items:center;gap:12px;padding:15px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}.rowb{flex:1;min-width:0}
+.rt1{font-weight:600;font-size:15px}.rt2{color:var(--mut);font-size:13px;margin-top:3px;word-break:break-word}
+.rtime{color:var(--dim);font-size:12px;white-space:nowrap}
+.menu .row{cursor:pointer}.menu .row .rt1{font-size:16px}
+.back{color:var(--green);font-weight:700;font-size:13px;margin-bottom:14px;display:inline-block}
+.big-btn{display:block;text-align:center;padding:1em;border-radius:14px;background:var(--green);color:#04180e;font-weight:900;font-size:15px;margin:16px 0}
+.bar{height:6px;border-radius:99px;background:var(--card2);overflow:hidden;margin-top:10px}
+.bar>i{display:block;height:100%;background:var(--green)}.bar>i.warn{background:#b9a94a}.bar>i.bad{background:var(--epink)}
+.refresh{color:var(--green);font-weight:700;font-size:12.5px}
+.empty{text-align:center;color:var(--mut);padding:48px 12px}.empty .e{font-size:40px;margin-bottom:10px}
+.chip{display:inline-block;font-size:11px;font-weight:700;color:var(--dim);border:1px solid var(--line2);border-radius:99px;padding:.15em .6em}
+.dayhdr{font-family:var(--display);font-size:11px;font-weight:800;letter-spacing:1px;color:var(--dim);text-transform:uppercase;margin:20px 0 6px}
 
-/* section labels + tabs in the brand display face */
-.sec{font-family:var(--display)}
-.tab{font-family:var(--display);text-transform:uppercase;letter-spacing:.3px}
-
-/* ---------- chat (system assistant) ---------- */
-#chatwrap{display:flex;flex-direction:column;min-height:calc(100vh - 220px)}
-.chatnote{background:linear-gradient(180deg,var(--ok-dim),transparent);border:1px solid #1c3a10;border-radius:12px;
-  padding:10px 13px;font-size:12.5px;color:var(--mut);margin-bottom:10px}
-.chatnote b{color:var(--green)}
-#msgs{flex:1;display:flex;flex-direction:column;gap:10px;padding:4px 0 12px}
-.msg{max-width:88%;padding:10px 13px;border-radius:14px;font-size:14.5px;line-height:1.55;word-break:break-word;white-space:pre-wrap}
-.msg.user{align-self:flex-end;background:var(--pin-dim);border:1px solid #23306a;border-bottom-right-radius:5px}
+/* chat */
+#chatwrap{display:flex;flex-direction:column;min-height:calc(100vh - 210px)}
+.chatnote{color:var(--mut);font-size:12.5px;line-height:1.55;margin-bottom:14px}.chatnote b{color:var(--green)}
+#msgs{flex:1;display:flex;flex-direction:column;gap:11px;padding-bottom:12px}
+.msg{max-width:88%;padding:11px 14px;border-radius:16px;font-size:14.5px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.msg.user{align-self:flex-end;background:#1a1f14;border:1px solid #2c3a1c;border-bottom-right-radius:5px}
 .msg.bot{align-self:flex-start;background:var(--card);border:1px solid var(--line);border-bottom-left-radius:5px}
-.msg.bot.think{color:var(--dim);font-style:italic}
-.msg .role{display:block;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px;opacity:.7}
-.msg.bot .role{color:var(--green)}.msg.user .role{color:var(--pin)}
-#chatbar{position:sticky;bottom:0;background:rgba(15,15,14,.95);backdrop-filter:blur(12px);
-  border-top:1px solid var(--line);padding:10px 0 calc(6px + env(safe-area-inset-bottom));display:flex;gap:8px;margin-top:6px}
-#chatin{flex:1;min-height:44px;max-height:120px;resize:none;border-radius:12px;padding:.7em .9em}
-#chatsend{flex:0 0 auto;width:52px;border-radius:12px;background:var(--green);color:#04180e;font-weight:900;font-size:20px}
+.msg.think{color:var(--dim);font-style:italic}
+.msg .role{display:block;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;opacity:.7}
+.msg.bot .role{color:var(--green)}
+#chatbar{position:sticky;bottom:0;background:rgba(15,15,14,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);
+  padding:12px 0 calc(8px + env(safe-area-inset-bottom));display:flex;gap:9px;margin-top:8px}
+#chatin{flex:1;min-height:46px;max-height:130px;resize:none}
+#chatsend{flex:0 0 auto;width:54px;border-radius:12px;background:var(--green);color:#04180e;font-weight:900;font-size:20px}
 #chatsend:disabled{background:var(--card2);color:var(--dim)}
 </style>
 </head>
@@ -135,8 +123,7 @@ a{color:var(--pin);text-decoration:none}
   <div class="hrow">
     <img id="logo" src="/static/ogz-mouth.svg" alt="OGZ" onerror="this.src='/static/ogz-mouth.png'">
     <span id="mark">Control</span><span id="live"></span>
-    <span id="sys">…</span>
-    <span id="who"></span>
+    <span id="sys"></span>
   </div>
   <div id="tabs"></div>
 </div>
@@ -144,305 +131,195 @@ a{color:var(--pin);text-decoration:none}
 
 <script>
 const K=new URLSearchParams(location.search).get('k')||'';
-let WHO=null, VIEW='agents', POLL=null, ACT=null, AGENTS=null, AFILTER='all', KHWHO='mohamed', KHDATA=null;
-
-const TABS=[['agents','🧠 Agents'],['live','⚡ Live'],['chat','💬 Ask'],['review','✅ Review'],
-  ['knowhow','📚 Know-How'],['budget','💰 Budget'],['health','🩺 Health'],['activity','📜 Activity']];
-let CHATBUSY=false;
-
+let WHO=null, VIEW='now', SUB=null, POLL=null, CHATBUSY=false;
+const TABS=[['now','Now'],['agents','Agents'],['chat','Ask'],['more','More']];
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-async function fetchJSON(path){
-  try{const r=await fetch(path+(path.includes('?')?'&':'?')+'k='+encodeURIComponent(K),{cache:'no-cache'});
-    if(!r.ok) return {ok:false,error:'HTTP '+r.status};
-    return await r.json();
-  }catch(e){return {ok:false,error:String(e)};}
-}
-function rel(ts){
-  let s; if(typeof ts==='number') s=ts; else { const d=Date.parse(ts); if(isNaN(d)) return ''; s=d/1000; }
-  if(!s) return '';
-  const a=Date.now()/1000 - s;
-  if(a<60) return Math.max(1,Math.round(a))+'s';
-  if(a<3600) return Math.round(a/60)+'m';
-  if(a<86400) return Math.round(a/3600)+'h';
-  return Math.round(a/86400)+'d';
-}
-function fmt$(n){return '$'+Number(n||0).toFixed(n<1?4:2);}
+const fmt$=n=>'$'+Number(n||0).toFixed(n<1?3:2);
+async function fetchJSON(p){ try{const r=await fetch(p+(p.includes('?')?'&':'?')+'k='+encodeURIComponent(K),{cache:'no-cache'});
+  if(!r.ok)return{ok:false,error:'HTTP '+r.status};return await r.json();}catch(e){return{ok:false,error:String(e)};} }
+function rel(ts){ let s=typeof ts==='number'?ts:(Date.parse(ts)/1000); if(!s||isNaN(s))return'';
+  const a=Date.now()/1000-s; if(a<60)return Math.max(1,a|0)+'s'; if(a<3600)return(a/60|0)+'m'; if(a<86400)return(a/3600|0)+'h'; return(a/86400|0)+'d'; }
 
-/* ---------- boot ---------- */
-async function whoami(){
-  const d=await fetchJSON('/api/approvals/whoami');
-  if(!d||d.ok===false||d.error){ document.getElementById('stage').innerHTML='<div class="empty"><div class="big">🔑</div>المفتاح غلط أو ناقص</div>'; return false; }
-  WHO=d.judge; document.getElementById('who').textContent=WHO?('👤 '+WHO):'view';
-  return true;
-}
-function renderTabs(){
-  document.getElementById('tabs').innerHTML=TABS.map(([k,l])=>
-    `<button class="tab ${VIEW===k?'on':''}" onclick="go('${k}')">${l}</button>`).join('');
-}
-function go(v){ VIEW=v; renderTabs(); if(POLL){clearInterval(POLL);POLL=null;} render(); }
+async function whoami(){ const d=await fetchJSON('/api/approvals/whoami');
+  if(!d||d.error){document.getElementById('stage').innerHTML='<div class="empty"><div class="e">🔑</div>المفتاح غلط أو ناقص</div>';return false;}
+  WHO=d.judge; return true; }
+function renderTabs(){ document.getElementById('tabs').innerHTML=TABS.map(([k,l])=>`<button class="tab ${VIEW===k?'on':''}" onclick="go('${k}')">${l}</button>`).join(''); }
+function go(v){ VIEW=v; SUB=null; if(POLL){clearInterval(POLL);POLL=null;} renderTabs(); render(); }
+function render(){ const st=document.getElementById('stage'); st.innerHTML='<div class="empty">…</div>';
+  if(VIEW==='now')return viewNow(st,true);
+  if(VIEW==='agents')return viewAgents(st,true);
+  if(VIEW==='chat')return viewChat(st);
+  if(VIEW==='more')return viewMore(st); }
+async function refreshSys(){ const d=await fetchJSON('/api/control/health');
+  document.getElementById('sys').textContent=d&&d.ok?({healthy:'● healthy',degraded:'▲ degraded',critical:'✕ critical'}[d.status]||''):''; }
+function errBox(d){ return `<div class="empty"><div class="e">⚠️</div>تعذّر التحميل<br><span class="mono dim" style="font-size:11px">${esc((d&&d.error)||'')}</span><br><button class="refresh" style="margin-top:12px" onclick="render()">↻ retry</button></div>`; }
 
-function render(){
-  const st=document.getElementById('stage'); st.innerHTML='<div class="empty">…</div>';
-  if(VIEW==='agents') return viewAgents(st);
-  if(VIEW==='live') return viewLive(st,true);
-  if(VIEW==='chat') return viewChat(st);
-  if(VIEW==='review') return viewReview(st);
-  if(VIEW==='knowhow') return viewKnowhow(st);
-  if(VIEW==='budget') return viewBudget(st);
-  if(VIEW==='health') return viewHealth(st);
-  if(VIEW==='activity') return viewActivity(st,true);
-}
-
-/* ---------- system status chip ---------- */
-async function refreshSys(){
-  const d=await fetchJSON('/api/control/health');
-  const el=document.getElementById('sys');
-  if(d&&d.ok){ el.textContent=({healthy:'● system healthy',degraded:'▲ degraded',critical:'✕ critical'}[d.status]||d.status);
-    el.className=d.status; } else { el.textContent='?'; }
-}
-
-/* ---------- AGENTS ---------- */
-const AFIL=[['all','All'],['core','Core'],['Executive council','Exec'],["Writers' room",'Writers'],['Visual room','Visual'],['THE GATE','Gate']];
-function setAgentFilter(i){ AFILTER=AFIL[i][0]; viewAgents(document.getElementById('stage')); }  // index-based: room strings contain quotes/apostrophes, so never inline them in onclick
-async function viewAgents(st){
-  if(!AGENTS){ const d=await fetchJSON('/api/control/agents'); if(!d.ok){st.innerHTML=errBox(d);return;} AGENTS=d; }
-  let h=`<div class="filters">${AFIL.map(([k,l],i)=>`<button class="fchip ${AFILTER===k?'on':''}" onclick="setAgentFilter(${i})">${l}</button>`).join('')}</div>`;
-  if(AFILTER==='all'||AFILTER==='core'){
-    h+=`<div class="sec">Core agents · ${AGENTS.core.length}</div><div class="card">`;
-    for(const a of AGENTS.core) h+=agentRow(a,true);
-    h+=`</div>`;
-  }
-  if(AFILTER!=='core'){
-    const minds=AGENTS.minds.filter(m=>AFILTER==='all'||m.room===AFILTER);
-    h+=`<div class="sec">Minds · ${minds.length}</div><div class="card">`;
-    for(const m of minds) h+=agentRow(m,false);
-    h+=`</div>`;
-  }
+/* ---------- NOW ---------- */
+async function viewNow(st,poll){
+  const [pl,bg,hl]=await Promise.all([fetchJSON('/api/control/pipeline'),fetchJSON('/api/control/budget'),fetchJSON('/api/control/health')]);
+  const c=(pl.ok&&pl.current)||{}; const running=c.status==='RUNNING';
+  let h=`<div class="card hero"><div class="state"><span class="dot ${running?'on':'idle'}"></span>${running?'Producing now':'Idle'}</div>`;
+  if(pl.ok&&(pl.heartbeat||[]).length){ const last=pl.heartbeat[pl.heartbeat.length-1]; h+=`<div class="line" dir="auto">${esc(last.msg||'')}</div>`; }
+  h+=`<div class="meta"><b>${esc(c.client||'—')}</b> · ${esc(c.stage||'—')} · ${esc((c.agent||'').split(' ')[0]||'')}<br>
+    last activity ${c.last_activity?rel(c.last_activity)+' ago':'—'} · 🎯 ${esc(c.deadline||'')}</div></div>`;
+  h+=`<div class="strip">
+    <div class="stat"><div class="n ${hl.ok&&hl.status==='healthy'?'grn':''}">${hl.ok?(hl.status==='healthy'?'●':'▲'):'?'}</div><div class="l">system</div></div>
+    <div class="stat"><div class="n">${bg.ok?fmt$(bg.today_usd):'—'}</div><div class="l">today</div></div>
+    <div class="stat"><div class="n">${bg.ok?esc(bg.current_tier):'—'}</div><div class="l">tier</div></div></div>`;
+  if(pl.ok&&(pl.heartbeat||[]).length>1){ h+=`<div class="h1">Recent</div><div class="card">`;
+    for(const l of pl.heartbeat.slice(-6).reverse()) h+=`<div class="row"><span class="rtime grn mono">${esc(l.time||'')}</span><span class="rowb" dir="auto"><span class="rt2" style="margin:0">${esc(l.msg||'')}</span></span></div>`;
+    h+=`</div>`; }
   st.innerHTML=h;
-}
-function agentRow(a,isCore){
-  const stt=a.status||'idle';
-  const when=a.memory_mtime?rel(a.memory_mtime):'';
-  return `<div class="row" id="ag_${a.id}" ${!isCore?`onclick="toggleAgent('${a.id}')"`:''}>
-    <span class="dot ${stt}"></span>
-    <span class="rbody"><span class="rt1">${esc(a.name)}
-      <span class="badge model">${esc(a.model||'Claude')}</span>
-      <span class="badge ${stt==='working'?'on':(stt==='recent'?'warn':'')}">${stt}</span></span>
-      <span class="rt2">${esc(a.what||a.note||'')}${a.room?` · <b>${esc(a.room)}</b>`:''}${a.reports_to?` · ↳ ${esc(a.reports_to)}`:''}
-      ${a.last_entry?`<br><span style="color:var(--dim)">last: ${esc(a.last_entry)}${a.last_note?' — '+esc(a.last_note):''}</span>`:''}</span></span>
-    <span class="rtime">${when?when+' ago':''}</span>${!isCore?'<span class="chev">›</span>':''}</div>
-    ${!isCore?`<div class="drill" id="dr_${a.id}"></div>`:''}`;
-}
-async function toggleAgent(id){
-  const row=document.getElementById('ag_'+id), dr=document.getElementById('dr_'+id);
-  const opening=!row.classList.contains('open');
-  row.classList.toggle('open');
-  if(opening&&dr&&!dr.dataset.loaded){
-    dr.innerHTML='<pre>…</pre>';
-    const d=await fetchJSON('/api/control/agentdoc?id='+encodeURIComponent(id));
-    if(d.ok){ dr.innerHTML=`<div class="sec">Role &amp; method — AGENT.md</div><pre dir="auto">${esc(d.agent_md||'(none)')}</pre>
-      ${d.memory_tail?`<div class="sec">Recent memory</div><pre dir="auto">${esc(d.memory_tail)}</pre>`:''}`;
-      dr.dataset.loaded='1'; } else dr.innerHTML=errBox(d);
-  }
+  if(poll&&VIEW==='now'){ POLL=setInterval(()=>{if(VIEW==='now')viewNow(document.getElementById('stage'),false);},12000); }
 }
 
-/* ---------- LIVE PIPELINE ---------- */
-async function viewLive(st,poll){
-  const d=await fetchJSON('/api/control/pipeline');
-  if(!d.ok){st.innerHTML=errBox(d);return;}
-  const c=d.current||{};
-  let h=`<div class="sec">Producing now <span class="rt">${c.status==='RUNNING'?'<span class="pill run">● RUNNING</span>':esc(c.status||'')}</span></div><div class="card">
-    <div class="row"><span class="dot ${c.status==='RUNNING'?'working':'idle'}"></span><span class="rbody">
-      <span class="rt1">${esc(c.client||'—')} <span class="badge model">${esc(c.agent||'—')}</span></span>
-      <span class="rt2">job: <span class="mono">${esc(c.job_id||'—')}</span> · stage: <b>${esc(c.stage||'—')}</b><br>
-      started ${c.started_at?rel(c.started_at)+' ago':'—'} · last activity ${c.last_activity?rel(c.last_activity)+' ago':'—'}<br>
-      🎯 ${esc(c.deadline||'')}</span></span></div></div>`;
-  h+=`<div class="sec">Heartbeat</div><div class="card feed">`;
-  for(const l of (d.heartbeat||[])) h+=`<div class="hb"><span class="t">${esc(l.time||'')}</span><span class="m" dir="auto">${esc(l.msg||'')}</span></div>`;
-  if(!(d.heartbeat||[]).length) h+=`<div class="empty">لا يوجد heartbeat</div>`;
-  h+=`</div>`;
-  if((d.recent_calls||[]).length){
-    h+=`<div class="sec">Recent model calls</div><div class="card">`;
-    for(const r of d.recent_calls.slice(0,8)) h+=`<div class="hb"><span class="t">${esc((r.ts||'').slice(11,16))}</span>
-      <span class="m">${esc(r.event||'')} · <span class="badge model">${esc(r.model||'')}</span> · ${fmt$(r.usd)}</span></div>`;
-    h+=`</div>`;
-  }
-  if((d.files||[]).length){
-    h+=`<div class="sec">Job files <span class="rt">tap to open</span></div><div class="card"><div style="padding:12px 14px">`;
-    for(const f of d.files) h+=`<a class="filebtn" href="/api/control/jobfile?job=${encodeURIComponent(f.job)}&name=${encodeURIComponent(f.name)}&k=${encodeURIComponent(K)}" target="_blank" rel="noopener">📄 ${esc(f.name)} <span style="color:var(--dim)">${(f.size/1024).toFixed(0)}K</span></a>`;
-    h+=`</div></div>`;
-  }
-  st.innerHTML=h;
-  if(poll&&VIEW==='live'){ if(POLL)clearInterval(POLL); POLL=setInterval(()=>{ if(VIEW==='live') viewLive(document.getElementById('stage'),false); },12000); }
-}
-
-/* ---------- REVIEW ---------- */
-async function viewReview(st){
-  const d=await fetchJSON('/api/control/review');
-  if(!d.ok){st.innerHTML=errBox(d);return;}
-  let h=`<div class="tiles">
-    <div class="tile"><div class="big">${d.open}</div><div class="lbl">open cards</div></div>
-    <div class="tile"><div class="big">${d.proposals}</div><div class="lbl">proposals</div></div>
-    <div class="tile"><div class="big">${d.posts}</div><div class="lbl">posts</div></div></div>`;
-  h+=`<a class="big-btn" href="/dashboard?k=${encodeURIComponent(K)}">افتح لوحة المراجعة الكاملة →<br><span style="font-weight:600;font-size:12px;opacity:.8">full review dashboard · verdicts + taste + deck comments</span></a>`;
-  h+=`<div class="sec">Recent verdicts</div><div class="card">`;
-  for(const v of (d.verdicts||[])) h+=`<div class="row"><span class="dot ${v.answer==='approved'?'up':(v.answer==='rejected'?'down':'')}"></span>
-    <span class="rbody"><span class="rt1">${esc(v.answer||'—')} <span class="badge">${esc(v.judge||'')}</span>${v.rating?`<span class="badge on">★${v.rating}</span>`:''}${v.pins?`<span class="badge">${v.pins}📌</span>`:''}</span>
-    <span class="rt2 mono">${esc(v.item||'')}</span></span><span class="rtime">${v.ts?rel(v.ts)+' ago':''}</span></div>`;
-  if(!(d.verdicts||[]).length) h+=`<div class="empty">لا verdicts بعد</div>`;
+/* ---------- AGENTS (live workflows) ---------- */
+let AG=null; const OPEN=new Set();   // preserve expanded agents across the live poll
+async function viewAgents(st,poll){
+  const d=await fetchJSON('/api/control/agents'); if(!d.ok){st.innerHTML=errBox(d);return;} AG=d;
+  const total=d.counts.core+d.counts.minds;
+  let h=`<div class="note">🖥 All <b>${total} agents run locally</b> on the brain — reading the know-how base and writing learnings every cycle.</div>`;
+  if(d.phase&&d.active_roles.length) h+=`<div class="livebar"><span class="dot on"></span><span dir="auto">▶ live: ${esc(d.phase)}</span></div>`;
+  else h+=`<div class="note dim" style="margin-bottom:16px">Pipeline idle right now — agents show their last output.</div>`;
+  h+=`<div class="h1">Core agents</div><div class="card" style="padding:4px 20px">`;
+  d.core.forEach((a,i)=>h+=agentRow(a,'c'+i));
+  h+=`</div><div class="h1">Minds</div><div class="card" style="padding:4px 20px">`;
+  d.minds.forEach((a,i)=>h+=agentRow(a,'m'+i));
   h+=`</div>`;
   st.innerHTML=h;
+  if(poll&&VIEW==='agents'){ POLL=setInterval(()=>{if(VIEW==='agents')viewAgents(document.getElementById('stage'),false);},12000); }
 }
+function agentRow(a,id){
+  const working=a.status==='working';
+  const stepTxt=working?(a.current_step?`▶ step ${a.current_step}/${a.n_steps}`:'▶ working'):(a.status==='recent'?'idle':'idle');
+  let sub='';
+  if(working&&a.doing_now) sub=esc(a.doing_now);
+  else if(a.last_output) sub='last: '+esc(a.last_output);
+  else if(a.active_child) sub='via '+esc(a.active_child);
+  const k=a.knowledge_today?` <span class="k">+${a.knowledge_today} learned today</span>`:'';
+  return `<div class="agent ${OPEN.has(id)?'open':''}" id="ag_${id}" onclick="tgl('${id}')">
+    <div class="arow"><span class="dot ${working?'on':(a.status==='recent'?'recent':'idle')}"></span>
+      <span class="aname">${esc(a.name)}</span>
+      <span class="astep ${working?'':'idle'}">${stepTxt}</span><span class="chev">›</span></div>
+    <div class="asub" dir="auto">${sub}${k}</div>
+    <div class="wf" id="wf_${id}">${wfSteps(a)}</div></div>`;
+}
+function wfSteps(a){
+  if(!a.workflow||!a.workflow.length) return '<div class="dim" style="font-size:13px">workflow not documented yet</div>';
+  const cur=a.current_step; const working=a.status==='working';
+  return a.workflow.map((s,i)=>{ const n=i+1; let cls='';
+    if(working&&cur){ cls=n<cur?'done':(n===cur?'cur':''); }
+    return `<div class="step ${cls}"><span class="num">${n===cur&&working?'●':n}</span><span dir="auto">${esc(s)}</span></div>`;
+  }).join('');
+}
+function tgl(id){ if(OPEN.has(id))OPEN.delete(id); else OPEN.add(id); document.getElementById('ag_'+id).classList.toggle('open'); }
 
-/* ---------- KNOW-HOW ---------- */
-async function viewKnowhow(st){
-  if(!KHDATA){ const d=await fetchJSON('/api/control/knowhow'); if(!d.ok){st.innerHTML=errBox(d);return;} KHDATA=d; }
-  const d=KHDATA, cal=d.calibration||{};
-  let h=`<div class="filters">
-    <button class="fchip ${KHWHO==='mohamed'?'on':''}" onclick="KHWHO='mohamed';viewKnowhow(document.getElementById('stage'))">Mohamed · ${d.total}</button>
-    <button class="fchip ${KHWHO==='alhareth'?'on':''}" onclick="KHWHO='alhareth';viewKnowhow(document.getElementById('stage'))">Alhareth · ${d.alhareth_total}</button></div>`;
-  h+=`<div class="card"><div class="row"><span class="rbody">
-    <span class="rt1">Taste calibration <span class="badge ${cal.hard_stopped?'bad':(cal.grader_verdict&&/NOT/.test(cal.grader_verdict)?'warn':'on')}">epoch ${cal.epoch??'?'}</span></span>
-    <span class="rt2">grader: ${esc(cal.grader_model||'—')} · ${esc(cal.grader_verdict||'')}<br>
-    last score: ${cal.last_mohamed_score??'—'} · seeded from ${cal.seeded_samples??'—'} answers · last intake ${cal.last_intake?rel(cal.last_intake)+' ago':'—'}</span></span></div></div>`;
-  const list=KHWHO==='alhareth'?(d.alhareth_aspects||[]):(d.aspects||[]);
-  h+=`<div class="sec">${KHWHO==='alhareth'?'Alhareth · engineering':'Mohamed · working know-how'} — tap an aspect</div><div class="card">`;
-  for(const a of list){
-    const cnt=a.findings??a.atoms??0;
-    h+=`<div class="row" onclick="showAspect('${esc(a.name)}')"><span class="rbody"><span class="rt1">${esc(a.name)} <span class="badge">${cnt}</span></span></span><span class="chev">›</span></div>
-      <div class="drill" id="asp_${esc(a.name)}"></div>`;
-  }
-  h+=`</div>`;
-  st.innerHTML=h;
-}
-async function showAspect(name){
-  const dr=document.getElementById('asp_'+name); if(!dr) return;
-  const open=dr.style.display!=='block';
-  document.querySelectorAll('.drill').forEach(x=>{if(x!==dr)x.style.display='none'});
-  if(!open){dr.style.display='none';return;}
-  dr.style.display='block'; dr.innerHTML='<pre>…</pre>';
-  const d=await fetchJSON('/api/control/knowhow?aspect='+encodeURIComponent(name)+'&who='+encodeURIComponent(KHWHO));
-  if(d.ok){ dr.innerHTML=(d.atoms||[]).slice(0,25).map(a=>`<pre dir="auto">${esc(a)}</pre>`).join('')||'<div class="empty">لا atoms</div>'; }
-  else dr.innerHTML=errBox(d);
-}
-
-/* ---------- BUDGET ---------- */
-async function viewBudget(st){
-  const d=await fetchJSON('/api/control/budget');
-  if(!d.ok){st.innerHTML=errBox(d);return;}
-  const caps=d.caps||{};
-  const propUsd=(d.state&&d.state.proposal_month_usd)||0;   // proposal runs on its OWN $15/mo meter (park-never-downgrade), separate from the daily LLM cap
-  const dayPct=caps.usd_per_day?Math.min(100,d.today_usd/caps.usd_per_day*100):0;
-  const moPct=caps.usd_per_month?Math.min(100,d.month_usd/caps.usd_per_month*100):0;
-  const propPct=caps.proposal_monthly_usd?Math.min(100,propUsd/caps.proposal_monthly_usd*100):0;
-  const cls=p=>p>90?'bad':(p>66?'warn':'');
-  let h=`<div class="sec">Spend <span class="rt">tier now: <b style="color:var(--pin)">${esc(d.current_tier)}</b> <button class="refresh" onclick="viewBudget(document.getElementById('stage'))">↻</button></span></div>
-  <div class="tiles">
-    <div class="tile"><div class="big">${fmt$(d.today_usd)}</div><div class="lbl">today · all LLM / ${fmt$(caps.usd_per_day)} cap</div><div class="bar"><i class="${cls(dayPct)}" style="width:${dayPct}%"></i></div></div>
-    <div class="tile"><div class="big">${fmt$(d.month_usd)}</div><div class="lbl">month / ${fmt$(caps.usd_per_month)} cap</div><div class="bar"><i class="${cls(moPct)}" style="width:${moPct}%"></i></div></div>
-    <div class="tile"><div class="big">${fmt$(propUsd)}</div><div class="lbl">proposal · own meter / ${fmt$(caps.proposal_monthly_usd)} mo</div><div class="bar"><i class="${cls(propPct)}" style="width:${propPct}%"></i></div></div></div>
-    <div style="color:var(--dim);font-size:12px;margin:-2px 2px 6px">Jadarat proposal spends on the separate proposal meter — it isn't capped by the daily LLM budget.</div>`;
-  h+=`<div class="sec">By model</div><div class="card">`;
-  for(const m of (d.by_model||[])) h+=`<div class="row"><span class="rbody"><span class="rt1">${esc(m.model)} <span class="badge">${m.calls} calls</span></span></span><span class="rtime">${fmt$(m.usd)}</span></div>`;
-  h+=`</div><div class="sec">By provider</div><div class="card">`;
-  for(const p of (d.by_provider||[])) h+=`<div class="row"><span class="rbody"><span class="rt1">${esc(p.provider)} <span class="badge">${p.calls}</span></span></span><span class="rtime">${fmt$(p.usd)}</span></div>`;
-  h+=`</div><div class="sec">Caps (model_router.json)</div><div class="card"><div style="padding:12px 14px;color:var(--mut);font-size:13px;line-height:1.9">
-    daily $${caps.usd_per_day} · monthly $${caps.usd_per_month} · OpenAI/day $${caps.openai_usd_per_day} · Fable ${caps.fable_per_day}/day · Apify $${caps.apify_usd_per_day}/day · proposal/month $${caps.proposal_monthly_usd}</div></div>`;
-  st.innerHTML=h;
-}
-
-/* ---------- HEALTH ---------- */
-async function viewHealth(st){
-  const d=await fetchJSON('/api/control/health');
-  if(!d.ok){st.innerHTML=errBox(d);return;}
-  let h=`<div class="sec">Services <span class="rt"><button class="refresh" onclick="viewHealth(document.getElementById('stage'))">↻ re-check</button></span></div><div class="card">`;
-  for(const s of (d.services||[])) h+=`<div class="row"><span class="dot ${s.up?'up':'down'}"></span><span class="rbody"><span class="rt1">${esc(s.name)} <span class="badge">:${s.port}</span></span><span class="rt2">${esc(s.detail)} · HTTP ${esc(String(s.http_code))}</span></span></div>`;
-  h+=`</div><div class="sec">Tunnels</div><div class="card">`;
-  for(const t of (d.tunnels||[])) h+=`<div class="row"><span class="dot ${t.up?'up':'down'}"></span><span class="rbody"><span class="rt1">${esc(t.name)}</span><span class="rt2 mono">${esc(t.detail)}</span></span></div>`;
-  h+=`</div><div class="sec">LaunchAgents · ${(d.launchagents||[]).length}</div><div class="card">`;
-  for(const l of (d.launchagents||[])) h+=`<div class="row"><span class="dot ${l.loaded?'up':'idle'}"></span><span class="rbody"><span class="rt1 mono">${esc(l.label)}</span><span class="rt2">pid ${esc(l.pid)} · exit ${esc(l.exit)}</span></span></div>`;
-  h+=`</div><div class="sec">Last commits</div><div class="card">`;
-  for(const c of (d.commits||[])) h+=`<div class="row"><span class="rbody"><span class="rt1">${esc(c.repo)} <span class="badge mono">${esc(c.hash)}</span></span><span class="rt2">${esc(c.msg)}</span></span><span class="rtime">${c.age_hours}h</span></div>`;
-  h+=`</div><div class="sec">Scan &amp; heartbeat</div><div class="card"><div class="row"><span class="dot ${(d.last_scan&&d.last_scan.age_hours<36)?'up':'recent'}"></span><span class="rbody"><span class="rt1">daily scan</span><span class="rt2">${d.last_scan&&d.last_scan.age_hours!=null?d.last_scan.age_hours+'h ago · '+((d.last_scan.steps||[]).join(', ')):'no record'}</span></span></div>
-    <div class="row"><span class="dot ${(d.heartbeat&&d.heartbeat.fresh_secs<3600)?'working':'idle'}"></span><span class="rbody"><span class="rt1">heartbeat</span><span class="rt2" dir="auto">${d.heartbeat?esc(d.heartbeat.last_line):'—'}</span></span><span class="rtime">${d.heartbeat?rel(d.heartbeat.mtime):''}</span></div></div>`;
-  st.innerHTML=h;
-  document.getElementById('sys').textContent=({healthy:'● system healthy',degraded:'▲ degraded',critical:'✕ critical'}[d.status]||d.status);
-  document.getElementById('sys').className=d.status;
-}
-
-/* ---------- ACTIVITY (reuses existing /api/dashboard/activity) ---------- */
-async function viewActivity(st,poll){
-  const d=await fetchJSON('/api/dashboard/activity');
-  const rows=(d&&d.rows)||[];
-  if(!rows.length){ st.innerHTML='<div class="empty"><div class="big">🌙</div>لا نشاط</div>'; return; }
-  const AICO={'files-added':'➕','files-modified':'✏️','files-vanished':'⚠️','files-moved':'📁','session':'📦','learning-learned':'🧠','learning-correction':'🛠️','learning-verdict':'⚖️','verdict':'✅'};
-  const days={};
-  for(const r of rows){ const dk=new Date(r.ts*1000).toLocaleDateString('en-CA'); (days[dk]=days[dk]||[]).push(r); }
-  const today=new Date().toLocaleDateString('en-CA'), yest=new Date(Date.now()-864e5).toLocaleDateString('en-CA');
-  let h='';
-  for(const dk of Object.keys(days)){
-    h+=`<div class="dayhdr">${dk===today?'اليوم · TODAY':(dk===yest?'أمس':dk)}</div><div class="card">`;
-    for(const r of days[dk]){ const t=new Date(r.ts*1000); const hh=String(t.getHours()).padStart(2,'0')+':'+String(t.getMinutes()).padStart(2,'0');
-      h+=`<div class="row"><span class="aico">${AICO[r.kind]||'·'}</span><span class="rbody"><span class="rt1" style="font-weight:600;font-size:13.5px"><span class="badge ${r.kind==='verdict'?'on':'model'}">${esc(r.who)}</span> ${esc(r.text)}</span>${r.detail?`<span class="rt2" dir="auto">${esc(r.detail)}</span>`:''}</span><span class="rtime">${hh}</span></div>`; }
-    h+=`</div>`;
-  }
-  st.innerHTML=h;
-  if(poll&&VIEW==='activity'){ if(POLL)clearInterval(POLL); POLL=setInterval(()=>{ if(VIEW==='activity') viewActivity(document.getElementById('stage'),false); },12000); }
-}
-
-/* ---------- CHAT — the system assistant (gpt-4o, grounded in the brain) ---------- */
+/* ---------- ASK (chat) ---------- */
 function chatSession(){ return WHO||'mohamed'; }
 function viewChat(st){
   st.innerHTML=`<div id="chatwrap">
-    <div class="chatnote">💬 <b>System assistant</b> — I speak from inside the OGZ brain (know-how, agents, live pipeline, budget, health, review), wired to <b>gpt-4o</b>. I answer what's happening and note simple requests; I <b>don't change the system myself</b> — that's your Dispatch chat with Claude Code.</div>
+    <div class="chatnote">💬 <b>System assistant</b> — I speak from inside the OGZ brain (know-how, agents, pipeline, budget, health), wired to <b>gpt-4o</b>. I answer what's happening and note requests; I <b>don't change the system myself</b> — that's your Dispatch chat with Claude Code.</div>
     <div id="msgs"></div>
     <div id="chatbar">
-      <textarea id="chatin" placeholder="اسأل عن أي شيء في النظام…  ask the system anything" rows="1"
+      <textarea id="chatin" rows="1" placeholder="اسأل عن أي شيء في النظام… ask the system anything"
         onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}"></textarea>
-      <button id="chatsend" onclick="sendChat()">➤</button>
-    </div></div>`;
+      <button id="chatsend" onclick="sendChat()">➤</button></div></div>`;
   loadChat();
 }
-async function loadChat(){
-  const d=await fetchJSON('/api/control/chat/history?session='+encodeURIComponent(chatSession()));
-  renderMsgs((d&&d.turns)||[]);
-}
-function renderMsgs(turns,extra){
-  const m=document.getElementById('msgs'); if(!m) return;
-  let h='';
-  if(!turns.length&&!extra) h=`<div class="empty" style="padding:24px 10px">اسألني عن حالة النظام، التكلفة، الوكلاء، أو الـ pipeline.<br><span style="font-size:12px">Try: "what's the pipeline doing?" · "كم صرفنا اليوم؟"</span></div>`;
-  for(const t of turns){
-    const u=t.role==='user';
-    h+=`<div class="msg ${u?'user':'bot'}"><span class="role">${u?(t.by||'you'):'system'}</span><span dir="auto">${esc(t.text)}</span></div>`;
-  }
-  if(extra) h+=extra;
-  m.innerHTML=h;
-  m.scrollTop=m.scrollHeight;
-  const w=document.getElementById('stage'); if(w) w.scrollTop=w.scrollHeight;
-}
-async function sendChat(){
-  if(CHATBUSY) return;
-  const inp=document.getElementById('chatin'); if(!inp) return;
-  const msg=inp.value.trim(); if(!msg) return;
-  CHATBUSY=true; const btn=document.getElementById('chatsend'); if(btn) btn.disabled=true;
-  inp.value=''; inp.style.height='auto';
-  const hist=(await fetchJSON('/api/control/chat/history?session='+encodeURIComponent(chatSession()))).turns||[];
-  hist.push({role:'user',text:msg,by:'you'});
+async function loadChat(){ const d=await fetchJSON('/api/control/chat/history?session='+encodeURIComponent(chatSession())); renderMsgs((d&&d.turns)||[]); }
+function renderMsgs(turns,extra){ const m=document.getElementById('msgs'); if(!m)return; let h='';
+  if(!turns.length&&!extra) h=`<div class="empty">اسألني عن حالة النظام، التكلفة، الوكلاء، أو الـ pipeline.<br><span class="dim" style="font-size:12px">"what's the pipeline doing?" · "كم صرفنا اليوم؟"</span></div>`;
+  for(const t of turns){ const u=t.role==='user'; h+=`<div class="msg ${u?'user':'bot'}"><span class="role">${u?(t.by||'you'):'system'}</span><span dir="auto">${esc(t.text)}</span></div>`; }
+  if(extra)h+=extra; m.innerHTML=h; m.scrollTop=m.scrollHeight; const w=document.getElementById('stage'); if(w)w.scrollTop=w.scrollHeight; }
+async function sendChat(){ if(CHATBUSY)return; const inp=document.getElementById('chatin'); if(!inp)return; const msg=inp.value.trim(); if(!msg)return;
+  CHATBUSY=true; const b=document.getElementById('chatsend'); if(b)b.disabled=true; inp.value=''; inp.style.height='auto';
+  const hist=((await fetchJSON('/api/control/chat/history?session='+encodeURIComponent(chatSession()))).turns)||[]; hist.push({role:'user',text:msg,by:'you'});
   renderMsgs(hist,`<div class="msg bot think" id="thinking"><span class="role">system</span>…يفكّر</div>`);
-  let res;
-  try{
-    const r=await fetch('/api/control/chat?k='+encodeURIComponent(K),{method:'POST',
-      headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg,session:chatSession()})});
-    res=await r.json();
-  }catch(e){ res={ok:false,error:String(e)}; }
-  CHATBUSY=false; if(btn) btn.disabled=false;
+  let res; try{ const r=await fetch('/api/control/chat?k='+encodeURIComponent(K),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg,session:chatSession()})}); res=await r.json(); }catch(e){ res={ok:false,error:String(e)}; }
+  CHATBUSY=false; if(b)b.disabled=false;
   if(res&&res.ok){ hist.push({role:'assistant',text:res.answer}); renderMsgs(hist); }
-  else { renderMsgs(hist,`<div class="msg bot" style="border-color:var(--kill);color:var(--kill)"><span class="role">error</span>${esc((res&&res.error)||'failed')}</div>`); }
+  else renderMsgs(hist,`<div class="msg bot" style="border-color:var(--epink);color:var(--epink)"><span class="role">error</span>${esc((res&&res.error)||'failed')}</div>`); }
+
+/* ---------- MORE (menu → sub-views, reusing existing endpoints) ---------- */
+function viewMore(st){
+  st.innerHTML=`<div class="h1">Everything else</div><div class="card menu">
+    <div class="row" onclick="openSub('review')"><span class="rowb"><span class="rt1">✅ Review & feedback</span><span class="rt2">judge cards, verdicts, taste</span></span><span class="chev">›</span></div>
+    <div class="row" onclick="openSub('knowhow')"><span class="rowb"><span class="rt1">📚 Know-how</span><span class="rt2">Mohamed 576 · Alhareth 73</span></span><span class="chev">›</span></div>
+    <div class="row" onclick="openSub('budget')"><span class="rowb"><span class="rt1">💰 Budget & models</span><span class="rt2">spend, caps, tier</span></span><span class="chev">›</span></div>
+    <div class="row" onclick="openSub('health')"><span class="rowb"><span class="rt1">🩺 System health</span><span class="rt2">services, tunnels, commits</span></span><span class="chev">›</span></div>
+    <div class="row" onclick="openSub('activity')"><span class="rowb"><span class="rt1">📜 Activity feed</span><span class="rt2">everything, live</span></span><span class="chev">›</span></div>
+  </div>`;
 }
+function openSub(s){ SUB=s; const st=document.getElementById('stage'); st.innerHTML='<div class="empty">…</div>';
+  const back='<a class="back" onclick="go(\'more\')">‹ back</a>';
+  if(s==='review')return subReview(st,back);
+  if(s==='knowhow')return subKnowhow(st,back);
+  if(s==='budget')return subBudget(st,back);
+  if(s==='health')return subHealth(st,back);
+  if(s==='activity')return subActivity(st,back); }
 
-function errBox(d){ return `<div class="empty"><div class="big">⚠️</div>تعذّر التحميل<br><span class="mono" style="font-size:11px">${esc((d&&d.error)||'error')}</span><br><button class="refresh" style="margin-top:10px" onclick="render()">↻ retry</button></div>`; }
+async function subReview(st,back){ const d=await fetchJSON('/api/control/review'); if(!d.ok){st.innerHTML=back+errBox(d);return;}
+  let h=back+`<div class="strip">
+    <div class="stat"><div class="n">${d.open}</div><div class="l">open</div></div>
+    <div class="stat"><div class="n">${d.proposals}</div><div class="l">proposals</div></div>
+    <div class="stat"><div class="n">${d.posts}</div><div class="l">posts</div></div></div>
+    <a class="big-btn" href="/dashboard?k=${encodeURIComponent(K)}">افتح لوحة المراجعة الكاملة →</a>
+    <div class="h1">Recent verdicts</div><div class="card" style="padding:4px 20px">`;
+  for(const v of (d.verdicts||[])) h+=`<div class="row"><span class="dot ${v.answer==='approved'?'on':(v.answer==='rejected'?'bad':'idle')}"></span><span class="rowb"><span class="rt1">${esc(v.answer||'—')} <span class="chip">${esc(v.judge||'')}</span>${v.rating?' ★'+v.rating:''}</span><span class="rt2 mono">${esc(v.item||'')}</span></span><span class="rtime">${v.ts?rel(v.ts):''}</span></div>`;
+  st.innerHTML=h+`</div>`; }
 
-/* ---------- go ---------- */
+let KH=null,KHWHO='mohamed';
+async function subKnowhow(st,back){ if(!KH){const d=await fetchJSON('/api/control/knowhow');if(!d.ok){st.innerHTML=back+errBox(d);return;}KH=d;}
+  const d=KH,cal=d.calibration||{};
+  let h=back+`<div style="display:flex;gap:8px;margin-bottom:8px">
+    <button class="chip" style="${KHWHO==='mohamed'?'color:var(--green);border-color:var(--green)':''}" onclick="KHWHO='mohamed';openSub('knowhow')">Mohamed · ${d.total}</button>
+    <button class="chip" style="${KHWHO==='alhareth'?'color:var(--green);border-color:var(--green)':''}" onclick="KHWHO='alhareth';openSub('knowhow')">Alhareth · ${d.alhareth_total}</button></div>
+    <div class="card"><div class="rt1">Taste calibration</div><div class="rt2">epoch ${cal.epoch??'?'} · grader ${esc(cal.grader_model||'—')} · ${esc(cal.grader_verdict||'')}<br>last score ${cal.last_mohamed_score??'—'} · seeded from ${cal.seeded_samples??'—'} answers</div></div>
+    <div class="h1">${KHWHO==='alhareth'?'Alhareth · engineering':'Mohamed · working know-how'}</div><div class="card" style="padding:4px 20px">`;
+  const list=KHWHO==='alhareth'?(d.alhareth_aspects||[]):(d.aspects||[]);
+  for(const a of list) h+=`<div class="row" onclick="showAspect('${esc(a.name)}')"><span class="rowb"><span class="rt1">${esc(a.name)} <span class="chip">${a.findings??a.atoms??0}</span></span></span><span class="chev">›</span></div><div class="wf" id="asp_${esc(a.name)}" style="padding:0"></div>`;
+  st.innerHTML=h+`</div>`; }
+async function showAspect(name){ const dr=document.getElementById('asp_'+name); if(!dr)return;
+  const open=dr.style.display==='block'; document.querySelectorAll('[id^="asp_"]').forEach(x=>x.style.display='none');
+  if(open){dr.style.display='none';return;} dr.style.display='block'; dr.innerHTML='<div class="rt2" style="padding:8px 0">…</div>';
+  const d=await fetchJSON('/api/control/knowhow?aspect='+encodeURIComponent(name)+'&who='+encodeURIComponent(KHWHO));
+  dr.innerHTML=d.ok?((d.atoms||[]).slice(0,20).map(a=>`<div class="rt2" dir="auto" style="padding:8px 0;border-top:1px solid var(--line)">${esc(a)}</div>`).join('')||'<div class="rt2 dim">لا atoms</div>'):errBox(d); }
+
+async function subBudget(st,back){ const d=await fetchJSON('/api/control/budget'); if(!d.ok){st.innerHTML=back+errBox(d);return;}
+  const caps=d.caps||{}; const prop=(d.state&&d.state.proposal_month_usd)||0;
+  const pct=(a,b)=>b?Math.min(100,a/b*100):0; const cls=p=>p>90?'bad':(p>66?'warn':'');
+  const dp=pct(d.today_usd,caps.usd_per_day),mp=pct(d.month_usd,caps.usd_per_month),pp=pct(prop,caps.proposal_monthly_usd);
+  let h=back+`<div class="dim" style="font-size:12.5px;margin-bottom:12px">tier now: <b class="grn">${esc(d.current_tier)}</b></div>
+    <div class="strip"><div class="stat"><div class="n">${fmt$(d.today_usd)}</div><div class="l">today / ${fmt$(caps.usd_per_day)}</div><div class="bar"><i class="${cls(dp)}" style="width:${dp}%"></i></div></div>
+    <div class="stat"><div class="n">${fmt$(d.month_usd)}</div><div class="l">month / ${fmt$(caps.usd_per_month)}</div><div class="bar"><i class="${cls(mp)}" style="width:${mp}%"></i></div></div>
+    <div class="stat"><div class="n">${fmt$(prop)}</div><div class="l">proposal / ${fmt$(caps.proposal_monthly_usd)}</div><div class="bar"><i class="${cls(pp)}" style="width:${pp}%"></i></div></div></div>
+    <div class="dim" style="font-size:12px;margin:8px 2px">Jadarat proposal is on its own meter — not capped by the daily budget.</div>
+    <div class="h1">By model</div><div class="card" style="padding:4px 20px">`;
+  for(const m of (d.by_model||[])) h+=`<div class="row"><span class="rowb"><span class="rt1">${esc(m.model)} <span class="chip">${m.calls}</span></span></span><span class="rtime">${fmt$(m.usd)}</span></div>`;
+  st.innerHTML=h+`</div>`; }
+
+async function subHealth(st,back){ const d=await fetchJSON('/api/control/health'); if(!d.ok){st.innerHTML=back+errBox(d);return;}
+  let h=back+`<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span class="dot ${d.status==='healthy'?'on':(d.status==='critical'?'bad':'recent')}"></span><b>${esc(d.status)}</b> <button class="refresh" style="margin-inline-start:auto" onclick="openSub('health')">↻ re-check</button></div>
+    <div class="h1">Services</div><div class="card" style="padding:4px 20px">`;
+  for(const s of (d.services||[])) h+=`<div class="row"><span class="dot ${s.up?'on':'bad'}"></span><span class="rowb"><span class="rt1">${esc(s.name)} <span class="chip">:${s.port}</span></span><span class="rt2">${esc(s.detail)} · ${esc(String(s.http_code))}</span></span></div>`;
+  h+=`</div><div class="h1">Tunnels</div><div class="card" style="padding:4px 20px">`;
+  for(const t of (d.tunnels||[])) h+=`<div class="row"><span class="dot ${t.up?'on':'bad'}"></span><span class="rowb"><span class="rt1">${esc(t.name)}</span><span class="rt2 mono">${esc(t.detail)}</span></span></div>`;
+  h+=`</div><div class="h1">Last commits</div><div class="card" style="padding:4px 20px">`;
+  for(const c of (d.commits||[])) h+=`<div class="row"><span class="rowb"><span class="rt1">${esc(c.repo)} <span class="chip mono">${esc(c.hash)}</span></span><span class="rt2">${esc(c.msg)}</span></span><span class="rtime">${c.age_hours}h</span></div>`;
+  st.innerHTML=h+`</div>`; }
+
+async function subActivity(st,back){ const d=await fetchJSON('/api/dashboard/activity'); const rows=(d&&d.rows)||[];
+  if(!rows.length){st.innerHTML=back+'<div class="empty"><div class="e">🌙</div>لا نشاط</div>';return;}
+  const AICO={'files-added':'➕','files-modified':'✏️','files-vanished':'⚠️','files-moved':'📁','session':'📦','learning-learned':'🧠','learning-correction':'🛠️','learning-verdict':'⚖️','verdict':'✅'};
+  const today=new Date().toLocaleDateString('en-CA');
+  let h=back,day=null;
+  for(const r of rows){ const dk=new Date(r.ts*1000).toLocaleDateString('en-CA');
+    if(dk!==day){day=dk; h+=`<div class="dayhdr">${dk===today?'today':dk}</div>`;}
+    const t=new Date(r.ts*1000),hh=String(t.getHours()).padStart(2,'0')+':'+String(t.getMinutes()).padStart(2,'0');
+    h+=`<div class="row"><span style="font-size:16px">${AICO[r.kind]||'·'}</span><span class="rowb"><span class="rt1" style="font-weight:500;font-size:13.5px"><span class="chip">${esc(r.who)}</span> ${esc(r.text)}</span></span><span class="rtime">${hh}</span></div>`; }
+  st.innerHTML=h; }
+
+/* boot */
 (async()=>{ if(await whoami()){ renderTabs(); refreshSys(); render(); setInterval(refreshSys,60000); } })();
 </script>
 </body>

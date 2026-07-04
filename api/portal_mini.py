@@ -425,29 +425,126 @@ _CORE = [
 ]
 
 
+def _method_steps(txt: str):
+    """Parse a `## Method` section (inline or multiline `N. `) into a list of step strings."""
+    import re as _re
+    m = _re.search(r"^##+\s*Method.*?$(.*?)(?=^##\s|\Z)", txt, _re.S | _re.M)
+    if not m:
+        return []
+    body = _re.sub(r"\s+", " ", m.group(1)).strip()
+    parts = _re.split(r"(?:^|\s)(\d+)\.\s+", body)
+    out = []
+    for i in range(1, len(parts) - 1, 2):
+        s = parts[i + 1].strip().rstrip(".")
+        if s:
+            out.append(s)
+    return out
+
+
+def _workflow_steps(rel: str):
+    """The agent's numbered workflow — from WORKFLOW.md if present (canonical), else parsed
+    live from AGENT.md `## Method` (so cross-umbrella minds still show their real workflow)."""
+    import re as _re
+    wf = OGZ_ROOT / rel / "WORKFLOW.md"
+    if wf.exists():
+        txt = _safe_read(wf)
+        m = _re.search(r"^##+\s*Steps.*?$(.*?)(?=^##\s|\Z)", txt, _re.S | _re.M)
+        if m:
+            steps = [_re.sub(r"^\s*\d+\.\s*", "", ln).strip()
+                     for ln in m.group(1).splitlines() if _re.match(r"^\s*\d+\.", ln)]
+            if steps:
+                return steps
+    return _method_steps(_safe_read(OGZ_ROOT / rel / "AGENT.md"))
+
+
+def _memory_last_today(rel: str):
+    """(newest dated '## ...' header, count of TODAY-dated entries) from a mind's memory.md."""
+    import re as _re
+    txt = _safe_read(OGZ_ROOT / rel / "memory.md")
+    heads = _re.findall(r"^##\s+(.+)$", txt, _re.M)
+    tdy = today_str()
+    today_n = sum(1 for h in heads if tdy in h)
+    return (heads[-1].strip() if heads else None), today_n
+
+
+def _active_phase():
+    """What the live pipeline is doing NOW + which agent roles it implicates — from the newest
+    heartbeat line + recent model_usage capabilities. Evidence-based; no fabrication."""
+    hb = _hb_lines(1)
+    phase_txt = (hb[-1]["msg"] if hb else "")
+    caps = []
+    for ln in _safe_read(OGZ_ROOT / "journal/model_usage.jsonl").splitlines()[-12:]:
+        try:
+            r = json.loads(ln)
+        except Exception:
+            continue
+        ts = _epoch(r.get("ts", ""))
+        if ts and (datetime.now().timestamp() - ts) < 1800 and r.get("capability"):
+            caps.append(str(r["capability"]))
+    low = (phase_txt + " " + " ".join(caps)).lower()
+    roles = set()
+    if any(w in low for w in ("proposal", "compose", "draft", "amira", "voice", "template")):
+        roles |= {"copywriter", "creative-director"}
+    if any(w in low for w in ("gate", "review", "regression", "cco", "critique", "8.5", "panel")):
+        roles |= {"cco", "data-analyst"}
+    if any(w in low for w in ("render", "deck", "deck_studio", "font", "design")):
+        roles |= {"designer"}
+    return phase_txt, roles, caps
+
+
+def _current_step(steps, phase_txt, role=None):
+    """The step the live pipeline signal points to (inferred from the heartbeat/capabilities —
+    labelled 'live' in the UI, never presented as a literal step-emitter). Stem/substring overlap
+    so 'rendered'↔'render', 'gated'↔'gate' match; a role→keyword fallback keeps a working agent on
+    a sensible step instead of showing nothing."""
+    import re as _re
+    if not steps or not phase_txt:
+        return None
+    pt = [w for w in _re.findall(r"[a-zء-ي]+", phase_txt.lower()) if len(w) > 3]
+    best, bi = 0, None
+    for i, s in enumerate(steps):
+        st = [w for w in _re.findall(r"[a-zء-ي]+", s.lower()) if len(w) > 3]
+        ov = sum(1 for a in pt for b in st if a == b or (len(a) >= 4 and len(b) >= 4 and (a[:4] == b[:4])))
+        if ov > best:
+            best, bi = ov, i + 1
+    if bi:
+        return bi
+    # role fallback: land on the step matching the role's live verb
+    FB = {"designer": ("render", "lay out", "deck"), "cco": ("gate", "score", "review"),
+          "data-analyst": ("verif", "eyeball", "score", "read"),
+          "copywriter": ("author", "draft", "idea"), "creative-director": ("route", "brief", "brain")}
+    for verb in FB.get(role or "", ()):
+        for i, s in enumerate(steps):
+            if verb in s.lower():
+                return i + 1
+    return None
+
+
 @app.get("/api/control/agents")
 def control_agents(k: str = ""):
     if not _ok(k):
         return JSONResponse({"ok": False}, status_code=403)
+    phase_txt, active_roles, caps = _active_phase()
     minds = {}
     for mid, name, room, rel, reports, what in _MINDS:
-        home = OGZ_ROOT / rel
-        mem = home / "memory.md"
-        agent_md = home / "AGENT.md"
+        mem = OGZ_ROOT / rel / "memory.md"
         mt = mem.stat().st_mtime if mem.exists() else 0
-        # a newer learnings-ledger entry overrides the memory mtime (true last activity)
-        header, body = _last_entry(mem)
+        _hdr, ktoday = _memory_last_today(rel)
+        _h2, last_body = _last_entry(mem)          # the actual learning text, not the date header
+        last_out = (last_body or _hdr or "")[:160] or None
+        steps = _workflow_steps(rel)
+        working = mid in active_roles
+        status = "working" if working else _age_status(mt)
+        cur = _current_step(steps, phase_txt, mid) if working else None
         minds[mid] = {
             "id": mid, "name": name, "room": room, "reports_to": reports, "what": what,
-            "model": "Claude (scoped agent)",
-            "home": rel,
-            "has_agent_md": agent_md.exists(), "has_memory": mem.exists(),
-            "has_field": (home / "field").exists(),
-            "memory_mtime": int(mt),
-            "last_entry": header, "last_note": (body or "")[:180],
-            "status": _age_status(mt),
+            "model": "Claude (scoped agent)", "home": rel, "local": True,
+            "workflow": steps, "n_steps": len(steps),
+            "current_step": cur, "status": status,
+            "doing_now": (phase_txt if working else None),
+            "last_output": last_out, "memory_mtime": int(mt),
+            "knowledge_today": ktoday or None,
         }
-    # CCO's live grader seat model, if the calibration state names one (truthful, not guessed)
     try:
         stt = json.loads(_safe_read(OGZ_ROOT / "studio/training/state.json") or "{}")
         gm = (stt.get("grader_seat") or {}).get("model")
@@ -455,15 +552,37 @@ def control_agents(k: str = ""):
             minds["cco"]["model"] = f"Claude (gate) · grader seat: {gm}"
     except Exception:
         pass
+    # core agents (umbrella owners): 4 short coordination steps; activity + live step roll up from children
+    CORE_WF = {
+        "proposal": ["Receive the RFP/brief + past learnings", "Council sets direction + price",
+                     "Writers' room drafts (copy/caption/script)", "CCO gate → review-queue → Mohamed"],
+        "client-intel": ["Watch inbox + client bibles", "Pull market intel on demand",
+                         "Draft BD outreach", "Hand the brief to the council"],
+        "knowledge": ["Index + embed the corpus", "Serve know-how to every mind",
+                      "Capture new learnings", "Keep the taste-moat current"],
+        "design": ["Read the CD route + tokens", "Lay out image-first slides/deck",
+                   "Self-audit vs the visual rules", "Render + hand off"],
+    }
     core = []
     for cid, name, rel, what, children in _CORE:
-        child_mt = [minds[c]["memory_mtime"] for c in children if c in minds]
-        mt = max(child_mt) if child_mt else 0
-        core.append({"id": cid, "name": name, "home": rel, "what": what,
+        cms = [minds[c] for c in children if c in minds]
+        working = any(c["status"] == "working" for c in cms)
+        mt = max([c["memory_mtime"] for c in cms] or [0])
+        steps = CORE_WF.get(cid, [])
+        cur = None
+        if working:
+            # current step of the core = the phase mapped onto its own 4 steps
+            cur = _current_step(steps, phase_txt)
+        kt = sum(c.get("knowledge_today") or 0 for c in cms)
+        core.append({"id": cid, "name": name, "home": rel, "what": what, "local": True,
                      "model": "Claude (scoped agent)", "children": children,
-                     "memory_mtime": mt, "status": _age_status(mt),
-                     "note": "activity rolls up from " + ", ".join(children)})
+                     "workflow": steps, "n_steps": len(steps), "current_step": cur,
+                     "status": "working" if working else _age_status(mt),
+                     "doing_now": (phase_txt if working else None),
+                     "active_child": next((c["name"] for c in cms if c["status"] == "working"), None),
+                     "knowledge_today": kt or None, "memory_mtime": mt})
     return JSONResponse({"ok": True, "core": core, "minds": list(minds.values()),
+                         "phase": phase_txt, "active_roles": sorted(active_roles),
                          "counts": {"core": len(core), "minds": len(minds)}})
 
 
@@ -1086,6 +1205,8 @@ def items(request: Request, k: str = ""):
     q = json.loads(QUEUE.read_text()) if QUEUE.exists() else {"items": []}
     out = []
     for it in q["items"]:
+        if it.get("status") == "superseded":
+            continue                                            # hidden: a newer version replaced it
         if it.get("status") == "answered":
             out.append({kk: it.get(kk) for kk in SLIM_KEYS})   # answered = slim (payload diet)
         else:
@@ -1241,6 +1362,16 @@ async def answer(request: Request, k: str = ""):
                     it["human_fix"] = entry["fix"][:200]
                 picked_card = it
         QUEUE.write_text(json.dumps(q, ensure_ascii=False, indent=1))
+    # REAL-TIME LEARNING LOOP (Mohamed, July 5): a studio_ proposal verdict feeds the agent's
+    # memory IMMEDIATELY (Rule #14 write-after made live, not session-start). Non-blocking Popen
+    # so the tap response is never delayed; proposal_memory --ingest is idempotent + append-only.
+    if str(entry["item_id"]).startswith("studio_"):
+        try:
+            import subprocess as _sp, sys as _s3
+            _sp.Popen([_s3.executable, str(OGZ_ROOT / "tools" / "proposal_memory.py"), "--ingest"],
+                      stdout=_sp.DEVNULL, stderr=_sp.DEVNULL)
+        except Exception:
+            pass   # the learning wire never fails the tap
     # the routing receipt — same classifier the router/end-screen use (no drift)
     import sys as _s2
     _s2.path.insert(0, str(REPO / "scripts"))

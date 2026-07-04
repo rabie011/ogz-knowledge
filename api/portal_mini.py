@@ -1109,6 +1109,7 @@ async def chat(request: Request, k: str = ""):
         f.write(json.dumps({"ts": datetime.now().isoformat(timespec="seconds"),
                             "role": "assistant", "text": answer, "session": session},
                            ensure_ascii=False) + "\n")
+    _touch_sync()
     return JSONResponse({"ok": True, "answer": answer})
 
 
@@ -1254,6 +1255,7 @@ async def agent_chat(request: Request, k: str = ""):
     with open(cf, "a", encoding="utf-8") as f:
         f.write(json.dumps({"ts": datetime.now().isoformat(timespec="seconds"), "role": "assistant",
                             "text": answer}, ensure_ascii=False) + "\n")
+    _touch_sync()   # Mohamed chatted with an agent → mirror it for the coordinator
     return JSONResponse({"ok": True, "agent": aid, "answer": answer})
 
 
@@ -1299,6 +1301,37 @@ def agent_wiring(k: str = ""):
                                      "connected": sum(1 for r in rows if r["connected"]),
                                      "with_memory": sum(1 for r in rows if r["own_memory"]),
                                      "with_workflow": sum(1 for r in rows if r["reads_workflow"])}})
+
+
+# ---- COORDINATOR SYNC LAYER (July 4 — Mohamed: the coordinator always mirrors agent state) ----
+import sys as _sys_sync
+_sys_sync.path.insert(0, str(OGZ_ROOT / "tools"))
+
+
+def _touch_sync():
+    """Refresh the coordinator mirror (journal/SYNC.md) — best-effort, never breaks the caller."""
+    try:
+        import sync_build
+        sync_build.write()
+    except Exception:
+        pass
+
+
+@app.get("/sync")
+def sync_view(k: str = ""):
+    """The coordinator's live state mirror — refreshed on read (always current), served as the
+    same SYNC.md the Dispatch coordinator reads on every Mohamed message. Same key gate."""
+    if not _ok(k):
+        return JSONResponse({"error": "key required"}, status_code=403)
+    md = ""
+    try:
+        import sync_build
+        md = sync_build.write()          # refresh-on-read → always current
+    except Exception:
+        md = _safe_read(OGZ_ROOT / "journal/SYNC.md")
+    return Response(content=md or "(sync unavailable)",
+                    media_type="text/markdown; charset=utf-8",
+                    headers={"Cache-Control": "no-store"})
 
 
 @app.get("/api/approvals/whoami")
@@ -1588,6 +1621,7 @@ async def answer(request: Request, k: str = ""):
                 resp["taste"] = _tj["last_pick_feedback"]
         except Exception:
             pass   # feedback is a nicety — never fail the tap on it
+    _touch_sync()   # a verdict landed → mirror it for the coordinator
     return resp
 
 

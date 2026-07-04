@@ -300,6 +300,7 @@ function viewMore(st){
     <div class="row" onclick="openSub('budget')"><span class="rowb"><span class="rt1">💰 Budget & models</span><span class="rt2">spend, caps, tier</span></span><span class="chev">›</span></div>
     <div class="row" onclick="openSub('health')"><span class="rowb"><span class="rt1">🩺 System health</span><span class="rt2">services, tunnels, commits</span></span><span class="chev">›</span></div>
     <div class="row" onclick="openSub('activity')"><span class="rowb"><span class="rt1">📜 Activity feed</span><span class="rt2">everything, live</span></span><span class="chev">›</span></div>
+    <a class="row" href="/sync?k=${encodeURIComponent(K)}" target="_blank" rel="noopener"><span class="rowb"><span class="rt1">🔄 Coordinator sync</span><span class="rt2">the raw state mirror (agent memory + chats + build)</span></span><span class="chev">›</span></a>
   </div>`;
 }
 function openSub(s){ SUB=s; const st=document.getElementById('stage'); st.innerHTML='<div class="empty">…</div>';

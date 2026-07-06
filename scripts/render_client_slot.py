@@ -457,7 +457,17 @@ def gpt(messages, temp=0.7, max_tok=900, fmt_json=True):
         body["response_format"] = {"type": "json_object"}
     rq = urllib.request.Request("https://api.openai.com/v1/chat/completions", data=json.dumps(body).encode(),
                                 headers={"Authorization": f"Bearer {env('OPENAI_API_KEY')}", "Content-Type": "application/json"})
-    return json.loads(urllib.request.urlopen(rq, timeout=120).read())["choices"][0]["message"]["content"]
+    out = json.loads(urllib.request.urlopen(rq, timeout=120).read())
+    txt = out["choices"][0]["message"]["content"]
+    # PEN-COST METERING (Rule #9 fix 2026-07-07): this pen BYPASSES model_router, so its usage was
+    # thrown away here and the worker's receipts said usd=0.0. Record the provider's REAL usage;
+    # len//4 estimate (the router's own fallback) ONLY if the usage block is missing — flagged.
+    u = out.get("usage") or {}
+    mr.record_pen_call(body["model"],
+                       u.get("prompt_tokens", sum(len(str(m.get("content", ""))) for m in messages) // 4),
+                       u.get("completion_tokens", len(txt) // 4),
+                       estimated=not u)
+    return txt
 
 
 def sonnet(system, messages, max_tok=900):
@@ -466,7 +476,14 @@ def sonnet(system, messages, max_tok=900):
                                 headers={"x-api-key": env("ANTHROPIC_API_KEY"), "anthropic-version": "2023-06-01",
                                          "Content-Type": "application/json"})
     out = json.loads(urllib.request.urlopen(rq, timeout=120).read())
-    return out["content"][0]["text"]
+    txt = out["content"][0]["text"]
+    # PEN-COST METERING (Rule #9, same wire as gpt()): real Anthropic usage, len//4 only if absent.
+    u = out.get("usage") or {}
+    mr.record_pen_call(body["model"],
+                       u.get("input_tokens", (len(system) + sum(len(str(m.get("content", ""))) for m in messages)) // 4),
+                       u.get("output_tokens", len(txt) // 4),
+                       estimated=not u)
+    return txt
 
 
 HUMAIN_SVC = "http://127.0.0.1:4111"
@@ -485,7 +502,12 @@ def humain(system, user, timeout_s=180):
     # then raises HumainDown. On HumainDown the caller's except falls to GPT for THIS slot — acceptable, the
     # HUMAIN JUDGE is still the hard quality gate. NO inline restart (that looped + disrupted the judge, C231).
     import humain_lock
-    return humain_lock.call(prompt, timeout_s=min(timeout_s, 60))
+    txt = humain_lock.call(prompt, timeout_s=min(timeout_s, 60))
+    # PEN-COST METERING (Rule #9): the local HUMAIN service is $0 but the call still COUNTS in
+    # pen_calls (an uncounted call is an invisible dependency). Tokens are len//4 estimates —
+    # the service returns no usage block — flagged estimated so nobody reads them as verified.
+    mr.record_pen_call("humain-allam-34b", len(prompt) // 4, len(txt or "") // 4, estimated=True)
+    return txt
 
 
 _HUMAIN_PROBE = {"ts": 0.0, "up": False}

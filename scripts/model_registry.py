@@ -219,6 +219,46 @@ def detect_caption_drift(stamp: Optional[dict]) -> dict:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# PEN-COST METERING (2026-07-07, Rule #9 fix): the caption/angle pens
+# (render_client_slot.gpt/sonnet/humain) call their providers via raw urllib and
+# BYPASS tools/model_router.py — so their real token spend never reached a ledger:
+# draft receipts said usd=0.0 while real gpt-4o calls happened inside generation.
+# This is the per-PROCESS accumulator the pens write into; the generation worker
+# (tools/jail/generate.py) resets it at job start, collects at job end, prices the
+# calls (the router's OWN rate table) and writes pen_cost_usd + pen_calls into the
+# drafts receipt provenance AND the spend row. Flat module state on purpose — one
+# worker process = one job (same proportionality as the registry above).
+#
+# CONSUMERS (Rule #6 — every writer has a reader, asserted same cycle):
+#   WRITERS: render_client_slot.gpt() / sonnet() / humain()  → record_pen_call()
+#   READER : tools/jail/generate.py  → reset_pen_usage() at job start,
+#            collect_pen_usage() at job end (tests/generate/test_pen_metering.py)
+# ─────────────────────────────────────────────────────────────────────────────
+_PEN_USAGE: list = []
+
+
+def record_pen_call(model: str, tokens_in: int = 0, tokens_out: int = 0,
+                    estimated: bool = False) -> None:
+    """Record ONE pen call's usage. `estimated=True` means the provider returned no
+    usage block and the counts are a len//4 estimate (the model_router's own fallback)
+    — flagged so an estimate is never mistaken for a verified number (Rule #9)."""
+    _PEN_USAGE.append({"model": str(model), "tokens_in": int(tokens_in or 0),
+                       "tokens_out": int(tokens_out or 0), "estimated": bool(estimated),
+                       "ts": time.time()})
+
+
+def reset_pen_usage() -> None:
+    """Job-start hook: clear the accumulator (one worker process = one job)."""
+    _PEN_USAGE.clear()
+
+
+def collect_pen_usage() -> list:
+    """Job-end hook: every pen call since the last reset (a copy — callers cannot
+    mutate the recorded history)."""
+    return [dict(u) for u in _PEN_USAGE]
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # PERSONA / VISUAL-ASSET HOME — NOT defined here (proportionality). The persona
 # organ does not exist yet and has zero importers; its model-AGNOSTIC contract
 # already lives at 12_data_shapes/brand_visual_dna_v37_v1.schema.json (durable

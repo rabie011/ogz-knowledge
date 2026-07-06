@@ -799,6 +799,57 @@ def _bilingual_clause(en_led: bool) -> str:
     return "Write Saudi Arabic only."
 
 
+def _knowhow_clause(c: dict, slot: dict, angle: dict) -> tuple[str, list[str]]:
+    """THE MANDATORY PRE-GEN KNOW-HOW HOOK (NEEDS-MOHAMED ce3201b0): the pen READS Mohamed's
+    extracted know-how BEFORE it writes — disk-first like the TASTE-PRIOR load above (panel-
+    ratified 2026-07-07: no HTTP dependency inside generation, no fallback that can re-admit).
+    Zero atoms on disk = REFUSE loud (Rule #8) — a mind that can't read doesn't work.
+    Returns (clause_for_sys_p, atom_source_ids) — ids flow to draft provenance (Rule #14)
+    via c['_knowhow'] so the worker's receipt records exactly what the pen read.
+    OGZ_KNOWHOW_DIR is a test-sandbox override (the OGZ_JAIL_ROOT convention), nothing more."""
+    atoms_dir = Path(os.environ.get("OGZ_KNOWHOW_DIR") or (BASE.parent / "know-how" / "_atoms"))
+    aspects = (("content-captions", 3), ("brand-taste", 2))
+    qtext = " ".join(str(x) for x in (
+        c.get("brand_ar"), c.get("handle"), _cr_sector_safe(c),
+        slot.get("occasion"), slot.get("angle_theme"), slot.get("formula"),
+        angle.get("scene_ar"), angle.get("post_type"))).lower()
+    qtok = set(t for t in re.findall(r"\w+", qtext) if len(t) > 2)
+    picked, sources = [], []
+    for aspect, k in aspects:
+        files = sorted(atoms_dir.glob(f"{aspect}__*.txt"))
+        if not files:
+            raise RuntimeError(
+                f"KNOW-HOW HOOK REFUSED: no {aspect!r} atoms at {atoms_dir} — the mandatory "
+                "pre-gen read (ce3201b0) has nothing to read; fix the know-how base, never skip it")
+        scored = []
+        for f in files:
+            body = f.read_text(encoding="utf-8", errors="replace")
+            verb = next((l.split(":", 1)[1].strip() for l in body.splitlines()
+                         if l.startswith("MOHAMED")), "")
+            means = next((l.split(":", 1)[1].strip() for l in body.splitlines()
+                          if l.startswith("MEANS FOR AGENTS")), "")
+            atok = set(t for t in re.findall(r"\w+", (verb + " " + means).lower()) if len(t) > 2)
+            scored.append((-len(qtok & atok), f.name, verb, means))
+        scored.sort()  # best overlap first; filename = the deterministic tiebreak
+        for _neg, name, verb, means in scored[:k]:
+            line = (means or verb)[:140]
+            if verb and means:
+                line = f"{means[:90]} (his words: «{verb[:80]}»)"
+            picked.append(line)
+            sources.append(name.rsplit(".", 1)[0])
+    clause = ("MOHAMED'S KNOW-HOW (his confirmed working rules, mined from his own decisions — "
+              "apply them): " + " ؛ ".join(f"{i+1}) {p}" for i, p in enumerate(picked)) + ". ")
+    return clause, sources
+
+
+def _cr_sector_safe(c: dict) -> str:
+    try:
+        import client_rules as _cr
+        return str(_cr._sector(c["handle"]))
+    except Exception:
+        return ""
+
+
 def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     import occasion_align as _oa
     import client_rules as _cr
@@ -840,6 +891,14 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     # it sharpens output (Rule #13: connected ≠ better). Default unset → law ON, zero production change.
     if os.environ.get("OGZ_TASTE_OFF") == "1":
         taste_clause = ""
+    # MANDATORY KNOW-HOW READ (ce3201b0) — loaded like TASTE-PRIOR, refuses on empty (Rule #8).
+    # Sources stashed on c so the generation worker's draft receipt records what the pen read
+    # (Rule #14: the read PERSISTS). OGZ_KNOWHOW_OFF=1 is measurement-only (the taste_clause_ab
+    # before/after convention) — the load+refuse still runs; only the clause is suppressed.
+    knowhow_clause, _kh_sources = _knowhow_clause(c, slot, angle)
+    c["_knowhow"] = {"sources": _kh_sources, "aspects": ["content-captions", "brand-taste"]}
+    if os.environ.get("OGZ_KNOWHOW_OFF") == "1":
+        knowhow_clause = ""
     # OCCASION TRUTH (June 14 — "confirmed with occasion, everything aligned"): tell the pen the
     # slot's REAL calendar status. A daily slot has NO occasion → forbid all holiday words; an
     # occasion slot must live inside THAT occasion only. The gauntlet below enforces it.
@@ -858,7 +917,7 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
              "The caption LIVES INSIDE the scene: write from inside that exact moment (its person, its time, its gesture). "
              "The PHOTO already shows the scene — so the caption NEVER narrates it (never 'الأم تضغط الزر، الجد يملأ الأطباق'). "
              "Write what the person in that moment would SAY or feel — the voice FROM the scene, not a description OF it. "
-             + occ_clause + organ_clause + taste_clause +
+             + occ_clause + organ_clause + taste_clause + knowhow_clause +
              f"{bilingual} Short captions. Concrete and warm. Offers need what/how-much/where clarity. "
              f"Use ONLY these real facts — products: {products}, channels: {channels or 'NONE — never invent ordering channels'}. "
              + ("Speak only of what the reader can DO today with these real products and channels. "

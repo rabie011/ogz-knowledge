@@ -489,10 +489,46 @@ def sonnet(system, messages, max_tok=900):
 HUMAIN_SVC = "http://127.0.0.1:4111"
 
 
+def _humain_pool_file() -> Path | None:
+    """FILE-POOL MODE (2026-07-07, $0 build — the :4111 service is dead, Atlas can't expose CDP).
+    When OGZ_HUMAIN_POOL + OGZ_HUMAIN_POOL_KEY are both set, the pen reads Codex's Atlas-ferried
+    captions from a pool file instead of hitting the network — same door the live HUMAIN service
+    used (humain()/humain_up()), so the caller (render_captions' _gen()) needs ZERO changes: it
+    still calls humain_up() then humain(h_sys, user) and parses the same {"options":[...]} shape.
+    Returns the pool file Path if BOTH env vars are set (whether or not the file exists — humain_up
+    reports the true presence-on-disk; humain() raises if it's missing so we never silently proceed
+    with no options). Returns None when pool mode isn't active (normal HTTP path, unchanged)."""
+    pool_dir = os.environ.get("OGZ_HUMAIN_POOL")
+    pool_key = os.environ.get("OGZ_HUMAIN_POOL_KEY")
+    if not pool_dir or not pool_key:
+        return None
+    return Path(pool_dir).expanduser() / f"{pool_key}.json"
+
+
 def humain(system, user, timeout_s=180):
     """The DIVERSITY pen — ALLaM 34B (Saudi-native) via the local HUMAIN service. Replaces the
     dark Sonnet pen (Anthropic credits dry). POSTs to humain_service; returns the raw model text.
-    Raises on any failure so the caller's try/except falls back to GPT-only (Rule: never stuck)."""
+    Raises on any failure so the caller's try/except falls back to GPT-only (Rule: never stuck).
+
+    FILE-POOL MODE: when OGZ_HUMAIN_POOL(+KEY) is set, returns the pool file's options as the SAME
+    JSON-text shape the HTTP path would have produced ('{"options": [...]}') — the caller's regex
+    parse (`re.search(r"\\{.*\\}", txt)` then `json.loads(...).get("options")`) is untouched, so pool
+    captions flow through the identical _clean()/taste_guard/filter_options/best-of-N gates as any
+    live pen output (nothing ships raw). Raises (never returns empty) if the pool file is missing —
+    a caller in pool mode with no file is a real error, not a silent skip."""
+    pf = _humain_pool_file()
+    if pf is not None:
+        if not pf.exists():
+            raise RuntimeError(f"OGZ_HUMAIN_POOL set but no pool file at {pf} — refuse silent skip")
+        payload = json.loads(pf.read_text(encoding="utf-8"))
+        options = payload.get("options") or []
+        txt = json.dumps({"options": options}, ensure_ascii=False)
+        # PEN-COST METERING (Rule #9) still applies: a pool-sourced call is $0 AND still COUNTS in
+        # pen_calls (an uncounted call is an invisible dependency) — same estimated-flagged shape
+        # the live HTTP path uses, so a receipt reader can't tell pool from live by the metering row.
+        mr.record_pen_call("humain-allam-34b-filepool", len(system + user) // 4, len(txt) // 4, estimated=True)
+        return txt
+
     prompt = (system + "\n\n" + user +
               '\n\nأرجع فقط كائن JSON بالشكل: {"options": ["...", "...", "..."]} بدون أي شرح.')
 
@@ -517,7 +553,16 @@ def humain_up() -> bool:
     """True ONLY if HUMAIN actually REPLIES to a real probe — not just /health logged_in.
     AUDIT FIX (June 29): /health said logged_in:true while POST /caption returned reply:null, so 13/19
     captions silently shipped GPT-MSA labelled 'Saudi-native' — the moat severed by a false-green gate.
-    Now probes the REAL /caption path; cached ~90s so the slow pen isn't hammered every call."""
+    Now probes the REAL /caption path; cached ~90s so the slow pen isn't hammered every call.
+
+    FILE-POOL MODE: when OGZ_HUMAIN_POOL(+KEY) is set, reports True iff the pool file for THIS key
+    actually exists on disk — so a pool-mode caller with no matching file gets the SAME "pen skipped
+    gracefully" behavior a down service gives today (the caller's `if not humain_up(): raise` path),
+    never a false "up" that then hits humain()'s hard raise. No network probe, no 90s cache — the
+    pool file either exists right now or it doesn't."""
+    pf = _humain_pool_file()
+    if pf is not None:
+        return pf.exists()
     import time
     now = time.time()
     if now - _HUMAIN_PROBE["ts"] < 90:

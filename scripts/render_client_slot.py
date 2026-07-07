@@ -948,7 +948,17 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     #       32-item avoidance prison. The full kill law still reaches the judge; the PEN gets a sharp aim.
     # OGZ_CEILING_OFF=1 restores the old prohibition-wall clause (the before/after measurement arm,
     # taste_clause_ab convention) — default unset → the fix is ON.
-    _win = [ex for r in taste.get("rewards", []) for ex in (r.get("examples_good") or []) if ex][:2]
+    # EXEMPLAR-COLLISION FILTER (2026-07-07, R1 catch — panel-flagged): the founder's rated-5
+    # examples_good are ALL family+eid scenes (the only 5s on file). Injected raw for a brand whose
+    # BANNED theme is family_scene_overuse (eatjurisha), they dragged the pen back into «ذكريات
+    # الطفولة»/family and family_scene_overuse reappeared as a kill. Drop any exemplar that TEACHES an
+    # active-banned core for THIS brand (same lexicon the taste_guard + few-shot quarantine already
+    # use) — the exemplar must model the QUALITY without smuggling the banned CONTENT.
+    _active_pats = [k.get("pattern") for k in c.get("kill_patterns", []) if isinstance(k, dict)]
+    _win_teaches_banned = lambda ln: any(
+        pp in TASTE_GUARD_LEXICON and TASTE_GUARD_LEXICON[pp].search(ln) for pp in _active_pats)
+    _win = [ex for r in taste.get("rewards", []) for ex in (r.get("examples_good") or [])
+            if ex and not _win_teaches_banned(ex)][:2]
     win_clause = ("THE BAR — the founder rated THESE 5/5; reach for THIS level of concrete, surprising, "
                   "unmistakably-Saudi writing (do NOT copy them — match their SPECIFICITY and voice): "
                   + " | ".join(f"«{w[:160]}»" for w in _win) + ". ") if _win else ""
@@ -1284,6 +1294,21 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
                   "regen needed", file=sys.stderr)
     # his diversity ruling: a fresh emotional core leads when recent slots repeat one
     final = diversity_prefer(final, c.get("recent_cores", []))
+    # BEST-OF-N WIRE (2026-07-07, panel 5/5 both chairs — the severed wire DeepSeek flagged): the pen
+    # produces 3 options but payload.caption ships captions[0] — the FIRST, not the strongest. Reuse the
+    # EXISTING deterministic DNA-fit ranker (scorer_v2.pick_best — $0, NOT an LLM: the "AI can't judge
+    # Saudi creative" lesson stands, so no AI critic here) to promote the option that best fits THIS
+    # brand's own feed to the front. STABLE by -score so ties preserve the diversity order above; a brand
+    # with no DNA file scores every option neutral-50 → total tie → exact no-op (the diversity order
+    # stands). Rule #12: reordered by a COMPUTED rule (DNA fit), never hand-picked.
+    if len(final) > 1:
+        try:
+            import scorer_v2 as _sv2
+            _sc = {i: _sv2.score_v2(o, brand_en=c["handle"], brand_ar=c["brand_ar"]) for i, o in enumerate(final)}
+            if len(set(_sc.values())) > 1:  # only reorder when DNA actually discriminates
+                final = [o for _, o in sorted(enumerate(final), key=lambda t: -_sc[t[0]])]
+        except Exception as _se:
+            print(f"  best-of-N rank skipped ({str(_se)[:40]})", file=sys.stderr)
     # CTA-density rule (June 11, RABIE-ruled): a feed that sells in every line reads like
     # a flyer. Of the 3 options, at most ONE keeps an order-CTA tail — the rest stand on
     # the scene. Deterministic: keep the first CTA, strip CTA sentences from the others.

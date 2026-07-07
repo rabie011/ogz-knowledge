@@ -182,7 +182,8 @@ textarea:focus,input:focus{border-color:var(--pin)}
 <div id="hdr">
   <div class="hrow">
     <span id="mark">OGZ <b>·</b> REVIEW</span><span id="live"></span>
-    <span id="who"></span>
+    <a id="toctrl" style="margin-inline-start:auto;color:var(--ok);font-size:12.5px;font-weight:700;text-decoration:none">⚖️ Control ↗</a>
+    <span id="who" style="margin-inline-start:12px"></span>
   </div>
   <div id="chips"></div>
 </div>
@@ -223,6 +224,7 @@ async function whoami(){
   if(!r.ok){document.getElementById('stage').innerHTML='<div class="empty"><div class="big">🔑</div>المفتاح غلط أو ناقص — افتح الرابط الخاص فيك</div>';return false}
   const d=await r.json(); WHO=d.judge; AUTH=d.auth;
   document.getElementById('who').textContent=WHO?('👤 '+WHO):'view-only';
+  const cl=document.getElementById('toctrl'); if(cl) cl.href='/control?k='+encodeURIComponent(K);   // cross-link to the calm Control surface (same key)
   return true;
 }
 async function load(first){

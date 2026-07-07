@@ -97,6 +97,46 @@ textarea:focus,input:focus{border-color:var(--green)}
 .ain textarea{flex:1;min-height:40px;max-height:110px;resize:none;font-size:14px}
 .ain button{flex:0 0 auto;width:46px;border-radius:11px;background:var(--green);color:#04180e;font-weight:900;font-size:18px}
 
+/* JUDGE — inline verdict (clones /dashboard controls, calm v2) */
+.tbadge{display:inline-grid;place-items:center;min-width:17px;height:17px;padding:0 4px;margin-inline-start:5px;
+  border-radius:99px;background:var(--green);color:#04180e;font-size:10px;font-weight:900;vertical-align:middle;line-height:1}
+.jnote{color:var(--mut);font-size:13px;line-height:1.6;margin-bottom:14px}.jnote b{color:var(--green)}
+.jnote a{color:var(--green);font-weight:700}
+.jbatch{background:var(--card2);border:1px solid var(--line2);border-radius:12px;padding:11px 14px;margin-bottom:16px;font-size:13px;color:var(--mut)}
+.jbatch b{color:var(--ink);font-weight:700}
+.jcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:14px;overflow:hidden}
+.jcard.done{opacity:.62}
+.jhead{display:flex;align-items:center;gap:9px;margin-bottom:11px}
+.jhandle{font-weight:800;font-size:15px}
+.jmeta{margin-inline-start:auto;font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px}
+.jimg{display:block;width:100%;border-radius:12px;border:1px solid var(--line);margin-bottom:11px;background:var(--card2)}
+.jseclbl{font-family:var(--display);font-weight:800;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin:12px 0 5px}
+.jcap{font-size:15px;line-height:1.6;color:var(--ink)}
+.jctx{color:var(--mut);font-size:12.5px;line-height:1.55;margin-top:4px}
+.jctx .k{color:var(--green);font-weight:700}
+.jopt{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+.jopt .oscore{display:inline-block;font-size:11px;font-weight:800;color:var(--green);border:1px solid #1c3a10;background:var(--green-dim);border-radius:99px;padding:.1em .6em;margin-bottom:6px}
+/* verdict bar (mirrors dashboard #bar: approve/edit/kill + 0-10 + note) */
+.vbar{margin-top:13px;padding-top:13px;border-top:1px solid var(--line)}
+.vbtns{display:flex;gap:7px}
+.vbtn{flex:1;padding:.62em 0;border-radius:11px;border:1px solid var(--line2);font-family:var(--display);font-weight:800;font-size:12.5px;
+  letter-spacing:.4px;text-transform:uppercase;color:var(--mut);background:var(--card2);transition:.14s}
+.vbtn.ap.on{background:var(--green);border-color:var(--green);color:#04180e}
+.vbtn.ed.on{background:#b9a94a;border-color:#b9a94a;color:#1a1400}
+.vbtn.ki.on{background:var(--epink);border-color:var(--epink);color:#fff}
+.scorerow{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:11px}
+.scorerow .slbl{font-size:10px;font-weight:800;letter-spacing:.8px;color:var(--dim);margin-inline-end:3px}
+.sdot{width:26px;height:26px;border-radius:8px;border:1px solid var(--line2);background:var(--card2);color:var(--dim);font-size:12px;font-weight:800}
+.sdot.on{background:var(--green);border-color:var(--green);color:#04180e}
+.vnote{width:100%;margin-top:10px;font-size:14px}
+.vsub{display:flex;gap:8px;align-items:center;margin-top:11px}
+.vsubmit{flex:1;padding:.7em 0;border-radius:11px;background:var(--green);color:#04180e;font-weight:900;font-size:14px}
+.vsubmit:disabled{background:var(--card2);color:var(--dim)}
+.vstate{font-size:12px;color:var(--dim)}.vstate.ok{color:var(--green)}.vstate.err{color:var(--epink)}
+.vdone{display:flex;align-items:center;gap:9px;font-size:13.5px;margin-top:4px}
+.vdone .lbl{font-weight:700}.vdone.ap .lbl{color:var(--green)}.vdone.ki .lbl{color:var(--epink)}.vdone.ed .lbl{color:#b9a94a}
+.vrev{margin-inline-start:auto;font-size:12px;color:var(--dim);border:1px solid var(--line2);border-radius:99px;padding:.2em .7em}
+
 /* rows (More sub-views reuse these) */
 .row{display:flex;align-items:center;gap:12px;padding:15px 0;border-bottom:1px solid var(--line)}
 .row:last-child{border-bottom:0}.rowb{flex:1;min-width:0}
@@ -142,8 +182,9 @@ textarea:focus,input:focus{border-color:var(--green)}
 
 <script>
 const K=new URLSearchParams(location.search).get('k')||'';
-let WHO=null, VIEW='now', SUB=null, POLL=null, CHATBUSY=false;
-const TABS=[['now','Now'],['agents','Agents'],['chat','Ask'],['more','More']];
+let WHO=null, AUTH=null, VIEW='now', SUB=null, POLL=null, CHATBUSY=false;
+let JUDGE_N=0;   // live count of open judgeable cards → tab badge
+const TABS=[['now','Now'],['judge','Judge'],['agents','Agents'],['chat','Ask'],['more','More']];
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmt$=n=>'$'+Number(n||0).toFixed(n<1?3:2);
 async function fetchJSON(p){ try{const r=await fetch(p+(p.includes('?')?'&':'?')+'k='+encodeURIComponent(K),{cache:'no-cache'});
@@ -153,11 +194,14 @@ function rel(ts){ let s=typeof ts==='number'?ts:(Date.parse(ts)/1000); if(!s||is
 
 async function whoami(){ const d=await fetchJSON('/api/approvals/whoami');
   if(!d||d.error){document.getElementById('stage').innerHTML='<div class="empty"><div class="e">🔑</div>المفتاح غلط أو ناقص</div>';return false;}
-  WHO=d.judge; return true; }
-function renderTabs(){ document.getElementById('tabs').innerHTML=TABS.map(([k,l])=>`<button class="tab ${VIEW===k?'on':''}" onclick="go('${k}')">${l}</button>`).join(''); }
+  WHO=d.judge; AUTH=d.auth; return true; }
+function renderTabs(){ document.getElementById('tabs').innerHTML=TABS.map(([k,l])=>{
+  const badge=(k==='judge'&&JUDGE_N>0)?`<span class="tbadge">${JUDGE_N}</span>`:'';
+  return `<button class="tab ${VIEW===k?'on':''}" onclick="go('${k}')">${l}${badge}</button>`;}).join(''); }
 function go(v){ VIEW=v; SUB=null; if(POLL){clearInterval(POLL);POLL=null;} renderTabs(); render(); }
 function render(){ const st=document.getElementById('stage'); st.innerHTML='<div class="empty">…</div>';
   if(VIEW==='now')return viewNow(st,true);
+  if(VIEW==='judge')return viewJudge(st,true);
   if(VIEW==='agents')return viewAgents(st,true);
   if(VIEW==='chat')return viewChat(st);
   if(VIEW==='more')return viewMore(st); }
@@ -182,6 +226,143 @@ async function viewNow(st,poll){
     h+=`</div>`; }
   st.innerHTML=h;
   if(poll&&VIEW==='now'){ POLL=setInterval(()=>{if(VIEW==='now')viewNow(document.getElementById('stage'),false);},12000); }
+}
+
+/* ---------- JUDGE (inline top-20 verdict — reuses /api/approvals/{items,answer,reverse}) ---------- */
+// one verdict spine: the SAME feed + write path /dashboard uses. Nothing new-tracks here.
+const JD={};   // per-card draft {verdict,rating,note} — mirrors dashboard's D, kept per item id
+function isJudgeable(it){ return it.kind==='caption_judge'||String(it.id).startsWith('post_'); }
+function optImg(o){ // an option image: explicit image_url, else the render_asset stamped by the renders ledger
+  if(o.image_url) return o.image_url;
+  const ra=o.render_asset||(o.visual&&o.visual.render_asset)||(o.payload&&o.payload.visual&&o.payload.visual.render_asset);
+  if(!ra) return '';
+  return String(ra).startsWith('/')||String(ra).startsWith('http')?ra:('/static/renders_v37/'+ra);
+}
+function optCap(o){ return o.caption||o.island_text||o.text||o.best||''; }
+function optScore(o){ const s=o.score??o.taste??o.rubric_score??(o.scores&&(o.scores.taste??o.scores.total)); return (s||s===0)?s:null; }
+
+async function viewJudge(st,poll){
+  const a=await fetchJSON('/api/approvals/items');
+  if(a&&a.error){ st.innerHTML=errBox(a); return; }
+  const all=Array.isArray(a)?a:[];
+  const cards=all.filter(isJudgeable);
+  const open=cards.filter(x=>x.status!=='answered');
+  // most-recently-judged first (a fresh verdict surfaces at the top, reversible)
+  const done=cards.filter(x=>x.status==='answered')
+    .sort((a,b)=>String(b.created||'').localeCompare(String(a.created||''))).slice(0,10);
+  JUDGE_N=open.length; renderTabs();
+  let h=`<div class="jnote">⚖️ <b>Judge the top-20 here</b> — full posts the factory filtered + scored, judged inline. Same verdict as the deep board. <a href="/dashboard?k=${encodeURIComponent(K)}">افتح لوحة المراجعة الكاملة ↗</a></div>`;
+  if(!WHO){ h+=`<div class="jbatch" style="border-color:var(--epink);color:var(--epink)">هذا المفتاح للقراءة فقط — الحكم يحتاج مفتاح قاضٍ.</div>`; st.innerHTML=h; return; }
+  // OPEN cards
+  if(!open.length){
+    h+=`<div class="empty"><div class="e">🫧</div>top 0 — المصنع يصفّي<div class="dim" style="font-size:12.5px;margin-top:8px">لا مسودّة عبرت بوابة الذوق بعد. تظهر هنا لحظة ما يجهّزها المصنع.</div></div>`;
+  } else {
+    for(const it of open) h+=judgeCard(it,false);
+  }
+  // recently judged (with reverse)
+  if(done.length){ h+=`<div class="h1">Recently judged</div>`; for(const it of done) h+=judgeCard(it,true); }
+  st.innerHTML=h;
+  open.forEach(it=>{ if((it.options||[]).length) renderBatchBars(it); else renderBar(it.id); });
+  if(poll&&VIEW==='judge'){ POLL=setInterval(()=>{ if(VIEW==='judge'&&!Object.values(JD).some(d=>d&&d.dirty)) viewJudge(document.getElementById('stage'),false); },12000); }
+}
+function judgeCard(it,isDone){
+  // a BATCH card carries an options[] array; an empty batch = honest top-0 (the factory is still filtering),
+  // NOT a votable card — never render a lone verdict bar on nothing.
+  const isBatch=Array.isArray(it.options);
+  const opts=it.options||[];
+  if(isBatch&&!opts.length&&!isDone){
+    return `<div class="jcard" id="jc_${cssid(it.id)}">
+      <div class="jhead"><span class="dot recent"></span><span class="jhandle">${esc(it.title||it.id)}</span></div>
+      <div class="empty" style="padding:26px 8px"><div class="e">🫧</div>top 0 — المصنع يصفّي
+        <div class="dim" style="font-size:12.5px;margin-top:8px">لا مسودّة عبرت بوابة الذوق بعد. تظهر هنا للحكم لحظة ما يجهّزها المصنع.</div></div>
+      ${it.why?`<div class="jctx" dir="auto"><span class="k">rule</span> ${esc(it.why)}</div>`:''}</div>`;
+  }
+  let inner='';
+  if(isBatch&&opts.length){
+    // BATCH shape: each option = caption + score + render image + its own verdict controls
+    inner=`<div class="jctx" dir="auto">${esc(it.why||'')}</div>`;
+    opts.forEach((o,i)=>{
+      const oid=it.id+'::'+i; const img=optImg(o); const sc=optScore(o);
+      inner+=`<div class="jopt">${sc!=null?`<span class="oscore">★ ${esc(sc)}</span>`:''}
+        ${img?`<img class="jimg" src="${esc(img)}" loading="lazy" alt="" onerror="this.style.display='none'">`:''}
+        <div class="jcap" dir="auto">${esc(optCap(o))}</div>
+        ${barHtml(oid,isDone,o)}</div>`;
+    });
+  } else {
+    // FLAT per-post shape (the shape /dashboard renders): image + caption + why/need/did
+    const img=it.image_url;
+    inner=`${img?`<img class="jimg" src="${esc(img)}" loading="lazy" alt="" onerror="this.style.display='none'">`:''}
+      <div class="jseclbl">Caption</div><div class="jcap" dir="auto">${esc(it.caption||it.island_text||'')}</div>
+      ${it.why?`<div class="jctx" dir="auto"><span class="k">why</span> ${esc(it.why)}</div>`:''}
+      ${it.need?`<div class="jctx" dir="auto"><span class="k">need</span> ${esc(it.need)}</div>`:''}
+      ${it.did?`<div class="jctx" dir="auto"><span class="k">did</span> ${esc(it.did)}</div>`:''}
+      ${barHtml(it.id,isDone,it)}`;
+  }
+  return `<div class="jcard ${isDone?'done':''}" id="jc_${cssid(it.id)}">
+    <div class="jhead"><span class="dot ${isDone?(it.answered==='approved'?'on':(it.answered==='rejected'?'bad':'')):'on'}"></span>
+      <span class="jhandle" dir="auto">${esc(it.handle||it.title||it.id)}</span>
+      <span class="jmeta">${esc(it.occasion||it.tag||'')}</span></div>
+    ${inner}</div>`;
+}
+const cssid=s=>String(s).replace(/[^a-zA-Z0-9_-]/g,'_');
+// verdict-bar HTML for one target id (a card id OR a batch option id "cardid::i")
+function barHtml(id,isDone,src){
+  if(isDone){
+    const ans=(src&&src.answered)||'';
+    const cls=ans==='approved'?'ap':(ans==='rejected'?'ki':'ed');
+    return `<div class="vbar"><div class="vdone ${cls}"><span class="lbl">${ans==='approved'?'✓ approved':ans==='rejected'?'✗ killed':'✎ '+esc(ans||'judged')}</span>
+      <span class="dim">by ${esc(src.answered_by||'')}</span>
+      <button class="vrev" onclick="reverseCard('${cssid(id)}','${esc(id)}')">↺ void</button></div>
+      <div class="vstate" id="vs_${cssid(id)}"></div></div>`;
+  }
+  return `<div class="vbar" id="vb_${cssid(id)}">
+    <div class="vbtns">
+      <button class="vbtn ap" onclick="setV('${esc(id)}','approved')">✓ Approve</button>
+      <button class="vbtn ed" onclick="setV('${esc(id)}','edit')">✎ Edit</button>
+      <button class="vbtn ki" onclick="setV('${esc(id)}','rejected')">✗ Kill</button></div>
+    <div class="scorerow" id="sr_${cssid(id)}"></div>
+    <input class="vnote" id="vn_${cssid(id)}" placeholder="ملاحظة عامة / التصحيح…" oninput="setNote('${esc(id)}',this.value)">
+    <div class="vsub"><button class="vsubmit" id="vok_${cssid(id)}" onclick="submitVerdict('${esc(id)}')" disabled>Submit verdict</button>
+      <span class="vstate" id="vs_${cssid(id)}"></span></div></div>`;
+}
+function renderBar(id){ // paint the 0-10 dots + reflect current draft for a card
+  const d=JD[id]||{}; const cid=cssid(id);
+  const sr=document.getElementById('sr_'+cid); if(sr) sr.innerHTML='<span class="slbl">TASTE</span>'+
+    Array.from({length:10},(_,i)=>`<button class="sdot ${d.rating>i?'on':''}" onclick="setRating('${esc(id)}',${i+1})">${i+1}</button>`).join('');
+  const vb=document.getElementById('vb_'+cid); if(vb){ ['ap','ed','ki'].forEach((c,i)=>{
+    const btn=vb.querySelector('.vbtn.'+c); if(btn) btn.classList.toggle('on', d.verdict===['approved','edit','rejected'][i]); }); }
+  const ok=document.getElementById('vok_'+cid); if(ok) ok.disabled=!(d.verdict||(d.note&&d.note.trim()));
+}
+function renderBatchBars(it){ (it.options||[]).forEach((o,i)=>renderBar(it.id+'::'+i)); }
+function setV(id,v){ JD[id]=JD[id]||{}; JD[id].verdict=(JD[id].verdict===v)?null:v; JD[id].dirty=true; renderBar(id); }
+function setRating(id,r){ JD[id]=JD[id]||{}; JD[id].rating=r; JD[id].dirty=true; renderBar(id); }
+function setNote(id,t){ JD[id]=JD[id]||{}; JD[id].note=t; JD[id].dirty=true;
+  const ok=document.getElementById('vok_'+cssid(id)); if(ok) ok.disabled=!(JD[id].verdict||(t&&t.trim())); }
+async function submitVerdict(id){
+  const d=JD[id]||{}; const answer=d.verdict||'comment'; const cid=cssid(id);
+  const stEl=document.getElementById('vs_'+cid); const ok=document.getElementById('vok_'+cid);
+  if(ok) ok.disabled=true; if(stEl){stEl.className='vstate';stEl.textContent='…';}
+  // a batch option id is "cardid::i" — the real queue item_id is the card id (the answer marks the card)
+  const item_id=String(id).split('::')[0];
+  const body={item_id, answer, note:(d.verdict==='edit')?'':(d.note||''),
+    fix:(d.verdict==='edit')?(d.note||''):'', rating:d.rating||null, judge:WHO,
+    client_ts:new Date().toISOString().slice(0,19), source:'dashboard'};
+  let res; try{ const r=await fetch('/api/approvals/answer?k='+encodeURIComponent(K),{method:'POST',
+    headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); res=await r.json(); }
+  catch(e){ res={ok:false,error:String(e)}; }
+  if(res&&res.ok){ if(stEl){stEl.className='vstate ok';stEl.textContent=res.deduped?'✓ (already recorded)':'✓ verdict saved';}
+    JD[id]={}; setTimeout(()=>viewJudge(document.getElementById('stage'),false),700); }
+  else{ if(stEl){stEl.className='vstate err';stEl.textContent=(res&&(res.quarantined?'quarantined — need a judge key':res.error))||'failed';} if(ok) ok.disabled=false; }
+}
+async function reverseCard(cid,id){
+  const note=prompt('سبب التراجع؟ (reversal needs a reason)'); if(!note||!note.trim()) return;
+  const stEl=document.getElementById('vs_'+cid); if(stEl){stEl.className='vstate';stEl.textContent='…';}
+  const item_id=String(id).split('::')[0];
+  let res; try{ const r=await fetch('/api/approvals/reverse?k='+encodeURIComponent(K),{method:'POST',
+    headers:{'Content-Type':'application/json'},body:JSON.stringify({item_id,note,judge:WHO})}); res=await r.json(); }
+  catch(e){ res={ok:false,error:String(e)}; }
+  if(res&&res.ok){ if(stEl){stEl.className='vstate ok';stEl.textContent='↺ reversed';} setTimeout(()=>viewJudge(document.getElementById('stage'),false),700); }
+  else if(stEl){stEl.className='vstate err';stEl.textContent=(res&&res.error)||'failed';}
 }
 
 /* ---------- AGENTS (live workflows) ---------- */
@@ -372,8 +553,11 @@ async function subActivity(st,back){ const d=await fetchJSON('/api/dashboard/act
     h+=`<div class="row"><span style="font-size:16px">${AICO[r.kind]||'·'}</span><span class="rowb"><span class="rt1" style="font-weight:500;font-size:13.5px"><span class="chip">${esc(r.who)}</span> ${esc(r.text)}</span></span><span class="rtime">${hh}</span></div>`; }
   st.innerHTML=h; }
 
+/* prime the Judge tab badge from the shared feed (so the count shows before the tab is opened) */
+async function refreshJudgeCount(){ const a=await fetchJSON('/api/approvals/items');
+  if(Array.isArray(a)){ JUDGE_N=a.filter(x=>isJudgeable(x)&&x.status!=='answered').length; renderTabs(); } }
 /* boot */
-(async()=>{ if(await whoami()){ renderTabs(); refreshSys(); render(); setInterval(refreshSys,60000); } })();
+(async()=>{ if(await whoami()){ renderTabs(); refreshSys(); refreshJudgeCount(); render(); setInterval(refreshSys,60000); setInterval(refreshJudgeCount,60000); } })();
 </script>
 </body>
 </html>

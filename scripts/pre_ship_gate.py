@@ -57,10 +57,26 @@ DINE_IN = re.compile(r"صالت?نا|جلستنا في المطعم|تفضلوا
 
 
 def _txt(post):
+    """Returns (scene_and_caption_text, caps, caption_only_text).
+
+    scene_and_caption_text is the WIDE blob (idea.scene_ar + captions) — the correct scope for the
+    HARD KILLS below (ROYAL/SACRED/NEW_CULTURE/DINE_IN/occasion-align): a visual brief that STAGES
+    a royal figure or an Easter egg is exactly as bad as a caption that says it, so those checks
+    must keep seeing the scene narrative.
+
+    caption_only_text is the NARROW blob (captions only, no idea/scene_ar) — the correct scope for
+    the WORN/LEARNED_BANS phrase checks below: those two are judging CAPTION WORDING/style, not
+    visual-brief content. Feeding them the scene narrative caused a false-positive KILL (job
+    ed5fa836f7d5, 2026-07-07): the learned ban "أول لقمة" (a Mohamed-rejected weak-caption opener)
+    matched the innocuous phrase "...يبدأ بتناول أول لقمة..." ("...starts eating the first bite...")
+    sitting inside idea.scene_ar — a field that never ships. The shipped caption carried no banned
+    phrase at all. Root fix (Rule #4): judge caption-wording bans against the CAPTION ONLY, exactly
+    what would ship — never the unshipped scene/idea narrative."""
     caps = post.get("captions") or ([post.get("caption")] if post.get("caption") else [])
     idea = (post.get("idea") or {})
     scene = idea.get("scene_ar", "") if isinstance(idea, dict) else str(idea)
-    return (scene + " \n " + " \n ".join(c for c in caps if c)).strip(), caps
+    cap_text = " \n ".join(c for c in caps if c).strip()
+    return (scene + " \n " + cap_text).strip(), caps, cap_text
 
 
 def occasion_of(post):
@@ -68,7 +84,7 @@ def occasion_of(post):
 
 
 def gate(post, handle):
-    text, caps = _txt(post)
+    text, caps, cap_text = _txt(post)
     occ = occasion_of(post)
     hard, soft = [], []
 
@@ -131,12 +147,21 @@ def gate(post, handle):
         # unverified caption. (This very block was a fail-OPEN I introduced June 21 — now closed.)
         hard.append(f"cultural detector errored — refusing (can't verify): {type(_e).__name__}")
 
-    # WORN phrases (soft — caption weakness)
-    worn_hit = [w for w in WORN if w in text]
+    # WORN phrases (soft — caption weakness). Scoped to cap_text (the CAPTION ONLY), never `text`
+    # (which also carries idea.scene_ar): this check judges caption WORDING, and the scene/idea
+    # narrative never ships — a worn-phrase match belongs to what's actually posted (Rule #4 root
+    # fix, ed5fa836f7d5 false-positive).
+    worn_hit = [w for w in WORN if w in cap_text]
     if worn_hit:
         soft.append(f"worn phrase(s): {worn_hit}")
-    # LEARNED rejection patterns (Mohamed's prior "no") — these BLOCK shipping, not just flag
-    learned_hit = [w for w in LEARNED_BANS if w in text]
+    # LEARNED rejection patterns (Mohamed's prior "no") — these BLOCK shipping, not just flag.
+    # Scoped to cap_text for the SAME reason as WORN above: a learned ban is a banned CAPTION
+    # PHRASE (weak_caption / occasion_mismatch / cultural wording Mohamed rejected before) — it
+    # must be judged against what would SHIP, not against the unshipped idea/visual brief prose.
+    # (Root cause, 2026-07-07: "أول لقمة" — a learned weak-caption ban — false-killed job
+    # ed5fa836f7d5 by matching "...يبدأ بتناول أول لقمة..." inside idea.scene_ar; the shipped
+    # caption carried no banned phrase at all. See _txt()'s docstring for the full trace.)
+    learned_hit = [w for w in LEARNED_BANS if w in cap_text]
     if learned_hit:
         soft.append(f"learned-rejection pattern (your prior 'no'): {learned_hit}")
 
@@ -261,7 +286,37 @@ def main():
     ap.add_argument("--no-enforce", dest="enforce", action="store_false",
                     help="audit only (exit 0); default BITES — exit 1 if any post is a hard KILL/BLOCK")
     ap.set_defaults(enforce=True)
+    ap.add_argument("--post-file", default="",
+                    help="ARENA/artifact mode: gate exactly ONE post JSON file (requires --handle), "
+                         "never globs clients/*/posts/*.json (Rule #9: don't grade unrelated data)")
+    ap.add_argument("--stdin-post", action="store_true",
+                    help="ARENA/artifact mode: read exactly ONE post JSON from stdin (requires --handle)")
     a = ap.parse_args()
+
+    # ARENA/ARTIFACT MODE: gate a single post dict supplied directly (file or stdin) against the
+    # GIVEN --handle — never falls back to the default eatjurisha corpus scan. This is the mode
+    # arena.py (or any caller judging an artifact under test) must use.
+    if a.post_file or a.stdin_post:
+        if not a.handle:
+            print("REFUSE: --post-file/--stdin-post requires --handle (which client this artifact is for)",
+                  file=sys.stderr)
+            sys.exit(2)
+        raw = sys.stdin.read() if a.stdin_post else Path(a.post_file).read_text(encoding="utf-8")
+        try:
+            post = json.loads(raw)
+        except json.JSONDecodeError as e:
+            print(f"REFUSE: unreadable post JSON: {e}", file=sys.stderr)
+            sys.exit(2)
+        g = gate(post, a.handle)
+        if a.json:
+            Path(a.json).write_text(json.dumps(g, ensure_ascii=False, indent=1))
+        if g.get("block"):
+            print(f"🛑 PRE-SHIP GATE BLOCKED — {a.handle} [{g['verdict']}]: "
+                  f"{g['hard_kills'] + g['learned_hits']}")
+            sys.exit(1 if a.enforce else 0)
+        print(f"🟢 PRE-SHIP CLEAR — {a.handle} [{g['verdict']}]")
+        sys.exit(0)
+
     handles = [a.handle] if a.handle else (["eatjurisha", "albaik", "alnasserjewelry"] if a.all else ["eatjurisha"])
     allout = {}
     for h in handles:

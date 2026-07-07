@@ -864,6 +864,39 @@ def _knowhow_clause(c: dict, slot: dict, angle: dict) -> tuple[str, list[str]]:
     return clause, sources
 
 
+def _recent_kills_clause(handle: str) -> str:
+    """THE JUDGE'S ECHO (born 2026-07-07, first live batch): the 3-seat judge kills drafts with
+    reasons (ledgers/judgments.jsonl) but the pens never HEARD them — bans/taste/atoms reach the
+    prompt, yesterday's kill-reasons didn't (Consumer-Law gap found by RUNNING the loop: batch #1
+    all 6 killed very_normal/describing_the_photo while the pens flew blind). This clause feeds the
+    brand's most recent kill-reasons back into the pen so round N+1 writes AWAY from round N's
+    failures. Empty history (new brand / no ledger yet) => empty clause — this is history
+    enrichment, not a mandatory organ (the mandatory reads stay TASTE + KNOW-HOW above)."""
+    led = Path(os.environ.get("OGZ_JAIL_ROOT") or BASE.parents[2]) / "ledgers" / "judgments.jsonl"
+    if not led.exists():
+        return ""
+    reasons: list[str] = []
+    try:
+        rows = [json.loads(l) for l in led.read_text(encoding="utf-8").splitlines() if l.strip()]
+    except (OSError, json.JSONDecodeError):
+        return ""
+    for r in reversed(rows):
+        if r.get("handle") == handle and r.get("verdict") == "kill":
+            for reason in (r.get("reasons") or []):
+                tag = str(reason).split(":", 1)[0].strip()
+                # seat markers (rabie veto etc.) are judge bookkeeping, not failure modes a pen
+                # can write away from — only taste/content tags reach the prompt
+                if tag and tag not in reasons and tag.lower() not in {"rabie", "veto", "det", "deterministic"}:
+                    reasons.append(tag)
+        if len(reasons) >= 5:
+            break
+    if not reasons:
+        return ""
+    return ("THE JUDGE KILLED this brand's recent drafts for: " + "، ".join(reasons[:5]) +
+            " — these exact failure modes are FRESH; write deliberately AWAY from them "
+            "(a concrete surprising moment, not a safe generic one). ")
+
+
 def _cr_sector_safe(c: dict) -> str:
     try:
         import client_rules as _cr
@@ -904,10 +937,38 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     # production renderer (the grinder's pen) didn't. Now woven into sys_p so the pen AVOIDS his
     # kills and aims for his rewards UPFRONT, instead of produce→critic-kill→regenerate (the same
     # consumer-law gap that lost the learned phrase-bans, June 14).
+    # QUALITY-CEILING FIX (2026-07-07, panel-ratified A+D — RABIE+DeepSeek both 4/5): tonight's 14
+    # real drafts were ALL killed, very_normal=12/14. Root-hunt of the live 5048-char sys_p: the taste
+    # clause was a PROHIBITION WALL — 8 kill-names with truncated whys and ZERO concrete winning target.
+    # A wall of "never do X" makes GPT-4o (the only live pen — HUMAIN down, Sonnet dark) retreat to its
+    # safe pretraining mean, which IS very_normal/not_saudi. Two changes, both zero-cost:
+    #   (A) inject the founder's OWN 5/5 captions (founder_taste rewards' examples_good) as the concrete
+    #       TARGET to reach — the pen finally sees what winning looks like, not just what losing looks like.
+    #   (D) collapse the kill list to the LIVE killers stated as POSITIVE counter-moves (do THIS), not a
+    #       32-item avoidance prison. The full kill law still reaches the judge; the PEN gets a sharp aim.
+    # OGZ_CEILING_OFF=1 restores the old prohibition-wall clause (the before/after measurement arm,
+    # taste_clause_ab convention) — default unset → the fix is ON.
+    _win = [ex for r in taste.get("rewards", []) for ex in (r.get("examples_good") or []) if ex][:2]
+    win_clause = ("THE BAR — the founder rated THESE 5/5; reach for THIS level of concrete, surprising, "
+                  "unmistakably-Saudi writing (do NOT copy them — match their SPECIFICITY and voice): "
+                  + " | ".join(f"«{w[:160]}»" for w in _win) + ". ") if _win else ""
+    # the LIVE killers as positive counter-moves (the 3 that actually killed tonight + the two evergreen
+    # smells), stated as DO-instructions — the pen's objective flips from "avoid 32 things" to "do these".
+    do_moves = ("HOW TO CLEAR THE BAR (these are what separates a 5 from a dead 'very normal'): "
+                "1) write a moment so SPECIFIC — one real object, one exact gesture, one true second — that NO "
+                "other brand could post it (generic = dead). "
+                "2) the caption ADDS to the photo — never narrate what the picture already shows. "
+                "3) the HOOK (first line) must earn the read; if the tail can't beat it, STOP shorter — a weak "
+                "closing line kills a strong open. "
+                "4) sound like a real Saudi person in that exact moment, not pan-Arab/MSA marketing copy. ")
     _tk = "؛ ".join(f"{k['name']} ({k['why'][:70]})" for k in taste.get("kills", [])[:8])
     _tr = "؛ ".join(f"{r['name']} ({r['why'][:70]})" for r in taste.get("rewards", [])[:4])
-    taste_clause = ((f"THE FOUNDER'S TASTE LAW — he KILLS these, never produce them: {_tk}. " if _tk else "")
-                    + (f"He REWARDS these, aim for them: {_tr}. " if _tr else ""))
+    if os.environ.get("OGZ_CEILING_OFF") == "1":
+        # the OLD prohibition-wall clause (measurement 'before' arm — proves the fix sharpens output)
+        taste_clause = ((f"THE FOUNDER'S TASTE LAW — he KILLS these, never produce them: {_tk}. " if _tk else "")
+                        + (f"He REWARDS these, aim for them: {_tr}. " if _tr else ""))
+    else:
+        taste_clause = win_clause + do_moves
     # MEASUREMENT-ONLY toggle (June 18, taste_clause_ab.py eyes-test): when OGZ_TASTE_OFF=1 the pen
     # runs WITHOUT his taste law — the "before" arm of the before/after the wire fix needs to prove
     # it sharpens output (Rule #13: connected ≠ better). Default unset → law ON, zero production change.
@@ -921,6 +982,11 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
     c["_knowhow"] = {"sources": _kh_sources, "aspects": ["content-captions", "brand-taste"]}
     if os.environ.get("OGZ_KNOWHOW_OFF") == "1":
         knowhow_clause = ""
+    # THE JUDGE'S ECHO — feed the brand's recent kill-reasons back to the pen (see the helper's
+    # docstring). RELOCATED to the END of sys_p (2026-07-07, recency position) so the freshest failure
+    # signal is the LAST thing the pen reads before it writes — the strongest attractor, not buried
+    # mid-wall. Computed here, injected at the tail below.
+    judge_echo = _recent_kills_clause(c["handle"])
     # OCCASION TRUTH (June 14 — "confirmed with occasion, everything aligned"): tell the pen the
     # slot's REAL calendar status. A daily slot has NO occasion → forbid all holiday words; an
     # occasion slot must live inside THAT occasion only. The gauntlet below enforces it.
@@ -953,7 +1019,11 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
                  "emotional core): " + ", ".join(k.get("pattern", "") for k in c.get("kill_patterns", [])) + ". ")
                 if c.get("kill_patterns") else "")
              + "When the brand has a signature product NAME in its own words (recurring terms), USE it — never genericize it away. "
-             "No invented hashtags. Return JSON: {\"options\": [\"...\", \"...\", \"...\"]}")
+             "No invented hashtags. "
+             # JUDGE ECHO at the TAIL (recency, 2026-07-07): the freshest, most brand-specific failure
+             # signal is the LAST thing the pen reads — the strongest attractor right before it writes.
+             + judge_echo
+             + "Return JSON: {\"options\": [\"...\", \"...\", \"...\"]}")
     few = []
     for ex in c["exemplars"][:3]:
         few += [{"role": "user", "content": "اكتب بصوت البراند"}, {"role": "assistant", "content": ex}]
@@ -987,7 +1057,13 @@ def render_captions(c: dict, slot: dict, angle: dict) -> list[str]:
         directive = ("\n\nThe 3 options MUST be structurally different from each other — "
                      f"option 1 enters the scene through {doors3[0]}; option 2 through {doors3[1]}; "
                      f"option 3 through {doors3[2]}. None may read like a delivery-app push or a "
-                     "generic family-gathering line." + extra)
+                     "generic family-gathering line."
+                     # RISK DEMAND (fix C, 2026-07-07 panel — RABIE 5/5): the pens self-anchor to safe
+                     # ('very normal'), so one option is FORCED to swing. Better to overreach than to be
+                     # correct-but-dead. The judge kills what's actually broken; it rewards the swing that lands.
+                     " Option 3 must take a REAL creative RISK — a surprising, unexpected specific detail or turn "
+                     "the reader would not see coming. On option 3, better to overreach and be bold than to play it "
+                     "safe and land on something 'normal'." + extra)
         # NOTE (C230 reverted June 29, DeepSeek consult): food-POV ban was added HERE then removed —
         # the production prompt stays GENERIC; the HUMAIN judge enforces specificity (it kills food-POV by
         # taste organically). Per-kill rules belong in the judge/learned layer (with TTL retirement), NOT

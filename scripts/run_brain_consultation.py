@@ -76,7 +76,7 @@ Be direct. If the CD Brain is over-engineered, say so. If it's the right structu
 def query_gpt4o(brief):
     import urllib.request, json
     payload = json.dumps({
-        "model": "gpt-4o",
+        "model": "gpt-4o-mini",
         "messages": [{"role": "user", "content": brief}],
         "temperature": 0.7,
         "max_tokens": 2000

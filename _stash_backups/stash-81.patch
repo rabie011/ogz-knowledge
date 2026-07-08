@@ -1,0 +1,70 @@
+diff --git a/data/live_feed/events.jsonl b/data/live_feed/events.jsonl
+index 7b46a590..dccc6349 100644
+--- a/data/live_feed/events.jsonl
++++ b/data/live_feed/events.jsonl
+@@ -496,3 +496,7 @@
+ {"ts": "2026-07-01T12:05:53Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-post-reboot-check — After reboot/Abraham+PlayRoom — report Mac user, daemons, ports 4000/4140, tailscale, ogz paths · Brain API healthy — queue depth 0 · Activity from: executor(18), digest(3), memory(2), orchestra(1)"}
+ {"ts": "2026-07-01T12:06:53Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-post-reboot-check — After reboot/Abraham+PlayRoom — report Mac user, daemons, ports 4000/4140, tailscale, ogz paths · Brain API healthy — queue depth 0 · Activity from: executor(17), digest(4), memory(2), orchestra(1)"}
+ {"ts": "2026-07-01T12:07:53Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-post-reboot-check — After reboot/Abraham+PlayRoom — report Mac user, daemons, ports 4000/4140, tailscale, ogz paths · Brain API healthy — queue depth 0 · Activity from: executor(16), digest(5), memory(2), orchestra(1)"}
++{"ts": "2026-07-01T12:08:03Z", "source": "executor", "type": "mission_done", "level": "warn", "message": "Finished executor-recover-stuck: partial — 2 blocker(s)", "status": "partial", "mission_id": "executor-recover-stuck"}
++{"ts": "2026-07-01T12:08:03Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:08:03Z", "source": "orchestra", "type": "queue", "level": "info", "message": "4 mission(s) queued — nudging executor daemon"}
++{"ts": "2026-07-01T12:08:03Z", "source": "brain", "type": "heartbeat", "level": "info", "message": "Brain API healthy — queue depth 0"}
+diff --git a/data/mac_status/latest.txt b/data/mac_status/latest.txt
+index 1adaa7dd..fe6a2321 100644
+--- a/data/mac_status/latest.txt
++++ b/data/mac_status/latest.txt
+@@ -1,4 +1,4 @@
+-OGZ Status · 2026-07-01T12:08:01Z
++OGZ Status · 2026-07-01T12:08:02Z
+ 
+ CONTROL: Cursor (this chat) — mobile and Mac
+ 
+diff --git a/data/mac_status/sync_meta.json b/data/mac_status/sync_meta.json
+index fd35cf6f..8d108cc3 100644
+--- a/data/mac_status/sync_meta.json
++++ b/data/mac_status/sync_meta.json
+@@ -1,8 +1,8 @@
+ {
+-  "ts": "2026-07-01T12:08:01Z",
++  "ts": "2026-07-01T12:08:03Z",
+   "hostname": "abarihms-Mac-mini.local",
+   "platform": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
+-  "git_sha": "d1c62971",
++  "git_sha": "a5351632",
+   "unified_status_rc": 0,
+   "validate_stack_rc": 0,
+   "launchagents": {
+@@ -15,8 +15,8 @@
+   },
+   "pull": {
+     "ok": false,
+-    "detail": "fatal: unable to access 'https://github.com/rabie011/ogz-knowledge.git/': Could not resolve host: github.com\nerror: cannot rebase: You have unstaged changes.\nerror: Please commit or stash them.",
++    "detail": "From https://github.com/rabie011/ogz-knowledge\n * branch              weiblocks-export -> FETCH_HEAD\nerror: cannot rebase: You have unstaged changes.\nerror: Please commit or stash them.",
+     "branch": "weiblocks-export",
+-    "stashed": true
++    "stashed": false
+   }
+ }
+\ No newline at end of file
+diff --git a/data/unified_status.json b/data/unified_status.json
+index 2b5120cd..cdf07d0b 100644
+--- a/data/unified_status.json
++++ b/data/unified_status.json
+@@ -1,5 +1,5 @@
+ {
+-  "ts": "2026-07-01T12:08:01Z",
++  "ts": "2026-07-01T12:08:02Z",
+   "paused": false,
+   "waiting_on_mohamed": [],
+   "brain": {
+diff --git a/data/unified_status.txt b/data/unified_status.txt
+index 1adaa7dd..fe6a2321 100644
+--- a/data/unified_status.txt
++++ b/data/unified_status.txt
+@@ -1,4 +1,4 @@
+-OGZ Status · 2026-07-01T12:08:01Z
++OGZ Status · 2026-07-01T12:08:02Z
+ 
+ CONTROL: Cursor (this chat) — mobile and Mac
+ 

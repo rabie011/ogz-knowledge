@@ -1,25 +1,80 @@
 {
+  "fake": true,
   "_meta": {
     "organ": "product_truth",
     "handle": "fake_fnb",
-    "brand": "Fake F&B Demo",
+    "brand": "مطعم مريح — Hijazi Casual Dining & Coffee Demo",
+    "built": "2026-07-07",
+    "grounding": {
+      "source": "sector truth: Hijazi street food + Saudi café staples; public-setting menu items confirmed culturally safe"
+    },
+    "keys_source": "synthetic_fake_organ_v1 — sector-representative Hijazi F&B menu items",
+    "hard_truth": "This is a casual Hijazi eatery; كرك هندي is the hero drink; shawarma is the hero food; NO alcohol, NO mixed-gender intimacy scenes — public café/street settings only.",
+    "signature_serving_system": "Branded paper cups for drinks (karak, Arabic coffee); white kraft wrap for shawarma; round foil trays for sharing platters. Woven palm-leaf place mats or plain wooden tables. Condensation on cold drinks, steam on hot ones.",
     "_prov": {
-      "source": "synthetic_fixture",
-      "date_added": "2026-06-30",
+      "source": "synthetic_fake_organ_v1",
+      "date_added": "2026-07-07",
       "confirmer": "system",
       "confidence": "experimental",
       "scope": "brand"
     }
   },
   "products": {
-    "كومبو": {
-      "identity_dna": "مقهى تجريبي — كومبو",
-      "components": [
-        "كومبو"
-      ],
-      "signature": "كومبو",
-      "texture": "tactile food texture, condensation on glassware, steam on hot dishes",
-      "format": "product"
+    "كرك هندي": {
+      "identity_dna": "A creamy, deep-amber Indian-spiced milk tea — simmered with cardamom, cinnamon, and cloves — poured steaming into a branded paper cup with a snug lid. The colour is warm toffee-brown, the surface glossy from condensed milk. It is THE Saudi café ritual drink: warming, sweet, and ordered by the tray at offices and Thursday gatherings.",
+      "components": ["black tea brewed strong", "whole milk / evaporated milk", "cardamom pods", "cinnamon stick", "cloves", "sugar to order"],
+      "signature": "Toffee-brown creamy tea, steaming in a branded paper cup — the defining shared-sip of any Saudi gathering",
+      "texture": "Silky, warm, slightly viscous from the milk reduction; aromatic steam rises from the lid vent",
+      "format": "drink"
+    },
+    "شاورما دجاج": {
+      "identity_dna": "A tightly wrapped shawarma sandwich — grilled, marinated chicken shaved off a rotating spit, layered with garlic sauce (toum), pickled turnips, and crispy onion, all folded inside a warm khobz flatbread. The exterior shows char marks and golden grill blistering; the interior steams when unwrapped.",
+      "components": ["marinated rotisserie chicken, shaved thin", "garlic toum sauce", "pickled pink turnips", "crispy fried onions", "fresh khobz flatbread, grilled"],
+      "signature": "Warm charred flatbread wrap, bulging with garlic-sauced chicken and pickled pink turnips — held in one hand",
+      "texture": "Crispy-edged flatbread exterior, soft inside; juicy tender chicken with tart pickling contrast",
+      "format": "wrap"
+    },
+    "قهوة عربية بالهيل": {
+      "identity_dna": "Light golden Gulf coffee (قهوة خفيفة) — steeped with cardamom and a whisper of saffron, poured from a brass dallah into a small handleless finjan cup. The colour is pale yellow-gold, completely clear, and aromatic. Served with a side of Medjool dates on a small wooden tray.",
+      "components": ["lightly roasted green/yellow coffee beans", "cardamom (هيل)", "saffron threads", "optional: cloves, ginger", "Medjool dates on the side"],
+      "signature": "Pale golden coffee in a white finjan cup, with a gleaming brass dallah and dates beside it — the Saudi hospitality icon",
+      "texture": "Clear, light-bodied, warmly aromatic; dates contrast sweet and chewy against the bitter floral coffee",
+      "format": "drink"
+    },
+    "منقوش جبن": {
+      "identity_dna": "A freshly baked Levantine-style flatbread (خبز طابون) spread edge-to-edge with soft white cheese (جبن عكاوي or akkawi), blistered golden from the oven — thin, foldable, with a soft doughy interior and a slightly crispy charred bottom. Eaten folded or flat, still warm from the bread oven.",
+      "components": ["thin yeasted flatbread dough", "akkawi / white cheese blend", "olive oil brushed edge", "optional: nigella seeds on top"],
+      "signature": "Golden-blistered flatbread covered wall to wall in melted white cheese, served warm and foldable",
+      "texture": "Soft, chewy doughy interior; lightly crisp charred bottom; cheese melted through and gooey at the center",
+      "format": "bread"
+    },
+    "كوكتيل تمر بالحليب": {
+      "identity_dna": "A thick, creamy date-and-milk smoothie — blended Medjool dates with cold whole milk and a pinch of cardamom, the colour deep caramel-brown, served in a tall branded glass or sealed cup with a straw. It is sweet, nourishing, and unmistakably Saudi in its use of dates as the primary sweetener.",
+      "components": ["Medjool dates, pitted", "cold whole milk", "cardamom (optional)", "crushed ice"],
+      "signature": "Thick caramel-brown date shake, served in a tall sealed cup with straw — naturally sweet, no added sugar",
+      "texture": "Thick and creamy like a milkshake; tiny date fibre bits through the smoothness; cold and filling",
+      "format": "drink"
+    },
+    "بسبوسة بالقشطة": {
+      "identity_dna": "A moist, golden semolina cake (بسبوسة) soaked in rose-water sugar syrup, topped with a dollop of thick Saudi clotted cream (قشطة) and garnished with crushed pistachios. The surface glistens from the syrup soak; the cream is pure white against the honey-amber cake.",
+      "components": ["fine semolina", "yoghurt batter", "rose-water sugar syrup (قطر)", "thick clotted cream (قشطة)", "crushed pistachios"],
+      "signature": "Syrup-glossed golden semolina cake square topped with white clotted cream and green pistachio crumble",
+      "texture": "Moist, tender, slightly grainy from semolina; sweet and floral from rose syrup; cream adds cool richness",
+      "format": "dessert"
+    },
+    "فطيرة بالجبن والعسل": {
+      "identity_dna": "A hot pocket pastry (فطيرة) made from thin buttered dough layers, filled with soft white cheese and finished with a golden honey drizzle on top. The exterior is flaky and blistered from the griddle; the cheese melts and the honey caramelises slightly at the edges.",
+      "components": ["thin buttered layered dough (like warqa)", "soft white akkawi cheese", "wildflower or sidr honey drizzle", "optional: nigella seeds"],
+      "signature": "Hot flaky pastry pocket oozing white cheese with a golden honey drizzle — sweet-salty Saudi street snack",
+      "texture": "Shatteringly crisp layered exterior; molten cheese centre; honey adds sticky sweetness at the fold",
+      "format": "pastry"
+    },
+    "سندويش فلافل": {
+      "identity_dna": "A hand-held falafel sandwich — crispy deep-green chickpea falafel balls, still hot, stuffed into a fresh khobz half with shredded white cabbage, sliced tomato, parsley, and a drizzle of tahini sauce, wrapped in wax paper. Eaten standing at the counter or in a car — the ultimate Saudi street lunch.",
+      "components": ["fresh-fried falafel balls (chickpea + herb)", "warm khobz flatbread", "shredded white cabbage", "sliced tomato + cucumber", "parsley sprigs", "tahini sauce"],
+      "signature": "Hot crispy falafel in a warm khobz half, stuffed with crunchy vegetables and white tahini — wrapped in wax paper",
+      "texture": "Crunchy shatteringly crisp falafel exterior, soft herb-green inside; bread soft; cabbage gives fresh crunch",
+      "format": "sandwich"
     }
   }
 }

@@ -84,7 +84,7 @@ def build_tension_prompt(brief: dict) -> str:
 def generate_tension(brief: dict, client) -> str:
     prompt = build_tension_prompt(brief)
     resp = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.7,
         max_tokens=120,

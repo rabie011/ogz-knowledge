@@ -36,7 +36,7 @@ def ask_gpt(prompt, system="You are a sharp, independent advisor. Be concise and
         return "(no OPENAI_API_KEY)"
     try:
         out = _post("https://api.openai.com/v1/chat/completions",
-                    {"model": "gpt-4o", "temperature": 0.3, "max_tokens": 600,
+                    {"model": "gpt-4o-mini", "temperature": 0.3, "max_tokens": 600,
                      "messages": [{"role": "system", "content": system},
                                   {"role": "user", "content": prompt}]},
                     {"Authorization": f"Bearer {key}", "Content-Type": "application/json"})

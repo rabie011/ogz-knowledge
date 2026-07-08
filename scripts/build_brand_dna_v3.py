@@ -66,7 +66,7 @@ def classify_patterns(brand: str, posts: list[dict], pats: list[dict]) -> dict:
     top = sorted(posts, key=lambda x: x["likes"], reverse=True)[:30]
     corpus = "\n".join(f"{i+1}. [{p['likes']}] {p['caption'][:180]}" for i, p in enumerate(top))
     lib = "\n".join(f"- {p['slug']}: {p['description']}" for p in pats)
-    body = {"model": "gpt-4o", "temperature": 0.1, "max_tokens": 1200,
+    body = {"model": "gpt-4o-mini", "temperature": 0.1, "max_tokens": 1200,
             "response_format": {"type": "json_object"},
             "messages": [
                 {"role": "system", "content": "You classify Instagram captions against a pattern library. Return STRICT JSON: {\"patterns_used\": [{\"slug\":..., \"count\":..., \"example_indices\":[...]}], \"unmatched_count\": int}. Use ONLY slugs from the library."},

@@ -1,0 +1,112 @@
+diff --git a/data/live_feed/events.jsonl b/data/live_feed/events.jsonl
+index 6faa4064..ad3cd461 100644
+--- a/data/live_feed/events.jsonl
++++ b/data/live_feed/events.jsonl
+@@ -462,3 +462,7 @@
+ {"ts": "2026-06-30T18:01:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:02:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:03:14Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-07-01T12:08:24Z", "source": "executor", "type": "mission_done", "level": "warn", "message": "Finished mac-post-reboot-check: partial — 1 blocker(s)", "status": "partial", "mission_id": "mac-post-reboot-check"}
++{"ts": "2026-07-01T12:08:24Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:08:28Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:08"}
++{"ts": "2026-07-01T12:08:28Z", "source": "executor", "type": "mission_start", "level": "info", "message": "Started: executor-recover-stuck — Recover stuck running/ missions — move back to pending or done so wire-go can drain"}
+diff --git a/data/mac_status/latest.txt b/data/mac_status/latest.txt
+index af2f32a0..1550a99b 100644
+--- a/data/mac_status/latest.txt
++++ b/data/mac_status/latest.txt
+@@ -1,4 +1,4 @@
+-OGZ Status · 2026-07-01T12:08:25Z
++OGZ Status · 2026-07-01T12:08:26Z
+ 
+ CONTROL: Cursor (this chat) — mobile and Mac
+ 
+@@ -14,7 +14,7 @@ PILOTS:
+ KNOWLEDGE: 16 docs indexed
+ MISTAKES LOGGED: 8
+ 
+-MAC SYNC: 2026-07-01T12:08:24Z (abarihms-Mac-mini.local)
++MAC SYNC: 2026-07-01T12:08:26Z (abarihms-Mac-mini.local)
+ 
+ YOUR GATES: render go · wire to prod · taste pairs · stop/لخ
+ 
+diff --git a/data/mac_status/sync_meta.json b/data/mac_status/sync_meta.json
+index 6076b885..da5b33d7 100644
+--- a/data/mac_status/sync_meta.json
++++ b/data/mac_status/sync_meta.json
+@@ -1,8 +1,8 @@
+ {
+-  "ts": "2026-07-01T12:08:25Z",
++  "ts": "2026-07-01T12:08:27Z",
+   "hostname": "abarihms-Mac-mini.local",
+   "platform": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
+-  "git_sha": "cb140e23",
++  "git_sha": "0e361e83",
+   "unified_status_rc": 0,
+   "validate_stack_rc": 0,
+   "launchagents": {
+diff --git a/data/unified_status.json b/data/unified_status.json
+index c23517e9..21f391a9 100644
+--- a/data/unified_status.json
++++ b/data/unified_status.json
+@@ -1,5 +1,5 @@
+ {
+-  "ts": "2026-07-01T12:08:25Z",
++  "ts": "2026-07-01T12:08:28Z",
+   "paused": false,
+   "waiting_on_mohamed": [],
+   "brain": {
+@@ -11,12 +11,11 @@
+       "auth_required": true
+     }
+   },
+-  "executor_live": false,
++  "executor_live": true,
+   "queue": {
+-    "pending": 5,
+-    "running": 3,
++    "pending": 4,
++    "running": 4,
+     "pending_files": [
+-      "executor-recover-stuck.json",
+       "mac-organize-cleanup.json",
+       "tailscale-brain-wire.json",
+       "wire-go.json",
+@@ -35,9 +34,9 @@
+   "mistake_count": 8,
+   "control_surface": "Cursor (mobile + Mac)",
+   "mac_last_sync": {
+-    "ts": "2026-07-01T12:08:24Z",
++    "ts": "2026-07-01T12:08:27Z",
+     "hostname": "abarihms-Mac-mini.local",
+-    "git_sha": "4fdd6b4c"
++    "git_sha": "0e361e83"
+   },
+   "live_feed_mac_debug": "http://localhost:4141",
+   "brain_api": "http://localhost:4140"
+diff --git a/data/unified_status.txt b/data/unified_status.txt
+index af2f32a0..db810a93 100644
+--- a/data/unified_status.txt
++++ b/data/unified_status.txt
+@@ -1,10 +1,10 @@
+-OGZ Status · 2026-07-01T12:08:25Z
++OGZ Status · 2026-07-01T12:08:28Z
+ 
+ CONTROL: Cursor (this chat) — mobile and Mac
+ 
+ BRAIN: healthy :4140
+-QUEUE: 5 pending, 3 running (executor-recover-stuck.json, mac-organize-cleanup.json, tailscale-brain-wire.json)
+-EXECUTOR: idle (shell only — not Claude Code)
++QUEUE: 4 pending, 4 running (mac-organize-cleanup.json, tailscale-brain-wire.json, wire-go.json)
++EXECUTOR: running a mission
+ 
+ PILOTS:
+   · albaik: ready, 79% coverage
+@@ -14,7 +14,7 @@ PILOTS:
+ KNOWLEDGE: 16 docs indexed
+ MISTAKES LOGGED: 8
+ 
+-MAC SYNC: 2026-07-01T12:08:24Z (abarihms-Mac-mini.local)
++MAC SYNC: 2026-07-01T12:08:27Z (abarihms-Mac-mini.local)
+ 
+ YOUR GATES: render go · wire to prod · taste pairs · stop/لخ
+ 

@@ -1,0 +1,156 @@
+diff --git a/data/cursor_missions/LIVE_STATUS.md b/data/cursor_missions/LIVE_STATUS.md
+index 85305aae..e302d674 100644
+--- a/data/cursor_missions/LIVE_STATUS.md
++++ b/data/cursor_missions/LIVE_STATUS.md
+@@ -1,19 +1,17 @@
+-# LIVE — Orchestra status
++# LIVE — Claude Code executor
+ 
+-Updated: 2026-06-30T17:32:04Z
++Updated: 2026-06-30T22:19:09Z
+ 
+-| Role | Who |
+-|------|-----|
+-| **Orchestra** | Cursor — plans, drops missions |
+-| **Executor** | Background daemon — drains `pending/` |
+-| **You** | Mohamed — **http://localhost:4141** (one tab) |
++**Running** mission `mac-onboard-mobile-bridge` — started 2026-06-30T22:19:09Z
+ 
+-## Right now
++## Queue
+ 
+-- Pending missions: **0**
+-- Executor live: **idle — will drain on next tick**
+-- Watch: **http://localhost:4141**
++| Pending | Running |
++|---------|---------|
++| 0 | 1 |
+ 
+-## Pending queue
++## Watch live (one tab)
+ 
+-_empty_
++**http://localhost:4141** — plain-English feed. Pin in browser. No iTerm required.
++
++Cursor drops missions to `pending/`; executor daemon drains them.
+diff --git a/data/cursor_missions/pending/mac-onboard-mobile-bridge.json b/data/cursor_missions/pending/mac-onboard-mobile-bridge.json
+deleted file mode 100644
+index 3e101234..00000000
+--- a/data/cursor_missions/pending/mac-onboard-mobile-bridge.json
++++ /dev/null
+@@ -1,12 +0,0 @@
+-{
+-  "id": "mac-onboard-mobile-bridge",
+-  "from": "cursor-cloud",
+-  "created": "2026-06-30T18:45:00Z",
+-  "type": "commands",
+-  "goal": "Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status)",
+-  "fix_allowed": false,
+-  "commands": [
+-    "cd ~/Desktop/ogz-knowledge && git pull --rebase origin HEAD",
+-    "cd ~/Desktop/ogz-knowledge && chmod +x scripts/mac_onboard.sh && ./scripts/mac_onboard.sh"
+-  ]
+-}
+diff --git a/data/live_feed/events.jsonl b/data/live_feed/events.jsonl
+index 6faa4064..1846ceda 100644
+--- a/data/live_feed/events.jsonl
++++ b/data/live_feed/events.jsonl
+@@ -462,3 +462,98 @@
+ {"ts": "2026-06-30T18:01:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:02:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:03:14Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T22:19:09Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor daemon started — shell missions in background (not Claude Code)"}
++{"ts": "2026-06-30T22:19:09Z", "source": "executor", "type": "queue", "level": "info", "message": "Draining 1 mission(s) in background"}
++{"ts": "2026-06-30T22:19:09Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-06-30T22:19"}
++{"ts": "2026-06-30T22:19:09Z", "source": "executor", "type": "mission_start", "level": "info", "message": "Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status)"}
++{"ts": "2026-06-30T22:19:36Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:20:36Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:21:37Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:22:37Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:23:37Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:24:37Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:25:37Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:26:37Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:27:37Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:28:37Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:29:38Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:30:38Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:31:38Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:32:38Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:33:38Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:34:38Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:35:38Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:36:38Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:37:39Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:38:39Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:39:39Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:40:39Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T22:41:39Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(22), executor(3)"}
++{"ts": "2026-06-30T22:42:39Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(23), executor(2)"}
++{"ts": "2026-06-30T22:43:40Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(24), executor(1)"}
++{"ts": "2026-06-30T22:44:40Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T22:45:40Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T22:46:40Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T22:47:40Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T22:48:40Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T22:49:40Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T22:50:40Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T22:51:41Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T22:52:41Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T22:53:41Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T22:54:41Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T22:55:41Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T22:56:41Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T22:57:41Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T22:58:42Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T22:59:42Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:00:42Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:01:42Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:02:42Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:03:42Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:04:42Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:05:43Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:06:43Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:07:43Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:08:43Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:09:43Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:10:43Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:11:43Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:12:43Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:13:44Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:14:44Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:15:44Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:16:44Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:17:44Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:18:44Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:19:44Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:20:44Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:21:45Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:22:45Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:23:45Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:24:45Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:25:45Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:26:45Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:27:45Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:28:46Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:29:46Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:30:46Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:31:46Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:32:46Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:33:46Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:34:46Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:35:46Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:36:47Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:37:47Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:38:47Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:39:47Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:40:47Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:41:47Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:42:47Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:43:47Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:44:48Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:45:48Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:46:48Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:47:48Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:48:48Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:49:48Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}

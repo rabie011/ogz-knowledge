@@ -41,7 +41,7 @@ def env(k):
 
 def gpt(system, user, temp=0.5, max_tok=900):
     import urllib.request
-    body = {"model": "gpt-4o", "temperature": temp, "max_tokens": max_tok,
+    body = {"model": "gpt-4o-mini", "temperature": temp, "max_tokens": max_tok,
             "response_format": {"type": "json_object"},
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}]}
     rq = urllib.request.Request("https://api.openai.com/v1/chat/completions", data=json.dumps(body).encode(),

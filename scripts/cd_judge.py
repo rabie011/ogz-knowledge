@@ -75,7 +75,7 @@ def judge_caption(caption: str, brain_slug: str, api_key: str) -> dict:
     for attempt in range(3):
         try:
             resp = client.chat.completions.create(
-                model="gpt-4o",
+                model="gpt-4o-mini",
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=200,
                 temperature=0,

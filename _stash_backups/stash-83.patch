@@ -1,0 +1,138 @@
+diff --git a/data/live_feed/events.jsonl b/data/live_feed/events.jsonl
+index 6faa4064..9ffbcdd2 100644
+--- a/data/live_feed/events.jsonl
++++ b/data/live_feed/events.jsonl
+@@ -462,3 +462,36 @@
+ {"ts": "2026-06-30T18:01:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:02:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:03:14Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-07-01T02:39:35Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T02:40:12Z", "source": "executor", "type": "mission_done", "level": "warn", "message": "Finished agent-run-now: partial — 2 blocker(s)", "status": "partial", "mission_id": "agent-run-now"}
++{"ts": "2026-07-01T02:40:12Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T02:40:12Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T02:40"}
++{"ts": "2026-07-01T02:40:12Z", "source": "executor", "type": "mission_start", "level": "info", "message": "Started: mac-post-reboot-check — After reboot/Abraham+PlayRoom — report Mac user, daemons, ports 4000/4140, tailscale, ogz paths"}
++{"ts": "2026-07-01T02:40:27Z", "source": "executor", "type": "queue", "level": "info", "message": "Draining 8 mission(s) in background"}
++{"ts": "2026-07-01T02:40:42Z", "source": "executor", "type": "queue", "level": "info", "message": "Draining 8 mission(s) in background"}
++{"ts": "2026-07-01T02:40:57Z", "source": "executor", "type": "queue", "level": "info", "message": "Draining 8 mission(s) in background"}
++{"ts": "2026-07-01T02:41:12Z", "source": "executor", "type": "queue", "level": "info", "message": "Draining 8 mission(s) in background"}
++{"ts": "2026-07-01T02:41:28Z", "source": "executor", "type": "queue", "level": "info", "message": "Draining 8 mission(s) in background"}
++{"ts": "2026-07-01T02:41:43Z", "source": "executor", "type": "queue", "level": "info", "message": "Draining 8 mission(s) in background"}
++{"ts": "2026-07-01T02:41:58Z", "source": "executor", "type": "queue", "level": "info", "message": "Draining 8 mission(s) in background"}
++{"ts": "2026-07-01T02:42:14Z", "source": "executor", "type": "queue", "level": "info", "message": "Draining 8 mission(s) in background"}
++{"ts": "2026-07-01T02:42:33Z", "source": "executor", "type": "queue", "level": "info", "message": "Draining 8 mission(s) in background"}
++{"ts": "2026-07-01T12:02:50Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor daemon started — shell missions in background (not Claude Code)"}
++{"ts": "2026-07-01T12:02:50Z", "source": "executor", "type": "queue", "level": "info", "message": "Draining 8 mission(s) in background"}
++{"ts": "2026-07-01T12:02:50Z", "source": "digest", "type": "digest", "level": "info", "message": "Last mission: Finished agent-run-now: partial — 2 blocker(s) · Recent missions: 1 finished (0 ok, 1 issues) · Activity from: executor(14), digest(11)"}
++{"ts": "2026-07-01T12:02:52Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:02"}
++{"ts": "2026-07-01T12:02:52Z", "source": "executor", "type": "mission_start", "level": "info", "message": "Started: executor-recover-stuck — Recover stuck running/ missions — move back to pending or done so wire-go can drain"}
++{"ts": "2026-07-01T12:02:52Z", "source": "orchestra", "type": "queue", "level": "info", "message": "8 mission(s) waiting — executor will pick up"}
++{"ts": "2026-07-01T12:02:53Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:03:02Z", "source": "memory", "type": "index", "level": "info", "message": "Memory keeper ran — {'home_glob': 3, 'mission_fail': 4}"}
++{"ts": "2026-07-01T12:03:02Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:03"}
++{"ts": "2026-07-01T12:03:02Z", "source": "executor", "type": "mission_start", "level": "info", "message": "Started: mac-post-reboot-check — After reboot/Abraham+PlayRoom — report Mac user, daemons, ports 4000/4140, tailscale, ogz paths"}
++{"ts": "2026-07-01T12:03:02Z", "source": "brain", "type": "heartbeat", "level": "info", "message": "Brain API healthy — queue depth 0"}
++{"ts": "2026-07-01T12:03:03Z", "source": "memory", "type": "index", "level": "info", "message": "Memory keeper ran — {'home_glob': 3, 'mission_fail': 4}"}
++{"ts": "2026-07-01T12:03:52Z", "source": "digest", "type": "digest", "level": "info", "message": "Last mission: Finished agent-run-now: partial — 2 blocker(s) · Recent missions: 1 finished (0 ok, 1 issues) · Brain API healthy — queue depth 0 · Activity from: executor(20), memory(2), digest(1), orchestra(1)"}
++{"ts": "2026-07-01T12:04:52Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-post-reboot-check — After reboot/Abraham+PlayRoom — report Mac user, daemons, ports 4000/4140, tailscale, ogz paths · Brain API healthy — queue depth 0 · Activity from: executor(19), digest(2), memory(2), orchestra(1)"}
++{"ts": "2026-07-01T12:05:26Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:05:28Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:05"}
++{"ts": "2026-07-01T12:05:28Z", "source": "executor", "type": "mission_start", "level": "info", "message": "Started: mac-post-reboot-check — After reboot/Abraham+PlayRoom — report Mac user, daemons, ports 4000/4140, tailscale, ogz paths"}
++{"ts": "2026-07-01T12:05:53Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-post-reboot-check — After reboot/Abraham+PlayRoom — report Mac user, daemons, ports 4000/4140, tailscale, ogz paths · Brain API healthy — queue depth 0 · Activity from: executor(18), digest(3), memory(2), orchestra(1)"}
++{"ts": "2026-07-01T12:06:53Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-post-reboot-check — After reboot/Abraham+PlayRoom — report Mac user, daemons, ports 4000/4140, tailscale, ogz paths · Brain API healthy — queue depth 0 · Activity from: executor(17), digest(4), memory(2), orchestra(1)"}
+diff --git a/data/mac_status/latest.txt b/data/mac_status/latest.txt
+index a4d2ffe3..86a47c5a 100644
+--- a/data/mac_status/latest.txt
++++ b/data/mac_status/latest.txt
+@@ -1,4 +1,4 @@
+-OGZ Status · 2026-07-01T02:42:09Z
++OGZ Status · 2026-07-01T02:42:28Z
+ 
+ CONTROL: Cursor (this chat) — mobile and Mac
+ 
+@@ -14,7 +14,7 @@ PILOTS:
+ KNOWLEDGE: 16 docs indexed
+ MISTAKES LOGGED: 7
+ 
+-MAC SYNC: 2026-07-01T02:42:08Z (abarihms-Mac-mini.local)
++MAC SYNC: 2026-07-01T02:42:28Z (abarihms-Mac-mini.local)
+ 
+ YOUR GATES: render go · wire to prod · taste pairs · stop/لخ
+ 
+diff --git a/data/mac_status/sync_meta.json b/data/mac_status/sync_meta.json
+index eada2eaf..9e88da2e 100644
+--- a/data/mac_status/sync_meta.json
++++ b/data/mac_status/sync_meta.json
+@@ -1,8 +1,8 @@
+ {
+-  "ts": "2026-07-01T02:42:09Z",
++  "ts": "2026-07-01T02:42:31Z",
+   "hostname": "abarihms-Mac-mini.local",
+   "platform": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
+-  "git_sha": "9582699e",
++  "git_sha": "23258050",
+   "unified_status_rc": 0,
+   "validate_stack_rc": 1,
+   "launchagents": {
+diff --git a/data/unified_status.json b/data/unified_status.json
+index 89751e79..d2d33f76 100644
+--- a/data/unified_status.json
++++ b/data/unified_status.json
+@@ -1,17 +1,17 @@
+ {
+-  "ts": "2026-07-01T02:42:10Z",
++  "ts": "2026-07-01T12:02:51Z",
+   "paused": false,
+   "waiting_on_mohamed": [],
+   "brain": {
+     "ok": true,
+     "body": {
+       "ok": true,
+-      "humain": true,
++      "humain": false,
+       "queue_depth": 0,
+       "auth_required": true
+     }
+   },
+-  "executor_live": true,
++  "executor_live": false,
+   "queue": {
+     "pending": 8,
+     "running": 2,
+@@ -38,9 +38,9 @@
+   "mistake_count": 7,
+   "control_surface": "Cursor (mobile + Mac)",
+   "mac_last_sync": {
+-    "ts": "2026-07-01T02:42:09Z",
++    "ts": "2026-07-01T02:42:31Z",
+     "hostname": "abarihms-Mac-mini.local",
+-    "git_sha": "9582699e"
++    "git_sha": "23258050"
+   },
+   "live_feed_mac_debug": "http://localhost:4141",
+   "brain_api": "http://localhost:4140"
+diff --git a/data/unified_status.txt b/data/unified_status.txt
+index f06107f2..c582b9aa 100644
+--- a/data/unified_status.txt
++++ b/data/unified_status.txt
+@@ -1,10 +1,10 @@
+-OGZ Status · 2026-07-01T02:42:10Z
++OGZ Status · 2026-07-01T12:02:51Z
+ 
+ CONTROL: Cursor (this chat) — mobile and Mac
+ 
+ BRAIN: healthy :4140
+ QUEUE: 8 pending, 2 running (executor-recover-stuck.json, mac-organize-cleanup.json, recover-agent-run-now.json)
+-EXECUTOR: running a mission
++EXECUTOR: idle (shell only — not Claude Code)
+ 
+ PILOTS:
+   · albaik: ready, 79% coverage
+@@ -14,7 +14,7 @@ PILOTS:
+ KNOWLEDGE: 16 docs indexed
+ MISTAKES LOGGED: 7
+ 
+-MAC SYNC: 2026-07-01T02:42:09Z (abarihms-Mac-mini.local)
++MAC SYNC: 2026-07-01T02:42:31Z (abarihms-Mac-mini.local)
+ 
+ YOUR GATES: render go · wire to prod · taste pairs · stop/لخ
+ 

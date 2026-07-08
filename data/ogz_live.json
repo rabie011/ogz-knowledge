@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updated_at": "2026-07-01T15:10:17Z",
+  "updated_at": "2026-07-01T20:45:51Z",
   "healthy": false,
   "stale": true,
-  "stale_reason": "ghost running missions",
+  "stale_reason": "stale: sync dead",
   "sync": {
     "last_push": "2026-07-01T02:03:32Z",
     "last_pull_ok": false,
@@ -22,16 +22,14 @@
   },
   "executor": {
     "daemon": "loaded",
-    "lock_alive": false,
-    "state": "jammed",
+    "lock_alive": true,
+    "state": "running",
     "current_mission": "agent-run-now",
-    "started_at": "2026-07-01T14:55:28Z",
+    "started_at": "2026-07-01T20:40:10Z",
     "pending": [
       "executor-recover-stuck.json",
-      "executor-sync-always.json",
       "mac-organize-cleanup.json",
       "mac-post-reboot-check.json",
-      "queue-clear-stuck-running.json",
       "tailscale-brain-wire.json",
       "wire-go.json",
       "wire-test-go.json"
@@ -39,20 +37,19 @@
     "running": [
       "agent-run-now.json",
       "consult-mirror-proposals-foundation.json",
-      "proposals-foundation-go.json"
+      "executor-sync-always.json",
+      "queue-clear-stuck-running.json"
     ],
-    "ghost_running": [
-      "proposals-foundation-go.json"
-    ],
+    "ghost_running": [],
     "last_drain_at": "2026-07-01T02:03:32Z",
     "last_drain_ok": null
   },
   "brain": {
-    "ok": false,
+    "ok": true,
     "port": 4140
   },
   "bridge": {
-    "ok": false,
+    "ok": true,
     "port": 4150
   },
   "agents": {
@@ -97,9 +94,9 @@
       "summary": ""
     },
     "PROPOSALS": {
-      "last_seen": null,
-      "state": "unknown",
-      "summary": ""
+      "last_seen": "2026-07-01T12:13:59Z",
+      "state": "idle",
+      "summary": "Foundation harvest from ~/agents"
     },
     "RABIE": {
       "last_seen": null,
@@ -118,34 +115,6 @@
     }
   },
   "recent_events": [
-    {
-      "ts": "2026-06-30T17:49:12Z",
-      "source": "digest",
-      "type": "digest",
-      "level": "info",
-      "message": "Last mission: Finished restart-executor: fail — 1 blocker(s) · Recent missions: 1 finished (0 ok, 1 issues) · ⚠ 1 error(s) — see feed · Activity from: digest(15), mac(6), executor(3), cursor(1)"
-    },
-    {
-      "ts": "2026-06-30T17:50:12Z",
-      "source": "digest",
-      "type": "digest",
-      "level": "info",
-      "message": "Last mission: Finished restart-executor: fail — 1 blocker(s) · Recent missions: 1 finished (0 ok, 1 issues) · ⚠ 1 error(s) — see feed · Activity from: digest(16), mac(6), executor(2), cursor(1)"
-    },
-    {
-      "ts": "2026-06-30T17:51:12Z",
-      "source": "digest",
-      "type": "digest",
-      "level": "info",
-      "message": "Activity from: digest(17), mac(6), executor(1), cursor(1)"
-    },
-    {
-      "ts": "2026-06-30T17:52:12Z",
-      "source": "digest",
-      "type": "digest",
-      "level": "info",
-      "message": "Activity from: digest(18), mac(6), cursor(1)"
-    },
     {
       "ts": "2026-06-30T17:53:12Z",
       "source": "digest",
@@ -222,6 +191,34 @@
       "type": "digest",
       "level": "info",
       "message": "Activity from: digest(25)"
+    },
+    {
+      "ts": "2026-07-01T20:45:50Z",
+      "source": "executor",
+      "type": "mission_start",
+      "level": "info",
+      "message": "Started: queue-clear-stuck-running — Clear ghost running/ missions (already in done/) + push status + diagnostics to GitHub"
+    },
+    {
+      "ts": "2026-07-01T20:45:51Z",
+      "source": "executor",
+      "type": "idle",
+      "level": "info",
+      "message": "Executor released — queue idle"
+    },
+    {
+      "ts": "2026-07-01T20:45:51Z",
+      "source": "executor",
+      "type": "startup",
+      "level": "info",
+      "message": "Executor claimed queue at 2026-07-01T20:45"
+    },
+    {
+      "ts": "2026-07-01T20:45:51Z",
+      "source": "executor",
+      "type": "mission_start",
+      "level": "info",
+      "message": "Started: executor-sync-always — Bootstrap/recover mac-sync + executor + ogz_live push. LaunchAgent com.ogz.mac-sync is the permanent loop; this mission "
     }
   ],
   "waiting_on_mohamed": [],
@@ -230,5 +227,5 @@
     "  · eatjurisha: ready, 70% coverage",
     "  · myfitness.sa: ready, 64% coverage"
   ],
-  "unified_status_ts": "2026-07-01T15:10:17Z"
+  "unified_status_ts": "2026-07-01T20:45:51Z"
 }

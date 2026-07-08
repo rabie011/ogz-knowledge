@@ -33,7 +33,7 @@ def _env(k):
 
 
 def gpt(messages, temp=0.8, max_tokens=900, force_json=False):
-    body = {"model": "gpt-4o", "temperature": temp, "max_tokens": max_tokens, "messages": messages}
+    body = {"model": "gpt-4o-mini", "temperature": temp, "max_tokens": max_tokens, "messages": messages}
     if force_json:
         body["response_format"] = {"type": "json_object"}
     rq = urllib.request.Request("https://api.openai.com/v1/chat/completions",

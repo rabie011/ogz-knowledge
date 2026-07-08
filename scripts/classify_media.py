@@ -44,7 +44,7 @@ PROMPT = (
 
 def classify(path, key):
     b64 = base64.b64encode(Path(path).read_bytes()).decode()
-    body = {"model": "gpt-4o", "max_tokens": 120, "temperature": 0,
+    body = {"model": "gpt-4o-mini", "max_tokens": 120, "temperature": 0,
             "messages": [{"role": "user", "content": [
                 {"type": "text", "text": PROMPT},
                 {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{b64}", "detail": "low"}}]}]}

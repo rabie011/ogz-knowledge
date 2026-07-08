@@ -15,10 +15,11 @@ import json
 import os
 from datetime import datetime, timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 
 REPO = Path(__file__).parent.parent
 DATA_ROOT = Path(os.environ["OGZ_BASE"]) if os.environ.get("OGZ_BASE") else REPO  # test sandbox
@@ -155,6 +156,32 @@ def state_of_everything(k: str = ""):
                         headers={"Cache-Control": "private, no-cache"})
 
 
+@app.get("/best-plan")
+def best_stack_plan(k: str = ""):
+    """OGZ-BEST-STACK-PLAN.pdf — the best-in-class multi-tool architecture plan
+    (money no object, data anywhere; July 5). Same key gate as /plan."""
+    if not _ok(k):
+        return JSONResponse({"error": "key required"}, status_code=403)
+    f = OGZ_ROOT / "OGZ-BEST-STACK-PLAN.pdf"
+    if not f.exists():
+        return JSONResponse({"error": "best-plan not found"}, status_code=404)
+    return FileResponse(f, media_type="application/pdf",
+                        headers={"Cache-Control": "private, no-cache"})
+
+
+@app.get("/charter")
+def ogz_charter(k: str = ""):
+    """OGZ-CHARTER.pdf — the persistent company context every agent loads first (July 5).
+    Same key gate as /plan."""
+    if not _ok(k):
+        return JSONResponse({"error": "key required"}, status_code=403)
+    f = OGZ_ROOT / "OGZ-CHARTER.pdf"
+    if not f.exists():
+        return JSONResponse({"error": "charter not found"}, status_code=404)
+    return FileResponse(f, media_type="application/pdf",
+                        headers={"Cache-Control": "private, no-cache"})
+
+
 @app.get("/day-report")
 def day_report(k: str = ""):
     """DAY-REPORT-2026-07-02.pdf for Mohamed's remote read (July 3) — same key gate as /plan."""
@@ -180,6 +207,55 @@ def jadarat_deck(k: str = ""):
                    key=lambda p: p.stat().st_mtime, reverse=True)
     if not cands:
         return JSONResponse({"error": "jadarat deck not found"}, status_code=404)
+    return FileResponse(cands[0], media_type="application/pdf",
+                        headers={"Cache-Control": "private, no-cache"})
+
+
+@app.get("/jadarat-design")
+def jadarat_design_deck(k: str = ""):
+    """The CLOUD-DESIGNED Jadarat deck — rendered by the ogz-deck-design GitHub loop (deck_design_pro,
+    the divergent editorial system), driven by the proposal agent's design handoff (2026-07-05). The
+    consumer for the agent→push→Action→pull round-trip (Rule #6: this route is the deck's reader).
+    Serves the newest cloud-designed render so a re-push auto-updates the link."""
+    if not _ok(k):
+        return JSONResponse({"error": "key required"}, status_code=403)
+    cands = sorted(JOBS_ROOT.glob("*hrdf-jadarat-design*/DECK-CLOUD-DESIGN.pdf"),
+                   key=lambda p: p.stat().st_mtime, reverse=True)
+    if not cands:
+        return JSONResponse({"error": "cloud-designed jadarat deck not found"}, status_code=404)
+    return FileResponse(cands[0], media_type="application/pdf",
+                        headers={"Cache-Control": "private, no-cache"})
+
+
+@app.get("/jadarat-full")
+def jadarat_full(k: str = ""):
+    """The FULL Jadarat technical-envelope SUBMISSION file (14-page A4 bid document, بند 44)
+    for Mohamed's phone (July 5). Same key gate as /plan and /jadarat. Serves the newest
+    full-submission PDF so a rebuild auto-updates this link."""
+    if not _ok(k):
+        return JSONResponse({"error": "key required"}, status_code=403)
+    cands = sorted(JOBS_ROOT.glob("*hrdf-jadarat-full-submission/JADARAT-FULL-SUBMISSION.pdf"),
+                   key=lambda p: p.stat().st_mtime, reverse=True)
+    if not cands:
+        return JSONResponse({"error": "jadarat full submission not found"}, status_code=404)
+    return FileResponse(cands[0], media_type="application/pdf",
+                        headers={"Cache-Control": "private, no-cache"})
+
+
+@app.get("/jadarat-design")
+def jadarat_design(k: str = ""):
+    """The DESIGN-SYSTEM-OWNED Jadarat deck (deck_design_pro — the fuller redesign that owns
+    composition/hierarchy/imagery), separate from the base /jadarat. For Mohamed's phone
+    (July 5). Same key gate as /jadarat. Serves the newest design-owned render so a re-design
+    auto-updates this link."""
+    if not _ok(k):
+        return JSONResponse({"error": "key required"}, status_code=403)
+    cands = sorted(JOBS_ROOT.glob("*jadarat-design-owned/DECK-DESIGN-OWNED.pdf"),
+                   key=lambda p: p.stat().st_mtime, reverse=True) or \
+            sorted(JOBS_ROOT.glob("*jadarat-design*/DECK-DESIGN*.pdf"),
+                   key=lambda p: p.stat().st_mtime, reverse=True)
+    if not cands:
+        return JSONResponse({"error": "jadarat design deck not found"}, status_code=404)
     return FileResponse(cands[0], media_type="application/pdf",
                         headers={"Cache-Control": "private, no-cache"})
 
@@ -353,6 +429,517 @@ def control_center(request: Request, k: str = ""):
     if request.headers.get("if-none-match") == etag:
         return Response(status_code=304, headers={"ETag": etag})
     return FileResponse(f, headers={"Cache-Control": "private, no-cache", "ETag": etag})
+
+
+# =====================================================================================
+# SPEC-001 — /brain : PLATFORM v0 (NOW + HEALTH cards, truth-only)
+# Every number is read at REQUEST TIME from disk (queue/ + ledgers/ + NEEDS-MOHAMED.md).
+# ZERO hardcoded data, ZERO model prose. Missing source -> "no data yet", never fake.
+# Open route (no key gate) so the two hands' live state is glanceable from the phone,
+# same as "/" returns 200. Only reads operational spine files — no client data.
+# =====================================================================================
+
+# Spine paths the /brain cards read from. Defaults to the real OGZ-System; tests point
+# OGZ_JAIL_ROOT at a tmp sandbox so they never touch the live queue/ledgers.
+def _brain_paths():
+    """Resolve spine paths at REQUEST time (honors OGZ_JAIL_ROOT for tests)."""
+    root = Path(os.environ["OGZ_JAIL_ROOT"]) if os.environ.get("OGZ_JAIL_ROOT") else OGZ_ROOT
+    return (root / "queue" / "claimed", root / "ledgers" / "health.jsonl",
+            root / "ledgers" / "spend.jsonl", root / "NEEDS-MOHAMED.md")
+
+
+def _brain_delta_path() -> Path:
+    """The SPEC-008 arena delta ledger (reader = the DELTA card, Consumer Law #6)."""
+    root = Path(os.environ["OGZ_JAIL_ROOT"]) if os.environ.get("OGZ_JAIL_ROOT") else OGZ_ROOT
+    return root / "ledgers" / "delta.jsonl"
+
+
+def _brain_age(seconds: float) -> str:
+    """Compact human age from a delta in seconds."""
+    s = int(max(0, seconds))
+    if s < 60:
+        return f"{s}s"
+    if s < 3600:
+        return f"{s // 60}m"
+    if s < 86400:
+        return f"{s // 3600}h"
+    return f"{s // 86400}d"
+
+
+def _brain_now() -> list[dict]:
+    """One row per claimed task file under queue/claimed/<worker>/. Truth from disk."""
+    rows = []
+    claimed, _, _, _ = _brain_paths()
+    if not claimed.exists():
+        return rows
+    now = datetime.now().timestamp()
+    for worker_dir in sorted(claimed.iterdir()):
+        if not worker_dir.is_dir():
+            continue
+        worker = worker_dir.name
+        for tf in sorted(worker_dir.glob("task_*.json")):
+            try:
+                task = json.loads(tf.read_text(encoding="utf-8"))
+            except Exception:
+                task = {}
+            try:
+                mtime = tf.stat().st_mtime
+            except OSError:
+                mtime = now
+            budget = task.get("budget") or {}
+            rows.append({
+                "worker": worker,
+                "id": task.get("id", tf.stem.replace("task_", "")),
+                "client": task.get("client", "?"),
+                "task_type": task.get("task_type", "?"),
+                "lane": task.get("lane", worker),
+                "age": _brain_age(now - mtime),
+                "max_calls": budget.get("max_calls"),
+                "max_usd": budget.get("max_usd"),
+                "max_minutes": budget.get("max_minutes"),
+            })
+    return rows
+
+
+def _brain_health_lines(limit: int = 20) -> list[dict]:
+    """Last `limit` lines of ledgers/health.jsonl, newest last, each with a computed age."""
+    out = []
+    _, health_f, _, _ = _brain_paths()
+    if not health_f.exists():
+        return out
+    try:
+        raw = [l for l in health_f.read_text(encoding="utf-8").splitlines() if l.strip()]
+    except Exception:
+        return out
+    now_utc = datetime.utcnow().timestamp()
+    for l in raw[-limit:]:
+        try:
+            rec = json.loads(l)
+        except Exception:
+            continue
+        ts = rec.get("ts", "")
+        age = ""
+        try:
+            # health ts is UTC ("...Z"); compare as UTC epoch deltas
+            epoch = (datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ")
+                     - datetime(1970, 1, 1)).total_seconds()
+            age = _brain_age(now_utc - epoch)
+        except Exception:
+            age = ""
+        out.append({"check": rec.get("check", "?"), "status": rec.get("status", "?"),
+                    "ts": ts, "age": age})
+    return out
+
+
+def _brain_spend_today() -> dict:
+    """Sum today's spend.jsonl by worker: calls, usd. Today = UTC date match on ts."""
+    summary = {"total_calls": 0, "total_usd": 0.0, "by_worker": {}, "has_data": False}
+    _, _, spend_f, _ = _brain_paths()
+    if not spend_f.exists():
+        return summary
+    today = datetime.utcnow().strftime("%Y-%m-%d")
+    try:
+        lines = [l for l in spend_f.read_text(encoding="utf-8").splitlines() if l.strip()]
+    except Exception:
+        return summary
+    for l in lines:
+        try:
+            rec = json.loads(l)
+        except Exception:
+            continue
+        if not str(rec.get("ts", "")).startswith(today):
+            continue
+        summary["has_data"] = True
+        w = rec.get("worker", "?")
+        calls = rec.get("calls", 0) or 0
+        usd = rec.get("usd", 0) or 0
+        bw = summary["by_worker"].setdefault(w, {"calls": 0, "usd": 0.0})
+        bw["calls"] += calls
+        bw["usd"] += usd
+        summary["total_calls"] += calls
+        summary["total_usd"] += usd
+    return summary
+
+
+def _brain_needs_open() -> int:
+    """Count OPEN NEEDS-MOHAMED ids that have no matching RESOLVED (mirrors needs_mohamed.py)."""
+    _, _, _, needs_f = _brain_paths()
+    if not needs_f.exists():
+        return 0
+    import re as _re
+    opened, resolved = set(), set()
+    try:
+        for line in needs_f.read_text(encoding="utf-8").splitlines():
+            m = _re.match(r"- \[(OPEN|RESOLVED) ([0-9a-f]{8})\]", line)
+            if not m:
+                continue
+            if m.group(1) == "OPEN":
+                opened.add(m.group(2))
+            else:
+                resolved.add(m.group(2))
+    except Exception:
+        return 0
+    return len(opened - resolved)
+
+
+def _brain_arena_root() -> Path:
+    root = Path(os.environ["OGZ_JAIL_ROOT"]) if os.environ.get("OGZ_JAIL_ROOT") else OGZ_ROOT
+    return root / "arena"
+
+
+def _brain_compiled_path() -> Path:
+    root = Path(os.environ["OGZ_JAIL_ROOT"]) if os.environ.get("OGZ_JAIL_ROOT") else OGZ_ROOT
+    return root / "ledgers" / "compiled.jsonl"
+
+
+def _brain_rabie_verdicts_path() -> Path:
+    """rabie_verdicts_v2.jsonl lives under this app's own data/ (DATA_ROOT), NOT the OGZ_ROOT
+    spine — honors OGZ_BASE for tests, same as ANSWERS/UNVERIFIED/QUEUE above."""
+    return DATA_ROOT / "data" / "rabie_verdicts_v2.jsonl"
+
+
+def _brain_misses_from_arena(limit: int) -> list[dict]:
+    """Per-round gate kills, read at REQUEST time from each arena/<brief_id>/.state.json.
+    gate_fail is keyed by SLOT (A/B); 'slots' maps slot->lane (claude/codex) for that round.
+
+    A round with a top-level "gate_results_voided" note is SKIPPED entirely — those gate_fail
+    entries were graded before the gate-artifact fix (2026-07-06) and are known-false (they
+    graded unrelated live client data, not the round's own artifact). The gate_fail data stays
+    on disk for the record; it just never surfaces as a MISS."""
+    out = []
+    arena = _brain_arena_root()
+    if not arena.exists():
+        return out
+    for brief_dir in sorted(arena.iterdir()):
+        if not brief_dir.is_dir() or brief_dir.name.startswith("."):
+            continue
+        sf = brief_dir / ".state.json"
+        if not sf.exists():
+            continue
+        try:
+            st = json.loads(sf.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if st.get("gate_results_voided"):
+            continue
+        slots = st.get("slots") or {}
+        gate_fail = st.get("gate_fail") or {}
+        ts = st.get("updated", "")
+        for slot, fails in gate_fail.items():
+            lane = slots.get(slot, slot)
+            for g in (fails or []):
+                out.append({
+                    "agent": lane,
+                    "miss": f"gate:{g.get('gate_id', '?')} failed — {g.get('detail', '')}".strip(" —"),
+                    "source": f"arena/{brief_dir.name}/.state.json",
+                    "ts": ts,
+                })
+    out.sort(key=lambda r: r.get("ts") or "", reverse=True)
+    return out[:limit]
+
+
+def _brain_retracted_lesson_texts() -> set[str]:
+    """Lesson TEXTS (normalized) marked retracted in outputs/learned-candidates/*.json.
+    A candidate file carries "retracted": true + "retracted_lessons": [...] listing the exact
+    lesson strings that were compiled from a since-voided source (e.g. pre-gate-artifact-fix
+    gate_fail rows). Read at REQUEST time — never cached — so a retraction takes effect
+    immediately without a restart."""
+    out: set[str] = set()
+    root = Path(os.environ["OGZ_JAIL_ROOT"]) if os.environ.get("OGZ_JAIL_ROOT") else OGZ_ROOT
+    cdir = root / "outputs" / "learned-candidates"
+    if not cdir.is_dir():
+        return out
+    for path in cdir.glob("*.json"):
+        try:
+            obj = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if not obj.get("retracted"):
+            continue
+        for lesson in (obj.get("retracted_lessons") or []):
+            if isinstance(lesson, str):
+                out.add(lesson.strip())
+    return out
+
+
+def _brain_misses_from_compiled(limit: int) -> list[dict]:
+    """Per-contract learned misses from ledgers/compiled.jsonl — lines in lessons_added that
+    are gate-kill lines ('gate:X failed ...'), one row per line, newest ledger entries first.
+
+    Lines whose lesson text matches a RETRACTED lesson (see _brain_retracted_lesson_texts) are
+    skipped — those were compiled from gate runs later voided as false (graded unrelated live
+    client data, not the round's own artifact; pre gate-artifact-fix 2026-07-06). The ledger
+    line itself is never edited (append-only law); only the MISSES view filters it out."""
+    out = []
+    p = _brain_compiled_path()
+    if not p.exists():
+        return out
+    retracted = _brain_retracted_lesson_texts()
+    try:
+        raw = [l for l in p.read_text(encoding="utf-8").splitlines() if l.strip()]
+    except Exception:
+        return out
+    for l in reversed(raw):
+        try:
+            rec = json.loads(l)
+        except Exception:
+            continue
+        contract = rec.get("contract", "?")
+        ts = rec.get("ts", "")
+        for line in (rec.get("lessons_added") or []):
+            if "gate:" not in line or "failed" not in line:
+                continue
+            # line shape: "- {date} · {lesson text} · src:{id}" — extract the lesson text to
+            # compare against the retracted set (which holds raw lesson text, no date/src wrap).
+            body = line.split("· src:")[0].strip(" -")
+            lesson_text = body.split("· ", 1)[1].strip() if "· " in body else body
+            if lesson_text in retracted:
+                continue
+            out.append({
+                "agent": contract,
+                "miss": body,
+                "source": "ledgers/compiled.jsonl",
+                "ts": ts,
+            })
+            if len(out) >= limit:
+                return out
+    return out
+
+
+def _brain_misses_from_rabie(limit: int) -> list[dict]:
+    """Kill verdicts from brain/data/rabie_verdicts_v2.jsonl (RABIE judge, Rule #14 ledger).
+    One row per kill, newest first, one-liner = the first what_is_wrong entry."""
+    out = []
+    p = _brain_rabie_verdicts_path()
+    if not p.exists():
+        return out
+    try:
+        raw = [l for l in p.read_text(encoding="utf-8").splitlines() if l.strip()]
+    except Exception:
+        return out
+    for l in reversed(raw):
+        try:
+            rec = json.loads(l)
+        except Exception:
+            continue
+        if rec.get("verdict") != "kill":
+            continue
+        wrong = (rec.get("what_is_wrong") or ["killed — no detail"])[0]
+        ts = rec.get("ts", "")
+        try:
+            ts_str = datetime.utcfromtimestamp(float(ts)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        except Exception:
+            ts_str = str(ts)
+        out.append({
+            "agent": rec.get("handle", "?"),
+            "miss": wrong,
+            "source": "brain/data/rabie_verdicts_v2.jsonl",
+            "ts": ts_str,
+        })
+        if len(out) >= limit:
+            break
+    return out
+
+
+def _brain_misses(limit: int = 20) -> list[dict]:
+    """SPEC-008 MISSES card: per-agent gate kills + judge-found misses, truth-only from disk
+    at request time. Sources (each independently guarded — one failing source never blanks the
+    others): arena/*/.state.json gate_fail, ledgers/compiled.jsonl gate-kill lesson lines,
+    brain/data/rabie_verdicts_v2.jsonl kill verdicts. Missing source contributes nothing (never
+    fake); empty overall -> caller shows 'no data yet'. Newest first, capped at `limit`."""
+    rows = []
+    rows.extend(_brain_misses_from_arena(limit))
+    rows.extend(_brain_misses_from_compiled(limit))
+    rows.extend(_brain_misses_from_rabie(limit))
+    rows.sort(key=lambda r: r.get("ts") or "", reverse=True)
+    return rows[:limit]
+
+
+def _brain_delta(limit: int = 12) -> list[dict]:
+    """SPEC-008 DELTA card: the last `limit` arena rounds from ledgers/delta.jsonl, newest first,
+    DEDUPED BY brief_id — a refolded round (a late judge verdict superseding an earlier row via
+    "supersedes": "<prev ts>") shows only its newest row; the superseded row is kept in the
+    ledger (append-only law) but never shown. Batch-over-batch improvement — every row read at
+    REQUEST time from disk. Missing file = empty (the card shows 'no rounds yet', never fake)."""
+    p = _brain_delta_path()
+    if not p.exists():
+        return []
+    try:
+        raw = [l for l in p.read_text(encoding="utf-8").splitlines() if l.strip()]
+    except Exception:
+        return []
+    latest_by_brief: dict[str, dict] = {}
+    order: list[str] = []  # first-seen order of each brief_id, for stable "newest first" output
+    for l in raw:
+        try:
+            rec = json.loads(l)
+        except Exception:
+            continue
+        bid = rec.get("brief_id", "?")
+        if bid not in latest_by_brief:
+            order.append(bid)
+        latest_by_brief[bid] = rec  # last occurrence in file order wins (append-only -> newest)
+    out = []
+    for bid in order:
+        rec = latest_by_brief[bid]
+        out.append({
+            "brief_id": rec.get("brief_id", "?"),
+            "task_type": rec.get("task_type", "?"),
+            "winner": rec.get("winner", "?"),
+            "score_claude": rec.get("score_claude"),
+            "score_codex": rec.get("score_codex"),
+            "gap": rec.get("gap"),
+            "ts": rec.get("ts", ""),
+        })
+    out.reverse()  # newest first
+    return out[:limit]
+
+
+@app.get("/api/brain")
+def brain_api(request: Request):
+    """Truth-only JSON for the /brain page. Read fresh from disk every call."""
+    return JSONResponse({
+        "now": _brain_now(),
+        "health": _brain_health_lines(20),
+        "spend_today": _brain_spend_today(),
+        "needs_open": _brain_needs_open(),
+        "delta": _brain_delta(12),
+        "misses": _brain_misses(20),
+        "ts": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
+    }, headers={"Cache-Control": "no-store"})
+
+
+_BRAIN_HTML = """<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OGZ · brain</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0b0d11;color:#e8ecf1;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+     padding:14px;max-width:760px;margin:0 auto;-webkit-font-smoothing:antialiased}
+h1{font-size:26px;font-weight:800;letter-spacing:-.5px;margin-bottom:2px}
+.sub{color:#6b7686;font-size:12px;margin-bottom:16px}
+.card{background:#12161c;border:1px solid #1e252e;border-radius:14px;padding:16px;margin-bottom:14px}
+.card h2{font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:#8b97a7;margin-bottom:12px;font-weight:700}
+.row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid #1a212a}
+.row:first-of-type{border-top:none}
+.w{font-weight:700;font-size:14px;min-width:56px}
+.claude{color:#7cc4ff}.codex{color:#c5a3ff}
+.meta{color:#9aa6b6;font-size:12.5px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.age{color:#6b7686;font-size:12px;font-variant-numeric:tabular-nums}
+.budget{color:#5b6675;font-size:11px;margin-top:2px}
+.idle{color:#6b7686;font-style:italic;padding:6px 0}
+.dot{width:9px;height:9px;border-radius:50%;flex:none}
+.green{background:#3ddc84}.red{background:#ff5a5a}.grey{background:#4a5361}
+.hname{flex:1;font-size:13.5px}
+.big{font-size:34px;font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.spendgrid{display:flex;gap:22px;flex-wrap:wrap;margin-top:4px}
+.spendgrid .l{color:#8b97a7;font-size:11px;text-transform:uppercase;letter-spacing:1px}
+.byw{color:#9aa6b6;font-size:12.5px;margin-top:10px}
+.needs{display:flex;align-items:baseline;gap:10px}
+.needs .n{font-size:34px;font-weight:800;font-variant-numeric:tabular-nums}
+.needs .z{color:#3ddc84}.needs .o{color:#ffb454}
+.phase{opacity:.42}
+.phase .tag{display:inline-block;font-size:10px;letter-spacing:1px;color:#6b7686;border:1px solid #2a323d;
+     border-radius:6px;padding:2px 7px;margin-left:8px;text-transform:uppercase;vertical-align:middle}
+.phase .ph{color:#6b7686;font-size:13px;padding:6px 0}
+.foot{color:#4a5361;font-size:11px;text-align:center;margin-top:6px}
+</style></head><body>
+<h1>brain</h1>
+<div class="sub">the two hands, live · auto-refresh 30s · every number read from disk</div>
+
+<div class="card"><h2>NOW</h2><div id="now"><div class="idle">loading…</div></div></div>
+
+<div class="card"><h2>Health</h2><div id="health"></div>
+  <div class="row" style="margin-top:6px">
+    <div style="flex:1"><div class="l" style="color:#8b97a7;font-size:11px;text-transform:uppercase;letter-spacing:1px">today's spend</div>
+      <div id="spend"></div></div></div>
+  <div class="row"><div style="flex:1"><div class="l" style="color:#8b97a7;font-size:11px;text-transform:uppercase;letter-spacing:1px">needs-mohamed open</div>
+      <div id="needs" class="needs"></div></div></div>
+</div>
+
+<div class="card"><h2>Misses</h2><div id="misses"><div class="idle">loading…</div></div></div>
+<div class="card"><h2>Delta</h2><div id="delta"><div class="idle">loading…</div></div></div>
+<div class="card phase"><h2>Your Queue <span class="tag">Phase 1</span></h2>
+  <div class="ph">what awaits Mohamed's taps — not yet wired</div></div>
+
+<div class="foot" id="foot"></div>
+
+<script>
+function esc(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+function budget(r){var p=[];if(r.max_calls!=null)p.push(r.max_calls+" calls");if(r.max_usd!=null)p.push("$"+r.max_usd);if(r.max_minutes!=null)p.push(r.max_minutes+"m");return p.join(" · ");}
+async function load(){
+  let d;
+  try{ d=await (await fetch("/api/brain",{cache:"no-store"})).json(); }
+  catch(e){ document.getElementById("foot").textContent="offline — retrying"; return; }
+  // NOW
+  var now=d.now||[];var nh="";
+  if(!now.length){ nh='<div class="idle">both hands idle</div>'; }
+  else{ now.forEach(function(r){
+    nh+='<div class="row"><span class="w '+esc(r.worker)+'">'+esc(r.worker)+'</span>'
+      +'<div class="meta">'+esc(r.client)+' · '+esc(r.task_type)+' · <span style="color:#6b7686">'+esc(r.id)+'</span>'
+      +(budget(r)?'<div class="budget">'+esc(budget(r))+'</div>':'')+'</div>'
+      +'<span class="age">'+esc(r.age)+'</span></div>';
+  }); }
+  document.getElementById("now").innerHTML=nh;
+  // MISSES — per-agent gate kills + judge-found misses (SPEC-008), newest first
+  var ms=d.misses||[];var mh="";
+  if(!ms.length){ mh='<div class="idle">no data yet</div>'; }
+  else{ ms.forEach(function(r){
+    mh+='<div class="row"><div class="meta"><span class="w" style="min-width:0">'+esc(r.agent)+'</span> · '
+      +esc(r.miss)+' <span style="color:#4a5361">('+esc(r.source)+')</span></div>'
+      +'<span class="age">'+esc((r.ts||"").slice(0,10))+'</span></div>';
+  }); }
+  document.getElementById("misses").innerHTML=mh;
+  // HEALTH lines
+  var hl=d.health||[];var hh="";
+  if(!hl.length){ hh='<div class="idle">no data yet</div>'; }
+  else{ hl.slice().reverse().forEach(function(h){
+    var cls=h.status==="green"?"green":(h.status==="red"?"red":"grey");
+    hh+='<div class="row"><span class="dot '+cls+'"></span><span class="hname">'+esc(h.check)+'</span>'
+      +'<span class="age">'+esc(h.age)+'</span></div>';
+  }); }
+  document.getElementById("health").innerHTML=hh;
+  // SPEND
+  var s=d.spend_today||{};var sh="";
+  if(!s.has_data){ sh='<div class="idle">no data yet</div>'; }
+  else{
+    sh='<div class="spendgrid"><div><span class="big">'+ (s.total_calls||0) +'</span> <span class="l">calls</span></div>'
+      +'<div><span class="big">$'+ (Number(s.total_usd||0).toFixed(2)) +'</span> <span class="l">spend</span></div></div>';
+    var byw=s.by_worker||{};var parts=[];
+    Object.keys(byw).forEach(function(w){parts.push(esc(w)+": "+byw[w].calls+" calls · $"+Number(byw[w].usd).toFixed(2));});
+    if(parts.length)sh+='<div class="byw">'+parts.join(" &nbsp;·&nbsp; ")+'</div>';
+  }
+  document.getElementById("spend").innerHTML=sh;
+  // NEEDS
+  var n=d.needs_open||0;
+  document.getElementById("needs").innerHTML='<span class="n '+(n?"o":"z")+'">'+n+'</span>'
+    +'<span class="l" style="color:#8b97a7">'+(n?"awaiting you":"all clear")+'</span>';
+  // DELTA — arena batch-over-batch (SPEC-008), newest first
+  var dl=d.delta||[];var dh="";
+  if(!dl.length){ dh='<div class="idle">no rounds yet</div>'; }
+  else{ dl.forEach(function(r){
+    var w=String(r.winner||"?");
+    var wcls=w==="claude"?"claude":(w==="codex"?"codex":"");
+    var sc=(r.score_claude==null||r.score_claude<0)?"–":r.score_claude;
+    var sx=(r.score_codex==null||r.score_codex<0)?"–":r.score_codex;
+    dh+='<div class="row"><div class="meta"><span style="color:#6b7686">'+esc(r.brief_id)+'</span> · '
+      +esc(r.task_type)+' &nbsp; <span class="claude">C '+esc(sc)+'</span> / <span class="codex">X '+esc(sx)+'</span></div>'
+      +'<span class="w '+wcls+'">'+esc(w)+'</span></div>';
+  }); }
+  document.getElementById("delta").innerHTML=dh;
+  document.getElementById("foot").textContent="updated "+esc(d.ts);
+}
+load();setInterval(load,30000);
+</script>
+</body></html>"""
+
+
+@app.get("/brain")
+def brain_page():
+    """PLATFORM v0 dashboard — NOW + HEALTH cards, phone-first, dark, auto-refresh.
+    Open (no key) so it always renders; all data pulled client-side from /api/brain,
+    which reads the queue + ledgers fresh on every request. No hardcoded numbers."""
+    return HTMLResponse(_BRAIN_HTML, headers={"Cache-Control": "no-store"})
 
 
 # ---- control-center data (all READ-ONLY; each source guarded so one failure never 500s) ----
@@ -928,8 +1515,311 @@ def control_review(k: str = ""):
         verdicts.append({"ts": e.get("ts"), "judge": e.get("judge"), "item": e.get("item_id"),
                          "answer": e.get("answer"), "rating": e.get("rating"),
                          "pins": len(e.get("comments") or [])})
+    # TODAY'S GAUNTLET STATS — read fresh from the verdict spine (drafts+judgments ledgers).
+    # Counting only; schema never touched (DO NOT TOUCH verdict spine schema).
+    tdy = today_str()
+    today_drafts = today_kills = today_pass = 0
+    kill_reasons: dict[str, int] = {}
+    for ln in _safe_read(OGZ_ROOT / "ledgers" / "drafts.jsonl").splitlines():
+        try:
+            r = json.loads(ln)
+            if str(r.get("ts", "")).startswith(tdy):
+                today_drafts += 1
+        except Exception:
+            continue
+    for ln in _safe_read(OGZ_ROOT / "ledgers" / "judgments.jsonl").splitlines():
+        try:
+            r = json.loads(ln)
+            if not str(r.get("ts", "")).startswith(tdy):
+                continue
+            if r.get("verdict") == "kill":
+                today_kills += 1
+                for reason in (r.get("reasons") or []):
+                    tag = str(reason).split(":")[0].strip()[:40]
+                    kill_reasons[tag] = kill_reasons.get(tag, 0) + 1
+            elif r.get("verdict") == "pass":
+                today_pass += 1
+        except Exception:
+            continue
+    kill_histogram = sorted(kill_reasons.items(), key=lambda x: -x[1])
     return JSONResponse({"ok": True, "open": open_n, "proposals": proposals, "posts": posts,
-                         "verdicts": verdicts[:12]})
+                         "verdicts": verdicts[:12],
+                         "today_drafts": today_drafts, "today_kills": today_kills,
+                         "today_pass": today_pass,
+                         "kill_histogram": [{"reason": r, "n": n} for r, n in kill_histogram[:10]]})
+
+
+def _ranked_taps_needs_path() -> Path:
+    root = Path(os.environ["OGZ_JAIL_ROOT"]) if os.environ.get("OGZ_JAIL_ROOT") else OGZ_ROOT
+    return root / "NEEDS-MOHAMED.md"
+
+
+def _ranked_taps_score(row: dict) -> tuple:
+    txt = " ".join(str(row.get(k, "")) for k in ("title", "tag", "why", "need", "source", "priority")).lower()
+    score = 1000
+    if "due today" in txt or "today" in txt or "اليوم" in txt:
+        score -= 500
+    if row.get("priority") == "urgent":
+        score -= 300
+    if row.get("source") == "nsg-interest":
+        score -= 250
+    if "external send" in txt or "send from your mail" in txt:
+        score -= 220
+    if row.get("kind") in ("proposal_judge", "caption_judge") or "judge" in txt:
+        score -= 120
+    if row.get("tag") == "mohamed_must":
+        score -= 90
+    return (score, row.get("created") or row.get("ts") or "", row.get("id", ""))
+
+
+def _needs_ranked_taps() -> tuple[list[dict], int]:
+    import re as _re
+    opened, resolved = {}, set()
+    for line in _safe_read(_ranked_taps_needs_path()).splitlines():
+        head = _re.match(r"- \[(OPEN|RESOLVED) ([0-9a-f]{8})\]", line)
+        if not head:
+            continue
+        kind, eid = head.group(1), head.group(2)
+        if kind == "RESOLVED":
+            resolved.add(eid)
+            continue
+        m = _re.match(r"- \[OPEN [0-9a-f]{8}\]\s+([^·]+?)\s+·\s*([^·]+)\s*·\s*(.*)$", line)
+        if not m:
+            continue
+        source = (m.group(2) or "needs").strip()
+        msg = (m.group(3) or "").strip()
+        title = msg.split(". ")[0].split(" — ")[0][:110] or source
+        dm = _re.search(r"draft ready:\s*'([^']+)'", msg)
+        draft = dm.group(1) if dm else msg[:1200]
+        opened[eid] = {
+            "source": source, "id": eid, "kind": "need", "tag": source,
+            "title": title, "why": msg[:260], "need": "Mohamed-only gate from NEEDS-MOHAMED.",
+            "did": "", "priority": "urgent" if ("TODAY" in msg or "DUE" in msg or source == "nsg-interest") else "normal",
+            "created": (m.group(1) or "").strip(), "copy_text": draft,
+        }
+    rows = [r for eid, r in opened.items() if eid not in resolved]
+    for r in rows:
+        r["rank_score"] = _ranked_taps_score(r)[0]
+        r["actions"] = [{"kind": "copy", "label": "Copy staged text", "copy_text": r.pop("copy_text", "")}]
+    return rows, len(rows)
+
+
+def _decision_ranked_taps() -> tuple[list[dict], int]:
+    try:
+        q = json.loads(_safe_read(QUEUE) or '{"items":[]}')
+    except Exception:
+        q = {"items": []}
+    items = q.get("items", []) if isinstance(q, dict) else q
+    rows = []
+    for it in items:
+        if it.get("status") in ("answered", "superseded"):
+            continue
+        opts = []
+        for o in (it.get("options") or [])[:3]:
+            if isinstance(o, dict):
+                opts.append({"label": str(o.get("label") or o.get("v") or "")[:90],
+                             "recommended": bool(o.get("rec"))})
+            else:
+                opts.append({"label": str(o)[:90], "recommended": False})
+        row = {
+            "source": "decision_queue", "id": it.get("id", "?"), "kind": it.get("kind", "decision"),
+            "tag": it.get("tag", ""), "title": it.get("title") or it.get("id", "?"),
+            "why": it.get("why", ""), "need": it.get("need", ""), "did": it.get("did", ""),
+            "priority": it.get("priority") or "normal", "created": it.get("created") or "",
+            "option_labels": opts,
+            "actions": [{"kind": "dashboard", "label": "Open dashboard"}],
+        }
+        row["rank_score"] = _ranked_taps_score(row)[0]
+        rows.append(row)
+    return rows, len(rows)
+
+
+_RIYADH = ZoneInfo("Asia/Riyadh")
+_DAY_STRIP_PHASES = [
+    {"id": "brief", "time": "09:00", "label": "Fake brief",
+     "what": "daily-cycle creates or promotes today's real-shaped brief", "mode": "brief"},
+    {"id": "produce", "time": "11:00", "label": "Produce",
+     "what": "full post, full proposal, and rotating department file are enqueued", "mode": "produce"},
+    {"id": "stage", "time": "17:30", "label": "Stage",
+     "what": "judge --once, judge --batch, and shadow predictions refresh the board", "mode": "stage"},
+    {"id": "judge", "time": "18:00", "label": "Mohamed judges",
+     "what": "Mohamed judges complete results on /control, never drafts", "mode": "judge"},
+    {"id": "scribe", "time": "21:30", "label": "Scribe",
+     "what": "shadow predictions are scored and Mohamed's verdict words fold into book/27", "mode": "scribe"},
+]
+
+
+def _hm_on(base: datetime, hm: str) -> datetime:
+    h, m = [int(x) for x in hm.split(":", 1)]
+    return base.replace(hour=h, minute=m, second=0, microsecond=0)
+
+
+def _human_eta(seconds: int) -> str:
+    seconds = max(0, int(seconds))
+    if seconds < 60:
+        return f"{seconds}s"
+    minutes = seconds // 60
+    if minutes < 60:
+        return f"{minutes}m"
+    hours, mins = divmod(minutes, 60)
+    return f"{hours}h {mins}m"
+
+
+def _day_strip_source_check() -> dict:
+    book = _safe_read(OGZ_ROOT / "book" / "07-DAILY-CYCLE.md")
+    script = _safe_read(OGZ_ROOT / "tools" / "jail" / "daily_cycle.sh")
+    plist = _safe_read(OGZ_ROOT / "tools" / "headless" / "com.ogz.daily-cycle.plist")
+    times = [p["time"] for p in _DAY_STRIP_PHASES]
+    modes = [p["mode"] for p in _DAY_STRIP_PHASES if p["mode"] != "judge"]
+    return {
+        "book_has_times": all(t in book for t in ["09:00", "17:30", "18:00"]),
+        "script_has_modes": all(m in script for m in modes),
+        "plist_has_fires": all(t.split(":")[0].lstrip("0") in plist and t.split(":")[1] in plist
+                               for t in ["09:00", "11:00", "17:30", "21:30"]),
+        "times": times,
+    }
+
+
+def _day_strip_state() -> dict:
+    now = datetime.now(_RIYADH)
+    today = now.date()
+    today_events = [(p, _hm_on(now, p["time"])) for p in _DAY_STRIP_PHASES]
+    tomorrow_base = now + timedelta(days=1)
+    yesterday_base = now - timedelta(days=1)
+    future = [(p, dt) for p, dt in today_events if dt > now]
+    if future:
+        next_phase, next_dt = future[0]
+    else:
+        next_phase, next_dt = _DAY_STRIP_PHASES[0], _hm_on(tomorrow_base, _DAY_STRIP_PHASES[0]["time"])
+    past = [(p, dt) for p, dt in today_events if dt <= now]
+    if past:
+        current_phase, current_dt = past[-1]
+    else:
+        current_phase, current_dt = _DAY_STRIP_PHASES[-1], _hm_on(yesterday_base, _DAY_STRIP_PHASES[-1]["time"])
+    rows = []
+    for p, dt in today_events:
+        if p["id"] == current_phase["id"] and current_dt.date() == today:
+            state = "current"
+        elif dt < now:
+            state = "done"
+        elif p["id"] == next_phase["id"] and next_dt.date() == today:
+            state = "next"
+        else:
+            state = "upcoming"
+        rows.append({**p, "state": state})
+    return {
+        "ok": True,
+        "tz": "Asia/Riyadh",
+        "now": now.isoformat(timespec="seconds"),
+        "date": now.strftime("%Y-%m-%d"),
+        "current": {**current_phase, "since": current_dt.isoformat(timespec="seconds")},
+        "next": {**next_phase, "at": next_dt.isoformat(timespec="seconds"),
+                 "eta_seconds": max(0, int((next_dt - now).total_seconds())),
+                 "eta": _human_eta((next_dt - now).total_seconds())},
+        "phases": rows,
+        "source_files": [
+            "book/07-DAILY-CYCLE.md",
+            "tools/jail/daily_cycle.sh",
+            "tools/headless/com.ogz.daily-cycle.plist",
+        ],
+        "source_check": _day_strip_source_check(),
+    }
+
+
+@app.get("/api/control/ranked-taps")
+def control_ranked_taps(k: str = ""):
+    """Read-only Focus Lane selector. It ranks Mohamed-only gates from NEEDS-MOHAMED
+    plus actionable decision_queue cards; writes stay on the existing dashboard/answer path."""
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    needs_rows, needs_n = _needs_ranked_taps()
+    decision_rows, decision_n = _decision_ranked_taps()
+    rows = sorted(needs_rows + decision_rows, key=_ranked_taps_score)[:3]
+    for i, row in enumerate(rows):
+        row["recommended"] = (i == 0)
+    return JSONResponse({"ok": True,
+                         "source_counts": {"needs_open": needs_n, "decision_open": decision_n},
+                         "items": rows,
+                         "ts": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")},
+                        headers={"Cache-Control": "private, no-cache"})
+
+
+@app.get("/api/control/day-strip")
+def control_day_strip(k: str = ""):
+    """Read-only daily ritual state for /control. Source of truth is book/07 +
+    daily_cycle.sh + the launchd calendar; the UI only renders this calculation."""
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    return JSONResponse(_day_strip_state(), headers={"Cache-Control": "private, no-cache"})
+
+
+@app.get("/api/control/gauntlet-today")
+def control_gauntlet_today(k: str = ""):
+    """SPEC-C: per-draft view of today's gauntlet — each draft joined to its newest judgment.
+    Reads ledgers/drafts.jsonl + ledgers/judgments.jsonl only; verdict spine schema unchanged."""
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    tdy = today_str()
+    # index today's drafts by job_id (last row wins for duplicate job_ids)
+    drafts: dict = {}
+    draft_order: list = []
+    for ln in _safe_read(OGZ_ROOT / "ledgers" / "drafts.jsonl").splitlines():
+        try:
+            r = json.loads(ln)
+        except Exception:
+            continue
+        if not str(r.get("ts", "")).startswith(tdy):
+            continue
+        jid = r.get("job_id", "")
+        if not jid:
+            continue
+        if jid not in drafts:
+            draft_order.append(jid)
+        drafts[jid] = r
+    # index today's judgments by job_id; append-only → last row = newest judgment
+    judgments: dict = {}
+    for ln in _safe_read(OGZ_ROOT / "ledgers" / "judgments.jsonl").splitlines():
+        try:
+            r = json.loads(ln)
+        except Exception:
+            continue
+        if not str(r.get("ts", "")).startswith(tdy):
+            continue
+        jid = r.get("job_id", "")
+        if jid:
+            judgments[jid] = r
+    # join drafts → judgments
+    total_pass = total_kill = total_unjudged = 0
+    result_drafts = []
+    for jid in draft_order:
+        dr = drafts[jid]
+        jd = judgments.get(jid)
+        verdict = jd.get("verdict") if jd else None
+        if verdict == "pass":
+            total_pass += 1
+        elif verdict == "kill":
+            total_kill += 1
+        else:
+            total_unjudged += 1
+        result_drafts.append({
+            "job_id": jid,
+            "handle": dr.get("handle", "?"),
+            "draft_path": dr.get("draft_path", ""),
+            "ts": dr.get("ts", ""),
+            "judgment": {
+                "verdict": jd.get("verdict"),
+                "overall": jd.get("overall"),
+                "reasons": jd.get("reasons") or [],
+                "usd": jd.get("usd"),
+            } if jd else None,
+        })
+    return JSONResponse({
+        "ok": True,
+        "date": tdy,
+        "drafts": result_drafts,
+        "summary": {"total": len(result_drafts), "pass": total_pass,
+                    "kill": total_kill, "unjudged": total_unjudged},
+    })
 
 
 # ---- THE SYSTEM ASSISTANT CHAT (July 4 — Mohamed: "talk to the system on everything") ----
@@ -1086,7 +1976,7 @@ async def chat(request: Request, k: str = ""):
     try:
         rq = urllib.request.Request(
             "https://api.openai.com/v1/chat/completions",
-            data=json.dumps({"model": "gpt-4o", "temperature": 0.3, "max_tokens": 700,
+            data=json.dumps({"model": "gpt-4o-mini", "temperature": 0.3, "max_tokens": 700,
                              "messages": messages}).encode(),
             headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"})
         out = json.loads(urllib.request.urlopen(rq, timeout=60).read())
@@ -1097,10 +1987,10 @@ async def chat(request: Request, k: str = ""):
     # meter to the CFO ledger so the Budget view stays honest (control_chat capability)
     try:
         it, ot = usage.get("prompt_tokens", 0), usage.get("completion_tokens", 0)
-        usd = it / 1e6 * 2.5 + ot / 1e6 * 10.0
+        usd = it / 1e6 * 0.15 + ot / 1e6 * 0.6
         with open(OGZ_ROOT / "journal/model_usage.jsonl", "a", encoding="utf-8") as f:
             f.write(json.dumps({"ts": datetime.now().isoformat(timespec="seconds"),
-                                "capability": "control_chat", "provider": "openai", "model": "gpt-4o",
+                                "capability": "control_chat", "provider": "openai", "model": "gpt-4o-mini",
                                 "in_tokens": it, "out_tokens": ot, "usd": round(usd, 6),
                                 "flags": ["control_center"], "purpose": "system assistant"}) + "\n")
     except Exception:
@@ -1234,7 +2124,7 @@ async def agent_chat(request: Request, k: str = ""):
     try:
         rq = urllib.request.Request(
             "https://api.openai.com/v1/chat/completions",
-            data=json.dumps({"model": "gpt-4o", "temperature": 0.3, "max_tokens": 700,
+            data=json.dumps({"model": "gpt-4o-mini", "temperature": 0.3, "max_tokens": 700,
                              "messages": messages}).encode(),
             headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"})
         out = json.loads(urllib.request.urlopen(rq, timeout=60).read())
@@ -1244,10 +2134,10 @@ async def agent_chat(request: Request, k: str = ""):
         return JSONResponse({"ok": False, "error": f"gpt-4o: {type(e).__name__}: {str(e)[:160]}"}, status_code=502)
     try:
         it, ot = usage.get("prompt_tokens", 0), usage.get("completion_tokens", 0)
-        usd = it / 1e6 * 2.5 + ot / 1e6 * 10.0
+        usd = it / 1e6 * 0.15 + ot / 1e6 * 0.6
         with open(OGZ_ROOT / "journal/model_usage.jsonl", "a", encoding="utf-8") as f:
             f.write(json.dumps({"ts": datetime.now().isoformat(timespec="seconds"),
-                                "capability": "agent_chat", "provider": "openai", "model": "gpt-4o",
+                                "capability": "agent_chat", "provider": "openai", "model": "gpt-4o-mini",
                                 "in_tokens": it, "out_tokens": ot, "usd": round(usd, 6),
                                 "flags": ["control_center", aid], "purpose": f"chat as {aid}"}) + "\n")
     except Exception:

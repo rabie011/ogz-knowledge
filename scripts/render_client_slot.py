@@ -799,16 +799,36 @@ def angle_prompt(c: dict, slot: dict, sector: str, brain: str | None = None) -> 
     return sys_p, user, brain
 
 
+def _parse_angle_json(raw: str) -> dict:
+    """Tolerant JSON extract for an angle reply — mirrors render_captions' _gen() HUMAIN parse
+    (re.search a {...} blob, json.loads it) so the SAME wrapped-text tolerance the caption path
+    already trusts covers the angle path too. Raises (never guesses) if no JSON object is found —
+    a fabricated angle is worse than a loud failure (Rule #8)."""
+    m = re.search(r"\{.*\}", raw, re.S)
+    if not m:
+        raise ValueError("no JSON object found in angle reply")
+    return json.loads(m.group(0))
+
+
 def make_angle(c: dict, slot: dict, sector: str, brain: str | None = None,
                panel: bool = False) -> dict:
     """ONE angle (idea) for a slot, born from a CD-brain methodology.
 
-    Default (panel=False): the single-pen path — GPT-4o, Sonnet fallback (back-compat).
-    panel=True (W3, June 23 — "the full system must work, all agents and minds"): the angle is
-    born from the 5-CD-BRAIN PANEL (cd_panel.run_panel) — the routed brains each run on a DIFFERENT
-    model (GPT/Gemini/Groq via consult.py) and the lead brain's angle is returned, with the rival
-    angles attached as `panel_alts` so the caption pen is SEEDED by the minds (not invented
-    mechanically). A dead model/key falls back inside the panel — never blocks the pipeline.
+    Default (panel=False): the single-pen path — GPT-4o → Sonnet → HUMAIN (back-compat + the
+    2026-07-07 $0-fallback build). panel=True (W3, June 23 — "the full system must work, all
+    agents and minds"): the angle is born from the 5-CD-BRAIN PANEL (cd_panel.run_panel) — the
+    routed brains each run on a DIFFERENT model (GPT/Gemini/Groq via consult.py) and the lead
+    brain's angle is returned, with the rival angles attached as `panel_alts` so the caption pen
+    is SEEDED by the minds (not invented mechanically). A dead model/key falls back inside the
+    panel — never blocks the pipeline.
+
+    SEAT ORDER (unchanged when OpenAI/Anthropic are up — HUMAIN is a FALLBACK, never primary):
+    gpt() → sonnet() → humain(). The HUMAIN seat reuses the SAME angle system+user prompt
+    (angle_prompt() below) and the SAME tolerant {...}-extract parse the caption path already
+    ships (render_captions' _gen(), line ~1141) — one retry with a "return ONLY the JSON" suffix
+    on an unparseable reply, then raises (fail-closed, Rule #8: never a fabricated angle). When
+    HUMAIN produces the angle, `angle_pen: "humain"` is stamped so provenance stays honest about
+    which pen actually wrote it (never silently attributed to gpt).
     """
     if panel:
         try:
@@ -819,17 +839,40 @@ def make_angle(c: dict, slot: dict, sector: str, brain: str | None = None,
         except Exception as _pe:
             print(f"  panel failed ({type(_pe).__name__}: {str(_pe)[:60]}) — single-pen fallback", file=sys.stderr)
     sys_p, user, brain = angle_prompt(c, slot, sector, brain=brain)
-    # quota-resilience (June 12, the day OpenAI ran dry mid-regen): the angle falls
-    # back to the Anthropic pen — degraded single-pen mode beats a dead pipeline
+    # quota-resilience (June 12, the day OpenAI ran dry mid-regen; extended 2026-07-07 with the
+    # HUMAIN seat): the angle falls back gpt → sonnet → humain — degraded single-pen mode beats
+    # a dead pipeline, and HUMAIN ($0, Saudi-native ALLaM) is the last seat before a real failure.
+    angle_pen = "gpt"
     try:
         out = json.loads(gpt([{"role": "system", "content": sys_p}, {"role": "user", "content": user}], temp=0.8, max_tok=400))
     except Exception as _e:
         print(f"  gpt angle failed ({str(_e)[:40]}) — sonnet fallback", file=sys.stderr)
-        raw = sonnet(sys_p, [{"role": "user", "content": user + "\n\nأجب بكائن JSON فقط، بدون أي نص خارجه."}], max_tok=500)
-        i, j = raw.find("{"), raw.rfind("}")
-        out = json.loads(raw[i:j + 1])
+        try:
+            raw = sonnet(sys_p, [{"role": "user", "content": user + "\n\nأجب بكائن JSON فقط، بدون أي نص خارجه."}], max_tok=500)
+            out = _parse_angle_json(raw)
+            angle_pen = "sonnet"
+        except Exception as _e2:
+            print(f"  sonnet angle failed ({str(_e2)[:40]}) — humain fallback", file=sys.stderr)
+            if not humain_up():
+                raise RuntimeError(
+                    f"all angle pens failed (gpt: {str(_e)[:60]}; sonnet: {str(_e2)[:60]}; "
+                    "humain: service down) — refuse a fabricated angle") from _e2
+            humain_user = user + '\n\nأرجع فقط كائن JSON بالشكل: {"scene_ar": "...", "why_it_lands": "...", "post_type": "..."} بدون أي شرح.'
+            try:
+                raw = humain(sys_p, humain_user)
+                out = _parse_angle_json(raw)
+            except Exception as _e3:
+                # ONE retry with a stricter "JSON only" suffix — mirrors the brief's contract
+                # (never a fabricated angle; a second unparseable reply is a real failure).
+                print(f"  humain angle unparseable ({str(_e3)[:40]}) — one stricter retry", file=sys.stderr)
+                strict_sys = sys_p + "\n\nReturn ONLY the JSON object. No prose, no markdown, no explanation."
+                raw = humain(strict_sys, humain_user)
+                out = _parse_angle_json(raw)  # raises loud if still unparseable — never fabricate
+            angle_pen = "humain"
     out.setdefault("brain", brain)
     out.setdefault("by_model", "gpt")
+    if angle_pen == "humain":
+        out["angle_pen"] = "humain"  # provenance honesty — only stamped when HUMAIN produced it
     return out
 
 

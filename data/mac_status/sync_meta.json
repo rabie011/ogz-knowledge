@@ -1,22 +1,26 @@
 {
-  "ts": "2026-07-01T02:03:32Z",
+  "ts": "2026-07-01T20:46:35Z",
   "hostname": "abarihms-Mac-mini.local",
   "platform": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
-  "git_sha": "fa730966",
-  "unified_status_rc": 0,
-  "validate_stack_rc": 0,
+  "git_sha": "06764305",
+  "unified_status_rc": 1,
+  "validate_stack_rc": 1,
   "launchagents": {
     "com.ogz.brain-api": "loaded",
-    "com.ogz.mac-sync": "loaded",
+    "com.ogz.mac-sync": "unloaded",
     "com.ogz.executor": "loaded",
     "com.ogz.consult-shift": "unloaded",
     "com.ogz.memory-keeper": "unloaded",
     "com.ogz.orchestra": "unloaded"
   },
   "pull": {
+    "ok": true,
+    "detail": "skipped"
+  },
+  "drain": {
     "ok": false,
-    "detail": "From https://github.com/rabie011/ogz-knowledge\n * branch              main       -> FETCH_HEAD\nerror: cannot rebase: You have unstaged changes.\nerror: Please commit or stash them.",
-    "branch": "main",
-    "stashed": true
-  }
+    "detail": "Executor already claimed by pid 13052"
+  },
+  "last_drain_at": "2026-07-01T20:46:35Z",
+  "last_drain_ok": false
 }

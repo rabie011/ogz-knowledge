@@ -1,0 +1,89 @@
+diff --git a/data/live_feed/events.jsonl b/data/live_feed/events.jsonl
+index 6faa4064..69b2658e 100644
+--- a/data/live_feed/events.jsonl
++++ b/data/live_feed/events.jsonl
+@@ -462,3 +462,10 @@
+ {"ts": "2026-06-30T18:01:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:02:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:03:14Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-07-01T02:04:10Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-07-01T02:05:10Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-07-01T02:06:10Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-07-01T02:07:10Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-07-01T02:08:10Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-07-01T02:09:04Z", "source": "executor", "type": "mission_done", "level": "info", "message": "Finished mac-organize-cleanup: pass — all commands passed", "status": "pass", "mission_id": "mac-organize-cleanup"}
++{"ts": "2026-07-01T02:09:04Z", "source": "executor", "type": "mission_start", "level": "info", "message": "Started: agent-run-now — Wake control stack, pull main, mac_sync pull+drain+push all missions (Mohamed: run the agent)"}
+diff --git a/data/mac_status/latest.txt b/data/mac_status/latest.txt
+index 8ffc559c..afcb5889 100644
+--- a/data/mac_status/latest.txt
++++ b/data/mac_status/latest.txt
+@@ -1,4 +1,4 @@
+-OGZ Status · 2026-07-01T02:14:08Z
++OGZ Status · 2026-07-01T02:14:09Z
+ 
+ CONTROL: Cursor (this chat) — mobile and Mac
+ 
+@@ -14,7 +14,7 @@ PILOTS:
+ KNOWLEDGE: 16 docs indexed
+ MISTAKES LOGGED: 6
+ 
+-MAC SYNC: 2026-07-01T02:14:08Z (abarihms-Mac-mini.local)
++MAC SYNC: 2026-07-01T02:14:09Z (abarihms-Mac-mini.local)
+ 
+ YOUR GATES: render go · wire to prod · taste pairs · stop/لخ
+ 
+diff --git a/data/mac_status/sync_meta.json b/data/mac_status/sync_meta.json
+index 1e18c654..f8eed3c6 100644
+--- a/data/mac_status/sync_meta.json
++++ b/data/mac_status/sync_meta.json
+@@ -2,7 +2,7 @@
+   "ts": "2026-07-01T02:14:09Z",
+   "hostname": "abarihms-Mac-mini.local",
+   "platform": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
+-  "git_sha": "dcc6a9ce",
++  "git_sha": "78e7a8b3",
+   "unified_status_rc": 0,
+   "validate_stack_rc": 1,
+   "launchagents": {
+diff --git a/data/unified_status.json b/data/unified_status.json
+index 0617a3bf..038aa5fe 100644
+--- a/data/unified_status.json
++++ b/data/unified_status.json
+@@ -1,5 +1,5 @@
+ {
+-  "ts": "2026-07-01T02:14:08Z",
++  "ts": "2026-07-01T02:14:10Z",
+   "paused": false,
+   "waiting_on_mohamed": [],
+   "brain": {
+@@ -33,9 +33,9 @@
+   "mistake_count": 6,
+   "control_surface": "Cursor (mobile + Mac)",
+   "mac_last_sync": {
+-    "ts": "2026-07-01T02:14:08Z",
++    "ts": "2026-07-01T02:14:09Z",
+     "hostname": "abarihms-Mac-mini.local",
+-    "git_sha": "dcc6a9ce"
++    "git_sha": "78e7a8b3"
+   },
+   "live_feed_mac_debug": "http://localhost:4141",
+   "brain_api": "http://localhost:4140"
+diff --git a/data/unified_status.txt b/data/unified_status.txt
+index 8ffc559c..723ff4cc 100644
+--- a/data/unified_status.txt
++++ b/data/unified_status.txt
+@@ -1,4 +1,4 @@
+-OGZ Status · 2026-07-01T02:14:08Z
++OGZ Status · 2026-07-01T02:14:10Z
+ 
+ CONTROL: Cursor (this chat) — mobile and Mac
+ 
+@@ -14,7 +14,7 @@ PILOTS:
+ KNOWLEDGE: 16 docs indexed
+ MISTAKES LOGGED: 6
+ 
+-MAC SYNC: 2026-07-01T02:14:08Z (abarihms-Mac-mini.local)
++MAC SYNC: 2026-07-01T02:14:09Z (abarihms-Mac-mini.local)
+ 
+ YOUR GATES: render go · wire to prod · taste pairs · stop/لخ
+ 

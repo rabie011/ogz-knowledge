@@ -1,25 +1,80 @@
 {
+  "fake": true,
   "_meta": {
     "organ": "product_truth",
     "handle": "fake_retail",
-    "brand": "Fake Retail Demo",
+    "brand": "هدايا راقية — Saudi Lifestyle Gift & Modest Fashion Boutique Demo",
+    "built": "2026-07-07",
+    "grounding": {
+      "source": "sector truth: Saudi gifting culture, modest fashion, luxury lifestyle retail; Riyadh mall environment"
+    },
+    "keys_source": "synthetic_fake_organ_v1 — sector-representative Saudi retail gift and modest fashion items",
+    "hard_truth": "This is a premium gift and modest lifestyle boutique; the hero product is a curated gift box; all scenes PUBLIC; no alcohol props; no skin display; modest fashion is fully covered — abaya, shawls, scarves.",
+    "signature_serving_system": "Rigid matte black or dusty-rose gift boxes with satin ribbon. Tissue paper and branded sticker seal. Products shown on clean white marble or oak display surfaces. Tags with handwritten Arabic calligraphy.",
     "_prov": {
-      "source": "synthetic_fixture",
-      "date_added": "2026-06-30",
+      "source": "synthetic_fake_organ_v1",
+      "date_added": "2026-07-07",
       "confirmer": "system",
       "confidence": "experimental",
       "scope": "brand"
     }
   },
   "products": {
-    "هدية": {
-      "identity_dna": "متجر تجريبي — هدية",
-      "components": [
-        "هدية"
-      ],
-      "signature": "هدية",
-      "texture": "clean minimal, hard surfaces, fabric texture for soft goods",
-      "format": "product"
+    "صندوق هدايا راقية": {
+      "identity_dna": "A rigid matte gift box — deep forest-green or blush rose — dressed in a velvet satin ribbon and a wax-sealed branded sticker. Inside: curated items in tissue paper layers, each wrapped individually. The box exterior is clean, weight-forward, and premium without being ostentatious. The moment of opening is the product: layers of tissue reveal surprises.",
+      "components": ["rigid matte gift box (forest green or blush rose)", "double-faced velvet satin ribbon", "wax-seal branded sticker", "tissue paper wrapping layers", "hand-folded compartment inserts"],
+      "signature": "A weighted matte box tied with a velvet ribbon — premium without flash, thoughtful by design",
+      "texture": "Smooth matte board exterior; soft satin ribbon; crisp tissue inside; ribbon curls under fingertip",
+      "format": "gift_set"
+    },
+    "عطر عود فاخر": {
+      "identity_dna": "A Saudi oud-based perfume oil in a hand-blown amber glass vial or polished wooden box, stoppered with a gold or brass cap. Deep, smoky resinous oud layered with rose, amber, and musk — the signature Saudi luxury fragrance. The vial is weighty; the amber glass glows under warm light.",
+      "components": ["pure oud oil (dehn al-oud)", "rose and amber base notes", "amber glass or polished wood vial", "gold-capped stopper", "velvet presentation pouch"],
+      "signature": "Amber glass vial, heavy in hand, glowing under warm light — the most personal luxury you can gift a Saudi",
+      "texture": "Oil-heavy, warm, resinous; vial is cool and weighty glass; the scent trail is thick and long-lasting",
+      "format": "fragrance"
+    },
+    "سبحة مرمر وعقيق": {
+      "identity_dna": "A handcrafted prayer beads set (سبحة) — 99 white marble beads with deep red agate (عقيق يمني) spacers, hand-knotted on silk thread, with a silver tassel finisher. Presented in a velvet-lined wooden box. The beads are cool and smooth to the touch; the red agate catches light. A deeply personal spiritual gift.",
+      "components": ["99 white marble prayer beads", "red Yemeni agate spacer beads", "hand-knotted silk thread", "silver tassel finisher", "velvet-lined wooden display box"],
+      "signature": "Cool smooth marble prayer beads with red agate accents on silk thread — presented in a velvet wooden box",
+      "texture": "Cool polished marble; smooth, satisfying weight in the palm; silk thread fine and soft between fingers",
+      "format": "spiritual_accessory"
+    },
+    "شال كشميري محتشم": {
+      "identity_dna": "A pure cashmere shawl in a muted palette — warm camel, dusty rose, or sage green — woven in a subtle herringbone or diamond pattern, with hand-knotted fringe at both ends. Generous dimensions (2m × 0.7m); drapes softly. Packaged in a tissue-nested box with a ribbon. The softness is the first thing felt when lifted.",
+      "components": ["100% pure cashmere weave", "muted tonal palette (camel / dusty rose / sage)", "subtle herringbone or diamond pattern", "hand-knotted fringe ends", "tissue-nested box packaging"],
+      "signature": "Feather-light cashmere shawl in muted Saudi-safe palette — draped or folded, it reads instant luxury",
+      "texture": "Whisper-soft, cloud-light cashmere; almost weightless drape; fringe is fine and silky at the edges",
+      "format": "textile"
+    },
+    "مجموعة بطاقات تهنئة خطية": {
+      "identity_dna": "A curated set of 6 premium greeting cards — each with an original Arabic calligraphy design on cream cotton-stock paper, blank inside for personal message. Packed in a linen-wrapped box. The calligraphy uses a classic Diwani hand or contemporary thuluth style. Each card has a different occasion (Eid, wedding, graduation, new home, congratulations, general).",
+      "components": ["6 premium cotton-stock greeting cards", "Arabic calligraphy design per card (Diwani / Thuluth)", "blank interior for handwriting", "cream envelope per card", "linen-wrapped presentation box"],
+      "signature": "Six Arabic calligraphy cards on cream cotton paper — for the six big moments of a Saudi life",
+      "texture": "Slightly textured cotton stock; edges deckled and soft; calligraphy embossed or letterpress-printed; envelopes have a crisp tuck",
+      "format": "stationery"
+    },
+    "شموع عطرية عربية": {
+      "identity_dna": "A set of 3 hand-poured soy-wax candles in ceramic vessels — each scented with a distinct Arabic fragrance note: oud & amber, rose & musk, and bakhoor & sandalwood. The vessels are matte cream ceramic with a debossed Arabic brand name. Presented in a matte box with tissue. Burn time 40h each.",
+      "components": ["soy-wax hand-poured candle", "three Arabic fragrance variants (oud+amber / rose+musk / bakhoor+sandalwood)", "matte cream ceramic vessel", "debossed Arabic brand name", "cotton wick"],
+      "signature": "Three matte cream ceramic candles in Arabic fragrance notes — a sensory gift that fills the home with KSA",
+      "texture": "Matte smooth ceramic vessel; candle wax surface is flat and slightly waxy-matte until lit; flame is clean and steady",
+      "format": "home_fragrance"
+    },
+    "دفتر جلد طبيعي": {
+      "identity_dna": "A hand-stitched genuine leather journal in deep cognac or midnight blue — A5 format, 200 pages of thick ivory laid paper, sewn binding that opens flat. Interior pages have a subtle gold-ruled line. The leather cover develops a patina with use. Embossed with a small geometric Arabic pattern on the front cover.",
+      "components": ["genuine leather cover (cognac or midnight blue)", "A5 hand-stitched sewn binding", "200 pages ivory 100gsm laid paper", "subtle gold-ruled lines", "Arabic geometric emboss on front cover"],
+      "signature": "Cognac leather journal that opens flat — every page a blank invitation, the cover age-worthy from first use",
+      "texture": "Supple leather that warms to the hand; pages are thick and cream, slightly textured; spine cracks softly when opened",
+      "format": "stationery"
+    },
+    "طقم قهوة خزف يدوي": {
+      "identity_dna": "A hand-thrown ceramic coffee set for two — one small dallah-inspired pourover pot and two handleless finjan cups in a matte sand or sage glaze, each piece hand-thrown and unique. The glazes are food-safe; the forms reference traditional Gulf coffee ware. Presented in a wooden tray with a linen cloth. The imperfect character of handmade ceramic is the feature, not a flaw.",
+      "components": ["hand-thrown ceramic pourover pot (dallah silhouette)", "two handleless finjan cups", "matte sand or sage glaze", "food-safe finish", "wooden presentation tray + linen cloth"],
+      "signature": "Two handleless finjan cups and a dallah-shaped pot in handmade ceramic — the Gulf coffee ritual made beautiful",
+      "texture": "Matte ceramic that is cool and slightly rough to touch; walls are thin and ring when tapped; glaze has subtle drip variation per piece",
+      "format": "homewares"
     }
   }
 }

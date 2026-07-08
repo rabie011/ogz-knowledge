@@ -1,22 +1,29 @@
 {
-  "ts": "2026-07-01T02:03:31Z",
+  "ts": "2026-07-01T21:19:48Z",
   "paused": false,
   "waiting_on_mohamed": [],
   "brain": {
     "ok": true,
     "body": {
       "ok": true,
-      "humain": true,
+      "humain": false,
       "queue_depth": 0,
       "auth_required": true
     }
   },
-  "executor_live": true,
+  "executor_live": false,
   "queue": {
-    "pending": 1,
-    "running": 3,
+    "pending": 8,
+    "running": 5,
     "pending_files": [
-      "mac-organize-cleanup.json"
+      "executor-recover-stuck.json",
+      "executor-sync-always.json",
+      "mac-organize-cleanup.json",
+      "mac-post-reboot-check.json",
+      "queue-clear-stuck-running.json",
+      "tailscale-brain-wire.json",
+      "wire-go.json",
+      "wire-test-go.json"
     ]
   },
   "pilots_summary": [
@@ -28,12 +35,12 @@
     "raw_docs": 16,
     "indexed_docs": 16
   },
-  "mistake_count": 7,
+  "mistake_count": 6,
   "control_surface": "Cursor (mobile + Mac)",
   "mac_last_sync": {
-    "ts": "2026-07-01T02:03:12Z",
+    "ts": "2026-07-01T20:46:35Z",
     "hostname": "abarihms-Mac-mini.local",
-    "git_sha": "c7e2bd37"
+    "git_sha": "06764305"
   },
   "live_feed_mac_debug": "http://localhost:4141",
   "brain_api": "http://localhost:4140"

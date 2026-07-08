@@ -1,0 +1,46 @@
+diff --git a/data/cursor_missions/LIVE_STATUS.md b/data/cursor_missions/LIVE_STATUS.md
+index 85305aae..57242fc8 100644
+--- a/data/cursor_missions/LIVE_STATUS.md
++++ b/data/cursor_missions/LIVE_STATUS.md
+@@ -1,19 +1,17 @@
+-# LIVE — Orchestra status
++# LIVE — Claude Code executor
+ 
+-Updated: 2026-06-30T17:32:04Z
++Updated: 2026-07-01T01:59:05Z
+ 
+-| Role | Who |
+-|------|-----|
+-| **Orchestra** | Cursor — plans, drops missions |
+-| **Executor** | Background daemon — drains `pending/` |
+-| **You** | Mohamed — **http://localhost:4141** (one tab) |
++**Running** mission `mac-git-recover-sync` — started 2026-07-01T01:59:05Z
+ 
+-## Right now
++## Queue
+ 
+-- Pending missions: **0**
+-- Executor live: **idle — will drain on next tick**
+-- Watch: **http://localhost:4141**
++| Pending | Running |
++|---------|---------|
++| 4 | 1 |
+ 
+-## Pending queue
++## Watch live (one tab)
+ 
+-_empty_
++**http://localhost:4141** — plain-English feed. Pin in browser. No iTerm required.
++
++Cursor drops missions to `pending/`; executor daemon drains them.
+diff --git a/data/live_feed/events.jsonl b/data/live_feed/events.jsonl
+index 6faa4064..699cbeac 100644
+--- a/data/live_feed/events.jsonl
++++ b/data/live_feed/events.jsonl
+@@ -462,3 +462,6 @@
+ {"ts": "2026-06-30T18:01:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:02:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:03:14Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-07-01T01:59:05Z", "source": "executor", "type": "queue", "level": "info", "message": "Draining 5 mission(s) in background"}
++{"ts": "2026-07-01T01:59:05Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T01:59"}
++{"ts": "2026-07-01T01:59:05Z", "source": "executor", "type": "mission_start", "level": "info", "message": "Started: mac-git-recover-sync — Recover Mac git state (wrong branch + unstaged changes), return to main, resume mission drain"}

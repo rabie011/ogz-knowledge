@@ -1,0 +1,190 @@
+diff --git a/data/cursor_missions/artifacts/validate_stack.json b/data/cursor_missions/artifacts/validate_stack.json
+index d9bf9cbe..d5c4c09f 100644
+--- a/data/cursor_missions/artifacts/validate_stack.json
++++ b/data/cursor_missions/artifacts/validate_stack.json
+@@ -49,7 +49,7 @@
+     {
+       "name": "executor_daemon",
+       "ok": true,
+-      "detail": "pid 31878"
++      "detail": "idle (launchd keepalive)"
+     }
+   ]
+ }
+\ No newline at end of file
+diff --git a/data/cursor_missions/done/executor-recover-stuck.json b/data/cursor_missions/done/executor-recover-stuck.json
+index c09c5631..4eba1fd6 100644
+--- a/data/cursor_missions/done/executor-recover-stuck.json
++++ b/data/cursor_missions/done/executor-recover-stuck.json
+@@ -3,16 +3,17 @@
+   "executor": "shell",
+   "status": "partial",
+   "exit_codes": {
+-    "cmd_0": 0,
++    "cmd_0": 128,
+     "cmd_1": 0,
+     "cmd_2": 0,
+     "cmd_3": 1
+   },
+-  "summary": "1 blocker(s)",
+-  "log_path": "data/cursor_missions/done/recover-recover-recover-executor-recover-stuck.log",
++  "summary": "2 blocker(s)",
++  "log_path": "data/cursor_missions/done/recover-recover-executor-recover-stuck.log",
+   "blockers": [
++    "command 0 failed (exit 128): cd ~/Desktop/ogz-knowledge && git fetch origin main && git reset --hard origin/main",
+     "command 3 failed (exit 1): cd ~/Desktop/ogz-knowledge && MAC_SYNC_PUSH=1 /opt/homebrew/bin/python3 scripts/mac_sync.py --push"
+   ],
+   "fix_allowed": true,
+-  "finished": "2026-07-01T12:08:55Z"
++  "finished": "2026-07-01T12:08:57Z"
+ }
+\ No newline at end of file
+diff --git a/data/cursor_missions/done/missions/executor-recover-stuck.json b/data/cursor_missions/done/missions/executor-recover-stuck.json
+index c09c5631..4eba1fd6 100644
+--- a/data/cursor_missions/done/missions/executor-recover-stuck.json
++++ b/data/cursor_missions/done/missions/executor-recover-stuck.json
+@@ -3,16 +3,17 @@
+   "executor": "shell",
+   "status": "partial",
+   "exit_codes": {
+-    "cmd_0": 0,
++    "cmd_0": 128,
+     "cmd_1": 0,
+     "cmd_2": 0,
+     "cmd_3": 1
+   },
+-  "summary": "1 blocker(s)",
+-  "log_path": "data/cursor_missions/done/recover-recover-recover-executor-recover-stuck.log",
++  "summary": "2 blocker(s)",
++  "log_path": "data/cursor_missions/done/recover-recover-executor-recover-stuck.log",
+   "blockers": [
++    "command 0 failed (exit 128): cd ~/Desktop/ogz-knowledge && git fetch origin main && git reset --hard origin/main",
+     "command 3 failed (exit 1): cd ~/Desktop/ogz-knowledge && MAC_SYNC_PUSH=1 /opt/homebrew/bin/python3 scripts/mac_sync.py --push"
+   ],
+   "fix_allowed": true,
+-  "finished": "2026-07-01T12:08:55Z"
++  "finished": "2026-07-01T12:08:57Z"
+ }
+\ No newline at end of file
+diff --git a/data/cursor_missions/pending/mac-post-reboot-check.json b/data/cursor_missions/running/mac-post-reboot-check.json
+similarity index 100%
+rename from data/cursor_missions/pending/mac-post-reboot-check.json
+rename to data/cursor_missions/running/mac-post-reboot-check.json
+diff --git a/data/live_feed/events.jsonl b/data/live_feed/events.jsonl
+index 6faa4064..022e16f9 100644
+--- a/data/live_feed/events.jsonl
++++ b/data/live_feed/events.jsonl
+@@ -462,3 +462,8 @@
+ {"ts": "2026-06-30T18:01:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:02:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:03:14Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-07-01T12:08:56Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:08:56Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:08"}
++{"ts": "2026-07-01T12:08:56Z", "source": "executor", "type": "mission_start", "level": "info", "message": "Started: mac-post-reboot-check — After reboot/Abraham+PlayRoom — report Mac user, daemons, ports 4000/4140, tailscale, ogz paths"}
++{"ts": "2026-07-01T12:08:57Z", "source": "executor", "type": "mission_done", "level": "warn", "message": "Finished executor-recover-stuck: partial — 2 blocker(s)", "status": "partial", "mission_id": "executor-recover-stuck"}
++{"ts": "2026-07-01T12:08:57Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
+diff --git a/data/mac_status/latest.txt b/data/mac_status/latest.txt
+index bd06487f..bf8fcc41 100644
+--- a/data/mac_status/latest.txt
++++ b/data/mac_status/latest.txt
+@@ -4,7 +4,7 @@ CONTROL: Cursor (this chat) — mobile and Mac
+ 
+ BRAIN: healthy :4140
+ QUEUE: 7 pending, 1 running (executor-recover-stuck.json, mac-organize-cleanup.json, recover-agent-run-now.json)
+-EXECUTOR: running a mission
++EXECUTOR: idle (shell only — not Claude Code)
+ 
+ PILOTS:
+   · albaik: ready, 79% coverage
+@@ -12,9 +12,9 @@ PILOTS:
+   · myfitness.sa: ready, 64% coverage
+ 
+ KNOWLEDGE: 16 docs indexed
+-MISTAKES LOGGED: 6
++MISTAKES LOGGED: 7
+ 
+-MAC SYNC: 2026-07-01T02:03:32Z (abarihms-Mac-mini.local)
++MAC SYNC: 2026-07-01T12:08:57Z (abarihms-Mac-mini.local)
+ 
+ YOUR GATES: render go · wire to prod · taste pairs · stop/لخ
+ 
+diff --git a/data/mac_status/sync_meta.json b/data/mac_status/sync_meta.json
+index 05210ec1..d7f95dbc 100644
+--- a/data/mac_status/sync_meta.json
++++ b/data/mac_status/sync_meta.json
+@@ -2,7 +2,7 @@
+   "ts": "2026-07-01T12:08:57Z",
+   "hostname": "abarihms-Mac-mini.local",
+   "platform": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
+-  "git_sha": "280dd920",
++  "git_sha": "7ca0d876",
+   "unified_status_rc": 0,
+   "validate_stack_rc": 0,
+   "launchagents": {
+@@ -14,7 +14,9 @@
+     "com.ogz.orchestra": "loaded"
+   },
+   "pull": {
+-    "ok": true,
+-    "detail": "skipped"
++    "ok": false,
++    "detail": "From https://github.com/rabie011/ogz-knowledge\n * branch              weiblocks-export -> FETCH_HEAD\nerror: cannot rebase: You have unstaged changes.\nerror: additionally, your index contains uncommitted changes.\nerror: Please commit or stash them.",
++    "branch": "weiblocks-export",
++    "stashed": false
+   }
+ }
+\ No newline at end of file
+diff --git a/data/unified_status.json b/data/unified_status.json
+index 0ad98529..e1b9d06f 100644
+--- a/data/unified_status.json
++++ b/data/unified_status.json
+@@ -11,7 +11,7 @@
+       "auth_required": true
+     }
+   },
+-  "executor_live": true,
++  "executor_live": false,
+   "queue": {
+     "pending": 7,
+     "running": 1,
+@@ -34,12 +34,12 @@
+     "raw_docs": 16,
+     "indexed_docs": 16
+   },
+-  "mistake_count": 6,
++  "mistake_count": 7,
+   "control_surface": "Cursor (mobile + Mac)",
+   "mac_last_sync": {
+-    "ts": "2026-07-01T02:03:32Z",
++    "ts": "2026-07-01T12:08:57Z",
+     "hostname": "abarihms-Mac-mini.local",
+-    "git_sha": "fa730966"
++    "git_sha": "280dd920"
+   },
+   "live_feed_mac_debug": "http://localhost:4141",
+   "brain_api": "http://localhost:4140"
+diff --git a/data/unified_status.txt b/data/unified_status.txt
+index bd06487f..bf8fcc41 100644
+--- a/data/unified_status.txt
++++ b/data/unified_status.txt
+@@ -4,7 +4,7 @@ CONTROL: Cursor (this chat) — mobile and Mac
+ 
+ BRAIN: healthy :4140
+ QUEUE: 7 pending, 1 running (executor-recover-stuck.json, mac-organize-cleanup.json, recover-agent-run-now.json)
+-EXECUTOR: running a mission
++EXECUTOR: idle (shell only — not Claude Code)
+ 
+ PILOTS:
+   · albaik: ready, 79% coverage
+@@ -12,9 +12,9 @@ PILOTS:
+   · myfitness.sa: ready, 64% coverage
+ 
+ KNOWLEDGE: 16 docs indexed
+-MISTAKES LOGGED: 6
++MISTAKES LOGGED: 7
+ 
+-MAC SYNC: 2026-07-01T02:03:32Z (abarihms-Mac-mini.local)
++MAC SYNC: 2026-07-01T12:08:57Z (abarihms-Mac-mini.local)
+ 
+ YOUR GATES: render go · wire to prod · taste pairs · stop/لخ
+ 

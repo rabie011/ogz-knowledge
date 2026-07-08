@@ -101,7 +101,7 @@ GATE_REASON_AR = {
 # arena.DEFAULT_BUDGET — the documented fallback until plan_tiers.json exists (§b).
 DEFAULT_BUDGET = {"max_calls": 40, "max_usd": 5.0, "max_minutes": 30}
 
-HANDLE_RE = re.compile(r"^[a-z0-9_.]+$")   # §2 tenant filesystem scoping (reject / \ . traversal)
+HANDLE_RE = re.compile(r"^[a-z0-9_.-]+$")   # §2 tenant filesystem scoping (reject / \ traversal); hyphens allowed (FIX b1d3c1f804fb)
 
 # §1.1 reason_code -> default plain-Arabic reason (the ONLY new human-facing strings, SPEC-012 §9.7).
 REASON_AR = {

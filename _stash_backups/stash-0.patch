@@ -1,0 +1,274 @@
+diff --git a/data/cursor_missions/LIVE_STATUS.md b/data/cursor_missions/LIVE_STATUS.md
+index 1dbacde1..a13add1f 100644
+--- a/data/cursor_missions/LIVE_STATUS.md
++++ b/data/cursor_missions/LIVE_STATUS.md
+@@ -1,40 +1,19 @@
+-# LIVE — Orchestra status
++# LIVE — orchestra scratch (not canonical truth)
+ 
+-Updated: 2026-07-01T13:35:00Z (cloud view)
++Updated: 2026-07-01T17:55:25Z
+ 
+-| Role | Who |
+-|------|-----|
+-| **Conductor** | Cursor cloud — plan, queue, read GitHub |
+-| **Hands** | Mac Mini — executor, brain `:4140`, bridge `:4150`, Tailscale |
+-| **You** | Mohamed — **Cursor only** |
++**Canonical status:** `data/ogz_live.txt` · full: `data/ogz_live.json`
+ 
+-## Two truths (read both)
++**Released** at 2026-07-01T17:55:25Z — queue idle or blocked.
+ 
+-| Source | Mac disk (hands report) | GitHub (cloud sees) |
+-|--------|-------------------------|---------------------|
+-| **Sync time** | ~`13:28Z` fresh | `02:03Z` **stale** |
+-| **Pending** | 0 | 6+ missions |
+-| **Running ghosts** | 2 (in done/) | 3 stuck |
+-| **Wire artifacts** | on disk ✓ | **404** — not pushed |
++## Queue snapshot
+ 
+-**Rule:** Cloud conductor trusts GitHub. Mac push closes the gap.
++| Pending | Running |
++|---------|---------|
++| 8 | 3 |
+ 
+-## Mac healthy (local report)
++## Watch live (Mac debug)
+ 
+-- Brain `:4140` — healthy
+-- Mac Bridge `:4150` — loaded
+-- Tailscale — `abarihms-mac-mini.tail174530.ts.net`
+-- Consult + PROPOSALS — ran locally
+-- Blocker — git push may fail on `weiblocks-export`
++**http://localhost:4141** — plain-English feed. Pin in browser. No iTerm required.
+ 
+-## Queued now
+-
+-- `queue-clear-stuck-running.json` (priority -5) — clear ghosts + push
+-
+-## Mohamed commands
+-
+-`status` · `check Mac` · `go` · `stop`/`لخ` · `render go` · `wire` · **update handoff**
+-
+-## Continuity
+-
+-New chat → `CLOUD_AGENT_HANDOFF.md` + this file + `unified_status.txt`. Not in GitHub = cloud doesn't know.
++Cursor drops missions to `pending/`; executor daemon drains them.
+diff --git a/data/live_feed/events.jsonl b/data/live_feed/events.jsonl
+index 6faa4064..ce4c3b32 100644
+--- a/data/live_feed/events.jsonl
++++ b/data/live_feed/events.jsonl
+@@ -462,3 +462,4 @@
+ {"ts": "2026-06-30T18:01:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:02:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:03:14Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-07-01T17:55:25Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
+diff --git a/data/ogz_live.json b/data/ogz_live.json
+index 8eb2144a..517fb3dd 100644
+--- a/data/ogz_live.json
++++ b/data/ogz_live.json
+@@ -1,9 +1,9 @@
+ {
+   "version": 1,
+-  "updated_at": "2026-07-01T15:10:17Z",
++  "updated_at": "2026-07-01T17:55:25Z",
+   "healthy": false,
+   "stale": true,
+-  "stale_reason": "ghost running missions",
++  "stale_reason": "executor jammed",
+   "sync": {
+     "last_push": "2026-07-01T02:03:32Z",
+     "last_pull_ok": false,
+@@ -25,7 +25,7 @@
+     "lock_alive": false,
+     "state": "jammed",
+     "current_mission": "agent-run-now",
+-    "started_at": "2026-07-01T14:55:28Z",
++    "started_at": "2026-07-01T17:54:53Z",
+     "pending": [
+       "executor-recover-stuck.json",
+       "executor-sync-always.json",
+@@ -39,20 +39,18 @@
+     "running": [
+       "agent-run-now.json",
+       "consult-mirror-proposals-foundation.json",
+-      "proposals-foundation-go.json"
+-    ],
+-    "ghost_running": [
+-      "proposals-foundation-go.json"
++      "queue-clear-stuck-running.json"
+     ],
++    "ghost_running": [],
+     "last_drain_at": "2026-07-01T02:03:32Z",
+     "last_drain_ok": null
+   },
+   "brain": {
+-    "ok": false,
++    "ok": true,
+     "port": 4140
+   },
+   "bridge": {
+-    "ok": false,
++    "ok": true,
+     "port": 4150
+   },
+   "agents": {
+@@ -97,9 +95,9 @@
+       "summary": ""
+     },
+     "PROPOSALS": {
+-      "last_seen": null,
+-      "state": "unknown",
+-      "summary": ""
++      "last_seen": "2026-07-01T12:13:59Z",
++      "state": "idle",
++      "summary": "Foundation harvest from ~/agents"
+     },
+     "RABIE": {
+       "last_seen": null,
+@@ -118,13 +116,6 @@
+     }
+   },
+   "recent_events": [
+-    {
+-      "ts": "2026-06-30T17:49:12Z",
+-      "source": "digest",
+-      "type": "digest",
+-      "level": "info",
+-      "message": "Last mission: Finished restart-executor: fail — 1 blocker(s) · Recent missions: 1 finished (0 ok, 1 issues) · ⚠ 1 error(s) — see feed · Activity from: digest(15), mac(6), executor(3), cursor(1)"
+-    },
+     {
+       "ts": "2026-06-30T17:50:12Z",
+       "source": "digest",
+@@ -222,6 +213,13 @@
+       "type": "digest",
+       "level": "info",
+       "message": "Activity from: digest(25)"
++    },
++    {
++      "ts": "2026-07-01T17:55:25Z",
++      "source": "executor",
++      "type": "idle",
++      "level": "info",
++      "message": "Executor released — queue idle"
+     }
+   ],
+   "waiting_on_mohamed": [],
+@@ -230,5 +228,5 @@
+     "  · eatjurisha: ready, 70% coverage",
+     "  · myfitness.sa: ready, 64% coverage"
+   ],
+-  "unified_status_ts": "2026-07-01T15:10:17Z"
++  "unified_status_ts": "2026-07-01T17:55:25Z"
+ }
+\ No newline at end of file
+diff --git a/data/ogz_live.txt b/data/ogz_live.txt
+index 677b68ab..540c7956 100644
+--- a/data/ogz_live.txt
++++ b/data/ogz_live.txt
+@@ -1,11 +1,11 @@
+-OGZ Live · 2026-07-01T15:10:17Z
+-HEALTH: NOT OK — ghost running missions
++OGZ Live · 2026-07-01T17:55:25Z
++HEALTH: NOT OK — executor jammed
+ EXECUTOR: jammed · mission=agent-run-now · pending=8
+-GHOSTS: proposals-foundation-go.json
+-BRAIN :4140: down · BRIDGE :4150: down/skip
++GHOSTS: none
++BRAIN :4140: up · BRIDGE :4150: up
+ SYNC: 2026-07-01T02:03:32Z (abarihms-Mac-mini.local) · drain_ok=None
+ 
+ PILOTS: albaik: ready, 79% coverage · eatjurisha: ready, 70% coverage
+-LAST EVENT: digest: Activity from: digest(25)
++LAST EVENT: executor: Executor released — queue idle
+ 
+ Full JSON: data/ogz_live.json
+\ No newline at end of file
+diff --git a/data/unified_status.json b/data/unified_status.json
+index a0da48d9..aa470d55 100644
+--- a/data/unified_status.json
++++ b/data/unified_status.json
+@@ -1,22 +1,29 @@
+ {
+-  "ts": "2026-07-01T02:03:31Z",
++  "ts": "2026-07-01T17:55:25Z",
+   "paused": false,
+   "waiting_on_mohamed": [],
+   "brain": {
+     "ok": true,
+     "body": {
+       "ok": true,
+-      "humain": true,
++      "humain": false,
+       "queue_depth": 0,
+       "auth_required": true
+     }
+   },
+-  "executor_live": true,
++  "executor_live": false,
+   "queue": {
+-    "pending": 1,
++    "pending": 8,
+     "running": 3,
+     "pending_files": [
+-      "mac-organize-cleanup.json"
++      "executor-recover-stuck.json",
++      "executor-sync-always.json",
++      "mac-organize-cleanup.json",
++      "mac-post-reboot-check.json",
++      "queue-clear-stuck-running.json",
++      "tailscale-brain-wire.json",
++      "wire-go.json",
++      "wire-test-go.json"
+     ]
+   },
+   "pilots_summary": [
+@@ -28,12 +35,12 @@
+     "raw_docs": 16,
+     "indexed_docs": 16
+   },
+-  "mistake_count": 7,
++  "mistake_count": 6,
+   "control_surface": "Cursor (mobile + Mac)",
+   "mac_last_sync": {
+-    "ts": "2026-07-01T02:03:12Z",
++    "ts": "2026-07-01T02:03:32Z",
+     "hostname": "abarihms-Mac-mini.local",
+-    "git_sha": "c7e2bd37"
++    "git_sha": "fa730966"
+   },
+   "live_feed_mac_debug": "http://localhost:4141",
+   "brain_api": "http://localhost:4140"
+diff --git a/data/unified_status.txt b/data/unified_status.txt
+index c0254f10..5886b4ea 100644
+--- a/data/unified_status.txt
++++ b/data/unified_status.txt
+@@ -1,10 +1,10 @@
+-OGZ Status · 2026-07-01T02:03:31Z
++OGZ Status · 2026-07-01T17:55:25Z
+ 
+ CONTROL: Cursor (this chat) — mobile and Mac
+ 
+ BRAIN: healthy :4140
+-QUEUE: 1 pending, 3 running (mac-organize-cleanup.json)
+-EXECUTOR: running a mission
++QUEUE: 8 pending, 3 running (executor-recover-stuck.json, executor-sync-always.json, mac-organize-cleanup.json)
++EXECUTOR: idle (shell only — not Claude Code)
+ 
+ PILOTS:
+   · albaik: ready, 79% coverage
+@@ -12,10 +12,10 @@ PILOTS:
+   · myfitness.sa: ready, 64% coverage
+ 
+ KNOWLEDGE: 16 docs indexed
+-MISTAKES LOGGED: 7
++MISTAKES LOGGED: 6
+ 
+-MAC SYNC: 2026-07-01T02:03:12Z (abarihms-Mac-mini.local)
++MAC SYNC: 2026-07-01T02:03:32Z (abarihms-Mac-mini.local)
+ 
+ YOUR GATES: render go · wire to prod · taste pairs · stop/لخ
+ 
+-Mac debug feed (not mobile): http://localhost:4141
+\ No newline at end of file
++Mac debug feed (not mobile): http://localhost:4141

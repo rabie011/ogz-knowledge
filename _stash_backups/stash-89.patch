@@ -1,0 +1,83 @@
+diff --git a/data/cursor_missions/LIVE_STATUS.md b/data/cursor_missions/LIVE_STATUS.md
+index 85305aae..c8081c8d 100644
+--- a/data/cursor_missions/LIVE_STATUS.md
++++ b/data/cursor_missions/LIVE_STATUS.md
+@@ -1,19 +1,17 @@
+-# LIVE — Orchestra status
++# LIVE — Claude Code executor
+ 
+-Updated: 2026-06-30T17:32:04Z
++Updated: 2026-06-30T23:53:28Z
+ 
+-| Role | Who |
+-|------|-----|
+-| **Orchestra** | Cursor — plans, drops missions |
+-| **Executor** | Background daemon — drains `pending/` |
+-| **You** | Mohamed — **http://localhost:4141** (one tab) |
++**Released** at 2026-06-30T23:53:28Z — queue idle or blocked.
+ 
+-## Right now
++## Queue
+ 
+-- Pending missions: **0**
+-- Executor live: **idle — will drain on next tick**
+-- Watch: **http://localhost:4141**
++| Pending | Running |
++|---------|---------|
++| 0 | 1 |
+ 
+-## Pending queue
++## Watch live (one tab)
+ 
+-_empty_
++**http://localhost:4141** — plain-English feed. Pin in browser. No iTerm required.
++
++Cursor drops missions to `pending/`; executor daemon drains them.
+diff --git a/data/cursor_missions/pending/mac-onboard-mobile-bridge.json b/data/cursor_missions/pending/mac-onboard-mobile-bridge.json
+deleted file mode 100644
+index 3e101234..00000000
+--- a/data/cursor_missions/pending/mac-onboard-mobile-bridge.json
++++ /dev/null
+@@ -1,12 +0,0 @@
+-{
+-  "id": "mac-onboard-mobile-bridge",
+-  "from": "cursor-cloud",
+-  "created": "2026-06-30T18:45:00Z",
+-  "type": "commands",
+-  "goal": "Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status)",
+-  "fix_allowed": false,
+-  "commands": [
+-    "cd ~/Desktop/ogz-knowledge && git pull --rebase origin HEAD",
+-    "cd ~/Desktop/ogz-knowledge && chmod +x scripts/mac_onboard.sh && ./scripts/mac_onboard.sh"
+-  ]
+-}
+diff --git a/data/live_feed/events.jsonl b/data/live_feed/events.jsonl
+index 6faa4064..6b3258ae 100644
+--- a/data/live_feed/events.jsonl
++++ b/data/live_feed/events.jsonl
+@@ -462,3 +462,25 @@
+ {"ts": "2026-06-30T18:01:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:02:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:03:14Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-06-30T23:50:13Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor daemon started — shell missions in background (not Claude Code)"}
++{"ts": "2026-06-30T23:50:13Z", "source": "executor", "type": "queue", "level": "info", "message": "Draining 1 mission(s) in background"}
++{"ts": "2026-06-30T23:50:13Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-06-30T23:50"}
++{"ts": "2026-06-30T23:50:13Z", "source": "executor", "type": "mission_start", "level": "info", "message": "Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status)"}
++{"ts": "2026-06-30T23:50:48Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(21), executor(4)"}
++{"ts": "2026-06-30T23:51:41Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-06-30T23:51"}
++{"ts": "2026-06-30T23:51:41Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-06-30T23:51:48Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(19), executor(6)"}
++{"ts": "2026-06-30T23:52:49Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(19), executor(6)"}
++{"ts": "2026-06-30T23:53:07Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor daemon started — shell missions in background (not Claude Code)"}
++{"ts": "2026-06-30T23:53:28Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-06-30T23:53"}
++{"ts": "2026-06-30T23:53:28Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-06-30T23:53:49Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(16), executor(9)"}
++{"ts": "2026-06-30T23:54:49Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(16), executor(9)"}
++{"ts": "2026-06-30T23:55:49Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(16), executor(9)"}
++{"ts": "2026-06-30T23:56:49Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(16), executor(9)"}
++{"ts": "2026-06-30T23:57:49Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(16), executor(9)"}
++{"ts": "2026-06-30T23:58:50Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(16), executor(9)"}
++{"ts": "2026-06-30T23:59:50Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(16), executor(9)"}
++{"ts": "2026-07-01T00:00:50Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(16), executor(9)"}
++{"ts": "2026-07-01T00:01:51Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(16), executor(9)"}
++{"ts": "2026-07-01T00:02:51Z", "source": "digest", "type": "digest", "level": "info", "message": "In progress: Started: mac-onboard-mobile-bridge — Mac onboard — mobile control bridge (park noise, brain + mac-sync + executor, push status) · Activity from: digest(16), executor(9)"}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  SPEC-012 THE BRAIN API — the /v1 action/runtime sibling service on 127.0.0.1:4150.
+  STAGED, NOT LOADED (FABLE ruling #2 + build brief): this plist is committed to the repo but is
+  NOT installed into ~/Library/LaunchAgents until Mohamed authorizes the cloud/local exposure. The
+  tenancy-wall release gate (tests/brainapi/run_all.py) must be green before this is loaded.
+  To load (owner action, later): cp this to ~/Library/LaunchAgents/ && launchctl load it.
+  It runs a SEPARATE app (api/brain_v1.py) from the retrieval service on :4140 — distinct lifecycle.
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.ogz.brain-v1</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/opt/homebrew/bin/python3</string>
+        <string>-m</string>
+        <string>uvicorn</string>
+        <string>brain_v1:app</string>
+        <string>--port</string>
+        <string>4150</string>
+        <string>--host</string>
+        <string>127.0.0.1</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/abarihm/OGZ-System/02-Platform-AI/Knowledge/brain/api</string>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/Users/abarihm/Library/Logs/ogz-brain-v1.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/abarihm/Library/Logs/ogz-brain-v1.log</string>
+</dict>
+</plist>

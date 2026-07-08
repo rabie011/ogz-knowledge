@@ -1,0 +1,95 @@
+diff --git a/data/live_feed/events.jsonl b/data/live_feed/events.jsonl
+index 6faa4064..ee5f42a2 100644
+--- a/data/live_feed/events.jsonl
++++ b/data/live_feed/events.jsonl
+@@ -462,3 +462,4 @@
+ {"ts": "2026-06-30T18:01:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:02:13Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
+ {"ts": "2026-06-30T18:03:14Z", "source": "digest", "type": "digest", "level": "info", "message": "Activity from: digest(25)"}
++{"ts": "2026-07-01T12:08:43Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
+diff --git a/data/unified_status.json b/data/unified_status.json
+index a0da48d9..54b43047 100644
+--- a/data/unified_status.json
++++ b/data/unified_status.json
+@@ -1,22 +1,29 @@
+ {
+-  "ts": "2026-07-01T02:03:31Z",
++  "ts": "2026-07-01T12:08:43Z",
+   "paused": false,
+   "waiting_on_mohamed": [],
+   "brain": {
+     "ok": true,
+     "body": {
+       "ok": true,
+-      "humain": true,
++      "humain": false,
+       "queue_depth": 0,
+       "auth_required": true
+     }
+   },
+-  "executor_live": true,
++  "executor_live": false,
+   "queue": {
+-    "pending": 1,
+-    "running": 3,
++    "pending": 8,
++    "running": 0,
+     "pending_files": [
+-      "mac-organize-cleanup.json"
++      "executor-recover-stuck.json",
++      "mac-organize-cleanup.json",
++      "mac-post-reboot-check.json",
++      "recover-agent-run-now.json",
++      "recover-consult-mirror-proposals-foundation.json",
++      "tailscale-brain-wire.json",
++      "wire-go.json",
++      "wire-test-go.json"
+     ]
+   },
+   "pilots_summary": [
+@@ -28,12 +35,12 @@
+     "raw_docs": 16,
+     "indexed_docs": 16
+   },
+-  "mistake_count": 7,
++  "mistake_count": 6,
+   "control_surface": "Cursor (mobile + Mac)",
+   "mac_last_sync": {
+-    "ts": "2026-07-01T02:03:12Z",
++    "ts": "2026-07-01T02:03:32Z",
+     "hostname": "abarihms-Mac-mini.local",
+-    "git_sha": "c7e2bd37"
++    "git_sha": "fa730966"
+   },
+   "live_feed_mac_debug": "http://localhost:4141",
+   "brain_api": "http://localhost:4140"
+diff --git a/data/unified_status.txt b/data/unified_status.txt
+index c0254f10..95c6a2cd 100644
+--- a/data/unified_status.txt
++++ b/data/unified_status.txt
+@@ -1,10 +1,10 @@
+-OGZ Status · 2026-07-01T02:03:31Z
++OGZ Status · 2026-07-01T12:08:43Z
+ 
+ CONTROL: Cursor (this chat) — mobile and Mac
+ 
+ BRAIN: healthy :4140
+-QUEUE: 1 pending, 3 running (mac-organize-cleanup.json)
+-EXECUTOR: running a mission
++QUEUE: 8 pending, 0 running (executor-recover-stuck.json, mac-organize-cleanup.json, mac-post-reboot-check.json)
++EXECUTOR: idle (shell only — not Claude Code)
+ 
+ PILOTS:
+   · albaik: ready, 79% coverage
+@@ -12,9 +12,9 @@ PILOTS:
+   · myfitness.sa: ready, 64% coverage
+ 
+ KNOWLEDGE: 16 docs indexed
+-MISTAKES LOGGED: 7
++MISTAKES LOGGED: 6
+ 
+-MAC SYNC: 2026-07-01T02:03:12Z (abarihms-Mac-mini.local)
++MAC SYNC: 2026-07-01T02:03:32Z (abarihms-Mac-mini.local)
+ 
+ YOUR GATES: render go · wire to prod · taste pairs · stop/لخ
+ 

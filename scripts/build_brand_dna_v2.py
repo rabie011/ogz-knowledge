@@ -60,7 +60,7 @@ def build_dna(brand: str) -> dict:
     posts.sort(key=lambda x: x["likes"], reverse=True)
     sample = posts[:60] + posts[60::4][:40]  # engagement-first + spread for recency/diversity
     corpus = "\n".join(f"[{p['likes']} likes] {p['caption']}" for p in sample)
-    body = {"model": "gpt-4o", "temperature": 0.2, "max_tokens": 3200,
+    body = {"model": "gpt-4o-mini", "temperature": 0.2, "max_tokens": 3200,
             "response_format": {"type": "json_object"},
             "messages": [{"role": "system", "content": DNA_SPEC},
                           {"role": "user", "content": f"BRAND: {brand}\nPOSTS ({len(sample)}):\n{corpus}"}]}
@@ -71,7 +71,7 @@ def build_dna(brand: str) -> dict:
     r = json.loads(urllib.request.urlopen(req, timeout=120).read())
     dna = json.loads(r["choices"][0]["message"]["content"])
     dna["_meta"] = {"brand": brand, "posts_analyzed": len(sample), "archive_posts": len(posts),
-                    "built": "2026-06-10", "builder": "build_brand_dna_v2.py", "model": "gpt-4o"}
+                    "built": "2026-06-10", "builder": "build_brand_dna_v2.py", "model": "gpt-4o-mini"}
     return dna
 
 

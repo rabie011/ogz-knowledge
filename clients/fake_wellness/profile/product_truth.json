@@ -1,25 +1,80 @@
 {
+  "fake": true,
   "_meta": {
     "organ": "product_truth",
     "handle": "fake_wellness",
-    "brand": "Fake Wellness Demo",
+    "brand": "مركز العافية — Saudi Wellness & Fitness Center Demo",
+    "built": "2026-07-07",
+    "grounding": {
+      "source": "sector truth: Saudi fitness centers, sports nutrition retail, wellness services; Riyadh gym culture"
+    },
+    "keys_source": "synthetic_fake_organ_v1 — sector-representative Saudi wellness & fitness offerings",
+    "hard_truth": "This is a Saudi wellness center; NO exposed athletic bodies; scenes are PUBLIC gym floors, outdoor parks, nutrition counters — never locker rooms or private spaces; modest sportswear only (covered arms and legs for mixed-zone contexts).",
+    "signature_serving_system": "Clean gym environment with branded equipment. Nutrition bar counter with protein shakers and branded cups. Outdoor class mats. Membership cards and digital app. All presented in a clean, aspirational but accessible Saudi wellness aesthetic.",
     "_prov": {
-      "source": "synthetic_fixture",
-      "date_added": "2026-06-30",
+      "source": "synthetic_fake_organ_v1",
+      "date_added": "2026-07-07",
       "confirmer": "system",
       "confidence": "experimental",
       "scope": "brand"
     }
   },
   "products": {
-    "اشتراك": {
-      "identity_dna": "مركز عافية تجريبي — اشتراك",
-      "components": [
-        "اشتراك"
-      ],
-      "signature": "اشتراك",
-      "texture": "smooth surfaces, gentle gradients, minimal pattern",
-      "format": "product"
+    "اشتراك شهري": {
+      "identity_dna": "A monthly membership card — matte black PVC with a gold logo emboss and the member's name in Arabic calligraphy typeface — paired with the brand's mobile app on a smartphone screen. The card is the physical promise; the app is the daily companion: tracks workouts, nutrition, and recovery. Access to full-floor gym, group classes, and the nutrition bar.",
+      "components": ["matte black membership card (gold emboss)", "branded mobile app (dark UI, clean metrics)", "full-floor gym access", "group fitness classes", "nutrition bar access"],
+      "signature": "The matte black card — weighty, minimal, premium — and the app's clean dark dashboard showing streaks and progress rings",
+      "texture": "Matte PVC card, smooth and cool to touch; app UI is dark-mode clean with white metrics and a single green progress ring",
+      "format": "subscription"
+    },
+    "جلسة تدريب شخصي": {
+      "identity_dna": "A one-on-one personal training session — a certified Saudi trainer with a clipboard (programme card) and the client training on the gym floor using real equipment (dumbbells, resistance bands, functional rack). The SESSION is the product: an assessed plan, live form coaching, and a follow-up note card. Documentation of progress is part of the service.",
+      "components": ["60-min personalised training session", "fitness assessment and programme card", "live form coaching on gym floor", "session note card for client records", "follow-up WhatsApp check-in"],
+      "signature": "A programme card, a hand on equipment, and a trainer's nod — the one-to-one relationship is the product",
+      "texture": "Gym rubber floor under grip shoes; the programme card is cream cardstock; dumbbells are matte iron, cool and dense in hand",
+      "format": "service"
+    },
+    "بروتين طبيعي (واي بروتين)": {
+      "identity_dna": "A clean-label whey protein supplement in a rigid matte canister — white with Arabic + English bilingual labelling, the nutrition facts table prominently displayed in Arabic. Two flavours: vanilla tahini and plain (unflavoured). Scoop included. No artificial colours; transparent ingredients list. Photographed next to a branded shaker, full of a pale-gold smoothie.",
+      "components": ["whey protein concentrate or isolate", "vanilla tahini OR plain unflavoured variant", "Arabic + English bilingual label", "included measuring scoop", "rigid matte white canister"],
+      "signature": "Clean matte white canister, Arabic-forward label, beside a branded shaker filled with a pale gold shake",
+      "texture": "Fine powder, smooth-dissolving; shake has a light creamy texture; canister is rigid matte plastic with a snap-lock lid",
+      "format": "supplement"
+    },
+    "خطة غذائية مخصصة": {
+      "identity_dna": "A personalised meal plan — delivered as a printed A5 card booklet (7 days × 3 meals) and as a PDF via WhatsApp/app. The plan is written in Arabic, with dish names, macros per meal, and a grocery checklist. The visual is the printed booklet on a clean desk surface next to a measuring cup and a date. Saudi-adapted meals (machboos-protein version, lean harees, egg+date breakfast) feature alongside international options.",
+      "components": ["7-day × 3-meal printed card booklet (A5)", "macros per meal in Arabic", "grocery checklist", "PDF digital delivery via app/WhatsApp", "Saudi-adapted meal options"],
+      "signature": "A clean A5 meal plan booklet in Arabic — your week, your macros, your food; not a generic template",
+      "texture": "Clean matte card-stock booklet; measuring cup beside it is transparent plastic; dates on the side are amber-brown and soft",
+      "format": "service"
+    },
+    "جلسة تعافي رياضي": {
+      "identity_dna": "A 45-minute sports recovery session — offered as foam-rolling guidance, percussion massage gun application, and stretching protocol — conducted in the centre's recovery zone (a dedicated quiet area with dimmed light, rubber mat floor, and branded recovery tools). The session ends with electrolyte drink. No beds; the session is on a mat on the floor in the semi-private open recovery area.",
+      "components": ["45-min structured recovery protocol", "foam roller guided session", "percussion massage gun application", "static and dynamic stretching routine", "branded electrolyte drink post-session"],
+      "signature": "A recovery mat, branded tools, and the specific moment of muscle releasing under a percussion gun — private but not alone",
+      "texture": "Firm rubber mat underfoot; foam roller is high-density EVA; percussion gun is matte black and vibrates with precision; electrolyte drink is citrus-clear",
+      "format": "service"
+    },
+    "ملابس رياضية محتشمة (طاقم جاهز)": {
+      "identity_dna": "A ready-to-train modest sportswear set — full-length compression tights and a loose long-sleeve performance top in the brand's signature colour (charcoal grey / deep teal). Moisture-wicking fabric; UV50 rated for outdoor use; concealed waistband. Modest coverage: no midriff, no short sleeves, no fitted body-mapping cuts that reveal form. Photographed folded on a shelf or flat-laid on a gym mat — no body modelling.",
+      "components": ["full-length compression tights (charcoal/teal)", "loose long-sleeve performance top", "moisture-wicking polyester blend", "UV50 rated for outdoor use", "concealed waistband"],
+      "signature": "A folded set — charcoal grey tights and teal loose long-sleeve — on a gym shelf. Modest, technical, Saudi-ready.",
+      "texture": "Smooth technical fabric with slight compression grip; waistband is flat and seamless; fold is clean and architectural when stacked",
+      "format": "apparel"
+    },
+    "اشتراك تطبيق التتبع": {
+      "identity_dna": "A digital subscription to the brand's fitness tracking app — available on iOS and Android. The app shows: daily step count, workout logs, nutrition tracker (with Saudi food database including Arabic meals), sleep score, and a weekly progress ring. The UI is dark-mode by default; the brand's green accent marks goal completion. Shared-screen screenshots used for content — never intimate scenes.",
+      "components": ["iOS + Android fitness tracking app", "daily step and workout logging", "Saudi food database (Arabic meals labelled)", "sleep score tracker", "weekly progress ring and streak counter"],
+      "signature": "A dark-mode phone screen showing a green progress ring at 80% — the single metric that drives daily behaviour",
+      "texture": "Glass phone screen reflecting studio light; app UI is dark-slate with a sharp green accent; finger-tap on the screen for interaction moments",
+      "format": "digital_subscription"
+    },
+    "حصة يوجا في الهواء الطلق": {
+      "identity_dna": "An outdoor yoga class — held in a park or the centre's external courtyard — using branded non-slip mats in a circle formation. The class is 50 minutes; flow is moderate pace with Arabic verbal instruction. Setting is public outdoor space; participants wear modest activewear; no form-fitting or midriff-baring. The mat is the hero prop: branded, rolled, placed on green grass or clean tile.",
+      "components": ["50-min outdoor yoga flow session", "branded non-slip mat (included in session)", "Arabic-language instruction", "public park or centre courtyard setting", "post-session hydration station"],
+      "signature": "A rolled branded mat on green park grass in morning light — the only prop needed for an outdoor class that resets the week",
+      "texture": "Textured non-slip mat surface (slightly grippy under palm); grass is soft and damp in morning light; mat edges curl slightly when new",
+      "format": "service"
     }
   }
 }

@@ -197,7 +197,38 @@ def main():
     ap.add_argument("--handles", default="myfitness.sa,eatjurisha,albaik")
     ap.add_argument("--dates", default="", help="comma dates to limit (else all suffix files)")
     ap.add_argument("--staged", action="store_true", help="audit exactly the OPEN judge-lane posts")
+    ap.add_argument("--post-file", default="",
+                    help="ARENA/artifact mode: audit exactly ONE post JSON file (requires --handle), "
+                         "never touches clients/*/posts/*.json (Rule #9: don't grade unrelated data)")
+    ap.add_argument("--stdin-post", action="store_true",
+                    help="ARENA/artifact mode: read exactly ONE post JSON from stdin (requires --handle)")
+    ap.add_argument("--handle", default="",
+                    help="the client handle for --post-file/--stdin-post (required with those modes)")
     a = ap.parse_args()
+
+    # ARENA/ARTIFACT MODE: audit a single post dict supplied directly (file or stdin) against the
+    # GIVEN handle — never globs clients/<default-handle>/posts/*.json. This is the mode arena.py
+    # (or any caller judging an artifact under test, not the live corpus) must use.
+    if a.post_file or a.stdin_post:
+        if not a.handle:
+            print("REFUSE: --post-file/--stdin-post requires --handle (which client this artifact is for)",
+                  file=sys.stderr)
+            sys.exit(2)
+        raw = sys.stdin.read() if a.stdin_post else Path(a.post_file).read_text(encoding="utf-8")
+        try:
+            d = json.loads(raw)
+        except json.JSONDecodeError as e:
+            print(f"REFUSE: unreadable post JSON: {e}", file=sys.stderr)
+            sys.exit(2)
+        iss = audit_post(d, a.handle)
+        hard = [i for i in iss if i[0] != "occasion_missing" and not i[0].endswith("_warn")]
+        if hard:
+            print(f"🔴 {a.handle} — {len(hard)} issue(s):")
+            for kind, why in iss:
+                print(f"   • {kind}: {why}")
+        else:
+            print(f"✅ {a.handle} — CLEAN")
+        sys.exit(0 if not hard else 1)
 
     posts = []  # (handle, date, post_dict)
     if a.staged:

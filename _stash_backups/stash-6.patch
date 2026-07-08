@@ -1,0 +1,630 @@
+diff --git a/data/cursor_missions/artifacts/validate_stack.json b/data/cursor_missions/artifacts/validate_stack.json
+index 408dd717..60cac126 100644
+--- a/data/cursor_missions/artifacts/validate_stack.json
++++ b/data/cursor_missions/artifacts/validate_stack.json
+@@ -49,7 +49,7 @@
+     {
+       "name": "executor_daemon",
+       "ok": true,
+-      "detail": "pid 40487"
++      "detail": "idle (launchd keepalive)"
+     }
+   ]
+ }
+\ No newline at end of file
+diff --git a/data/live_feed/events.jsonl b/data/live_feed/events.jsonl
+index ea6815cc..c8cca00c 100644
+--- a/data/live_feed/events.jsonl
++++ b/data/live_feed/events.jsonl
+@@ -1016,3 +1016,527 @@
+ {"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
+ {"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
+ {"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:12Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:13Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:14Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:15Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:16Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:16Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:16Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:16Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:16Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:16Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:16Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:16Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:16Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:16Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:16Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:16Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:17Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:18Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:19Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:20Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:21Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:22Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:23Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:24Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:25Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:26Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:27Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:27Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:27Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:27Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:27Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:27Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:27Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:27Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:27Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:27Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:27Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:27Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:27Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:27Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:28Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:28Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:28Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:28Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:28Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:28Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:28Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:28Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:28Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:28Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:28Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:28Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:28Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:28Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:28Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:28Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:29Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:29Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:29Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:29Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:29Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:29Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:29Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:29Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:30Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:30Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:30Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:30Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:30Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:30Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:30Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:30Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:31Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:31Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:31Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:31Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:33Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:33Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:33Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:33Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:33Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:33Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:33Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:33Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:33Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:33Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:33Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:33Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:33Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:33Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:33Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:33Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:34Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:34Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:34Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:34Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:34Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:34Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:34Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:34Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:34Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:34Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:35Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:35Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:35Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:35Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:36Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:36Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:36Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:36Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:37Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:37Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:37Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:37Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:37Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:37Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:38Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:38Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:39Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:39Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:39Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:39Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:39Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:39Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:41Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:41Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:44Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:44Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
++{"ts": "2026-07-01T12:14:45Z", "source": "executor", "type": "startup", "level": "info", "message": "Executor claimed queue at 2026-07-01T12:14"}
++{"ts": "2026-07-01T12:14:45Z", "source": "executor", "type": "idle", "level": "info", "message": "Executor released — queue idle"}
+diff --git a/data/mac_status/latest.txt b/data/mac_status/latest.txt
+index 547609f6..b0437316 100644
+--- a/data/mac_status/latest.txt
++++ b/data/mac_status/latest.txt
+@@ -1,4 +1,4 @@
+-OGZ Status · 2026-07-01T12:14:34Z
++OGZ Status · 2026-07-01T12:14:44Z
+ 
+ CONTROL: Cursor (this chat) — mobile and Mac
+ 
+@@ -14,7 +14,7 @@ PILOTS:
+ KNOWLEDGE: 16 docs indexed
+ MISTAKES LOGGED: 15
+ 
+-MAC SYNC: 2026-07-01T12:14:34Z (abarihms-Mac-mini.local)
++MAC SYNC: 2026-07-01T12:14:44Z (abarihms-Mac-mini.local)
+ 
+ YOUR GATES: render go · wire to prod · taste pairs · stop/لخ
+ 
+diff --git a/data/mac_status/sync_meta.json b/data/mac_status/sync_meta.json
+index d88e43d8..6c17935c 100644
+--- a/data/mac_status/sync_meta.json
++++ b/data/mac_status/sync_meta.json
+@@ -1,16 +1,16 @@
+ {
+-  "ts": "2026-07-01T12:14:28Z",
++  "ts": "2026-07-01T12:14:44Z",
+   "hostname": "abarihms-Mac-mini.local",
+   "platform": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
+-  "git_sha": "unknown",
++  "git_sha": "858faea5",
+   "unified_status_rc": 1,
+   "validate_stack_rc": 1,
+   "launchagents": {
+     "com.ogz.brain-api": "loaded",
+     "com.ogz.mac-sync": "unloaded",
+-    "com.ogz.executor": "unloaded",
+-    "com.ogz.consult-shift": "unloaded",
+-    "com.ogz.memory-keeper": "unloaded",
++    "com.ogz.executor": "loaded",
++    "com.ogz.consult-shift": "loaded",
++    "com.ogz.memory-keeper": "loaded",
+     "com.ogz.orchestra": "unloaded"
+   },
+   "pull": {
+diff --git a/data/unified_status.json b/data/unified_status.json
+index 7f176c35..1371c508 100644
+--- a/data/unified_status.json
++++ b/data/unified_status.json
+@@ -1,5 +1,5 @@
+ {
+-  "ts": "2026-07-01T12:14:34Z",
++  "ts": "2026-07-01T12:14:44Z",
+   "paused": false,
+   "waiting_on_mohamed": [],
+   "brain": {
+@@ -24,7 +24,7 @@
+   "mistake_count": 15,
+   "control_surface": "Cursor (mobile + Mac)",
+   "mac_last_sync": {
+-    "ts": "2026-07-01T12:14:34Z",
++    "ts": "2026-07-01T12:14:44Z",
+     "hostname": "abarihms-Mac-mini.local",
+     "git_sha": "unknown"
+   },
+diff --git a/data/unified_status.txt b/data/unified_status.txt
+index 547609f6..b0437316 100644
+--- a/data/unified_status.txt
++++ b/data/unified_status.txt
+@@ -1,4 +1,4 @@
+-OGZ Status · 2026-07-01T12:14:34Z
++OGZ Status · 2026-07-01T12:14:44Z
+ 
+ CONTROL: Cursor (this chat) — mobile and Mac
+ 
+@@ -14,7 +14,7 @@ PILOTS:
+ KNOWLEDGE: 16 docs indexed
+ MISTAKES LOGGED: 15
+ 
+-MAC SYNC: 2026-07-01T12:14:34Z (abarihms-Mac-mini.local)
++MAC SYNC: 2026-07-01T12:14:44Z (abarihms-Mac-mini.local)
+ 
+ YOUR GATES: render go · wire to prod · taste pairs · stop/لخ
+ 

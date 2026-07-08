@@ -176,6 +176,10 @@ def judge(image_path, handle, product, caption=""):
 
 
 VERDICT_LOG = B / "data/rabie_verdicts.jsonl"
+# SPEC-005 migration: the normalized v2 ledger (every row carries handle+product, schema_v=2).
+# lessons_for() prefers v2 when present; log_verdict() keeps appending schema-A rows to the
+# original (v2 is the read model, re-migrated from the original — writers never break).
+VERDICT_LOG_V2 = B / "data/rabie_verdicts_v2.jsonl"
 
 
 def log_verdict(handle, product, image, verdict):
@@ -202,11 +206,15 @@ def log_verdict(handle, product, image, verdict):
 def lessons_for(handle, product):
     """READER (Rule #6) — the accumulated past corrections for this (handle, product): every
     'what_is_wrong' RABIE has ever flagged on a non-bank verdict. render_openclaw injects these
-    so the system does NOT repeat a mistake the eye already caught. Returns a deduped list."""
-    if not VERDICT_LOG.exists():
+    so the system does NOT repeat a mistake the eye already caught. Returns a deduped list.
+
+    SPEC-005: reads the normalized v2 ledger when present (every row has handle+product, so
+    migrated schema-B rows resolve too); falls back to the original if v2 is absent."""
+    src = VERDICT_LOG_V2 if VERDICT_LOG_V2.exists() else VERDICT_LOG
+    if not src.exists():
         return []
     seen, lessons = set(), []
-    for ln in VERDICT_LOG.read_text().splitlines():
+    for ln in src.read_text().splitlines():
         if not ln.strip():
             continue
         try:

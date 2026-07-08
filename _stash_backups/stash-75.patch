@@ -1,0 +1,89 @@
+diff --git a/data/mac_status/latest.txt b/data/mac_status/latest.txt
+index eea39a90..0239e283 100644
+--- a/data/mac_status/latest.txt
++++ b/data/mac_status/latest.txt
+@@ -1,4 +1,4 @@
+-OGZ Status · 2026-07-01T12:08:19Z
++OGZ Status · 2026-07-01T12:08:20Z
+ 
+ CONTROL: Cursor (this chat) — mobile and Mac
+ 
+@@ -14,7 +14,7 @@ PILOTS:
+ KNOWLEDGE: 16 docs indexed
+ MISTAKES LOGGED: 7
+ 
+-MAC SYNC: 2026-07-01T12:08:16Z (abarihms-Mac-mini.local)
++MAC SYNC: 2026-07-01T12:08:20Z (abarihms-Mac-mini.local)
+ 
+ YOUR GATES: render go · wire to prod · taste pairs · stop/لخ
+ 
+diff --git a/data/mac_status/sync_meta.json b/data/mac_status/sync_meta.json
+index 0b6a74fa..94fefaa4 100644
+--- a/data/mac_status/sync_meta.json
++++ b/data/mac_status/sync_meta.json
+@@ -1,8 +1,8 @@
+ {
+-  "ts": "2026-07-01T12:08:19Z",
++  "ts": "2026-07-01T12:08:21Z",
+   "hostname": "abarihms-Mac-mini.local",
+   "platform": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
+-  "git_sha": "802ddca8",
++  "git_sha": "3f1a7dc0",
+   "unified_status_rc": 0,
+   "validate_stack_rc": 0,
+   "launchagents": {
+@@ -14,9 +14,7 @@
+     "com.ogz.orchestra": "loaded"
+   },
+   "pull": {
+-    "ok": false,
+-    "detail": "From https://github.com/rabie011/ogz-knowledge\n * branch              weiblocks-export -> FETCH_HEAD\nerror: cannot rebase: You have unstaged changes.\nerror: Please commit or stash them.",
+-    "branch": "weiblocks-export",
+-    "stashed": true
++    "ok": true,
++    "detail": "skipped"
+   }
+ }
+\ No newline at end of file
+diff --git a/data/unified_status.json b/data/unified_status.json
+index 9f37429d..9bda801e 100644
+--- a/data/unified_status.json
++++ b/data/unified_status.json
+@@ -1,5 +1,5 @@
+ {
+-  "ts": "2026-07-01T12:08:19Z",
++  "ts": "2026-07-01T12:08:20Z",
+   "paused": false,
+   "waiting_on_mohamed": [],
+   "brain": {
+@@ -35,9 +35,9 @@
+   "mistake_count": 7,
+   "control_surface": "Cursor (mobile + Mac)",
+   "mac_last_sync": {
+-    "ts": "2026-07-01T12:08:16Z",
++    "ts": "2026-07-01T12:08:20Z",
+     "hostname": "abarihms-Mac-mini.local",
+-    "git_sha": "b84377ca"
++    "git_sha": "3f1a7dc0"
+   },
+   "live_feed_mac_debug": "http://localhost:4141",
+   "brain_api": "http://localhost:4140"
+diff --git a/data/unified_status.txt b/data/unified_status.txt
+index eea39a90..0239e283 100644
+--- a/data/unified_status.txt
++++ b/data/unified_status.txt
+@@ -1,4 +1,4 @@
+-OGZ Status · 2026-07-01T12:08:19Z
++OGZ Status · 2026-07-01T12:08:20Z
+ 
+ CONTROL: Cursor (this chat) — mobile and Mac
+ 
+@@ -14,7 +14,7 @@ PILOTS:
+ KNOWLEDGE: 16 docs indexed
+ MISTAKES LOGGED: 7
+ 
+-MAC SYNC: 2026-07-01T12:08:16Z (abarihms-Mac-mini.local)
++MAC SYNC: 2026-07-01T12:08:20Z (abarihms-Mac-mini.local)
+ 
+ YOUR GATES: render go · wire to prod · taste pairs · stop/لخ
+ 

@@ -1818,15 +1818,32 @@ def _client_from_card(it: dict) -> tuple[str, str]:
     raw = it.get("handle") or it.get("client") or it.get("brand") or ""
     if not raw:
         ident = str(it.get("id") or "")
+        title = str(it.get("title") or "")
         if ident.startswith("judge2_"):
             raw = ident[len("judge2_"):].split("_", 1)[0]
+        elif ident.startswith("post_"):
+            raw = ident[len("post_"):].split("__", 1)[0]
+        elif ident.startswith("taste_kill_"):
+            raw = "taste-kills"
+        elif ident.startswith("closures_"):
+            raw = "system-closures"
+        elif ident.startswith("devs_"):
+            raw = "dev-platform"
+        elif ident.startswith("vision_"):
+            raw = "compliance"
+        elif "myfitness" in title.lower():
+            raw = "myfitness.sa"
         elif ident.startswith("studio_"):
             tail = ident.replace("studio_", "", 1)
             parts = tail.split("-")
             raw = parts[3] if len(parts) > 3 else tail
         else:
-            title = str(it.get("title") or "")
-            raw = title.split("·")[-1].strip() if "·" in title else title.split()[0] if title else "unknown"
+            if "·" in title:
+                parts = [p.strip() for p in title.split("·") if p.strip()]
+                head = parts[0] if parts else ""
+                raw = parts[-1] if head.lower().replace("🔴", "").strip() in {"live", "training"} else head
+            else:
+                raw = title.split()[0] if title else "unknown"
     slug = _client_slug(raw)
     label = str(raw).strip()[:42] or slug
     return slug, label
@@ -1879,6 +1896,7 @@ def _control_clients_state() -> dict:
         "clients": len(rows),
         "open_taps": sum(r["open_taps"] for r in rows),
         "judge_open": sum(r["judge_open"] for r in rows),
+        "answered": sum(r["answered"] for r in rows),
         "pending": sum(r["pending"] for r in rows),
         "claimed": sum(r["claimed"] for r in rows),
     }

@@ -86,17 +86,18 @@ textarea:focus,input:focus{border-color:var(--green)}
 }
 .scopegrid{display:grid;grid-template-columns:190px minmax(0,760px);gap:16px;align-items:start}
 .scopebody{min-width:0}
-.clientrail{position:sticky;top:96px;display:flex;flex-direction:column;gap:6px}
+.clientrail{position:sticky;top:96px;display:flex;flex-direction:column;gap:6px;max-height:calc(100vh - 112px);overflow-y:auto;padding-inline-end:2px;scrollbar-width:thin}
 .rhead{font-family:var(--display);font-weight:900;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--dim);padding:0 2px 4px}
 .cbtn{border:1px solid var(--line);background:transparent;border-radius:12px;padding:10px 11px;text-align:start;color:var(--mut)}
 .cbtn.on{border-color:var(--green);color:var(--ink);background:var(--green-dim)}
 .cname{font-weight:800;font-size:13px;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cnums{font-size:11px;color:var(--dim);margin-top:3px}
+.cmore{font-size:11px;color:var(--dim);padding:6px 4px;white-space:nowrap}
 .scopebar{display:flex;align-items:center;gap:8px;margin-bottom:12px;color:var(--dim);font-size:12px}
 .scopebar b{color:var(--ink)}
 @media(max-width:899px){
   .scopegrid{display:block}
-  .clientrail{position:static;display:flex;flex-direction:row;overflow-x:auto;gap:7px;margin-bottom:12px;padding-bottom:2px;scrollbar-width:none}
+  .clientrail{position:static;display:flex;flex-direction:row;overflow-x:auto;overflow-y:hidden;max-height:none;gap:7px;margin-bottom:12px;padding-bottom:2px;scrollbar-width:none}
   .clientrail::-webkit-scrollbar{display:none}
   .rhead{display:none}
   .cbtn{flex:0 0 136px}
@@ -401,6 +402,7 @@ let REASONS=[];  // closed optional reason chips from /api/approvals/reasons
 let FOCUS_ACTIONS=[];
 let CLIENT_SCOPE=new URLSearchParams(location.search).get('client')||'all';
 let CLIENTS={ok:true,clients:[],totals:{}};
+const CLIENT_RAIL_LIMIT=50;
 const TABS=[['now','Now'],['judge','Judge'],['agents','Agents'],['chat','Ask'],['more','More']];
 const CHIP_LABEL={tone_off:'Tone off',too_long:'Too long',cliche:'Cliche',
   cultural_red_line:'Red line',off_brief:'Off brief',weak_hook:'Weak hook',
@@ -413,6 +415,54 @@ async function fetchJSON(p){ try{const r=await fetch(p+(p.includes('?')?'&':'?')
 function rel(ts){ let s=typeof ts==='number'?ts:(Date.parse(ts)/1000); if(!s||isNaN(s))return'';
   const a=Date.now()/1000-s; if(a<60)return Math.max(1,a|0)+'s'; if(a<3600)return(a/60|0)+'m'; if(a<86400)return(a/3600|0)+'h'; return(a/86400|0)+'d'; }
 function pad2(n){ return String(n).padStart(2,'0'); }
+function clientId(raw){ return String(raw||'unknown').toLowerCase().replace(/[^a-z0-9\u0600-\u06ff]+/g,'-').replace(/^-+|-+$/g,'').slice(0,48)||'unknown'; }
+function itemClientId(it){
+  const raw=it.handle||it.client||it.brand||'';
+  if(raw) return clientId(raw);
+  const id=String(it.id||'');
+  const title=String(it.title||'');
+  if(id.startsWith('judge2_')) return clientId(id.replace('judge2_','').split('_')[0]);
+  if(id.startsWith('post_')) return clientId(id.replace('post_','').split('__')[0]);
+  if(id.startsWith('taste_kill_')) return clientId('taste-kills');
+  if(id.startsWith('closures_')) return clientId('system-closures');
+  if(id.startsWith('devs_')) return clientId('dev-platform');
+  if(id.startsWith('vision_')) return clientId('compliance');
+  if(title.toLowerCase().includes('myfitness')) return clientId('myfitness.sa');
+  if(id.startsWith('studio_')){ const p=id.replace('studio_','').split('-'); if(p.length>3) return clientId(p[3]); }
+  if(title.includes('·')){
+    const parts=title.split('·').map(p=>p.trim()).filter(Boolean);
+    const head=(parts[0]||'').replace('🔴','').trim().toLowerCase();
+    return clientId((head==='live'||head==='training')?parts[parts.length-1]:parts[0]);
+  }
+  return clientId(title.split(/\s+/)[0]);
+}
+function scopeMatch(it){ return CLIENT_SCOPE==='all'||itemClientId(it)===CLIENT_SCOPE; }
+function currentClient(){ return (CLIENTS.clients||[]).find(c=>c.id===CLIENT_SCOPE)||null; }
+function scopeLabel(){ const c=currentClient(); return CLIENT_SCOPE==='all'?'All clients':(c?c.label:CLIENT_SCOPE); }
+function clientNums(c){
+  const second=c.claimed?`${c.claimed} claimed`:(c.answered?`${c.answered} done`:`${c.judge_open||0} judge`);
+  return `${c.open_taps||0} open · ${second}`;
+}
+function clientRail(){
+  const allRows=CLIENTS.clients||[];
+  const rows=allRows.slice(0,CLIENT_RAIL_LIMIT);
+  const more=Math.max(0,allRows.length-rows.length);
+  const totals=CLIENTS.totals||{};
+  const allOn=CLIENT_SCOPE==='all';
+  const all=`<button class="cbtn ${allOn?'on':''}" onclick="setClientScope('all')"><div class="cname">All clients</div><div class="cnums">${esc(totals.open_taps||0)} open · ${esc(totals.answered||0)} done</div></button>`;
+  const cs=rows.map(c=>`<button class="cbtn ${CLIENT_SCOPE===c.id?'on':''}" onclick="setClientScope('${esc(c.id)}')"><div class="cname" dir="auto">${esc(c.label)}</div><div class="cnums">${esc(clientNums(c))}</div></button>`).join('');
+  const tail=more?`<div class="cmore">+${esc(more)} more</div>`:'';
+  return `<aside class="clientrail"><div class="rhead">Client Rail</div>${all}${cs}${tail}</aside>`;
+}
+function scopedShell(content){
+  return `<div class="scopegrid">${clientRail()}<main class="scopebody"><div class="scopebar">scope <b dir="auto">${esc(scopeLabel())}</b></div>${content}</main></div>`;
+}
+function setClientScope(id){
+  CLIENT_SCOPE=id||'all';
+  const u=new URL(location.href); if(CLIENT_SCOPE==='all') u.searchParams.delete('client'); else u.searchParams.set('client',CLIENT_SCOPE);
+  history.replaceState(null,'',u.pathname+'?'+u.searchParams.toString());
+  render();
+}
 function nextJudgeWindow(){
   const ry=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Riyadh'}));
   const nx=new Date(ry); nx.setHours(18,0,0,0); if(ry>=nx) nx.setDate(nx.getDate()+1);
@@ -472,9 +522,9 @@ async function copyFocus(i,el){
 }
 function focusLane(d){
   if(!d||d.ok===false) return '';
-  const items=d.items||[];
+  const items=(d.items||[]).filter(scopeMatch);
   const counts=d.source_counts||{};
-  if(!items.length) return `<div class="card focus"><div class="ftop"><span class="ftag">Focus Lane</span><span class="fmeta">needs ${counts.needs_open||0} · decisions ${counts.decision_open||0}</span></div><div class="ftitle">No Mohamed tap queued</div><div class="fbody">The lane is empty; the machine keeps working below.</div></div>`;
+  if(!items.length) return `<div class="card focus"><div class="ftop"><span class="ftag">Focus Lane</span><span class="fmeta">needs ${counts.needs_open||0} · decisions ${counts.decision_open||0}</span></div><div class="ftitle">No Mohamed tap queued</div><div class="fbody">The ${esc(scopeLabel())} lane is empty; the machine keeps working below.</div></div>`;
   FOCUS_ACTIONS=[];
   const top=items[0];
   const actions=(top.actions||[]).slice(0,3);
@@ -545,9 +595,11 @@ function errBox(d){ return `<div class="empty"><div class="e">⚠️</div>تعذ
 
 /* ---------- NOW ---------- */
 async function viewNow(st,poll){
-  const [focus,day,river,brain,hl]=await Promise.all([fetchJSON('/api/control/ranked-taps'),fetchJSON('/api/control/day-strip'),fetchJSON('/api/control/pipeline-river'),fetchJSON('/api/brain'),fetchJSON('/api/control/health')]);
+  const [clients,focus,day,river,brain,hl]=await Promise.all([fetchJSON('/api/control/clients'),fetchJSON('/api/control/ranked-taps'),fetchJSON('/api/control/day-strip'),fetchJSON('/api/control/pipeline-river'),fetchJSON('/api/brain'),fetchJSON('/api/control/health')]);
+  if(clients&&clients.ok!==false) CLIENTS=clients;
   if(!brain||brain.ok===false){st.innerHTML=errBox(brain);return;}
-  const claims=Array.isArray(brain.now)?brain.now:[];
+  const allClaims=Array.isArray(brain.now)?brain.now:[];
+  const claims=CLIENT_SCOPE==='all'?allClaims:allClaims.filter(scopeMatch);
   const beats=latestBeats(brain.health||[]);
   const latest=beats[0]||null;
   const stale=latest&&beatStale(latest,claims);
@@ -571,7 +623,7 @@ async function viewNow(st,poll){
   if(!beats.length) h+=`<div class="rt2 dim" style="padding:10px 0">No health ledger rows yet.</div>`;
   for(const b of beats.slice(0,6)) h+=`<div class="row"><span class="dot ${beatDot(b,claims)}"></span><span class="rowb"><span class="rt1">${esc(b.check||'?')}</span><span class="rt2">${beatText(b,claims)}</span></span><span class="rtime">${esc(beatAgeLabel(b))}</span></div>`;
   h+=`</div>`;
-  st.innerHTML=h;
+  st.innerHTML=scopedShell(h);
   if(poll&&VIEW==='now'){ POLL=setInterval(()=>{if(VIEW==='now')viewNow(document.getElementById('stage'),false);},12000); }
 }
 
@@ -590,10 +642,11 @@ function optCap(o){ return o.caption||o.island_text||o.text||o.best||''; }
 function optScore(o){ const s=o.score??o.taste??o.rubric_score??(o.scores&&(o.scores.taste??o.scores.total)); return (s||s===0)?s:null; }
 
 async function viewJudge(st,poll){
-  const a=await fetchJSON('/api/approvals/items');
+  const [a,clients]=await Promise.all([fetchJSON('/api/approvals/items'),fetchJSON('/api/control/clients')]);
+  if(clients&&clients.ok!==false) CLIENTS=clients;
   if(a&&a.error){ st.innerHTML=errBox(a); return; }
   const all=Array.isArray(a)?a:[];
-  const cards=all.filter(isJudgeable);
+  const cards=all.filter(isJudgeable).filter(scopeMatch);
   const open=cards.filter(x=>x.status!=='answered');
   // most-recently-judged first (a fresh verdict surfaces at the top, reversible)
   const done=cards.filter(x=>x.status==='answered')
@@ -613,7 +666,7 @@ async function viewJudge(st,poll){
   }
   // recently judged (with reverse)
   if(done.length){ h+=`<div class="h1">Recently judged</div>`; for(const it of done) h+=judgeCard(it,true); }
-  st.innerHTML=h;
+  st.innerHTML=scopedShell(h);
   bindSwipeCards(open);
   open.forEach(it=>{ if((it.options||[]).length) renderBatchBars(it); else renderBar(it.id); });
   if(poll&&VIEW==='judge'){ POLL=setInterval(()=>{ if(VIEW==='judge'&&!Object.values(JD).some(d=>d&&d.dirty)) viewJudge(document.getElementById('stage'),false); },12000); }

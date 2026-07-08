@@ -432,6 +432,40 @@ def control_center(request: Request, k: str = ""):
 
 
 # =====================================================================================
+# STATUS PROXY — /status · /status.html  (task 3c8ac267e45b, 2026-07-08)
+# Routes through brain.ogzstudios.com → Mac:4199 → VPS nginx watchman.
+# VPS nginx ogz-foundation.conf already serves these files (task 46d2b2fdfe5f).
+# No auth gate — same public visibility as "/".
+# =====================================================================================
+
+_VPS_STATUS = "http://207.154.251.157"
+
+
+@app.get("/status")
+def vps_status_json():
+    import urllib.request
+    try:
+        with urllib.request.urlopen(f"{_VPS_STATUS}/status", timeout=8) as r:
+            body = r.read()
+        return Response(content=body, media_type="application/json; charset=utf-8",
+                        headers={"Cache-Control": "no-store, no-cache"})
+    except Exception as e:
+        return JSONResponse({"ok": False, "reason": str(e)}, status_code=502)
+
+
+@app.get("/status.html")
+def vps_status_html():
+    import urllib.request
+    try:
+        with urllib.request.urlopen(f"{_VPS_STATUS}/status.html", timeout=8) as r:
+            body = r.read()
+        return Response(content=body, media_type="text/html; charset=utf-8",
+                        headers={"Cache-Control": "no-store, no-cache"})
+    except Exception as e:
+        return HTMLResponse(f"<html><body>Status unavailable: {e}</body></html>", status_code=502)
+
+
+# =====================================================================================
 # SPEC-001 — /brain : PLATFORM v0 (NOW + HEALTH cards, truth-only)
 # Every number is read at REQUEST TIME from disk (queue/ + ledgers/ + NEEDS-MOHAMED.md).
 # ZERO hardcoded data, ZERO model prose. Missing source -> "no data yet", never fake.
@@ -2583,8 +2617,40 @@ def _bucket(it: dict) -> str:
     return "decision" if (it.get("buttons") or it.get("options") or it.get("text") or it.get("composer")) else "info"
 
 
+
+# 7.1 SERVER-SIDE SCOPE FILTER (fable, 2026-07-08): exact python port of control.html's
+# clientId/itemClientId — scoped payloads must not CONTAIN foreign clients, not merely
+# not-render them (guardian probe found albaik in eatjurisha scope 3x; client-links A5
+# will inherit this wire, where client-side filtering = a leak by construction).
+import re
+_CID_RX = re.compile(r'[^a-z0-9\u0600-\u06ff]+')
+def _client_id(raw):
+    s = _CID_RX.sub('-', str(raw or 'unknown').lower()).strip('-')[:48]
+    return s or 'unknown'
+
+def _item_client_id(it):
+    raw = it.get('handle') or it.get('client') or it.get('brand') or ''
+    if raw: return _client_id(raw)
+    iid = str(it.get('id') or ''); title = str(it.get('title') or '')
+    if iid.startswith('judge2_'): return _client_id(iid[7:].split('_')[0])
+    if iid.startswith('post_'): return _client_id(iid[5:].split('__')[0])
+    if iid.startswith('taste_kill_'): return _client_id('taste-kills')
+    if iid.startswith('closures_'): return _client_id('system-closures')
+    if iid.startswith('devs_'): return _client_id('dev-platform')
+    if iid.startswith('vision_'): return _client_id('compliance')
+    if 'myfitness' in title.lower(): return _client_id('myfitness.sa')
+    if iid.startswith('studio_'):
+        p = iid[7:].split('-')
+        if len(p) > 3: return _client_id(p[3])
+    if '\u00b7' in title:
+        parts = [x.strip() for x in title.split('\u00b7') if x.strip()]
+        head = (parts[0] if parts else '').replace('\U0001f534','').strip().lower()
+        return _client_id(parts[-1] if head in ('live','training') else parts[0])
+    w = title.split()
+    return _client_id(w[0] if w else '')
+
 @app.get("/api/approvals/items")
-def items(request: Request, k: str = ""):
+def items(request: Request, k: str = "", client: str = ""):
     if not _ok(k):
         return JSONResponse([], status_code=403)
     # ETag from the queue file mtime+size: unchanged queue → 304, zero payload (polling diet)
@@ -2609,6 +2675,8 @@ def items(request: Request, k: str = ""):
     # the sort (None < str) → the WHOLE items API 500'd → the live link showed no cards (2026-06-14)
     # FEEDBACK RE-LOOK (June 29, orchestra): bucket order first — 🚨 alarms, ✅ decisions, 📋 info —
     # so the actionable cards surface and the no-action client-needs sink (the flood fix).
+    if client:
+        out = [it for it in out if _item_client_id(it) == client]
     _BORDER = {"alarm": 0, "decision": 1, "info": 2}
     out.sort(key=lambda x: (x.get("status") == "answered",
                             _BORDER.get(x.get("bucket"), 1),

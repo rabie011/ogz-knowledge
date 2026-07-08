@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- OGZ CONTROL — v3 (July 7): design-taste law applied (no glows, spec tokens, clean bars, status cards).
+<!-- OGZ CONTROL — v3 (July 7): design-taste law applied (no halo effects, spec tokens, clean bars, status cards).
      5 tabs (Now · Judge · Agents · Ask · More). Judge board first = hierarchy law.
      Same endpoints / JS logic untouched. -->
 
@@ -42,9 +42,9 @@ textarea:focus,input:focus{border-color:var(--green)}
   backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   border-bottom:1px solid var(--line);padding:14px 20px 0}
 .hrow{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:10px}
-#logo{height:24px} /* no glow — spec §3 "NO glows" */
+#logo{height:24px} /* flat mark, spec §3 */
 #mark{font-family:var(--display);font-weight:900;font-size:16px;letter-spacing:.5px;text-transform:uppercase}
-/* live indicator: pulse opacity only, no glow */
+/* live indicator: pulse opacity only */
 #live{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2.6s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
 #sys{margin-inline-start:auto;font-size:12px;color:var(--dim)}
@@ -120,7 +120,7 @@ textarea:focus,input:focus{border-color:var(--green)}
 .muted{color:var(--mut)}.dim{color:var(--dim)}
 .grn{color:var(--green)}
 
-/* ── status dots — NO glow ever ───────────────────────── */
+/* ── status dots — flat status color only ─────────────── */
 .dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;background:var(--dim)}
 .dot.on{background:var(--green);animation:pulse 2s infinite} /* spec: no box-shadow on dots */
 .dot.recent{background:#b9a94a}
@@ -348,7 +348,8 @@ textarea:focus,input:focus{border-color:var(--green)}
   background:var(--green);transition:width .3s ease}
 .bar>i.warn{background:#b9a94a}
 .bar>i.bad{background:var(--epink)} /* epink as error fill = correct */
-.killreport{border-color:rgba(230,2,187,.22)}
+.killreport{border-color:var(--line)}
+.killreport.has-kills{border-color:rgba(230,2,187,.22)}
 .ktop{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
 .ktag{font-family:var(--display);font-size:11px;font-weight:900;letter-spacing:1px;color:var(--dim);text-transform:uppercase}
 .ktitle{font-size:18px;font-weight:900;margin-top:4px}
@@ -362,7 +363,9 @@ textarea:focus,input:focus{border-color:var(--green)}
 .kbar{height:10px;border-radius:7px;background:var(--card2);overflow:hidden}
 .kbar>i{display:block;height:100%;border-radius:7px;background:var(--epink);transition:width .25s ease-out}
 .killreport.changed{animation:kreal .26s ease-out}
-@keyframes kreal{from{border-color:var(--epink)}to{border-color:rgba(230,2,187,.22)}}
+.killreport.has-kills.changed{animation:krealKill .26s ease-out}
+@keyframes kreal{from{border-color:rgba(51,235,5,.65)}to{border-color:var(--line)}}
+@keyframes krealKill{from{border-color:var(--epink)}to{border-color:rgba(230,2,187,.22)}}
 @media(max-width:479px){.ktop{display:block}.kmeta{text-align:left;margin-top:8px}.kstats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* ── misc ─────────────────────────────────────────────── */
@@ -419,7 +422,7 @@ textarea:focus,input:focus{border-color:var(--green)}
 
 <script>
 const K=new URLSearchParams(location.search).get('k')||'';
-let WHO=null, AUTH=null, VIEW='now', SUB=null, POLL=null, CHATBUSY=false;
+let WHO=null, AUTH=null, VIEW='now', SUB=null, POLL=null, CHATBUSY=false, RENDER_SEQ=0;
 let JUDGE_N=0;   // live count of open judgeable cards → tab badge
 let REASONS=[];  // closed optional reason chips from /api/approvals/reasons
 let FOCUS_ACTIONS=[];
@@ -632,13 +635,14 @@ function killReportPanel(d){
   const changed=KILL_SIG&&KILL_SIG!==sig;
   KILL_SIG=sig;
   const last=d.last_active||null;
-  let h=`<div class="card killreport ${changed?'changed':''}"><div class="ktop"><div><div class="ktag">Kill Report</div>
+  const hasPasses=Number(t.passes||0)>0, hasKills=Number(t.kills||0)>0;
+  let h=`<div class="card killreport ${hasKills?'has-kills':''} ${changed?'changed':''}"><div class="ktop"><div><div class="ktag">Kill Report</div>
     <div class="ktitle">Today’s correction signal</div></div>
     <div class="kmeta">${esc(t.date||d.date||'')}<br>${esc(t.source||'ledgers/judgments.jsonl')}</div></div>
     <div class="kstats">
       <div class="kstat"><b>${esc(t.judgments||0)}</b><span>judged</span></div>
-      <div class="kstat"><b style="color:var(--green)">${esc(t.passes||0)}</b><span>passed</span></div>
-      <div class="kstat"><b style="color:var(--epink)">${esc(t.kills||0)}</b><span>killed</span></div>
+      <div class="kstat"><b style="${hasPasses?'color:var(--green)':''}">${esc(t.passes||0)}</b><span>passed</span></div>
+      <div class="kstat"><b style="${hasKills?'color:var(--epink)':''}">${esc(t.kills||0)}</b><span>killed</span></div>
       <div class="kstat"><b>${esc(t.corrections||0)}</b><span>corrected</span></div>
     </div>`;
   if(hist.length){
@@ -662,10 +666,10 @@ function renderTabs(){ document.getElementById('tabs').innerHTML=TABS.map(([k,l]
   const badge=(k==='judge'&&JUDGE_N>0)?`<span class="tbadge">${JUDGE_N}</span>`:'';
   return `<button class="tab ${VIEW===k?'on':''}" onclick="go('${k}')">${l}${badge}</button>`;}).join(''); }
 function go(v){ VIEW=v; SUB=null; if(POLL){clearInterval(POLL);POLL=null;} renderTabs(); render(); }
-function render(){ const st=document.getElementById('stage'); st.innerHTML='<div class="empty">…</div>';
-  if(VIEW==='now')return viewNow(st,true);
-  if(VIEW==='judge')return viewJudge(st,true);
-  if(VIEW==='agents')return viewAgents(st,true);
+function render(){ const st=document.getElementById('stage'); const seq=++RENDER_SEQ; st.innerHTML='<div class="empty">…</div>';
+  if(VIEW==='now')return viewNow(st,true,seq);
+  if(VIEW==='judge')return viewJudge(st,true,seq);
+  if(VIEW==='agents')return viewAgents(st,true,seq);
   if(VIEW==='chat')return viewChat(st);
   if(VIEW==='more')return viewMore(st); }
 async function refreshSys(){ const d=await fetchJSON('/api/control/health');
@@ -673,8 +677,9 @@ async function refreshSys(){ const d=await fetchJSON('/api/control/health');
 function errBox(d){ return `<div class="empty"><div class="e">⚠️</div>تعذّر التحميل<br><span class="mono dim" style="font-size:11px">${esc((d&&d.error)||'')}</span><br><button class="refresh" style="margin-top:12px" onclick="render()">↻ retry</button></div>`; }
 
 /* ---------- NOW ---------- */
-async function viewNow(st,poll){
+async function viewNow(st,poll,seq=RENDER_SEQ){
   const [clients,focus,day,river,kill,brain,hl]=await Promise.all([fetchJSON('/api/control/clients'),fetchJSON('/api/control/ranked-taps'),fetchJSON('/api/control/day-strip'),fetchJSON('/api/control/pipeline-river'),fetchJSON('/api/control/kill-report'),fetchJSON('/api/brain'),fetchJSON('/api/control/health')]);
+  if(seq!==RENDER_SEQ||VIEW!=='now') return;
   if(clients&&clients.ok!==false) CLIENTS=clients;
   if(!brain||brain.ok===false){st.innerHTML=errBox(brain);return;}
   const allClaims=Array.isArray(brain.now)?brain.now:[];
@@ -703,7 +708,7 @@ async function viewNow(st,poll){
   for(const b of beats.slice(0,6)) h+=`<div class="row"><span class="dot ${beatDot(b,claims)}"></span><span class="rowb"><span class="rt1">${esc(b.check||'?')}</span><span class="rt2">${beatText(b,claims)}</span></span><span class="rtime">${esc(beatAgeLabel(b))}</span></div>`;
   h+=`</div>`;
   st.innerHTML=scopedShell(h);
-  if(poll&&VIEW==='now'){ POLL=setInterval(()=>{if(VIEW==='now')viewNow(document.getElementById('stage'),false);},12000); }
+  if(poll&&VIEW==='now'){ POLL=setInterval(()=>{if(VIEW==='now')viewNow(document.getElementById('stage'),false,RENDER_SEQ);},12000); }
 }
 
 /* ---------- JUDGE (inline top-20 verdict — reuses /api/approvals/{items,answer,reverse}) ---------- */
@@ -720,8 +725,9 @@ function optImg(o){ // an option image: explicit image_url, else the render_asse
 function optCap(o){ return o.caption||o.island_text||o.text||o.best||''; }
 function optScore(o){ const s=o.score??o.taste??o.rubric_score??(o.scores&&(o.scores.taste??o.scores.total)); return (s||s===0)?s:null; }
 
-async function viewJudge(st,poll){
+async function viewJudge(st,poll,seq=RENDER_SEQ){
   const [a,clients]=await Promise.all([fetchJSON('/api/approvals/items'),fetchJSON('/api/control/clients')]);
+  if(seq!==RENDER_SEQ||VIEW!=='judge') return;
   if(clients&&clients.ok!==false) CLIENTS=clients;
   if(a&&a.error){ st.innerHTML=errBox(a); return; }
   const all=Array.isArray(a)?a:[];
@@ -748,7 +754,7 @@ async function viewJudge(st,poll){
   st.innerHTML=scopedShell(h);
   bindSwipeCards(open);
   open.forEach(it=>{ if((it.options||[]).length) renderBatchBars(it); else renderBar(it.id); });
-  if(poll&&VIEW==='judge'){ POLL=setInterval(()=>{ if(VIEW==='judge'&&!Object.values(JD).some(d=>d&&d.dirty)) viewJudge(document.getElementById('stage'),false); },12000); }
+  if(poll&&VIEW==='judge'){ POLL=setInterval(()=>{ if(VIEW==='judge'&&!Object.values(JD).some(d=>d&&d.dirty)) viewJudge(document.getElementById('stage'),false,RENDER_SEQ); },12000); }
 }
 function judgeCard(it,isDone){
   // a BATCH card carries an options[] array; an empty batch = honest top-0 (the factory is still filtering),
@@ -934,8 +940,9 @@ async function reverseCard(cid,id){
 
 /* ---------- AGENTS (live workflows) ---------- */
 let AG=null; const OPEN=new Set();   // preserve expanded agents across the live poll
-async function viewAgents(st,poll){
+async function viewAgents(st,poll,seq=RENDER_SEQ){
   const [clients,agents,health,budget,d]=await Promise.all([fetchJSON('/api/control/clients'),fetchJSON('/api/control/agents'),fetchJSON('/api/control/health'),fetchJSON('/api/control/budget'),fetchJSON('/api/brain')]);
+  if(seq!==RENDER_SEQ||VIEW!=='agents') return;
   if(clients&&clients.ok!==false) CLIENTS=clients;
   if(!d||d.ok===false){st.innerHTML=errBox(d);return;}
   AG=d;
@@ -957,7 +964,7 @@ async function viewAgents(st,poll){
   st.innerHTML=scopedShell(h);
   // Keep the old expandable-agent chat functions below for compatibility, but the first-view
   // Agents screen now renders only live queue/ledger truth.
-  if(poll&&VIEW==='agents'){ POLL=setInterval(()=>{if(VIEW==='agents'&&OPEN.size===0)viewAgents(document.getElementById('stage'),false);},12000); }
+  if(poll&&VIEW==='agents'){ POLL=setInterval(()=>{if(VIEW==='agents'&&OPEN.size===0)viewAgents(document.getElementById('stage'),false,RENDER_SEQ);},12000); }
 }
 function agentRow(a){
   const id=a.id;
@@ -1139,10 +1146,11 @@ async function subActivity(st,back){ const d=await fetchJSON('/api/dashboard/act
 /* SPEC-D: gauntlet drill-down — per-draft: handle · score · verdict · reason tags */
 async function subGauntlet(st,back){ const d=await fetchJSON('/api/control/gauntlet-today'); if(!d.ok){st.innerHTML=back+errBox(d);return;}
   const s=d.summary||{};
+  const gp=Number(s.pass||0)>0, gk=Number(s.kill||0)>0;
   let h=back+`<div class="strip" style="margin-bottom:16px">
     <div class="stat"><div class="n">${s.total||0}</div><div class="l">total</div></div>
-    <div class="stat"><div class="n" style="color:var(--green)">${s.pass||0}</div><div class="l">passed</div></div>
-    <div class="stat"><div class="n" style="color:var(--epink)">${s.kill||0}</div><div class="l">killed</div></div>
+    <div class="stat"><div class="n" style="${gp?'color:var(--green)':''}">${s.pass||0}</div><div class="l">passed</div></div>
+    <div class="stat"><div class="n" style="${gk?'color:var(--epink)':''}">${s.kill||0}</div><div class="l">killed</div></div>
     <div class="stat"><div class="n">${s.unjudged||0}</div><div class="l">unjudged</div></div></div>
     <div class="h1">Drafts (${esc(d.date||'')})</div><div class="card" style="padding:4px 20px">`;
   for(const it of (d.drafts||[])){

@@ -77,6 +77,9 @@ textarea:focus,input:focus{border-color:var(--green)}
   .dphases{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
   .dphase{padding:7px 5px}
   .dlabel{font-size:10px}
+  .rtop{flex-wrap:wrap}
+  .rmeta{margin-inline-start:0;text-align:start;width:100%}
+  .rcounts{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 .h1{font-family:var(--display);font-weight:800;font-size:11px;letter-spacing:1.8px;
   text-transform:uppercase;color:var(--dim);margin:0 0 12px}
@@ -136,6 +139,23 @@ textarea:focus,input:focus{border-color:var(--green)}
 .dtime{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim);font-size:10px;line-height:1.1}
 .dlabel{font-size:11px;font-weight:800;line-height:1.25;margin-top:5px;overflow-wrap:anywhere}
 .dsrc{color:var(--dim);font-size:11px;margin-top:10px;line-height:1.45}
+.river{margin-top:10px;padding:16px}
+.rtop{display:flex;align-items:flex-start;gap:10px}
+.rlabel{font-family:var(--display);font-weight:900;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--dim)}
+.rtitle{font-family:var(--display);font-weight:900;font-size:16px;line-height:1.25;margin-top:2px}
+.rmeta{margin-inline-start:auto;text-align:end;color:var(--dim);font-size:11px;line-height:1.45}
+.rbar{display:flex;gap:3px;height:10px;margin-top:14px;border-radius:999px;overflow:hidden;background:var(--card2);border:1px solid var(--line)}
+.rseg{min-width:0;transition:flex-grow .4s ease;background:var(--dim)}
+.rseg.pending{background:#b9a94a}
+.rseg.claimed{background:var(--green);animation:pulse 2.4s infinite}
+.rseg.done{background:#5d7158}
+.rseg.parked{background:var(--epink)}
+.rcounts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:10px}
+.rcell{border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--card2)}
+.rcell b{display:block;font-family:var(--display);font-size:17px;line-height:1}
+.rcell span{display:block;color:var(--dim);font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-top:5px}
+.rrecent{margin-top:11px;color:var(--mut);font-size:12px;line-height:1.5;overflow-wrap:anywhere}
+.rsource{margin-top:8px;color:var(--dim);font-size:11px;line-height:1.45}
 
 /* ── AGENTS tab ───────────────────────────────────────── */
 .note{color:var(--mut);font-size:13.5px;line-height:1.6;margin-bottom:8px}
@@ -441,6 +461,29 @@ function dayStrip(d){
     <div class="dphases">${phases}</div>
     <div class="dsrc">${sourceOk?'source checked':'source mismatch'} · ${esc(d.tz||'')} · ${esc((d.now||'').replace('T',' '))}</div></div>`;
 }
+function pipelineRiver(d){
+  if(!d||d.ok===false) return '';
+  const c=d.counts||{};
+  const parts=[
+    ['pending','Pending',Number(c.pending||0)],
+    ['claimed','Claimed',Number(c.claimed||0)],
+    ['done','Done today',Number(c.done_today||0)],
+    ['parked','Parked',Number(c.parked||0)],
+  ];
+  const segs=parts.filter(x=>x[2]>0).map(([k,l,n])=>`<div class="rseg ${k}" style="flex-grow:${n}" title="${esc(l)}: ${n}"></div>`).join('');
+  const recent=[...(((d.buckets||{}).claimed||{}).recent||[]),...(((d.buckets||{}).pending||{}).recent||[])].slice(0,3)
+    .map(x=>`${esc(x.lane||'?')} · ${esc(x.client||'?')} · ${esc(x.task_type||'?')}`).join(' / ');
+  return `<div class="card river"><div class="rtop"><div><div class="rlabel">Pipeline River</div>
+      <div class="rtitle">Queue and ledger flow</div></div>
+      <div class="rmeta">ledgers today ${esc(c.ledger_rows_today||0)}<br>${esc((d.ts||'').replace('T',' '))}</div></div>
+    <div class="rbar">${segs||'<div class="rseg" style="flex-grow:1"></div>'}</div>
+    <div class="rcounts"><div class="rcell"><b>${esc(c.pending||0)}</b><span>pending</span></div>
+      <div class="rcell"><b>${esc(c.claimed||0)}</b><span>claimed</span></div>
+      <div class="rcell"><b>${esc(c.done_today||0)}</b><span>done today</span></div>
+      <div class="rcell"><b>${esc(c.parked||0)}</b><span>parked</span></div></div>
+    ${recent?`<div class="rrecent">${recent}</div>`:''}
+    <div class="rsource">disk counted · done total ${esc(c.done_total||0)} · ledger rows ${esc(c.ledger_rows_total||0)}</div></div>`;
+}
 
 async function whoami(){ const d=await fetchJSON('/api/approvals/whoami');
   if(!d||d.error){document.getElementById('stage').innerHTML='<div class="empty"><div class="e">🔑</div>المفتاح غلط أو ناقص</div>';return false;}
@@ -461,14 +504,14 @@ function errBox(d){ return `<div class="empty"><div class="e">⚠️</div>تعذ
 
 /* ---------- NOW ---------- */
 async function viewNow(st,poll){
-  const [focus,day,brain,hl]=await Promise.all([fetchJSON('/api/control/ranked-taps'),fetchJSON('/api/control/day-strip'),fetchJSON('/api/brain'),fetchJSON('/api/control/health')]);
+  const [focus,day,river,brain,hl]=await Promise.all([fetchJSON('/api/control/ranked-taps'),fetchJSON('/api/control/day-strip'),fetchJSON('/api/control/pipeline-river'),fetchJSON('/api/brain'),fetchJSON('/api/control/health')]);
   if(!brain||brain.ok===false){st.innerHTML=errBox(brain);return;}
   const claims=Array.isArray(brain.now)?brain.now:[];
   const beats=latestBeats(brain.health||[]);
   const latest=beats[0]||null;
   const stale=latest&&beatStale(latest,claims);
   const spend=brain.spend_today||{};
-  let h=focusLane(focus)+dayStrip(day)+`<div class="card hero"><div class="state"><span class="dot ${stale?'bad':(claims.length?'on':'recent')}"></span>${claims.length?`${claims.length} active claim${claims.length===1?'':'s'}`:'No active claims'}</div>`;
+  let h=focusLane(focus)+dayStrip(day)+pipelineRiver(river)+`<div class="card hero"><div class="state"><span class="dot ${stale?'bad':(claims.length?'on':'recent')}"></span>${claims.length?`${claims.length} active claim${claims.length===1?'':'s'}`:'No active claims'}</div>`;
   if(claims.length){
     const c=claims[0];
     h+=`<div class="line" dir="auto">${esc(c.worker||c.lane||'?')} owns ${esc(c.client||'?')} · ${esc(c.task_type||'?')}</div>`;

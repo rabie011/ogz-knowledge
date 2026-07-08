@@ -1808,6 +1808,85 @@ def _pipeline_river_state() -> dict:
     }
 
 
+def _client_slug(raw: str) -> str:
+    s = "".join(ch.lower() if ch.isalnum() else "-" for ch in str(raw or "").strip())
+    s = "-".join([p for p in s.split("-") if p])
+    return s[:48] or "unknown"
+
+
+def _client_from_card(it: dict) -> tuple[str, str]:
+    raw = it.get("handle") or it.get("client") or it.get("brand") or ""
+    if not raw:
+        ident = str(it.get("id") or "")
+        if ident.startswith("judge2_"):
+            raw = ident[len("judge2_"):].split("_", 1)[0]
+        elif ident.startswith("studio_"):
+            tail = ident.replace("studio_", "", 1)
+            parts = tail.split("-")
+            raw = parts[3] if len(parts) > 3 else tail
+        else:
+            title = str(it.get("title") or "")
+            raw = title.split("·")[-1].strip() if "·" in title else title.split()[0] if title else "unknown"
+    slug = _client_slug(raw)
+    label = str(raw).strip()[:42] or slug
+    return slug, label
+
+
+def _client_from_task(t: dict) -> tuple[str, str]:
+    raw = t.get("client") or t.get("handle") or t.get("brand") or t.get("task_type") or "unknown"
+    slug = _client_slug(raw)
+    return slug, str(raw).strip()[:42] or slug
+
+
+def _control_clients_state() -> dict:
+    clients: dict[str, dict] = {}
+
+    def ensure(slug: str, label: str) -> dict:
+        row = clients.setdefault(slug, {
+            "id": slug, "label": label, "open_taps": 0, "judge_open": 0,
+            "answered": 0, "pending": 0, "claimed": 0, "latest": "",
+        })
+        if label and (not row.get("label") or row["label"] == slug):
+            row["label"] = label
+        return row
+
+    q = json.loads(QUEUE.read_text()) if QUEUE.exists() else {"items": []}
+    for it in q.get("items", []):
+        if it.get("status") == "superseded":
+            continue
+        slug, label = _client_from_card(it)
+        row = ensure(slug, label)
+        if it.get("status") == "answered":
+            row["answered"] += 1
+        else:
+            row["open_taps"] += 1
+            if it.get("kind") == "caption_judge" or str(it.get("id", "")).startswith(("post_", "studio_")):
+                row["judge_open"] += 1
+        row["latest"] = max(row.get("latest", ""), str(it.get("created") or ""))
+
+    root = Path(os.environ["OGZ_JAIL_ROOT"]) if os.environ.get("OGZ_JAIL_ROOT") else OGZ_ROOT
+    for state in ("pending", "claimed"):
+        files = sorted((root / "claimed").glob("*/*.json")) if state == "claimed" else sorted((root / "pending").glob("task_*.json"))
+        for p in files:
+            t = _load_task(p)
+            slug, label = _client_from_task(t)
+            row = ensure(slug, label)
+            row[state] += 1
+            row["latest"] = max(row.get("latest", ""), datetime.fromtimestamp(t.get("_mtime", 0)).isoformat(timespec="seconds"))
+
+    rows = sorted(clients.values(), key=lambda x: (-(x["open_taps"] + x["claimed"] + x["pending"]), x["label"].lower()))
+    totals = {
+        "clients": len(rows),
+        "open_taps": sum(r["open_taps"] for r in rows),
+        "judge_open": sum(r["judge_open"] for r in rows),
+        "pending": sum(r["pending"] for r in rows),
+        "claimed": sum(r["claimed"] for r in rows),
+    }
+    return {"ok": True, "totals": totals, "clients": rows[:80],
+            "source_paths": ["data/decision_queue.json", "queue/pending/task_*.json", "queue/claimed/*/task_*.json"],
+            "ts": datetime.now(_RIYADH).isoformat(timespec="seconds")}
+
+
 @app.get("/api/control/ranked-taps")
 def control_ranked_taps(k: str = ""):
     """Read-only Focus Lane selector. It ranks Mohamed-only gates from NEEDS-MOHAMED
@@ -1842,6 +1921,15 @@ def control_pipeline_river(k: str = ""):
     if not _ok(k):
         return JSONResponse({"ok": False}, status_code=403)
     return JSONResponse(_pipeline_river_state(), headers={"Cache-Control": "private, no-cache"})
+
+
+@app.get("/api/control/clients")
+def control_clients(k: str = ""):
+    """Read-only client rail summary for /control. Derived from decision_queue
+    and queue claims; it scopes the UI without changing the underlying write paths."""
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    return JSONResponse(_control_clients_state(), headers={"Cache-Control": "private, no-cache"})
 
 
 @app.get("/api/control/gauntlet-today")

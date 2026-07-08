@@ -1307,6 +1307,9 @@ def control_budget(k: str = ""):
                          "by_model": sorted(by_model.values(), key=lambda x: -x["usd"]),
                          "by_provider": sorted(by_provider.values(), key=lambda x: -x["usd"]),
                          "caps": caps, "current_tier": tier,
+                         "spend_ledger_today": _brain_spend_today(),
+                         "source_paths": ["journal/model_usage.jsonl", "ledgers/spend.jsonl",
+                                          "tools/model_router.json", "journal/model_router_state.json"],
                          "state": {kk: state.get(kk) for kk in
                                    ("day", "usd_day", "usd_month", "fable_day", "usd_day_by",
                                     "proposal_month_usd") if kk in state}})

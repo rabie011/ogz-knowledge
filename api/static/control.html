@@ -95,6 +95,13 @@ textarea:focus,input:focus{border-color:var(--green)}
 .cmore{font-size:11px;color:var(--dim);padding:6px 4px;white-space:nowrap}
 .scopebar{display:flex;align-items:center;gap:8px;margin-bottom:12px;color:var(--dim);font-size:12px}
 .scopebar b{color:var(--ink)}
+.vpanel{margin-bottom:10px}
+.vgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:10px}
+.vmini{border:1px solid var(--line);border-radius:12px;padding:12px;background:rgba(255,255,255,.015)}
+.vmini .n{font-family:var(--display);font-weight:900;font-size:20px;line-height:1}
+.vmini .l{color:var(--dim);font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-top:5px}
+.vlist{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:899px){.vgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.vlist{display:block}.vlist .card+.card{margin-top:10px}}
 @media(max-width:899px){
   .scopegrid{display:block}
   .clientrail{position:static;display:flex;flex-direction:row;overflow-x:auto;overflow-y:hidden;max-height:none;gap:7px;margin-bottom:12px;padding-bottom:2px;scrollbar-width:none}
@@ -319,9 +326,9 @@ textarea:focus,input:focus{border-color:var(--green)}
   padding:14px 0;border-bottom:1px solid var(--line)}
 .row:last-child{border-bottom:0}
 .rowb{flex:1;min-width:0}
-.rt1{font-weight:600;font-size:15px;line-height:1.3}
+.rt1{display:block;font-weight:600;font-size:15px;line-height:1.3}
 .rt2{color:var(--mut);font-size:13px;margin-top:3px;
-  word-break:break-word;line-height:1.4}
+  word-break:break-word;line-height:1.4;display:block}
 .rtime{color:var(--dim);font-size:12px;white-space:nowrap}
 .menu .row{cursor:pointer}
 .menu .row .rt1{font-size:16px}
@@ -537,6 +544,31 @@ function focusLane(d){
     ${opts?`<div class="fopts">${opts}</div>`:''}
     ${actionHtml?`<div class="factions">${actionHtml}</div>`:''}
     ${next?`<div class="fnext">Next: ${next}</div>`:''}</div>`;
+}
+function vitalsPanel(agents,health,budget,claims,beats){
+  const services=(health&&health.services)||[];
+  const tunnels=(health&&health.tunnels)||[];
+  const liveServices=services.filter(s=>s.up).length;
+  const liveTunnels=tunnels.filter(t=>t.up).length;
+  const ledgerSpend=(budget&&budget.spend_ledger_today)||{};
+  const agentCounts=(agents&&agents.counts)||{};
+  let h=`<div class="vpanel"><div class="vgrid">
+    <div class="vmini"><div class="n ${health&&health.status==='healthy'?'grn':''}">${esc(health&&health.status?health.status:'?')}</div><div class="l">health</div></div>
+    <div class="vmini"><div class="n">${liveServices}/${services.length||0}</div><div class="l">services</div></div>
+    <div class="vmini"><div class="n">${liveTunnels}/${tunnels.length||0}</div><div class="l">tunnels</div></div>
+    <div class="vmini"><div class="n">${fmt$(ledgerSpend.total_usd||0)}</div><div class="l">${esc(String(ledgerSpend.total_calls||0))} calls</div></div>
+  </div><div class="vlist">`;
+  h+=`<div class="card" style="padding:4px 16px"><div class="h1">Workers</div>
+    <div class="row"><span class="rowb"><span class="rt1">${esc(String(claims.length))} active claims</span><span class="rt2">agents ${esc(String(agentCounts.core||0))} core · ${esc(String(agentCounts.minds||0))} minds</span></span></div>`;
+  for(const c of claims.slice(0,4)) h+=`<div class="row"><span class="dot on"></span><span class="rowb"><span class="rt1">${esc(c.worker||c.lane||'?')} · ${esc(c.client||'?')}</span><span class="rt2">${esc(c.task_type||'?')}</span></span><span class="rtime">${esc(c.age||'')}</span></div>`;
+  h+=`</div><div class="card" style="padding:4px 16px"><div class="h1">Service Checks</div>`;
+  for(const s of services.slice(0,3)) h+=`<div class="row"><span class="dot ${s.up?'on':'bad'}"></span><span class="rowb"><span class="rt1">${esc(s.name)} <span class="chip">:${esc(s.port)}</span></span><span class="rt2">${esc(s.detail)} · ${esc(String(s.http_code))}</span></span></div>`;
+  for(const t of tunnels.slice(0,2)) h+=`<div class="row"><span class="dot ${t.up?'on':'bad'}"></span><span class="rowb"><span class="rt1">${esc(t.name)}</span><span class="rt2 mono">${esc(t.detail)}</span></span></div>`;
+  h+=`</div><div class="h1">Latest beats</div><div class="card" style="padding:4px 16px">`;
+  for(const b of (beats||[]).slice(0,5)) h+=`<div class="row"><span class="dot ${beatDot(b,claims)}"></span><span class="rowb"><span class="rt1">${esc(b.check||'?')}</span><span class="rt2">${beatText(b,claims)} · ${esc(b.ts||'')}</span></span><span class="rtime">${esc(beatAgeLabel(b))}</span></div>`;
+  if(!(beats||[]).length) h+=`<div class="rt2 dim" style="padding:10px 0">No health ledger rows yet.</div>`;
+  h+=`</div></div>`;
+  return h;
 }
 function dayStrip(d){
   if(!d||d.ok===false) return '';
@@ -856,30 +888,26 @@ async function reverseCard(cid,id){
 /* ---------- AGENTS (live workflows) ---------- */
 let AG=null; const OPEN=new Set();   // preserve expanded agents across the live poll
 async function viewAgents(st,poll){
-  const d=await fetchJSON('/api/brain'); if(!d||d.ok===false){st.innerHTML=errBox(d);return;}
+  const [clients,agents,health,budget,d]=await Promise.all([fetchJSON('/api/control/clients'),fetchJSON('/api/control/agents'),fetchJSON('/api/control/health'),fetchJSON('/api/control/budget'),fetchJSON('/api/brain')]);
+  if(clients&&clients.ok!==false) CLIENTS=clients;
+  if(!d||d.ok===false){st.innerHTML=errBox(d);return;}
   AG=d;
-  const claims=Array.isArray(d.now)?d.now:[];
+  const allClaims=Array.isArray(d.now)?d.now:[];
+  const claims=CLIENT_SCOPE==='all'?allClaims:allClaims.filter(scopeMatch);
   const beats=latestBeats(d.health||[]);
-  const spend=d.spend_today||{};
   const latest=beats[0]||null;
-  let h=`<div class="note">Live workers from <b>queue claims</b>, health ledgers, and spend ledgers. No retired studio roster.</div>`;
+  let h=vitalsPanel(agents,health,budget,claims,beats);
+  h+=`<div class="note">Live workers from <b>queue claims</b>, health ledgers, and spend ledgers. No retired studio roster.</div>`;
   if(latest&&beatStale(latest)) h+=`<div class="jbatch" style="border-color:var(--epink);color:var(--epink)">Latest worker health beat is stale (${esc(beatAgeLabel(latest))}). Treat this as parked until the ledger moves.</div>`;
-  h+=`<div class="livebar"><span class="dot ${claims.length?'on':'recent'}"></span><span dir="auto">${claims.length?`${claims.length} claimed task${claims.length===1?'':'s'} active`:'No active claims — workers are idle by queue truth.'}</span></div>`;
-  h+=`<div class="h1">Active claims (${claims.length})</div>`;
-  if(!claims.length) h+=`<div class="empty" style="padding:24px 10px">قوائم الانتظار فارغة — لا مهام مُدّعاة الآن</div>`;
-  else {
+  if(!claims.length) {
+    h+=`<div class="livebar"><span class="dot recent"></span><span dir="auto">No active claims — workers are idle by queue truth.</span></div>`;
+  } else {
+    h+=`<div class="h1">Active claims (${claims.length})</div>`;
     h+=`<div class="card" style="padding:4px 20px">`;
     for(const c of claims) h+=`<div class="row"><span class="dot on"></span><span class="rowb"><span class="rt1">${esc(c.worker||c.lane||'?')} · ${esc(c.client||'?')}</span><span class="rt2">${esc(c.task_type||'?')} · <span class="mono">${esc(c.id||'')}</span></span></span><span class="rtime">${esc(c.age||'')}</span></div>`;
     h+=`</div>`;
   }
-  h+=`<div class="h1">Health beats</div><div class="card" style="padding:4px 20px">`;
-  if(!beats.length) h+=`<div class="rt2 dim" style="padding:10px 0">No health ledger rows yet.</div>`;
-  for(const b of beats) h+=`<div class="row"><span class="dot ${beatDot(b)}"></span><span class="rowb"><span class="rt1">${esc(b.check||'?')}</span><span class="rt2">${beatText(b)} · ${esc(b.ts||'')}</span></span><span class="rtime">${esc(beatAgeLabel(b))}</span></div>`;
-  h+=`</div><div class="h1">Spend today</div><div class="card" style="padding:4px 20px">`;
-  h+=`<div class="row"><span class="rowb"><span class="rt1">${fmt$(spend.total_usd||0)} total</span><span class="rt2">${esc(String(spend.total_calls||0))} model calls · ${spend.has_data?'ledger has data':'no spend rows today'}</span></span></div>`;
-  for(const [w,v] of Object.entries(spend.by_worker||{})) h+=`<div class="row"><span class="dot recent"></span><span class="rowb"><span class="rt1">${esc(w)}</span><span class="rt2">${esc(String(v.calls||0))} calls</span></span><span class="rtime">${fmt$(v.usd||0)}</span></div>`;
-  h+=`</div>`;
-  st.innerHTML=h;
+  st.innerHTML=scopedShell(h);
   // Keep the old expandable-agent chat functions below for compatibility, but the first-view
   // Agents screen now renders only live queue/ledger truth.
   if(poll&&VIEW==='agents'){ POLL=setInterval(()=>{if(VIEW==='agents'&&OPEN.size===0)viewAgents(document.getElementById('stage'),false);},12000); }

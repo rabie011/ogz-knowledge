@@ -1698,7 +1698,7 @@ def _day_strip_state() -> dict:
         current_phase, current_dt = _DAY_STRIP_PHASES[-1], _hm_on(yesterday_base, _DAY_STRIP_PHASES[-1]["time"])
     rows = []
     for p, dt in today_events:
-        if p["id"] == current_phase["id"] and current_dt.date() == today:
+        if p["id"] == current_phase["id"]:
             state = "current"
         elif dt < now:
             state = "done"
@@ -1723,6 +1723,88 @@ def _day_strip_state() -> dict:
             "tools/headless/com.ogz.daily-cycle.plist",
         ],
         "source_check": _day_strip_source_check(),
+    }
+
+
+def _load_task(p: Path) -> dict:
+    try:
+        d = json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
+        d = {}
+    tid = d.get("id") or p.stem.replace("task_", "")
+    d["_id"] = tid
+    d["_mtime"] = p.stat().st_mtime if p.exists() else 0
+    return d
+
+
+def _queue_bucket(root: Path, state: str) -> dict:
+    if state == "claimed":
+        files = sorted((root / "claimed").glob("*/*.json"))
+    else:
+        files = sorted((root / state).glob("task_*.json"))
+    by_lane: dict[str, int] = {}
+    recent = []
+    for p in files:
+        d = _load_task(p)
+        lane = d.get("lane") or (p.parent.name if state == "claimed" else "unknown")
+        by_lane[lane] = by_lane.get(lane, 0) + 1
+        recent.append({
+            "id": d.get("_id"), "lane": lane, "client": d.get("client", ""),
+            "task_type": d.get("task_type", ""), "req": d.get("req", ""),
+            "mtime": datetime.fromtimestamp(d.get("_mtime", 0)).isoformat(timespec="seconds"),
+        })
+    recent.sort(key=lambda x: x.get("mtime", ""), reverse=True)
+    return {"count": len(files), "by_lane": by_lane, "recent": recent[:6]}
+
+
+def _ledger_count(path: Path, tdy: str) -> dict:
+    lines = [ln for ln in _safe_read(path).splitlines() if ln.strip()]
+    today = 0
+    for ln in lines:
+        try:
+            r = json.loads(ln)
+            if str(r.get("ts", "")).startswith(tdy):
+                today += 1
+        except Exception:
+            if tdy in ln:
+                today += 1
+    return {"total": len(lines), "today": today}
+
+
+def _pipeline_river_state() -> dict:
+    root = (Path(os.environ["OGZ_JAIL_ROOT"]) if os.environ.get("OGZ_JAIL_ROOT") else OGZ_ROOT) / "queue"
+    tdy = today_str()
+    pending = _queue_bucket(root, "pending")
+    claimed = _queue_bucket(root, "claimed")
+    done = _queue_bucket(root, "done")
+    parked = _queue_bucket(root, "parked")
+    done_today = sum(1 for p in (root / "done").glob("task_*.json")
+                     if datetime.fromtimestamp(p.stat().st_mtime).strftime("%Y-%m-%d") == tdy)
+    ledgers = {
+        "health": _ledger_count(OGZ_ROOT / "ledgers" / "health.jsonl", tdy),
+        "spend": _ledger_count(OGZ_ROOT / "ledgers" / "spend.jsonl", tdy),
+        "drafts": _ledger_count(OGZ_ROOT / "ledgers" / "drafts.jsonl", tdy),
+        "judgments": _ledger_count(OGZ_ROOT / "ledgers" / "judgments.jsonl", tdy),
+    }
+    counts = {
+        "pending": pending["count"], "claimed": claimed["count"],
+        "done_total": done["count"], "done_today": done_today, "parked": parked["count"],
+        "ledger_rows_total": sum(v["total"] for v in ledgers.values()),
+        "ledger_rows_today": sum(v["today"] for v in ledgers.values()),
+    }
+    return {
+        "ok": True,
+        "ts": datetime.now(_RIYADH).isoformat(timespec="seconds"),
+        "counts": counts,
+        "buckets": {"pending": pending, "claimed": claimed, "done": done, "parked": parked},
+        "ledgers": ledgers,
+        "source_paths": {
+            "pending": "queue/pending/task_*.json",
+            "claimed": "queue/claimed/*/task_*.json",
+            "done": "queue/done/task_*.json",
+            "parked": "queue/parked/task_*.json",
+            "ledgers": "ledgers/{health,spend,drafts,judgments}.jsonl",
+        },
     }
 
 
@@ -1751,6 +1833,15 @@ def control_day_strip(k: str = ""):
     if not _ok(k):
         return JSONResponse({"ok": False}, status_code=403)
     return JSONResponse(_day_strip_state(), headers={"Cache-Control": "private, no-cache"})
+
+
+@app.get("/api/control/pipeline-river")
+def control_pipeline_river(k: str = ""):
+    """Read-only queue/ledger river for /control. Every number is counted from disk;
+    no sample jobs, no fabricated animation state."""
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    return JSONResponse(_pipeline_river_state(), headers={"Cache-Control": "private, no-cache"})
 
 
 @app.get("/api/control/gauntlet-today")

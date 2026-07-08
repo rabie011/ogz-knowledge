@@ -107,15 +107,15 @@ textarea:focus,input:focus{border-color:var(--green)}
   border-radius:12px;padding:14px 14px;box-shadow:var(--shadow-sm)}
 .stat .n{font-family:var(--display);font-weight:900;font-size:22px;line-height:1.1}
 .stat .l{color:var(--dim);font-size:10px;text-transform:uppercase;letter-spacing:.8px;margin-top:4px}
-.focus{border-color:rgba(51,235,5,.28);background:linear-gradient(180deg,rgba(51,235,5,.055),var(--card) 42%)}
+.focus{border-color:var(--line);background:var(--card)}
 .ftop{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.ftag{font-family:var(--display);font-weight:900;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--green)}
+.ftag{font-family:var(--display);font-weight:900;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--dim)}
 .fmeta{margin-inline-start:auto;color:var(--dim);font-size:11px}
 .ftitle{font-family:var(--display);font-weight:900;font-size:20px;line-height:1.25}
 .fbody{color:var(--mut);font-size:13px;line-height:1.5;margin-top:8px}
 .fopts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 .fopt{border:1px solid var(--line2);border-radius:99px;padding:.2em .65em;color:var(--mut);font-size:11px}
-.fopt.rec{border-color:rgba(51,235,5,.28);color:var(--green)}
+.fopt.rec{border-color:var(--line2);color:var(--ink);font-weight:800}
 .factions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
 .fbtn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;border-radius:12px;
   padding:0 14px;background:var(--card2);border:1px solid var(--line2);
@@ -370,16 +370,30 @@ function latestBeats(beats){
   return Object.values(by).sort((a,b)=>String(b.ts||'').localeCompare(String(a.ts||'')));
 }
 function beatAgeSec(b){ const t=Date.parse(b&&b.ts); return isNaN(t)?null:(Date.now()-t)/1000; }
-function beatStale(b){ const a=beatAgeSec(b); return a!=null&&a>300; }
+function beatLane(b){
+  const k=String((b&&b.check)||'').toLowerCase();
+  if(k.includes('claude')) return 'claude';
+  if(k.includes('codex')) return 'codex';
+  return '';
+}
+function beatClaimed(b,claims=[]){
+  const lane=beatLane(b); if(!lane) return false;
+  return (claims||[]).some(c=>String(c.lane||c.worker||'').toLowerCase().includes(lane));
+}
+function beatStale(b,claims=[]){ const a=beatAgeSec(b); return a!=null&&a>300&&!beatClaimed(b,claims); }
 function beatAgeLabel(b){ return rel(b&&b.ts)||((b&&b.age)||''); }
-function beatDot(b){
-  if(beatStale(b)) return 'bad';
+function beatDot(b,claims=[]){
+  if(beatClaimed(b,claims)) return 'on';
+  if(beatStale(b,claims)) return 'bad';
   const s=String((b&&b.status)||'').toLowerCase();
   if(s.includes('working')||s.includes('run')) return 'on';
   if(s.includes('green')||s.includes('idle')) return 'recent';
   return s.includes('fail')||s.includes('red')||s.includes('critical')?'bad':'recent';
 }
-function beatText(b){ return `${esc((b&&b.status)||'?')}${beatStale(b)?' · stale':''}`; }
+function beatText(b,claims=[]){
+  const claimed=beatClaimed(b,claims);
+  return `${esc((b&&b.status)||'?')}${claimed?' · claimed':(beatStale(b,claims)?' · stale':'')}`;
+}
 function focusAction(a,idx,rec){
   const cls=`fbtn ${rec?'rec':''}`;
   if(a.kind==='dashboard') return `<a class="${cls}" href="/dashboard?k=${encodeURIComponent(K)}">${esc(a.label||'Open dashboard')}</a>`;
@@ -452,7 +466,7 @@ async function viewNow(st,poll){
   const claims=Array.isArray(brain.now)?brain.now:[];
   const beats=latestBeats(brain.health||[]);
   const latest=beats[0]||null;
-  const stale=latest&&beatStale(latest);
+  const stale=latest&&beatStale(latest,claims);
   const spend=brain.spend_today||{};
   let h=focusLane(focus)+dayStrip(day)+`<div class="card hero"><div class="state"><span class="dot ${stale?'bad':(claims.length?'on':'recent')}"></span>${claims.length?`${claims.length} active claim${claims.length===1?'':'s'}`:'No active claims'}</div>`;
   if(claims.length){
@@ -461,7 +475,7 @@ async function viewNow(st,poll){
   } else {
     h+=`<div class="line" dir="auto">Queue truth: no task is currently claimed by Codex or Fable.</div>`;
   }
-  h+=`<div class="meta"><b>/api/brain</b> · ${latest?`${esc(latest.check)} ${beatText(latest)} · ${esc(beatAgeLabel(latest))}`:'no health beats'}<br>
+  h+=`<div class="meta"><b>/api/brain</b> · ${latest?`${esc(latest.check)} ${beatText(latest,claims)} · ${esc(beatAgeLabel(latest))}`:'no health beats'}<br>
     ${esc(String(brain.needs_open??0))} Mohamed gates open · spend today ${fmt$(spend.total_usd||0)} · ${esc(brain.ts||'')}</div></div>`;
   if(stale) h+=`<div class="jbatch" style="border-color:var(--epink);color:var(--epink)">Latest health beat is older than 5 minutes. The control room is showing stale truth, not live motion.</div>`;
   h+=`<div class="strip">
@@ -471,7 +485,7 @@ async function viewNow(st,poll){
     <div class="stat"><div class="n">${fmt$(spend.total_usd||0)}</div><div class="l">spend</div></div></div>`;
   h+=`<div class="h1">Health beats</div><div class="card">`;
   if(!beats.length) h+=`<div class="rt2 dim" style="padding:10px 0">No health ledger rows yet.</div>`;
-  for(const b of beats.slice(0,6)) h+=`<div class="row"><span class="dot ${beatDot(b)}"></span><span class="rowb"><span class="rt1">${esc(b.check||'?')}</span><span class="rt2">${beatText(b)}</span></span><span class="rtime">${esc(beatAgeLabel(b))}</span></div>`;
+  for(const b of beats.slice(0,6)) h+=`<div class="row"><span class="dot ${beatDot(b,claims)}"></span><span class="rowb"><span class="rt1">${esc(b.check||'?')}</span><span class="rt2">${beatText(b,claims)}</span></span><span class="rtime">${esc(beatAgeLabel(b))}</span></div>`;
   h+=`</div>`;
   st.innerHTML=h;
   if(poll&&VIEW==='now'){ POLL=setInterval(()=>{if(VIEW==='now')viewNow(document.getElementById('stage'),false);},12000); }

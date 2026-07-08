@@ -1496,6 +1496,88 @@ def control_health(k: str = ""):
                          "heartbeat": hb, "checked_at": datetime.now().isoformat(timespec="seconds")})
 
 
+def _kill_reason_label(reason) -> str:
+    s = str(reason or "").strip()
+    if not s:
+        return "unknown"
+    low = s.lower()
+    if low.startswith("corrected verdict"):
+        return "corrected_verdict"
+    if ":" in s:
+        prefix, rest = s.split(":", 1)
+        if prefix.strip().lower() in ("rabie", "deterministic"):
+            s = rest.strip()
+    return (s or "unknown")[:64]
+
+
+def _kill_report_for_day(day: str) -> dict:
+    judgments = OGZ_ROOT / "ledgers" / "judgments.jsonl"
+    rows = kills = passes = corrected = 0
+    reasons: dict[str, int] = {}
+    handles: dict[str, int] = {}
+    recent = []
+    for ln in _safe_read(judgments).splitlines():
+        try:
+            r = json.loads(ln)
+        except Exception:
+            continue
+        ts = str(r.get("ts", ""))
+        if not ts.startswith(day):
+            continue
+        rows += 1
+        verdict = r.get("verdict")
+        if verdict == "kill":
+            kills += 1
+            handle = str(r.get("handle") or "?")[:80]
+            handles[handle] = handles.get(handle, 0) + 1
+            row_corrected = False
+            for reason in (r.get("reasons") or []):
+                if "CORRECTED VERDICT" in str(reason):
+                    row_corrected = True
+                label = _kill_reason_label(reason)
+                reasons[label] = reasons.get(label, 0) + 1
+            if row_corrected:
+                corrected += 1
+            recent.append({"ts": ts, "handle": handle, "job_id": r.get("job_id", ""),
+                           "overall": r.get("overall"), "reasons": [_kill_reason_label(x) for x in (r.get("reasons") or [])[:3]]})
+        elif verdict == "pass":
+            passes += 1
+    hist = sorted(reasons.items(), key=lambda x: (-x[1], x[0]))
+    by_handle = sorted(handles.items(), key=lambda x: (-x[1], x[0]))
+    return {"date": day, "source": "ledgers/judgments.jsonl", "judgments": rows,
+            "kills": kills, "passes": passes, "corrections": corrected,
+            "kill_histogram": [{"reason": r, "n": n} for r, n in hist[:10]],
+            "by_handle": [{"handle": h, "n": n} for h, n in by_handle[:8]],
+            "recent_kills": list(reversed(recent[-6:]))}
+
+
+def _last_active_kill_day() -> str:
+    days = set()
+    for ln in _safe_read(OGZ_ROOT / "ledgers" / "judgments.jsonl").splitlines():
+        try:
+            r = json.loads(ln)
+        except Exception:
+            continue
+        if r.get("verdict") == "kill":
+            ts = str(r.get("ts", ""))
+            if len(ts) >= 10:
+                days.add(ts[:10])
+    return max(days) if days else ""
+
+
+@app.get("/api/control/kill-report")
+def control_kill_report(k: str = ""):
+    if not _ok(k):
+        return JSONResponse({"ok": False}, status_code=403)
+    tdy = today_str()
+    today = _kill_report_for_day(tdy)
+    last_day = _last_active_kill_day()
+    last_active = _kill_report_for_day(last_day) if last_day and last_day != tdy else None
+    return JSONResponse({"ok": True, "date": tdy, "today": today,
+                         "last_active": last_active,
+                         "motion_rule": "UI changes motion class only when today reason-count signature changes"})
+
+
 @app.get("/api/control/review")
 def control_review(k: str = ""):
     """A lightweight summary for the Review tab (open cards + recent verdicts) — the full
@@ -1538,7 +1620,7 @@ def control_review(k: str = ""):
             if r.get("verdict") == "kill":
                 today_kills += 1
                 for reason in (r.get("reasons") or []):
-                    tag = str(reason).split(":")[0].strip()[:40]
+                    tag = _kill_reason_label(reason)[:40]
                     kill_reasons[tag] = kill_reasons.get(tag, 0) + 1
             elif r.get("verdict") == "pass":
                 today_pass += 1

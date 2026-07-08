@@ -348,6 +348,22 @@ textarea:focus,input:focus{border-color:var(--green)}
   background:var(--green);transition:width .3s ease}
 .bar>i.warn{background:#b9a94a}
 .bar>i.bad{background:var(--epink)} /* epink as error fill = correct */
+.killreport{border-color:rgba(230,2,187,.22)}
+.ktop{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.ktag{font-family:var(--display);font-size:11px;font-weight:900;letter-spacing:1px;color:var(--dim);text-transform:uppercase}
+.ktitle{font-size:18px;font-weight:900;margin-top:4px}
+.kmeta{text-align:right;color:var(--mut);font-size:12px;line-height:1.45}
+.kstats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0}
+.kstat{border:1px solid var(--line);border-radius:10px;padding:12px;background:rgba(255,255,255,.015)}
+.kstat b{display:block;font-size:20px;color:var(--ink);line-height:1}
+.kstat span{display:block;margin-top:6px;color:var(--dim);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px}
+.krow{margin:9px 0}
+.krl{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:13px;margin-bottom:4px}
+.kbar{height:10px;border-radius:7px;background:var(--card2);overflow:hidden}
+.kbar>i{display:block;height:100%;border-radius:7px;background:var(--epink);transition:width .25s ease-out}
+.killreport.changed{animation:kreal .26s ease-out}
+@keyframes kreal{from{border-color:var(--epink)}to{border-color:rgba(230,2,187,.22)}}
+@media(max-width:479px){.ktop{display:block}.kmeta{text-align:left;margin-top:8px}.kstats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* ── misc ─────────────────────────────────────────────── */
 .refresh{color:var(--green);font-weight:700;font-size:12.5px}
@@ -409,6 +425,7 @@ let REASONS=[];  // closed optional reason chips from /api/approvals/reasons
 let FOCUS_ACTIONS=[];
 let CLIENT_SCOPE=new URLSearchParams(location.search).get('client')||'all';
 let CLIENTS={ok:true,clients:[],totals:{}};
+let KILL_SIG='';
 const CLIENT_RAIL_LIMIT=50;
 const TABS=[['now','Now'],['judge','Judge'],['agents','Agents'],['chat','Ask'],['more','More']];
 const CHIP_LABEL={tone_off:'Tone off',too_long:'Too long',cliche:'Cliche',
@@ -607,6 +624,36 @@ function pipelineRiver(d){
     ${recent?`<div class="rrecent">${recent}</div>`:''}
     <div class="rsource">disk counted · done total ${esc(c.done_total||0)} · ledger rows ${esc(c.ledger_rows_total||0)}</div></div>`;
 }
+function killReportPanel(d){
+  if(!d||d.ok===false) return '';
+  const t=d.today||{};
+  const hist=t.kill_histogram||[];
+  const sig=[t.date,t.judgments,t.kills,t.passes,t.corrections,hist.map(x=>`${x.reason}:${x.n}`).join('|')].join('~');
+  const changed=KILL_SIG&&KILL_SIG!==sig;
+  KILL_SIG=sig;
+  const last=d.last_active||null;
+  let h=`<div class="card killreport ${changed?'changed':''}"><div class="ktop"><div><div class="ktag">Kill Report</div>
+    <div class="ktitle">Today’s correction signal</div></div>
+    <div class="kmeta">${esc(t.date||d.date||'')}<br>${esc(t.source||'ledgers/judgments.jsonl')}</div></div>
+    <div class="kstats">
+      <div class="kstat"><b>${esc(t.judgments||0)}</b><span>judged</span></div>
+      <div class="kstat"><b style="color:var(--green)">${esc(t.passes||0)}</b><span>passed</span></div>
+      <div class="kstat"><b style="color:var(--epink)">${esc(t.kills||0)}</b><span>killed</span></div>
+      <div class="kstat"><b>${esc(t.corrections||0)}</b><span>corrected</span></div>
+    </div>`;
+  if(hist.length){
+    const mx=hist[0].n||1;
+    for(const e of hist.slice(0,7)){
+      h+=`<div class="krow"><div class="krl"><span class="chip">${esc(e.reason)}</span><span class="dim">${esc(e.n)}</span></div>
+        <div class="kbar"><i style="width:${Math.round((e.n||0)/mx*100)}%"></i></div></div>`;
+    }
+  } else {
+    h+=`<div class="rt2 dim" style="padding:6px 0 2px">No kill rows today. No bars, no motion.</div>`;
+  }
+  if(last&&last.date) h+=`<div class="rt2 dim" style="margin-top:10px">Last active kill day: ${esc(last.date)} · ${esc(last.kills||0)} kills. Not substituted into today’s chart.</div>`;
+  h+=`</div>`;
+  return h;
+}
 
 async function whoami(){ const d=await fetchJSON('/api/approvals/whoami');
   if(!d||d.error){document.getElementById('stage').innerHTML='<div class="empty"><div class="e">🔑</div>المفتاح غلط أو ناقص</div>';return false;}
@@ -627,7 +674,7 @@ function errBox(d){ return `<div class="empty"><div class="e">⚠️</div>تعذ
 
 /* ---------- NOW ---------- */
 async function viewNow(st,poll){
-  const [clients,focus,day,river,brain,hl]=await Promise.all([fetchJSON('/api/control/clients'),fetchJSON('/api/control/ranked-taps'),fetchJSON('/api/control/day-strip'),fetchJSON('/api/control/pipeline-river'),fetchJSON('/api/brain'),fetchJSON('/api/control/health')]);
+  const [clients,focus,day,river,kill,brain,hl]=await Promise.all([fetchJSON('/api/control/clients'),fetchJSON('/api/control/ranked-taps'),fetchJSON('/api/control/day-strip'),fetchJSON('/api/control/pipeline-river'),fetchJSON('/api/control/kill-report'),fetchJSON('/api/brain'),fetchJSON('/api/control/health')]);
   if(clients&&clients.ok!==false) CLIENTS=clients;
   if(!brain||brain.ok===false){st.innerHTML=errBox(brain);return;}
   const allClaims=Array.isArray(brain.now)?brain.now:[];
@@ -636,7 +683,7 @@ async function viewNow(st,poll){
   const latest=beats[0]||null;
   const stale=latest&&beatStale(latest,claims);
   const spend=brain.spend_today||{};
-  let h=focusLane(focus)+dayStrip(day)+pipelineRiver(river)+`<div class="card hero"><div class="state"><span class="dot ${stale?'bad':(claims.length?'on':'recent')}"></span>${claims.length?`${claims.length} active claim${claims.length===1?'':'s'}`:'No active claims'}</div>`;
+  let h=focusLane(focus)+dayStrip(day)+pipelineRiver(river)+killReportPanel(kill)+`<div class="card hero"><div class="state"><span class="dot ${stale?'bad':(claims.length?'on':'recent')}"></span>${claims.length?`${claims.length} active claim${claims.length===1?'':'s'}`:'No active claims'}</div>`;
   if(claims.length){
     const c=claims[0];
     h+=`<div class="line" dir="auto">${esc(c.worker||c.lane||'?')} owns ${esc(c.client||'?')} · ${esc(c.task_type||'?')}</div>`;
@@ -1025,7 +1072,7 @@ function openSub(s){ SUB=s; const st=document.getElementById('stage'); st.innerH
   if(s==='gauntlet')return subGauntlet(st,back);
   if(s==='agents-work')return subAgentsWork(st,back); }
 
-async function subReview(st,back){ const d=await fetchJSON('/api/control/review'); if(!d.ok){st.innerHTML=back+errBox(d);return;}
+async function subReview(st,back){ const [d,kill]=await Promise.all([fetchJSON('/api/control/review'),fetchJSON('/api/control/kill-report')]); if(!d.ok){st.innerHTML=back+errBox(d);return;}
   let h=back+`<div class="strip">
     <div class="stat"><div class="n">${d.open}</div><div class="l">open</div></div>
     <div class="stat"><div class="n">${d.proposals}</div><div class="l">proposals</div></div>
@@ -1034,20 +1081,8 @@ async function subReview(st,back){ const d=await fetchJSON('/api/control/review'
     <div class="h1">Recent verdicts</div><div class="card" style="padding:4px 20px">`;
   for(const v of (d.verdicts||[])) h+=`<div class="row"><span class="dot ${v.answer==='approved'?'on':(v.answer==='rejected'?'bad':'idle')}"></span><span class="rowb"><span class="rt1">${esc(v.answer||'—')} <span class="chip">${esc(v.judge||'')}</span>${v.rating?' ★'+v.rating:''}</span><span class="rt2 mono">${esc(v.item||'')}</span></span><span class="rtime">${v.ts?rel(v.ts):''}</span></div>`;
   h+=`</div>`;
-  // SPEC-A: kill-report strip + histogram
-  const td=d.today_drafts||0,tp=d.today_pass||0,tk=d.today_kills||0;
-  h+=`<div class="h1" style="margin-top:28px">Today's gauntlet</div><div class="strip">
-    <div class="stat"><div class="n">${td}</div><div class="l">produced</div></div>
-    <div class="stat"><div class="n" style="color:var(--green)">${tp}</div><div class="l">passed</div></div>
-    <div class="stat"><div class="n" style="color:var(--epink)">${tk}</div><div class="l">killed</div></div></div>`;
-  const hist=d.kill_histogram||[];
-  if(hist.length){
-    const mx=hist[0].n||1;
-    h+=`<div class="h1">Kill reasons</div><div class="card" style="padding:12px 20px">`;
-    for(const e of hist) h+=`<div style="margin:7px 0"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px"><span class="chip">${esc(e.reason)}</span><span class="dim">${e.n}</span></div><div class="bar"><i style="width:${Math.round(e.n/mx*100)}%"></i></div></div>`;
-    h+=`</div>`;
-  }
-  h+=`<div class="dim" style="font-size:12px;margin:10px 2px">Thin board = good if kill reasons show WHY (book/07)</div>`;
+  h+=killReportPanel(kill);
+  h+=`<div class="dim" style="font-size:12px;margin:10px 2px">Thin board = good only when kill reasons show WHY from the judgment ledger.</div>`;
   st.innerHTML=h; }
 
 let KH=null,KHWHO='mohamed';

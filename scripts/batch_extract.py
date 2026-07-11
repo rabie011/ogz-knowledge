@@ -3,8 +3,8 @@
 batch_extract.py — Autonomous batch extractor for ogz-knowledge observations.
 
 Usage:
-  python3 scripts/batch_extract.py --account barnscoffee --batch B2 --count 25
-  python3 scripts/batch_extract.py --account aseeb.najd --batch B1 --count 25
+  python3 scripts/batch_extract.py --account crumblcookiespr --batch B2 --count 5 \
+    --max-calls 5 --max-usd 0.15 --max-tokens 60000 --estimate-only
 
 Reads images from _inbox/@{account}/media/, calls Anthropic API (claude-haiku-4-5)
 with vision to generate observation_v1 JSON records, saves to observations/f_and_b/.
@@ -17,15 +17,30 @@ import os
 import random
 import sys
 import time
+from decimal import Decimal, InvalidOperation
+from datetime import datetime, timezone
 from pathlib import Path
-
-import anthropic
+from typing import Any, Callable
+from uuid import uuid4
 
 from extraction_release_gate import assert_release_allowed  # B130 (Rule #8)
+from extraction_budget import (
+    MODEL,
+    BudgetCaps,
+    BudgetRefusal,
+    BudgetRun,
+    assert_writer_registered,
+    build_plan,
+    canonical_receipt_writer,
+)
 
 REPO = Path(__file__).resolve().parent.parent
 OBS_DIR = REPO / "11_who_to_learn_from" / "observations" / "f_and_b"
 SCHEMA_DIR = REPO / "12_data_shapes"
+SYSTEM_ROOT = REPO.parents[2]
+PRICING_PATH = SYSTEM_ROOT / "tools" / "model_router.json"
+REGISTRY_PATH = SYSTEM_ROOT / "ledgers" / "REGISTRY.json"
+MAX_OUTPUT_TOKENS = 2000
 
 CROCKFORD = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
 _ulid_ts_offset = 0
@@ -228,9 +243,9 @@ def load_image_b64(path: Path) -> tuple[str, str]:
     return base64.standard_b64encode(data).decode("utf-8"), detect_media_type(path)
 
 
-def get_existing_filenames(handle_norm: str) -> set[str]:
+def get_existing_filenames(handle_norm: str, obs_dir: Path = OBS_DIR) -> set[str]:
     used = set()
-    for f in OBS_DIR.glob("*.json"):
+    for f in obs_dir.glob("*.json"):
         try:
             d = json.loads(f.read_text())
             if d.get("account_handle_normalized") == handle_norm:
@@ -257,34 +272,26 @@ def select_images(media_dir: Path, used: set[str], count: int, seed: int = 42) -
     return eligible[:count]
 
 
-def extract_one(
-    client: anthropic.Anthropic,
-    img_path: Path,
-    meta: dict,
-    caption: str,
-    observation_ulid: str,
-) -> dict:
-    handle = img_path.parent.parent.name.lstrip("@")
-    filename = img_path.name
-
-    # Determine content type
-    content_type = "image"
-    if "_" in img_path.stem and img_path.stem.split("_")[-1].isdigit():
-        content_type = "carousel_slide"
-
-    img_b64, media_type = load_image_b64(img_path)
-
-    user_msg = EXTRACTION_USER.format(
-        handle=handle,
+def build_user_message(img_path: Path, meta: dict, caption: str) -> str:
+    return EXTRACTION_USER.format(
+        handle=img_path.parent.parent.name.lstrip("@"),
         description=meta["description"],
         what_to_watch=meta["what_to_watch"],
-        filename=filename,
+        filename=img_path.name,
         caption=caption or "(no caption available)",
     )
 
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=2000,
+
+def call_provider(
+    client: Any,
+    img_path: Path,
+    meta: dict,
+    caption: str,
+) -> Any:
+    img_b64, media_type = load_image_b64(img_path)
+    return client.messages.create(
+        model=MODEL,
+        max_tokens=MAX_OUTPUT_TOKENS,
         system=EXTRACTION_SYSTEM,
         messages=[
             {
@@ -298,11 +305,24 @@ def extract_one(
                             "data": img_b64,
                         },
                     },
-                    {"type": "text", "text": user_msg},
+                    {"type": "text", "text": build_user_message(img_path, meta, caption)},
                 ],
             }
         ],
     )
+
+
+def observation_from_response(
+    response: Any,
+    img_path: Path,
+    meta: dict,
+    observation_ulid: str,
+) -> dict:
+    handle = img_path.parent.parent.name.lstrip("@")
+    filename = img_path.name
+    content_type = "image"
+    if "_" in img_path.stem and img_path.stem.split("_")[-1].isdigit():
+        content_type = "carousel_slide"
 
     raw = response.content[0].text.strip()
     # Strip any markdown code fences
@@ -435,7 +455,7 @@ def extract_one(
         },
         "provenance": {
             "source": f"instagram:@{handle}:{img_path.stem}",
-            "date_added": __import__("datetime").datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%f") + "Z",
+            "date_added": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
             "confirmer": "claude_code_extraction",
             "confidence": "inferred",
             "scope": "sector:f_and_b",
@@ -461,94 +481,225 @@ def extract_one(
     return obs
 
 
-def main():
+def _positive_decimal(value: str) -> Decimal:
+    try:
+        parsed = Decimal(value)
+    except InvalidOperation as exc:
+        raise argparse.ArgumentTypeError("must be a decimal") from exc
+    if parsed <= 0:
+        raise argparse.ArgumentTypeError("must be positive")
+    return parsed
+
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--account", required=True)
     parser.add_argument("--batch", default="B2")
     parser.add_argument("--count", type=int, default=25)
     parser.add_argument("--seed", type=int, default=42)
-    args = parser.parse_args()
+    parser.add_argument("--max-calls", type=int, required=True)
+    parser.add_argument("--max-usd", type=_positive_decimal, required=True)
+    parser.add_argument("--max-tokens", type=int, required=True)
+    parser.add_argument(
+        "--estimate-only",
+        action="store_true",
+        help="print the bounded token/USD plan; no receipt, credential, provider, or observation write",
+    )
+    return parser.parse_args(argv)
 
-    # B130 (Rule #8): refuse to extract+stamp compliance unless the calibration gate proved the
-    # extractor detects a planted hard-block. A RED/missing gate EXITS non-zero — no warn-and-run.
-    assert_release_allowed()
 
-    account = args.account
-    meta = ACCOUNT_META.get(account)
-    if not meta:
-        print(f"ERROR: Unknown account '{account}'. Known: {list(ACCOUNT_META.keys())}")
-        sys.exit(1)
+def load_api_key() -> str:
+    key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if key:
+        return key
+    env_path = Path.home() / ".abraham_env"
+    if env_path.exists():
+        for line in env_path.read_text(encoding="utf-8").splitlines():
+            if line.startswith("ANTHROPIC_API_KEY="):
+                return line.split("=", 1)[1].strip()
+    return ""
 
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
-    if not api_key:
-        # Try loading from .abraham_env
-        env_path = Path.home() / ".abraham_env"
-        if env_path.exists():
-            for line in env_path.read_text().splitlines():
-                if line.startswith("ANTHROPIC_API_KEY="):
-                    api_key = line.split("=", 1)[1].strip()
-                    break
-    if not api_key:
-        print("ERROR: No ANTHROPIC_API_KEY found")
-        sys.exit(1)
 
-    client = anthropic.Anthropic(api_key=api_key)
+def default_client_factory(api_key: str) -> Any:
+    import anthropic  # Lazy: estimate/refusal paths never import the provider SDK.
 
-    media_dir = REPO / "11_who_to_learn_from" / "_inbox" / f"@{account}" / "media"
-    if not media_dir.exists():
-        print(f"ERROR: media dir not found: {media_dir}")
-        sys.exit(1)
+    return anthropic.Anthropic(api_key=api_key)
 
-    OBS_DIR.mkdir(parents=True, exist_ok=True)
 
-    used = get_existing_filenames(meta["handle_norm"])
-    print(f"[{account}] Already extracted: {len(used)//2} files")
-
-    images = select_images(media_dir, used, args.count, seed=args.seed)
-    print(f"[{account}] Selected {len(images)} images for {args.batch}")
-    for img in images:
-        print(f"  {img.name}")
-
+def load_captions(pass1_dir: Path) -> dict[str, str]:
     captions: dict[str, str] = {}
-    pass1_dir = REPO / "11_who_to_learn_from" / "_inbox" / f"@{account}" / "pass1"
-    if pass1_dir.exists():
-        for jf in pass1_dir.glob("*.json"):
-            try:
-                d = json.loads(jf.read_text())
-                captions[jf.stem] = d.get("caption", "") or ""
-            except Exception:
-                pass
+    if not pass1_dir.exists():
+        return captions
+    for path in pass1_dir.glob("*.json"):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            captions[path.stem] = data.get("caption", "") or ""
+        except (OSError, json.JSONDecodeError):
+            continue
+    return captions
+
+
+def run_extraction(
+    args: argparse.Namespace,
+    *,
+    repo: Path = REPO,
+    system_root: Path = SYSTEM_ROOT,
+    pricing_path: Path = PRICING_PATH,
+    registry_path: Path = REGISTRY_PATH,
+    receipt_writer: Callable[[dict[str, Any]], None] | None = None,
+    key_loader: Callable[[], str] = load_api_key,
+    client_factory: Callable[[str], Any] = default_client_factory,
+    release_check: Callable[[], Any] = assert_release_allowed,
+    sleep_fn: Callable[[float], None] = time.sleep,
+) -> int:
+    try:
+        release_check()
+        if args.count <= 0 or args.max_calls <= 0 or args.max_tokens <= 0:
+            raise BudgetRefusal("count and every numeric cap must be positive")
+        meta = ACCOUNT_META.get(args.account)
+        if not meta:
+            raise BudgetRefusal(
+                f"unknown account {args.account!r}; known={sorted(ACCOUNT_META)}"
+            )
+        media_dir = repo / "11_who_to_learn_from" / "_inbox" / f"@{args.account}" / "media"
+        if not media_dir.is_dir():
+            raise BudgetRefusal(f"media directory missing: {media_dir}")
+        obs_dir = repo / "11_who_to_learn_from" / "observations" / "f_and_b"
+        used = get_existing_filenames(meta["handle_norm"], obs_dir)
+        images = select_images(media_dir, used, args.count, seed=args.seed)
+        if not images:
+            raise BudgetRefusal("no fresh eligible images selected")
+        captions = load_captions(
+            repo / "11_who_to_learn_from" / "_inbox" / f"@{args.account}" / "pass1"
+        )
+        prompts = []
+        call_captions = []
+        for image in images:
+            stem = image.stem.rstrip("_0123456789")
+            caption = captions.get(stem, "") or captions.get(image.stem, "")
+            call_captions.append(caption)
+            prompts.append(build_user_message(image, meta, caption))
+        plan = build_plan(
+            images,
+            prompts,
+            EXTRACTION_SYSTEM,
+            MAX_OUTPUT_TOKENS,
+            BudgetCaps(args.max_calls, args.max_usd, args.max_tokens),
+            pricing_path,
+        )
+    except (BudgetRefusal, OSError, json.JSONDecodeError) as exc:
+        print(f"REFUSE: {exc}", file=sys.stderr)
+        return 2
+
+    plan_output = {
+        "account": args.account,
+        "batch": args.batch,
+        "estimate_only": bool(args.estimate_only),
+        **plan.as_dict(),
+    }
+    print(json.dumps(plan_output, indent=2, sort_keys=True))
+    if args.estimate_only:
+        return 0
+
+    try:
+        assert_writer_registered(registry_path)
+        writer = receipt_writer or canonical_receipt_writer(system_root)
+        run_id = "extract-" + time.strftime("%Y%m%dT%H%M%SZ", time.gmtime()) + "-" + uuid4().hex[:8]
+        budget = BudgetRun(plan, writer, run_id)
+        budget.reserve()
+    except (BudgetRefusal, OSError) as exc:
+        print(f"REFUSE: {exc}", file=sys.stderr)
+        return 2
 
     success = 0
-    failures = []
+    failures: list[tuple[str, str]] = []
+    close_status = "parked"
+    close_reason = "run did not complete"
+    result_code = 1
+    close_error: BudgetRefusal | None = None
+    try:
+        api_key = key_loader()
+        if not api_key:
+            close_reason = "credential unavailable after reservation"
+            print(f"REFUSE: {close_reason}", file=sys.stderr)
+            result_code = 2
+            client = None
+        else:
+            try:
+                client = client_factory(api_key)
+            except Exception as exc:
+                close_reason = f"provider client initialization failed: {type(exc).__name__}"
+                print(f"REFUSE: {close_reason}", file=sys.stderr)
+                result_code = 2
+                client = None
 
-    for i, img_path in enumerate(images):
-        ulid = make_ulid()
-        sc = img_path.stem.rstrip("_0123456789")
-        caption = captions.get(sc, "") or captions.get(img_path.stem, "")
+        if client is not None:
+            obs_dir.mkdir(parents=True, exist_ok=True)
+            for call, caption in zip(plan.calls, call_captions):
+                observation_ulid = make_ulid()
+                print(
+                    f"[{call.index}/{len(plan.calls)}] {call.image.name} -> {observation_ulid}.json",
+                    flush=True,
+                )
+                try:
+                    budget.authorize_call(call)
+                except BudgetRefusal as exc:
+                    failures.append((call.image.name, str(exc)))
+                    close_reason = str(exc)
+                    break
+                try:
+                    response = call_provider(client, call.image, meta, caption)
+                except Exception as exc:
+                    try:
+                        budget.settle_error(call, exc)
+                    except BudgetRefusal as ledger_exc:
+                        failures.append((call.image.name, str(ledger_exc)))
+                        close_reason = str(ledger_exc)
+                        break
+                    failures.append((call.image.name, str(exc)))
+                    close_reason = f"provider call failed: {type(exc).__name__}"
+                    break
+                try:
+                    budget.settle_success(call, response.usage)
+                except BudgetRefusal as exc:
+                    failures.append((call.image.name, str(exc)))
+                    close_reason = str(exc)
+                    break
+                try:
+                    observation = observation_from_response(
+                        response, call.image, meta, observation_ulid
+                    )
+                    output_path = obs_dir / f"{observation_ulid}.json"
+                    output_path.write_text(
+                        json.dumps(observation, ensure_ascii=False, indent=2) + "\n",
+                        encoding="utf-8",
+                    )
+                except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
+                    failures.append((call.image.name, str(exc)))
+                    close_reason = f"post-settlement observation write failed: {type(exc).__name__}"
+                    break
+                success += 1
+                sleep_fn(1.0)
 
-        print(f"  [{i+1}/{len(images)}] Extracting {img_path.name} → {ulid}.json", end="", flush=True)
-
+            if success == len(plan.calls) and not failures:
+                close_status = "done"
+                close_reason = "all reserved calls settled and observations written"
+                result_code = 0
+            else:
+                result_code = 1
+            print(f"[{args.account}] {args.batch}: {success}/{len(plan.calls)} observations written")
+    finally:
         try:
-            obs = extract_one(client, img_path, meta, caption, ulid)
-            out_path = OBS_DIR / f"{ulid}.json"
-            out_path.write_text(json.dumps(obs, ensure_ascii=False, indent=2))
-            print(f" ✓ [{obs['compliance_check']['overall_compliance']}]")
-            success += 1
-        except Exception as e:
-            print(f" ✗ ERROR: {e}")
-            failures.append((img_path.name, str(e)))
+            budget.close(close_status, close_reason)
+        except BudgetRefusal as exc:
+            print(f"REFUSE: reservation close receipt failed: {exc}", file=sys.stderr)
+            close_error = exc
+    return 2 if close_error else result_code
 
-        # Rate limiting: 1 image/sec
-        time.sleep(1.0)
 
-    print(f"\n[{account}] {args.batch} done: {success}/{len(images)} extracted")
-    if failures:
-        print(f"Failures ({len(failures)}):")
-        for fn, err in failures:
-            print(f"  {fn}: {err}")
-
-    return 0 if not failures else 1
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
+    return run_extraction(args)
 
 
 if __name__ == "__main__":

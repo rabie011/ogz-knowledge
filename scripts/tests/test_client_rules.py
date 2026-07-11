@@ -47,6 +47,10 @@ class TestClientRules(unittest.TestCase):
         self.assertEqual(self._kinds({"captions": ["البخار يتصاعد من طبق الجريش، ولحظة دفء تبدأ"],
                                       "visual": {"phone_shoot_card": ["لقطة مقربة للطبق واليدين فقط"]}}), set())
 
+    def test_no_face_instruction_with_la_wujuh_is_compliant(self):
+        self.assertEqual(self._kinds({"captions": ["طبق دافئ"],
+                                      "visual": {"phone_shoot_card": ["لا وجوه في الإطار"]}}), set())
+
 
 
     def test_caption_too_long_is_killed(self):

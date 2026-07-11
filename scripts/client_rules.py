@@ -36,7 +36,7 @@ FACE_VIS = re.compile(r"وجوه|الوجه|الوجوه|ابتسام[ةات]|ت
 FAMILY_VIS = re.compile(r"الأطفال يلعب|الأطفال وهم|الجالسين|يجتمع الجميع|العائلة (?:تجلس|مجتمعة|حول|تتحلق)|أفراد العائلة|غرفة الجلوس|الأهل وهم")
 # NEGATION/COMPLIANCE marker (Rule #9, June 14): the shot-cards correctly say «دون إظهار أي وجوه» /
 # «التركيز على اليد فقط» — a face-WORD inside a no-faces instruction is COMPLIANT, not a violation.
-NO_FACE_MARKER = re.compile(r"دون إظهار|بدون إظهار|بلا وجوه|دون وجوه|بدون وجوه|لا تظهر|دون ظهور|"
+NO_FACE_MARKER = re.compile(r"دون إظهار|بدون إظهار|بلا وجوه|دون وجوه|بدون وجوه|لا وجوه|لا توجد وجوه|من غير وجوه|لا تظهر|دون ظهور|"
                             r"دون أشخاص|بدون أشخاص|اليد فقط|الأيدي فقط|الي[دّ]ين فقط|اليدين فقط|"
                             r"التركيز على الي|اليد والمنتج|دون أي أشخاص|بدون أي وجوه")
 # cloud-kitchen forbidden: dine-in venue + invented storefront/cart

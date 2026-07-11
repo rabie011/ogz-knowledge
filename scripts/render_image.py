@@ -14,6 +14,7 @@ from pathlib import Path
 BASE = Path(__file__).parent.parent
 sys.path.insert(0, str(BASE / "scripts"))
 import model_registry as mr   # single source of truth for the DRAFT render model + its fingerprint
+from deadly_defaults_gate import effective_overrides
 
 RENDER_DIR = BASE / "api/static/renders"
 COST_LOG = BASE / "data/image_cost_log.jsonl"
@@ -39,14 +40,8 @@ def spent_this_batch() -> int:
 
 def _load_cultural_overrides(handle: str) -> dict:
     """Read the client's cultural_overrides organ — the READER for B145's render constraints
-    (Rule #6: a red-line written with no consumer is a lie that looks like safety)."""
-    f = BASE / "clients" / handle / "profile/cultural_overrides.json"
-    if f.exists():
-        try:
-            return json.loads(f.read_text())
-        except Exception:
-            return {}
-    return {}
+    (Rule #6), clamping any unconfirmed deadly relaxation to the table's strict default."""
+    return effective_overrides(handle, base=BASE)
 
 
 def cultural_constraint_clause(ov: dict) -> str:
@@ -61,14 +56,15 @@ def cultural_constraint_clause(ov: dict) -> str:
         parts.append("no human faces, no recognizable people")
     elif face in ("limited", "partial", "incidental"):
         parts.append("faces only incidental and out of focus, never the subject")
-    # face in ("allowed", "yes", "ok") → no face constraint (client explicitly relaxed)
+    elif face != "visible":
+        parts.append("no human faces, no recognizable people")
     mg = str(ov.get("mixed_gender_scenes") or "none").lower()
     if mg in ("none", "never", "separate", "segregated"):
         parts.append("no mixed-gender scenes")
     elif mg in ("family-only-mixing", "family-only", "family_only"):
         parts.append("no unrelated mixed-gender interaction")
     mod = str(ov.get("modesty_dress") or "conservative").lower()
-    if mod == "conservative":
+    if mod != "relaxed":
         parts.append("conservative modest dress, no exposed skin")
     return ("CULTURAL CONSTRAINTS: " + "; ".join(parts) + ".") if parts else ""
 

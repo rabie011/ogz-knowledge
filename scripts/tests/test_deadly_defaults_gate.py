@@ -18,6 +18,12 @@ import deadly_defaults_gate as g
 DEADLY = {"mixed_gender_scenes": {"field": "mixed_gender_scenes",
                                   "strictest_default": "family-only-mixing",
                                   "deadly_if_wrong": True}}
+VISUAL_DEADLY = {
+    "face_visibility": {"field": "face_visibility", "strictest_default": "never",
+                        "deadly_if_wrong": True},
+    "modesty_dress": {"field": "modesty_dress", "strictest_default": "conservative",
+                      "deadly_if_wrong": True},
+}
 
 
 class TestDeadlyDefaultsGate(unittest.TestCase):
@@ -80,6 +86,51 @@ class TestDeadlyDefaultsGate(unittest.TestCase):
         # a genuine relaxation is legal ONLY with a client red_line_relaxed event
         self._client("a", "all-mixing", event=True)
         self.assertEqual(self._violations("a"), [])
+
+    def test_effective_overrides_clamp_unconfirmed_relaxations(self):
+        pdir = self._tmp / "clients" / "a" / "profile"
+        pdir.mkdir(parents=True)
+        (pdir / "cultural_overrides.json").write_text(json.dumps({
+            "face_visibility": "professional_only",
+            "modesty_dress": "formal_professional",
+            "dialect_register": "neutral_saudi",
+        }))
+        effective = g.effective_overrides("a", VISUAL_DEADLY, self._tmp)
+        self.assertEqual(effective["face_visibility"], "never")
+        self.assertEqual(effective["modesty_dress"], "conservative")
+        self.assertEqual(effective["dialect_register"], "neutral_saudi")
+
+    def test_effective_overrides_preserve_exact_event_relaxation(self):
+        pdir = self._tmp / "clients" / "a" / "profile"
+        pdir.mkdir(parents=True)
+        (pdir / "cultural_overrides.json").write_text(json.dumps({
+            "face_visibility": "visible",
+            "modesty_dress": "relaxed",
+        }))
+        events = self._tmp / "clients" / "a" / "events"
+        events.mkdir(parents=True)
+        (events / "ledger.jsonl").write_text(
+            json.dumps({"type": "red_line_relaxed", "field": "face_visibility"}) + "\n"
+            + json.dumps({"type": "red_line_relaxed", "field": "modesty_dress"}) + "\n"
+        )
+        effective = g.effective_overrides("a", VISUAL_DEADLY, self._tmp)
+        self.assertEqual(effective["face_visibility"], "visible")
+        self.assertEqual(effective["modesty_dress"], "relaxed")
+
+    def test_unrelated_field_name_cannot_authorize_relaxation(self):
+        pdir = self._tmp / "clients" / "a" / "profile"
+        pdir.mkdir(parents=True)
+        (pdir / "cultural_overrides.json").write_text(json.dumps({
+            "face_visibility": "visible",
+        }))
+        events = self._tmp / "clients" / "a" / "events"
+        events.mkdir(parents=True)
+        (events / "ledger.jsonl").write_text(json.dumps({
+            "type": "red_line_relaxed", "field": "modesty_dress",
+            "note": "discussion mentioned face_visibility but did not relax it",
+        }) + "\n")
+        effective = g.effective_overrides("a", VISUAL_DEADLY, self._tmp)
+        self.assertEqual(effective["face_visibility"], "never")
 
 
 if __name__ == "__main__":

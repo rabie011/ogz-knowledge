@@ -32,6 +32,8 @@ from datetime import datetime
 from pathlib import Path
 
 B = Path(__file__).parent.parent
+sys.path.insert(0, str(B / "scripts"))
+from deadly_defaults_gate import effective_overrides
 V37 = B / "data/openclaw_v37"
 PLACE = re.compile(r"\{([a-z][a-z0-9_.]+)\}")
 BLOCK = re.compile(r"^\[([^\]]+)\]")
@@ -143,7 +145,7 @@ def load_brand(handle):
         "red_lines": j("red_lines.json").get("lines", []),
         "visual_dna": j("visual_dna.json"),   # v3.7 organ — may not exist yet
         "product_truth": j("product_truth.json"),   # confirmed-truth organ: real product identity per hero (root-fix for RED identity_dna)
-        "cultural_overrides": j("cultural_overrides.json"),   # face_visibility, modesty register, etc.
+        "cultural_overrides": effective_overrides(handle, base=B),
     }
 
 
@@ -271,7 +273,7 @@ def saudi_fields(brand, occasion):
     # food) — NEVER a visible identifiable face. The organ said 'never' but the prompt ignored it and
     # the render drew a full face (S01). This wires it in (Rule #6); the pixel gate is the backstop.
     fv = (brand.get("cultural_overrides") or {}).get("face_visibility", "")
-    if fv == "never":
+    if fv in ("never", "faceless"):
         apparel = ("modest Saudi dress where people appear (thobe/abaya), right-hand interaction "
                    "(CS-08). CRITICAL — people are shown FACELESS: from behind, over-the-shoulder, "
                    "cropped at the shoulders/torso, or hands-only; the focus is the food, NEVER a "
@@ -280,7 +282,7 @@ def saudi_fields(brand, occasion):
         apparel = "modest Saudi dress where people appear (thobe/abaya), right-hand interaction (CS-08)"
     return {
         "saudi.scene_context": Field("authentic contemporary Saudi setting — true materials, never generic-Arabian", "derived"),
-        "saudi.apparel_context": Field(apparel, "organ" if fv == "never" else "derived"),
+        "saudi.apparel_context": Field(apparel, "organ" if fv in ("never", "faceless") else "derived"),
         "saudi.material_context": Field("real Saudi-context materials — brass dallah, sadu textile, palm, true regional surfaces", "derived"),
         "saudi.color_palette_adjust": Field("warmer gold/sand/amber tones", "derived"),
         "saudi.occasion_overlay": Field(occasion or "", "organ" if occasion else "n/a"),

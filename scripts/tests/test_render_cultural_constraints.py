@@ -41,9 +41,19 @@ class TestCulturalConstraints(unittest.TestCase):
         self.assertTrue(cr.faces_forbidden({}))  # absent = strictest governs
         self.assertFalse(cr.faces_forbidden({"face_visibility": "visible"}))
 
-    def test_face_allowed_drops_the_face_constraint(self):
-        s = cultural_constraint_clause({"face_visibility": "allowed", "modesty_dress": "relaxed"})
+    def test_face_visible_drops_the_face_constraint(self):
+        s = cultural_constraint_clause({"face_visibility": "visible", "modesty_dress": "relaxed"})
         self.assertNotIn("no human faces", s)
+
+    def test_unknown_relaxation_tokens_fail_closed(self):
+        s = cultural_constraint_clause({
+            "face_visibility": "professional_only",
+            "modesty_dress": "formal_professional",
+        })
+        self.assertIn("no human faces", s)
+        self.assertIn("conservative modest dress", s)
+        import client_rules as cr
+        self.assertTrue(cr.faces_forbidden({"face_visibility": "professional_only"}))
 
     def test_absent_field_governs_strictest(self):
         # the organ law: a missing value is read as the MOST conservative option
@@ -68,6 +78,15 @@ class TestCulturalConstraints(unittest.TestCase):
                 continue
             prompt = chain_image_prompt({"idea": {"scene_ar": "x"}}, _load_cultural_overrides(h))
             self.assertIn("no human faces", prompt, f"{h} render prompt permits faces")
+
+    def test_all_five_rfp_fake_clients_are_effectively_strict(self):
+        for handle in (
+            "arena-pulse-arabia", "mizan-investment", "nassaj-arts-lab",
+            "nur-litabqa", "sahm-founders",
+        ):
+            overrides = _load_cultural_overrides(handle)
+            self.assertEqual(overrides["face_visibility"], "never", handle)
+            self.assertEqual(overrides["modesty_dress"], "conservative", handle)
 
     def test_default_no_longer_permits_faces(self):
         # the old leak: chain_image_prompt() with no overrides used to allow faces

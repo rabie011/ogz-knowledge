@@ -42,6 +42,7 @@ from pathlib import Path
 
 B = Path(__file__).parent.parent
 sys.path.insert(0, str(B / "scripts"))
+from deadly_defaults_gate import effective_overrides
 
 VISION_MODEL = "gpt-4o"
 SKIP_ENV = "IMAGE_GATE_SKIP_VISION"
@@ -93,7 +94,7 @@ def _organs(handle):
         # red_lines.json stores {"lines": [{"line": "…"}, …]}; flatten to the Arabic line strings
         red_lines = [x.get("line", "") if isinstance(x, dict) else str(x) for x in rl.get("lines", [])]
         red_lines = [s for s in red_lines if s]
-    overrides = json.loads(co_f.read_text()) if co_f.exists() else {}
+    overrides = effective_overrides(handle, base=B)
     # only the fields that constrain the PIXELS (drop provenance/proposal noise)
     pixel_fields = {k: v for k, v in overrides.items()
                     if k in ("modesty_dress", "mixed_gender_scenes", "face_visibility",

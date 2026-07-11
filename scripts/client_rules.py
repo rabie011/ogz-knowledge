@@ -59,8 +59,8 @@ MAX_CAPTION_CHARS = 220
 
 
 def _overrides(handle):
-    f = B / "clients" / handle / "profile" / "cultural_overrides.json"
-    return json.loads(f.read_text()) if f.exists() else {}
+    from deadly_defaults_gate import effective_overrides
+    return effective_overrides(handle, base=B)
 
 
 def _is_cloud_kitchen(handle):
@@ -77,15 +77,12 @@ def _is_cloud_kitchen(handle):
 # strategy / render path that forbids faces asks HERE, never a scattered `== "never"`. That
 # scatter is exactly what leaked twice — a new enum value ('faceless') added but the inline
 # comparisons not updated (render brief + face gate silently permitted faces for myfitness.sa).
-_FACES_FORBIDDEN_VALUES = frozenset({"never", "faceless"})
-
-
 def faces_forbidden(ov: dict) -> bool:
     """True when the client forbids visible faces (face_visibility never|faceless, or absent =
     strictest default). The absent case is strict-by-default (the organ law); only an explicit
-    'visible'/'allowed' relaxes it."""
+    canonical `visible` relaxes it; unknown tokens fail closed."""
     v = str(ov.get("face_visibility") or "never").lower()
-    return v in _FACES_FORBIDDEN_VALUES
+    return v != "visible"
 
 
 def _sector(handle):

@@ -62,10 +62,9 @@ def visual_fields(table: dict) -> list[dict]:
 
 
 def _ledger_relaxes(handle: str, field: str, base: Path) -> bool:
-    """Mirror deadly_defaults_gate.check_client: a red_line_relaxed event naming the field."""
-    lf = base / "clients" / handle / "events/ledger.jsonl"
-    ledger = lf.read_text(encoding="utf-8") if lf.exists() else ""
-    return '"red_line_relaxed"' in ledger and field in ledger
+    """Mirror deadly_defaults_gate.check_client exactly."""
+    from deadly_defaults_gate import has_relaxation_event
+    return has_relaxation_event(handle, field, base)
 
 
 def effective_setting(handle: str, field: str, strictest, base: Path) -> tuple[str, str]:

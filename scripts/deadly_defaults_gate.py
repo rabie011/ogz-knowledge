@@ -37,24 +37,85 @@ _STRICTER_OR_EQUAL = frozenset({
 })
 
 
+def load_deadly_fields(base=None) -> dict:
+    root = Path(base) if base is not None else BASE
+    table_path = root / "15_cultural_specs/defaults/brand_override_defaults_v1.yaml"
+    try:
+        table = yaml.safe_load(table_path.read_text()) or {}
+    except Exception as exc:
+        raise RuntimeError(f"deadly-default table unavailable: {table_path}: {exc}") from exc
+    deadly = {r["field"]: r for r in table.get("fields", []) if r.get("deadly_if_wrong")}
+    if not deadly:
+        raise RuntimeError(f"deadly-default table has no deadly fields: {table_path}")
+    return deadly
+
+
+def _strict_or_stricter(value, strict) -> bool:
+    return (
+        str(value) == str(strict)
+        or value is False
+        or str(value).strip().lower() in _STRICTER_OR_EQUAL
+    )
+
+
+def has_relaxation_event(handle: str, field: str, base=None) -> bool:
+    root = Path(base) if base is not None else BASE
+    ledger_path = root / "clients" / handle / "events/ledger.jsonl"
+    if not ledger_path.exists():
+        return False
+    for line in ledger_path.read_text(encoding="utf-8", errors="replace").splitlines():
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if row.get("type") == "red_line_relaxed" and field in {
+            row.get("field"), row.get("subject")
+        }:
+            return True
+    return False
+
+
+def effective_overrides(
+    handle: str,
+    deadly_fields=None,
+    base=None,
+) -> dict:
+    """Return runtime-safe overrides; unconfirmed deadly relaxations become strict defaults."""
+    root = Path(base) if base is not None else BASE
+    overrides_path = root / "clients" / handle / "profile/cultural_overrides.json"
+    try:
+        overrides = json.loads(overrides_path.read_text()) if overrides_path.exists() else {}
+    except (OSError, json.JSONDecodeError) as exc:
+        raise RuntimeError(f"cultural overrides unreadable for {handle}: {exc}") from exc
+    if not isinstance(overrides, dict):
+        raise RuntimeError(f"cultural overrides must be an object for {handle}")
+
+    effective = dict(overrides)
+    for field, row in (deadly_fields or load_deadly_fields(root)).items():
+        value = overrides.get(field)
+        strict = row.get("strictest_default")
+        if value is None or (
+            not _strict_or_stricter(value, strict)
+            and not has_relaxation_event(handle, field, root)
+        ):
+            effective[field] = strict
+    return effective
+
+
 def check_client(handle: str, deadly_fields: dict) -> list[str]:
     pdir = BASE / "clients" / handle / "profile"
     violations = []
     co_f = pdir / "cultural_overrides.json"
     overrides = json.loads(co_f.read_text()) if co_f.exists() else {}
-    lf = BASE / "clients" / handle / "events/ledger.jsonl"
-    ledger = lf.read_text() if lf.exists() else ""
     for field, row in deadly_fields.items():
         val = overrides.get(field)
         if val is None:
             continue  # absent = strictest default governs — safe
         strict = row.get("strictest_default")
-        if str(val) == str(strict):
-            continue  # explicitly conservative — safe
-        if val is False or str(val).strip().lower() in _STRICTER_OR_EQUAL:
-            continue  # total-prohibition value — no-less-strict than strict, never a relaxation
+        if _strict_or_stricter(val, strict):
+            continue  # explicit strict or total prohibition — safe
         # non-conservative: only a client relaxation event makes it legal
-        if f'"red_line_relaxed"' in ledger and field in ledger:
+        if has_relaxation_event(handle, field):
             continue
         violations.append(f"{handle}.{field} = {val} (strict: {strict}) — NO client relaxation event")
     return violations
@@ -64,8 +125,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--handle", default=None)
     a = ap.parse_args()
-    table = yaml.safe_load(TABLE.read_text())
-    deadly = {r["field"]: r for r in table.get("fields", []) if r.get("deadly_if_wrong")}
+    deadly = load_deadly_fields()
     clients = ([a.handle] if a.handle else
                fingerprint_status.real_clients())
     all_v = []

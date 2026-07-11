@@ -57,7 +57,8 @@ def test_year_maps():
             continue
         y = json.loads(ym.read_text())
         check(f"ymap.{cdir.name}.slots365", y.get("total_slots") == 365, str(y.get("total_slots")))
-        check(f"ymap.{cdir.name}.months12", len(y.get("months", {})) == 12)
+        rolling_ok, rolling_detail = _rolling_window_contract(y)
+        check(f"ymap.{cdir.name}.rolling12_month_window", rolling_ok, rolling_detail)
         slots = [s for mm in y["months"].values() for s in mm]
         check(f"ymap.{cdir.name}.count_matches", len(slots) == y["total_slots"], str(len(slots)))
         bad_dates = [s["date"] for s in slots if not _valid_date(s.get("date", ""))]
@@ -70,6 +71,38 @@ def _valid_date(d):
         return True
     except ValueError:
         return False
+
+
+def _rolling_window_contract(year_map):
+    """A rolling year can occupy 13 calendar buckets when it starts mid-month."""
+    window = year_map.get("window")
+    months = year_map.get("months")
+    if not isinstance(window, list) or len(window) != 2 or not isinstance(months, dict):
+        return False, f"window={window!r} months_type={type(months).__name__}"
+    try:
+        start, end = (datetime.date.fromisoformat(value) for value in window)
+        dated_rows = [
+            (month_key, datetime.date.fromisoformat(slot["date"]))
+            for month_key, rows in months.items()
+            for slot in rows
+        ]
+    except (KeyError, TypeError, ValueError) as exc:
+        return False, f"invalid rolling-window data: {exc}"
+
+    exactly_one_year = (
+        end.year == start.year + 1
+        and end.month == start.month
+        and end.day == start.day
+    )
+    dates_in_window = all(start <= date < end for _, date in dated_rows)
+    bucket_labels_match = all(month_key == date.strftime("%Y-%m") for month_key, date in dated_rows)
+    expected_buckets = {date.strftime("%Y-%m") for _, date in dated_rows}
+    buckets_exact = set(months) == expected_buckets
+    ok = exactly_one_year and dates_in_window and bucket_labels_match and buckets_exact
+    return ok, (
+        f"window={window} buckets={len(months)} expected={len(expected_buckets)} "
+        f"dates={len(dated_rows)}"
+    )
 
 
 def test_brain_routing():

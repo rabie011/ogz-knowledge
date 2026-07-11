@@ -60,6 +60,9 @@
               },
               "scope": {
                 "type": "string"
+              },
+              "confirmed_ts": {
+                "type": "string"
               }
             },
             "additionalProperties": false
@@ -142,6 +145,33 @@
     },
     "note": {
       "type": "string"
+    },
+    "_diagnosis_note": {
+      "type": "string"
+    },
+    "format": {
+      "type": "object",
+      "required": [
+        "value",
+        "confirmer",
+        "date",
+        "note"
+      ],
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "confirmer": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
     }
   }
 }

@@ -135,15 +135,24 @@ if not quick:
 try:
     import subprocess
     from pathlib import Path
-    r = subprocess.run(["python3", str(Path(__file__).parent / "generate_organ_schemas.py"), "--validate-only"],
+    r = subprocess.run(["python3", str(Path(__file__).parent / "generate_organ_schemas.py"),
+                        "--validate-only", "--json-summary"],
                        capture_output=True, text=True, timeout=120)
-    # generator has no --validate-only flag? fall back to full run output parse
-    if r.returncode != 0 and "unrecognized" in (r.stderr or ""):
-        r = subprocess.run(["python3", str(Path(__file__).parent / "generate_organ_schemas.py")],
-                           capture_output=True, text=True, timeout=120)
-    ok = "ALL ORGANS VALIDATE" in (r.stdout or "")
-    n_fail = (r.stdout or "").count("❌")
-    check("Client organs validate (clients/*/profile)", ok, f"{n_fail} organ failures" if not ok else "all organs green")
+    prefix = "ORGAN_VALIDATION_SUMMARY="
+    summary_line = next((line for line in (r.stdout or "").splitlines()
+                         if line.startswith(prefix)), "")
+    summary = json.loads(summary_line[len(prefix):]) if summary_line else None
+    ok = bool(summary and r.returncode == 0 and summary["total_findings"] == 0)
+    if summary:
+        names = ",".join(summary["production_clients"])
+        detail = (f"{summary['total_findings']} direct findings "
+                  f"(invalid={summary['invalid_files']}, missing={summary['missing_files']}, "
+                  f"fixture={summary['fixture_invalid']}, inference={summary['inference_findings']}) "
+                  f"across {summary['production_client_count']} real clients [{names}]")
+    else:
+        detail = "validator emitted no machine-readable direct-count summary"
+    check("Client organs validate (canonical production census)", ok,
+          "all organs green; " + detail if ok else detail)
 except Exception as e:
     check("Client organs validate", False, f"validator error: {e}")
 

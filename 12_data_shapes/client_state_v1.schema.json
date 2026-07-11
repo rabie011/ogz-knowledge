@@ -63,6 +63,46 @@
       ],
       "description": "OGZ team member who owns this account; null until Mohamed names names (B160). Consumed by the red-client human-touch alert (B093)."
     },
+    "outreach_ruling": {
+      "type": "object",
+      "required": [
+        "value",
+        "ruled_at",
+        "source"
+      ],
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "ruled_at": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "archive_claim_poor": {
+      "type": "object",
+      "required": [
+        "verdict",
+        "evidence",
+        "implication"
+      ],
+      "properties": {
+        "verdict": {
+          "type": "boolean"
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "implication": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
     "provenance": {
       "type": "object",
       "required": [

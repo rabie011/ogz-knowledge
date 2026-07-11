@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "client_synthetic_fixture_v1.schema.json",
+  "title": "client_synthetic_fixture_v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "handle",
+    "tier",
+    "sector",
+    "purpose",
+    "do_not_aggregate",
+    "_prov"
+  ],
+  "properties": {
+    "handle": {
+      "type": "string"
+    },
+    "tier": {
+      "enum": [
+        "ready",
+        "sparse"
+      ]
+    },
+    "sector": {
+      "type": "string"
+    },
+    "purpose": {
+      "enum": [
+        "fake_platform_sector_coverage",
+        "rfp_synthetic_content_fixture"
+      ]
+    },
+    "do_not_aggregate": {
+      "const": true
+    },
+    "_prov": {
+      "type": "object",
+      "required": [
+        "source",
+        "date_added",
+        "confirmer",
+        "confidence",
+        "scope"
+      ],
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "date_added": {
+          "type": "string"
+        },
+        "confirmer": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

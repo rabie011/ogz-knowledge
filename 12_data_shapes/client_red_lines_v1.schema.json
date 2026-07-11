@@ -36,6 +36,79 @@
     },
     "confirmer": {
       "type": "string"
+    },
+    "_research": {
+      "type": "object",
+      "required": [
+        "source",
+        "date_added",
+        "confirmer",
+        "confidence",
+        "scope"
+      ],
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "date_added": {
+          "type": "string"
+        },
+        "confirmer": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "_meta": {
+      "type": "object",
+      "required": [
+        "organ",
+        "handle",
+        "_prov"
+      ],
+      "properties": {
+        "organ": {
+          "type": "string"
+        },
+        "handle": {
+          "type": "string"
+        },
+        "_prov": {
+          "type": "object",
+          "required": [
+            "source",
+            "date_added",
+            "confirmer",
+            "confidence",
+            "scope"
+          ],
+          "properties": {
+            "source": {
+              "type": "string"
+            },
+            "date_added": {
+              "type": "string"
+            },
+            "confirmer": {
+              "type": "string"
+            },
+            "confidence": {
+              "type": "string"
+            },
+            "scope": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     }
   }
 }

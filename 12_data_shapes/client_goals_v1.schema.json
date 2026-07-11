@@ -14,15 +14,107 @@
   ],
   "properties": {
     "goal_ratio": {
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        {
+          "type": "object",
+          "required": [
+            "value",
+            "source",
+            "date_added",
+            "confirmer",
+            "confidence",
+            "scope"
+          ],
+          "properties": {
+            "value": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            },
+            "date_added": {
+              "type": "string"
+            },
+            "confirmer": {
+              "type": "string"
+            },
+            "confidence": {
+              "type": "string"
+            },
+            "scope": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "goal",
+            "offers_ratio",
+            "source",
+            "confirmer",
+            "date"
+          ],
+          "properties": {
+            "goal": {
+              "type": "string"
+            },
+            "offers_ratio": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            },
+            "confirmer": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
       ]
     },
     "capacity_ceiling": {
-      "type": [
-        "number",
-        "null"
+      "oneOf": [
+        {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        {
+          "type": "object",
+          "required": [
+            "orders_per_day",
+            "source",
+            "confirmer",
+            "date"
+          ],
+          "properties": {
+            "orders_per_day": {
+              "type": "number"
+            },
+            "source": {
+              "type": "string"
+            },
+            "confirmer": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
       ]
     },
     "forward_calendar": {
@@ -32,9 +124,41 @@
       }
     },
     "usp_his_words": {
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        {
+          "type": "object",
+          "required": [
+            "raw",
+            "normalized",
+            "source",
+            "confirmer",
+            "date"
+          ],
+          "properties": {
+            "raw": {
+              "type": "string"
+            },
+            "normalized": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            },
+            "confirmer": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
       ]
     },
     "answered": {
@@ -42,6 +166,45 @@
     },
     "of": {
       "type": "number"
+    },
+    "_passport": {
+      "type": "object",
+      "required": [
+        "source",
+        "confirmer",
+        "confidence",
+        "date"
+      ],
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "confirmer": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "capacity": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "primary": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "_counter_fix": {
+      "type": "string"
     }
   }
 }

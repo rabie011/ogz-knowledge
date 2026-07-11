@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import tempfile
 import subprocess
 import sys
 import unittest
@@ -17,6 +18,8 @@ sys.path.insert(0, str(SCRIPTS / "migrations"))
 import fingerprint_status  # noqa: E402
 import generate_organ_schemas as gate  # noqa: E402
 import mark_rfp_synthetic_fixtures as marker_migration  # noqa: E402
+import repair_legacy_client_organs as legacy_migration  # noqa: E402
+import trust_ladder  # noqa: E402
 from test_immune_system import _rolling_window_contract  # noqa: E402
 
 
@@ -58,15 +61,11 @@ class TestOrganSchemaGate(unittest.TestCase):
             self.assertFalse(schema["additionalProperties"], schema_name)
             self.assertTrue(fields <= set(schema["properties"]), schema_name)
 
-    def test_only_fable_gated_real_data_findings_may_remain(self):
+    def test_all_production_organs_validate_after_repair3(self):
         result = gate.validate_all()
-        actual = {(f["handle"], f["organ"], f["kind"]) for f in result["findings"]}
-        gated = {
-            ("alnasserjewelry", "competitor_set", "missing"),
-            ("alnasserjewelry", "trust", "missing"),
-            ("myfitness.sa", "red_lines", "invalid"),
-        }
-        self.assertTrue(actual <= gated, actual - gated)
+        self.assertEqual(result["findings"], [])
+        self.assertEqual(result["invalid_files"], 0)
+        self.assertEqual(result["missing_files"], 0)
 
     def test_validate_only_is_byte_read_only_and_direct_counted(self):
         paths = sorted((ROOT / "12_data_shapes").glob("client_*_v1.schema.json"))
@@ -85,6 +84,31 @@ class TestOrganSchemaGate(unittest.TestCase):
                          summary["invalid_files"] + summary["missing_files"]
                          + summary["fixture_invalid"] + summary["inference_findings"])
         self.assertEqual(summary["production_clients"], fingerprint_status.real_clients())
+
+    def test_repair3_scaffolds_are_exact_and_idempotent(self):
+        result = legacy_migration.migrate(check=True)
+        self.assertEqual(result["changed"], [])
+        self.assertEqual(result["alnasser_competitors_nominated"], 0)
+        self.assertEqual(result["alnasser_trust_level"], "L0")
+        self.assertEqual(result["alnasser_trust_counter"], 0)
+        self.assertEqual(result["alnasser_trust_history_rows"], 0)
+
+    def test_new_l0_trust_replays_without_inventing_an_approval(self):
+        with tempfile.TemporaryDirectory(prefix="organ_trust_") as tmp:
+            base = Path(tmp)
+            profile = base / "clients" / "alnasserjewelry" / "profile"
+            profile.mkdir(parents=True)
+            (profile / "trust.json").write_text(
+                json.dumps(legacy_migration.L0_TRUST, ensure_ascii=False), encoding="utf-8")
+            old_base = trust_ladder.BASE
+            try:
+                trust_ladder.BASE = base
+                replay = trust_ladder.replay("alnasserjewelry")
+            finally:
+                trust_ladder.BASE = old_base
+            self.assertEqual(replay["level"], "L0")
+            self.assertEqual(replay["counter"], 0)
+            self.assertIsNone(replay["proposal"])
 
 
 if __name__ == "__main__":

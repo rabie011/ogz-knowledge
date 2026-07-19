@@ -13,6 +13,18 @@ This repository uses semantic versioning at the **knowledge-base level**:
 
 ---
 
+## [Unreleased]
+
+### Added — 2026-07-19 — Read-only gate (Mohamed: "read only")
+
+**Read-only gate `:4160`** — GET-only proxy so cloud/tailnet devices can read brain state, never mutate it (decision RO1). Surface: `/health` (open), `/status`, `/job/<id>` (Bearer). All writes + `/extract` refused. Tailnet-only by default; public funnel stays behind Mohamed's explicit `OGZ_FUNNEL_GO=1` gate.
+- `scripts/readonly_gate.py`, `scripts/mac_readonly_wire.sh`, `scripts/readonly_probe.py`
+- `deploy/launchagents/com.ogz.readonly-gate.plist`
+- `data/cursor_missions/pending/readonly-wire-go.json` (one-shot wire mission)
+- `docs/READONLY_GATE.md`
+
+---
+
 ## [1.2.0] — 2026-05-18 — Corpus Extraction Infrastructure
 
 ### Added

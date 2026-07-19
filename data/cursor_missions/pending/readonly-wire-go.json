@@ -1,0 +1,19 @@
+{
+  "id": "readonly-wire-go",
+  "priority": 2,
+  "from": "claude-cloud",
+  "created": "2026-07-19T12:00:00Z",
+  "type": "commands",
+  "goal": "Mohamed said READ ONLY (2026-07-19) — start GET-only gate :4160 + tailnet-only wire + push endpoint manifest. NO funnel (OGZ_FUNNEL_GO stays unset until Mohamed says funnel go).",
+  "fix_allowed": true,
+  "commands": [
+    "cd ~/Desktop/ogz-knowledge && git fetch origin main && git rebase origin/main",
+    "chmod +x ~/Desktop/ogz-knowledge/scripts/mac_readonly_wire.sh",
+    "cp ~/Desktop/ogz-knowledge/deploy/launchagents/com.ogz.readonly-gate.plist ~/Library/LaunchAgents/",
+    "launchctl unload ~/Library/LaunchAgents/com.ogz.readonly-gate.plist 2>/dev/null || true",
+    "launchctl load -w ~/Library/LaunchAgents/com.ogz.readonly-gate.plist",
+    "sleep 3 && curl -sf http://127.0.0.1:4160/health | head -c 300 || echo 'readonly gate local health failed'",
+    "cd ~/Desktop/ogz-knowledge && ./scripts/mac_readonly_wire.sh",
+    "cd ~/Desktop/ogz-knowledge && MAC_SYNC_PUSH=1 /opt/homebrew/bin/python3 scripts/mac_sync.py --push"
+  ]
+}

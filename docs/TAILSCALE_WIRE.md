@@ -72,4 +72,5 @@ In Cursor: say **status** — read `data/brain_remote_endpoint.json` after Mac p
 
 - [CURSOR_ONLY.md](CURSOR_ONLY.md) — you talk only in Cursor  
 - [CONNECT_THE_BRAIN.md](CONNECT_THE_BRAIN.md) — API contracts + token  
-- [MOBILE_CONTROL.md](MOBILE_CONTROL.md) — phone uses GitHub status, not raw brain
+- [MOBILE_CONTROL.md](MOBILE_CONTROL.md) — phone uses GitHub status, not raw brain  
+- [READONLY_GATE.md](READONLY_GATE.md) — GET-only gate `:4160` (Mohamed: read only, 2026-07-19)
